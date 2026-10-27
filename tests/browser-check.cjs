@@ -434,8 +434,10 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=12");
-        const button = menuButtons.find((b) => b.id === id);
+        const { menuButtons } = await import("./gestures.js?v=13");
+        // A rectangle may be passed directly (calendar cells are dynamic).
+        const button =
+          typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
           ((button.x + button.w / 2) / 2048 - 0.5) * 0.72,
@@ -1085,7 +1087,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-012");
+        assert.equal(details.build, "gestures-013");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2032,7 +2034,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=12");
+        const { paintHandBadge } = await import("./hand-badges.js?v=13");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2353,7 +2355,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=12");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=13");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2417,10 +2419,10 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=12");
+        const { MENU_PAGES } = await import("./gestures.js?v=13");
         return MENU_PAGES;
       });
-      assert.deepEqual(ids.main, ["resume", "recenter", "night", "size", "more", "exit"]);
+      assert.deepEqual(ids.main, ["resume", "calendar", "night", "size", "more", "recenter", "exit"]);
       await p.evaluate(() => __aim("night"));
       assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
       await p.locator("#page").screenshot({
@@ -2450,6 +2452,155 @@ async function mock(
       await p.locator("#page").screenshot({ path: path.join(out, `menu-reopened-${night ? "night" : "paper"}.png`) }).catch(() => {});
       assert.deepEqual(errors, []);
       passed("two-page menu: main essentials, More settings and Back, page-specific targets" + (night ? " night" : ""));
+      await p.close();
+    }
+    // Build 013: the Bradbury Challenge calendar.
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await mock(p, "layer", false);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("calendar"));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "calendar");
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-october.png") });
+      const cell = (page, id) =>
+        p.evaluate(
+          async ({ page, id }) => {
+            const { calendarButtons } = await import("./calendar.js?v=13");
+            const { loadProgress } = await import("./progress.js?v=13");
+            const prog = loadProgress(localStorage, "2026-10-28");
+            return (
+              calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
+                (b) => b.id === id,
+              ) || null
+            );
+          },
+          { page, id },
+        );
+      // Future days have no target.
+      assert.equal(await cell("calendar", "day:2026-10-29"), null);
+      // Open the missed day: its stated picks are shown.
+      await p.evaluate(async (b) => await __aim(b), await cell("calendar", "day:2026-10-21"));
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "day:2026-10-21");
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "day");
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-missed.png") });
+      await p.evaluate(async (b) => await __aim(b), await cell("day", "cal-back"));
+      await p.evaluate(() => __pinch());
+      // Tick today's poem, story and essay.
+      await p.evaluate(async (b) => await __aim(b), await cell("calendar", "day:2026-10-28"));
+      await p.evaluate(() => __pinch());
+      // An immediate repeat pinch right after opening the day ticks nothing,
+      // even though a tick row now sits under the pointer.
+      await p.evaluate(async (b) => await __aim(b), await cell("day", "tick:story"));
+      await p.evaluate(() => {
+        // Open just long enough to re-arm (180 ms settle), then click: the
+        // whole repeat lands well inside the 600 ms guard.
+        __hand(0.05);
+        __step(250);
+        __hand(0.012);
+        __native("selectstart");
+        __step(80);
+        __hand(0.05);
+        __native("select");
+        __native("selectend");
+        __step(16);
+      });
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "day");
+      assert.equal(
+        (await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-progress")))).days["2026-10-28"],
+        undefined,
+        "repeat pinch must not tick",
+      );
+      for (const k of ["poem", "story", "essay"]) {
+        await p.evaluate(async (b) => await __aim(b), await cell("day", "tick:" + k));
+        await p.evaluate(() => __pinch());
+      }
+      await p.evaluate(async (b) => await __aim(b), await cell("day", "weekly"));
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-today.png") });
+      const saved = await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-progress")));
+      assert.deepEqual(saved.days["2026-10-28"], { poem: true, story: true, essay: true });
+      assert.equal(saved.weeks["2026-11-01"].submitted, true);
+      assert.equal(saved.days["2026-10-18"].essay, true);
+      assert.equal(saved.trackingSince, "2026-10-28");
+      await p.evaluate(async (b) => await __aim(b), await cell("day", "cal-back"));
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-after-ticks.png") });
+      // Page turns were never triggered by calendar pinches.
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      {
+        const dl = p.waitForEvent("download");
+        await p.locator("#export").click();
+        const f = path.join(out, "calendar-test-details.json");
+        await (await dl).saveAs(f);
+        const details = JSON.parse(await fs.readFile(f, "utf8"));
+        assert.equal(details.pageTurns, 0);
+        assert.ok(details.gestureLog.every((e) => e.outcome !== "turned"));
+      }
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      // Export contains the same progress.
+      const download = p.waitForEvent("download");
+      await p.locator("#progress-export").click();
+      const file = path.join(out, "progress-export.json");
+      await (await download).saveAs(file);
+      const exported = JSON.parse(await fs.readFile(file, "utf8"));
+      assert.deepEqual(exported.days["2026-10-28"], saved.days["2026-10-28"]);
+      // Import rejects junk and keeps the current progress.
+      const junk = path.join(out, "junk.json");
+      await fs.writeFile(junk, '{"hello":1}');
+      await p.locator("#progress-file").setInputFiles(junk);
+      await p.waitForFunction(() => /Could not import/.test(document.querySelector("#status").textContent));
+      assert.equal(
+        (await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-progress")))).days["2026-10-28"].poem,
+        true,
+      );
+      assert.deepEqual(errors, []);
+      passed("challenge calendar: stated history, ticks, weekly story, saved progress, export and safe import");
+      await p.close();
+    }
+    {
+      // An unreadable saved record is backed up, never silently replaced.
+      const p = await browser.newPage();
+      await p.addInitScript(() => {
+        if (!sessionStorage.getItem("seeded")) {
+          localStorage.setItem("cabin-progress", "{not json");
+          sessionStorage.setItem("seeded", "1");
+        }
+      });
+      await p.goto("http://127.0.0.1:18140");
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      const keys = await p.evaluate(() => Object.keys(localStorage));
+      const backup = keys.find((k) => k.startsWith("cabin-progress.bak-"));
+      assert.ok(backup, "backup kept");
+      assert.equal(await p.evaluate((k) => localStorage.getItem(k), backup), "{not json");
+      assert.equal(await p.evaluate(() => localStorage.getItem("cabin-progress")), "{not json", "not overwritten at startup");
+      await p.locator("#calendar").click();
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-recovered-notice.png") });
+      passed("an unreadable progress record is kept as a backup and flagged");
+      await p.close();
+    }
+    {
+      // Blocked storage: the calendar says plainly that it is not saving.
+      const p = await browser.newPage();
+      await p.addInitScript(() => {
+        Object.defineProperty(window, "localStorage", { get() { throw Error("blocked"); } });
+      });
+      const errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.goto("http://127.0.0.1:18140");
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      await p.locator("#calendar").click();
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-not-saving.png") });
+      assert.deepEqual(errors, []);
+      passed("blocked storage keeps the app working and is reported");
       await p.close();
     }
     await fs.writeFile(

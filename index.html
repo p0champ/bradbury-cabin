@@ -13,7 +13,7 @@
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">GESTURE TRIAL / BUILD 012</span>
+        ><span class="edition">GESTURE TRIAL / BUILD 013</span>
       </header>
       <section class="intro">
         <div>
@@ -59,6 +59,12 @@
           <button id="recenter">Re-centre</button
           ><button id="export">Save test details</button>
         </div>
+        <div class="toolbar" aria-label="Challenge progress">
+          <button id="calendar">Challenge calendar</button
+          ><button id="progress-export">Export progress</button
+          ><button id="progress-import">Import progress</button>
+          <input id="progress-file" type="file" accept="application/json,.json" hidden />
+        </div>
         <div class="preview">
           <canvas
             id="page"
@@ -74,13 +80,15 @@
       </section>
       <footer>
         <p>
-          Phase 1 · gesture trial. Reading history and Claude are coming later.
+          Challenge progress is saved in the browser you read in. Export it from
+          this page in your Quest browser now and then; syncing to your PC
+          arrives with Claude.
         </p>
         <a href="CREDITS.md">Texts & credits</a
         ><a href="QUEST_CHECK.md">Headset checklist</a>
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=12"></script>
+    <script type="module" src="app.js?v=13"></script>
   </body>
 </html>

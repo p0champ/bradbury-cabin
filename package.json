@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/core.test.mjs tests/gestures.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/gestures.test.mjs tests/progress.test.mjs",
     "start": "node serve.mjs",
     "test:browser": "node tests/browser-check.cjs"
   }

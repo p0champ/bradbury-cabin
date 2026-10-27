@@ -1,3 +1,16 @@
+# Build 013 — Challenge calendar
+
+Open [Build 013](https://p0champ.github.io/bradbury-cabin/?v=13) and check the header says **BUILD 013**.
+
+1. Centre, hold for the menu, then choose **Challenge calendar**. October should show 18 Oct complete, 21 Oct missed, the other past days dashed ("not recorded"), and today outlined.
+2. Point at a day. A gold ring should appear.
+3. Pinch today. Tick Poem, Story and Essay. After all three, the day says Complete.
+4. Mark **Weekly written story**, then go back with **‹ Calendar**. Today is now filled green, and the streak updates.
+5. Open 21 Oct. Its three readings should be listed.
+6. Leave, then enter again. Your ticks should still be there.
+7. On the browser page, use **Export progress** to keep a backup file.
+
+---
 # Build 012 — simpler menu
 
 Open [Build 012](https://p0champ.github.io/bradbury-cabin/?v=12) in a fresh Quest Browser tab and check that it shows **BUILD 012**.

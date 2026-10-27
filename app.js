@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=12";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=13";
 import {
   GestureEngine,
   menuButtons,
@@ -10,11 +10,100 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=12";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=12";
-import { HandBadges } from "./hand-badges.js?v=12";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=12";
-import { EntrySound } from "./entry-sound.js?v=12";
+} from "./gestures.js?v=13";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=13";
+import { HandBadges } from "./hand-badges.js?v=13";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=13";
+import { EntrySound } from "./entry-sound.js?v=13";
+import {
+  readProgress,
+  saveProgress,
+  toggleTick,
+  toggleWeekly,
+  validProgress,
+  dateKey,
+  parseKey,
+} from "./progress.js?v=13";
+import {
+  paintCalendar,
+  calendarHit,
+  shiftMonth,
+  dayInputAllowed,
+} from "./calendar.js?v=13";
+// Headset cache for challenge progress. Export/Import on the browser page is
+// the backup until durable bridge storage arrives with Claude (Phase 3).
+let progressPersistent = true,
+  storageWorks = true,
+  progressNotice = "",
+  unreadableBackup = null;
+const store = (() => {
+  try {
+    const s = globalThis.localStorage;
+    s.getItem("cabin-progress");
+    return s;
+  } catch {
+    // No working storage: ticks last only until this page closes.
+    progressPersistent = false;
+    storageWorks = false;
+    const memory = new Map();
+    return {
+      getItem: (k) => memory.get(k) ?? null,
+      setItem: (k, v) => memory.set(k, v),
+    };
+  }
+})();
+const todayKey = () => dateKey(new Date());
+let progress;
+{
+  const loaded = readProgress(store, todayKey());
+  progress = loaded.progress;
+  if (loaded.recovered) {
+    // Keep the unreadable record instead of overwriting it (once per text).
+    unreadableBackup = loaded.raw;
+    let kept = false;
+    try {
+      kept = Object.keys(localStorage).some(
+        (k) => k.startsWith("cabin-progress.bak-") && localStorage.getItem(k) === loaded.raw,
+      );
+      if (!kept) {
+        store.setItem(`cabin-progress.bak-${todayKey()}-${Date.now()}`, loaded.raw);
+        kept = true;
+      }
+    } catch {}
+    if (kept)
+      progressNotice =
+        "Saved progress was unreadable. A backup was kept; import a progress file.";
+    else {
+      // Without a backup, never save over the original until an import.
+      progressPersistent = false;
+      progressNotice =
+        "Saved progress was unreadable and could not be backed up. Not saving.";
+    }
+  } else if (loaded.raw == null) saveProgress(store, progress);
+  if (!progressPersistent)
+    progressNotice = "Not saving on this headset · export before leaving.";
+  try {
+    navigator.storage?.persist?.();
+  } catch {}
+}
+// Saves, and tells the truth when it could not.
+function storeProgress() {
+  const ok = progressPersistent && saveProgress(store, progress);
+  if (!ok) {
+    progressNotice = "Not saving on this headset · export before leaving.";
+    feedback("Could not save on this headset · export from the browser page");
+  } else if (progressNotice.startsWith("Saved progress was unreadable"))
+    progressNotice = "";
+  return ok;
+}
+// A pinch repeated right after opening a day must not tick that day.
+let dayOpenedAt = -Infinity,
+  paintedToday = null;
+const calendarView = (() => {
+  const d = new Date();
+  return { year: d.getFullYear(), month: d.getMonth(), selected: null };
+})();
+const CALENDAR_PAGES = ["calendar", "day"];
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -154,6 +243,27 @@ function paint() {
       ctx.fillText(line, 180, 830 + i * 110);
     ctx.font = "32px Arial";
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
+  } else if (state.menuOpen && CALENDAR_PAGES.includes(state.menuPage)) {
+    paintedToday = todayKey();
+    paintCalendar(ctx, {
+      notice: progressNotice,
+      page: state.menuPage,
+      view: calendarView,
+      progress,
+      today: todayKey(),
+      hover: state.hover,
+      c: {
+        bg,
+        ink,
+        muted,
+        card: state.night ? "#2c3a32" : "#ebe6d4",
+        accent: state.night ? "#c9b98f" : "#3f5f4e",
+        done: state.night ? "#7f9a83" : "#6d8a74",
+        faint: state.night ? "#4d5c52" : "#c4c2b0",
+        warn: state.night ? "#d39a77" : "#a5603d",
+        hover: state.night ? "#e2c77e" : "#c8973a",
+      },
+    });
   } else if (state.menuOpen) {
     const more = state.menuPage === "more";
     ctx.fillStyle = ink;
@@ -293,7 +403,7 @@ function paint() {
         : state.swapped
           ? "Left: next   ·   Right: back   ·   Hold: menu"
           : "Right: next   ·   Left: back   ·   Hold: menu"),
-    state.menuOpen ? 274 : 160,
+    state.menuOpen ? (state.menuPage === "calendar" ? 194 : 274) : 160,
     2320,
   );
   $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
@@ -454,6 +564,46 @@ function action(id) {
     toggleMenu(false);
     return;
   }
+  if (id === "calendar") {
+    const d = new Date();
+    Object.assign(calendarView, { year: d.getFullYear(), month: d.getMonth() });
+    state.menuPage = "calendar";
+    state.hover = null;
+    paint();
+    return;
+  }
+  if (id === "cal-menu" || id === "cal-back") {
+    state.menuPage = id === "cal-menu" ? "main" : "calendar";
+    state.hover = null;
+    paint();
+    return;
+  }
+  if (id === "cal-prev" || id === "cal-next") {
+    Object.assign(calendarView, shiftMonth(calendarView, id === "cal-prev" ? -1 : 1));
+    state.hover = null;
+    paint();
+    return;
+  }
+  if (typeof id === "string" && id.startsWith("day:")) {
+    calendarView.selected = id.slice(4);
+    state.menuPage = "day";
+    dayOpenedAt = lastFrameTime;
+    state.hover = null;
+    paint();
+    return;
+  }
+  if (typeof id === "string" && (id.startsWith("tick:") || id === "weekly")) {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    const key = calendarView.selected,
+      today = todayKey();
+    const changed =
+      id === "weekly"
+        ? toggleWeekly(progress, key, today)
+        : toggleTick(progress, key, id.slice(5), today);
+    if (changed) storeProgress();
+    paint();
+    return;
+  }
   if (id === "more" || id === "back") {
     state.menuPage = id === "more" ? "more" : "main";
     state.hover = null;
@@ -534,9 +684,53 @@ document.querySelectorAll("[data-size]").forEach(
       paint();
     }),
 );
+$("calendar").onclick = () => {
+  if (!state.menuOpen) toggleMenu(true);
+  action("calendar");
+};
+$("progress-export").onclick = () => {
+  const url = URL.createObjectURL(
+    new Blob(
+      [
+        JSON.stringify(
+          unreadableBackup == null ? progress : { ...progress, unreadableBackup },
+          null,
+          2,
+        ),
+      ],
+      { type: "application/json" },
+    ),
+  );
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `bradbury-progress-${todayKey()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  report("Progress exported. Keep the file somewhere safe.");
+};
+$("progress-import").onclick = () => $("progress-file").click();
+$("progress-file").onchange = async (e) => {
+  const file = e.target.files?.[0];
+  e.target.value = "";
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if (!validProgress(data)) throw Error("not a Bradbury progress file");
+    delete data.unreadableBackup;
+    progress = data;
+    unreadableBackup = null;
+    // An import replaces the unreadable record, so saving may resume.
+    progressPersistent = storageWorks;
+    if (storageWorks) progressNotice = "";
+    report(storeProgress() ? "Progress imported." : "Imported, but this browser cannot save it.");
+    paint();
+  } catch (error) {
+    report("Could not import progress: " + error.message);
+  }
+};
 $("export").onclick = () => {
   const data = {
-    build: "gestures-012",
+    build: "gestures-013",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -638,11 +832,16 @@ function hit(transform) {
   if (direction.z >= -0.0001) return null;
   const t = -origin.z / direction.z;
   if (t < 0) return null;
-  return menuHit(
+  return panelHit(
     ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
     (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
-    state.menuPage,
   );
+}
+// Hit-test the current menu panel: fixed menu pages or the live calendar.
+function panelHit(x, y) {
+  return CALENDAR_PAGES.includes(state.menuPage)
+    ? calendarHit(x, y, state.menuPage, calendarView, progress, todayKey())
+    : menuHit(x, y, state.menuPage);
 }
 function cleanSession() {
   sessionGeneration++;
@@ -1089,6 +1288,22 @@ function frame(time, xrFrame, generation) {
       }
       if (hover !== state.hover) {
         state.hover = hover;
+        paint();
+      }
+      // Midnight while the calendar is open: today moves on, so redraw, and
+      // follow into the new month if the view was showing the current one.
+      if (
+        state.menuOpen &&
+        CALENDAR_PAGES.includes(state.menuPage) &&
+        paintedToday &&
+        paintedToday !== todayKey()
+      ) {
+        const was = parseKey(paintedToday);
+        if (calendarView.year === was.getFullYear() && calendarView.month === was.getMonth()) {
+          const now = new Date();
+          calendarView.year = now.getFullYear();
+          calendarView.month = now.getMonth();
+        }
         paint();
       }
       if (state.feedback && performance.now() > state.feedbackUntil) {

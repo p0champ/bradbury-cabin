@@ -1,3 +1,35 @@
+# Build 013 — Bradbury Challenge calendar (Phase 2 start, 28 October 2026)
+
+Bastian on Build 012: "looks good as a placeholder - we can move on". Then: "dont begin with claude lets get the calander done first". The Phase 1 reading features (full pagination, saved place, moods, ambience) are still pending; he chose the calendar first.
+
+What it does:
+- **Menu → Challenge calendar** opens a month view. Days run Monday to Sunday, there is prev/next month navigation, and the overview line shows the streak, complete, in-progress and missed counts. There is a legend.
+- **Pinching a day** opens it. There, you tick Poem, Story and Essay separately, plus the weekly written story, which belongs to that week's Sunday. A day is complete only with all three ticks. Future and pre-18-Oct days cannot be ticked.
+- **History holds only stated facts:**
+  - 18 Oct: complete.
+  - 21 Oct: missed, with its three picks.
+  - Other days before the first launch with no record show "not recorded". After `trackingSince`, an empty past day counts as missed.
+- **Code:**
+  - `progress.js`: pure logic, with tests in tests/progress.test.mjs.
+  - `calendar.js`: canvas panels and hit rectangles.
+  - app.js: menu pages "calendar" and "day", plus `panelHit`.
+
+Storage:
+- The progress is stored in localStorage key `cabin-progress`.
+- An unreadable record is backed up to `cabin-progress.bak-*` and never overwritten.
+- Blocked storage is reported on the calendar.
+- Export/Import progress is on the PC page; the Import validates every entry.
+- **Durable bridge storage is still Phase 3.**
+
+Unchanged: renderer, recogniser, badges, centring, handMapRevision 9.
+
+Status:
+- PC-tested: 48 pure + 104 browser checks.
+- Critic: round 1 scored 7/10, round 2 scored 8.5/10 (BUILD_013_REVIEW.md).
+- Committed and pushed on phase-1-gestures; live at ?v=13.
+- Needs Bastian's Quest check.
+
+---
 # Build 012 — simpler menu (28 October 2026)
 
 Bastian's result on Build 011: **"its way more responsive now. But clean up the Menu and make the UI look better. Too much stuff in there I dont know what is. Make it nice and easy - and keep working aswell on integrating claude and all that, but maybe we do this first"**. Treat this as a big improvement, not as a formal gesture-gate pass. Confirm with him after Build 012.

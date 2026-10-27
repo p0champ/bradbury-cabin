@@ -342,16 +342,17 @@ test("near-face palm guard distinguishes palm direction and resting distance", (
   );
 });
 test("only visible menu buttons have targets", () => {
-  assert.equal(menuHit(1000, 700), "resume");
-  assert.equal(menuHit(1000, 940), "recenter");
-  assert.equal(menuHit(1000, 820), null, "gap between buttons");
-  assert.equal(menuHit(200, 700), null, "left margin");
-  // The second page's buttons only answer on that page.
-  assert.equal(menuHit(1000, 700, "more"), "swap");
-  assert.equal(menuHit(1000, 1880, "main"), "exit");
-  assert.equal(menuHit(1000, 1880, "more"), null, "More has five items");
-  assert.equal(menuHit(1000, 1640, "more"), "back", "Back replaces More settings");
-  assert.equal(menuHit(1000, 1640, "main"), "more");
+  // Main: 7 rows from y=580, 186 high, every 222.
+  assert.equal(menuHit(1000, 673), "resume");
+  assert.equal(menuHit(1000, 895), "calendar");
+  assert.equal(menuHit(1000, 784), null, "gap between buttons");
+  assert.equal(menuHit(200, 673), null, "left margin");
+  assert.equal(menuHit(1000, 2005), "exit");
+  // Back on More sits exactly where More settings is on the main page.
+  assert.equal(menuHit(1000, 1561, "main"), "more");
+  assert.equal(menuHit(1000, 1561, "more"), "back");
+  assert.equal(menuHit(1000, 673, "more"), "swap");
+  assert.equal(menuHit(1000, 1783, "more"), null, "More has five items");
 });
 
 // ---- Build 006 regressions for "registered but did not turn" ----

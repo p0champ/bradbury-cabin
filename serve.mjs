@@ -10,6 +10,8 @@ const allowed = new Set([
   "hand-badges.js",
   "arrival.js",
   "entry-sound.js",
+  "progress.js",
+  "calendar.js",
   "gl.js",
   "CREDITS.md",
   "QUEST_CHECK.md",
