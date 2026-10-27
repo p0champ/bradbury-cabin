@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Bradbury Cabin · The first leaf</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="./" class="brand">B<span class="brand-line"></span>C</a
+        ><span>BRADBURY CABIN</span
+        ><span class="edition">EXPERIMENT 00 / OCTOBER 2026</span>
+      </header>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A ROOM FOR WORDS</p>
+          <h1>First, let’s make<br />the words clear.</h1>
+          <p class="lede">
+            One leaf. Your real room. A quiet test of how reading can feel in
+            the headset.
+          </p>
+          <button id="enter" class="primary" disabled>
+            Checking headset… <span>↗</span>
+          </button>
+          <p id="status" role="status">Preparing the reading page.</p>
+        </div>
+        <aside>
+          <span class="seal">00</span>
+          <p>THE CRISPNESS TEST</p>
+          <h2>Settle in.<br />Look up.<br />Open a page.</h2>
+          <p>
+            Lie down before entering. The page stays where you put it. Look at a
+            control and pinch to use it; pinch elsewhere to turn the page.
+          </p>
+          <small>Only you can decide whether it is crisp enough.</small>
+        </aside>
+      </section>
+      <section class="reader-section">
+        <div class="reader-top">
+          <p class="eyebrow">THE FIRST LEAF</p>
+          <span id="mode-label">PC preview · no headset quality claim</span>
+        </div>
+        <div class="toolbar" aria-label="Reading settings">
+          <button id="compare">Compare: texture</button
+          ><button id="night" aria-pressed="false">Night paper</button>
+          <fieldset>
+            <legend>Text size</legend>
+            <button data-size="0">Small</button
+            ><button data-size="1" aria-pressed="true">Medium</button
+            ><button data-size="2">Large</button>
+          </fieldset>
+          <button id="recenter">Re-centre</button
+          ><button id="export">Save test details</button>
+        </div>
+        <div class="preview">
+          <canvas
+            id="page"
+            width="2048"
+            height="2560"
+            aria-label="Public domain poem and short story excerpt"
+          ></canvas>
+        </div>
+        <nav class="pagination" aria-label="Page navigation">
+          <button id="prev">← Previous</button><span id="place"></span
+          ><button id="next">Next →</button>
+        </nav>
+      </section>
+      <footer>
+        <p>Phase 0 only. No reading history or Claude connection yet.</p>
+        <a href="CREDITS.md">Texts & credits</a
+        ><a href="QUEST_CHECK.md">Headset checklist</a>
+      </footer>
+    </main>
+    <canvas id="xr" hidden></canvas>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+node_modules/
+bridge/private/
+private/
+.env*
+work/
+evidence/
+*.log

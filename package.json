@@ -1,0 +1,11 @@
+{
+  "name": "bradbury-cabin",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/core.test.mjs",
+    "start": "node serve.mjs",
+    "test:browser": "node tests/browser-check.cjs"
+  }
+}
