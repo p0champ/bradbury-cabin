@@ -1,3 +1,39 @@
+# Build 006 — gesture repair, awaiting Bastian's Quest check (27 October 2026)
+
+Root causes found for "the skipping pages is a little weird now and doesn't change page even if the click is registered" (Build 005). These are evidence from code and simulation, not from the headset:
+
+1. **The sample text is only 2 pages.** Next on page 2 and Back on page 1 did nothing, yet the hand icon flashed and the footer said "Next page" / "Previous page".
+2. **The hold ring started on every pinch,** so every pinch looked registered. A single noisy tracking frame above 24 mm then silently cancelled it.
+3. **The 38 mm open threshold** can sit above a relaxed hand's resting gap. Arming was also lost when a noisy reading dipped during the approach.
+4. **Practice completion was saved only if Menu was done last,** so practice could return each session, ticking pinches without turning pages.
+
+Fixes:
+- `app.js gestureEvent` returns the real outcome (turned / first-page / last-page / practice), and the feedback and badge follow it:
+  - a real turn flashes the arrows;
+  - a no-op shows an orange end bar;
+  - a direction with no page left is dimmed.
+- The recogniser was rewritten (see README "Hands and controls"):
+  - confirmed closes;
+  - 30 ms spike filter during contact;
+  - 32 mm open with pause-not-reset arming;
+  - bounded half-open handling;
+  - cooldown pinches must reopen.
+- The ring is hidden for 350 ms and still completes at 1.4 s.
+- Practice finishes on Next + Back in any order and returns to reading.
+- Save test details exports `gestureLog` (40 firm pinches with outcome/reason/ms/page) and `ignoredPinches` (20 near-pinches with min distance). Use these to calibrate thresholds from real Quest data.
+
+The crisp quad path (gl.js, the layer setup) is unchanged. Only hand layers animate.
+
+Status:
+- Built and PC-tested: 39 pure + 78 Chromium checks.
+- Independently reviewed: round 1 scored 6/10, round 2 scored 8/10 (BUILD_006_REVIEW.md).
+- Committed locally on `phase-1-gestures`.
+- **Push pending:** the session's GitHub link was missing, so the live URL ?v=6 is not deployed until the push succeeds.
+- Needs Bastian's Quest check: follow QUEST_CHECK.md. The gesture gate is still unpassed, and Phase 1 must not continue until he says go.
+
+Next if gestures pass: Phase 1 full-work pagination (this also removes the 2-page boundary problem), saved place, moods, styles and ambience. If they fail: read his exported log before changing thresholds.
+
+---
 # Latest Quest feedback — unresolved, 27 October 2026
 
 Bastian tested Build 005 and reported: **“the skipping pages is a little weird now and dosent change page even if the click is registred.”** He requested that this be noted and handed to Claude to finish the work. No repair or new Quest pass followed this report. The cause is unknown; distinguish Quest's click feedback from the app's badge pulse, emitted page action and actual page-state change. Build 005's PC checks and 8/10 review did not establish reliable on-device page turning. The gesture gate remains unpassed. Phase 0 crispness remains passed.

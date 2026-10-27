@@ -187,13 +187,16 @@ export class GestureEngine {
       if (h.nearMin != null && !h.ignoredPinch)
         this.note({
           result: "ignored",
-          reason: "not-firm-enough",
+          // Dipped below 18 mm but too briefly/unsteadily to confirm, versus
+          // never reaching 18 mm at all.
+          reason: h.nearMin < CLOSE_DISTANCE ? "unconfirmed" : "not-firm-enough",
           hand,
           minMm: Math.round(h.nearMin * 1000),
           time,
         });
       h.nearMin = null;
       h.ignoredPinch = false;
+      h.middleSince = null;
       h.openSince ??= time;
       // Arming is sticky: a hand that has settled open stays ready even if a
       // noisy sample dips across the open threshold on the way into a pinch.
@@ -202,7 +205,17 @@ export class GestureEngine {
     }
     // Readings between CONTACT and OPEN pause arming instead of resetting it,
     // so a relaxed hand resting near the threshold can still arm.
-    if (d < CONTACT_DISTANCE) h.openSince = null;
+    if (d < CONTACT_DISTANCE) {
+      h.openSince = null;
+      h.middleSince = null;
+    } else if (!h.closed) {
+      // A long spell half-open (26-32 mm) also needs a fresh open settle.
+      h.middleSince ??= time;
+      if (time - h.middleSince > 300) {
+        h.openSince = null;
+        h.armed = false;
+      }
+    }
     if (!h.closed) {
       if (d < CONTACT_DISTANCE) h.nearMin = Math.min(h.nearMin ?? d, d);
       if (d >= CLOSE_DISTANCE) return null;

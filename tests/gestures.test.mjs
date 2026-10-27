@@ -424,3 +424,21 @@ test("a menu hold logs one menu entry and no spurious cancellation", () => {
   assert.deepEqual(r.g.log.map((e) => e.result), ["menu"]);
   assert.equal(r.g.lastEntry.result, "menu");
 });
+test("a dip below 18 mm that is too unsteady to confirm is logged as unconfirmed", () => {
+  const r = rig();
+  r.open();
+  r.frame({ right: 0.015 });
+  r.frame({ right: 0.022 });
+  r.release();
+  assert.equal(r.g.ignored.at(-1).reason, "unconfirmed");
+  assert.deepEqual(r.events, []);
+});
+test("a long half-open spell needs a fresh open settle before arming", () => {
+  const r = rig();
+  r.open();
+  r.run({ right: 0.029 }, 600);
+  r.frame({ right: 0.05 });
+  r.close();
+  r.release();
+  assert.deepEqual(r.events, []);
+});
