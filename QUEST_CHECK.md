@@ -1,13 +1,13 @@
-# Build 010 — repaired startup, flipped hands and welcome
+# Build 011 — bare-hand centring confirmation
 
-Open [Build 010](https://p0champ.github.io/bradbury-cabin/?v=10) in a fresh Quest Browser tab. Check **BUILD 010**. The Build 009 startup error is repaired. Its hand flip is preserved without applying a second flip; follow the visible NEXT/BACK labels rather than old instructions.
+Open [Build 011](https://p0champ.github.io/bradbury-cabin/?v=11) in a fresh Quest Browser tab. Check **BUILD 011**. Startup now accepts Quest's completed pinch directly, without waiting for the reading-hand readiness checks. The requested hand flip, animations and sound are preserved. PC tests are not a Quest approval.
 
-1. Enter and centre once. Listen for a quiet three-note chime as the paper gateway opens. Your viewpoint must not move. Entry sound can be turned off in the menu and that choice should persist.
-2. Watch your hands as the gateway finishes. Each hand should get a short gold orbit/pulse, then settle into its labelled icon. A hand that first appears later should receive it once; moving a hand out/in afterwards must not replay it.
-3. Read the labels. The previous default is now **left NEXT / right BACK**. If you had manually swapped previously, the current saved choice is inverted once. Menu Forward: left/right shows the current mapping; reload should not flip it again.
-4. Alternate NEXT/BACK about ten times, then faster. One recognised click should request exactly one turn. The sample has only two pages. An orange **END** or **START** means that direction has no page available; the footer must say so. It must not flash a successful arrow turn on a blocked boundary.
-5. Try with naturally curled fingers, both sitting and lying down. Native clicks should continue when a fingertip is briefly obscured but the physical hand remains tracked. Looking away or losing the entire physical hand must still cancel; reopen in view before resuming.
-6. Hold either pinch for the menu, release, then try several buttons and the swapped mapping. Menu Next/Previous must give the same honest boundary feedback as the reading gesture. Try Entry sound off and re-enter: no chime should play. Turn it back on if preferred.
-7. If a click flashes without turning, note the exact word on the hand: NEXT, BACK, START, END or MENU. Exit to the browser and **Save test details**. The export distinguishes native events, actual page outcomes, palm-anchor tracking and fingertip validity. Send it if the problem remains.
+1. Enter, get comfortable and look where you want the page. Pinch and release once with either bare hand. You should no longer need to spread your fingers wide or wait first.
+2. The paper gateway should open once with a quiet chime. Keep pinching during the animation: it must not turn pages or open the menu. Your viewpoint must stay still.
+3. When reading appears, each visible hand should get its short gold orbit/pulse. Read its NEXT/BACK label. The previous default remains left NEXT / right BACK; this build does not flip it again.
+4. Alternate NEXT and BACK ten times, then a little faster. Each available click should turn once. This sample has two pages: START/END in orange means that direction has no available page, not a successful turn.
+5. Look away during a pinch, return and open your hand before trying again. That interrupted pinch must do nothing. Repeat sitting and lying down if comfortable.
+6. Hold either pinch for the filling menu ring, then release and try a menu button. Re-centre should stay available; Entry sound off should persist after leaving and entering again.
+7. If startup still ignores the pinch, or an available turn flashes without changing pages, leave XR and choose **Save test details**. The export records native events and startup confirmation/rejection separately. Report which step failed.
 
-Code, automated checks and critic review cannot certify 100% Quest reliability. Bastian's actual device verdict is still the required gate; no new reader phase starts until it passes.
+The gesture gate remains unpassed until Bastian confirms it on Quest. Stop after this test; no further Phase 1 features yet.

@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=10";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=11";
 import {
   GestureEngine,
   menuButtons,
@@ -9,11 +9,11 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=10";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=10";
-import { HandBadges } from "./hand-badges.js?v=10";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=10";
-import { EntrySound } from "./entry-sound.js?v=10";
+} from "./gestures.js?v=11";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=11";
+import { HandBadges } from "./hand-badges.js?v=11";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=11";
+import { EntrySound } from "./entry-sound.js?v=11";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -144,8 +144,8 @@ function paint() {
     ctx.font = "45px Arial";
     for (const [i, line] of [
       "Look where you want to read.",
-      "Keep an open hand in view for a moment.",
       "Pinch once, then release to centre here.",
+      "Or click your controller trigger once.",
       "Nothing else is active until you confirm.",
     ].entries())
       ctx.fillText(line, 180, 830 + i * 110);
@@ -508,7 +508,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-010",
+    build: "gestures-011",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -789,7 +789,13 @@ async function enter() {
           });
           return;
         }
-        nativeQueue.push({ kind, source: e.inputSource, time, ray });
+        nativeQueue.push({
+          kind,
+          source: e.inputSource,
+          time,
+          ray,
+          visible: session.visibilityState === "visible",
+        });
         if (nativeQueue.length > 60) {
           nativeQueue = [];
           gestures.reset("event-queue-overflow");
@@ -991,8 +997,12 @@ function frame(time, xrFrame, generation) {
       const queued = state.arriving ? [] : nativeQueue;
       nativeQueue = [];
       for (const input of queued) {
-        if (ending) break;
-        if (!activeSources.has(input.source) || time - input.time > 120) {
+        if (ending || state.arriving) break;
+        const maxEventAge = state.centering ? 1000 : 120;
+        if (
+          !activeSources.has(input.source) ||
+          time - input.time > maxEventAge
+        ) {
           gestures.cancel(input.source, "stale-native-event", time);
           gestures.note({
             result: "ignored",
@@ -1002,6 +1012,32 @@ function frame(time, xrFrame, generation) {
             time: input.time,
             eventSource: "native-select",
           });
+          continue;
+        }
+        // Startup has one explicit action. A completed browser-recognised
+        // click confirms it, without the reading recogniser's joint/open-hand
+        // prerequisites. This also works for controllers without XRHand.
+        if (state.centering) {
+          if (input.kind === "select") {
+            const allowed =
+              input.visible && sessionVisible && !pose.emulatedPosition;
+            const entry = {
+              ...gestures.snapshot(gestures.hands.get(input.source)),
+              result: allowed ? "center" : "ignored",
+              reason: allowed
+                ? "startup-native-confirmation"
+                : "attention-paused",
+              eventSource: "native-select",
+              hand: input.source.handedness,
+              hasHand: !!input.source.hand,
+              time: input.time,
+              kind: input.kind,
+            };
+            if (allowed) {
+              gestures.record(entry);
+              entry.outcome = gestureEvent({ type: "center" });
+            } else gestures.note(entry);
+          }
           continue;
         }
         const target = state.menuOpen

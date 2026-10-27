@@ -434,7 +434,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=10");
+        const { menuButtons } = await import("./gestures.js?v=11");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -1084,7 +1084,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-010");
+        assert.equal(details.build, "gestures-011");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1131,6 +1131,110 @@ async function mock(
             (lying ? " lying" : ""),
         );
       }
+      await p.close();
+    }
+    // Startup must not depend on reading-hand readiness: the user may click
+    // immediately, with missing/inferred joints, or using a controller.
+    for (const controller of [false, true]) {
+      const p = await browser.newPage(),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate((controller) => {
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __hand(0.012);
+        if (controller) delete __mock.sources.right.hand;
+        else __mock.sources.right.testJoints.clear();
+        __step();
+        __native("selectstart");
+        __native("selectend");
+        __step();
+      }, controller);
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
+      );
+      await p.evaluate(() => {
+        __mock.session.visibilityState = "visible-blurred";
+        __native("select");
+        __mock.session.visibilityState = "visible";
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
+      );
+      await p.evaluate(() => {
+        __mock.emulatedViewer = true;
+        __native("select");
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
+      );
+      await p.evaluate(() => {
+        __mock.emulatedViewer = false;
+        // Native events are stamped with the real clock. Keep the mock frame
+        // clock in step so the tested event age is exact on any machine.
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __native("select");
+        __mock.clock += 1100;
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
+      );
+      await p.evaluate(() => {
+        __mock.emulatedViewer = false;
+        __native("select");
+        __native("selectend");
+        __native("selectstart");
+        __native("select");
+        __native("selectend");
+        __mock.clock += 200;
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "arrival",
+      );
+      await p.evaluate(() => __step(1240));
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      const startupDownload = p.waitForEvent("download");
+      await p.locator("#export").click();
+      const startupFile = path.join(
+        out,
+        `startup-${controller ? "controller" : "hand"}.json`,
+      );
+      await (await startupDownload).saveAs(startupFile);
+      const startupDetails = JSON.parse(await fs.readFile(startupFile, "utf8"));
+      const confirmations = startupDetails.gestureLog.filter(
+        (e) => e.result === "center",
+      );
+      assert.equal(confirmations.length, 1);
+      assert.equal(confirmations[0].outcome, "centered");
+      assert.equal(confirmations[0].hasHand, !controller);
+      assert.ok(
+        startupDetails.ignoredPinches.some(
+          (e) => e.reason === "stale-or-removed-event",
+        ),
+      );
+      assert.ok(
+        !startupDetails.ignoredPinches.some((e) => e.result === "center"),
+      );
+      assert.deepEqual(errors, []);
+      passed(
+        "startup accepts one completed native click without joint/open readiness; consumes duplicates: " +
+          (controller ? "controller" : "hand"),
+      );
       await p.close();
     }
     for (const lying of [false, true]) {
@@ -1417,6 +1521,9 @@ async function mock(
         __step(600);
         __native("selectstart");
         __step(80);
+        // Native events are stamped with the real clock. Keep the mock frame
+        // clock in step so the tested event age is exact on any machine.
+        __mock.clock = Math.max(__mock.clock, performance.now());
         __native("select");
         __native("selectend");
         __mock.clock += 250;
@@ -1922,7 +2029,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=10");
+        const { paintHandBadge } = await import("./hand-badges.js?v=11");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2243,7 +2350,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=10");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=11");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();

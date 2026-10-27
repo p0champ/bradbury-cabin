@@ -1,3 +1,18 @@
+RESUMED BY CLAUDE (27 Oct 2026, late evening): Build 011 was taken from Codex's local working tree unchanged in production code. It was retested (35 pure + 99 browser checks). Two browser checks were repaired: their mock frame clock could fall behind the real event clock on slower machines. A mutation check confirmed the 1000 ms startup expiry is still enforced. Committed and pushed on phase-1-gestures. Awaiting Bastian's Quest result.
+
+# Build 011 — make the startup confirmation independent of reading-hand readiness
+
+Bastian's actual Build 010 verdict: **“cant get it - the centering wont accept my click”**. He confirmed he uses **bare hands**. Build 010 repaired the XRHand crash, but did not pass startup or the gesture gate.
+
+A code-level blocker was verified: startup confirmation went through the reading recogniser, requiring a stable tracked physical hand, an initial wide opening, and an accepted selectstart before the browser's successful select could confirm. Build 011 handles startup's single explicit action separately. A completed native Quest `select` confirms with a current non-emulated viewer pose and a visible session; it no longer depends on finger joints, initial opening, or a prior accepted selectstart. A controller's successful select can also confirm. Joint distances alone, selectstart alone and cancelled selectend cannot confirm. Active-source and fresh-event checks remain. Startup allows up to 1000 ms for the next frame, so a brief slow frame does not discard the confirmation; reading keeps its 120 ms check. Events received while blurred cannot confirm after refocus. The remaining local event batch is consumed when arrival begins, so the confirmation cannot also open a menu or turn a page.
+
+The startup screen now says pinch/release or controller trigger, and no longer tells the user to wait with a wide open hand. Native startup confirmations and rejected attention checks are recorded with event source and hasHand. Reading/page/menu recognition, handMapRevision 9, requested hand flip, crisp renderer, hand badges, 3D arrival and quiet optional chime remain unchanged. This is a targeted startup repair, not a claim that the outstanding Quest clicking problem is solved.
+
+Built: targeted startup repair. PC-tested: 35 pure tests and 99 isolated Chromium checks pass. New regressions cover an immediate native click with missing joints and a controller without XRHand, cancellation-only endings, blurred receipt/refocus, emulated viewer rejection, a 200 ms frame delay accepted, events older than 1000 ms rejected, diagnostic outcomes and packed duplicate confirmations. Reviewed: see BUILD_011_REVIEW.md for the separate critic verdict. Committed/deployed: committed and pushed on phase-1-gestures by Claude; see the top line for the live check. Needs Quest check: successful bare-hand startup, followed by repeated available page turns. No later Phase 1 work may start before Bastian passes the gesture gate.
+
+All modules use ?v=11, header BUILD 011, export gestures-011. **handMapRevision stays 9: do not flip again.** Trial: https://p0champ.github.io/bradbury-cabin/?v=11 . Only phase-1-gestures may be pushed. Earlier entries below are history.
+
+---
 # Build 010 — repair the actual Quest startup error
 
 Bastian tried Build 009 and reported: **“The layer test stopped: source.hand.has is not a function Return to the browser to read the test details.”** Startup failed, so no click/animation/sound pass can be inferred from that trial.
