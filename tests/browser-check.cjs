@@ -90,6 +90,7 @@ async function mock(
       session.environmentBlendMode =
         scenario === "opaque" ? "opaque" : "alpha-blend";
       session.inputSources = [];
+      session.visibilityState = "visible";
       session.requestReferenceSpace = async () => new EventTarget();
       session.updateRenderState = (s) => {
         if (scenario === "limited-layers" && s.layers?.length > 1)
@@ -252,6 +253,7 @@ async function mock(
         if (!source) {
           source = {
             handedness,
+            gamepad: { buttons: [{ pressed: false }] },
             targetRaySpace: { handedness },
             hand: new Map([
               ["index-finger-tip", {}],
@@ -276,22 +278,53 @@ async function mock(
       };
       window.__pinch = (hand = "right", duration = 240) => {
         __hand(0.05, hand);
-        __step(520);
+        __step(600);
         __hand(0.012, hand);
+        __native("selectstart", hand);
         __step(duration);
-        for (const distance of [0.02, 0.026, 0.032, 0.04, 0.05, 0.05, 0.05]) {
-          __hand(distance, hand);
-          __step(40);
-        }
+        __hand(0.05, hand);
+        __native("select", hand);
+        __native("selectend", hand);
+        __step(16);
       };
       window.__hold = (hand = "right") => {
         __hand(0.05, hand);
-        __step(520);
+        __step(600);
         __hand(0.012, hand);
+        __native("selectstart", hand);
         __step(1480);
+        __hand(0.05, hand);
+        __native("select", hand);
+        __native("selectend", hand);
+        __step(16);
+      };
+      window.__native = (kind, hand = "right") => {
+        const source = __mock.sources[hand];
+        source.gamepad.buttons[0].pressed = kind === "selectstart";
+        const e = new Event(kind);
+        e.inputSource = source;
+        e.frame = {
+          getPose: () => ({
+            transform: new Transform(
+              head().position,
+              __mock.rayByHand?.[hand] || __mock.rayLook || head().orientation,
+            ),
+          }),
+          getViewerPose() {
+            throw Error("Cannot query viewer in event frame");
+          },
+        };
+        session.dispatchEvent(e);
+      };
+      window.__center = () => {
+        if (session.ended) return;
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __step();
+        __pinch();
+        __step();
       };
       window.__aim = async (id, rayOnly = false) => {
-        const { menuButtons } = await import("./gestures.js?v=6");
+        const { menuButtons } = await import("./gestures.js?v=7");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -642,16 +675,30 @@ async function mock(
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").waitFor();
       await p.locator("#enter").click();
+      await p.evaluate(() => __center());
       await p.evaluate(() => __step());
       if (["layer", "clamped-layer", "stereo-layer"].includes(scenario)) {
+        if (
+          (await p.locator("#page").getAttribute("data-view")) === "centering"
+        ) {
+          const waiting = p.waitForEvent("download");
+          await p.locator("#export").click();
+          const download = await waiting;
+          const file = path.join(out, "center-debug.json");
+          await download.saveAs(file);
+          console.log(await fs.readFile(file, "utf8"));
+          throw Error("Center confirmation failed");
+        }
         assert.match(
           await p.locator("#status").textContent(),
           /Compositor layer drawn/,
         );
-        const before = await p.evaluate(() => __mock.placed[0]);
+        const before = await p.evaluate(() => __mock.placed.at(-1));
+        const placedCount = await p.evaluate(() => __mock.placed.length),
+          uploadCount = await p.evaluate(() => __mock.uploads);
         await p.evaluate(() => __step());
-        assert.equal(await p.evaluate(() => __mock.placed.length), 1);
-        assert.equal(await p.evaluate(() => __mock.uploads), 1);
+        assert.equal(await p.evaluate(() => __mock.placed.length), placedCount);
+        assert.equal(await p.evaluate(() => __mock.uploads), uploadCount);
         assert.equal(await p.evaluate(() => __mock.projectionDraws), 0);
         const differences = await p.evaluate(() => {
           const m = __mock,
@@ -752,7 +799,10 @@ async function mock(
         passed("A/B paths draw with real WebGL" + (lying ? " lying down" : ""));
         await p.locator("#recenter").click();
         await p.evaluate(() => __step());
-        assert.equal(await p.evaluate(() => __mock.placed.length), 2);
+        assert.equal(
+          await p.evaluate(() => __mock.placed.length),
+          placedCount + 1,
+        );
         passed("re-centre applies only on request");
         if (!lying) {
           await p.evaluate(() => __hold());
@@ -827,6 +877,7 @@ async function mock(
           __hand(0.05);
           __step(520);
           __hand(0.012);
+          __native("selectstart");
           __step();
         });
         assert.match(await p.locator("#place").textContent(), /Page 1/);
@@ -834,6 +885,8 @@ async function mock(
         assert.match(await p.locator("#place").textContent(), /Page 1/);
         await p.evaluate(() => {
           __hand(0.05);
+          __native("select");
+          __native("selectend");
           __step(140);
         });
         assert.match(await p.locator("#place").textContent(), /Page 2/);
@@ -892,7 +945,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-006");
+        assert.equal(details.build, "gestures-007");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -947,105 +1000,201 @@ async function mock(
         }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await mock(p, "layer", lying, {});
+      await mock(p, "layer", lying, { practised: true, headPointer: false });
       await p.goto("http://127.0.0.1:18140");
-      await p.locator("#enter:not([disabled])").waitFor();
-      await p.locator("#enter").click();
-      await p.evaluate(() => __step());
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => {
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __step();
+        __hand(0.05);
+        __step(600);
+        __hand(0.012);
+        __step(1800);
+        __hand(0.05);
+        __step(600);
+      });
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
-        "practice",
+        "centering",
+      );
+      await p.locator("#menu").click();
+      await p.locator("#practice").click();
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
       );
       await p.locator("#xr-preview").screenshot({
-        path: path.join(
-          out,
-          lying ? "practice-lying.png" : "practice-front.png",
-        ),
+        path: path.join(out, `centering-${lying ? "lying" : "front"}.png`),
       });
       await p.evaluate(() => {
-        __pinch("right");
-        __pinch("left");
-      });
-      assert.match(await p.locator("#place").textContent(), /Page 1/);
-      await p.evaluate(() => __hold());
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
-      assert.equal(
-        await p.evaluate(
-          () => JSON.parse(localStorage.getItem("cabin-controls")).practised,
-        ),
-        true,
-      );
-      await p.evaluate(() => {
-        __hand(0.05);
-        __step();
-      });
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
-      assert.match(await p.locator("#place").textContent(), /Page 1/);
-      passed(
-        "first-use practice recognises Next / Back / Menu, without changing pages or selecting on hold release" +
-          (lying ? " lying" : ""),
-      );
-      await p.evaluate(() => __aim("exit", "left"));
-      await p.evaluate(() => __aim("resume", "right"));
-      await p.evaluate(() => {
-        const l = __hand(0.05, "left"),
-          r = __hand(0.05, "right");
-        __mock.session.inputSources = [l, r];
-        __step(520);
-        r.hand.get("thumb-tip").pose.x =
-          r.hand.get("index-finger-tip").pose.x + 0.012;
-        // Build 006: a pinch is confirmed after ~80 ms of firm readings.
-        for (let i = 0; i < 6; i++) __step();
+        __native("selectstart");
+        __step(1600);
       });
       assert.equal(
-        await p.locator("#page").getAttribute("data-target"),
-        "resume",
+        await p.locator("#page").getAttribute("data-view"),
+        "centering",
       );
       await p.evaluate(() => {
-        __step(240);
-        __mock.sources.right.hand.get("thumb-tip").pose.x =
-          __mock.sources.right.hand.get("index-finger-tip").pose.x + 0.05;
-        __step(240);
+        __native("select");
+        __native("selectend");
+        __step(40);
       });
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
         "reading",
       );
-      assert.equal(await p.locator("#enter").isEnabled(), false);
-      await p.evaluate(() => {
-        __mock.rayByHand = {};
-        __hold();
-        __hand(0.05);
-        __step();
-      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
       passed(
-        "the pinching owner controls highlight and selection even when the idle hand points at Exit" +
+        "startup blocks distance-only gestures, menu and practice; a completed native confirmation centres once" +
           (lying ? " lying" : ""),
       );
       await p.evaluate(() => {
-        __mock.rayLook = { x: 0, y: 1, z: 0, w: 0 };
-        __pinch();
+        __hand(0.05);
+        __step(600);
+        __native("selectstart");
+        __step(80);
+        __native("selectend");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => __pinch("right", 40));
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("left", 40));
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "native quick clicks work once each; cancelled native endings do nothing" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(600);
+        __hand(0.012);
+        __native("selectstart");
+        __step(500);
+        __mock.look = { x: 0, y: Math.SQRT1_2, z: 0, w: Math.SQRT1_2 };
+        __step(1600);
       });
       assert.equal(
-        await p.locator("#night").getAttribute("aria-pressed"),
-        "false",
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
       );
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => {
+        __mock.look = null;
+        __hand(0.012);
+        __step(600);
+        __native("select");
+        __native("selectend");
+        __step(40);
+        __native("selectstart");
+        __step(200);
+        __native("select");
+        __native("selectend");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => __pinch());
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      passed(
+        "looking away cancels native holds and returning closed cannot resume; fresh open restores clicks" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __mock.session.visibilityState = "visible-blurred";
+        __mock.session.dispatchEvent(new Event("visibilitychange"));
+        __pinch("left");
+        __mock.session.visibilityState = "visible";
+        __mock.session.dispatchEvent(new Event("visibilitychange"));
+        __hand(0.012, "left");
+        __step(600);
+        __native("selectstart", "left");
+        __step(100);
+        __native("select", "left");
+        __native("selectend", "left");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("left"));
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "blurred visibility stays gated and needs fresh open on return" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(600);
+        __native("selectstart");
+        __step(80);
+        __native("select");
+        __native("selectend");
+        __mock.clock += 250;
+        __step(16);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => __pinch());
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("left"));
+      passed(
+        "stale native releases cannot act or strand the next deliberate click" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(600);
+        __mock.sources.right.skipRendering = true;
+        __native("selectstart");
+        __step(1800);
+        __native("select");
+        __native("selectend");
+        __step(40);
+        __mock.sources.right.skipRendering = false;
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(600);
+        for (const joint of __mock.sources.right.hand.values())
+          joint.pose.x += 3;
+        __native("selectstart");
+        __step(200);
+        __native("select");
+        __native("selectend");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "reserved system hand and tracked hands outside view cannot act" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(600);
+        __native("selectstart");
+        __step(100);
+        __mock.session.inputSources = [];
+        __step(40);
+        __native("select");
+        __native("selectend");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => __hold());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       await p.evaluate(() => __aim("night", true));
+      await p.evaluate(() => __pinch());
+      assert.equal(
+        await p.locator("#night").getAttribute("aria-pressed"),
+        "true",
+      );
       await p.locator("#xr-preview").screenshot({
-        path: path.join(
-          out,
-          lying ? "menu-lying-pointed.png" : "menu-front-pointed.png",
-        ),
+        path: path.join(out, `native-menu-${lying ? "lying" : "front"}.png`),
       });
       await p.locator("#compare").click();
       await p.evaluate(() => __step());
-      await p.locator("#xr-preview").screenshot({
-        path: path.join(
-          out,
-          lying ? "menu-world-lying.png" : "menu-world-front.png",
-        ),
-      });
       await p.evaluate(() => {
         __mock.offsetX = 0.25;
         __step();
@@ -1053,7 +1202,7 @@ async function mock(
       await p.locator("#xr-preview").screenshot({
         path: path.join(
           out,
-          lying ? "menu-world-lying-side.png" : "menu-world-side.png",
+          `native-menu-${lying ? "lying" : "front"}-side.png`,
         ),
       });
       await p.evaluate(() => {
@@ -1062,122 +1211,69 @@ async function mock(
       });
       await p.locator("#compare").click();
       await p.evaluate(() => __step());
-      await p.evaluate(() => __pinch());
-      assert.equal(
-        await p.locator("#night").getAttribute("aria-pressed"),
-        "true",
-      );
-      assert.match(await p.locator("#place").textContent(), /Page 1/);
       passed(
-        "menu uses the hand ray; an un-targeted pinch never follows head direction or turns a page" +
+        "removed input cannot complete; native hold opens a world-still menu and native click selects" +
           (lying ? " lying" : ""),
       );
+      await p.evaluate(() => __aim("night", true));
       await p.evaluate(() => {
-        __hold("left");
-        __hand(0.05, "left");
-        __step();
+        __hand(0.05);
+        __step(600);
+        __native("selectstart");
+        __step(120);
       });
+      await p.evaluate(() => __aim("exit", true));
+      await p.evaluate(() => {
+        __native("select");
+        __native("selectend");
+        __step(40);
+      });
+      assert.equal(await p.locator("#enter").isEnabled(), false);
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      passed(
+        "a held menu press cannot drift from Night onto Exit across frames" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => __aim("resume", true));
+      await p.evaluate(() => __pinch());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
         "reading",
       );
-      const readingPose = await p.evaluate(() => __mock.placed.at(-1));
       await p.evaluate(() => {
-        __mock.offsetX = 0.45;
-        __hold();
         __hand(0.05);
-        __step();
-      });
-      const menuPose = await p.evaluate(() => __mock.placed.at(-1));
-      assert.notDeepEqual(menuPose, readingPose);
-      await p.evaluate(() => {
-        __mock.offsetX = 0.6;
-        __step();
-      });
-      assert.deepEqual(await p.evaluate(() => __mock.placed.at(-1)), menuPose);
-      await p.evaluate(() => {
-        __hold("left");
-        __hand(0.05, "left");
-        __step();
-      });
-      assert.deepEqual(
-        await p.evaluate(() => __mock.placed.at(-1)),
-        readingPose,
-      );
-      passed(
-        "menu is summoned into current view, stays still, and restores the original reading placement" +
-          (lying ? " lying" : ""),
-      );
-      await p.evaluate(() => {
-        __hold();
-        __hand(0.05);
-        __step();
-      });
-      await p.evaluate(() => __aim("swap", true));
-      await p.evaluate(() => __pinch());
-      await p.evaluate(() => {
-        __hold("left");
-        __hand(0.05, "left");
-        __step();
-        __pinch("left");
+        __step(600);
+        const l = __hand(0.05, "left"),
+          r = __hand(0.05, "right");
+        __mock.session.inputSources = [l, r];
+        __step(600);
+        __native("selectstart", "right");
+        __native("selectstart", "left");
+        __step(60);
+        __native("select", "left");
+        __native("selectend", "left");
+        __native("select", "right");
+        __native("selectend", "right");
+        __step(40);
       });
       assert.match(await p.locator("#place").textContent(), /Page 2/);
-      await p.evaluate(() => __pinch("right"));
-      assert.match(await p.locator("#place").textContent(), /Page 1/);
-      assert.equal(
-        await p.evaluate(
-          () => JSON.parse(localStorage.getItem("cabin-controls")).swapped,
-        ),
-        true,
-      );
       passed(
-        "swapping hands changes both reading directions and saves the preference" +
+        "simultaneous native hand presses have only one owner" +
           (lying ? " lying" : ""),
       );
-      await p.evaluate(() => {
-        __hold();
-        __hand(0.05);
-        __step();
-      });
-      await p.evaluate(() => __aim("recenter", true));
-      await p.evaluate(() => {
-        __pinch();
-        __step();
-      });
-      assert.equal(
-        await p.locator("#page").getAttribute("data-view"),
-        "reading",
-      );
-      assert.notDeepEqual(
-        await p.evaluate(() => __mock.placed.at(-1)),
-        readingPose,
-      );
-      passed(
-        "only explicit Re-centre moves the reading page to the current view" +
-          (lying ? " lying" : ""),
-      );
-      await p.evaluate(() => {
-        __hold();
-        __hand(0.05);
-        __step();
-      });
+      await p.evaluate(() => __hold());
       await p.evaluate(() => __aim("exit", true));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#enter").isEnabled(), true);
-      assert.deepEqual(errors, []);
-      passed(
-        "menu Exit safely ends the active XR callback" +
-          (lying ? " lying" : ""),
-      );
       await p.locator("#enter").click();
       await p.evaluate(() => __step());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
-        "reading",
+        "centering",
       );
       assert.deepEqual(errors, []);
       passed(
-        "completed practice is remembered on XR re-entry" +
+        "native menu Exit is safe and every new entry requires centering" +
           (lying ? " lying" : ""),
       );
       await p.close();
@@ -1187,6 +1283,7 @@ async function mock(
       await mock(p, "limited-layers");
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
       await p.evaluate(() => {
         __step();
         __hand(0.05);
@@ -1213,6 +1310,7 @@ async function mock(
       await mock(p, "layer", lying);
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
       await p.evaluate(() => {
         __step();
         const l = __hand(0.05, "left"),
@@ -1221,9 +1319,9 @@ async function mock(
         __step(520);
         window.badgeSnapshot = () => {
           const gl = __mock.gl,
-            entries = [...__mock.layerData].filter(
-              ([layer, d]) => d.badge && layer.opacity > 0,
-            );
+            entries = [...__mock.layerData]
+              .filter(([layer, d]) => d.badge && layer.opacity > 0)
+              .sort(([, a], [, b]) => a.matrix[12] - b.matrix[12]);
           const canvas = document.createElement("canvas");
           canvas.width = 560;
           canvas.height = 290;
@@ -1295,6 +1393,7 @@ async function mock(
       await p.evaluate(() => {
         __mock.sources.right.hand.get("thumb-tip").pose.x =
           __mock.sources.right.hand.get("index-finger-tip").pose.x + 0.012;
+        __native("selectstart");
         __step(720);
       });
       const half = await p.evaluate(() => badgeSnapshot());
@@ -1340,12 +1439,15 @@ async function mock(
     }
     // Build 006: what "registered" means must agree with what the page did.
     for (const lying of [false, true]) {
-      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+      const p = await browser.newPage({
+          viewport: { width: 1440, height: 1100 },
+        }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", lying);
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
       await p.evaluate(() => {
         __step();
         window.uploadedMatchesCanvas = () => {
@@ -1355,14 +1457,26 @@ async function mock(
           expected.height = m.quadHeight;
           expected
             .getContext("2d")
-            .drawImage(document.querySelector("#page"), 0, 0, expected.width, expected.height);
-          const bytes = expected.getContext("2d").getImageData(0, 0, expected.width, expected.height).data;
-          let differences = 0, sum = 0;
+            .drawImage(
+              document.querySelector("#page"),
+              0,
+              0,
+              expected.width,
+              expected.height,
+            );
+          const bytes = expected
+            .getContext("2d")
+            .getImageData(0, 0, expected.width, expected.height).data;
+          let differences = 0,
+            sum = 0;
           for (let y = 0; y < expected.height; y += 37)
             for (let x = 0; x < expected.width; x += 41) {
               const i = (y * expected.width + x) * 4;
-              sum = (sum * 31 + m.latestPixels[i] + 7 * m.latestPixels[i + 1]) % 1000000007;
-              for (let c = 0; c < 4; c++) if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
+              sum =
+                (sum * 31 + m.latestPixels[i] + 7 * m.latestPixels[i + 1]) %
+                1000000007;
+              for (let c = 0; c < 4; c++)
+                if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
             }
           return { differences, sum };
         };
@@ -1372,22 +1486,36 @@ async function mock(
       await p.evaluate(() => {
         // Reads every visible badge texture: lit-arrow and orange end-bar pixels.
         window.badgeStates = () => {
-          const gl = __mock.gl, states = [];
+          const gl = __mock.gl,
+            states = [];
           for (const [layer, d] of __mock.layerData) {
             if (!d.badge || layer.opacity <= 0) continue;
             const fb = gl.createFramebuffer();
             gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, d.tex, 0);
+            gl.framebufferTexture2D(
+              gl.FRAMEBUFFER,
+              gl.COLOR_ATTACHMENT0,
+              gl.TEXTURE_2D,
+              d.tex,
+              0,
+            );
             const px = new Uint8Array(256 * 256 * 4);
             gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, px);
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.deleteFramebuffer(fb);
-            let lit = 0, bar = 0;
+            let lit = 0,
+              bar = 0;
             for (let y = 90; y < 166; y++)
               for (let x = 70; x < 186; x++) {
                 const i = (y * 256 + x) * 4;
                 if (px[i] > 240 && px[i + 1] > 225 && px[i + 2] > 190) lit++;
-                if (px[i] > 220 && px[i + 1] > 160 && px[i + 1] < 200 && px[i + 2] < 160) bar++;
+                if (
+                  px[i] > 220 &&
+                  px[i + 1] > 160 &&
+                  px[i + 1] < 200 &&
+                  px[i + 2] < 160
+                )
+                  bar++;
               }
             states.push({ lit, bar });
           }
@@ -1398,23 +1526,40 @@ async function mock(
       assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
       const blockedBadge = await p.evaluate(() => badgeStates());
       assert.equal(blockedBadge.length, 1);
-      assert.equal(blockedBadge[0].lit, 0, "a blocked Back never lights the arrows");
+      assert.equal(
+        blockedBadge[0].lit,
+        0,
+        "a blocked Back never lights the arrows",
+      );
       assert.ok(blockedBadge[0].bar > 300, "a blocked Back shows the end bar");
       await p.evaluate(() => __pinch("right"));
       assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
       const turnBadge = await p.evaluate(() => badgeStates());
-      assert.ok(turnBadge[0].lit > 300 && turnBadge[0].bar === 0, "a real turn flashes the arrows");
+      assert.ok(
+        turnBadge[0].lit > 300 && turnBadge[0].bar === 0,
+        "a real turn flashes the arrows",
+      );
       const turned = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(turned.differences, 0, "displayed quad shows the new page");
-      assert.notEqual(turned.sum, first.sum, "quad pixels changed with the page");
+      assert.notEqual(
+        turned.sum,
+        first.sum,
+        "quad pixels changed with the page",
+      );
       await p.evaluate(() => __pinch("right"));
       assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
       await p.evaluate(() => __pinch("left"));
       assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
-      assert.equal((await p.evaluate(() => uploadedMatchesCanvas())).differences, 0);
+      assert.equal(
+        (await p.evaluate(() => uploadedMatchesCanvas())).differences,
+        0,
+      );
       const download = p.waitForEvent("download");
       await p.locator("#export").click();
-      const file = path.join(out, `gesture-log-${lying ? "lying" : "front"}.json`);
+      const file = path.join(
+        out,
+        `gesture-log-${lying ? "lying" : "front"}.json`,
+      );
       await (await download).saveAs(file);
       const details = JSON.parse(await fs.readFile(file, "utf8"));
       const pages = details.gestureLog.filter((e) => e.result === "page");
@@ -1440,34 +1585,52 @@ async function mock(
       await mock(p, "layer", false, { headPointer: true });
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
       await p.evaluate(() => __step());
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
       await p.evaluate(() => __hold());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       await p.evaluate(() => __aim("practice"));
       await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "practice",
+      );
       await p.evaluate(() => __pinch("right"));
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "practice",
+      );
       await p.evaluate(() => __pinch("left"));
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
       assert.match(await p.locator("#place").textContent(), /Page 1/);
       assert.equal(
-        await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-controls")).practised),
+        await p.evaluate(
+          () => JSON.parse(localStorage.getItem("cabin-controls")).practised,
+        ),
         true,
       );
       await p.evaluate(() => __pinch("right"));
       assert.match(await p.locator("#place").textContent(), /Page 2/);
-      passed("practice completes in any order and hands straight back to reading");
+      passed(
+        "practice completes in any order and hands straight back to reading",
+      );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=6");
+        const { paintHandBadge } = await import("./hand-badges.js?v=7");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
           paintHandBadge(c, opts);
           const d = c.getContext("2d").getImageData(70, 90, 50, 76).data;
           let n = 0;
-          for (let i = 0; i < d.length; i += 4) if (d[i] > 240 && d[i + 1] > 225) n++;
+          for (let i = 0; i < d.length; i += 4)
+            if (d[i] > 240 && d[i + 1] > 225) n++;
           return n;
         };
         return {
@@ -1477,9 +1640,15 @@ async function mock(
         };
       });
       assert.ok(icons.turn > 500, "turn flash lights the arrows");
-      assert.equal(icons.blocked, 0, "a blocked attempt never lights the arrows");
+      assert.equal(
+        icons.blocked,
+        0,
+        "a blocked attempt never lights the arrows",
+      );
       assert.equal(icons.unavailable, 0, "an unavailable direction is dimmed");
-      passed("hand icons distinguish a turn, a blocked end-of-text attempt and an unavailable direction");
+      passed(
+        "hand icons distinguish a turn, a blocked end-of-text attempt and an unavailable direction",
+      );
       await p.close();
     }
     await fs.writeFile(
