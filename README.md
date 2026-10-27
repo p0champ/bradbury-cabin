@@ -1,12 +1,12 @@
 # Bradbury Cabin — Phase 1 gesture trial
 
-A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 005 is the first Phase 1 step: a focused gesture and menu trial. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
+A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 006 is the current Phase 1 step: a focused gesture and menu trial, repairing Build 005's "registered but did not turn" report. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
 
 ## Run
 
 `npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the gesture-state and geometry tests. No installation is required for the app or those tests.
 
-Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=5) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=6) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
@@ -23,7 +23,11 @@ Only `immersive-ar` with alpha blending is accepted. No opaque virtual world is 
 
 ## Hands and controls
 
-The reading and menu contexts are separate. In reading, right index/thumb pinch then release means Next; left means Back. Swap them in the menu if preferred. Neither looking at the page footer nor pointing at a button changes a reading pinch. Either hand held for 1400 ms opens the menu; another hold closes it. A deliberate pinch must last at least 160 ms, start below 18 mm, and release above 38 mm continuously for 90 ms. Open fingers for 140 ms to arm; a 450 ms cooldown follows a turn or selection. Separation above 24 mm stops hold charging. Natural release has 220 ms to travel through the gap before full-open settling; a stalled partial release, reclosing, release bounce or missing tracking cancels the pinch. A threshold-crossing release counts as a hold only when firm contact itself lasted 1400 ms. The first pinching hand exclusively owns the gesture.
+The reading and menu contexts are separate. In reading, right index/thumb pinch then release means Next; left means Back. Swap them in the menu if preferred. Neither looking at the page footer nor pointing at a button changes a reading pinch. Either hand held for 1400 ms opens the menu; another hold closes it.
+
+Build 006 recogniser: a hand arms after 140 ms above 32 mm (readings between 26 and 32 mm pause arming rather than resetting it). A pinch is confirmed only when at least 80% (and at least three) of the readings in the last 80 ms are below 18 mm, so scattered noisy dips from a resting near-pinch cannot latch; timing is counted from the first firm reading. While firmly pinched, upward spikes shorter than 30 ms are ignored. Lingering between 18 and 26 mm without a firm reading for 300 ms, or separating above 26 mm, counts as loosening; a firm re-contact within 120 ms keeps the pinch but restarts the hold, and anything longer cancels. Release: above 32 mm for 80 ms, within 300 ms of first separation; dips back into the 26–32 mm zone do not restart settling. Minimum contact 160 ms; 400 ms cooldown after a turn or selection; a pinch begun during cooldown must reopen. The hold ring stays hidden for the first 350 ms, so a quick pinch never looks like a registered press, and still completes at 1.4 s.
+
+Feedback reports the real outcome: a turn flashes the arrows and shows "Page n of m"; a Back on the first page or Next on the last shows an orange end bar and "First/Last page" text, never a turn flash; a direction with no page left is dimmed. Practice is finished by Next + Back in any order and returns to reading. Save test details exports the last 40 firm pinch outcomes (with reasons such as too-short, release-stalled, re-pinched) and the last 20 near-pinches that never got firm (with their closest distance), for diagnosing on-device behaviour.
 
 Build 005 responds to Bastian's report that Build 004 was too sensitive. Two small transparent compositor layers carry forward/back skip icons over the hands. The owning hand's ring fills over the 1.4 second hold; release or cancellation clears it. Only those hand textures animate, leaving the reading pixels untouched. Badges follow tracked hand position and face the viewer, including lying down; the menu itself remains world-still. An unsupported extra-layer budget disables badges with a diagnostic while preserving reading and gestures.
 
