@@ -15,6 +15,8 @@ One 2048 × 2560 canvas is rasterized with bundled Literata and uploaded to one 
 - A: `XRWebGLBinding.createQuadLayer`, mono, 0.72 × 0.90 metres, local reference space. Each XR frame obtains `getSubImage`, attaches its opaque texture to a framebuffer, draws into its viewport, then detaches it within that callback. No Layers polyfill.
 - B: the ordinary perspective-textured rectangle drawn into each eye's `XRWebGLLayer` framebuffer. Both paths have the same geometry, text size, distance and content. Foveation is disabled where supported. A/B does not deliberately degrade B.
 
+When the Layers feature is enabled, both modes submit only a `layers` list. The ordinary `XRWebGLLayer` is an entry in that list. Never include `baseLayer`, even null, in a layers-enabled session. The legacy property is reserved for sessions without the feature.
+
 The 1.1 metre distance gives approximately 36° × 44.5° angular size. Requested resolution is about 56 × 58 pixels per degree, intentionally oversampled; it is not a claim of headset-native pixels per degree. The actual layer viewport dimensions are recorded. This budget must be evaluated on Quest for sharpness, memory and frame pacing. Text size is 46/54/62 source pixels. Rasterization/antialiasing uses the browser, without custom font hinting controls.
 
 Only `immersive-ar` with alpha blending is accepted. No opaque virtual world is provided. The initial head pose positions AND orients the page; this supports lying down without gravity-locked text. Thereafter placement remains fixed until re-centre or a reference-space reset.

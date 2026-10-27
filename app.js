@@ -145,6 +145,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
+    build: "phase0-002",
     phase: 0,
     at: new Date().toISOString(),
     userAgent: navigator.userAgent,
@@ -171,14 +172,25 @@ $("export").onclick = () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 function applyLayers() {
-  state.session.updateRenderState(
-    quad
-      ? {
-          baseLayer: null,
-          layers: state.mode === "layer" ? [base, quad] : [base],
-        }
-      : { baseLayer: base },
-  );
+  const session = state.session;
+  const layers = quad && state.mode === "layer" ? [base, quad] : [base];
+  // XRWebGLLayer is allowed inside the Layers list. Do not also send the
+  // legacy baseLayer property: Quest rejects its presence even when null.
+  if (quad || session.enabledFeatures?.includes("layers")) {
+    session.updateRenderState({ layers });
+    return;
+  }
+  if (session.enabledFeatures) {
+    session.updateRenderState({ baseLayer: base });
+    return;
+  }
+  // Older browsers may not expose enabledFeatures. Probe Layers first;
+  // only use the legacy route if that API rejects the list entirely.
+  try {
+    session.updateRenderState({ layers });
+  } catch {
+    session.updateRenderState({ baseLayer: base });
+  }
 }
 function hit(transform) {
   if (!placement || !transform) return null;

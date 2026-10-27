@@ -57,11 +57,25 @@ async function mock(page, scenario = "layer", lying = false) {
       };
       let gl, callback;
       const session = new EventTarget();
+      const layersEnabled = !scenario.startsWith("no-layers-feature");
+      if (!scenario.endsWith("-unreported"))
+        session.enabledFeatures = layersEnabled
+          ? ["local", "layers"]
+          : ["local"];
+      window.__mock.renderUpdates = [];
       session.environmentBlendMode =
         scenario === "opaque" ? "opaque" : "alpha-blend";
       session.inputSources = [];
       session.requestReferenceSpace = async () => new EventTarget();
       session.updateRenderState = (s) => {
+        // Quest rejects even baseLayer:null when Layers was negotiated.
+        if (layersEnabled && Object.hasOwn(s, "baseLayer"))
+          throw Error("Can't use baseLayer with layers feature requested");
+        if (!layersEnabled && Object.hasOwn(s, "layers"))
+          throw Error("Layers feature was not enabled");
+        if (Object.hasOwn(s, "baseLayer") && Object.hasOwn(s, "layers"))
+          throw Error("Cannot supply both render-state layer properties");
+        window.__mock.renderUpdates.push(Object.keys(s));
         session.pendingState = s;
       };
       session.end = async () => {
@@ -131,7 +145,7 @@ async function mock(page, scenario = "layer", lying = false) {
       window.XRWebGLBinding = class {
         constructor() {}
         createQuadLayer() {
-          if (scenario === "no-layer")
+          if (scenario.startsWith("no-layer"))
             throw Error("Deliberate unsupported layer fixture");
           const tex = gl.createTexture();
           gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -268,6 +282,9 @@ async function mock(page, scenario = "layer", lying = false) {
       ["layer", false],
       ["layer", true],
       ["no-layer", false],
+      ["no-layers-feature", false],
+      ["no-layer-unreported", false],
+      ["no-layers-feature-unreported", false],
       ["draw-failure", false],
       ["opaque", false],
       ["deny", false],
@@ -300,16 +317,14 @@ async function mock(page, scenario = "layer", lying = false) {
           __step();
           document.querySelector("#xr").hidden = false;
         });
-        await p
-          .locator("#xr")
-          .screenshot({
-            path: path.join(
-              out,
-              lying
-                ? "simulated-lying-texture.png"
-                : "simulated-front-texture.png",
-            ),
-          });
+        await p.locator("#xr").screenshot({
+          path: path.join(
+            out,
+            lying
+              ? "simulated-lying-texture.png"
+              : "simulated-front-texture.png",
+          ),
+        });
         assert.match(
           await p.locator("#mode-label").textContent(),
           /ordinary texture/,
@@ -318,14 +333,12 @@ async function mock(page, scenario = "layer", lying = false) {
           __mock.offsetX = 0.25;
           __step();
         });
-        await p
-          .locator("#xr")
-          .screenshot({
-            path: path.join(
-              out,
-              lying ? "simulated-lying-side.png" : "simulated-side-texture.png",
-            ),
-          });
+        await p.locator("#xr").screenshot({
+          path: path.join(
+            out,
+            lying ? "simulated-lying-side.png" : "simulated-side-texture.png",
+          ),
+        });
         await p.evaluate(() => {
           __mock.offsetX = 0;
           __step();
@@ -414,7 +427,7 @@ async function mock(page, scenario = "layer", lying = false) {
           ),
         );
         passed("diagnostics export downloads");
-      } else if (scenario === "no-layer") {
+      } else if (scenario.startsWith("no-layer")) {
         assert.match(
           await p.locator("#status").textContent(),
           /Layer unavailable/,
@@ -447,6 +460,25 @@ async function mock(page, scenario = "layer", lying = false) {
         passed("permission denial permits retry");
       }
       assert.deepEqual(es, []);
+      if (scenario === "layer" || scenario.startsWith("no-layer")) {
+        const keys = await p.evaluate(() => __mock.renderUpdates);
+        assert.ok(keys.length > 0);
+        assert.ok(
+          keys.every(
+            (k) =>
+              k.length === 1 &&
+              k[0] ===
+                (scenario.startsWith("no-layers-feature")
+                  ? "baseLayer"
+                  : "layers"),
+          ),
+        );
+        passed(
+          "exclusive negotiated render-state route: " +
+            scenario +
+            (lying ? " lying" : ""),
+        );
+      }
       await p.close();
     }
     await fs.writeFile(

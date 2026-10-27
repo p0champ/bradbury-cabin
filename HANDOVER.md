@@ -1,8 +1,18 @@
+# Build 002 — Quest startup hotfix
+
+Bastian reported: `Could not open the passthrough test: Failed to execute updateRenderState on XRSession: Can't use baseLayer with layers feature requested`. The earlier PC mock missed the browser’s rejection of the presence of `baseLayer`, even when its value is null, in a layers-enabled session. It also missed that a quad-creation fallback still needs the Layers list when that feature was enabled.
+
+`applyLayers` now passes **only** `layers` for layer-enabled sessions, with the existing XRWebGLLayer inside the list. The legacy `baseLayer` property is used only without the feature. Older runtimes without `enabledFeatures` probe list support first. The [W3C Layers render-state algorithm](https://www.w3.org/TR/webxrlayers-1/#xrsession-updaterenderstate) explicitly permits XRWebGLLayer entries in the list. The successful A/B path no longer sends a baseLayer property at all.
+
+Before the fix, a stricter regression reproduced Bastian’s exact error. After the fix, 4 core tests and 30 browser checks pass, covering both enabled-feature reporting and old runtimes, quad creation failure with the feature still enabled, no-layer sessions, and in-frame A/B switching. Independent hotfix review reached **8/10 PC readiness** and independently reran all 4+30 checks; see REVIEW.md. A nonblocking limitation remains for much older browsers that silently ignore an unknown Layers dictionary property; the target Quest repair does not depend on that compatibility probe. Header Build 002, module URL `app.js?v=2`, and diagnostic `phase0-002` identify this revision. Retry URL: https://p0champ.github.io/bradbury-cabin/?v=2 . This remains Phase 0; a successful Quest entry and sharpness check are still required.
+
+---
+
 # Bradbury Cabin handover — 27 October 2026
 
 ## Gate and current scope
 
-Phase 0 only. Bastian must try it in Quest 3 while lying down and explicitly approve before any Phase 1 work. No headset result exists. Read README.md, QUEST_CHECK.md and REVIEW.md before continuing.
+Phase 0 only. Bastian must try it in Quest 3 while lying down and explicitly approve before any Phase 1 work. Bastian tried build 001 on Quest; entry failed with the baseLayer/layers error. There is still no successful headset sharpness comparison. Read README.md, QUEST_CHECK.md and REVIEW.md before continuing.
 
 Built: static passthrough WebXR sharpness test with real compositor quad and ordinary perspective-texture paths, public-domain poem/story excerpts, bundled licensed font, paper/night, three sizes, tracked pinch page turn, head-directed control targeting, world-still placement, re-centre and diagnostic export.
 

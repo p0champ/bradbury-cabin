@@ -1,13 +1,19 @@
+# Build 002 update
+
+The first Quest attempt exposed a startup error that the original PC mock did not enforce. A stricter test reproduced it. The fix removes the legacy `baseLayer` property from layer-enabled render-state updates, including the texture fallback. Header **BUILD 002** and the versioned script identify the update. Use [the fresh test link](https://p0champ.github.io/bradbury-cabin/?v=2) and retry the checklist below. The independent hotfix review scored **8/10 for PC readiness**, with all 4 core and 30 browser checks independently passing. No successful Quest sharpness result has been recorded.
+
+---
+
 # Bradbury Cabin — Phase 0 report
 
-The crispness test is built and published at [Bradbury Cabin](https://p0champ.github.io/bradbury-cabin/) for your Quest check. It has **not** been tested in a headset. Nothing from Phase 1 has been started.
+The crispness test is built and published at [Bradbury Cabin](https://p0champ.github.io/bradbury-cabin/) for your Quest check. Bastian’s first headset launch failed before reading began; the Build 002 startup fix is ready for a retry. Sharpness remains unverified. Nothing from Phase 1 has been started.
 
 You get a warm reading page with Blake's **The Sick Rose** and an opening excerpt from O. Henry's **The Gift of the Magi**. Switch between a real compositor quad layer and the same page drawn as an ordinary texture. Try paper/night, three sizes, pinch page turns and re-centre. The page is placed in your initial viewing direction, including while lying down, then stays still in the room. The app shows layer failures openly and can save a small diagnostic file.
 
 | Status | Result |
 | --- | --- |
 | Built | Phase 0 only |
-| PC-tested | 4 core tests + 21 isolated Chromium checks passed |
+| PC-tested | 4 core tests + 30 isolated Chromium checks passed |
 | Reviewed | Separate critic: **6.5 → 8/10**, two rounds; final score is for PC readiness |
 | Committed | `phase-0-crispness` branch, pushed to the public repository |
 | Deployed | GitHub Pages, from the Phase 0 branch; no main push |
