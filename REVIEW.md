@@ -41,3 +41,22 @@ Remaining ranked findings:
 3. **Existing coverage limits remain:** Synthetic ordinary textures and one eye do not validate runtime-owned compositor textures, real passthrough, stereo, tracking quality, comfort or headset optical sharpness.
 
 The plain npm browser-test command initially lacked the optional Playwright dependency in this checkout. Re-running with the available bundled Playwright and Chromium paths through the harness's supported environment settings passed all 30 checks. No application code, bridge or service was changed during this review.
+
+## Build 003 graphics isolation — independent re-review, 27 October 2026
+
+**Score: 8 / 10 for PC diagnostic readiness. Round 1: no blocking implementation defect found.** Build 002 reportedly entered XR on Quest but then stopped with a generic GL error. Its aggregate error check did not identify the failing operation; the cause of that hardware error remains unproven.
+
+I independently inspected the revised renderer, frame loop, lifecycle and fixture, and reran all **4 core tests and 55 browser checks successfully**. I viewed the direct quad-buffer captures, reduced-resolution capture, lying/side views and two-eye projection preview. These remain synthetic graphics evidence, not headset captures.
+
+The A path now uses only the quad in the active layer list and updates its runtime-owned texture through texSubImage2D. It does not enter the comparison source-upload/shader/framebuffer path. This follows the direct-upload pattern in the [Immersive Web quad sample](https://raw.githubusercontent.com/immersive-web/webxr-samples/main/layers-samples/quad-layer.html). Uploads flip vertically and restore pixel-store state, unbind within the callback, honor runtime viewport dimensions, and refresh after content changes in B. Sampled pixel comparisons cover upright orientation and a 1024 by 1280 allocation. These are useful checks against a flipped or stale page.
+
+B now uses a native projection layer with per-eye subimages, viewport/scissor clears, real depth attachments and finally-block detachment. The final fixture exercises two eye viewports in one atlas and confirms content in both halves and no lingering attachments after the callback. Frame-start comparison mode still prevents the previously found pending-state switch failure. GPU resources are created after makeXRCompatible completes.
+
+Named GL stages and exported numeric codes replace the former aggregate message. I inspected representative INVALID_VALUE/source, INVALID_OPERATION/quad and INVALID_FRAMEBUFFER_OPERATION/projection exports. The final code also checks projection cleanup separately. This makes another hardware failure more actionable; it does not prove that any particular previous operation caused the Quest error.
+
+Remaining ranked work:
+
+1. **Required:** Deploy Build 003 and repeat Bastian's Quest test. Confirm startup, page orientation, A/B switching, pinches and sustained reading. If it stops, retain the named stage/code and exported graphicsError. No Quest success or Disney+ sharpness claim is justified by these tests.
+2. **P3:** If future runtime investigation requires more precise isolation, split projection acquisition/attachment and clear/draw into separate named stages. Current stages substantially narrow the failure and are adequate for this iteration.
+
+**Decision:** Ready to deploy as a targeted graphics-path simplification and diagnostic build. Phase 1 remains gated on Bastian's actual headset approval. No app code or bridge/service was changed by this reviewer.

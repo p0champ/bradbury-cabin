@@ -1,4 +1,26 @@
-export function renderer(canvas) {
+export function checkGl(gl, stage) {
+  const codes = [];
+  for (let i = 0; i < 16; i++) {
+    const code = gl.getError();
+    if (code === gl.NO_ERROR) break;
+    codes.push(code);
+  }
+  if (!codes.length) return;
+  const names = {
+    1280: "INVALID_ENUM",
+    1281: "INVALID_VALUE",
+    1282: "INVALID_OPERATION",
+    1285: "OUT_OF_MEMORY",
+    1286: "INVALID_FRAMEBUFFER_OPERATION",
+    37442: "CONTEXT_LOST_WEBGL",
+  };
+  const error = new Error(
+    `${stage}: ${codes.map((code) => `${names[code] || "GL_ERROR"} (0x${code.toString(16)})`).join(", ")}`,
+  );
+  error.graphics = { stage, codes };
+  throw error;
+}
+export async function renderer(canvas) {
   const gl = canvas.getContext("webgl2", {
     xrCompatible: true,
     alpha: true,
@@ -6,6 +28,10 @@ export function renderer(canvas) {
     premultipliedAlpha: true,
   });
   if (!gl) throw Error("WebGL 2 is unavailable.");
+  // Compatibility can replace the context's backing graphics device. Create
+  // every shader, buffer and texture only after that transition completes.
+  await gl.makeXRCompatible();
+  checkGl(gl, "XR context compatibility");
   const shader = (type, source) => {
     const s = gl.createShader(type);
     gl.shaderSource(s, source);
@@ -58,9 +84,41 @@ export function renderer(canvas) {
   gl.bindTexture(gl.TEXTURE_2D, null);
   const fbo = gl.createFramebuffer(),
     loc = gl.getUniformLocation(program, "m");
+  const resized = document.createElement("canvas");
+  checkGl(gl, "renderer initialization");
   return {
     gl,
     fbo,
+    copyPage(sub, source) {
+      let pixels = source;
+      const v = sub.viewport;
+      if (v.width !== source.width || v.height !== source.height) {
+        resized.width = v.width;
+        resized.height = v.height;
+        resized.getContext("2d").drawImage(source, 0, 0, v.width, v.height);
+        pixels = resized;
+      }
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, sub.colorTexture);
+      try {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        // Only replace pixels; opaque layer textures are runtime-owned and
+        // must never be reallocated with texImage2D or given mipmaps.
+        gl.texSubImage2D(
+          gl.TEXTURE_2D,
+          0,
+          v.x,
+          v.y,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          pixels,
+        );
+        checkGl(gl, "quad page upload");
+      } finally {
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      }
+    },
     upload(source) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);

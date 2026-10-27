@@ -1,3 +1,17 @@
+# Build 003 — Direct quad upload and precise graphics diagnostics
+
+Supersedes the rendering details of Build 002 below. Bastian’s second Quest attempt reached drawing, then stopped with the old generic `WebGL reported an error drawing the compositor layer` message. That check included errors from earlier operations, so the failing operation and original numeric GL code are **not known**. Do not claim the legacy framebuffer or shader was proven to be the cause.
+
+A now submits only the quad and uploads the raster page directly with `texSubImage2D`, as in the official Immersive Web quad sample. It never touches the legacy eye buffer or uses an FBO/shader/mipmap path for the page. Actual subimage offsets and allocation sizes are honored; clamped allocations use a staging canvas. Cached pixels survive unchanged frames; page changes, A/B return and `needsRedraw` refresh them. Flip state and binding are restored within the callback.
+
+B now uses a native XRProjectionLayer with `textureType: texture` and DEPTH_COMPONENT24, per-eye `getViewSubImage`, scissored clears and guaranteed color/depth detach. Legacy XRWebGLLayer remains only for sessions without Layers. Resources are created after awaiting makeXRCompatible, guarding possible graphics-device transitions. GL checks identify the operation and all observed numeric codes; diagnostic exports include `phase0-003`, `renderRoute`, and `graphicsError` with stage/codes. No errors are silently discarded.
+
+PC verification: 4 core +55 Chromium checks pass. The fixture protects opaque textures from reallocation/mipmaps/FBO use on A, verifies unbinding/detachment, reads back pixels to verify orientation and runtime-clamped sizing, tests A refresh after style changes in B, injects and verifies three named GL errors (1281/1282/1286), and draws both eyes into separate atlas viewports with actual allocated depth textures. Simulated images and readbacks are not Quest compositor/optics evidence. Independent review reached **8/10 for PC diagnostic readiness**, with all 4+55 checks independently passing; see REVIEW.md.
+
+Retry URL: https://p0champ.github.io/bradbury-cabin/?v=3 . Header Build 003, versioned app and graphics module URLs prevent old module reuse. If it stops again, the complete error text now identifies the failing operation and code; Save test details preserves the full record after exit. Phase 1 remains gated on a successful Bastian Quest sharpness check. Sunnyvale and its running bridge remain untouched.
+
+---
+
 # Build 002 — Quest startup hotfix
 
 Bastian reported: `Could not open the passthrough test: Failed to execute updateRenderState on XRSession: Can't use baseLayer with layers feature requested`. The earlier PC mock missed the browser’s rejection of the presence of `baseLayer`, even when its value is null, in a layers-enabled session. It also missed that a quad-creation fallback still needs the Layers list when that feature was enabled.
@@ -35,7 +49,7 @@ The app has no dependencies or build step. `npm start` runs the static preview; 
 - `app.js`: app state, Canvas 2D page painting, XR lifetime, input, hit testing and layer drawing. `core.js`: small test-corpus pagination, dimensions and pinch gate. `gl.js`: WebGL2 source texture/shaders and column-major matrices.
 - 2048 × 2560 requested layer; 0.72 × 0.90 m at 1.1 m. Both A and B use the same source. Source mipmaps keep B's minification fair. Actual layer viewport dimensions are exported.
 - A mode switch requested during a joint pinch applies to render state at the next XR boundary. Finish the current callback using its initial `drawMode`. Do not replace this with immediate `state.mode` checks after input.
-- Opaque layer texture is attached and detached inside the XR callback, including exception paths. Do not call `texImage2D` on it. The upload texture is our own ordinary WebGL texture.
+- Projection color/depth textures are attached and detached inside the XR callback, including error cleanup. A quad is filled directly using `texSubImage2D`; it is never attached to a framebuffer. Do not reallocate or generate mipmaps on runtime-owned textures. B alone uploads an ordinary canvas texture using `texImage2D`.
 - Use `local` space, never continuous viewer parenting. Capture head orientation as well as translation on initial placement/re-centre, so lying down works. A space reset explicitly re-centres. Tracking loss clears the gesture state.
 - Gaze means head direction, not eye tracking. It targets controls; there is no automatic gaze page turn in this phase. Pinching away from controls advances. Start with an open hand; a held pinch never repeats. A/B doesn't move the page.
 - Layer-creation failure leaves an explicitly labelled texture-only fallback, which cannot pass the gate. Drawing failure ends XR with an error. Alpha-blended passthrough is required. No Layers polyfill or opaque virtual room.

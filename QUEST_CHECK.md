@@ -1,6 +1,6 @@
 # Phase 0 — Bastian's headset check
 
-Open https://p0champ.github.io/bradbury-cabin/?v=2 in Quest Browser (Build 002). GitHub Pages hosts the Phase 0 branch over HTTPS. It does not use the Sunnyvale bridge.
+Open https://p0champ.github.io/bradbury-cabin/?v=3 in Quest Browser (Build 003). GitHub Pages hosts the Phase 0 branch over HTTPS. It does not use the Sunnyvale bridge.
 
 1. In Quest Browser, open the published Cabin page. Turn on hand tracking. Lie down as you normally read.
 2. Look where you want the page and select **Enter the crispness test**. Allow the requested permissions. You should see your real room around the page.

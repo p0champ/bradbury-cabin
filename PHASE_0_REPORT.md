@@ -1,3 +1,11 @@
+# Build 003 update
+
+Bastian’s second Quest attempt stopped during drawing. The previous generic message did not identify which graphics operation failed, so its exact cause is still unknown. Build 003 copies the page directly into its compositor layer, uses a native projection layer for the ordinary comparison, and creates graphics resources after headset compatibility is ready. If another error occurs, the message and saved test details identify the operation and numeric code.
+
+4 core tests and 55 browser checks pass, including direct pixel readback, reduced texture sizes, both eye views/depth textures, A/B switching and injected graphics failures. Independent review scored **8/10 for PC diagnostic readiness** and independently reran all checks; see REVIEW.md. No successful Quest sharpness result is claimed. Use [Build 003](https://p0champ.github.io/bradbury-cabin/?v=3) and retry entry first.
+
+---
+
 # Build 002 update
 
 The first Quest attempt exposed a startup error that the original PC mock did not enforce. A stricter test reproduced it. The fix removes the legacy `baseLayer` property from layer-enabled render-state updates, including the texture fallback. Header **BUILD 002** and the versioned script identify the update. Use [the fresh test link](https://p0champ.github.io/bradbury-cabin/?v=2) and retry the checklist below. The independent hotfix review scored **8/10 for PC readiness**, with all 4 core and 30 browser checks independently passing. No successful Quest sharpness result has been recorded.
@@ -13,7 +21,7 @@ You get a warm reading page with Blake's **The Sick Rose** and an opening excerp
 | Status | Result |
 | --- | --- |
 | Built | Phase 0 only |
-| PC-tested | 4 core tests + 30 isolated Chromium checks passed |
+| PC-tested | 4 core tests + 55 isolated Chromium checks passed |
 | Reviewed | Separate critic: **6.5 → 8/10**, two rounds; final score is for PC readiness |
 | Committed | `phase-0-crispness` branch, pushed to the public repository |
 | Deployed | GitHub Pages, from the Phase 0 branch; no main push |

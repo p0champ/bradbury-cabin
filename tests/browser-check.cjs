@@ -6,7 +6,16 @@ const out = path.resolve(process.env.CABIN_EVIDENCE_DIR || "evidence");
 async function mock(page, scenario = "layer", lying = false) {
   await page.addInitScript(
     ({ scenario, lying }) => {
-      WebGL2RenderingContext.prototype.makeXRCompatible = async () => {};
+      const compatible = new WeakSet();
+      WebGL2RenderingContext.prototype.makeXRCompatible = async function () {
+        compatible.add(this);
+      };
+      const createShader = WebGL2RenderingContext.prototype.createShader;
+      WebGL2RenderingContext.prototype.createShader = function (...args) {
+        if (!compatible.has(this))
+          throw Error("GPU resources created before XR compatibility");
+        return createShader.apply(this, args);
+      };
       class Transform {
         constructor(p = {}, q = { x: 0, y: 0, z: 0, w: 1 }) {
           this.position = { x: p.x || 0, y: p.y || 0, z: p.z || 0, w: 1 };
@@ -35,7 +44,14 @@ async function mock(page, scenario = "layer", lying = false) {
         }
       }
       window.XRRigidTransform = Transform;
-      window.__mock = { scenario, lying, placed: [], draws: 0 };
+      window.__mock = {
+        scenario,
+        lying,
+        placed: [],
+        draws: 0,
+        projectionDraws: 0,
+        uploads: 0,
+      };
       const head = () => {
         const angle = Math.atan((window.__mock.offsetX || 0) / 1.1) / 2,
           c = Math.cos(angle),
@@ -79,6 +95,7 @@ async function mock(page, scenario = "layer", lying = false) {
         session.pendingState = s;
       };
       session.end = async () => {
+        session.ended = true;
         session.dispatchEvent(new Event("end"));
       };
       session.requestAnimationFrame = (fn) => {
@@ -98,7 +115,23 @@ async function mock(page, scenario = "layer", lying = false) {
               ? null
               : {
                   transform: head(),
-                  views: [{ projectionMatrix: projection, transform: head() }],
+                  views:
+                    scenario === "stereo-layer"
+                      ? ["left", "right"].map((eye) => ({
+                          eye,
+                          projectionMatrix: projection,
+                          transform: new Transform(
+                            {
+                              x:
+                                head().position.x +
+                                (eye === "left" ? -0.032 : 0.032),
+                              y: head().position.y,
+                              z: head().position.z,
+                            },
+                            head().orientation,
+                          ),
+                        }))
+                      : [{ projectionMatrix: projection, transform: head() }],
                 },
           getJointPose: (joint) =>
             joint?.pose ? { transform: new Transform(joint.pose) } : null,
@@ -106,7 +139,72 @@ async function mock(page, scenario = "layer", lying = false) {
         };
         const cb = callback;
         callback = null;
-        if (cb) cb(performance.now(), frame);
+        if (cb) {
+          window.__mock.inFrame = true;
+          cb(performance.now(), frame);
+          window.__mock.inFrame = false;
+          if (!session.ended && gl.getParameter(gl.TEXTURE_BINDING_2D) !== null)
+            throw Error("Layer texture remains bound after XR callback");
+          if (window.__mock.attachments?.some(Boolean))
+            throw Error("Projection texture remained attached after callback");
+          // Synthetic preview only; the real browser compositor owns this step.
+          const tex = session.renderState.layers?.includes(
+            window.__mock.projection,
+          )
+            ? window.__mock.projectionTexture
+            : window.__mock.texture;
+          if (!session.ended && tex) {
+            const fbo = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.READ_FRAMEBUFFER, fbo);
+            gl.framebufferTexture2D(
+              gl.READ_FRAMEBUFFER,
+              gl.COLOR_ATTACHMENT0,
+              gl.TEXTURE_2D,
+              tex,
+              0,
+            );
+
+            const projection = session.renderState.layers?.includes(
+              window.__mock.projection,
+            );
+            const width = projection ? 1200 : window.__mock.quadWidth,
+              height = projection ? 1000 : window.__mock.quadHeight;
+            const pixels = new Uint8Array(width * height * 4);
+            gl.readPixels(
+              0,
+              0,
+              width,
+              height,
+              gl.RGBA,
+              gl.UNSIGNED_BYTE,
+              pixels,
+            );
+            const flipped = new Uint8ClampedArray(pixels.length);
+            for (let y = 0; y < height; y++)
+              flipped.set(
+                pixels.subarray(y * width * 4, (y + 1) * width * 4),
+                (height - 1 - y) * width * 4,
+              );
+            window.__mock.latestPixels = flipped;
+            let preview = document.querySelector("#xr-preview");
+            if (!preview) {
+              preview = document.createElement("canvas");
+              preview.id = "xr-preview";
+              document.body.append(preview);
+            }
+            preview.width = 1200;
+            preview.height = 1000;
+            const staging = document.createElement("canvas");
+            staging.width = width;
+            staging.height = height;
+            staging
+              .getContext("2d")
+              .putImageData(new ImageData(flipped, width, height), 0, 0);
+            preview.getContext("2d").drawImage(staging, 0, 0, 1200, 1000);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.deleteFramebuffer(fbo);
+          }
+        }
       };
       window.__hand = (distance) => {
         const jointA = {
@@ -130,11 +228,91 @@ async function mock(page, scenario = "layer", lying = false) {
         session.dispatchEvent(e);
       };
       window.__mock.session = session;
+      function setupGL(g) {
+        gl = g;
+        g.canvas.width = 1200;
+        g.canvas.height = 1000;
+        if (window.__mock.glReady) return;
+        window.__mock.glReady = true;
+        const opaque = new Set();
+        window.__mock.opaque = opaque;
+        let injected = 0;
+        const getError = g.getError.bind(g);
+        g.getError = () => {
+          if (injected) {
+            const code = injected;
+            injected = 0;
+            return code;
+          }
+          return getError();
+        };
+        const texImage = g.texImage2D.bind(g);
+        g.texImage2D = (...args) => {
+          if (opaque.has(g.getParameter(g.TEXTURE_BINDING_2D)))
+            throw Error("Opaque texture was reallocated");
+          return texImage(...args);
+        };
+        const subImage = g.texSubImage2D.bind(g);
+        g.texSubImage2D = (...args) => {
+          if (g.getParameter(g.TEXTURE_BINDING_2D) === window.__mock.texture) {
+            window.__mock.uploads++;
+            if (scenario === "quad-gl-error") {
+              injected = g.INVALID_OPERATION;
+              return;
+            }
+          }
+          return subImage(...args);
+        };
+        const mipmap = g.generateMipmap.bind(g);
+        g.generateMipmap = (...args) => {
+          if (opaque.has(g.getParameter(g.TEXTURE_BINDING_2D)))
+            throw Error("Opaque texture mipmaps generated");
+          if (scenario === "source-gl-error") {
+            injected = g.INVALID_VALUE;
+            return;
+          }
+          return mipmap(...args);
+        };
+        const attach = g.framebufferTexture2D.bind(g);
+        g.framebufferTexture2D = (...args) => {
+          if (window.__mock.inFrame) {
+            const slot = args[1] === g.COLOR_ATTACHMENT0 ? 0 : 1;
+            window.__mock.attachments ||= [null, null];
+            window.__mock.attachments[slot] = args[3];
+          }
+          if (
+            window.__mock.inFrame &&
+            args[3] &&
+            args[3] === window.__mock.texture
+          )
+            throw Error("A attached its quad texture instead of direct upload");
+          return attach(...args);
+        };
+        const draw = g.drawArrays.bind(g);
+        g.drawArrays = (...args) => {
+          if (window.__mock.inFrame) window.__mock.projectionDraws++;
+          if (scenario === "projection-gl-error") {
+            injected = g.INVALID_FRAMEBUFFER_OPERATION;
+            return;
+          }
+          return draw(...args);
+        };
+      }
+      function colorTexture(width, height) {
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8, width, height);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        window.__mock.opaque.add(tex);
+        return tex;
+      }
       window.XRWebGLLayer = class {
         constructor(s, g) {
-          gl = g;
-          g.canvas.width = 1200;
-          g.canvas.height = 1000;
+          if (layersEnabled)
+            throw Error("Legacy eye buffer created in a Layers session");
+          setupGL(g);
           this.framebuffer = null;
           this.fixedFoveation = 1;
         }
@@ -143,16 +321,55 @@ async function mock(page, scenario = "layer", lying = false) {
         }
       };
       window.XRWebGLBinding = class {
-        constructor() {}
+        constructor(s, g) {
+          setupGL(g);
+        }
+        createProjectionLayer(init) {
+          if (!layersEnabled) throw Error("Layers not enabled");
+          if (init.textureType !== "texture")
+            throw Error("Expected 2D projection texture");
+          const tex = colorTexture(1200, 1000);
+          const depth = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, depth);
+          gl.texStorage2D(gl.TEXTURE_2D, 1, gl.DEPTH_COMPONENT24, 1200, 1000);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+          gl.bindTexture(gl.TEXTURE_2D, null);
+          window.__mock.opaque.add(depth);
+          window.__mock.depthTexture = depth;
+          window.__mock.projectionTexture = tex;
+          const layer = {
+            fixedFoveation: 1,
+            destroy() {
+              gl.deleteTexture(tex);
+              gl.deleteTexture(depth);
+            },
+          };
+          window.__mock.projection = layer;
+          return layer;
+        }
+        getViewSubImage(layer, view) {
+          if (!session.renderState.layers?.includes(layer))
+            throw Error("Projection not active yet");
+          return {
+            colorTexture: window.__mock.projectionTexture,
+            depthStencilTexture: window.__mock.depthTexture,
+            viewport: {
+              x: view.eye === "right" ? 600 : 0,
+              y: 0,
+              width: view.eye ? 600 : 1200,
+              height: 1000,
+            },
+          };
+        }
         createQuadLayer() {
           if (scenario.startsWith("no-layer"))
             throw Error("Deliberate unsupported layer fixture");
-          const tex = gl.createTexture();
-          gl.bindTexture(gl.TEXTURE_2D, tex);
-          gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8, 2048, 2560);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-          gl.bindTexture(gl.TEXTURE_2D, null);
+          const width = scenario === "clamped-layer" ? 1024 : 2048,
+            height = scenario === "clamped-layer" ? 1280 : 2560;
+          const tex = colorTexture(width, height);
+          window.__mock.quadWidth = width;
+          window.__mock.quadHeight = height;
           window.__mock.texture = tex;
           const layer = {
             set transform(v) {
@@ -173,7 +390,12 @@ async function mock(page, scenario = "layer", lying = false) {
           window.__mock.draws++;
           return {
             colorTexture: window.__mock.texture,
-            viewport: { x: 0, y: 0, width: 2048, height: 2560 },
+            viewport: {
+              x: 0,
+              y: 0,
+              width: window.__mock.quadWidth,
+              height: window.__mock.quadHeight,
+            },
           };
         }
       };
@@ -281,11 +503,16 @@ async function mock(page, scenario = "layer", lying = false) {
     for (const [scenario, lying] of [
       ["layer", false],
       ["layer", true],
+      ["clamped-layer", false],
+      ["stereo-layer", false],
       ["no-layer", false],
       ["no-layers-feature", false],
       ["no-layer-unreported", false],
       ["no-layers-feature-unreported", false],
       ["draw-failure", false],
+      ["source-gl-error", false],
+      ["quad-gl-error", false],
+      ["projection-gl-error", false],
       ["opaque", false],
       ["deny", false],
     ]) {
@@ -299,7 +526,7 @@ async function mock(page, scenario = "layer", lying = false) {
       await p.locator("#enter:not([disabled])").waitFor();
       await p.locator("#enter").click();
       await p.evaluate(() => __step());
-      if (scenario === "layer") {
+      if (["layer", "clamped-layer", "stereo-layer"].includes(scenario)) {
         assert.match(
           await p.locator("#status").textContent(),
           /Compositor layer drawn/,
@@ -307,6 +534,41 @@ async function mock(page, scenario = "layer", lying = false) {
         const before = await p.evaluate(() => __mock.placed[0]);
         await p.evaluate(() => __step());
         assert.equal(await p.evaluate(() => __mock.placed.length), 1);
+        assert.equal(await p.evaluate(() => __mock.uploads), 1);
+        assert.equal(await p.evaluate(() => __mock.projectionDraws), 0);
+        const differences = await p.evaluate(() => {
+          const m = __mock,
+            source = document.querySelector("#page"),
+            expected = document.createElement("canvas");
+          expected.width = m.quadWidth;
+          expected.height = m.quadHeight;
+          expected
+            .getContext("2d")
+            .drawImage(source, 0, 0, expected.width, expected.height);
+          const bytes = expected
+            .getContext("2d")
+            .getImageData(0, 0, expected.width, expected.height).data;
+          let differences = 0;
+          for (let y = 0; y < expected.height; y += 61)
+            for (let x = 0; x < expected.width; x += 59) {
+              const i = (y * expected.width + x) * 4;
+              for (let c = 0; c < 4; c++)
+                if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
+            }
+          return differences;
+        });
+        assert.equal(differences, 0);
+        await p.locator("#xr-preview").screenshot({
+          path: path.join(
+            out,
+            `quad-buffer-${scenario}-${lying ? "lying" : "front"}.png`,
+          ),
+        });
+        passed(
+          "A uploads pixels directly with correct orientation and skips unchanged uploads: " +
+            scenario +
+            (lying ? " lying" : ""),
+        );
         if (lying) {
           assert.ok(Math.abs(before[13] - 1.8) < 1e-5);
           assert.ok(Math.abs(before[14]) < 1e-5);
@@ -317,7 +579,7 @@ async function mock(page, scenario = "layer", lying = false) {
           __step();
           document.querySelector("#xr").hidden = false;
         });
-        await p.locator("#xr").screenshot({
+        await p.locator("#xr-preview").screenshot({
           path: path.join(
             out,
             lying
@@ -329,11 +591,38 @@ async function mock(page, scenario = "layer", lying = false) {
           await p.locator("#mode-label").textContent(),
           /ordinary texture/,
         );
+        if (scenario === "stereo-layer") {
+          assert.equal(await p.evaluate(() => __mock.projectionDraws), 2);
+          const inkPerEye = await p.evaluate(() =>
+            [0, 600].map((start) => {
+              let count = 0;
+              for (let y = 100; y < 900; y += 2)
+                for (let x = start; x < start + 600; x += 2) {
+                  const i = (y * 1200 + x) * 4;
+                  if (
+                    __mock.latestPixels[i] < 200 &&
+                    __mock.latestPixels[i + 3] > 200
+                  )
+                    count++;
+                }
+              return count;
+            }),
+          );
+          await p
+            .locator("#xr-preview")
+            .screenshot({
+              path: path.join(out, "simulated-stereo-texture.png"),
+            });
+          assert.ok(inkPerEye.every((count) => count > 10));
+          passed(
+            "both eye atlas viewports contain text and real depth attachments are detached",
+          );
+        }
         await p.evaluate(() => {
           __mock.offsetX = 0.25;
           __step();
         });
-        await p.locator("#xr").screenshot({
+        await p.locator("#xr-preview").screenshot({
           path: path.join(
             out,
             lying ? "simulated-lying-side.png" : "simulated-side-texture.png",
@@ -402,6 +691,21 @@ async function mock(page, scenario = "layer", lying = false) {
           });
           assert.match(await p.locator("#place").textContent(), /Page 1/);
           passed("viewer pose loss disarms a previously open hand");
+          await p.locator("#compare").click();
+          await p.evaluate(() => __step());
+          await p.locator("#night").click();
+          await p.evaluate(() => __step());
+          const uploads = await p.evaluate(() => __mock.uploads);
+          await p.locator("#compare").click();
+          await p.evaluate(() => __step());
+          assert.ok(await p.evaluate((n) => __mock.uploads > n, uploads));
+          assert.deepEqual(
+            await p.evaluate(() => Array.from(__mock.latestPixels.slice(0, 3))),
+            [26, 33, 30],
+          );
+          await p.locator("#night").click();
+          await p.evaluate(() => __step());
+          passed("A refreshes after paper style changes in B");
         }
         await p.evaluate(() => {
           __hand(0.05);
@@ -442,6 +746,37 @@ async function mock(page, scenario = "layer", lying = false) {
           /comparison is blocked/,
         );
         passed("unsupported layer is honestly labelled and cannot enter A");
+      } else if (scenario.endsWith("gl-error")) {
+        if (
+          scenario === "projection-gl-error" ||
+          scenario === "source-gl-error"
+        ) {
+          await p.locator("#compare").click();
+          await p.evaluate(() => __step());
+        }
+        const stage =
+          scenario === "source-gl-error"
+            ? "comparison source upload"
+            : scenario === "quad-gl-error"
+              ? "quad page upload"
+              : "comparison projection draw";
+        assert.ok((await p.locator("#status").textContent()).includes(stage));
+        const download = p.waitForEvent("download");
+        await p.locator("#export").click();
+        const dl = await download;
+        const file = path.join(out, scenario + ".json");
+        await dl.saveAs(file);
+        const details = JSON.parse(await fs.readFile(file, "utf8"));
+        assert.equal(details.build, "phase0-003");
+        assert.equal(details.graphicsError.stage, stage);
+        assert.deepEqual(details.graphicsError.codes, [
+          scenario === "source-gl-error"
+            ? 1281
+            : scenario === "quad-gl-error"
+              ? 1282
+              : 1286,
+        ]);
+        passed("injected GL error is named and exported: " + stage);
       } else if (scenario === "draw-failure") {
         assert.match(await p.locator("#status").textContent(), /test stopped/);
         passed("draw failure ends XR and reports reason");

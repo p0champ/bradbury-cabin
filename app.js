@@ -7,7 +7,7 @@ import {
   placedPose,
   PinchGate,
 } from "./core.js";
-import { renderer, identity, multiply } from "./gl.js";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=3";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -19,6 +19,8 @@ const state = {
   session: null,
   hover: null,
   error: null,
+  graphicsError: null,
+  renderRoute: null,
   layerStatus: "not tested",
   actualPixels: null,
   blend: null,
@@ -35,6 +37,8 @@ let pages = [],
   lastAction = -Infinity,
   dirty = true,
   sessionGeneration = 0;
+let projectionRoute = false,
+  layerDirty = true;
 const hands = new Map();
 const report = (message) => {
   $("status").textContent = message;
@@ -107,6 +111,7 @@ function paint() {
     ? `${state.mode === "layer" ? "A · compositor layer" : "B · ordinary texture"} · ${state.blend}`
     : "PC preview · no headset quality claim";
   dirty = true;
+  layerDirty = true;
 }
 function action(id) {
   if (id === "prev") state.page = Math.max(0, state.page - 1);
@@ -145,7 +150,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "phase0-002",
+    build: "phase0-003",
     phase: 0,
     at: new Date().toISOString(),
     userAgent: navigator.userAgent,
@@ -160,6 +165,8 @@ $("export").onclick = () => {
     page: state.page + 1,
     pageTurns: state.turns,
     error: state.error,
+    graphicsError: state.graphicsError,
+    renderRoute: state.renderRoute,
     questQuality: "Requires Bastian’s judgement",
   };
   const url = URL.createObjectURL(
@@ -173,24 +180,11 @@ $("export").onclick = () => {
 };
 function applyLayers() {
   const session = state.session;
-  const layers = quad && state.mode === "layer" ? [base, quad] : [base];
-  // XRWebGLLayer is allowed inside the Layers list. Do not also send the
-  // legacy baseLayer property: Quest rejects its presence even when null.
-  if (quad || session.enabledFeatures?.includes("layers")) {
-    session.updateRenderState({ layers });
-    return;
-  }
-  if (session.enabledFeatures) {
-    session.updateRenderState({ baseLayer: base });
-    return;
-  }
-  // Older browsers may not expose enabledFeatures. Probe Layers first;
-  // only use the legacy route if that API rejects the list entirely.
-  try {
-    session.updateRenderState({ layers });
-  } catch {
-    session.updateRenderState({ baseLayer: base });
-  }
+  if (projectionRoute)
+    session.updateRenderState({
+      layers: quad && state.mode === "layer" ? [quad] : [base],
+    });
+  else session.updateRenderState({ baseLayer: base });
 }
 function hit(transform) {
   if (!placement || !transform) return null;
@@ -221,6 +215,8 @@ function cleanSession() {
   hands.clear();
   quad?.destroy();
   quad = null;
+  if (projectionRoute) base?.destroy();
+  projectionRoute = false;
   gpu?.dispose();
   gpu = null;
   placement = null;
@@ -236,6 +232,7 @@ async function enter() {
   if (state.session) return;
   $("enter").disabled = true;
   state.error = null;
+  state.graphicsError = null;
   state.actualPixels = null;
   state.layerStatus = "not tested";
   let session;
@@ -248,14 +245,42 @@ async function enter() {
     state.blend = session.environmentBlendMode;
     if (state.blend !== "alpha-blend")
       throw Error("This session does not provide passthrough alpha blending.");
-    gpu = renderer($("xr"));
-    await gpu.gl.makeXRCompatible();
+    gpu = await renderer($("xr"));
     ref = await session.requestReferenceSpace("local");
-    base = new XRWebGLLayer(session, gpu.gl, { alpha: true, antialias: true });
+    projectionRoute = false;
+    if (
+      globalThis.XRWebGLBinding &&
+      session.enabledFeatures?.includes("layers") !== false
+    ) {
+      try {
+        binding = new XRWebGLBinding(session, gpu.gl);
+        base = binding.createProjectionLayer({
+          textureType: "texture",
+          colorFormat: gpu.gl.RGBA,
+          depthFormat: gpu.gl.DEPTH_COMPONENT24,
+        });
+        session.updateRenderState({ layers: [base] });
+        projectionRoute = true;
+      } catch (e) {
+        base?.destroy();
+        base = null;
+        binding = null;
+        if (session.enabledFeatures?.includes("layers")) throw e;
+      }
+    }
+    if (!projectionRoute)
+      base = new XRWebGLLayer(session, gpu.gl, {
+        alpha: true,
+        antialias: true,
+      });
+    state.renderRoute = projectionRoute
+      ? "native projection + quad"
+      : "legacy texture only";
     if ("fixedFoveation" in base) base.fixedFoveation = 0;
+    checkGl(gpu.gl, "XR layer setup");
     try {
-      if (!globalThis.XRWebGLBinding) throw Error("XRWebGLBinding is missing.");
-      binding = new XRWebGLBinding(session, gpu.gl);
+      if (!projectionRoute)
+        throw Error("Native Layers is unavailable in this session.");
       quad = binding.createQuadLayer({
         space: ref,
         viewPixelWidth: PAGE.width,
@@ -269,6 +294,7 @@ async function enter() {
       state.layerStatus = "created; awaiting first draw";
       state.mode = "layer";
       applyLayers();
+      checkGl(gpu.gl, "quad setup");
     } catch (e) {
       quad?.destroy();
       quad = null;
@@ -307,6 +333,7 @@ async function enter() {
     session.requestAnimationFrame((t, f) => frame(t, f, generation));
   } catch (e) {
     state.error = e.message;
+    state.graphicsError = e.graphics || null;
     report("Could not open the passthrough test: " + e.message);
     if (session) {
       await session.end();
@@ -369,67 +396,90 @@ function frame(time, xrFrame, generation) {
         if (h.gate.update(distance)) trigger(hover, time);
       }
       const { gl } = gpu;
-      if (dirty) {
+      // The comparison texture is independent of the compositor upload. A
+      // never needs its texImage2D/mipmap path; retain dirty until B uses it.
+      if (drawMode === "texture" && dirty) {
         gpu.upload(canvas);
+        checkGl(gl, "comparison source upload");
         dirty = false;
       }
       gl.disable(gl.DEPTH_TEST);
       gl.disable(gl.BLEND);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, base.framebuffer);
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
       if (drawMode === "texture") {
         const scale = new Float32Array(identity);
         scale[0] = PAGE.metresWide / 2;
         scale[5] = PAGE.metresHigh / 2;
         const model = multiply(placement.matrix, scale);
         for (const view of pose.views) {
-          const v = base.getViewport(view);
-          gl.viewport(v.x, v.y, v.width, v.height);
-          gpu.draw(
-            multiply(
-              view.projectionMatrix,
-              multiply(view.transform.inverse.matrix, model),
-            ),
-          );
+          let sub;
+          if (projectionRoute) {
+            sub = binding.getViewSubImage(base, view);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, gpu.fbo);
+            gl.framebufferTexture2D(
+              gl.FRAMEBUFFER,
+              gl.COLOR_ATTACHMENT0,
+              gl.TEXTURE_2D,
+              sub.colorTexture,
+              0,
+            );
+            if (sub.depthStencilTexture)
+              gl.framebufferTexture2D(
+                gl.FRAMEBUFFER,
+                gl.DEPTH_ATTACHMENT,
+                gl.TEXTURE_2D,
+                sub.depthStencilTexture,
+                0,
+              );
+          } else gl.bindFramebuffer(gl.FRAMEBUFFER, base.framebuffer);
+          try {
+            checkGl(gl, "projection attachment");
+            if (
+              gl.checkFramebufferStatus(gl.FRAMEBUFFER) !==
+              gl.FRAMEBUFFER_COMPLETE
+            )
+              throw Error("Comparison projection framebuffer is incomplete.");
+            const v = sub?.viewport || base.getViewport(view);
+            gl.viewport(v.x, v.y, v.width, v.height);
+            gl.enable(gl.SCISSOR_TEST);
+            gl.scissor(v.x, v.y, v.width, v.height);
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gpu.draw(
+              multiply(
+                view.projectionMatrix,
+                multiply(view.transform.inverse.matrix, model),
+              ),
+            );
+            checkGl(gl, "comparison projection draw");
+          } finally {
+            gl.disable(gl.SCISSOR_TEST);
+            if (projectionRoute) {
+              gl.framebufferTexture2D(
+                gl.FRAMEBUFFER,
+                gl.COLOR_ATTACHMENT0,
+                gl.TEXTURE_2D,
+                null,
+                0,
+              );
+              gl.framebufferTexture2D(
+                gl.FRAMEBUFFER,
+                gl.DEPTH_ATTACHMENT,
+                gl.TEXTURE_2D,
+                null,
+                0,
+              );
+            }
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          }
+          checkGl(gl, "projection cleanup");
         }
       }
-      if (drawMode === "layer" && quad) {
+      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
-        gl.bindFramebuffer(gl.FRAMEBUFFER, gpu.fbo);
-        gl.framebufferTexture2D(
-          gl.FRAMEBUFFER,
-          gl.COLOR_ATTACHMENT0,
-          gl.TEXTURE_2D,
-          sub.colorTexture,
-          0,
-        );
-        try {
-          if (
-            gl.checkFramebufferStatus(gl.FRAMEBUFFER) !==
-            gl.FRAMEBUFFER_COMPLETE
-          )
-            throw Error("Compositor framebuffer is incomplete.");
-          gl.viewport(
-            sub.viewport.x,
-            sub.viewport.y,
-            sub.viewport.width,
-            sub.viewport.height,
-          );
-          gpu.draw(identity);
-        } finally {
-          gl.framebufferTexture2D(
-            gl.FRAMEBUFFER,
-            gl.COLOR_ATTACHMENT0,
-            gl.TEXTURE_2D,
-            null,
-            0,
-          );
-          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        }
-        if (gl.getError() !== gl.NO_ERROR)
-          throw Error("WebGL reported an error drawing the compositor layer.");
+        checkGl(gl, "quad subimage acquisition");
+        gpu.copyPage(sub, canvas);
+        layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
           report(
@@ -440,6 +490,7 @@ function frame(time, xrFrame, generation) {
     }
   } catch (e) {
     state.error = e.message;
+    state.graphicsError = e.graphics || null;
     state.layerStatus = "failed: " + e.message;
     report(
       "The layer test stopped: " +
