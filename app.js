@@ -1,17 +1,38 @@
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=4";
 import {
-  PAGE,
-  SIZES,
-  layout,
-  controls,
-  controlAt,
-  placedPose,
-  PinchGate,
-} from "./core.js";
+  GestureEngine,
+  menuButtons,
+  menuHit,
+  nearFacePalm,
+} from "./gestures.js?v=4";
 import { renderer, identity, multiply, checkGl } from "./gl.js?v=3";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
+let preferences = {};
+try {
+  preferences = JSON.parse(localStorage.getItem("cabin-controls") || "{}");
+  if (
+    !preferences ||
+    typeof preferences !== "object" ||
+    Array.isArray(preferences)
+  )
+    preferences = {};
+} catch {}
+const savePreferences = () => {
+  try {
+    localStorage.setItem("cabin-controls", JSON.stringify(preferences));
+  } catch {}
+};
 const state = {
+  menuOpen: false,
+  practice: !preferences.practised,
+  swapped: !!preferences.swapped,
+  headPointer: !!preferences.headPointer,
+  holdProgress: 0,
+  practiceMarks: { next: false, prev: false, menu: false },
+  feedback: "",
+  feedbackUntil: 0,
   size: 1,
   night: false,
   page: 0,
@@ -39,11 +60,30 @@ let pages = [],
   sessionGeneration = 0;
 let projectionRoute = false,
   layerDirty = true;
-const hands = new Map();
+const gestures = new GestureEngine();
+let menuPlacement = null,
+  lastViewer = null,
+  lastDisplay = null,
+  pointerSource = null,
+  ending = false;
 const report = (message) => {
   $("status").textContent = message;
 };
 function paint() {
+  canvas.dataset.view = state.menuOpen
+    ? "menu"
+    : state.practice
+      ? "practice"
+      : "reading";
+  canvas.dataset.target = state.hover || "";
+  canvas.setAttribute(
+    "aria-label",
+    state.menuOpen
+      ? "Cabin controls menu"
+      : state.practice
+        ? "Gesture practice: Next, Back and Menu"
+        : "Public domain poem and short story excerpt",
+  );
   pages = layout(ctx, state.size);
   state.page = Math.min(state.page, pages.length - 1);
   const bg = state.night ? "#1a211e" : "#f7f0df",
@@ -66,35 +106,127 @@ function paint() {
   ctx.moveTo(180, 312);
   ctx.lineTo(1868, 312);
   ctx.stroke();
-  for (const b of pages[state.page]) {
-    ctx.fillStyle = b.kind === "meta" ? muted : ink;
-    ctx.font = `${b.kind === "meta" ? "" : b.kind === "title" ? "italic " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : "Literata, Georgia, serif"}`;
-    ctx.fillText(b.text, 194, b.y);
+  if (state.menuOpen) {
+    ctx.fillStyle = ink;
+    ctx.font = "72px Literata";
+    ctx.fillText("Make yourself comfortable.", 160, 440);
+    ctx.fillStyle = muted;
+    ctx.font = "36px Arial";
+    ctx.fillText(
+      state.headPointer
+        ? "Look at a button, pinch, then release."
+        : "Point until a button highlights, pinch, then release.",
+      160,
+      540,
+    );
+    for (const b of menuButtons) {
+      ctx.fillStyle =
+        state.hover === b.id ? muted : state.night ? "#29372f" : "#e8e6d7";
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.fillStyle = state.hover === b.id ? bg : ink;
+      ctx.font = "40px Arial";
+      ctx.textAlign = "center";
+      let label = b.label;
+      if (b.id === "swap")
+        label = state.swapped ? "Forward: left hand" : "Forward: right hand";
+      if (b.id === "pointer")
+        label = state.headPointer ? "Pointer: head" : "Pointer: hand";
+      if (b.id === "night")
+        label = state.night ? "Switch to paper" : "Switch to night";
+      if (b.id === "size")
+        label = "Text: " + ["Small", "Medium", "Large"][state.size];
+      ctx.fillText(label, b.x + b.w / 2, b.y + 108);
+    }
+    ctx.textAlign = "left";
+  } else if (state.practice) {
+    ctx.fillStyle = ink;
+    ctx.font = "76px Literata";
+    ctx.fillText("A moment to find your rhythm.", 160, 450);
+    ctx.fillStyle = muted;
+    ctx.font = "38px Arial";
+    ctx.fillText(
+      "Rest your hands anywhere the headset can see them.",
+      160,
+      560,
+    );
+    const rows = [
+      [
+        "next",
+        state.swapped
+          ? "Left pinch, then release"
+          : "Right pinch, then release",
+        "Next page",
+      ],
+      [
+        "prev",
+        state.swapped
+          ? "Right pinch, then release"
+          : "Left pinch, then release",
+        "Previous page",
+      ],
+      ["menu", "Hold either pinch for ¾ second", "Open the menu"],
+    ];
+    rows.forEach(([id, title, detail], i) => {
+      const y = 800 + i * 360;
+      ctx.fillStyle = state.night ? "#29372f" : "#e8e6d7";
+      ctx.fillRect(160, y - 110, 1720, 280);
+      ctx.fillStyle = ink;
+      ctx.font = "54px Literata";
+      ctx.fillText(
+        (state.practiceMarks[id] ? "✓  " : "0" + (i + 1) + "  ") + title,
+        220,
+        y,
+      );
+      ctx.fillStyle = muted;
+      ctx.font = "38px Arial";
+      ctx.fillText(detail, 320, y + 80);
+    });
+    ctx.fillStyle = muted;
+    ctx.font = "36px Arial";
+    ctx.fillText("Practice never changes your reading page.", 160, 1880);
+    ctx.fillText(
+      "Holding a pinch also lets you leave this practice.",
+      160,
+      1950,
+    );
+  } else {
+    for (const b of pages[state.page]) {
+      ctx.fillStyle = b.kind === "meta" ? muted : ink;
+      ctx.font = `${b.kind === "meta" ? "" : b.kind === "title" ? "italic " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : "Literata, Georgia, serif"}`;
+      ctx.fillText(b.text, 194, b.y);
+    }
   }
   ctx.fillStyle = muted;
-  ctx.font = "29px Arial";
+  ctx.font = "32px Arial";
+  ctx.textAlign = "left";
   ctx.fillText(
-    `${state.page + 1} / ${pages.length}     ·     ${["Small", "Medium", "Large"][state.size]}     ·     ${state.mode === "layer" ? "A · COMPOSITOR LAYER" : "B · ORDINARY TEXTURE"}`,
-    110,
+    `${state.page + 1} / ${pages.length}  ·  ${state.mode === "layer" ? "A · COMPOSITOR LAYER" : "B · ORDINARY TEXTURE"}`,
+    160,
     2175,
   );
-  for (const c of controls) {
-    ctx.fillStyle =
-      state.hover === c.id ? muted : state.night ? "#29372f" : "#e8e6d7";
-    ctx.fillRect(c.x, c.y, c.w, c.h);
-    ctx.fillStyle = state.hover === c.id ? bg : ink;
-    ctx.font = "34px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(c.label, c.x + c.w / 2, c.y + 62);
-  }
-  ctx.textAlign = "left";
-  ctx.fillStyle = muted;
-  ctx.font = "27px Arial";
+  ctx.font = "36px Arial";
   ctx.fillText(
-    "Look at a control + pinch. Pinch elsewhere to turn. Hold no pose.",
-    110,
-    2520,
+    state.feedback ||
+      (state.menuOpen
+        ? "Hold a pinch to close the menu."
+        : state.swapped
+          ? "Left: next   ·   Right: back   ·   Hold: menu"
+          : "Right: next   ·   Left: back   ·   Hold: menu"),
+    160,
+    2320,
   );
+  if (state.holdProgress > 0.15) {
+    ctx.fillStyle = state.night ? "#29372f" : "#e8e6d7";
+    ctx.fillRect(160, 2380, 1720, 20);
+    ctx.fillStyle = muted;
+    ctx.fillRect(160, 2380, 1720 * state.holdProgress, 20);
+    ctx.font = "30px Arial";
+    ctx.fillText(
+      state.menuOpen ? "Keep holding to close…" : "Keep holding for the menu…",
+      160,
+      2470,
+    );
+  }
   $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
   $("prev").disabled = state.page === 0;
   $("next").disabled = state.page === pages.length - 1;
@@ -105,6 +237,10 @@ function paint() {
     .forEach((b) =>
       b.setAttribute("aria-pressed", String(+b.dataset.size === state.size)),
     );
+  $("menu").textContent = state.menuOpen ? "Close menu" : "Open menu";
+  $("pointer").textContent = state.headPointer
+    ? "Menu pointer: head"
+    : "Menu pointer: hand";
   $("compare").textContent =
     state.mode === "layer" ? "Compare: texture" : "Compare: layer";
   $("mode-label").textContent = state.session
@@ -113,7 +249,91 @@ function paint() {
   dirty = true;
   layerDirty = true;
 }
+function presentPose() {
+  return state.menuOpen || state.practice
+    ? menuPlacement || placement
+    : placement;
+}
+function inFront() {
+  return state.session && lastViewer
+    ? new XRRigidTransform(
+        placedPose(lastViewer.matrix).position,
+        lastViewer.orientation,
+      )
+    : null;
+}
+function feedback(text) {
+  state.feedback = text;
+  state.feedbackUntil = performance.now() + 1800;
+}
+function toggleMenu(open = !state.menuOpen) {
+  state.menuOpen = open;
+  state.practice = false;
+  state.hover = null;
+  pointerSource = null;
+  state.holdProgress = 0;
+  if (open) menuPlacement = inFront();
+  gestures.setContext(open ? "menu" : "reading");
+  paint();
+}
+function gestureEvent(event) {
+  if (!event) return;
+  if (event.type === "menu") {
+    if (state.practice) {
+      state.practiceMarks.menu = true;
+      if (state.practiceMarks.next && state.practiceMarks.prev) {
+        preferences.practised = true;
+        savePreferences();
+      }
+    }
+    feedback(state.menuOpen ? "Reading" : "Menu");
+    toggleMenu();
+    return;
+  }
+  if (event.type === "select") {
+    action(event.target);
+    return;
+  }
+  const id = (event.hand === "right") !== state.swapped ? "next" : "prev";
+  if (state.practice) {
+    state.practiceMarks[id] = true;
+    feedback(id === "next" ? "NEXT ✓" : "BACK ✓");
+    paint();
+  } else {
+    feedback(id === "next" ? "Next page" : "Previous page");
+    action(id);
+  }
+}
 function action(id) {
+  if (id === "menu") {
+    toggleMenu();
+    return;
+  }
+  if (id === "resume") {
+    toggleMenu(false);
+    return;
+  }
+  if (id === "practice") {
+    state.practice = true;
+    state.menuOpen = false;
+    state.hover = null;
+    menuPlacement = inFront();
+    gestures.setContext("reading");
+    paint();
+    return;
+  }
+  if (id === "swap") {
+    state.swapped = !state.swapped;
+    preferences.swapped = state.swapped;
+    savePreferences();
+  }
+  if (id === "pointer") {
+    state.headPointer = !state.headPointer;
+    preferences.headPointer = state.headPointer;
+    savePreferences();
+    gestures.setContext(state.menuOpen ? "menu" : "reading");
+    state.hover = null;
+  }
   if (id === "prev") state.page = Math.max(0, state.page - 1);
   if (id === "next") {
     if (state.page < pages.length - 1) {
@@ -123,8 +343,12 @@ function action(id) {
   }
   if (id === "night") state.night = !state.night;
   if (id === "size") state.size = (state.size + 1) % 3;
-  if (id === "recenter") wantRecenter = true;
+  if (id === "recenter") {
+    wantRecenter = true;
+    toggleMenu(false);
+  }
   if (id === "exit") {
+    ending = true;
     state.session?.end();
     return;
   }
@@ -138,7 +362,16 @@ function action(id) {
   }
   paint();
 }
-for (const id of ["prev", "next", "night", "recenter", "compare"])
+for (const id of [
+  "prev",
+  "next",
+  "night",
+  "recenter",
+  "compare",
+  "menu",
+  "practice",
+  "pointer",
+])
   $(id).onclick = () => action(id);
 document.querySelectorAll("[data-size]").forEach(
   (b) =>
@@ -150,8 +383,13 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "phase0-003",
-    phase: 0,
+    build: "gestures-004",
+    phase: "1-gesture-trial",
+    controls: {
+      swapped: state.swapped,
+      pointer: state.headPointer ? "head" : "hand",
+      practiceMarks: state.practiceMarks,
+    },
     at: new Date().toISOString(),
     userAgent: navigator.userAgent,
     layerStatus: state.layerStatus,
@@ -167,7 +405,8 @@ $("export").onclick = () => {
     error: state.error,
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
-    questQuality: "Requires Bastian’s judgement",
+    questQuality:
+      "Bastian confirmed Build 003 crispness; Build 004 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -187,8 +426,9 @@ function applyLayers() {
   else session.updateRenderState({ baseLayer: base });
 }
 function hit(transform) {
-  if (!placement || !transform) return null;
-  const inv = placement.inverse.matrix,
+  const display = presentPose();
+  if (!state.menuOpen || !display || !transform) return null;
+  const inv = display.inverse.matrix,
     m = transform.matrix;
   const origin = new DOMPoint(m[12], m[13], m[14]).matrixTransform(
     new DOMMatrix(inv),
@@ -199,7 +439,7 @@ function hit(transform) {
   if (direction.z >= -0.0001) return null;
   const t = -origin.z / direction.z;
   if (t < 0) return null;
-  return controlAt(
+  return menuHit(
     ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
     (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
   );
@@ -207,12 +447,12 @@ function hit(transform) {
 function trigger(id, time = performance.now()) {
   if (time - lastAction < 450) return;
   lastAction = time;
-  action(id || "next");
+  if (id) action(id);
 }
 function cleanSession() {
   sessionGeneration++;
   state.session = null;
-  hands.clear();
+  gestures.reset();
   quad?.destroy();
   quad = null;
   if (projectionRoute) base?.destroy();
@@ -224,8 +464,13 @@ function cleanSession() {
   ref = null;
   base = null;
   state.hover = null;
+  state.menuOpen = false;
+  menuPlacement = null;
+  lastViewer = null;
+  lastDisplay = null;
+  ending = false;
   $("enter").disabled = false;
-  $("enter").textContent = "Enter the crispness test ↗";
+  $("enter").textContent = "Enter the cabin ↗";
   paint();
 }
 async function enter() {
@@ -307,26 +552,34 @@ async function enter() {
           " This cannot pass the crispness gate.",
       );
     }
+    ending = false;
+    state.menuOpen = false;
+    state.practice = !preferences.practised;
+    gestures.setContext("reading");
     wantRecenter = true;
     lastAction = -Infinity;
-    hands.clear();
+    gestures.reset();
     paint();
     session.addEventListener("select", (e) => {
-      const h = hands.get(e.inputSource);
-      if (e.inputSource.hand && h && performance.now() - h.lastJoint < 300)
-        return;
-      const pose = e.frame.getPose(e.inputSource.targetRaySpace, ref);
-      trigger(hit(pose?.transform) || state.hover);
+      if (e.inputSource.hand || ending) return;
+      const ray = e.frame.getPose(e.inputSource.targetRaySpace, ref);
+      if (state.menuOpen)
+        trigger(hit(state.headPointer ? lastViewer : ray?.transform));
+      else
+        gestureEvent({
+          type: "page",
+          hand: e.inputSource.handedness === "left" ? "left" : "right",
+        });
     });
     session.addEventListener("inputsourceschange", (e) => {
-      for (const source of e.removed) hands.delete(source);
+      for (const source of e.removed) gestures.cancel(source);
     });
     ref.addEventListener?.("reset", () => {
       wantRecenter = true;
-      hands.clear();
+      gestures.reset();
     });
     session.addEventListener("visibilitychange", () => {
-      hands.clear();
+      gestures.reset();
       lastAction = performance.now();
     });
     const generation = ++sessionGeneration;
@@ -353,7 +606,7 @@ function frame(time, xrFrame, generation) {
   try {
     const pose = xrFrame.getViewerPose(ref);
     if (!pose) {
-      hands.clear();
+      gestures.reset();
       if (state.hover) {
         state.hover = null;
         paint();
@@ -365,35 +618,89 @@ function frame(time, xrFrame, generation) {
           placedPose(pose.transform.matrix).position,
           pose.transform.orientation,
         );
-        if (quad) quad.transform = placement;
         wantRecenter = false;
       }
-      const hover = hit(pose.transform);
+      lastViewer = pose.transform;
+      if ((state.menuOpen || state.practice) && !menuPlacement)
+        menuPlacement = inFront();
+      const activeSources = new Set(session.inputSources);
+      for (const source of gestures.hands.keys())
+        if (!activeSources.has(source)) gestures.cancel(source);
+      const targets = new Map();
+      for (const source of session.inputSources) {
+        if (!source.hand) continue;
+        const joint = (name) => {
+          const space = source.hand.get(name);
+          return space ? xrFrame.getJointPose(space, ref) : null;
+        };
+        const a = joint("index-finger-tip"),
+          b = joint("thumb-tip");
+        const point = state.headPointer
+          ? pose.transform
+          : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
+        const target = state.menuOpen ? hit(point) : null;
+        targets.set(source, target);
+        const distance =
+          a && b
+            ? Math.hypot(
+                a.transform.position.x - b.transform.position.x,
+                a.transform.position.y - b.transform.position.y,
+                a.transform.position.z - b.transform.position.z,
+              )
+            : null;
+        const systemGesture = nearFacePalm(
+          joint("wrist")?.transform.position,
+          joint("index-finger-metacarpal")?.transform.position,
+          joint("pinky-finger-metacarpal")?.transform.position,
+          pose.transform.position,
+          source.handedness,
+          {
+            x: -pose.transform.matrix[8],
+            y: -pose.transform.matrix[9],
+            z: -pose.transform.matrix[10],
+          },
+        );
+        const event = gestures.update(source, {
+          distance,
+          time,
+          hand: source.handedness,
+          target,
+          systemGesture,
+        });
+        if (gestures.owner === source || event) pointerSource = source;
+        if (event) {
+          gestureEvent(event);
+          break;
+        }
+      }
+      if (ending || state.session !== session || !gpu) return;
+      let hover = null;
+      if (state.menuOpen) {
+        if (state.headPointer) hover = hit(pose.transform);
+        else if (gestures.owner) hover = targets.get(gestures.owner) || null;
+        else
+          hover =
+            targets.get(pointerSource) ||
+            [...targets.values()].find(Boolean) ||
+            null;
+      }
       if (hover !== state.hover) {
         state.hover = hover;
         paint();
       }
-      for (const source of session.inputSources) {
-        if (!source.hand) continue;
-        let h = hands.get(source);
-        if (!h) {
-          h = { gate: new PinchGate(), lastJoint: -Infinity };
-          hands.set(source, h);
-        }
-        const index = source.hand.get("index-finger-tip"),
-          thumb = source.hand.get("thumb-tip");
-        const a = index && xrFrame.getJointPose(index, ref),
-          b = thumb && xrFrame.getJointPose(thumb, ref);
-        let distance = null;
-        if (a && b) {
-          distance = Math.hypot(
-            a.transform.position.x - b.transform.position.x,
-            a.transform.position.y - b.transform.position.y,
-            a.transform.position.z - b.transform.position.z,
-          );
-          h.lastJoint = performance.now();
-        }
-        if (h.gate.update(distance)) trigger(hover, time);
+      const progress = Math.round(gestures.progress(time) * 10) / 10;
+      if (progress !== state.holdProgress) {
+        state.holdProgress = progress;
+        paint();
+      }
+      if (state.feedback && performance.now() > state.feedbackUntil) {
+        state.feedback = "";
+        paint();
+      }
+      const display = presentPose();
+      if (quad && display !== lastDisplay) {
+        quad.transform = display;
+        lastDisplay = display;
       }
       const { gl } = gpu;
       // The comparison texture is independent of the compositor upload. A
@@ -409,7 +716,7 @@ function frame(time, xrFrame, generation) {
         const scale = new Float32Array(identity);
         scale[0] = PAGE.metresWide / 2;
         scale[5] = PAGE.metresHigh / 2;
-        const model = multiply(placement.matrix, scale);
+        const model = multiply(display.matrix, scale);
         for (const view of pose.views) {
           let sub;
           if (projectionRoute) {
@@ -483,7 +790,7 @@ function frame(time, xrFrame, generation) {
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
           report(
-            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Headset crispness still needs your check.`,
+            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 004: practise Next, Back and Menu.`,
           );
         }
       }
@@ -516,7 +823,7 @@ if (!isSecureContext) {
     .then((ok) => {
       $("enter").disabled = !ok;
       $("enter").textContent = ok
-        ? "Enter the crispness test ↗"
+        ? "Enter the cabin ↗"
         : "Headset needed for passthrough";
       report(
         ok

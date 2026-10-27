@@ -6,6 +6,7 @@ const allowed = new Set([
   "style.css",
   "app.js",
   "core.js",
+  "gestures.js",
   "gl.js",
   "CREDITS.md",
   "QUEST_CHECK.md",

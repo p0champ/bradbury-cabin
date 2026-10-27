@@ -3,9 +3,15 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const out = path.resolve(process.env.CABIN_EVIDENCE_DIR || "evidence");
-async function mock(page, scenario = "layer", lying = false) {
+async function mock(
+  page,
+  scenario = "layer",
+  lying = false,
+  preferences = { practised: true, headPointer: true },
+) {
   await page.addInitScript(
-    ({ scenario, lying }) => {
+    ({ scenario, lying, preferences }) => {
+      localStorage.setItem("cabin-controls", JSON.stringify(preferences));
       const compatible = new WeakSet();
       WebGL2RenderingContext.prototype.makeXRCompatible = async function () {
         compatible.add(this);
@@ -104,7 +110,9 @@ async function mock(page, scenario = "layer", lying = false) {
       const projection = new Float32Array([
         1.1, 0, 0, 0, 0, 1.32, 0, 0, 0, 0, -1.002, -1, 0, 0, -0.2, 0,
       ]);
-      window.__step = () => {
+      window.__mock.clock = performance.now();
+      window.__step = (advance = 16) => {
+        window.__mock.clock += advance;
         if (session.pendingState) {
           session.renderState = session.pendingState;
           session.pendingState = null;
@@ -135,13 +143,20 @@ async function mock(page, scenario = "layer", lying = false) {
                 },
           getJointPose: (joint) =>
             joint?.pose ? { transform: new Transform(joint.pose) } : null,
-          getPose: () => ({ transform: head() }),
+          getPose: (space) => ({
+            transform: new Transform(
+              head().position,
+              window.__mock.rayByHand?.[space?.handedness] ||
+                window.__mock.rayLook ||
+                head().orientation,
+            ),
+          }),
         };
         const cb = callback;
         callback = null;
         if (cb) {
           window.__mock.inFrame = true;
-          cb(performance.now(), frame);
+          cb(window.__mock.clock, frame);
           window.__mock.inFrame = false;
           if (!session.ended && gl.getParameter(gl.TEXTURE_BINDING_2D) !== null)
             throw Error("Layer texture remains bound after XR callback");
@@ -200,26 +215,77 @@ async function mock(page, scenario = "layer", lying = false) {
             staging
               .getContext("2d")
               .putImageData(new ImageData(flipped, width, height), 0, 0);
-            preview.getContext("2d").drawImage(staging, 0, 0, 1200, 1000);
+            const shownWidth = projection ? 1200 : (1000 * width) / height;
+            preview
+              .getContext("2d")
+              .drawImage(staging, (1200 - shownWidth) / 2, 0, shownWidth, 1000);
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             gl.deleteFramebuffer(fbo);
           }
         }
       };
-      window.__hand = (distance) => {
-        const jointA = {
-            pose: distance == null ? null : { x: 0, y: 0.4, z: -0.3 },
-          },
-          jointB = {
-            pose: distance == null ? null : { x: distance, y: 0.4, z: -0.3 },
+      window.__hand = (distance, handedness = "right") => {
+        window.__mock.sources ||= {};
+        let source = window.__mock.sources[handedness];
+        if (!source) {
+          source = {
+            handedness,
+            targetRaySpace: { handedness },
+            hand: new Map([
+              ["index-finger-tip", {}],
+              ["thumb-tip", {}],
+            ]),
           };
-        const source = {
-          hand: new Map([
-            ["index-finger-tip", jointA],
-            ["thumb-tip", jointB],
-          ]),
-        };
+          window.__mock.sources[handedness] = source;
+        }
+        source.hand.get("index-finger-tip").pose =
+          distance == null ? null : { x: 0, y: 0.4, z: -0.3 };
+        source.hand.get("thumb-tip").pose =
+          distance == null ? null : { x: distance, y: 0.4, z: -0.3 };
         session.inputSources = [source];
+        return source;
+      };
+      window.__pinch = (hand = "right", duration = 120) => {
+        __hand(0.05, hand);
+        __step();
+        __hand(0.015, hand);
+        __step();
+        __step(duration);
+        __hand(0.05, hand);
+        __step();
+      };
+      window.__hold = (hand = "right") => {
+        __hand(0.05, hand);
+        __step();
+        __hand(0.015, hand);
+        __step();
+        __step(760);
+      };
+      window.__aim = async (id, rayOnly = false) => {
+        const { menuButtons } = await import("./gestures.js?v=4");
+        const button = menuButtons.find((b) => b.id === id);
+        const matrix = __mock.placed.at(-1);
+        const target = new DOMPoint(
+          ((button.x + button.w / 2) / 2048 - 0.5) * 0.72,
+          (0.5 - (button.y + button.h / 2) / 2560) * 0.9,
+          0,
+        ).matrixTransform(new DOMMatrix(matrix));
+        const p = head().position;
+        let x = target.x - p.x,
+          y = target.y - p.y,
+          z = target.z - p.z;
+        const length = Math.hypot(x, y, z);
+        x /= length;
+        y /= length;
+        z /= length;
+        const norm = Math.hypot(y, -x, 1 - z),
+          q = { x: y / norm, y: -x / norm, z: 0, w: (1 - z) / norm };
+        if (typeof rayOnly === "string") {
+          __mock.rayByHand ||= {};
+          __mock.rayByHand[rayOnly] = q;
+        } else if (rayOnly) __mock.rayLook = q;
+        else __mock.look = q;
+        __step();
       };
       window.__select = () => {
         const e = new Event("select");
@@ -405,12 +471,13 @@ async function mock(page, scenario = "layer", lying = false) {
           requestSession: async () => {
             if (scenario === "deny")
               throw Error("Deliberate permission denial");
+            session.ended = false;
             return session;
           },
         },
       });
     },
-    { scenario, lying },
+    { scenario, lying, preferences },
   );
 }
 (async () => {
@@ -430,6 +497,12 @@ async function mock(page, scenario = "layer", lying = false) {
     const page = await browser.newPage({
       viewport: { width: 1440, height: 1100 },
     });
+    await page.addInitScript(() =>
+      localStorage.setItem(
+        "cabin-controls",
+        JSON.stringify({ practised: true, headPointer: true }),
+      ),
+    );
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("http://127.0.0.1:18140");
@@ -608,11 +681,9 @@ async function mock(page, scenario = "layer", lying = false) {
               return count;
             }),
           );
-          await p
-            .locator("#xr-preview")
-            .screenshot({
-              path: path.join(out, "simulated-stereo-texture.png"),
-            });
+          await p.locator("#xr-preview").screenshot({
+            path: path.join(out, "simulated-stereo-texture.png"),
+          });
           assert.ok(inkPerEye.every((count) => count > 10));
           passed(
             "both eye atlas viewports contain text and real depth attachments are detached",
@@ -640,31 +711,22 @@ async function mock(page, scenario = "layer", lying = false) {
         assert.equal(await p.evaluate(() => __mock.placed.length), 2);
         passed("re-centre applies only on request");
         if (!lying) {
+          await p.evaluate(() => __hold());
+          assert.match(await p.locator("#menu").textContent(), /Close/);
+          assert.match(await p.locator("#place").textContent(), /Page 1/);
           await p.evaluate(() => {
-            __mock.look = {
-              x: -0.15,
-              y: -0.035,
-              z: 0,
-              w: Math.sqrt(1 - 0.15 ** 2 - 0.035 ** 2),
-            };
             __hand(0.05);
             __step();
-            __mock.session.inputSources[0].hand.get("thumb-tip").pose.x = 0.015;
-            __step();
           });
+          await p.evaluate(() => __aim("compare"));
+          await p.evaluate(() => __pinch());
+          await p.evaluate(() => __step());
           assert.match(
             await p.locator("#mode-label").textContent(),
             /ordinary texture/,
           );
+          await p.evaluate(() => __pinch());
           await p.evaluate(() => __step());
-          await p.waitForTimeout(480);
-          await p.evaluate(() => {
-            __mock.session.inputSources[0].hand.get("thumb-tip").pose.x = 0.05;
-            __step();
-            __mock.session.inputSources[0].hand.get("thumb-tip").pose.x = 0.015;
-            __step();
-            __step();
-          });
           assert.match(
             await p.locator("#mode-label").textContent(),
             /compositor layer/,
@@ -674,23 +736,32 @@ async function mock(page, scenario = "layer", lying = false) {
             /stopped/,
           );
           passed(
-            "gaze + hand A to B to A respects next-frame render-state changes",
+            "release selects A to B to A only inside the menu, with pending frame changes",
           );
-          await p.waitForTimeout(480);
           await p.evaluate(() => {
             __mock.look = null;
+            __hold();
+            __hand(0.05);
+            __step();
+          });
+          await p.evaluate(() => {
             __mock.session.inputSources = [];
             __step();
             __hand(0.05);
             __step();
+            __hand(0.015);
+            __step();
             __mock.poseLost = true;
             __step();
-            __mock.session.inputSources[0].hand.get("thumb-tip").pose.x = 0.015;
             __mock.poseLost = false;
+            __step(120);
+            __hand(0.05);
             __step();
           });
           assert.match(await p.locator("#place").textContent(), /Page 1/);
-          passed("viewer pose loss disarms a previously open hand");
+          passed(
+            "viewer pose loss cancels a pending pinch without turning on release",
+          );
           await p.locator("#compare").click();
           await p.evaluate(() => __step());
           await p.locator("#night").click();
@@ -708,17 +779,27 @@ async function mock(page, scenario = "layer", lying = false) {
           passed("A refreshes after paper style changes in B");
         }
         await p.evaluate(() => {
+          __mock.look = null;
           __hand(0.05);
           __step();
+          __hand(0.015);
+          __step();
         });
+        assert.match(await p.locator("#place").textContent(), /Page 1/);
+        await p.evaluate(() => __step(120));
+        assert.match(await p.locator("#place").textContent(), /Page 1/);
         await p.evaluate(() => {
-          __mock.session.inputSources[0].hand.get("thumb-tip").pose.x = 0.015;
+          __hand(0.05);
           __step();
         });
         assert.match(await p.locator("#place").textContent(), /Page 2/);
         await p.evaluate(() => __step());
         assert.match(await p.locator("#place").textContent(), /Page 2/);
-        passed("hand away from page turns once and hold does not repeat");
+        await p.evaluate(() => __pinch("left"));
+        assert.match(await p.locator("#place").textContent(), /Page 1/);
+        passed(
+          "resting right/left pinches turn only on release and never by head target",
+        );
         const downloadWait = p.waitForEvent("download");
         await p.locator("#export").click();
         const dl = await downloadWait;
@@ -767,7 +848,7 @@ async function mock(page, scenario = "layer", lying = false) {
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "phase0-003");
+        assert.equal(details.build, "gestures-004");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -814,6 +895,247 @@ async function mock(page, scenario = "layer", lying = false) {
             (lying ? " lying" : ""),
         );
       }
+      await p.close();
+    }
+    for (const lying of [false, true]) {
+      const p = await browser.newPage({
+          viewport: { width: 1440, height: 1100 },
+        }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p, "layer", lying, {});
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").waitFor();
+      await p.locator("#enter").click();
+      await p.evaluate(() => __step());
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "practice",
+      );
+      await p.locator("#xr-preview").screenshot({
+        path: path.join(
+          out,
+          lying ? "practice-lying.png" : "practice-front.png",
+        ),
+      });
+      await p.evaluate(() => {
+        __pinch("right");
+        __pinch("left");
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      assert.equal(
+        await p.evaluate(
+          () => JSON.parse(localStorage.getItem("cabin-controls")).practised,
+        ),
+        true,
+      );
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step();
+      });
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "first-use practice recognises Next / Back / Menu, without changing pages or selecting on hold release" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => __aim("exit", "left"));
+      await p.evaluate(() => __aim("resume", "right"));
+      await p.evaluate(() => {
+        const l = __hand(0.05, "left"),
+          r = __hand(0.05, "right");
+        __mock.session.inputSources = [l, r];
+        __step();
+        r.hand.get("thumb-tip").pose.x = 0.015;
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-target"),
+        "resume",
+      );
+      await p.evaluate(() => {
+        __mock.sources.right.hand.get("thumb-tip").pose.x = 0.05;
+        __step(120);
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      assert.equal(await p.locator("#enter").isEnabled(), false);
+      await p.evaluate(() => {
+        __mock.rayByHand = {};
+        __hold();
+        __hand(0.05);
+        __step();
+      });
+      passed(
+        "the pinching owner controls highlight and selection even when the idle hand points at Exit" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __mock.rayLook = { x: 0, y: 1, z: 0, w: 0 };
+        __pinch();
+      });
+      assert.equal(
+        await p.locator("#night").getAttribute("aria-pressed"),
+        "false",
+      );
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      await p.evaluate(() => __aim("night", true));
+      await p.locator("#xr-preview").screenshot({
+        path: path.join(
+          out,
+          lying ? "menu-lying-pointed.png" : "menu-front-pointed.png",
+        ),
+      });
+      await p.locator("#compare").click();
+      await p.evaluate(() => __step());
+      await p
+        .locator("#xr-preview")
+        .screenshot({
+          path: path.join(
+            out,
+            lying ? "menu-world-lying.png" : "menu-world-front.png",
+          ),
+        });
+      await p.evaluate(() => {
+        __mock.offsetX = 0.25;
+        __step();
+      });
+      await p
+        .locator("#xr-preview")
+        .screenshot({
+          path: path.join(
+            out,
+            lying ? "menu-world-lying-side.png" : "menu-world-side.png",
+          ),
+        });
+      await p.evaluate(() => {
+        __mock.offsetX = 0;
+        __step();
+      });
+      await p.locator("#compare").click();
+      await p.evaluate(() => __step());
+      await p.evaluate(() => __pinch());
+      assert.equal(
+        await p.locator("#night").getAttribute("aria-pressed"),
+        "true",
+      );
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "menu uses the hand ray; an un-targeted pinch never follows head direction or turns a page" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hold("left");
+        __hand(0.05, "left");
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      const readingPose = await p.evaluate(() => __mock.placed.at(-1));
+      await p.evaluate(() => {
+        __mock.offsetX = 0.45;
+        __hold();
+        __hand(0.05);
+        __step();
+      });
+      const menuPose = await p.evaluate(() => __mock.placed.at(-1));
+      assert.notDeepEqual(menuPose, readingPose);
+      await p.evaluate(() => {
+        __mock.offsetX = 0.6;
+        __step();
+      });
+      assert.deepEqual(await p.evaluate(() => __mock.placed.at(-1)), menuPose);
+      await p.evaluate(() => {
+        __hold("left");
+        __hand(0.05, "left");
+        __step();
+      });
+      assert.deepEqual(
+        await p.evaluate(() => __mock.placed.at(-1)),
+        readingPose,
+      );
+      passed(
+        "menu is summoned into current view, stays still, and restores the original reading placement" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hold();
+        __hand(0.05);
+        __step();
+      });
+      await p.evaluate(() => __aim("swap", true));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(() => {
+        __hold("left");
+        __hand(0.05, "left");
+        __step();
+        __pinch("left");
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("right"));
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      assert.equal(
+        await p.evaluate(
+          () => JSON.parse(localStorage.getItem("cabin-controls")).swapped,
+        ),
+        true,
+      );
+      passed(
+        "swapping hands changes both reading directions and saves the preference" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hold();
+        __hand(0.05);
+        __step();
+      });
+      await p.evaluate(() => __aim("recenter", true));
+      await p.evaluate(() => {
+        __pinch();
+        __step();
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      assert.notDeepEqual(
+        await p.evaluate(() => __mock.placed.at(-1)),
+        readingPose,
+      );
+      passed(
+        "only explicit Re-centre moves the reading page to the current view" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        __hold();
+        __hand(0.05);
+        __step();
+      });
+      await p.evaluate(() => __aim("exit", true));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#enter").isEnabled(), true);
+      assert.deepEqual(errors, []);
+      passed(
+        "menu Exit safely ends the active XR callback" +
+          (lying ? " lying" : ""),
+      );
+      await p.locator("#enter").click();
+      await p.evaluate(() => __step());
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      assert.deepEqual(errors, []);
+      passed(
+        "completed practice is remembered on XR re-entry" +
+          (lying ? " lying" : ""),
+      );
       await p.close();
     }
     await fs.writeFile(

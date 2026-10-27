@@ -73,29 +73,6 @@ export function layout(ctx, size) {
   if (page.length) pages.push(page);
   return pages;
 }
-export const controls = [
-  ["prev", "← Back"],
-  ["next", "Next →"],
-  ["compare", "A / B"],
-  ["night", "Paper / Night"],
-  ["size", "Text size"],
-  ["recenter", "Re-centre"],
-  ["exit", "Exit"],
-].map(([id, label], i) => ({
-  id,
-  label,
-  x: 110 + (i % 4) * 465,
-  y: 2230 + Math.floor(i / 4) * 130,
-  w: 435,
-  h: 100,
-}));
-export function controlAt(x, y) {
-  return (
-    controls.find(
-      (c) => x >= c.x && x <= c.x + c.w && y >= c.y && y <= c.y + c.h,
-    )?.id ?? null
-  );
-}
 export function placedPose(matrix) {
   return {
     position: {
@@ -104,26 +81,4 @@ export function placedPose(matrix) {
       z: matrix[14] - matrix[10] * PAGE.distance,
     },
   };
-}
-export class PinchGate {
-  constructor() {
-    this.closed = false;
-    this.armed = false;
-  }
-  update(distance) {
-    if (distance == null) {
-      this.closed = false;
-      this.armed = false;
-      return false;
-    }
-    if (distance > 0.04) {
-      this.closed = false;
-      this.armed = true;
-    }
-    if (distance < 0.025 && !this.closed && this.armed) {
-      this.closed = true;
-      return true;
-    }
-    return false;
-  }
 }

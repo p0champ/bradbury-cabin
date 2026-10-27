@@ -1,12 +1,12 @@
-# Bradbury Cabin — Phase 0
+# Bradbury Cabin — Phase 1 gesture trial
 
-A passthrough WebXR reading sharpness experiment for Meta Quest 3. Stop at this phase until Bastian checks the headset and explicitly approves Phase 1.
+A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 004 is the first Phase 1 step: a focused gesture and menu trial. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
 
 ## Run
 
-`npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the small geometry/input suite. No installation is required for the app or those tests.
+`npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the gesture-state and geometry tests. No installation is required for the app or those tests.
 
-Open [the Phase 0 test](https://p0champ.github.io/bradbury-cabin/) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-0-crispness`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=4) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
@@ -23,9 +23,15 @@ Only `immersive-ar` with alpha blending is accepted. No opaque virtual world is 
 
 ## Hands and controls
 
-Open the pinch at least once after tracking starts. Either hand can pinch anywhere tracked to advance one page. Looking at a bottom control then pinching activates it instead. Head direction is a control pointer, not eye tracking; page-corner gaze turning is not implemented in Phase 0. Controller select also works as a backup. Hold a pinch and it will not repeat. Tracking loss disarms the gesture. Hand joint and select events are deduplicated. At the last page the reader stops; use Back to repeat.
+The reading and menu contexts are separate. In reading, right index/thumb pinch then release means Next; left means Back. Swap them in the menu if preferred. Neither looking at the page footer nor pointing at a button changes a reading pinch. Either hand held for 750 ms opens the menu; another hold closes it. A short pinch must last at least 60 ms, with 25/40 mm close/open hysteresis. A threshold-crossing release also counts as a hold. One gesture has one outcome, on release for short pinches. A hand must first open after entering tracking or after cancellation. The first pinching hand exclusively owns the gesture.
 
-Re-centre is on both the page and desktop toolbar. If the page is behind you, exit the immersive session with the Quest system menu, look in the desired direction, and re-enter.
+In the menu, point until a large button highlights, pinch, then release on the same button. The pinching hand owns the highlight; an idle hand cannot highlight a different button while it is selecting. A head-directed pointer is an optional menu-only setting, also selectable in the browser before entering if the hand ray is uncomfortable. Head direction is not eye tracking. Untargeted menu pinches do nothing. Releasing the hold that opened a menu cannot activate a button. Tracking loss, hidden session, input removal or space reset cancels the gesture.
+
+The menu is drawn through the same crisp layer at a separate position captured in front of the current view, then remains world-still. The reading page's original position is retained and restored when the menu closes. Only Re-centre changes that reading position. This is not a hand- or wrist-following menu. The reading page is hidden while the menu is shown. A practice panel appears on first entry and recognises Next/Back/Menu without changing pages. Complete all three to remember that practice was done; repeat it from the menu.
+
+Hand-swap, menu-pointer and practice-complete preferences are best-effort browser settings. They are not reading history and do not replace the future durable progress store. Native hand select events are ignored to avoid double handling alongside joint gestures. Controller select is a limited backup for page turns/menu buttons; full controller interaction is not part of this trial.
+
+[Meta's WebXR Hands guidance](https://developers.meta.com/vr/documentation/web/webxr-hands/) reserves near-face palm pinches for browser/system menus. The app cancels custom recognition for a palm facing the viewer, within 0.5 m and in a narrow forward viewing cone. That is a best-effort geometric guard; WebXR does not expose the native SDK's system-gesture flag. Ordinary resting hands outside that near-face cone remain usable. Browser system controls retain priority.
 
 ## Failure behaviour
 
@@ -35,7 +41,7 @@ The texture fallback is free and stays web-based, but adds the scene's eye-buffe
 
 ## Primary references checked 27 October 2026
 
-- [Meta: WebXR Layers](https://developers.meta.com/vr/documentation/web/webxr-layers/): Quest Browser documentation and single-sampling rationale. Support on this particular headset/browser version remains unverified.
+- [Meta: WebXR Layers](https://developers.meta.com/vr/documentation/web/webxr-layers/): Quest Browser documentation and single-sampling rationale. Build 003 crispness was confirmed by Bastian on his Quest; Build 004 gesture comfort/reliability still needs his check.
 - [W3C: WebXR Layers](https://www.w3.org/TR/webxrlayers-1/): layer construction, spaces, opaque texture lifecycle and framebuffer constraints.
 - [Immersive Web quad-layer sample](https://immersive-web.github.io/webxr-samples/layers-samples/quad-layer.html).
 

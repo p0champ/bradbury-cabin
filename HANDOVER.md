@@ -1,3 +1,21 @@
+# Build 004 — Phase 1 gesture trial
+
+Bastian explicitly reported Build 003: **“Very crisp we can move on.”** The Phase 0 crispness gate passed by the user's judgement. He requested a gesture-system brainstorm and approved the proposed right/left release turns, held menu, separate reading/menu contexts, and practice screen. Work is on `phase-1-gestures`, based on the passed `phase-0-crispness` Build 003 commit 10ee617. Do not claim all of Phase 1 is built: full-work pagination, saved place, both moods and ambience remain pending.
+
+Build 004 adds right release Next / left release Back, hand swapping, either pinch held 750 ms to open/close the menu, explicit targets only in the menu, hand-ray default plus optional menu-only head pointer, visual hold progress and action feedback. One hand owns a gesture. Short actions happen on release after at least 60 ms; an elapsed hold always wins, including when the threshold is crossed on a release frame. Tracking loss, visibility changes, reference resets and input removal cancel pending actions and require the hand to open again. Native hand select events do not duplicate joint processing. Near-face palm pinches are suppressed with a best-effort geometry/forward-cone check; system gesture detection is not a standard WebXR flag.
+
+The practice panel recognises Next, Back and Menu without advancing the sample text. All three marks remember practice completion in `cabin-controls`; hand-swap and pointer preferences use the same local setting. This is UI preference caching, not the future durable progress system. Menu Exit safely stops the callback even when cleanup is immediate. A first release after opening the menu never selects a button.
+
+The approved crisp rendering modules remain the Build 003 path. One quad temporarily shows the practice/menu panel at a separate captured pose. Closing restores the stored reading-page pose; only explicit Re-centre replaces that pose. The menu remains world-still after opening and does not follow either hand or head. B uses the same displayed pose, so A/B still agrees. `gestures.js` holds the recognizer and menu geometry; `app.js` manages contexts/presentation. Old PinchGate/reading footer hit targets were removed.
+
+PC-tested: **14 gesture/geometry tests +71 isolated Chromium checks**, including native layer regressions, real pixel readbacks and stereo depth, hold threshold boundary, tracking-loss cancellation, menu ownership/highlight with two simultaneous sources, practice, saved hand preference, menu placement/reading restoration, explicit re-centre, Exit and re-entry. Images under the task outputs/gesture-evidence show practice, menu and source readbacks plus world-projected front/side/lying views. These are synthetic XR tests, not device hand/comfort results.
+
+Independent critic round 1 found two P2s (hold-threshold release and wrong-hand menu highlight); both were fixed with regressions. Final independent round 2 reached **8/10 for PC gesture-trial readiness**, with all 14+71 checks independently passing; see GESTURE_REVIEW.md. The new Quest gate is gesture comfort and reliability, not another claim that crispness is untested. Follow QUEST_CHECK.md and GESTURE_REPORT.md. User-facing URL: https://p0champ.github.io/bradbury-cabin/?v=4 . App/core/gesture module URLs are versioned 4; diagnostic build is `gestures-004`. The graphics module remains v3.
+
+Hosting source is the root of `phase-1-gestures`. Preserve `phase-0-crispness` as the passed Build 003 reference. No main push or bridge change is involved. Before every commit and push scan the staged/committed contents for secrets. Local static preview is port 18140; never start or restart a second Sunnyvale bridge. No normal Chrome access, private data access or service restart occurred in this trial.
+
+---
+
 # Build 003 — Direct quad upload and precise graphics diagnostics
 
 Supersedes the rendering details of Build 002 below. Bastian’s second Quest attempt reached drawing, then stopped with the old generic `WebGL reported an error drawing the compositor layer` message. That check included errors from earlier operations, so the failing operation and original numeric GL code are **not known**. Do not claim the legacy framebuffer or shader was proven to be the cause.

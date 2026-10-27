@@ -1,14 +1,14 @@
-# Phase 0 — Bastian's headset check
+# Build 004 — the gesture trial
 
-Open https://p0champ.github.io/bradbury-cabin/?v=3 in Quest Browser (Build 003). GitHub Pages hosts the Phase 0 branch over HTTPS. It does not use the Sunnyvale bridge.
+Bastian passed the crispness gate on Build 003. This trial checks the new controls. Open [Build 004](https://p0champ.github.io/bradbury-cabin/?v=4) in Quest Browser with hand tracking on.
 
-1. In Quest Browser, open the published Cabin page. Turn on hand tracking. Lie down as you normally read.
-2. Look where you want the page and select **Enter the crispness test**. Allow the requested permissions. You should see your real room around the page.
-3. Confirm the footer says **A · COMPOSITOR LAYER**. If it says B immediately, or the browser reports a layer error, stop and save the test details; this is a failed gate.
-4. Read Blake's poem and the story excerpt. Look at **Text size** and pinch to cycle all three sizes. Look at **Paper / Night** and pinch to try both.
-5. Look at **A / B** and pinch several times, reading the same lines in each mode. Compare with the Disney+ app separately. Judge edge sharpness and comfort, not just how large the letters look.
-6. Look back at the text, open your fingers, then pinch with your hand resting low beside you wherever the headset still tracks it. One pinch should turn once. Keep it held: it should not keep turning. Look at **Back** and pinch to return.
-7. Move and turn your head. The page should remain still in the room. Look at **Re-centre**, pinch, and check that it moves to face your current view. If it is out of reach behind you, use the Quest menu to exit and re-enter while looking where you want it.
-8. Look at **Exit** and pinch. In the browser select **Save test details**. Tell the builder: A sharper/same/worse than B; close enough to Disney+ yes/no; chosen size and paper style; any double turns, drifting, missing text, discomfort, or errors. Only approve Phase 1 if the reading quality passes.
+1. Lie down, look where you want to read, and select **Enter the cabin**. On first use you should see practice. Open your fingers once so each hand is ready.
+2. Pinch briefly with your resting right hand, then **release**. Practice should tick **Next**. Your reading page should not advance during practice.
+3. Do the same with your left hand for **Back**. Then hold either pinch for about **¾ second**: a progress bar should appear and the menu should open. Release; no button should activate by itself.
+4. Point at **Return to reading** until it highlights, pinch, then release. If pointing is uncomfortable, **Pointer: hand** switches to a head-directed pointer inside the menu. That option is also in the browser before entering.
+5. Read the sample. Right pinch/release goes forward; left goes back. Try a few resting positions wherever the headset still tracks your hand. Looking around should not change these actions.
+6. Turn your head a little and hold a pinch for the menu. It should appear in your current view and stay still. Hold again to close it: the reading page should remain where you left it. **Re-centre page** deliberately moves that page in front of you.
+7. Try **Forward: right hand** to swap the hands. Check both directions. Try Paper/Night and Text size. Keep an idle hand visible while selecting with the other: the highlight must match the pinching hand.
+8. Use **Exit to browser**. Tell me whether Next/Back/Menu feel reliable, whether the hold feels too short or long, and any double turns, wrong selections or poorly tracked resting positions. Use **Save test details** if needed.
 
-Desktop screenshots and mocked XR tests are engineering checks only. No headset result has been recorded.
+Keep palm-facing-you pinches near your face for Quest's system controls. A hold elsewhere opens the cabin menu. **Practise gestures** is always available there. The completed practice and control preferences are cached locally; reading history and Claude are not part of this trial. Actual hand tracking and comfort still require your check.
