@@ -7,6 +7,8 @@ export function paintHandBadge(
     ready = false,
     flash = false,
     menu = false,
+    available = true,
+    blocked = false,
   } = {},
 ) {
   const c = canvas.getContext("2d");
@@ -34,7 +36,12 @@ export function paintHandBadge(
     );
     c.stroke();
   }
-  c.fillStyle = ready || flash ? "#faf0d4" : "#829486";
+  // Arrows are dimmed when that direction has no page left; a blocked attempt
+  // flashes the end bar instead of the arrows, so it never looks like a turn.
+  const lit = (ready || flash) && !blocked;
+  const arrowColour = !available || blocked ? "#4f6357" : lit ? "#faf0d4" : "#829486";
+  const barColour = blocked ? "#f2b48a" : !available ? "#c9b98f" : arrowColour;
+  c.fillStyle = arrowColour;
   if (menu) {
     for (const y of [102, 124, 146]) c.fillRect(91, y, 74, 8);
   } else {
@@ -51,7 +58,8 @@ export function paintHandBadge(
       c.closePath();
       c.fill();
     }
-    c.fillRect(166, 94, 8, 68);
+    c.fillStyle = barColour;
+    c.fillRect(166, 94, blocked ? 12 : 8, 68);
     c.restore();
   }
 }
@@ -71,18 +79,27 @@ export class HandBadges {
     this.visible = [];
     return changed;
   }
-  pulse(hand, time, type) {
+  // outcome: "turned" | "practice" | "select" flash the icon; "menu" shows a
+  // full ring; "first-page" | "last-page" show the end bar, never a turn flash.
+  pulse(hand, time, outcome) {
     const e = this.entries.get(hand);
-    if (e) {
-      e.pulseUntil = time + 200;
-      e.fullHold = type === "menu";
-    }
+    if (!e) return;
+    e.blocked = outcome === "first-page" || outcome === "last-page";
+    e.pulseUntil = time + (e.blocked ? 600 : 220);
+    e.fullHold = outcome === "menu";
   }
   update(
     samples,
     viewer,
     engine,
-    { swapped = false, menu = false, time = 0 } = {},
+    {
+      swapped = false,
+      menu = false,
+      practice = false,
+      canForward = true,
+      canBack = true,
+      time = 0,
+    } = {},
   ) {
     const next = [];
     if (!this.failed)
@@ -114,24 +131,32 @@ export class HandBadges {
             this.entries.set(sample.hand, e);
           }
           const h = engine.hands.get(sample.source),
+            ready = !!h?.armed && time >= engine.cooldownUntil,
             progress = engine.progress(time, sample.source),
             flash = time < e.pulseUntil;
           const forward = (sample.hand === "right") !== swapped;
+          const available =
+            menu || practice || (forward ? canForward : canBack);
+          const blocked = flash && !!e.blocked;
           const shownProgress = flash && e.fullHold ? 1 : progress;
           const key = [
             forward,
             Math.round(shownProgress * 48),
-            !!h?.armed,
+            ready,
             flash,
             menu,
+            available,
+            blocked,
           ].join(":");
           if (key !== e.key) {
             paintHandBadge(e.canvas, {
               forward,
               progress: shownProgress,
-              ready: !!h?.armed,
-              flash,
+              ready,
+              flash: flash && !blocked,
               menu,
+              available,
+              blocked,
             });
             e.key = key;
             e.dirty = true;

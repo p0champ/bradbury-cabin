@@ -74,14 +74,25 @@ test("brief contact is ignored instead of turning a page", () => {
   r.release();
   assert.deepEqual(r.events, []);
 });
-test("half-open bounce interrupts release settling and cancels the action", () => {
+test("a release bounce restarts settling but turns exactly once", () => {
   const r = rig();
   r.open();
   r.close();
   r.frame({ right: 0.05 });
   r.frame({ right: 0.028 });
+  assert.equal(r.events.length, 0);
+  r.release();
+  assert.deepEqual(r.events, [{ type: "page", hand: "right" }]);
+});
+test("re-pinching after the hand has opened cancels instead of turning", () => {
+  const r = rig();
+  r.open();
+  r.close();
+  r.frame({ right: 0.05 });
+  r.close("right", 200);
   r.release();
   assert.deepEqual(r.events, []);
+  assert.ok(r.g.log.some((e) => e.reason === "re-pinched"));
 });
 test("half-open separation before full release cannot cross the hold threshold", () => {
   const r = rig();
@@ -139,7 +150,9 @@ test("a sustained hold fills over 1.4 seconds and fires Menu once", () => {
   r.open();
   r.close("right", 720);
   assert.equal(r.events.length, 0);
-  assert.ok(r.g.progress(r.time) > 0.45 && r.g.progress(r.time) < 0.55);
+  assert.ok(r.g.holdCharge(r.time) > 0.45 && r.g.holdCharge(r.time) < 0.55);
+  const shown = r.g.progress(r.time);
+  assert.ok(shown > 0.3 && shown < 0.4, "ring starts late but still fills");
   r.close("right", 760);
   assert.deepEqual(r.events, [{ type: "menu", hand: "right" }]);
   r.close("right", 800);
@@ -276,4 +289,93 @@ test("only visible menu buttons have targets", () => {
   assert.equal(menuHit(200, 700), "resume");
   assert.equal(menuHit(1100, 700), "recenter");
   assert.equal(menuHit(1000, 600), null);
+});
+
+// ---- Build 006 regressions for "registered but did not turn" ----
+import { RING_DELAY_MS, OPEN_DISTANCE } from "../gestures.js";
+function trace(keys, { hz = 72, noise = 0, seed = 1, hand = "right", g = new GestureEngine() } = {}) {
+  let s = seed;
+  const rnd = () => ((s = (s * 16807) % 2147483647), s / 2147483647 - 0.5);
+  const events = [], end = keys.at(-1)[0];
+  let ringSeen = false;
+  for (let t = 0; t <= end; t += 1000 / hz) {
+    let i = keys.findIndex((k) => k[0] >= t);
+    if (i <= 0) i = 1;
+    const [t0, d0] = keys[i - 1], [t1, d1] = keys[i];
+    const d = d0 + (d1 - d0) * Math.min(1, (t - t0) / (t1 - t0 || 1));
+    const e = g.update(hand, { distance: Math.max(0, d + noise * rnd() * 2) / 1000, time: t, hand });
+    if (g.progress(t) > 0) ringSeen = true;
+    if (e) events.push(e.type);
+  }
+  return { events, ringSeen, g };
+}
+const tap = (contact, open) => [[0, open], [300, open], [380, contact], [650, contact], [750, open], [1500, open]];
+test("a relaxed hand resting at 34 mm can still arm and release", () => {
+  assert.ok(OPEN_DISTANCE < 0.034);
+  assert.deepEqual(trace(tap(12, 34)).events, ["page"]);
+});
+test("Quest-like tracking noise does not silently cancel deliberate pinches", () => {
+  for (const [contact, open, noise] of [[12, 45, 5], [16, 40, 4], [14, 60, 5]]) {
+    let ok = 0;
+    for (let seed = 1; seed <= 200; seed++)
+      if (trace(tap(contact, open), { noise, seed: seed * 977 }).events.join() === "page") ok++;
+    assert.ok(ok >= 194, `${contact}/${open}/±${noise}: ${ok}/200 turned`);
+  }
+});
+test("noise never produces double turns or a menu from a quarter-second pinch", () => {
+  for (let seed = 1; seed <= 300; seed++) {
+    const { events } = trace(tap(14, 45), { noise: 6, seed: seed * 131 });
+    assert.ok(events.length <= 1 && !events.includes("menu"), events.join());
+  }
+});
+test("casual near-pinches with noise still never act", () => {
+  for (let seed = 1; seed <= 200; seed++) {
+    const keys = [[0, 45], [300, 45], [380, 25], [1600, 25], [1700, 45], [2200, 45]];
+    assert.deepEqual(trace(keys, { noise: 2, seed }).events, []);
+  }
+});
+test("short pinches never show the hold ring; holds show it after the delay", () => {
+  assert.equal(trace(tap(12, 50)).ringSeen, false);
+  const g = new GestureEngine();
+  trace([[0, 50], [300, 50], [310, 12], [310 + RING_DELAY_MS - 30, 12]], { g });
+  assert.equal(g.progress(310 + RING_DELAY_MS - 30), 0);
+  assert.ok(g.holdCharge(310 + RING_DELAY_MS - 30) > 0);
+});
+test("a brief wobble keeps the pinch but restarts hold charge", () => {
+  const r = rig();
+  r.open();
+  r.close("right", 1000);
+  r.frame({ right: 0.028 }, 40);
+  r.close("right", 600);
+  assert.equal(r.events.length, 0, "hold restarted, so no menu yet");
+  r.release();
+  assert.deepEqual(r.events, [{ type: "page", hand: "right" }]);
+});
+test("every firm pinch ends in a logged outcome with a reason", () => {
+  const r = rig();
+  r.open();
+  r.close("right", 80);
+  r.release();
+  assert.equal(r.g.log.at(-1).reason, "too-short");
+  r.open();
+  r.close();
+  r.release();
+  assert.equal(r.g.log.at(-1).result, "page");
+  r.close("right", 200);
+  assert.equal(r.g.log.at(-1).result, "ignored");
+  r.release();
+  r.open();
+  r.close("right", 400);
+  r.frame({ right: null });
+  assert.equal(r.g.log.at(-1).reason, "tracking-lost");
+});
+test("a near-pinch that never gets firm is logged with its closest distance", () => {
+  const r = rig();
+  r.open();
+  r.run({ right: 0.021 }, 300);
+  r.release();
+  const last = r.g.log.at(-1);
+  assert.equal(last.reason, "not-firm-enough");
+  assert.equal(last.minMm, 21);
+  assert.deepEqual(r.events, []);
 });

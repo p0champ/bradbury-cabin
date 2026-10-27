@@ -291,7 +291,7 @@ async function mock(
         __step(1480);
       };
       window.__aim = async (id, rayOnly = false) => {
-        const { menuButtons } = await import("./gestures.js?v=5");
+        const { menuButtons } = await import("./gestures.js?v=6");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -892,7 +892,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-005");
+        assert.equal(details.build, "gestures-006");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1335,6 +1335,119 @@ async function mock(
         "two native hand badges animate only the owning ring, preserve page pixels, wait 1.4 seconds, and hide on tracking loss" +
           (lying ? " lying" : ""),
       );
+      await p.close();
+    }
+    // Build 006: what "registered" means must agree with what the page did.
+    for (const lying of [false, true]) {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p, "layer", lying);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => {
+        __step();
+        window.uploadedMatchesCanvas = () => {
+          const m = __mock,
+            expected = document.createElement("canvas");
+          expected.width = m.quadWidth;
+          expected.height = m.quadHeight;
+          expected
+            .getContext("2d")
+            .drawImage(document.querySelector("#page"), 0, 0, expected.width, expected.height);
+          const bytes = expected.getContext("2d").getImageData(0, 0, expected.width, expected.height).data;
+          let differences = 0, sum = 0;
+          for (let y = 0; y < expected.height; y += 37)
+            for (let x = 0; x < expected.width; x += 41) {
+              const i = (y * expected.width + x) * 4;
+              sum = (sum * 31 + m.latestPixels[i] + 7 * m.latestPixels[i + 1]) % 1000000007;
+              for (let c = 0; c < 4; c++) if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
+            }
+          return { differences, sum };
+        };
+      });
+      const first = await p.evaluate(() => uploadedMatchesCanvas());
+      assert.equal(first.differences, 0);
+      await p.evaluate(() => __pinch("left"));
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      await p.evaluate(() => __pinch("right"));
+      assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
+      const turned = await p.evaluate(() => uploadedMatchesCanvas());
+      assert.equal(turned.differences, 0, "displayed quad shows the new page");
+      assert.notEqual(turned.sum, first.sum, "quad pixels changed with the page");
+      await p.evaluate(() => __pinch("right"));
+      assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
+      await p.evaluate(() => __pinch("left"));
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      assert.equal((await p.evaluate(() => uploadedMatchesCanvas())).differences, 0);
+      const download = p.waitForEvent("download");
+      await p.locator("#export").click();
+      const file = path.join(out, `gesture-log-${lying ? "lying" : "front"}.json`);
+      await (await download).saveAs(file);
+      const details = JSON.parse(await fs.readFile(file, "utf8"));
+      const pages = details.gestureLog.filter((e) => e.result === "page");
+      assert.deepEqual(
+        pages.map((e) => [e.hand, e.outcome, e.page]),
+        [
+          ["left", "first-page", 1],
+          ["right", "turned", 2],
+          ["right", "last-page", 2],
+          ["left", "turned", 1],
+        ],
+      );
+      assert.ok(pages.every((e) => e.ms >= 160));
+      assert.deepEqual(errors, []);
+      passed(
+        "page gestures report first/last-page boundaries honestly and every real turn re-uploads the displayed quad" +
+          (lying ? " lying" : ""),
+      );
+      await p.close();
+    }
+    {
+      const p = await browser.newPage();
+      await mock(p, "layer", false, { headPointer: true });
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __step());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      await p.evaluate(() => __aim("practice"));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      await p.evaluate(() => __pinch("right"));
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "practice");
+      await p.evaluate(() => __pinch("left"));
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      assert.equal(
+        await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-controls")).practised),
+        true,
+      );
+      await p.evaluate(() => __pinch("right"));
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      passed("practice completes in any order and hands straight back to reading");
+      const icons = await p.evaluate(async () => {
+        const { paintHandBadge } = await import("./hand-badges.js?v=6");
+        const bright = (opts) => {
+          const c = document.createElement("canvas");
+          c.width = c.height = 256;
+          paintHandBadge(c, opts);
+          const d = c.getContext("2d").getImageData(70, 90, 50, 76).data;
+          let n = 0;
+          for (let i = 0; i < d.length; i += 4) if (d[i] > 240 && d[i + 1] > 225) n++;
+          return n;
+        };
+        return {
+          turn: bright({ ready: true, flash: true }),
+          blocked: bright({ ready: true, blocked: true }),
+          unavailable: bright({ ready: true, available: false }),
+        };
+      });
+      assert.ok(icons.turn > 500, "turn flash lights the arrows");
+      assert.equal(icons.blocked, 0, "a blocked attempt never lights the arrows");
+      assert.equal(icons.unavailable, 0, "an unavailable direction is dimmed");
+      passed("hand icons distinguish a turn, a blocked end-of-text attempt and an unavailable direction");
       await p.close();
     }
     await fs.writeFile(

@@ -6,9 +6,9 @@ import {
   nearFacePalm,
   HOLD_MS,
   MIN_PINCH_MS,
-} from "./gestures.js?v=5";
+} from "./gestures.js?v=6";
 import { renderer, identity, multiply, checkGl } from "./gl.js?v=5";
-import { HandBadges } from "./hand-badges.js?v=5";
+import { HandBadges } from "./hand-badges.js?v=6";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -267,33 +267,60 @@ function toggleMenu(open = !state.menuOpen) {
   gestures.setContext(open ? "menu" : "reading");
   paint();
 }
+// Marks practice complete once all three gestures were done, in any order.
+function practiceDone() {
+  const m = state.practiceMarks;
+  if (!(m.next && m.prev && m.menu)) return false;
+  preferences.practised = true;
+  savePreferences();
+  return true;
+}
+// Returns what actually happened, so feedback never claims a turn that did
+// not change the page: "turned", "first-page", "last-page", "practice",
+// "menu" or "select".
 function gestureEvent(event) {
-  if (!event) return;
+  if (!event) return null;
   if (event.type === "menu") {
     if (state.practice) {
       state.practiceMarks.menu = true;
-      if (state.practiceMarks.next && state.practiceMarks.prev) {
-        preferences.practised = true;
-        savePreferences();
-      }
+      practiceDone();
     }
     feedback(state.menuOpen ? "Reading" : "Menu");
     toggleMenu();
-    return;
+    return "menu";
   }
   if (event.type === "select") {
     action(event.target);
-    return;
+    return "select";
   }
   const id = (event.hand === "right") !== state.swapped ? "next" : "prev";
   if (state.practice) {
     state.practiceMarks[id] = true;
-    feedback(id === "next" ? "NEXT ✓" : "BACK ✓");
+    if (practiceDone()) {
+      state.practice = false;
+      menuPlacement = null;
+      feedback("Practice complete · now reading");
+    } else
+      feedback(
+        (id === "next" ? "Next ✓" : "Back ✓") + "  ·  practice: pages stay put",
+      );
     paint();
-  } else {
-    feedback(id === "next" ? "Next page" : "Previous page");
-    action(id);
+    return "practice";
   }
+  const before = state.page;
+  action(id);
+  if (state.page !== before) {
+    feedback(`Page ${state.page + 1} of ${pages.length}`);
+    paint();
+    return "turned";
+  }
+  feedback(
+    id === "next"
+      ? "Last page · nothing further"
+      : "First page · nothing before",
+  );
+  paint();
+  return id === "next" ? "last-page" : "first-page";
 }
 function action(id) {
   if (id === "menu") {
@@ -374,9 +401,12 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-005",
+    build: "gestures-006",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
+    // Last 40 pinch attempts: what the recogniser decided, why, and what the
+    // app then did. This is the evidence for "registered but did not turn".
+    gestureLog: gestures.log.map((e) => ({ ...e, time: Math.round(e.time) })),
     handFeedbackError: state.handFeedbackError,
     controls: {
       swapped: state.swapped,
@@ -399,7 +429,7 @@ $("export").onclick = () => {
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
     questQuality:
-      "Bastian confirmed Build 003 crispness; Build 005 controls need a Quest check",
+      "Bastian confirmed Build 003 crispness; Build 006 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -707,8 +737,13 @@ function frame(time, xrFrame, generation) {
         });
         if (gestures.owner === source || event) pointerSource = source;
         if (event) {
-          handBadges?.pulse(event.hand, time, event.type);
-          gestureEvent(event);
+          const outcome = gestureEvent(event);
+          const entry = gestures.log.at(-1);
+          if (entry && entry.time === time) {
+            entry.outcome = outcome;
+            entry.page = state.page + 1;
+          }
+          handBadges?.pulse(event.hand, time, outcome);
           if (ending) break;
         }
       }
@@ -735,6 +770,9 @@ function frame(time, xrFrame, generation) {
         handBadges?.update(samples, pose.transform, gestures, {
           swapped: state.swapped,
           menu: state.menuOpen,
+          practice: state.practice,
+          canForward: state.page < pages.length - 1,
+          canBack: state.page > 0,
           time,
         })
       )
@@ -832,7 +870,7 @@ function frame(time, xrFrame, generation) {
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
           report(
-            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 005: practise Next, Back and Menu.`,
+            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 006: practise Next, Back and Menu.`,
           );
         }
       }
