@@ -1,3 +1,23 @@
+# Build 012 — simpler menu (28 October 2026)
+
+Bastian's result on Build 011: **"its way more responsive now. But clean up the Menu and make the UI look better. Too much stuff in there I dont know what is. Make it nice and easy - and keep working aswell on integrating claude and all that, but maybe we do this first"**. Treat this as a big improvement, not as a formal gesture-gate pass. Confirm with him after Build 012.
+
+The 12-button grid is now a two-page, single-column card menu:
+- **Main:** Continue reading, Move page here, Page colour (Paper/Night), Text size, More settings ›, Leave the cabin (Exit VR).
+- **More settings:** Next page hand, Point with, Welcome chime, Practise gestures, ‹ Back. Back sits in the same slot as "More settings", so a repeated pinch just toggles between the pages.
+- **Removed from the headset:** menu Previous/Next (the hands do that), and the A/B sharpness test (still on the PC page) along with the technical footer text.
+
+`menuHit(x, y, page)` is page-specific, and the menu always reopens on the main page. Renderer, recogniser, badges, centring and handMapRevision 9 are unchanged.
+
+Status:
+- PC-tested: 35 pure + 101 browser checks.
+- Independent critic: 8/10, no blockers. Its nice-to-haves 1–5 were applied.
+- Committed and pushed on phase-1-gestures; live at ?v=12.
+- Needs Bastian's Quest check.
+
+Next, per his request: Phase 3 Claude integration via Sunnyvale's existing bridge. Read sunnyvale-study first. Phase 1 reading features (full pagination, saved place, moods, ambience) are still pending.
+
+---
 RESUMED BY CLAUDE (27 Oct 2026, late evening): Build 011 was taken from Codex's local working tree unchanged in production code. It was retested (35 pure + 99 browser checks). Two browser checks were repaired: their mock frame clock could fall behind the real event clock on slower machines. A mutation check confirmed the 1000 ms startup expiry is still enforced. Committed and pushed on phase-1-gestures. Awaiting Bastian's Quest result.
 
 # Build 011 — make the startup confirmation independent of reading-hand readiness

@@ -1,3 +1,14 @@
+# Build 012 — simpler menu
+
+Open [Build 012](https://p0champ.github.io/bradbury-cabin/?v=12) in a fresh Quest Browser tab and check that it shows **BUILD 012**.
+
+1. Centre, then hold a pinch until the menu opens. There should be six clear choices.
+2. Point at "Page colour" and select it. The page switches between Paper and Night.
+3. Try "Text size", then "More settings ›". "‹ Back" returns you to the main menu.
+4. Pinch twice quickly on More settings. It should only flip between the two menu pages.
+5. Choose "Continue reading". Page turns should feel the same as Build 011.
+
+---
 # Build 011 — bare-hand centring confirmation
 
 Open [Build 011](https://p0champ.github.io/bradbury-cabin/?v=11) in a fresh Quest Browser tab. Check **BUILD 011**. Startup now accepts Quest's completed pinch directly, without waiting for the reading-hand readiness checks. The requested hand flip, animations and sound are preserved. PC tests are not a Quest approval.

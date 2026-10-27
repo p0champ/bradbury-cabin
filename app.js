@@ -1,19 +1,20 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=11";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=12";
 import {
   GestureEngine,
   menuButtons,
   menuHit,
+  MENU_PAGES,
   nearFacePalm,
   HOLD_MS,
   MIN_PINCH_MS,
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=11";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=11";
-import { HandBadges } from "./hand-badges.js?v=11";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=11";
-import { EntrySound } from "./entry-sound.js?v=11";
+} from "./gestures.js?v=12";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=12";
+import { HandBadges } from "./hand-badges.js?v=12";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=12";
+import { EntrySound } from "./entry-sound.js?v=12";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -38,6 +39,7 @@ if (preferences.handMapRevision !== 9) {
   savePreferences();
 }
 const state = {
+  menuPage: "main",
   centering: false,
   arriving: false,
   arrivalError: null,
@@ -107,6 +109,7 @@ function paint() {
           ? "practice"
           : "reading";
   canvas.dataset.target = state.hover || "";
+  canvas.dataset.menuPage = state.menuOpen ? state.menuPage : "";
   canvas.setAttribute(
     "aria-label",
     state.menuOpen
@@ -152,37 +155,52 @@ function paint() {
     ctx.font = "32px Arial";
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
   } else if (state.menuOpen) {
+    const more = state.menuPage === "more";
     ctx.fillStyle = ink;
-    ctx.font = "72px Literata";
-    ctx.fillText("Make yourself comfortable.", 160, 440);
+    ctx.font = "84px Literata";
+    ctx.fillText(more ? "More settings" : "Menu", 274, 470);
     ctx.fillStyle = muted;
     ctx.font = "36px Arial";
     ctx.fillText(
       state.headPointer
-        ? "Look at a button, pinch, then release."
-        : "Point until a button highlights, pinch, then release.",
-      160,
+        ? "Look at a choice, then pinch and release."
+        : "Point at a choice, then pinch and release.",
+      274,
       540,
     );
+    const values = {
+      night: state.night ? "Night" : "Paper",
+      size: ["Small", "Medium", "Large"][state.size],
+      more: "›",
+      exit: "Exit VR",
+      swap: state.swapped ? "Left hand" : "Right hand",
+      pointer: state.headPointer ? "Head" : "Hand",
+      sound: state.entrySound ? "On" : "Off",
+    };
+    const card = state.night ? "#2c3a32" : "#ebe6d4",
+      accent = state.night ? "#c9b98f" : "#3f5f4e";
     for (const b of menuButtons) {
-      ctx.fillStyle =
-        state.hover === b.id ? muted : state.night ? "#29372f" : "#e8e6d7";
-      ctx.fillRect(b.x, b.y, b.w, b.h);
-      ctx.fillStyle = state.hover === b.id ? bg : ink;
-      ctx.font = "40px Arial";
-      ctx.textAlign = "center";
-      let label = b.label;
-      if (b.id === "swap")
-        label = state.swapped ? "Forward: left hand" : "Forward: right hand";
-      if (b.id === "pointer")
-        label = state.headPointer ? "Pointer: head" : "Pointer: hand";
-      if (b.id === "night")
-        label = state.night ? "Switch to paper" : "Switch to night";
-      if (b.id === "size")
-        label = "Text: " + ["Small", "Medium", "Large"][state.size];
-      if (b.id === "sound")
-        label = state.entrySound ? "Entry sound: on" : "Entry sound: off";
-      ctx.fillText(label, b.x + b.w / 2, b.y + 108);
+      if (b.page !== state.menuPage) continue;
+      const hot = state.hover === b.id;
+      ctx.fillStyle = hot ? accent : card;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 34);
+      else ctx.rect(b.x, b.y, b.w, b.h);
+      ctx.fill();
+      ctx.fillStyle = hot ? bg : ink;
+      ctx.font = `${b.id === "resume" ? "italic " : ""}58px Literata`;
+      ctx.textAlign = "left";
+      ctx.fillText(
+        (b.id === "back" ? "‹  " : "") + b.label,
+        b.x + 70,
+        b.y + b.h / 2 + 20,
+      );
+      if (values[b.id]) {
+        ctx.fillStyle = hot ? bg : muted;
+        ctx.font = "42px Arial";
+        ctx.textAlign = "right";
+        ctx.fillText(values[b.id], b.x + b.w - 70, b.y + b.h / 2 + 15);
+      }
     }
     ctx.textAlign = "left";
   } else if (state.practice) {
@@ -254,11 +272,13 @@ function paint() {
   ctx.fillStyle = muted;
   ctx.font = "32px Arial";
   ctx.textAlign = "left";
-  ctx.fillText(
-    `${state.page + 1} / ${pages.length}  ·  ${state.mode === "layer" ? "A · COMPOSITOR LAYER" : "B · ORDINARY TEXTURE"}`,
-    160,
-    2175,
-  );
+  if (!state.menuOpen && !state.centering)
+    ctx.fillText(
+      `${state.page + 1} / ${pages.length}` +
+        (state.mode === "layer" ? "" : "  ·  sharpness test B"),
+      160,
+      2175,
+    );
   ctx.font = "36px Arial";
   ctx.fillText(
     (state.arriving
@@ -273,7 +293,7 @@ function paint() {
         : state.swapped
           ? "Left: next   ·   Right: back   ·   Hold: menu"
           : "Right: next   ·   Left: back   ·   Hold: menu"),
-    160,
+    state.menuOpen ? 274 : 160,
     2320,
   );
   $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
@@ -317,6 +337,8 @@ function feedback(text) {
 }
 function toggleMenu(open = !state.menuOpen) {
   state.menuOpen = open;
+  state.menuPage = "main";
+  if (open) state.feedback = "";
   state.practice = false;
   state.hover = null;
   pointerSource = null;
@@ -363,7 +385,7 @@ function gestureEvent(event) {
       state.practiceMarks.menu = true;
       practiceDone();
     }
-    feedback(state.menuOpen ? "Reading" : "Menu");
+    if (state.menuOpen) feedback("Reading");
     toggleMenu();
     return "menu";
   }
@@ -430,6 +452,12 @@ function action(id) {
   }
   if (id === "resume") {
     toggleMenu(false);
+    return;
+  }
+  if (id === "more" || id === "back") {
+    state.menuPage = id === "more" ? "more" : "main";
+    state.hover = null;
+    paint();
     return;
   }
   if (id === "practice") {
@@ -508,7 +536,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-011",
+    build: "gestures-012",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -613,6 +641,7 @@ function hit(transform) {
   return menuHit(
     ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
     (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
+    state.menuPage,
   );
 }
 function cleanSession() {

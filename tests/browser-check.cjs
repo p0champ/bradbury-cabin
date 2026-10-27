@@ -434,7 +434,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=11");
+        const { menuButtons } = await import("./gestures.js?v=12");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -951,14 +951,15 @@ async function mock(
             __hand(0.05);
             __step();
           });
-          await p.evaluate(() => __aim("compare"));
-          await p.evaluate(() => __pinch());
+          // Build 012: the A/B sharpness test left the headset menu; it stays
+          // on the PC page and uses the same pending-frame switch.
+          await p.locator("#compare").click();
           await p.evaluate(() => __step());
           assert.match(
             await p.locator("#mode-label").textContent(),
             /ordinary texture/,
           );
-          await p.evaluate(() => __pinch());
+          await p.locator("#compare").click();
           await p.evaluate(() => __step());
           assert.match(
             await p.locator("#mode-label").textContent(),
@@ -969,7 +970,7 @@ async function mock(
             /stopped/,
           );
           passed(
-            "release selects A to B to A only inside the menu, with pending frame changes",
+            "A to B to A switching applies at the next frame while XR is running",
           );
           await p.evaluate(() => {
             __mock.look = null;
@@ -1084,7 +1085,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-011");
+        assert.equal(details.build, "gestures-012");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2000,6 +2001,8 @@ async function mock(
       );
       await p.evaluate(() => __hold());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __pinch());
       await p.evaluate(() => __aim("practice"));
       await p.evaluate(() => __pinch());
       assert.equal(
@@ -2029,7 +2032,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=11");
+        const { paintHandBadge } = await import("./hand-badges.js?v=12");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2350,7 +2353,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=11");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=12");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2393,6 +2396,60 @@ async function mock(
       passed(
         "entry mute prevents playback; real offline audio renders a quiet bounded chime and silent tail",
       );
+      await p.close();
+    }
+    // Build 012: a short main menu, rarely used settings one level down.
+    for (const night of [false, true]) {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p, "layer", false);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      if (night) {
+        await p.evaluate(() => __hold());
+        await p.evaluate(() => __aim("night"));
+        await p.evaluate(() => __pinch());
+        await p.evaluate(() => __hold());
+      }
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
+      const ids = await p.evaluate(async () => {
+        const { MENU_PAGES } = await import("./gestures.js?v=12");
+        return MENU_PAGES;
+      });
+      assert.deepEqual(ids.main, ["resume", "recenter", "night", "size", "more", "exit"]);
+      await p.evaluate(() => __aim("night"));
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
+      await p.locator("#page").screenshot({
+        path: path.join(out, `menu-main-${night ? "night" : "paper"}.png`),
+      });
+      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "more");
+      // The same spot on the second page is a different, page-specific button.
+      await p.evaluate(() => __aim("sound"));
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "sound");
+      // Where Exit sits on the main page there is no button on this page.
+      await p.evaluate(() => __aim("exit"));
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "");
+      await p.locator("#page").screenshot({
+        path: path.join(out, `menu-more-${night ? "night" : "paper"}.png`),
+      });
+      await p.evaluate(() => __aim("back"));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
+      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      await p.evaluate(() => __hold());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main", "menu reopens on its main page");
+      await p.locator("#page").screenshot({ path: path.join(out, `menu-reopened-${night ? "night" : "paper"}.png`) }).catch(() => {});
+      assert.deepEqual(errors, []);
+      passed("two-page menu: main essentials, More settings and Back, page-specific targets" + (night ? " night" : ""));
       await p.close();
     }
     await fs.writeFile(

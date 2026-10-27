@@ -348,31 +348,47 @@ export class GestureEngine {
     );
   }
 }
-export const menuButtons = [
-  ["resume", "Return to reading"],
-  ["recenter", "Re-centre page"],
-  ["prev", "Previous page"],
-  ["next", "Next page"],
-  ["night", "Paper / Night"],
-  ["size", "Text size"],
-  ["swap", "Swap reading hands"],
-  ["pointer", "Menu pointer"],
-  ["practice", "Practise gestures"],
-  ["compare", "A / B comparison"],
-  ["exit", "Exit to browser"],
-  ["sound", "Entry sound"],
-].map(([id, label], i) => ({
-  id,
-  label,
-  x: 160 + (i % 2) * 880,
-  y: 650 + Math.floor(i / 2) * 240,
-  w: 840,
-  h: 180,
-}));
-export function menuHit(x, y) {
+// Two short menu pages. Main holds what a reader needs; "More settings"
+// holds rarely used preferences. Page arrows live on the hands, not here.
+export const MENU_PAGES = {
+  main: ["resume", "recenter", "night", "size", "more", "exit"],
+  // Back sits exactly where "More settings" was, so a repeated pinch just
+  // returns to the main page instead of choosing something new.
+  more: ["swap", "pointer", "sound", "practice", "back"],
+};
+export const menuLabels = {
+  resume: "Continue reading",
+  recenter: "Move page here",
+  night: "Page colour",
+  size: "Text size",
+  more: "More settings",
+  exit: "Leave the cabin",
+  back: "Back",
+  swap: "Next page hand",
+  pointer: "Point with",
+  sound: "Welcome chime",
+  practice: "Practise gestures",
+};
+export const menuButtons = Object.entries(MENU_PAGES).flatMap(([page, ids]) =>
+  ids.map((id, i) => ({
+    id,
+    page,
+    label: menuLabels[id],
+    x: 274,
+    y: 600 + i * 236,
+    w: 1500,
+    h: 196,
+  })),
+);
+export function menuHit(x, y, page = "main") {
   return (
     menuButtons.find(
-      (b) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h,
+      (b) =>
+        b.page === page &&
+        x >= b.x &&
+        x <= b.x + b.w &&
+        y >= b.y &&
+        y <= b.y + b.h,
     )?.id || null
   );
 }
