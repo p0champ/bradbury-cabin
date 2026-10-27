@@ -136,6 +136,7 @@ async function mock(
               ? null
               : {
                   transform: head(),
+                  emulatedPosition: !!window.__mock.emulatedViewer,
                   views:
                     scenario === "stereo-layer"
                       ? ["left", "right"].map((eye) => ({
@@ -273,6 +274,8 @@ async function mock(
           distance == null
             ? null
             : { x: local.x + distance, y: local.y, z: local.z };
+        source.gamepad.buttons[0].pressed =
+          distance != null && distance < 0.026;
         session.inputSources = [source];
         return source;
       };
@@ -321,10 +324,89 @@ async function mock(
         __mock.clock = Math.max(__mock.clock, performance.now());
         __step();
         __pinch();
-        __step();
+        __step(1240);
+      };
+      window.__welcomeScene = () => {
+        document.querySelector("#welcome-scene")?.remove();
+        const scene = document.createElement("div");
+        scene.id = "welcome-scene";
+        scene.style.cssText =
+          "position:relative;width:1200px;height:1000px;perspective:1000px;perspective-origin:50% 50%;overflow:hidden;background:radial-gradient(ellipse at center,#efebe1,#b9c0b5);transform-style:preserve-3d";
+        document.body.append(scene);
+        for (const layer of session.renderState.layers || []) {
+          const d = __mock.layerData.get(layer);
+          if (!d || d.badge || !d.matrix || layer.opacity === 0) continue;
+          const fb = gl.createFramebuffer();
+          gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+          gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            gl.COLOR_ATTACHMENT0,
+            gl.TEXTURE_2D,
+            d.tex,
+            0,
+          );
+          const px = new Uint8Array(d.width * d.height * 4);
+          gl.readPixels(0, 0, d.width, d.height, gl.RGBA, gl.UNSIGNED_BYTE, px);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          gl.deleteFramebuffer(fb);
+          // Native uploads are premultiplied; Canvas ImageData is straight alpha.
+          for (let i = 0; i < px.length; i += 4)
+            if (px[i + 3] > 0 && px[i + 3] < 255)
+              for (let c = 0; c < 3; c++)
+                px[i + c] = Math.min(
+                  255,
+                  Math.round((px[i + c] * 255) / px[i + 3]),
+                );
+          const flipped = new Uint8ClampedArray(px.length);
+          for (let y = 0; y < d.height; y++)
+            flipped.set(
+              px.subarray(y * d.width * 4, (y + 1) * d.width * 4),
+              (d.height - 1 - y) * d.width * 4,
+            );
+          const c = document.createElement("canvas");
+          c.width = d.width;
+          c.height = d.height;
+          c.getContext("2d").putImageData(
+            new ImageData(flipped, d.width, d.height),
+            0,
+            0,
+          );
+          const m = Array.from(
+            new DOMMatrix(head().inverse.matrix)
+              .multiply(new DOMMatrix(d.matrix))
+              .toFloat64Array(),
+          );
+          const css = [
+            m[0],
+            -m[1],
+            m[2],
+            0,
+            -m[4],
+            m[5],
+            -m[6],
+            0,
+            m[8],
+            -m[9],
+            m[10],
+            0,
+            m[12] * 1000,
+            -m[13] * 1000,
+            m[14] * 1000 + 1000,
+            1,
+          ];
+          c.style.cssText = `position:absolute;left:600px;top:500px;width:${d.metresWide * 1000}px;height:${d.metresHigh * 1000}px;margin-left:${-d.metresWide * 500}px;margin-top:${-d.metresHigh * 500}px;opacity:${layer.opacity};transform:matrix3d(${css.join(",")});backface-visibility:hidden`;
+          scene.append(c);
+        }
+        const label = document.createElement("div");
+        label.textContent =
+          "SYNTHETIC NATIVE-LAYER PREVIEW · NOT QUEST FOOTAGE";
+        label.style.cssText =
+          "position:absolute;left:24px;bottom:18px;color:#52604f;font:12px Arial";
+        scene.append(label);
       };
       window.__aim = async (id, rayOnly = false) => {
-        const { menuButtons } = await import("./gestures.js?v=7");
+        // Native ray target used by the menu fixture.
+        const { menuButtons } = await import("./gestures.js?v=8");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -500,19 +582,39 @@ async function mock(
           if (scenario.startsWith("no-layer"))
             throw Error("Deliberate unsupported layer fixture");
           const badge = init.viewPixelWidth === 256;
-          const width = badge
-              ? 256
-              : scenario === "clamped-layer"
-                ? 1024
-                : 2048,
-            height = badge ? 256 : scenario === "clamped-layer" ? 1280 : 2560;
+          const arrival = init.viewPixelWidth === 384;
+          const width = arrival
+              ? 384
+              : badge
+                ? 256
+                : scenario === "clamped-layer"
+                  ? 1024
+                  : 2048,
+            height = arrival
+              ? 960
+              : badge
+                ? 256
+                : scenario === "clamped-layer"
+                  ? 1280
+                  : 2560;
           const tex = colorTexture(width, height),
-            data = { tex, width, height, badge, matrix: null };
+            data = {
+              tex,
+              width,
+              height,
+              badge,
+              arrival,
+              metresWide: init.width,
+              metresHigh: init.height,
+              matrix: null,
+              history: [],
+            };
           const layer = {
             opacity: 1,
             set transform(v) {
               data.matrix = Array.from(v.matrix);
-              if (!badge) window.__mock.placed.push(data.matrix);
+              data.history.push(data.matrix);
+              if (!badge && !arrival) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
@@ -520,7 +622,7 @@ async function mock(
             },
           };
           window.__mock.layerData.set(layer, data);
-          if (!badge) {
+          if (!badge && !arrival) {
             window.__mock.quadWidth = width;
             window.__mock.quadHeight = height;
             window.__mock.texture = tex;
@@ -533,9 +635,9 @@ async function mock(
           if (!session.renderState.layers?.includes(layer))
             throw Error("getSubImage used before active layers changed");
           if (!data || data.destroyed) throw Error("Invalid layer texture");
-          if (!data.badge && scenario === "draw-failure")
+          if (!data.badge && !data.arrival && scenario === "draw-failure")
             throw Error("Deliberate layer draw failure");
-          if (!data.badge) window.__mock.draws++;
+          if (!data.badge && !data.arrival) window.__mock.draws++;
           return {
             colorTexture: data.tex,
             viewport: { x: 0, y: 0, width: data.width, height: data.height },
@@ -945,7 +1047,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-007");
+        assert.equal(details.build, "gestures-008");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1026,6 +1128,13 @@ async function mock(
       await p.locator("#xr-preview").screenshot({
         path: path.join(out, `centering-${lying ? "lying" : "front"}.png`),
       });
+      await p.evaluate(() => __welcomeScene());
+      await p.locator("#welcome-scene").screenshot({
+        path: path.join(
+          out,
+          `welcome-${lying ? "lying" : "front"}-waiting.png`,
+        ),
+      });
       await p.evaluate(() => {
         __native("selectstart");
         __step(1600);
@@ -1034,6 +1143,7 @@ async function mock(
         await p.locator("#page").getAttribute("data-view"),
         "centering",
       );
+      const intendedPose = await p.evaluate(() => __mock.placed.at(-1));
       await p.evaluate(() => {
         __native("select");
         __native("selectend");
@@ -1041,11 +1151,123 @@ async function mock(
       });
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
+        "arrival",
+      );
+      const initialWings = await p.evaluate(() =>
+        [...__mock.layerData.values()]
+          .filter((d) => d.arrival)
+          .map((d) => d.matrix),
+      );
+      const frozenPage = await p.evaluate(() => __mock.placed.at(-1));
+      await p.evaluate(() => {
+        __mock.session.visibilityState = "visible-blurred";
+        __mock.session.dispatchEvent(new Event("visibilitychange"));
+        __step(800);
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "arrival",
+      );
+      assert.deepEqual(
+        await p.evaluate(() => __mock.placed.at(-1)),
+        frozenPage,
+      );
+      await p.evaluate(() => {
+        __mock.session.visibilityState = "visible";
+        __mock.session.dispatchEvent(new Event("visibilitychange"));
+        __step(40);
+      });
+      const beforeEmulated = await p.evaluate(() => __mock.placed.at(-1));
+      await p.evaluate(() => {
+        __mock.emulatedViewer = true;
+        __step(800);
+      });
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "arrival",
+      );
+      assert.deepEqual(
+        await p.evaluate(() => __mock.placed.at(-1)),
+        beforeEmulated,
+      );
+      await p.evaluate(() => {
+        __mock.emulatedViewer = false;
+        __step(40);
+      });
+      await p.evaluate(() => {
+        __native("selectstart");
+        __native("select");
+        __native("selectend");
+        __step(360);
+        __welcomeScene();
+      });
+      await p.locator("#welcome-scene").screenshot({
+        path: path.join(
+          out,
+          `welcome-${lying ? "lying" : "front"}-opening.png`,
+        ),
+      });
+      const mid = await p.evaluate(() => ({
+        wings: [...__mock.layerData.values()]
+          .filter((d) => d.arrival)
+          .map((d) => d.matrix),
+        version: __mock.versions.get(__mock.texture),
+      }));
+      assert.notDeepEqual(mid.wings, initialWings);
+      assert.ok(
+        mid.wings.every(
+          (m, i) => Math.abs(m[12]) > Math.abs(initialWings[i][12]),
+        ),
+      );
+      await p.evaluate(() => {
+        __mock.offsetX = 0.12;
+        __step(320);
+        __welcomeScene();
+      });
+      assert.equal(
+        await p.evaluate(() => __mock.versions.get(__mock.texture)),
+        mid.version,
+      );
+      await p.locator("#welcome-scene").screenshot({
+        path: path.join(
+          out,
+          `welcome-${lying ? "lying" : "front"}-settling-side.png`,
+        ),
+      });
+      await p.evaluate(() => {
+        __mock.offsetX = 0;
+        __step(520);
+        __welcomeScene();
+      });
+      await p.locator("#welcome-scene").screenshot({
+        path: path.join(
+          out,
+          `welcome-${lying ? "lying" : "front"}-reading.png`,
+        ),
+      });
+      assert.equal(
+        await p.evaluate(
+          () =>
+            [...__mock.layerData].filter(([l, d]) => d.arrival && l.opacity > 0)
+              .length,
+        ),
+        0,
+      );
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
         "reading",
+      );
+      assert.deepEqual(
+        await p.evaluate(() => __mock.placed.at(-1)),
+        intendedPose,
       );
       assert.match(await p.locator("#place").textContent(), /Page 1/);
       passed(
         "startup blocks distance-only gestures, menu and practice; a completed native confirmation centres once" +
+          (lying ? " lying" : ""),
+      );
+      passed(
+        "native 3D welcome opens in depth, ignores clicks during arrival, leaves page pixels fixed and clears decoration" +
           (lying ? " lying" : ""),
       );
       await p.evaluate(() => {
@@ -1063,6 +1285,39 @@ async function mock(
       assert.match(await p.locator("#place").textContent(), /Page 1/);
       passed(
         "native quick clicks work once each; cancelled native endings do nothing" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        const l = __hand(0.05, "left"),
+          r = __hand(0.05, "right");
+        __mock.session.inputSources = [l, r];
+        __step(600);
+        // No wide geometric release, no 600ms padding between clicks.
+        for (const s of [l, r])
+          s.hand.get("thumb-tip").pose.x =
+            s.hand.get("index-finger-tip").pose.x + 0.02;
+        for (let i = 0; i < 10; i++) {
+          const hand = i % 2 ? "left" : "right";
+          __native("selectstart", hand);
+          __step(40);
+          __native("select", hand);
+          __native("selectend", hand);
+          __step(40);
+        }
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      await p.evaluate(() => {
+        for (const hand of ["right", "left", "right"]) {
+          __native("selectstart", hand);
+          __native("select", hand);
+          __native("selectend", hand);
+        }
+        __step(16);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("left"));
+      passed(
+        "ten rapid native clicks and three packed cycles each turn once without per-click reopening" +
           (lying ? " lying" : ""),
       );
       await p.evaluate(() => {
@@ -1265,6 +1520,14 @@ async function mock(
       await p.evaluate(() => __aim("exit", true));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#enter").isEnabled(), true);
+      assert.equal(
+        await p.evaluate(() =>
+          [...__mock.layerData.values()]
+            .filter((d) => d.arrival)
+            .every((d) => d.destroyed),
+        ),
+        true,
+      );
       await p.locator("#enter").click();
       await p.evaluate(() => __step());
       assert.equal(
@@ -1622,7 +1885,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=7");
+        const { paintHandBadge } = await import("./hand-badges.js?v=8");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;

@@ -1,12 +1,12 @@
 # Bradbury Cabin — Phase 1 gesture trial
 
-A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 007 is a native-input gesture trial after Build 006 failed the Quest check. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
+A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 008 repairs dropped repeat clicks and adds a 3D centring welcome after Build 007 failed the Quest check. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
 
 ## Run
 
 `npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the gesture-state and geometry tests. No installation is required for the app or those tests.
 
-Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=7) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=8) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
@@ -23,15 +23,15 @@ Only `immersive-ar` with alpha blending is accepted. No opaque virtual world is 
 
 ## Hands and controls
 
-Every entry begins with centring. Get comfortable, face the intended reading direction, keep an open hand in view briefly, then complete one native pinch. No menu, practice or turn can happen before that. The instruction panel follows the view until confirmation; the reading page is then world-still. Practice is optional from the menu.
+Every entry begins with centring. Get comfortable, face the intended reading direction, keep an open hand in view briefly, then complete one native pinch. No menu, practice or turn can happen before that. The instruction panel follows the view until confirmation. Two transparent paper-and-gold leaves then open in 3D while the page gently settles toward the captured destination over 1.2 seconds. Your room stays visible; the camera never moves. Input is discarded during arrival, animation pauses while blurred/hidden or without viewer pose, and the final page is world-still. Decorative layers fail gracefully on limited budgets. Practice is optional from the menu.
 
-Native WebXR selectstart begins a press. Successful select commits it once; selectend alone cancels. Short clicks have no custom contact threshold or minimum duration. A 1.4 second native hold opens/closes the menu and consumes its later release. The existing hand-only ring starts after 350 ms and completes at 1.4 seconds. Joint distances only help determine a fresh open hand after interruption; they never generate actions. There is no joint fallback and no squeeze binding.
+Native WebXR selectstart begins a press. Successful select commits it once; selectend alone cancels. Short clicks have no custom contact threshold or minimum duration, no per-click cooldown and no geometric reopening requirement between successful native cycles. A 1.4 second native hold opens/closes the menu and consumes its later release. The existing hand-only ring starts after 350 ms and completes at 1.4 seconds. Joint distances only help determine a fresh open hand after interruption; they never generate actions. There is no joint-only click fallback and no squeeze binding.
 
-Safety requires a visibly active session, valid non-emulated hand tracking held steady for 400 ms, hands inside a conservative viewer-local view cone, and looking within 40° of the active page/menu. Looking away, losing a hand, system posture or interruption cancels the transaction. Returning closed cannot resume: open for 180 ms and wait for stable tracking. The camera/frustum and palm checks are best-effort safety gates, not eye tracking or a guarantee of tracking confidence. Native events are logged so the Quest trial can verify what the browser actually emits.
+Safety requires a visibly active session, valid non-emulated hand tracking held steady for 400 ms, hands inside a conservative viewer-local view cone, and looking within 40° of the active page/menu. Looking away, losing a hand, system posture or interruption cancels the transaction. Returning closed cannot resume: establish a released hand for 180 ms and wait for stable tracking. This applies to recovery, not every completed click. The native button release is used when available; joint gap is only a fallback without that button. The camera/frustum and palm checks are best-effort safety gates, not eye tracking or a guarantee of tracking confidence. Native events are logged so the Quest trial can verify what the browser actually emits.
 
 Right completed pinch goes Next, left Back; the menu can swap them. Menu buttons require the same target at press and release. Hand pointing is default; optional head pointing works only in the menu. Real turns flash arrows, first/last boundaries show the orange end bar and text, and unavailable directions are dimmed. The sample remains only two pages. The menu is captured in the current view and stays still, restoring the original reading placement on close. Re-centre deliberately moves that reading placement.
 
-Preferences cache hand swap and pointer choice locally, not durable reading history. Exports preserve gestureLog and ignoredPinches and add received/validated nativeEvents and current inputState. See BUILD_007_REPORT.md, BUILD_007_REVIEW.md and QUEST_CHECK.md. No actual Quest pass is claimed by PC tests.
+Preferences cache hand swap and pointer choice locally, not durable reading history. Exports preserve gestureLog and ignoredPinches and add received/validated nativeEvents and current inputState. See BUILD_008_REPORT.md, BUILD_008_REVIEW.md and QUEST_CHECK.md. No actual Quest pass is claimed by PC tests.
 
 Primary input semantics: [W3C WebXR Device API](https://www.w3.org/TR/webxr/); [W3C Hand Input](https://www.w3.org/TR/webxr-hand-input-1/); [Meta WebXR Hands](https://developers.meta.com/vr/documentation/web/webxr-hands/). Successful select precedes selectend; cancelled actions may end without select. Meta reserves palm pinches for system controls; the app's geometric suppression is best effort. No renderer code or live Sunnyvale bridge was changed.
 ## Failure behaviour

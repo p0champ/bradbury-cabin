@@ -4,7 +4,7 @@ export const RING_DELAY_MS = 350;
 export const MIN_PINCH_MS = 0;
 export const STABLE_MS = 400;
 export const OPEN_SETTLE_MS = 180;
-export const COOLDOWN_MS = 350;
+export const COOLDOWN_MS = 0;
 export const OPEN_DISTANCE = 0.028;
 const MAX_GAP_MS = 120;
 
@@ -89,6 +89,8 @@ export class GestureEngine {
       });
     h.closed = false;
     h.nativeDown = false;
+    h.needsOpen = true;
+    h.completed = false;
     h.armed = false;
     h.openSince = null;
     h.stableSince = null;
@@ -119,6 +121,8 @@ export class GestureEngine {
         armed: false,
         closed: false,
         nativeDown: false,
+        needsOpen: true,
+        completed: false,
         stableSince: null,
         openSince: null,
         lastTime: time,
@@ -158,12 +162,17 @@ export class GestureEngine {
     h.stableSince ??= time;
     h.stable = time - h.stableSince >= STABLE_MS;
     if (h.closed) return;
+    if (!h.needsOpen) {
+      h.armed = h.stable;
+      return;
+    }
     if (open && !h.nativeDown) {
       h.openSince ??= time;
       h.armed =
         h.stable &&
         time - h.openSince >= OPEN_SETTLE_MS &&
         time >= this.cooldownUntil;
+      if (h.armed) h.needsOpen = false;
     } else {
       h.openSince = null;
       if (h.nativeDown) h.armed = false;
@@ -181,6 +190,10 @@ export class GestureEngine {
     this.trace.push({ ...gate, stage: "validated", ready: !!h?.armed });
     if (this.trace.length > 120) this.trace.shift();
     if (kind === "selectstart") {
+      if (h?.closed && this.owner === key) {
+        this.note({ ...gate, result: "ignored", reason: "duplicate-start" });
+        return null;
+      }
       if (h) h.nativeDown = true;
       const reason = !fresh
         ? "stale-tracking"
@@ -201,10 +214,13 @@ export class GestureEngine {
           h.nativeDown = false;
           h.armed = false;
           h.openSince = null;
+          h.needsOpen = true;
+          h.completed = false;
         }
         return null;
       }
       h.closed = true;
+      h.completed = false;
       h.armed = false;
       h.started = time;
       h.pressTarget = target;
@@ -216,8 +232,10 @@ export class GestureEngine {
       if (h) {
         h.nativeDown = false;
         if (h.closed) this.cancel(key, "end-without-select", time);
-        h.openSince = null;
-        h.armed = false;
+        if (h.completed) {
+          h.completed = false;
+          h.armed = h.safe && h.stable;
+        }
       }
       return null;
     }
@@ -242,8 +260,9 @@ export class GestureEngine {
     } else event = { type: "page", hand: h.hand };
     h.closed = false;
     h.nativeDown = false;
-    h.armed = false;
-    h.openSince = null;
+    h.completed = true;
+    h.needsOpen = false;
+    h.armed = true;
     this.owner = null;
     this.cooldownUntil = time + COOLDOWN_MS;
     this.lastEntry = this.record({
@@ -266,6 +285,8 @@ export class GestureEngine {
     )
       return null;
     h.closed = false;
+    h.needsOpen = true;
+    h.completed = false;
     h.armed = false;
     h.openSince = null;
     this.owner = null;

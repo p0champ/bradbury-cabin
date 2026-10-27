@@ -6,3 +6,5 @@
 - No sound, photographs, or third-party JavaScript libraries are included in Phase 0.
 
 Both authors died more than 70 years ago. Modern translations or edited versions may have different rights; these samples use the original English texts.
+
+- The skip icons, hold rings and Build 008 paper-and-gold welcome leaves are original procedural Canvas artwork. No third-party images, 3D models or new assets are loaded for the welcome.

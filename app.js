@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=7";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=8";
 import {
   GestureEngine,
   menuButtons,
@@ -8,9 +8,10 @@ import {
   MIN_PINCH_MS,
   inView,
   facingPanel,
-} from "./gestures.js?v=7";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=7";
-import { HandBadges } from "./hand-badges.js?v=7";
+} from "./gestures.js?v=8";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=8";
+import { HandBadges } from "./hand-badges.js?v=8";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=8";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -31,6 +32,8 @@ const savePreferences = () => {
 };
 const state = {
   centering: false,
+  arriving: false,
+  arrivalError: null,
   attentionPaused: false,
   menuOpen: false,
   practice: false,
@@ -70,6 +73,10 @@ const gestures = new GestureEngine();
 let nativeQueue = [],
   lastFrameTime = 0;
 let handBadges = null;
+let arrival = null,
+  arrivalElapsed = 0,
+  lastArrivalTick = 0,
+  arrivalAnchor = null;
 let menuPlacement = null,
   lastViewer = null,
   lastDisplay = null,
@@ -79,13 +86,15 @@ const report = (message) => {
   $("status").textContent = message;
 };
 function paint() {
-  canvas.dataset.view = state.centering
-    ? "centering"
-    : state.menuOpen
-      ? "menu"
-      : state.practice
-        ? "practice"
-        : "reading";
+  canvas.dataset.view = state.arriving
+    ? "arrival"
+    : state.centering
+      ? "centering"
+      : state.menuOpen
+        ? "menu"
+        : state.practice
+          ? "practice"
+          : "reading";
   canvas.dataset.target = state.hover || "";
   canvas.setAttribute(
     "aria-label",
@@ -239,11 +248,13 @@ function paint() {
   );
   ctx.font = "36px Arial";
   ctx.fillText(
-    (state.centering
-      ? "Only centring is active · pinch and release to place the page."
-      : state.attentionPaused
-        ? "Paused · look toward the page, then open your hand."
-        : state.feedback) ||
+    (state.arriving
+      ? "Welcome in. Make yourself comfortable."
+      : state.centering
+        ? "Only centring is active · pinch and release to place the page."
+        : state.attentionPaused
+          ? "Paused · look toward the page, then open your hand."
+          : state.feedback) ||
       (state.menuOpen
         ? "Hold a pinch to close the menu."
         : state.swapped
@@ -323,11 +334,15 @@ function gestureEvent(event) {
     state.menuOpen = false;
     menuPlacement = null;
     nativeQueue = [];
-    gestures.setContext("reading");
+    state.arriving = true;
+    arrivalElapsed = 0;
+    lastArrivalTick = lastFrameTime;
+    arrivalAnchor = lastViewer;
+    gestures.setContext("arrival");
     paint();
     return "centered";
   }
-  if (state.centering) return "blocked-before-centering";
+  if (state.centering || state.arriving) return "blocked-before-reading";
   if (!event) return null;
   if (event.type === "menu") {
     if (state.practice) {
@@ -373,7 +388,7 @@ function gestureEvent(event) {
 }
 function action(id) {
   if (
-    state.centering &&
+    (state.centering || state.arriving) &&
     ["menu", "practice", "next", "prev", "recenter", "resume"].includes(id)
   )
     return;
@@ -456,7 +471,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-007",
+    build: "gestures-008",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -478,6 +493,8 @@ $("export").onclick = () => {
     })),
     inputMode: "native-select-only",
     centering: state.centering,
+    arriving: state.arriving,
+    arrivalError: state.arrivalError,
     attentionPaused: state.attentionPaused,
     handFeedbackError: state.handFeedbackError,
     controls: {
@@ -501,7 +518,7 @@ $("export").onclick = () => {
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
     questQuality:
-      "Bastian confirmed Build 003 crispness; Build 006 controls need a Quest check",
+      "Bastian confirmed Build 003 crispness; Build 008 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -516,16 +533,22 @@ function applyLayers() {
   const session = state.session;
   if (projectionRoute) {
     const primary = quad && state.mode === "layer" ? quad : base;
+    const optional = arrival?.visible.length ? arrival : handBadges;
     try {
       session.updateRenderState({
-        layers: [primary, ...(handBadges?.visible || [])],
+        layers: [primary, ...(optional?.visible || [])],
       });
     } catch (error) {
-      if (!handBadges?.visible.length) throw error;
-      handBadges.failed = true;
-      handBadges.clearVisible();
-      state.handFeedbackError = error.message;
-      report("Hand feedback unavailable: " + error.message);
+      if (!optional?.visible.length) throw error;
+      optional.failed = true;
+      optional.clearVisible();
+      if (optional === arrival) {
+        state.arrivalError = error.message;
+        report("Welcome decoration unavailable: " + error.message);
+      } else {
+        state.handFeedbackError = error.message;
+        report("Hand feedback unavailable: " + error.message);
+      }
       session.updateRenderState({ layers: [primary] });
     }
   } else session.updateRenderState({ baseLayer: base });
@@ -554,6 +577,10 @@ function cleanSession() {
   state.session = null;
   nativeQueue = [];
   state.centering = false;
+  state.arriving = false;
+  arrivalAnchor = null;
+  arrival?.dispose();
+  arrival = null;
   state.attentionPaused = false;
   gestures.reset();
   handBadges?.dispose();
@@ -660,6 +687,8 @@ async function enter() {
     ending = false;
     nativeQueue = [];
     state.centering = true;
+    state.arriving = false;
+    state.arrivalError = null;
     state.attentionPaused = false;
     state.menuOpen = false;
     state.practice = false;
@@ -669,6 +698,11 @@ async function enter() {
       handBadges = new HandBadges(binding, ref, (error) => {
         state.handFeedbackError = error.message;
         report("Hand feedback unavailable: " + error.message);
+      });
+    if (quad)
+      arrival = new Arrival(binding, ref, (error) => {
+        state.arrivalError = error.message;
+        report("Welcome decoration unavailable: " + error.message);
       });
     wantRecenter = true;
     gestures.reset();
@@ -694,6 +728,16 @@ async function enter() {
           profiles: Array.from(e.inputSource.profiles || []).slice(0, 4),
         });
         if (gestures.trace.length > 120) gestures.trace.shift();
+        if (state.arriving) {
+          gestures.note({
+            result: "ignored",
+            reason: "arrival-animation",
+            kind,
+            time,
+            hand: e.inputSource.handedness,
+          });
+          return;
+        }
         nativeQueue.push({ kind, source: e.inputSource, time, ray });
         if (nativeQueue.length > 60) {
           nativeQueue = [];
@@ -710,11 +754,19 @@ async function enter() {
       wantRecenter = true;
       nativeQueue = [];
       gestures.reset("reference-reset");
+      if (state.arriving) {
+        state.arriving = false;
+        state.centering = true;
+        arrivalAnchor = null;
+        gestures.setContext("centering");
+        paint();
+      }
     });
     session.addEventListener("visibilitychange", () => {
       nativeQueue = [];
       gestures.reset("visibility-change");
       if (handBadges?.clearVisible()) applyLayers();
+      if (arrival?.clearVisible()) applyLayers();
     });
     const generation = ++sessionGeneration;
     session.requestAnimationFrame((t, f) => frame(t, f, generation));
@@ -742,9 +794,11 @@ function frame(time, xrFrame, generation) {
   try {
     const pose = xrFrame.getViewerPose(ref);
     if (!pose) {
+      lastArrivalTick = time;
       nativeQueue = [];
       gestures.reset("viewer-pose-lost");
       if (handBadges?.clearVisible()) applyLayers();
+      if (arrival?.clearVisible()) applyLayers();
       if (state.hover) {
         state.hover = null;
         paint();
@@ -759,10 +813,26 @@ function frame(time, xrFrame, generation) {
         wantRecenter = false;
       }
       lastViewer = pose.transform;
+      if (state.arriving) {
+        if (session.visibilityState === "visible" && !pose.emulatedPosition)
+          arrivalElapsed += Math.max(0, Math.min(50, time - lastArrivalTick));
+        lastArrivalTick = time;
+      }
+      if (
+        state.arriving &&
+        session.visibilityState === "visible" &&
+        arrivalElapsed >= ARRIVAL_MS
+      ) {
+        state.arriving = false;
+        nativeQueue = [];
+        gestures.setContext("reading");
+        paint();
+      }
       const sessionVisible = session.visibilityState === "visible";
       const attentive =
         sessionVisible &&
         !pose.emulatedPosition &&
+        !state.arriving &&
         (state.centering || facingPanel(pose.transform, presentPose()));
       if (state.attentionPaused === attentive) {
         state.attentionPaused = !attentive;
@@ -843,9 +913,7 @@ function frame(time, xrFrame, generation) {
           inView(a.transform.position, pose.transform) &&
           inView(b.transform.position, pose.transform);
         const button = source.gamepad?.buttons?.[0];
-        const open = button
-          ? !button.pressed && distance > 0.022
-          : distance > 0.028;
+        const open = button ? !button.pressed : distance > 0.028;
         samples[samples.length - 1].systemGesture ||= !attentive || !handInView;
         if (!attentive || !handInView || systemGesture)
           targets.set(source, null);
@@ -873,7 +941,7 @@ function frame(time, xrFrame, generation) {
         if (outcome !== "centered")
           handBadges?.pulse(event.hand, time, outcome);
       };
-      const queued = nativeQueue;
+      const queued = state.arriving ? [] : nativeQueue;
       nativeQueue = [];
       for (const input of queued) {
         if (ending) break;
@@ -895,7 +963,7 @@ function frame(time, xrFrame, generation) {
         pointerSource = input.source;
         deliver(gestures.handle(input.kind, input.source, input.time, target));
       }
-      if (!ending) deliver(gestures.tick(time));
+      if (!ending && !state.arriving) deliver(gestures.tick(time));
       if (ending || state.session !== session || !gpu) return;
       let hover = null;
       if (state.menuOpen && attentive) {
@@ -917,7 +985,7 @@ function frame(time, xrFrame, generation) {
       }
       if (
         handBadges?.update(
-          state.centering ? [] : samples,
+          state.centering || state.arriving ? [] : samples,
           pose.transform,
           gestures,
           {
@@ -931,7 +999,24 @@ function frame(time, xrFrame, generation) {
         )
       )
         applyLayers();
-      const display = presentPose();
+      const progress = state.arriving
+        ? Math.min(1, arrivalElapsed / ARRIVAL_MS)
+        : null;
+      if (sessionVisible && (state.centering || state.arriving)) {
+        if (
+          arrival?.update(
+            state.arriving ? arrivalAnchor : pose.transform,
+            time,
+            progress,
+          )
+        )
+          applyLayers();
+      } else if (arrival?.clearVisible()) applyLayers();
+      const display = state.arriving
+        ? pageArrivalPose(arrivalAnchor, progress)
+        : presentPose();
+      if (quad)
+        quad.opacity = state.arriving ? Math.min(1, 0.2 + progress * 1.3) : 1;
       if (quad && display !== lastDisplay) {
         quad.transform = display;
         lastDisplay = display;
@@ -1029,6 +1114,7 @@ function frame(time, xrFrame, generation) {
         }
       }
       if (handBadges?.draw(xrFrame, gpu, activeLayers)) applyLayers();
+      if (arrival?.draw(xrFrame, gpu, activeLayers)) applyLayers();
     }
   } catch (e) {
     state.error = e.message;

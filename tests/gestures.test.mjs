@@ -225,7 +225,7 @@ test("stale event safety snapshot cannot start a transaction", () => {
   r.g.handle("selectstart", "right", r.time + 200);
   assert.equal(r.g.owner, null);
 });
-test("cooldown cannot become a delayed click while held", () => {
+test("successful native cycles rearm immediately without a new geometric opening", () => {
   const r = rig();
   r.ready();
   r.start();
@@ -233,6 +233,29 @@ test("cooldown cannot become a delayed click while held", () => {
   r.sample();
   r.start();
   r.run(700, { open: false });
+  r.release();
+  assert.equal(r.events.length, 2);
+});
+for (const spacing of [0, 80, 120, 200])
+  test(`ten native cycles at ${spacing}ms spacing each emit once without wide finger opening`, () => {
+    const r = rig();
+    r.ready();
+    for (let i = 0; i < 10; i++) {
+      r.start();
+      r.release();
+      if (spacing) r.run(spacing, { open: false });
+    }
+    assert.equal(r.events.length, 10);
+  });
+test("duplicate selectstart cannot restart a hold or duplicate a click", () => {
+  const r = rig();
+  r.ready();
+  r.start();
+  r.run(100, { open: false });
+  const started = r.g.hands.get("right").started;
+  r.start();
+  assert.equal(r.g.hands.get("right").started, started);
+  r.release();
   r.release();
   assert.equal(r.events.length, 1);
 });
