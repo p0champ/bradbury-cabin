@@ -1,13 +1,22 @@
-export const HOLD_MS = 750;
-export const MIN_PINCH_MS = 60;
+export const HOLD_MS = 1400;
+export const MIN_PINCH_MS = 160;
+export const OPEN_SETTLE_MS = 140;
+export const RELEASE_SETTLE_MS = 90;
+export const COOLDOWN_MS = 450;
+export const CLOSE_DISTANCE = 0.018;
+export const OPEN_DISTANCE = 0.038;
+const CONTACT_DISTANCE = 0.024;
+const RELEASE_TRAVEL_MS = 220;
+const MAX_SAMPLE_GAP = 220;
 
-// Reading, menu selection and a menu hold are mutually exclusive outcomes.
-// A newly visible or cancelled hand must first open before it can act.
+// Deliberate open -> firm pinch -> settled release. A loosened half-pinch
+// cannot continue charging a hold; time without tracking is never counted.
 export class GestureEngine {
   constructor() {
     this.hands = new Map();
     this.owner = null;
     this.context = "reading";
+    this.cooldownUntil = 0;
   }
   reset() {
     this.hands.clear();
@@ -21,9 +30,11 @@ export class GestureEngine {
     this.context = context;
     this.reset();
   }
-  progress(time) {
-    const h = this.hands.get(this.owner);
-    return h?.closed && !h.held ? Math.min(1, (time - h.started) / HOLD_MS) : 0;
+  progress(time, key = this.owner) {
+    const h = this.hands.get(key);
+    return h?.closed && !h.held && h.releaseAt == null && h.looseAt == null
+      ? Math.min(1, (time - h.started) / HOLD_MS)
+      : 0;
   }
   update(
     key,
@@ -38,38 +49,94 @@ export class GestureEngine {
       return null;
     }
     let h = this.hands.get(key);
+    if (h && time - h.lastTime > MAX_SAMPLE_GAP) {
+      this.cancel(key);
+      h = null;
+    }
     if (!h) {
-      h = { armed: false, closed: false, held: false };
+      h = {
+        armed: false,
+        closed: false,
+        held: false,
+        openSince: null,
+        lastTime: time,
+        releaseAt: null,
+        looseAt: null,
+      };
       this.hands.set(key, h);
     }
-    if (distance > 0.04) {
-      let event = null;
-      if (h.closed && !h.held && time - h.started >= MIN_PINCH_MS) {
-        // A threshold-crossing release may be the first sampled frame after
-        // the hold duration. It must never fall back to a page or button.
-        if (time - h.started >= HOLD_MS) event = { type: "menu", hand };
-        else if (this.context === "menu") {
-          if (h.target && target === h.target)
-            event = { type: "select", target: h.target, hand };
-        } else if (hand === "left" || hand === "right")
-          event = { type: "page", hand };
+    h.lastTime = time;
+    if (distance > OPEN_DISTANCE) {
+      if (h.closed) {
+        if (
+          h.releaseAt == null &&
+          h.looseAt != null &&
+          time - h.looseAt > RELEASE_TRAVEL_MS
+        ) {
+          this.cancel(key);
+          return null;
+        }
+        h.releaseAt ??= time;
+        if (time - h.releaseAt < RELEASE_SETTLE_MS) return null;
+        const duration =
+          Math.min(h.releaseAt, h.looseAt ?? h.releaseAt) - h.started;
+        let event = null;
+        if (!h.held && duration >= MIN_PINCH_MS) {
+          if (duration >= HOLD_MS) event = { type: "menu", hand };
+          else if (this.context === "menu") {
+            if (h.target && target === h.target)
+              event = { type: "select", target: h.target, hand };
+          } else if (hand === "left" || hand === "right")
+            event = { type: "page", hand };
+        }
+        h.closed = false;
+        h.held = false;
+        h.armed = false;
+        h.openSince = h.releaseAt;
+        h.releaseAt = null;
+        h.looseAt = null;
+        this.owner = null;
+        if (event && event.type !== "menu")
+          this.cooldownUntil = time + COOLDOWN_MS;
+        return event;
       }
-      h.armed = true;
-      h.closed = false;
-      h.held = false;
-      this.owner = null;
-      return event;
+      h.openSince ??= time;
+      h.armed =
+        time - h.openSince >= OPEN_SETTLE_MS && time >= this.cooldownUntil;
+      return null;
     }
-    if (distance < 0.025 && h.armed && !h.closed) {
-      h.closed = true;
-      h.started = time;
-      h.target = target;
-      h.held = false;
-      this.owner = key;
+    h.openSince = null;
+    if (h.closed && h.releaseAt != null) {
+      this.cancel(key);
+      return null;
     }
-    if (h.closed && !h.held && time - h.started >= HOLD_MS) {
-      h.held = true;
-      return { type: "menu", hand };
+    if (!h.closed) {
+      if (distance < CLOSE_DISTANCE && h.armed && time >= this.cooldownUntil) {
+        h.closed = true;
+        h.started = time;
+        h.target = target;
+        h.held = false;
+        h.releaseAt = null;
+        h.looseAt = null;
+        this.owner = key;
+      } else if (!h.armed) return null;
+    }
+    if (h.closed) {
+      if (distance > CONTACT_DISTANCE) {
+        h.looseAt ??= time;
+        if (time - h.looseAt >= RELEASE_TRAVEL_MS) this.cancel(key);
+        return null;
+      }
+      // Any separation during a hold cancels its accumulated charge. This
+      // deliberately favours missed gestures over surprise menu/page actions.
+      if (h.looseAt != null || h.releaseAt != null) {
+        this.cancel(key);
+        return null;
+      }
+      if (!h.held && time - h.started >= HOLD_MS) {
+        h.held = true;
+        return { type: "menu", hand };
+      }
     }
     return null;
   }

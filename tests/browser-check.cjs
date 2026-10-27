@@ -54,6 +54,8 @@ async function mock(
         scenario,
         lying,
         placed: [],
+        layerData: new Map(),
+        versions: new Map(),
         draws: 0,
         projectionDraws: 0,
         uploads: 0,
@@ -90,6 +92,8 @@ async function mock(
       session.inputSources = [];
       session.requestReferenceSpace = async () => new EventTarget();
       session.updateRenderState = (s) => {
+        if (scenario === "limited-layers" && s.layers?.length > 1)
+          throw Error("Compositor layer budget exceeded");
         // Quest rejects even baseLayer:null when Layers was negotiated.
         if (layersEnabled && Object.hasOwn(s, "baseLayer"))
           throw Error("Can't use baseLayer with layers feature requested");
@@ -112,6 +116,14 @@ async function mock(
       ]);
       window.__mock.clock = performance.now();
       window.__step = (advance = 16) => {
+        if (advance > 40) {
+          while (advance > 0) {
+            const piece = Math.min(40, advance);
+            __step(piece);
+            advance -= piece;
+          }
+          return;
+        }
         window.__mock.clock += advance;
         if (session.pendingState) {
           session.renderState = session.pendingState;
@@ -168,7 +180,17 @@ async function mock(
           )
             ? window.__mock.projectionTexture
             : window.__mock.texture;
-          if (!session.ended && tex) {
+          const previewKey = session.renderState.layers?.includes(
+            window.__mock.projection,
+          )
+            ? "projection:" + window.__mock.clock
+            : "page:" + window.__mock.versions.get(tex);
+          if (
+            !session.ended &&
+            tex &&
+            previewKey !== window.__mock.previewKey
+          ) {
+            window.__mock.previewKey = previewKey;
             const fbo = gl.createFramebuffer();
             gl.bindFramebuffer(gl.READ_FRAMEBUFFER, fbo);
             gl.framebufferTexture2D(
@@ -238,31 +260,38 @@ async function mock(
           };
           window.__mock.sources[handedness] = source;
         }
+        const local = new DOMPoint(
+          handedness === "left" ? -0.22 : 0.22,
+          -0.25,
+          -0.45,
+        ).matrixTransform(new DOMMatrix(head().matrix));
         source.hand.get("index-finger-tip").pose =
-          distance == null ? null : { x: 0, y: 0.4, z: -0.3 };
+          distance == null ? null : { x: local.x, y: local.y, z: local.z };
         source.hand.get("thumb-tip").pose =
-          distance == null ? null : { x: distance, y: 0.4, z: -0.3 };
+          distance == null
+            ? null
+            : { x: local.x + distance, y: local.y, z: local.z };
         session.inputSources = [source];
         return source;
       };
-      window.__pinch = (hand = "right", duration = 120) => {
+      window.__pinch = (hand = "right", duration = 240) => {
         __hand(0.05, hand);
-        __step();
-        __hand(0.015, hand);
-        __step();
+        __step(520);
+        __hand(0.012, hand);
         __step(duration);
-        __hand(0.05, hand);
-        __step();
+        for (const distance of [0.02, 0.026, 0.032, 0.04, 0.05, 0.05, 0.05]) {
+          __hand(distance, hand);
+          __step(40);
+        }
       };
       window.__hold = (hand = "right") => {
         __hand(0.05, hand);
-        __step();
-        __hand(0.015, hand);
-        __step();
-        __step(760);
+        __step(520);
+        __hand(0.012, hand);
+        __step(1480);
       };
       window.__aim = async (id, rayOnly = false) => {
-        const { menuButtons } = await import("./gestures.js?v=4");
+        const { menuButtons } = await import("./gestures.js?v=5");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -296,6 +325,7 @@ async function mock(
       window.__mock.session = session;
       function setupGL(g) {
         gl = g;
+        window.__mock.gl = g;
         g.canvas.width = 1200;
         g.canvas.height = 1000;
         if (window.__mock.glReady) return;
@@ -320,6 +350,11 @@ async function mock(
         };
         const subImage = g.texSubImage2D.bind(g);
         g.texSubImage2D = (...args) => {
+          const destination = g.getParameter(g.TEXTURE_BINDING_2D);
+          window.__mock.versions.set(
+            destination,
+            (window.__mock.versions.get(destination) || 0) + 1,
+          );
           if (g.getParameter(g.TEXTURE_BINDING_2D) === window.__mock.texture) {
             window.__mock.uploads++;
             if (scenario === "quad-gl-error") {
@@ -428,40 +463,49 @@ async function mock(
             },
           };
         }
-        createQuadLayer() {
+        createQuadLayer(init) {
           if (scenario.startsWith("no-layer"))
             throw Error("Deliberate unsupported layer fixture");
-          const width = scenario === "clamped-layer" ? 1024 : 2048,
-            height = scenario === "clamped-layer" ? 1280 : 2560;
-          const tex = colorTexture(width, height);
-          window.__mock.quadWidth = width;
-          window.__mock.quadHeight = height;
-          window.__mock.texture = tex;
+          const badge = init.viewPixelWidth === 256;
+          const width = badge
+              ? 256
+              : scenario === "clamped-layer"
+                ? 1024
+                : 2048,
+            height = badge ? 256 : scenario === "clamped-layer" ? 1280 : 2560;
+          const tex = colorTexture(width, height),
+            data = { tex, width, height, badge, matrix: null };
           const layer = {
+            opacity: 1,
             set transform(v) {
-              window.__mock.placed.push(Array.from(v.matrix));
+              data.matrix = Array.from(v.matrix);
+              if (!badge) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
+              data.destroyed = true;
             },
           };
-          window.__mock.quad = layer;
+          window.__mock.layerData.set(layer, data);
+          if (!badge) {
+            window.__mock.quadWidth = width;
+            window.__mock.quadHeight = height;
+            window.__mock.texture = tex;
+            window.__mock.quad = layer;
+          }
           return layer;
         }
-        getSubImage() {
-          if (scenario === "draw-failure")
-            throw Error("Deliberate layer draw failure");
-          if (!session.renderState.layers?.includes(window.__mock.quad))
+        getSubImage(layer) {
+          const data = window.__mock.layerData.get(layer);
+          if (!session.renderState.layers?.includes(layer))
             throw Error("getSubImage used before active layers changed");
-          window.__mock.draws++;
+          if (!data || data.destroyed) throw Error("Invalid layer texture");
+          if (!data.badge && scenario === "draw-failure")
+            throw Error("Deliberate layer draw failure");
+          if (!data.badge) window.__mock.draws++;
           return {
-            colorTexture: window.__mock.texture,
-            viewport: {
-              x: 0,
-              y: 0,
-              width: window.__mock.quadWidth,
-              height: window.__mock.quadHeight,
-            },
+            colorTexture: data.tex,
+            viewport: { x: 0, y: 0, width: data.width, height: data.height },
           };
         }
       };
@@ -754,7 +798,7 @@ async function mock(
             __mock.poseLost = true;
             __step();
             __mock.poseLost = false;
-            __step(120);
+            __step(240);
             __hand(0.05);
             __step();
           });
@@ -781,16 +825,16 @@ async function mock(
         await p.evaluate(() => {
           __mock.look = null;
           __hand(0.05);
-          __step();
-          __hand(0.015);
+          __step(520);
+          __hand(0.012);
           __step();
         });
         assert.match(await p.locator("#place").textContent(), /Page 1/);
-        await p.evaluate(() => __step(120));
+        await p.evaluate(() => __step(240));
         assert.match(await p.locator("#place").textContent(), /Page 1/);
         await p.evaluate(() => {
           __hand(0.05);
-          __step();
+          __step(140);
         });
         assert.match(await p.locator("#place").textContent(), /Page 2/);
         await p.evaluate(() => __step());
@@ -848,7 +892,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-004");
+        assert.equal(details.build, "gestures-005");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -947,8 +991,9 @@ async function mock(
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
         __mock.session.inputSources = [l, r];
-        __step();
-        r.hand.get("thumb-tip").pose.x = 0.015;
+        __step(520);
+        r.hand.get("thumb-tip").pose.x =
+          r.hand.get("index-finger-tip").pose.x + 0.012;
         __step();
       });
       assert.equal(
@@ -956,8 +1001,10 @@ async function mock(
         "resume",
       );
       await p.evaluate(() => {
-        __mock.sources.right.hand.get("thumb-tip").pose.x = 0.05;
-        __step(120);
+        __step(240);
+        __mock.sources.right.hand.get("thumb-tip").pose.x =
+          __mock.sources.right.hand.get("index-finger-tip").pose.x + 0.05;
+        __step(240);
       });
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
@@ -992,26 +1039,22 @@ async function mock(
       });
       await p.locator("#compare").click();
       await p.evaluate(() => __step());
-      await p
-        .locator("#xr-preview")
-        .screenshot({
-          path: path.join(
-            out,
-            lying ? "menu-world-lying.png" : "menu-world-front.png",
-          ),
-        });
+      await p.locator("#xr-preview").screenshot({
+        path: path.join(
+          out,
+          lying ? "menu-world-lying.png" : "menu-world-front.png",
+        ),
+      });
       await p.evaluate(() => {
         __mock.offsetX = 0.25;
         __step();
       });
-      await p
-        .locator("#xr-preview")
-        .screenshot({
-          path: path.join(
-            out,
-            lying ? "menu-world-lying-side.png" : "menu-world-side.png",
-          ),
-        });
+      await p.locator("#xr-preview").screenshot({
+        path: path.join(
+          out,
+          lying ? "menu-world-lying-side.png" : "menu-world-side.png",
+        ),
+      });
       await p.evaluate(() => {
         __mock.offsetX = 0;
         __step();
@@ -1134,6 +1177,162 @@ async function mock(
       assert.deepEqual(errors, []);
       passed(
         "completed practice is remembered on XR re-entry" +
+          (lying ? " lying" : ""),
+      );
+      await p.close();
+    }
+    {
+      const p = await browser.newPage();
+      await mock(p, "limited-layers");
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => {
+        __step();
+        __hand(0.05);
+        __step(520);
+      });
+      assert.equal(await p.locator("#enter").isEnabled(), false);
+      assert.match(
+        await p.locator("#status").textContent(),
+        /Hand feedback unavailable/,
+      );
+      assert.equal(
+        await p.evaluate(() => __mock.session.renderState.layers.length),
+        1,
+      );
+      await p.evaluate(() => __pinch());
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      passed(
+        "limited compositor budget disables optional hand badges and preserves reader and gestures",
+      );
+      await p.close();
+    }
+    for (const lying of [false, true]) {
+      const p = await browser.newPage();
+      await mock(p, "layer", lying);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => {
+        __step();
+        const l = __hand(0.05, "left"),
+          r = __hand(0.05, "right");
+        __mock.session.inputSources = [l, r];
+        __step(520);
+        window.badgeSnapshot = () => {
+          const gl = __mock.gl,
+            entries = [...__mock.layerData].filter(
+              ([layer, d]) => d.badge && layer.opacity > 0,
+            );
+          const canvas = document.createElement("canvas");
+          canvas.width = 560;
+          canvas.height = 290;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#d2d7cf";
+          ctx.fillRect(0, 0, 560, 290);
+          const counts = [],
+            poses = [];
+          for (const [i, [layer, d]] of entries.entries()) {
+            const fb = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.framebufferTexture2D(
+              gl.FRAMEBUFFER,
+              gl.COLOR_ATTACHMENT0,
+              gl.TEXTURE_2D,
+              d.tex,
+              0,
+            );
+            const pixels = new Uint8Array(256 * 256 * 4);
+            gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.deleteFramebuffer(fb);
+            let gold = 0;
+            for (let k = 0; k < pixels.length; k += 4)
+              if (
+                pixels[k] > 180 &&
+                pixels[k + 1] > 140 &&
+                pixels[k + 2] < 220 &&
+                Math.hypot(
+                  ((k / 4) % 256) - 128,
+                  Math.floor(k / 4 / 256) - 128,
+                ) > 90
+              )
+                gold++;
+            counts.push(gold);
+            poses.push(d.matrix.slice(12, 15));
+            if (pixels[3] !== 0)
+              throw Error("Badge corners must be transparent");
+            const c = document.createElement("canvas");
+            c.width = c.height = 256;
+            c.getContext("2d").putImageData(
+              new ImageData(new Uint8ClampedArray(pixels), 256, 256),
+              0,
+              0,
+            );
+            ctx.save();
+            ctx.translate(12 + i * 280, 268);
+            ctx.scale(1, -1);
+            ctx.drawImage(c, 0, 0);
+            ctx.restore();
+          }
+          return {
+            counts,
+            poses,
+            image: canvas.toDataURL(),
+            pageVersion: __mock.versions.get(__mock.texture),
+            layers: __mock.session.renderState.layers.length,
+          };
+        };
+      });
+      const idle = await p.evaluate(() => badgeSnapshot());
+      assert.equal(idle.layers, 3);
+      assert.equal(idle.counts.length, 2);
+      assert.ok(idle.counts.every((n) => n < 20));
+      await fs.writeFile(
+        path.join(out, `hands-${lying ? "lying" : "front"}-idle.png`),
+        Buffer.from(idle.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => {
+        __mock.sources.right.hand.get("thumb-tip").pose.x =
+          __mock.sources.right.hand.get("index-finger-tip").pose.x + 0.012;
+        __step(720);
+      });
+      const half = await p.evaluate(() => badgeSnapshot());
+      assert.ok(half.counts[1] > 2000);
+      assert.ok(half.counts[0] < 20);
+      assert.equal(half.pageVersion, idle.pageVersion);
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      await fs.writeFile(
+        path.join(out, `hands-${lying ? "lying" : "front"}-half.png`),
+        Buffer.from(half.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => __step(560));
+      assert.equal(
+        await p.locator("#page").getAttribute("data-view"),
+        "reading",
+      );
+      const late = await p.evaluate(() => badgeSnapshot());
+      assert.ok(late.counts[1] > half.counts[1] * 1.4);
+      await p.evaluate(() => __step(200));
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
+      const full = await p.evaluate(() => badgeSnapshot());
+      assert.ok(full.counts[1] > late.counts[1]);
+      await fs.writeFile(
+        path.join(out, `hands-${lying ? "lying" : "front"}-full.png`),
+        Buffer.from(full.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => {
+        __mock.session.inputSources = [];
+        __step(80);
+      });
+      assert.equal(
+        await p.evaluate(() => __mock.session.renderState.layers.length),
+        1,
+      );
+      passed(
+        "two native hand badges animate only the owning ring, preserve page pixels, wait 1.4 seconds, and hide on tracking loss" +
           (lying ? " lying" : ""),
       );
       await p.close();

@@ -89,7 +89,7 @@ export async function renderer(canvas) {
   return {
     gl,
     fbo,
-    copyPage(sub, source) {
+    copyPage(sub, source, { premultiplied = false } = {}) {
       let pixels = source;
       const v = sub.viewport;
       if (v.width !== source.width || v.height !== source.height) {
@@ -102,6 +102,7 @@ export async function renderer(canvas) {
       gl.bindTexture(gl.TEXTURE_2D, sub.colorTexture);
       try {
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, premultiplied);
         // Only replace pixels; opaque layer textures are runtime-owned and
         // must never be reallocated with texImage2D or given mipmaps.
         gl.texSubImage2D(
@@ -117,6 +118,7 @@ export async function renderer(canvas) {
       } finally {
         gl.bindTexture(gl.TEXTURE_2D, null);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
       }
     },
     upload(source) {

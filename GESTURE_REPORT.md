@@ -1,33 +1,19 @@
-# Build 004 — gesture trial report
+# Build 005 — calmer hand controls
 
-The new control system is built for the first part of Phase 1. Bastian confirmed that Build 003 was very crisp and approved moving on. The full Phase 1 reader is still in progress.
+Build 004 was too sensitive in Bastian's Quest test. This revision requires a firmer, deliberate pinch, a settled release and a short pause between actions. The menu hold is now 1.4 seconds. Skip icons sit over each hand; a circle fills on the holding hand until the menu opens. The reading page has no progress animation.
 
-While reading, a right pinch followed by release turns forward; the left goes back. Holding either pinch for ¾ second opens a separate menu without also turning a page. The menu pauses reading gestures, shows large highlighted buttons, supports hand swapping and an optional head pointer, and lets you re-centre deliberately. Close it with Return to reading or another hold. The original reading position is restored. A first-use practice panel confirms Next / Back / Menu without advancing your text.
+Right pinch/release still turns forward; left goes back. The menu supports hand swapping, hand pointing or optional head pointing, practice and deliberate re-centering. A menu hold never also turns a page or selects a button. Reading placement is restored after closing the menu. Full Phase 1 remains pending.
 
-| Status | Result |
-| --- | --- |
-| Built | Gesture trial, practice and menu; full Phase 1 remains pending |
-| PC-tested | 14 gesture/geometry tests +71 browser checks passed |
-| Reviewed | Independent critic **6.5 → 8/10**, two rounds; [review](GESTURE_REVIEW.md) |
-| Committed | `phase-1-gestures`; the passed Phase 0 branch is retained |
-| Deployed | GitHub Pages from the gesture-trial branch |
-| Needs a Quest check | Release timing, menu targeting, resting-hand reliability and comfort |
+PC verification: 23 pure gesture/geometry tests and 74 isolated Chromium checks. They cover deliberate contact, brief-touch rejection, release bounce, natural gradual release, partial loosening, cooldown, continuous hold timing, tracking loss, simultaneous hands, menu targeting, practice and native graphics regressions. Two new native hand-layer workflows read actual uploaded textures, check transparent corners and ring growth, confirm that page pixels stay unchanged during progress, and cover front/lying views. A layer-budget rejection test confirms that optional feedback failure preserves reading and controls. These are simulated XR checks, not headset results.
 
-The checks include delayed page turns, hold/release separation at the exact threshold, tracking-loss cancellation, simultaneous hands, highlight ownership, practice, saved preferences, menu placement and restoration, re-centre, safe Exit and re-entry. The graphics tests still cover direct layer pixel uploads, clamped allocations, stereo depth buffers and named graphics failures. The independent critic's first pass found a threshold-release bug and a wrong-hand highlight; both were corrected with regression tests.
+Independent review reached **8/10 for PC readiness**, with all 23+74 checks independently passing, and is recorded in CALM_GESTURE_REVIEW.md. The original Build 004 review remains in GESTURE_REVIEW.md. Source and hosting use `phase-1-gestures`; the passed Phase 0 branch is preserved. No Sunnyvale bridge or normal Chrome session was touched.
 
-Screenshots include native page-buffer readbacks and world-projected front, side and lying-down views of the menu. They are simulations, not Quest screenshots. The 750 ms hold and distance thresholds are starting values; the headset trial determines whether they need adjustment. The near-face system-pinch guard is best effort because WebXR has no native system-gesture flag. Integrated visibility/reset coverage remains a minor review item.
+Try [Build 005](https://p0champ.github.io/bradbury-cabin/?v=5) in a fresh Quest Browser tab:
 
-No Sunnyvale code, service, private files or normal Chrome session was touched. No new bridge, account or paid service was used. Full reading history, Claude, sounds, general document pagination and saved reading place are not part of this gesture trial. Preferences are cached locally; durable history is a later feature.
+1. Open your fingers, then make a deliberate right pinch for roughly a quarter second and release. It should turn once. Left goes back.
+2. Try relaxed fingers and brief accidental touches. They should do nothing.
+3. Hold a firm pinch. Watch the circle fill on that hand over about 1.4 seconds until the menu appears. Release; no button should select itself.
+4. Check both hand icons while sitting and lying down. Open your hand halfway through a hold: the circle should clear and the menu should stay closed.
+5. Check that page turns feel calmer and the hand badges stay comfortable. Use Save test details if anything fails.
 
-## Try this in the headset
-
-1. Close the old tab and open [Build 004](https://p0champ.github.io/bradbury-cabin/?v=4) in Quest Browser while lying down.
-2. Open your fingers once, then practise right pinch/release for Next and left for Back. Practice should tick them without changing pages.
-3. Hold either pinch for ¾ second. Watch the progress bar, then release after the menu opens. No button should activate from that release.
-4. Point at Return to reading, wait for its highlight, then pinch and release. Right now turns forward and left back, with your hands resting anywhere tracked.
-5. Look around and repeat page turns. The action should stay tied to the hand, rather than what your head points at.
-6. Open the menu while looking elsewhere. Close it and check that the reading page returns to its original position. Then try explicit Re-centre.
-7. Try swapping the hands and switching the menu pointer between hand and head. Keep both hands visible and check that the pinching hand controls the highlighted button.
-8. Exit and tell me whether the controls feel reliable and comfortable, whether the hold feels too short or long, and any wrong actions or poorly tracked resting positions. Save test details if an error occurs.
-
-The next step is Bastian's gesture check before expanding the rest of the Phase 1 reader around these controls.
+The near-face system-pinch guard remains best effort. Actual Quest gesture comfort, compositor layer budget and frame pacing need the user's check.

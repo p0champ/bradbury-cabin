@@ -1,3 +1,12 @@
+# Build 005 — calmer gestures and hand feedback
+
+Bastian reported Build 004 gestures were much too sensitive and requested skip symbols on each hand with a slowly filling menu-hold circle. Build 005 uses 18 mm firm pinch, 160 ms minimum, 140 ms open arming, 90 ms continuous release settling, 450 ms turn/select cooldown and a 1400 ms menu hold. Partial loosening stops hold charge; natural release has 220 ms travel allowance, with action duration capped at the first separation. Stalling half-open, reclosing, release bounce, tracking loss or a sample gap cancels the gesture. No time spent half-open is counted toward a hold. Either hand can summon the menu; two simultaneous pinches are not required.
+
+`hand-badges.js` adds two 256-square, 6 cm native quad layers, positioned by the hands and oriented toward the viewer. Skip direction honours hand swapping. The active hand's ring fills in 48 steps, with a short completion pulse; the page has no hold bar and is not repainted by hand progress. Uploads use premultiplied alpha and restore GL state. New layers wait until active in renderState before subimage access. Tracking/system guards hide badges; cleanup destroys them. Optional layer allocation/upload/list failures disable badges and retain the reader with an exported diagnostic.
+
+Verified: 23 pure tests +74 isolated Chromium checks pass. Independent critic approved at 8/10 PC readiness; release bounce, half-open duration, gradual-release ergonomics and optional layer-budget findings were fixed before approval. Phase 0 sharpness remains user-passed. Full Phase 1 is still pending. Build 005 needs Bastian's Quest check for pinch comfort, tracking, badge placement and frame pacing. PC evidence is synthetic XR with real WebGL, not headset evidence. Current URL: https://p0champ.github.io/bradbury-cabin/?v=5 . Branch and Pages source remain `phase-1-gestures`; versioned app/gesture/GL/badge modules are v5. See CALM_GESTURE_REVIEW.md and GESTURE_REPORT.md for verification. Older entries below are historical.
+
+---
 # Build 004 — Phase 1 gesture trial
 
 Bastian explicitly reported Build 003: **“Very crisp we can move on.”** The Phase 0 crispness gate passed by the user's judgement. He requested a gesture-system brainstorm and approved the proposed right/left release turns, held menu, separate reading/menu contexts, and practice screen. Work is on `phase-1-gestures`, based on the passed `phase-0-crispness` Build 003 commit 10ee617. Do not claim all of Phase 1 is built: full-work pagination, saved place, both moods and ambience remain pending.

@@ -4,8 +4,11 @@ import {
   menuButtons,
   menuHit,
   nearFacePalm,
-} from "./gestures.js?v=4";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=3";
+  HOLD_MS,
+  MIN_PINCH_MS,
+} from "./gestures.js?v=5";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=5";
+import { HandBadges } from "./hand-badges.js?v=5";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -29,7 +32,7 @@ const state = {
   practice: !preferences.practised,
   swapped: !!preferences.swapped,
   headPointer: !!preferences.headPointer,
-  holdProgress: 0,
+  handFeedbackError: null,
   practiceMarks: { next: false, prev: false, menu: false },
   feedback: "",
   feedbackUntil: 0,
@@ -61,6 +64,7 @@ let pages = [],
 let projectionRoute = false,
   layerDirty = true;
 const gestures = new GestureEngine();
+let handBadges = null;
 let menuPlacement = null,
   lastViewer = null,
   lastDisplay = null,
@@ -164,7 +168,7 @@ function paint() {
           : "Left pinch, then release",
         "Previous page",
       ],
-      ["menu", "Hold either pinch for ¾ second", "Open the menu"],
+      ["menu", "Hold either pinch for 1.4 seconds", "Open the menu"],
     ];
     rows.forEach(([id, title, detail], i) => {
       const y = 800 + i * 360;
@@ -215,18 +219,6 @@ function paint() {
     160,
     2320,
   );
-  if (state.holdProgress > 0.15) {
-    ctx.fillStyle = state.night ? "#29372f" : "#e8e6d7";
-    ctx.fillRect(160, 2380, 1720, 20);
-    ctx.fillStyle = muted;
-    ctx.fillRect(160, 2380, 1720 * state.holdProgress, 20);
-    ctx.font = "30px Arial";
-    ctx.fillText(
-      state.menuOpen ? "Keep holding to close…" : "Keep holding for the menu…",
-      160,
-      2470,
-    );
-  }
   $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
   $("prev").disabled = state.page === 0;
   $("next").disabled = state.page === pages.length - 1;
@@ -271,7 +263,6 @@ function toggleMenu(open = !state.menuOpen) {
   state.practice = false;
   state.hover = null;
   pointerSource = null;
-  state.holdProgress = 0;
   if (open) menuPlacement = inFront();
   gestures.setContext(open ? "menu" : "reading");
   paint();
@@ -383,8 +374,10 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-004",
+    build: "gestures-005",
     phase: "1-gesture-trial",
+    gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
+    handFeedbackError: state.handFeedbackError,
     controls: {
       swapped: state.swapped,
       pointer: state.headPointer ? "head" : "hand",
@@ -406,7 +399,7 @@ $("export").onclick = () => {
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
     questQuality:
-      "Bastian confirmed Build 003 crispness; Build 004 controls need a Quest check",
+      "Bastian confirmed Build 003 crispness; Build 005 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -419,11 +412,21 @@ $("export").onclick = () => {
 };
 function applyLayers() {
   const session = state.session;
-  if (projectionRoute)
-    session.updateRenderState({
-      layers: quad && state.mode === "layer" ? [quad] : [base],
-    });
-  else session.updateRenderState({ baseLayer: base });
+  if (projectionRoute) {
+    const primary = quad && state.mode === "layer" ? quad : base;
+    try {
+      session.updateRenderState({
+        layers: [primary, ...(handBadges?.visible || [])],
+      });
+    } catch (error) {
+      if (!handBadges?.visible.length) throw error;
+      handBadges.failed = true;
+      handBadges.clearVisible();
+      state.handFeedbackError = error.message;
+      report("Hand feedback unavailable: " + error.message);
+      session.updateRenderState({ layers: [primary] });
+    }
+  } else session.updateRenderState({ baseLayer: base });
 }
 function hit(transform) {
   const display = presentPose();
@@ -453,6 +456,8 @@ function cleanSession() {
   sessionGeneration++;
   state.session = null;
   gestures.reset();
+  handBadges?.dispose();
+  handBadges = null;
   quad?.destroy();
   quad = null;
   if (projectionRoute) base?.destroy();
@@ -556,6 +561,12 @@ async function enter() {
     state.menuOpen = false;
     state.practice = !preferences.practised;
     gestures.setContext("reading");
+    state.handFeedbackError = null;
+    if (quad)
+      handBadges = new HandBadges(binding, ref, (error) => {
+        state.handFeedbackError = error.message;
+        report("Hand feedback unavailable: " + error.message);
+      });
     wantRecenter = true;
     lastAction = -Infinity;
     gestures.reset();
@@ -580,6 +591,7 @@ async function enter() {
     });
     session.addEventListener("visibilitychange", () => {
       gestures.reset();
+      if (handBadges?.clearVisible()) applyLayers();
       lastAction = performance.now();
     });
     const generation = ++sessionGeneration;
@@ -603,10 +615,12 @@ function frame(time, xrFrame, generation) {
   // Render-state layer changes take effect at the next XR frame boundary.
   // A pinch may request a new mode below; finish this frame using its old mode.
   const drawMode = state.mode;
+  const activeLayers = session.renderState.layers || [];
   try {
     const pose = xrFrame.getViewerPose(ref);
     if (!pose) {
       gestures.reset();
+      if (handBadges?.clearVisible()) applyLayers();
       if (state.hover) {
         state.hover = null;
         paint();
@@ -626,7 +640,8 @@ function frame(time, xrFrame, generation) {
       const activeSources = new Set(session.inputSources);
       for (const source of gestures.hands.keys())
         if (!activeSources.has(source)) gestures.cancel(source);
-      const targets = new Map();
+      const targets = new Map(),
+        samples = [];
       for (const source of session.inputSources) {
         if (!source.hand) continue;
         const joint = (name) => {
@@ -660,6 +675,29 @@ function frame(time, xrFrame, generation) {
             z: -pose.transform.matrix[10],
           },
         );
+        const wrist = joint("wrist")?.transform.position,
+          baseJoint = joint("index-finger-metacarpal")?.transform.position;
+        const anchor =
+          wrist && baseJoint
+            ? {
+                x: (wrist.x + baseJoint.x) / 2,
+                y: (wrist.y + baseJoint.y) / 2,
+                z: (wrist.z + baseJoint.z) / 2,
+              }
+            : wrist ||
+              (a && b
+                ? {
+                    x: (a.transform.position.x + b.transform.position.x) / 2,
+                    y: (a.transform.position.y + b.transform.position.y) / 2,
+                    z: (a.transform.position.z + b.transform.position.z) / 2,
+                  }
+                : null);
+        samples.push({
+          source,
+          hand: source.handedness,
+          position: anchor,
+          systemGesture,
+        });
         const event = gestures.update(source, {
           distance,
           time,
@@ -669,8 +707,9 @@ function frame(time, xrFrame, generation) {
         });
         if (gestures.owner === source || event) pointerSource = source;
         if (event) {
+          handBadges?.pulse(event.hand, time, event.type);
           gestureEvent(event);
-          break;
+          if (ending) break;
         }
       }
       if (ending || state.session !== session || !gpu) return;
@@ -688,15 +727,18 @@ function frame(time, xrFrame, generation) {
         state.hover = hover;
         paint();
       }
-      const progress = Math.round(gestures.progress(time) * 10) / 10;
-      if (progress !== state.holdProgress) {
-        state.holdProgress = progress;
-        paint();
-      }
       if (state.feedback && performance.now() > state.feedbackUntil) {
         state.feedback = "";
         paint();
       }
+      if (
+        handBadges?.update(samples, pose.transform, gestures, {
+          swapped: state.swapped,
+          menu: state.menuOpen,
+          time,
+        })
+      )
+        applyLayers();
       const display = presentPose();
       if (quad && display !== lastDisplay) {
         quad.transform = display;
@@ -790,10 +832,11 @@ function frame(time, xrFrame, generation) {
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
           report(
-            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 004: practise Next, Back and Menu.`,
+            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 005: practise Next, Back and Menu.`,
           );
         }
       }
+      if (handBadges?.draw(xrFrame, gpu, activeLayers)) applyLayers();
     }
   } catch (e) {
     state.error = e.message;

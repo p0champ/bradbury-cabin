@@ -1,21 +1,21 @@
 # Bradbury Cabin — Phase 1 gesture trial
 
-A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 004 is the first Phase 1 step: a focused gesture and menu trial. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
+A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 005 is the first Phase 1 step: a focused gesture and menu trial. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
 
 ## Run
 
 `npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the gesture-state and geometry tests. No installation is required for the app or those tests.
 
-Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=4) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=5) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
 One 2048 × 2560 canvas is rasterized with bundled Literata. The same page pixels feed both paths:
 
-- A: `XRWebGLBinding.createQuadLayer`, mono, 0.72 × 0.90 metres, local reference space. The Layers list contains only the quad. When the page changes or the runtime requests redraw, an XR callback obtains `getSubImage` and copies the canvas directly with `texSubImage2D`, using the subimage viewport offsets and dimensions. No quad framebuffer attachment, shader draw, texture reallocation or mipmaps. Restore upload orientation and unbind before leaving the callback. A runtime-clamped allocation uses a staging canvas at its reported size. No Layers polyfill.
+- A: `XRWebGLBinding.createQuadLayer`, mono, 0.72 × 0.90 metres, local reference space. The Layers list contains the page quad plus visible hand badges. When the page changes or the runtime requests redraw, an XR callback obtains `getSubImage` and copies the canvas directly with `texSubImage2D`, using the subimage viewport offsets and dimensions. No quad framebuffer attachment, shader draw, texture reallocation or mipmaps. Restore upload orientation and unbind before leaving the callback. A runtime-clamped allocation uses a staging canvas at its reported size. No Layers polyfill.
 - B: the ordinary perspective-textured rectangle drawn into each eye's native `XRProjectionLayer` subimage. Its color and DEPTH_COMPONENT24 textures attach to our framebuffer during that view, then detach in finally. Each eye's own viewport is scissored during clearing. An ordinary canvas source texture with filtered mipmaps is uploaded only when B needs changed pixels. Both paths have the same geometry, text size, distance and content. Foveation is disabled where supported. A/B does not deliberately degrade B. Legacy XRWebGLLayer is reserved for explicitly labelled texture-only fallback sessions without Layers.
 
-When the Layers feature is enabled, both modes submit only a `layers` list: A contains the quad, B contains the native projection layer. Never include `baseLayer`, even null, in a layers-enabled session. The legacy property is reserved for sessions without the feature.
+When the Layers feature is enabled, both modes submit only a `layers` list: A contains the page quad, B contains the native projection layer; both may include two hand badge quads. Never include `baseLayer`, even null, in a layers-enabled session. The legacy property is reserved for sessions without the feature.
 
 The 1.1 metre distance gives approximately 36° × 44.5° angular size. Requested resolution is about 56 × 58 pixels per degree, intentionally oversampled; it is not a claim of headset-native pixels per degree. The actual layer viewport dimensions are recorded. This budget must be evaluated on Quest for sharpness, memory and frame pacing. Text size is 46/54/62 source pixels. Rasterization/antialiasing uses the browser, without custom font hinting controls.
 
@@ -23,7 +23,9 @@ Only `immersive-ar` with alpha blending is accepted. No opaque virtual world is 
 
 ## Hands and controls
 
-The reading and menu contexts are separate. In reading, right index/thumb pinch then release means Next; left means Back. Swap them in the menu if preferred. Neither looking at the page footer nor pointing at a button changes a reading pinch. Either hand held for 750 ms opens the menu; another hold closes it. A short pinch must last at least 60 ms, with 25/40 mm close/open hysteresis. A threshold-crossing release also counts as a hold. One gesture has one outcome, on release for short pinches. A hand must first open after entering tracking or after cancellation. The first pinching hand exclusively owns the gesture.
+The reading and menu contexts are separate. In reading, right index/thumb pinch then release means Next; left means Back. Swap them in the menu if preferred. Neither looking at the page footer nor pointing at a button changes a reading pinch. Either hand held for 1400 ms opens the menu; another hold closes it. A deliberate pinch must last at least 160 ms, start below 18 mm, and release above 38 mm continuously for 90 ms. Open fingers for 140 ms to arm; a 450 ms cooldown follows a turn or selection. Separation above 24 mm stops hold charging. Natural release has 220 ms to travel through the gap before full-open settling; a stalled partial release, reclosing, release bounce or missing tracking cancels the pinch. A threshold-crossing release counts as a hold only when firm contact itself lasted 1400 ms. The first pinching hand exclusively owns the gesture.
+
+Build 005 responds to Bastian's report that Build 004 was too sensitive. Two small transparent compositor layers carry forward/back skip icons over the hands. The owning hand's ring fills over the 1.4 second hold; release or cancellation clears it. Only those hand textures animate, leaving the reading pixels untouched. Badges follow tracked hand position and face the viewer, including lying down; the menu itself remains world-still. An unsupported extra-layer budget disables badges with a diagnostic while preserving reading and gestures.
 
 In the menu, point until a large button highlights, pinch, then release on the same button. The pinching hand owns the highlight; an idle hand cannot highlight a different button while it is selecting. A head-directed pointer is an optional menu-only setting, also selectable in the browser before entering if the hand ray is uncomfortable. Head direction is not eye tracking. Untargeted menu pinches do nothing. Releasing the hold that opened a menu cannot activate a button. Tracking loss, hidden session, input removal or space reset cancels the gesture.
 
@@ -41,7 +43,7 @@ The texture fallback is free and stays web-based, but adds the scene's eye-buffe
 
 ## Primary references checked 27 October 2026
 
-- [Meta: WebXR Layers](https://developers.meta.com/vr/documentation/web/webxr-layers/): Quest Browser documentation and single-sampling rationale. Build 003 crispness was confirmed by Bastian on his Quest; Build 004 gesture comfort/reliability still needs his check.
+- [Meta: WebXR Layers](https://developers.meta.com/vr/documentation/web/webxr-layers/): Quest Browser documentation and single-sampling rationale. Build 003 crispness was confirmed by Bastian on his Quest; Build 005 gesture comfort/reliability still needs his check.
 - [W3C: WebXR Layers](https://www.w3.org/TR/webxrlayers-1/): layer construction, spaces, opaque texture lifecycle and framebuffer constraints.
 - [Immersive Web quad-layer sample](https://immersive-web.github.io/webxr-samples/layers-samples/quad-layer.html).
 
