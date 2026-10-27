@@ -1,3 +1,10 @@
+# Latest Quest feedback — unresolved, 27 October 2026
+
+Bastian tested Build 005 and reported: **“the skipping pages is a little weird now and dosent change page even if the click is registred.”** He requested that this be noted and handed to Claude to finish the work. No repair or new Quest pass followed this report. The cause is unknown; distinguish Quest's click feedback from the app's badge pulse, emitted page action and actual page-state change. Build 005's PC checks and 8/10 review did not establish reliable on-device page turning. The gesture gate remains unpassed. Phase 0 crispness remains passed.
+
+Next: fix this mismatch first, preserve crispness and hand-only menu animation, add meaningful regressions, obtain independent review, then ask Bastian to check gestures again before continuing Phase 1. Do not interpret this handoff as approval to skip phase gates. See CLAUDE_HANDOVER.md for the continuation prompt. Older readiness statements below describe PC evidence only.
+
+---
 # Build 005 — calmer gestures and hand feedback
 
 Bastian reported Build 004 gestures were much too sensitive and requested skip symbols on each hand with a slowly filling menu-hold circle. Build 005 uses 18 mm firm pinch, 160 ms minimum, 140 ms open arming, 90 ms continuous release settling, 450 ms turn/select cooldown and a 1400 ms menu hold. Partial loosening stops hold charge; natural release has 220 ms travel allowance, with action duration capped at the first separation. Stalling half-open, reclosing, release bounce, tracking loss or a sample gap cancels the gesture. No time spent half-open is counted toward a hold. Either hand can summon the menu; two simultaneous pinches are not required.
