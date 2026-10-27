@@ -1,3 +1,15 @@
+# Bastian's Build 006 Quest feedback — gesture gate FAILED (27 October 2026, 22:22)
+
+Verbatim: **"buttons still very unresponsive and not good. Also sometimes does stuff if i look away and sometimes out of nowhere. Fix this. First when you open the app i should center myself, cause now I open the menu -"** (the last sentence was cut off in his message).
+
+Meaning, as far as it can be read:
+- Intended pinches are still often missed; this includes the menu buttons.
+- False actions happen when he looks away and at random.
+- On entry he wants an explicit centring step first. At the moment he ends up opening the menu instead.
+
+Build 006's simulation-tuned thresholds did not transfer to the headset. Do not retune them blind again. He asked for the work to be handed to another agent; see the continuation prompt given to him in chat. Treat the Build 006 entry below as PC evidence only.
+
+---
 # Build 006 — gesture repair, awaiting Bastian's Quest check (27 October 2026)
 
 Root causes found for "the skipping pages is a little weird now and doesn't change page even if the click is registered" (Build 005). These are evidence from code and simulation, not from the headset:
