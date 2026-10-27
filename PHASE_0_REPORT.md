@@ -1,6 +1,6 @@
 # Bradbury Cabin — Phase 0 report
 
-The crispness test is built and ready to put on HTTPS for your Quest check. It has **not** been tested in a headset. Nothing from Phase 1 has been started.
+The crispness test is built and published at [Bradbury Cabin](https://p0champ.github.io/bradbury-cabin/) for your Quest check. It has **not** been tested in a headset. Nothing from Phase 1 has been started.
 
 You get a warm reading page with Blake's **The Sick Rose** and an opening excerpt from O. Henry's **The Gift of the Magi**. Switch between a real compositor quad layer and the same page drawn as an ordinary texture. Try paper/night, three sizes, pinch page turns and re-centre. The page is placed in your initial viewing direction, including while lying down, then stays still in the room. The app shows layer failures openly and can save a small diagnostic file.
 
@@ -9,8 +9,8 @@ You get a warm reading page with Blake's **The Sick Rose** and an opening excerp
 | Built | Phase 0 only |
 | PC-tested | 4 core tests + 21 isolated Chromium checks passed |
 | Reviewed | Separate critic: **6.5 → 8/10**, two rounds; final score is for PC readiness |
-| Committed | Local `phase-0-crispness` branch; no remote push |
-| Deployed | No — public repository and HTTPS hosting are pending |
+| Committed | `phase-0-crispness` branch, pushed to the public repository |
+| Deployed | GitHub Pages, from the Phase 0 branch; no main push |
 | Needs a Quest check | Yes — actual sharpness, layer support, passthrough, hand tracking, comfort and comparison with Disney+ |
 
 The PC checks used real WebGL with simulated headset APIs. They checked layout at every size, paper/night, mobile layout, A/B drawing, correct timing when pinching the A/B control, lying-down placement, stationary placement, re-centre, one turn per held pinch, disarming after tracking loss, diagnostic downloads, layer failures, passthrough rejection and permission retry. Screenshots include front and rotated side views for upright and lying poses. **These are simulations, not Quest screenshots.**
@@ -21,7 +21,7 @@ Remaining limits: the Quest gate itself; additional coverage of every control an
 
 Sunnyvale's port-8130 listener was observed and left running. Its code, Chrome session, credentials and bridge were untouched. No competing bridge, account login, paid service or new account was used. The test bundles its openly licensed Literata font; there are no runtime CDN dependencies. [Credits and licences](CREDITS.md).
 
-## What to try in the headset, once the HTTPS link exists
+## What to try in the headset
 
 1. Open the published Cabin page in **Quest Browser**, turn on hand tracking, and lie down as you normally read.
 2. Look where you want the page, select **Enter the crispness test**, and allow the requested permissions. Your room should remain visible around the page.
@@ -34,6 +34,4 @@ Sunnyvale's port-8130 listener was observed and left running. Its code, Chrome s
 
 ## The one step needed from you now
 
-Create the empty public repository yourself, as requested: open [GitHub's new repository page](https://github.com/new), select owner **p0champ**, enter **bradbury-cabin**, select **Public**, leave README, licence and gitignore additions off, then click **Create repository**. Tell me when it exists.
-
-After that I can push this reviewed branch and take you through the Pages setup. I will not push to `main`. There is no working Quest test URL yet.
+Open [Bradbury Cabin](https://p0champ.github.io/bradbury-cabin/) in Quest Browser and follow the checklist above. The [public repository](https://github.com/p0champ/bradbury-cabin) is created and only the reviewed Phase 0 branch has been pushed. Bastian explicitly authorized the assistant to handle repository creation and hosting in the follow-up. No account login or Sunnyvale service change was needed.

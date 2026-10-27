@@ -6,7 +6,7 @@ A passthrough WebXR reading sharpness experiment for Meta Quest 3. Stop at this 
 
 `npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the small geometry/input suite. No installation is required for the app or those tests.
 
-Quest must open an HTTPS deployment in Quest Browser. GitHub Pages is the planned host, but no repository or deployment is created automatically. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the Phase 0 test](https://p0champ.github.io/bradbury-cabin/) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-0-crispness`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
