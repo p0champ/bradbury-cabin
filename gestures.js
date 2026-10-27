@@ -37,6 +37,31 @@ export function facingPanel(viewer, display) {
     -(dx * a[8] + dy * a[9] + dz * a[10]) / d > Math.cos((40 * Math.PI) / 180)
   );
 }
+// Wrist/palm tracking remains useful while a pinch occludes its own tips.
+// A target ray is an aiming aid, never proof of the physical hand's location.
+export function handAnchor({
+  wrist,
+  palm,
+  index,
+  thumb,
+  palmDeclared = false,
+}) {
+  const valid = (p) => p && !p.emulatedPosition && p.transform?.position;
+  if (valid(wrist))
+    return { position: wrist.transform.position, kind: "wrist" };
+  if (valid(palm)) return { position: palm.transform.position, kind: "palm" };
+  if (palmDeclared) return { position: null, kind: "palm-untracked" };
+  if (valid(index) && valid(thumb))
+    return {
+      position: {
+        x: (index.transform.position.x + thumb.transform.position.x) / 2,
+        y: (index.transform.position.y + thumb.transform.position.y) / 2,
+        z: (index.transform.position.z + thumb.transform.position.z) / 2,
+      },
+      kind: "tips-compatibility",
+    };
+  return { position: null, kind: "untracked" };
+}
 
 // Native events are the ONLY action authority. Frame samples only establish
 // safe tracking, fresh-open readiness, and continuously validate a held press.
@@ -69,6 +94,8 @@ export class GestureEngine {
       stable: !!h?.stable,
       attentive: !!h?.attentive,
       context: this.context,
+      anchorKind: h?.anchorKind,
+      tipsTracked: !!h?.tipsTracked,
     };
   }
   reset(reason = "reset") {
@@ -112,6 +139,8 @@ export class GestureEngine {
       systemGesture = false,
       open = false,
       target = null,
+      anchorKind = null,
+      tipsTracked = false,
     },
   ) {
     let h = this.hands.get(key);
@@ -138,6 +167,8 @@ export class GestureEngine {
       attentive,
       target,
       systemGesture,
+      anchorKind,
+      tipsTracked,
     });
     h.safe =
       tracked &&
@@ -329,6 +360,7 @@ export const menuButtons = [
   ["practice", "Practise gestures"],
   ["compare", "A / B comparison"],
   ["exit", "Exit to browser"],
+  ["sound", "Entry sound"],
 ].map(([id, label], i) => ({
   id,
   label,

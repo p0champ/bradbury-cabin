@@ -348,3 +348,34 @@ test("only visible menu buttons have targets", () => {
 });
 
 // ---- Build 006 regressions for "registered but did not turn" ----
+
+test("physical palm anchors survive fingertip occlusion without using a target ray", async () => {
+  const { handAnchor } = await import("../gestures.js");
+  const p = {
+    transform: { position: { x: 0.2, y: -0.2, z: -0.4 } },
+    emulatedPosition: false,
+  };
+  assert.equal(handAnchor({ wrist: p, palmDeclared: true }).kind, "wrist");
+  assert.equal(handAnchor({ palm: p, palmDeclared: true }).kind, "palm");
+  assert.equal(
+    handAnchor({
+      wrist: { ...p, emulatedPosition: true },
+      index: p,
+      thumb: p,
+      palmDeclared: true,
+    }).position,
+    null,
+  );
+  assert.equal(handAnchor({ index: p, thumb: p }).kind, "tips-compatibility");
+  assert.equal(handAnchor({}).position, null);
+});
+test("native success is not vetoed by missing tips while a physical anchor is tracked", () => {
+  const r = rig();
+  r.ready();
+  r.start();
+  r.run(100, { open: false, tipsTracked: false, anchorKind: "wrist" });
+  r.release();
+  assert.equal(r.events.length, 1);
+  assert.equal(r.g.log.at(-1).anchorKind, "wrist");
+  assert.equal(r.g.log.at(-1).tipsTracked, false);
+});

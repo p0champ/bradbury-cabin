@@ -11,7 +11,17 @@ async function mock(
 ) {
   await page.addInitScript(
     ({ scenario, lying, preferences }) => {
-      localStorage.setItem("cabin-controls", JSON.stringify(preferences));
+      if (!sessionStorage.getItem("mock-preferences")) {
+        localStorage.setItem(
+          "cabin-controls",
+          JSON.stringify({
+            handMapRevision: 9,
+            swapped: false,
+            ...preferences,
+          }),
+        );
+        sessionStorage.setItem("mock-preferences", "set");
+      }
       const compatible = new WeakSet();
       WebGL2RenderingContext.prototype.makeXRCompatible = async function () {
         compatible.add(this);
@@ -156,7 +166,12 @@ async function mock(
                       : [{ projectionMatrix: projection, transform: head() }],
                 },
           getJointPose: (joint) =>
-            joint?.pose ? { transform: new Transform(joint.pose) } : null,
+            joint?.pose
+              ? {
+                  transform: new Transform(joint.pose),
+                  emulatedPosition: !!joint.emulated,
+                }
+              : null,
           getPose: (space) => ({
             transform: new Transform(
               head().position,
@@ -325,6 +340,7 @@ async function mock(
         __step();
         __pinch();
         __step(1240);
+        __step(1000);
       };
       window.__welcomeScene = () => {
         document.querySelector("#welcome-scene")?.remove();
@@ -406,7 +422,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=8");
+        const { menuButtons } = await import("./gestures.js?v=9");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -1047,7 +1063,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-008");
+        assert.equal(details.build, "gestures-009");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1579,7 +1595,7 @@ async function mock(
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
         __mock.session.inputSources = [l, r];
-        __step(520);
+        __step(1200);
         window.badgeSnapshot = () => {
           const gl = __mock.gl,
             entries = [...__mock.layerData]
@@ -1885,7 +1901,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=8");
+        const { paintHandBadge } = await import("./hand-badges.js?v=9");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -1911,6 +1927,339 @@ async function mock(
       assert.equal(icons.unavailable, 0, "an unavailable direction is dimmed");
       passed(
         "hand icons distinguish a turn, a blocked end-of-text attempt and an unavailable direction",
+      );
+      await p.close();
+    }
+    for (const lying of [false, true]) {
+      const p = await browser.newPage();
+      await mock(p, "layer", lying, {
+        practised: true,
+        headPointer: false,
+        handMapRevision: 8,
+        swapped: false,
+      });
+      await p.goto("http://127.0.0.1:18140");
+      assert.equal(
+        await p.evaluate(
+          () => JSON.parse(localStorage.getItem("cabin-controls")).swapped,
+        ),
+        true,
+      );
+      await p.reload();
+      assert.equal(
+        await p.evaluate(
+          () => JSON.parse(localStorage.getItem("cabin-controls")).swapped,
+        ),
+        true,
+      );
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => __pinch("left"));
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => __pinch("right"));
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "saved mapping flips once across reload and left NEXT/right BACK work" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        const source = __hand(0.05, "left"),
+          p = source.hand.get("index-finger-tip").pose;
+        source.hand.set("wrist", { pose: { x: p.x, y: p.y - 0.06, z: p.z } });
+        source.hand.set("index-finger-metacarpal", {
+          pose: { x: p.x, y: p.y - 0.02, z: p.z },
+        });
+        __step(600);
+        __native("selectstart", "left");
+        __step(80);
+        source.hand.get("thumb-tip").emulated = true;
+        __step(80);
+        __native("select", "left");
+        __native("selectend", "left");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 2/);
+      await p.evaluate(() => {
+        const source = __hand(0.05, "right"),
+          p = source.hand.get("index-finger-tip").pose;
+        source.hand.set("wrist", { pose: { x: p.x, y: p.y - 0.06, z: p.z } });
+        source.hand.set("index-finger-metacarpal", {
+          pose: { x: p.x, y: p.y - 0.02, z: p.z },
+        });
+        __step(600);
+        __native("selectstart", "right");
+        __step(80);
+        source.hand.get("index-finger-tip").emulated = true;
+        source.hand.get("thumb-tip").emulated = true;
+        __step(80);
+        __native("select", "right");
+        __native("selectend", "right");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      passed(
+        "native pinch survives one or both occluded tips when wrist tracking remains valid" +
+          (lying ? " lying" : ""),
+      );
+      await p.evaluate(() => {
+        const s = __mock.sources.right;
+        __native("selectstart", "right");
+        __step(80);
+        for (const joint of s.hand.values()) joint.pose = null;
+        __step(80);
+        __native("select", "right");
+        __native("selectend", "right");
+        __step(40);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1/);
+      const wait = p.waitForEvent("download");
+      await p.locator("#export").click();
+      const file = path.join(
+        out,
+        `physical-anchor-${lying ? "lying" : "front"}.json`,
+      );
+      await (await wait).saveAs(file);
+      const details = JSON.parse(await fs.readFile(file, "utf8"));
+      assert.equal(details.entryAudio.plays, 1);
+      assert.equal(details.entryAudio.error, null);
+      assert.ok(
+        details.gestureLog.some(
+          (e) =>
+            e.result === "page" && e.anchorKind === "wrist" && !e.tipsTracked,
+        ),
+      );
+      passed(
+        "loss of physical palm cancels and diagnostics preserve native anchor and one entry chime" +
+          (lying ? " lying" : ""),
+      );
+      await p.close();
+    }
+    for (const lying of [false, true]) {
+      const p = await browser.newPage();
+      await mock(p, "layer", lying, {
+        handMapRevision: 8,
+        swapped: false,
+        practised: true,
+      });
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => {
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __step();
+        __pinch();
+        __step(1240);
+        const l = __hand(0.05, "left"),
+          r = __hand(0.05, "right");
+        __mock.session.inputSources = [l, r];
+        __step(160);
+        window.handWelcome = () => {
+          const entries = [...__mock.layerData]
+            .filter(([layer, d]) => d.badge && layer.opacity > 0)
+            .sort(([, a], [, b]) => a.matrix[12] - b.matrix[12]);
+          const c = document.createElement("canvas");
+          c.width = 560;
+          c.height = 290;
+          const x = c.getContext("2d");
+          x.fillStyle = "#e7e4d8";
+          x.fillRect(0, 0, 560, 290);
+          for (const [i, [layer, d]] of entries.entries()) {
+            const g = __mock.gl,
+              fb = g.createFramebuffer();
+            g.bindFramebuffer(g.FRAMEBUFFER, fb);
+            g.framebufferTexture2D(
+              g.FRAMEBUFFER,
+              g.COLOR_ATTACHMENT0,
+              g.TEXTURE_2D,
+              d.tex,
+              0,
+            );
+            const px = new Uint8Array(256 * 256 * 4);
+            g.readPixels(0, 0, 256, 256, g.RGBA, g.UNSIGNED_BYTE, px);
+            g.bindFramebuffer(g.FRAMEBUFFER, null);
+            g.deleteFramebuffer(fb);
+            const image = document.createElement("canvas");
+            image.width = image.height = 256;
+            image
+              .getContext("2d")
+              .putImageData(
+                new ImageData(new Uint8ClampedArray(px), 256, 256),
+                0,
+                0,
+              );
+            x.save();
+            x.translate(12 + i * 280, 268);
+            x.scale(1, -1);
+            x.drawImage(image, 0, 0);
+            x.restore();
+          }
+          return {
+            image: c.toDataURL(),
+            versions: entries.map(([, d]) => __mock.versions.get(d.tex)),
+            matrices: entries.map(([, d]) => d.matrix),
+            page: __mock.versions.get(__mock.texture),
+            layers: __mock.session.renderState.layers.length,
+          };
+        };
+      });
+      const a = await p.evaluate(() => handWelcome());
+      assert.equal(a.layers, 3);
+      assert.equal(a.versions.length, 2);
+      await fs.writeFile(
+        path.join(out, `hand-entry-${lying ? "lying" : "front"}-start.png`),
+        Buffer.from(a.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => __step(300));
+      const b = await p.evaluate(() => handWelcome());
+      assert.ok(b.versions.every((v, i) => v > a.versions[i]));
+      assert.notDeepEqual(b.matrices, a.matrices);
+      assert.equal(b.page, a.page);
+      await fs.writeFile(
+        path.join(out, `hand-entry-${lying ? "lying" : "front"}-glow.png`),
+        Buffer.from(b.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => __step(1000));
+      const c = await p.evaluate(() => handWelcome());
+      await p.evaluate(() => __step(300));
+      assert.deepEqual(
+        (await p.evaluate(() => handWelcome())).versions,
+        c.versions,
+      );
+      await fs.writeFile(
+        path.join(out, `hand-entry-${lying ? "lying" : "front"}-settled.png`),
+        Buffer.from(c.image.split(",")[1], "base64"),
+      );
+      await p.evaluate(() => {
+        __mock.session.inputSources = [];
+        __step(80);
+        const l = __mock.sources.left,
+          r = __mock.sources.right;
+        __mock.session.inputSources = [l, r];
+        __step(700);
+      });
+      assert.deepEqual(
+        (await p.evaluate(() => handWelcome())).matrices,
+        c.matrices,
+      );
+      passed(
+        "labelled hand-entry orbit animates native textures and transforms once without repainting the page or exceeding three layers" +
+          (lying ? " lying" : ""),
+      );
+      await p.close();
+    }
+    {
+      const p = await browser.newPage();
+      await mock(p, "layer");
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => {
+        const l = __hand(0.05, "left"),
+          r = __mock.sources.right;
+        __mock.session.inputSources = [l, r];
+        __step(160);
+      });
+      const a = await p.evaluate(() =>
+        [...__mock.layerData.values()]
+          .filter((d) => d.badge)
+          .sort((a, b) => a.matrix[12] - b.matrix[12])
+          .map((d) => d.matrix),
+      );
+      await p.evaluate(() => __step(300));
+      const b = await p.evaluate(() =>
+        [...__mock.layerData.values()]
+          .filter((d) => d.badge)
+          .sort((a, b) => a.matrix[12] - b.matrix[12])
+          .map((d) => d.matrix),
+      );
+      assert.notDeepEqual(b[0], a[0]);
+      assert.deepEqual(b[1], a[1]);
+      await p.evaluate(() => __step(1200));
+      const settled = await p.evaluate(() =>
+        [...__mock.layerData.values()]
+          .filter((d) => d.badge)
+          .sort((a, b) => a.matrix[12] - b.matrix[12])
+          .map((d) => d.matrix),
+      );
+      await p.evaluate(() => {
+        __mock.session.inputSources = [];
+        __step(80);
+        __mock.session.inputSources = [
+          __mock.sources.left,
+          __mock.sources.right,
+        ];
+        __step(180);
+      });
+      assert.deepEqual(
+        await p.evaluate(() =>
+          [...__mock.layerData.values()]
+            .filter((d) => d.badge)
+            .sort((a, b) => a.matrix[12] - b.matrix[12])
+            .map((d) => d.matrix),
+        ),
+        settled,
+      );
+      passed(
+        "a late-visible second hand gets its welcome once, and reacquiring hands does not replay it",
+      );
+      await p.close();
+    }
+    {
+      const p = await browser.newPage();
+      await mock(p, "layer", false, { practised: true, entrySound: false });
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      const wait = p.waitForEvent("download");
+      await p.locator("#export").click();
+      const file = path.join(out, "muted-entry.json");
+      await (await wait).saveAs(file);
+      assert.equal(
+        JSON.parse(await fs.readFile(file, "utf8")).entryAudio.plays,
+        0,
+      );
+      const sound = await p.evaluate(async () => {
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=9");
+        const c = new OfflineAudioContext(1, 96000, 48000);
+        scheduleEntryChime(c, c.destination, 0);
+        const result = await c.startRendering();
+        const samples = result.getChannelData(0);
+        let peak = 0,
+          power = 0,
+          tail = 0;
+        for (let i = 0; i < samples.length; i++) {
+          peak = Math.max(peak, Math.abs(samples[i]));
+          power += samples[i] * samples[i];
+          if (i > 85000) tail = Math.max(tail, Math.abs(samples[i]));
+        }
+        return {
+          samples: Array.from(samples),
+          peak,
+          rms: Math.sqrt(power / samples.length),
+          tail,
+        };
+      });
+      assert.ok(sound.peak > 0.003 && sound.peak < 0.04);
+      assert.ok(sound.rms < 0.01);
+      assert.equal(sound.tail, 0);
+      const wav = Buffer.alloc(44 + sound.samples.length * 2);
+      wav.write("RIFF");
+      wav.writeUInt32LE(wav.length - 8, 4);
+      wav.write("WAVEfmt ", 8);
+      wav.writeUInt32LE(16, 16);
+      wav.writeUInt16LE(1, 20);
+      wav.writeUInt16LE(1, 22);
+      wav.writeUInt32LE(48000, 24);
+      wav.writeUInt32LE(96000, 28);
+      wav.writeUInt16LE(2, 32);
+      wav.writeUInt16LE(16, 34);
+      wav.write("data", 36);
+      wav.writeUInt32LE(wav.length - 44, 40);
+      sound.samples.forEach((s, i) =>
+        wav.writeInt16LE(Math.round(s * 32767), 44 + i * 2),
+      );
+      await fs.writeFile(path.join(out, "entry-chime-preview.wav"), wav);
+      passed(
+        "entry mute prevents playback; real offline audio renders a quiet bounded chime and silent tail",
       );
       await p.close();
     }

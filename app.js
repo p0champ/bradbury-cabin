@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=8";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=9";
 import {
   GestureEngine,
   menuButtons,
@@ -8,10 +8,12 @@ import {
   MIN_PINCH_MS,
   inView,
   facingPanel,
-} from "./gestures.js?v=8";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=8";
-import { HandBadges } from "./hand-badges.js?v=8";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=8";
+  handAnchor,
+} from "./gestures.js?v=9";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=9";
+import { HandBadges } from "./hand-badges.js?v=9";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=9";
+import { EntrySound } from "./entry-sound.js?v=9";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -30,10 +32,18 @@ const savePreferences = () => {
     localStorage.setItem("cabin-controls", JSON.stringify(preferences));
   } catch {}
 };
+if (preferences.handMapRevision !== 9) {
+  preferences.swapped = !Boolean(preferences.swapped);
+  preferences.handMapRevision = 9;
+  savePreferences();
+}
 const state = {
   centering: false,
   arriving: false,
   arrivalError: null,
+  entrySound: preferences.entrySound !== false,
+  handEntryStarted: null,
+  entryAudioLast: null,
   attentionPaused: false,
   menuOpen: false,
   practice: false,
@@ -73,6 +83,7 @@ const gestures = new GestureEngine();
 let nativeQueue = [],
   lastFrameTime = 0;
 let handBadges = null;
+let entrySound = null;
 let arrival = null,
   arrivalElapsed = 0,
   lastArrivalTick = 0,
@@ -169,6 +180,8 @@ function paint() {
         label = state.night ? "Switch to paper" : "Switch to night";
       if (b.id === "size")
         label = "Text: " + ["Small", "Medium", "Large"][state.size];
+      if (b.id === "sound")
+        label = state.entrySound ? "Entry sound: on" : "Entry sound: off";
       ctx.fillText(label, b.x + b.w / 2, b.y + 108);
     }
     ctx.textAlign = "left";
@@ -335,6 +348,7 @@ function gestureEvent(event) {
     menuPlacement = null;
     nativeQueue = [];
     state.arriving = true;
+    entrySound?.play(state.entrySound);
     arrivalElapsed = 0;
     lastArrivalTick = lastFrameTime;
     arrivalAnchor = lastViewer;
@@ -354,7 +368,25 @@ function gestureEvent(event) {
     return "menu";
   }
   if (event.type === "select") {
+    const before = state.page;
     action(event.target);
+    if (event.target === "next" || event.target === "prev") {
+      const outcome =
+        state.page !== before
+          ? "turned"
+          : event.target === "next"
+            ? "last-page"
+            : "first-page";
+      feedback(
+        outcome === "turned"
+          ? `Page ${state.page + 1} of ${pages.length}`
+          : outcome === "last-page"
+            ? "Last sample page · use BACK on your hand"
+            : "First sample page · use NEXT on your hand",
+      );
+      paint();
+      return outcome;
+    }
     return "select";
   }
   const id = (event.hand === "right") !== state.swapped ? "next" : "prev";
@@ -415,6 +447,11 @@ function action(id) {
     preferences.swapped = state.swapped;
     savePreferences();
   }
+  if (id === "sound") {
+    state.entrySound = !state.entrySound;
+    preferences.entrySound = state.entrySound;
+    savePreferences();
+  }
   if (id === "pointer") {
     state.headPointer = !state.headPointer;
     preferences.headPointer = state.headPointer;
@@ -471,7 +508,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-008",
+    build: "gestures-009",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -490,11 +527,17 @@ $("export").onclick = () => {
       attentive: h.attentive,
       ready: h.armed,
       nativeDown: h.nativeDown,
+      anchorKind: h.anchorKind,
+      tipsTracked: h.tipsTracked,
     })),
     inputMode: "native-select-only",
     centering: state.centering,
     arriving: state.arriving,
     arrivalError: state.arrivalError,
+    entryAudio: {
+      enabled: state.entrySound,
+      ...(entrySound?.status() || state.entryAudioLast),
+    },
     attentionPaused: state.attentionPaused,
     handFeedbackError: state.handFeedbackError,
     controls: {
@@ -518,7 +561,7 @@ $("export").onclick = () => {
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
     questQuality:
-      "Bastian confirmed Build 003 crispness; Build 008 controls need a Quest check",
+      "Bastian confirmed Build 003 crispness; Build 009 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -578,6 +621,9 @@ function cleanSession() {
   nativeQueue = [];
   state.centering = false;
   state.arriving = false;
+  state.entryAudioLast = entrySound?.status() || state.entryAudioLast;
+  entrySound?.dispose();
+  entrySound = null;
   arrivalAnchor = null;
   arrival?.dispose();
   arrival = null;
@@ -607,6 +653,10 @@ function cleanSession() {
 }
 async function enter() {
   if (state.session) return;
+  // Unlock synchronously in the actual Enter click, before any awaits.
+  state.entryAudioLast = null;
+  entrySound = new EntrySound();
+  entrySound.unlock();
   $("enter").disabled = true;
   state.error = null;
   state.graphicsError = null;
@@ -688,6 +738,7 @@ async function enter() {
     nativeQueue = [];
     state.centering = true;
     state.arriving = false;
+    state.handEntryStarted = null;
     state.arrivalError = null;
     state.attentionPaused = false;
     state.menuOpen = false;
@@ -777,6 +828,9 @@ async function enter() {
     if (session) {
       await session.end();
     } else {
+      state.entryAudioLast = entrySound?.status();
+      entrySound?.dispose();
+      entrySound = null;
       state.session = null;
       $("enter").disabled = false;
       $("enter").textContent = "Try entering again ↗";
@@ -826,6 +880,7 @@ function frame(time, xrFrame, generation) {
         state.arriving = false;
         nativeQueue = [];
         gestures.setContext("reading");
+        state.handEntryStarted = time;
         paint();
       }
       const sessionVisible = session.visibilityState === "visible";
@@ -883,35 +938,25 @@ function frame(time, xrFrame, generation) {
               z: -pose.transform.matrix[10],
             },
           );
-        const wrist = joint("wrist")?.transform.position,
-          baseJoint = joint("index-finger-metacarpal")?.transform.position;
-        const anchor =
-          wrist && baseJoint
-            ? {
-                x: (wrist.x + baseJoint.x) / 2,
-                y: (wrist.y + baseJoint.y) / 2,
-                z: (wrist.z + baseJoint.z) / 2,
-              }
-            : wrist ||
-              (a && b
-                ? {
-                    x: (a.transform.position.x + b.transform.position.x) / 2,
-                    y: (a.transform.position.y + b.transform.position.y) / 2,
-                    z: (a.transform.position.z + b.transform.position.z) / 2,
-                  }
-                : null);
+        const anchor = handAnchor({
+          wrist: joint("wrist"),
+          palm: joint("index-finger-metacarpal"),
+          index: a,
+          thumb: b,
+          palmDeclared:
+            source.hand.has("wrist") ||
+            source.hand.has("index-finger-metacarpal"),
+        });
         samples.push({
           source,
           hand: source.handedness,
-          position: anchor,
+          position: anchor.position,
           systemGesture,
         });
-        const tracked =
+        const tipsTracked =
           !!a && !!b && !a.emulatedPosition && !b.emulatedPosition;
-        const handInView =
-          tracked &&
-          inView(a.transform.position, pose.transform) &&
-          inView(b.transform.position, pose.transform);
+        const tracked = !!anchor.position;
+        const handInView = tracked && inView(anchor.position, pose.transform);
         const button = source.gamepad?.buttons?.[0];
         const open = button ? !button.pressed : distance > 0.028;
         samples[samples.length - 1].systemGesture ||= !attentive || !handInView;
@@ -919,6 +964,8 @@ function frame(time, xrFrame, generation) {
           targets.set(source, null);
         gestures.update(source, {
           tracked,
+          anchorKind: anchor.kind,
+          tipsTracked,
           inView: handInView,
           attentive,
           open,
@@ -995,6 +1042,7 @@ function frame(time, xrFrame, generation) {
             canForward: state.page < pages.length - 1,
             canBack: state.page > 0,
             time,
+            entryTime: state.handEntryStarted,
           },
         )
       )

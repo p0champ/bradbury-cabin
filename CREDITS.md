@@ -8,3 +8,7 @@
 Both authors died more than 70 years ago. Modern translations or edited versions may have different rights; these samples use the original English texts.
 
 - The skip icons, hold rings and Build 008 paper-and-gold welcome leaves are original procedural Canvas artwork. No third-party images, 3D models or new assets are loaded for the welcome.
+
+- Build 009's hand-entry orbit and welcome chime are original procedural artwork/audio. The chime uses three synthesised sine tones, with no recordings or third-party sound assets.
+
+- The Build 009 hand labels are also original Canvas drawing.

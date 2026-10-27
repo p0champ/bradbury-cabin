@@ -1,14 +1,13 @@
-# Build 008 — one click, one turn; 3D centring welcome
+# Build 009 — flipped hands, clear click feedback and hand welcome
 
-Open [Build 008](https://p0champ.github.io/bradbury-cabin/?v=8) in a fresh Quest Browser tab. Confirm **BUILD 008**. This trial removes the per-click wait/reopening requirement and adds an animated welcome. No headset pass is claimed.
+Open [Build 009](https://p0champ.github.io/bradbury-cabin/?v=9) in a fresh Quest Browser tab. Check **BUILD 009**. The saved hand mapping is flipped once as requested; follow the visible NEXT/BACK labels rather than old instructions.
 
-1. Enter while lying comfortably. Look where you want to read, keep an open hand visible briefly, then pinch/release once to confirm centring.
-2. Watch the paper-and-gold leaves open in 3D as the page settles into place, about 1.2 seconds. Your real room stays visible and your viewpoint should not move. Clicks made during this transition must not turn pages afterwards.
-3. Once the welcome finishes, open your hand briefly and click right for Next, left for Back. **There are only 2 sample pages.** On page 2 another Next should show the orange Last page bar; it cannot turn beyond the sample. Back from page 1 behaves similarly.
-4. Alternate right/left about 10 times at a normal pace, then faster. Each deliberate click should produce exactly one available turn. You should not need a wide finger opening or a pause between completed clicks. Note any misses, duplicate turns or discomfort.
-5. Hold either pinch for 1.4 seconds. The hand ring should fill and open the menu; releasing must not select anything. Click menu buttons repeatedly and check that each click counts once.
-6. Look away mid-press or let a hand leave view. It should cancel, and returning already pinched should do nothing. Reopen the hand in view before resuming. Resting hands must not cause phantom actions.
-7. Try the centring welcome again sitting and lying down, and move your head slightly while it opens. The final reading location should remain the one you confirmed. Use Quest system UI and return during the welcome if comfortable: animation should pause rather than finish off-screen.
-8. Return to the browser and **Save test details** if any intended click fails, or if anything acts by itself. Send the export with what you were doing. It retains received/validated native events and actual outcomes. Tell me whether one-click/one-turn and the welcome now feel right.
+1. Enter and centre once. Listen for a quiet three-note chime as the paper gateway opens. Your viewpoint must not move. Entry sound can be turned off in the menu and that choice should persist.
+2. Watch your hands as the gateway finishes. Each hand should get a short gold orbit/pulse, then settle into its labelled icon. A hand that first appears later should receive it once; moving a hand out/in afterwards must not replay it.
+3. Read the labels. The previous default is now **left NEXT / right BACK**. If you had manually swapped previously, the current saved choice is inverted once. Menu Forward: left/right shows the current mapping; reload should not flip it again.
+4. Alternate NEXT/BACK about ten times, then faster. One recognised click should request exactly one turn. The sample has only two pages. An orange **END** or **START** means that direction has no page available; the footer must say so. It must not flash a successful arrow turn on a blocked boundary.
+5. Try with naturally curled fingers, both sitting and lying down. Native clicks should continue when a fingertip is briefly obscured but the physical hand remains tracked. Looking away or losing the entire physical hand must still cancel; reopen in view before resuming.
+6. Hold either pinch for the menu, release, then try several buttons and the swapped mapping. Menu Next/Previous must give the same honest boundary feedback as the reading gesture. Try Entry sound off and re-enter: no chime should play. Turn it back on if preferred.
+7. If a click flashes without turning, note the exact word on the hand: NEXT, BACK, START, END or MENU. Exit to the browser and **Save test details**. The export distinguishes native events, actual page outcomes, palm-anchor tracking and fingertip validity. Send it if the problem remains.
 
-PC checks simulate XR using real WebGL and native event sequences; they do not establish actual Quest click reliability, compositor performance or comfort. The gesture gate remains unpassed until Bastian approves it.
+Code, automated checks and critic review cannot certify 100% Quest reliability. Bastian's actual device verdict is still the required gate; no new reader phase starts until it passes.

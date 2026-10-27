@@ -9,6 +9,7 @@ export function paintHandBadge(
     menu = false,
     available = true,
     blocked = false,
+    welcome = null,
   } = {},
 ) {
   const c = canvas.getContext("2d");
@@ -74,6 +75,42 @@ export function paintHandBadge(
     c.fillRect(166, 94, blocked ? 12 : 8, 68);
     c.restore();
   }
+  c.textAlign = "center";
+  c.font = "bold 23px Arial";
+  c.fillStyle = blocked ? "#f2b48a" : arrowColour;
+  c.fillText(
+    blocked
+      ? forward
+        ? "END"
+        : "START"
+      : menu
+        ? "MENU"
+        : forward
+          ? "NEXT"
+          : "BACK",
+    128,
+    199,
+  );
+  if (welcome != null) {
+    c.save();
+    c.globalAlpha = Math.sin(Math.PI * welcome) * 0.8;
+    c.strokeStyle = "#ecd79b";
+    c.lineWidth = 3;
+    const radius = 48 + 62 * welcome,
+      angle = welcome * Math.PI * 2;
+    for (const offset of [0, Math.PI]) {
+      c.beginPath();
+      c.arc(128, 128, radius, angle + offset, angle + offset + 1.4);
+      c.stroke();
+      const x = 128 + Math.cos(angle + offset) * radius,
+        y = 128 + Math.sin(angle + offset) * radius;
+      c.fillStyle = "#fff3ce";
+      c.beginPath();
+      c.arc(x, y, 3, 0, Math.PI * 2);
+      c.fill();
+    }
+    c.restore();
+  }
 }
 
 export class HandBadges {
@@ -111,6 +148,7 @@ export class HandBadges {
       canForward = true,
       canBack = true,
       time = 0,
+      entryTime = null,
     } = {},
   ) {
     const next = [];
@@ -150,6 +188,12 @@ export class HandBadges {
           const available =
             menu || practice || (forward ? canForward : canBack);
           const blocked = flash && !!e.blocked;
+          if (entryTime != null && e.welcomeStart == null)
+            e.welcomeStart = time;
+          const welcome =
+            e.welcomeStart != null && time - e.welcomeStart < 1000
+              ? (time - e.welcomeStart) / 1000
+              : null;
           const shownProgress = flash && e.fullHold ? 1 : progress;
           const key = [
             forward,
@@ -159,6 +203,7 @@ export class HandBadges {
             menu,
             available,
             blocked,
+            welcome == null ? "" : Math.round(welcome * 48),
           ].join(":");
           if (key !== e.key) {
             paintHandBadge(e.canvas, {
@@ -169,6 +214,7 @@ export class HandBadges {
               menu,
               available,
               blocked,
+              welcome,
             });
             e.key = key;
             e.dirty = true;
@@ -176,7 +222,8 @@ export class HandBadges {
           const p = sample.position,
             v = viewer.position,
             d = Math.hypot(v.x - p.x, v.y - p.y, v.z - p.z) || 1;
-          const toward = 0.035;
+          const toward =
+            0.035 + (welcome == null ? 0 : Math.sin(Math.PI * welcome) * 0.012);
           e.layer.transform = new XRRigidTransform(
             {
               x: p.x + ((v.x - p.x) / d) * toward,
