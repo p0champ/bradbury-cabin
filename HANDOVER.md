@@ -1,3 +1,14 @@
+# Build 010 — repair the actual Quest startup error
+
+Bastian tried Build 009 and reported: **“The layer test stopped: source.hand.has is not a function Return to the browser to read the test details.”** Startup failed, so no click/animation/sound pass can be inferred from that trial.
+
+Cause confirmed: Build 009 treated XRHand like JavaScript Map and called `.has()`. The standard XRHand interface provides `get()`, `size` and iteration, not Map's has/set/delete/clear methods. The previous fixture used a full Map and concealed this mistake. The replacement test object is frozen and exposes only get/size/iteration; a separate backing map is used only by the fixture setup. Running Build 009 unchanged against it reproduced the user's exact error before the fix.
+
+Production now detects declared wrist/metacarpal spaces with `!!hand.get(...)`. The whole native/layer/entry/occlusion/audio suite runs against the limited interface: 35 pure and 97 browser checks pass, independently repeated by the separate critic. Its hotfix score is 8/10; see BUILD_010_REVIEW.md. This is a confirmed runtime compatibility repair. No input thresholds, rendering paths, sounds or animation behaviour were changed for the hotfix.
+
+IMPORTANT: every module query is v10, header BUILD 010, export gestures-010. **handMapRevision remains 9**, so this version does NOT flip the user's hands again. Build 009's requested flip, NEXT/BACK/START/END labels, physical palm tracking, hand-entry animation and quiet/mutable sound remain. URL: https://p0champ.github.io/bradbury-cabin/?v=10 . Follow QUEST_CHECK.md. Phase 0 crispness is passed, gesture gate remains unpassed; actual Quest startup and clicks still need a new result. Older entries are history.
+
+---
 # Build 009 — flipped hands, explicit outcomes, palm tracking and welcome sound
 
 Bastian's Build 008 feedback: **“the clicking is still off. Dont stop working until its 100% done. Also add a animation to the hand as we enter and add a sound that plays aswell as we enter - subtle but nice you know”**. He clarified: **“Cant remeber but it def flashed and the paged stayed. Also the clicking is on the wrong hands. Flip it”**. The gesture gate remains failed until actual Quest behaviour is confirmed. Do not equate automated success with 100% device reliability.

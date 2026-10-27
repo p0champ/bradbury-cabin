@@ -267,14 +267,26 @@ async function mock(
         window.__mock.sources ||= {};
         let source = window.__mock.sources[handedness];
         if (!source) {
+          const joints = new Map([
+            ["index-finger-tip", {}],
+            ["thumb-tip", {}],
+          ]);
           source = {
             handedness,
             gamepad: { buttons: [{ pressed: false }] },
             targetRaySpace: { handedness },
-            hand: new Map([
-              ["index-finger-tip", {}],
-              ["thumb-tip", {}],
-            ]),
+            testJoints: joints,
+            // XRHand is an iterable with get(); it is NOT a JavaScript Map.
+            hand: Object.freeze({
+              get: (key) => joints.get(key),
+              values: () => joints.values(),
+              keys: () => joints.keys(),
+              entries: () => joints.entries(),
+              get size() {
+                return joints.size;
+              },
+              [Symbol.iterator]: () => joints[Symbol.iterator](),
+            }),
           };
           window.__mock.sources[handedness] = source;
         }
@@ -422,7 +434,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=9");
+        const { menuButtons } = await import("./gestures.js?v=10");
         const button = menuButtons.find((b) => b.id === id);
         const matrix = __mock.placed.at(-1);
         const target = new DOMPoint(
@@ -796,6 +808,15 @@ async function mock(
       await p.evaluate(() => __center());
       await p.evaluate(() => __step());
       if (["layer", "clamped-layer", "stereo-layer"].includes(scenario)) {
+        if (scenario === "layer" && !lying) {
+          assert.equal(
+            await p.evaluate(() => typeof __mock.sources.right.hand.has),
+            "undefined",
+          );
+          passed(
+            "entry and hand frames work with the actual XRHand get/iterable interface and no Map methods",
+          );
+        }
         if (
           (await p.locator("#page").getAttribute("data-view")) === "centering"
         ) {
@@ -1063,7 +1084,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-009");
+        assert.equal(details.build, "gestures-010");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1901,7 +1922,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=9");
+        const { paintHandBadge } = await import("./hand-badges.js?v=10");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -1965,8 +1986,10 @@ async function mock(
       await p.evaluate(() => {
         const source = __hand(0.05, "left"),
           p = source.hand.get("index-finger-tip").pose;
-        source.hand.set("wrist", { pose: { x: p.x, y: p.y - 0.06, z: p.z } });
-        source.hand.set("index-finger-metacarpal", {
+        source.testJoints.set("wrist", {
+          pose: { x: p.x, y: p.y - 0.06, z: p.z },
+        });
+        source.testJoints.set("index-finger-metacarpal", {
           pose: { x: p.x, y: p.y - 0.02, z: p.z },
         });
         __step(600);
@@ -1982,8 +2005,10 @@ async function mock(
       await p.evaluate(() => {
         const source = __hand(0.05, "right"),
           p = source.hand.get("index-finger-tip").pose;
-        source.hand.set("wrist", { pose: { x: p.x, y: p.y - 0.06, z: p.z } });
-        source.hand.set("index-finger-metacarpal", {
+        source.testJoints.set("wrist", {
+          pose: { x: p.x, y: p.y - 0.06, z: p.z },
+        });
+        source.testJoints.set("index-finger-metacarpal", {
           pose: { x: p.x, y: p.y - 0.02, z: p.z },
         });
         __step(600);
@@ -2218,7 +2243,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=9");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=10");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();

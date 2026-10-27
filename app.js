@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=9";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=10";
 import {
   GestureEngine,
   menuButtons,
@@ -9,11 +9,11 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=9";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=9";
-import { HandBadges } from "./hand-badges.js?v=9";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=9";
-import { EntrySound } from "./entry-sound.js?v=9";
+} from "./gestures.js?v=10";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=10";
+import { HandBadges } from "./hand-badges.js?v=10";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=10";
+import { EntrySound } from "./entry-sound.js?v=10";
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -508,7 +508,7 @@ document.querySelectorAll("[data-size]").forEach(
 );
 $("export").onclick = () => {
   const data = {
-    build: "gestures-009",
+    build: "gestures-010",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -561,7 +561,7 @@ $("export").onclick = () => {
     graphicsError: state.graphicsError,
     renderRoute: state.renderRoute,
     questQuality:
-      "Bastian confirmed Build 003 crispness; Build 009 controls need a Quest check",
+      "Bastian confirmed Build 003 crispness; Build 010 controls need a Quest check",
   };
   const url = URL.createObjectURL(
     new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
@@ -944,8 +944,8 @@ function frame(time, xrFrame, generation) {
           index: a,
           thumb: b,
           palmDeclared:
-            source.hand.has("wrist") ||
-            source.hand.has("index-finger-metacarpal"),
+            !!source.hand.get("wrist") ||
+            !!source.hand.get("index-finger-metacarpal"),
         });
         samples.push({
           source,

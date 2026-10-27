@@ -1,12 +1,12 @@
 # Bradbury Cabin — Phase 1 gesture trial
 
-A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 009 flips the hand mapping, clarifies click outcomes, uses physical palm tracking and adds hand-entry animation and a subtle welcome sound after Build 008 failed the Quest check. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
+A passthrough reading cabin for Meta Quest 3. Bastian confirmed Build 003 is very crisp and approved moving on. Build 010 repairs Build 009's Quest startup error and retains its flipped hand mapping, explicit click outcomes, physical palm tracking, hand-entry animation and quiet welcome sound. Full-work pagination, saved reading place, moods and ambience are still pending; Phase 1 is not complete.
 
 ## Run
 
 `npm start` serves a PC preview on loopback port 18140. This is a static file server, not a bridge. `npm test` runs the gesture-state and geometry tests. No installation is required for the app or those tests.
 
-Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=9) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
+Open [the gesture trial](https://p0champ.github.io/bradbury-cabin/?v=10) in Quest Browser. The public repository is [p0champ/bradbury-cabin](https://github.com/p0champ/bradbury-cabin); GitHub Pages serves the root of `phase-1-gestures`. Do not use a `file:` URL or local-network HTTP for immersive WebXR. Ordinary desktop Chrome is neither accessed nor required.
 
 ## The comparison
 
@@ -57,3 +57,5 @@ Legal full text will skew selections toward older works. A broad modern and inte
 The second Quest attempt entered XR but returned the old aggregate WebGL error. Its original failing operation/code remains unknown. This build follows the official quad sample’s direct upload path and uses native projection subimages for B. Renderer resources are created after XR compatibility completes. Named GL error checks identify context/setup, comparison source upload, quad subimage/upload, projection attachment/draw/cleanup. Export includes build `phase0-003`, render route and graphicsError `{stage,codes}`. A successful PC run is not a successful Quest run.
 
 Each hand gets one short gold orbit/depth pulse after entering, including hands first seen later. The existing badge layers animate; reading pixels do not. An original quiet three-note Web Audio chime plays once at centring confirmation; Entry sound on/off is saved in the menu. Audio is unlocked on the actual Enter click, cleaned up on Exit and diagnostic failures do not interrupt XR. No external sound assets are loaded.
+
+Build 010 uses XRHand.get() to look up joint spaces. XRHand is an iterable, not JavaScript Map: has/set/delete/clear are not assumed. All browser fixtures now use the limited interface, reproducing the actual Quest failure before the fix. See BUILD_010_REVIEW.md for verification. The mapping migration revision remains 9 to avoid flipping saved hands a second time. Primary interface reference: [W3C WebXR Hand Input](https://www.w3.org/TR/webxr-hand-input-1/).

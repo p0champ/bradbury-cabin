@@ -1,6 +1,6 @@
-# Build 009 — flipped hands, clear click feedback and hand welcome
+# Build 010 — repaired startup, flipped hands and welcome
 
-Open [Build 009](https://p0champ.github.io/bradbury-cabin/?v=9) in a fresh Quest Browser tab. Check **BUILD 009**. The saved hand mapping is flipped once as requested; follow the visible NEXT/BACK labels rather than old instructions.
+Open [Build 010](https://p0champ.github.io/bradbury-cabin/?v=10) in a fresh Quest Browser tab. Check **BUILD 010**. The Build 009 startup error is repaired. Its hand flip is preserved without applying a second flip; follow the visible NEXT/BACK labels rather than old instructions.
 
 1. Enter and centre once. Listen for a quiet three-note chime as the paper gateway opens. Your viewpoint must not move. Entry sound can be turned off in the menu and that choice should persist.
 2. Watch your hands as the gateway finishes. Each hand should get a short gold orbit/pulse, then settle into its labelled icon. A hand that first appears later should receive it once; moving a hand out/in afterwards must not replay it.
