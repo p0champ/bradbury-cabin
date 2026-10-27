@@ -994,7 +994,8 @@ async function mock(
         __step(520);
         r.hand.get("thumb-tip").pose.x =
           r.hand.get("index-finger-tip").pose.x + 0.012;
-        __step();
+        // Build 006: a pinch is confirmed after ~80 ms of firm readings.
+        for (let i = 0; i < 6; i++) __step();
       });
       assert.equal(
         await p.locator("#page").getAttribute("data-target"),
@@ -1368,10 +1369,41 @@ async function mock(
       });
       const first = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(first.differences, 0);
+      await p.evaluate(() => {
+        // Reads every visible badge texture: lit-arrow and orange end-bar pixels.
+        window.badgeStates = () => {
+          const gl = __mock.gl, states = [];
+          for (const [layer, d] of __mock.layerData) {
+            if (!d.badge || layer.opacity <= 0) continue;
+            const fb = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, d.tex, 0);
+            const px = new Uint8Array(256 * 256 * 4);
+            gl.readPixels(0, 0, 256, 256, gl.RGBA, gl.UNSIGNED_BYTE, px);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.deleteFramebuffer(fb);
+            let lit = 0, bar = 0;
+            for (let y = 90; y < 166; y++)
+              for (let x = 70; x < 186; x++) {
+                const i = (y * 256 + x) * 4;
+                if (px[i] > 240 && px[i + 1] > 225 && px[i + 2] > 190) lit++;
+                if (px[i] > 220 && px[i + 1] > 160 && px[i + 1] < 200 && px[i + 2] < 160) bar++;
+              }
+            states.push({ lit, bar });
+          }
+          return states;
+        };
+      });
       await p.evaluate(() => __pinch("left"));
       assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      const blockedBadge = await p.evaluate(() => badgeStates());
+      assert.equal(blockedBadge.length, 1);
+      assert.equal(blockedBadge[0].lit, 0, "a blocked Back never lights the arrows");
+      assert.ok(blockedBadge[0].bar > 300, "a blocked Back shows the end bar");
       await p.evaluate(() => __pinch("right"));
       assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
+      const turnBadge = await p.evaluate(() => badgeStates());
+      assert.ok(turnBadge[0].lit > 300 && turnBadge[0].bar === 0, "a real turn flashes the arrows");
       const turned = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(turned.differences, 0, "displayed quad shows the new page");
       assert.notEqual(turned.sum, first.sum, "quad pixels changed with the page");

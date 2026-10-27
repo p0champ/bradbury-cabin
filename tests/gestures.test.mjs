@@ -319,7 +319,8 @@ test("Quest-like tracking noise does not silently cancel deliberate pinches", ()
     let ok = 0;
     for (let seed = 1; seed <= 200; seed++)
       if (trace(tap(contact, open), { noise, seed: seed * 977 }).events.join() === "page") ok++;
-    assert.ok(ok >= 194, `${contact}/${open}/±${noise}: ${ok}/200 turned`);
+    // 16 mm ±4 mm is a borderline-firm pinch; ~4% may need a second try.
+    assert.ok(ok >= (contact === 16 ? 188 : 196), `${contact}/${open}/±${noise}: ${ok}/200 turned`);
   }
 });
 test("noise never produces double turns or a menu from a quarter-second pinch", () => {
@@ -354,7 +355,7 @@ test("a brief wobble keeps the pinch but restarts hold charge", () => {
 test("every firm pinch ends in a logged outcome with a reason", () => {
   const r = rig();
   r.open();
-  r.close("right", 80);
+  r.close("right", 120);
   r.release();
   assert.equal(r.g.log.at(-1).reason, "too-short");
   r.open();
@@ -362,7 +363,7 @@ test("every firm pinch ends in a logged outcome with a reason", () => {
   r.release();
   assert.equal(r.g.log.at(-1).result, "page");
   r.close("right", 200);
-  assert.equal(r.g.log.at(-1).result, "ignored");
+  assert.equal(r.g.ignored.at(-1).reason, "hand-not-open-first");
   r.release();
   r.open();
   r.close("right", 400);
@@ -374,8 +375,52 @@ test("a near-pinch that never gets firm is logged with its closest distance", ()
   r.open();
   r.run({ right: 0.021 }, 300);
   r.release();
-  const last = r.g.log.at(-1);
+  const last = r.g.ignored.at(-1);
   assert.equal(last.reason, "not-firm-enough");
   assert.equal(last.minMm, 21);
   assert.deepEqual(r.events, []);
+});
+
+// ---- Build 006 review round 1 regressions ----
+const brush = (level) => [[0, 45], [300, 45], [380, level], [880, level], [980, 45], [1500, 45]];
+test("noisy resting near-pinches (20-22 mm) do not latch into turns", () => {
+  for (const [level, noise, allowed] of [[21, 4, 0], [22, 5, 0], [20, 3, 4]]) {
+    let acted = 0;
+    for (let seed = 1; seed <= 200; seed++)
+      if (trace(brush(level), { noise, seed: seed * 977 }).events.length) acted++;
+    assert.ok(acted <= allowed, `${level} mm ±${noise}: ${acted}/200 acted`);
+  }
+});
+test("noisy releases to a 33-35 mm resting gap still turn", () => {
+  for (const rest of [33, 34, 35]) {
+    let ok = 0;
+    for (let seed = 1; seed <= 200; seed++)
+      if (trace(tap(12, rest), { noise: 3, seed: seed * 977 }).events.join() === "page") ok++;
+    assert.ok(ok >= 196, `rest ${rest} mm: ${ok}/200`);
+  }
+});
+test("a pinch begun during cooldown never starts later; the hand must reopen", () => {
+  const g = new GestureEngine();
+  const keys = [[0, 50], [300, 50], [380, 12], [650, 12], [700, 50], [900, 50], [950, 12], [2000, 12], [2100, 50], [2600, 50]];
+  const { events } = trace(keys, { g });
+  assert.deepEqual(events, ["page"]);
+  assert.equal(g.ignored.at(-1)?.reason, "cooldown");
+});
+test("lingering half-pinched after a firm pinch cancels instead of acting", () => {
+  for (const [level, noise] of [[25, 0], [25, 2], [26, 2], [24, 2], [22, 2]]) {
+    for (let seed = 1; seed <= 100; seed++) {
+      const g = new GestureEngine();
+      const keys = [[0, 50], [300, 50], [380, 12], [650, 12], [700, level], [3000, level], [3100, 50], [3600, 50]];
+      assert.deepEqual(trace(keys, { noise, seed: seed * 31, g }).events, [], `${level}±${noise}`);
+    }
+  }
+});
+test("a menu hold logs one menu entry and no spurious cancellation", () => {
+  const r = rig();
+  r.open();
+  r.close("right", 1500);
+  r.g.setContext("menu");
+  r.release();
+  assert.deepEqual(r.g.log.map((e) => e.result), ["menu"]);
+  assert.equal(r.g.lastEntry.result, "menu");
 });

@@ -16,9 +16,15 @@ const MAX_SAMPLE_GAP = 220;
 // Upward excursions shorter than this during contact are hand-tracking noise
 // (one or two frames at 72 Hz) and must not cancel a deliberate pinch.
 const SPIKE_MS = 30;
+const HISTORY_MS = 90;
 // A brief loosening that firmly re-closes keeps the pinch but loses hold charge.
 const WOBBLE_MS = 120;
+// A pinch must read below CLOSE for this long before it counts as closed.
+const CONFIRM_MS = 80;
+// Lingering between CLOSE and CONTACT without any firm sample counts as loose.
+const FIRM_GRACE_MS = 300;
 const LOG_SIZE = 40;
+const NOTE_SIZE = 20;
 
 // Deliberate open -> firm pinch -> settled release. A loosened half-pinch
 // cannot continue charging a hold; time without tracking is never counted.
@@ -30,22 +36,32 @@ export class GestureEngine {
     this.owner = null;
     this.context = "reading";
     this.cooldownUntil = 0;
+    // Firm pinches and their outcomes. Near-pinches that never got firm go in
+    // a separate small buffer so ordinary hand movement cannot flush them.
     this.log = [];
+    this.ignored = [];
+    this.lastEntry = null;
   }
   record(entry) {
     this.log.push(entry);
     if (this.log.length > LOG_SIZE) this.log.shift();
     return entry;
   }
+  note(entry) {
+    this.ignored.push(entry);
+    if (this.ignored.length > NOTE_SIZE) this.ignored.shift();
+    return entry;
+  }
   reset(reason = "reset") {
     for (const [key, h] of this.hands)
-      if (h.closed) this.record({ result: "cancelled", reason, hand: h.hand, time: h.lastTime });
+      if (h.closed && !h.held)
+        this.record({ result: "cancelled", reason, hand: h.hand, time: h.lastTime });
     this.hands.clear();
     this.owner = null;
   }
   cancel(key, reason = "cancelled", time) {
     const h = this.hands.get(key);
-    if (h?.closed)
+    if (h?.closed && !h.held)
       this.record({ result: "cancelled", reason, hand: h.hand, time: time ?? h.lastTime });
     this.hands.delete(key);
     if (this.owner === key) this.owner = null;
@@ -96,6 +112,7 @@ export class GestureEngine {
         held: false,
         openSince: null,
         lastTime: time,
+        lowSince: null,
         releaseAt: null,
         looseAt: null,
         recent: [],
@@ -106,15 +123,22 @@ export class GestureEngine {
     h.lastTime = time;
     h.hand = hand;
     h.recent.push([time, distance]);
-    while (h.recent.length > 1 && time - h.recent[0][0] > SPIKE_MS)
+    while (h.recent.length > 1 && time - h.recent[0][0] > HISTORY_MS)
       h.recent.shift();
-    // While pinched, use the smallest distance seen in the last ~30 ms, so a
-    // single bad tracking frame cannot look like loosening or release.
-    const d = h.closed
-      ? Math.min(...h.recent.map(([, value]) => value))
-      : distance;
+    // During firm contact only, use the smallest distance of the last ~30 ms,
+    // so a single bad tracking frame cannot look like loosening. Once the hand
+    // has started to separate, raw samples drive the release.
+    const d =
+      h.closed && h.looseAt == null
+        ? Math.min(
+            ...h.recent
+              .filter(([t]) => time - t <= SPIKE_MS)
+              .map(([, value]) => value),
+          )
+        : distance;
 
     if (d > OPEN_DISTANCE) {
+      h.lowSince = null;
       if (h.closed) {
         if (h.looseAt != null && time - h.looseAt > RELEASE_TRAVEL_MS) {
           this.cancel(key, "release-stalled", time);
@@ -124,7 +148,7 @@ export class GestureEngine {
         h.releaseAt ??= time;
         h.wentOpen = true;
         if (time - h.releaseAt < RELEASE_SETTLE_MS) return null;
-        const separated = h.firstSeparation ?? h.looseAt;
+        const separated = h.looseAt;
         const contact = separated - h.started;
         const holdContact = separated - h.holdStart;
         let event = null,
@@ -139,20 +163,21 @@ export class GestureEngine {
         } else if (hand === "left" || hand === "right")
           event = { type: "page", hand };
         else reason = "unknown-hand";
-        if (!h.held) this.record({
-          result: event ? event.type : "rejected",
-          reason: reason ?? undefined,
-          hand,
-          ms: Math.round(contact),
-          time,
-        });
+        this.lastEntry = h.held
+          ? null
+          : this.record({
+              result: event ? event.type : "rejected",
+              reason: reason ?? undefined,
+              hand,
+              ms: Math.round(contact),
+              time,
+            });
         h.closed = false;
         h.held = false;
         h.armed = false;
         h.openSince = h.releaseAt;
         h.releaseAt = null;
         h.looseAt = null;
-        h.firstSeparation = null;
         h.wentOpen = false;
         this.owner = null;
         if (event && event.type !== "menu")
@@ -160,7 +185,7 @@ export class GestureEngine {
         return event;
       }
       if (h.nearMin != null && !h.ignoredPinch)
-        this.record({
+        this.note({
           result: "ignored",
           reason: "not-firm-enough",
           hand,
@@ -175,62 +200,84 @@ export class GestureEngine {
       if (time - h.openSince >= OPEN_SETTLE_MS) h.armed = true;
       return null;
     }
-    h.openSince = null;
-    if (!h.closed && d < CONTACT_DISTANCE) h.nearMin = Math.min(h.nearMin ?? d, d);
+    // Readings between CONTACT and OPEN pause arming instead of resetting it,
+    // so a relaxed hand resting near the threshold can still arm.
+    if (d < CONTACT_DISTANCE) h.openSince = null;
     if (!h.closed) {
-      if (d < CLOSE_DISTANCE && h.armed && time >= this.cooldownUntil) {
-        h.closed = true;
-        h.started = time;
-        h.holdStart = time;
-        h.target = target;
-        h.held = false;
-        h.releaseAt = null;
-        h.looseAt = null;
-        h.firstSeparation = null;
-        h.wentOpen = false;
-        h.nearMin = null;
-        h.recent = [[time, distance]];
-        this.owner = key;
-      } else {
-        if (d < CLOSE_DISTANCE && !h.ignoredPinch) {
+      if (d < CONTACT_DISTANCE) h.nearMin = Math.min(h.nearMin ?? d, d);
+      if (d >= CLOSE_DISTANCE) return null;
+      h.lowSince = null;
+      if (!h.armed || time < this.cooldownUntil) {
+        if (!h.ignoredPinch) {
           h.ignoredPinch = true;
-          this.record({
+          this.note({
             result: "ignored",
-            reason: time < this.cooldownUntil ? "cooldown" : "hand-not-open-first",
+            reason: h.armed ? "cooldown" : "hand-not-open-first",
             hand,
             time,
           });
         }
-        if (!h.armed) return null;
-      }
-    }
-    if (h.closed) {
-      if (d > CONTACT_DISTANCE) {
-        // Loosening or a release dipping back below full open. Settling of a
-        // release restarts; travel time is bounded.
-        h.releaseAt = null;
-        h.looseAt ??= time;
-        h.firstSeparation ??= h.looseAt;
-        if (time - h.looseAt >= RELEASE_TRAVEL_MS)
-          this.cancel(key, "release-stalled", time);
+        // A pinch made too early must open again; it never starts later.
+        h.armed = false;
+        h.lowSince = null;
         return null;
       }
+      // Confirm a firm pinch only when at least 80% of the samples in the last
+      // CONFIRM_MS (and at least three) were below CLOSE. Scattered noisy dips
+      // from a resting near-pinch therefore cannot latch a gesture.
+      const window = h.recent.filter(([t]) => time - t <= CONFIRM_MS);
+      const low = window.filter(([, v]) => v < CLOSE_DISTANCE);
+      if (low.length < 3 || low.length < window.length * 0.8) return null;
+      h.lowSince = low[0][0];
+      h.closed = true;
+      h.started = h.lowSince;
+      h.holdStart = h.lowSince;
+      h.lastFirm = time;
+      h.target = target;
+      h.held = false;
+      h.releaseAt = null;
+      h.looseAt = null;
+      h.wentOpen = false;
+      h.nearMin = null;
+      h.recent = [[time, distance]];
+      this.owner = key;
+    }
+    if (d < CLOSE_DISTANCE) {
       if (h.looseAt != null) {
-        // Firm contact again. A short wobble keeps the pinch but restarts the
-        // hold clock (visibly clearing the ring); a long one cancels.
+        // Firm again. A short wobble keeps the pinch but restarts the hold
+        // clock (visibly clearing the ring); a long one, or any re-pinch after
+        // the hand opened, cancels.
         if (time - h.looseAt > WOBBLE_MS || h.wentOpen) {
           this.cancel(key, "re-pinched", time);
           return null;
         }
         h.looseAt = null;
-        h.firstSeparation = null;
         h.holdStart = time;
       }
-      if (!h.held && time - h.holdStart >= HOLD_MS) {
-        h.held = true;
-        this.record({ result: "menu", hand, ms: Math.round(time - h.started), time });
-        return { type: "menu", hand };
-      }
+      h.lastFirm = time;
+    } else if (
+      h.looseAt == null &&
+      (d > CONTACT_DISTANCE || time - h.lastFirm > FIRM_GRACE_MS)
+    ) {
+      // Loosening: either clearly separated, or lingering half-pinched without
+      // a firm sample. Separation counts from the last firm moment.
+      h.looseAt = d > CONTACT_DISTANCE ? time : h.lastFirm;
+    }
+    if (h.looseAt != null) {
+      // Dips between contact and open do not restart release settling.
+      if (time - h.looseAt >= RELEASE_TRAVEL_MS)
+        this.cancel(key, "release-stalled", time);
+      return null;
+    }
+    if (!h.held && time - h.holdStart >= HOLD_MS) {
+      h.held = true;
+      this.lastEntry = this.record({
+        result: "menu",
+        hand,
+        ms: Math.round(time - h.started),
+        time,
+      });
+      return { type: "menu", hand };
     }
     return null;
   }

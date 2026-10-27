@@ -38,9 +38,21 @@ export function paintHandBadge(
   }
   // Arrows are dimmed when that direction has no page left; a blocked attempt
   // flashes the end bar instead of the arrows, so it never looks like a turn.
-  const lit = (ready || flash) && !blocked;
-  const arrowColour = !available || blocked ? "#4f6357" : lit ? "#faf0d4" : "#829486";
-  const barColour = blocked ? "#f2b48a" : !available ? "#c9b98f" : arrowColour;
+  // A successful turn always flashes, even if it just reached the last page.
+  const arrowColour = blocked
+    ? "#4f6357"
+    : flash
+      ? "#faf0d4"
+      : !available
+        ? "#4f6357"
+        : ready
+          ? "#faf0d4"
+          : "#829486";
+  const barColour = blocked
+    ? "#f2b48a"
+    : !available && !flash
+      ? "#c9b98f"
+      : arrowColour;
   c.fillStyle = arrowColour;
   if (menu) {
     for (const y of [102, 124, 146]) c.fillRect(91, y, 74, 8);

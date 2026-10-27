@@ -168,7 +168,7 @@ function paint() {
           : "Left pinch, then release",
         "Previous page",
       ],
-      ["menu", "Hold either pinch for 1.4 seconds", "Open the menu"],
+      ["menu", "Hold either pinch for 1.4 seconds", "Open the menu (optional here)"],
     ];
     rows.forEach(([id, title, detail], i) => {
       const y = 800 + i * 360;
@@ -187,7 +187,11 @@ function paint() {
     });
     ctx.fillStyle = muted;
     ctx.font = "36px Arial";
-    ctx.fillText("Practice never changes your reading page.", 160, 1880);
+    ctx.fillText(
+      "Practice never changes your reading page. Next + Back finish it.",
+      160,
+      1880,
+    );
     ctx.fillText(
       "Holding a pinch also lets you leave this practice.",
       160,
@@ -267,10 +271,11 @@ function toggleMenu(open = !state.menuOpen) {
   gestures.setContext(open ? "menu" : "reading");
   paint();
 }
-// Marks practice complete once all three gestures were done, in any order.
+// Practice is complete once Next and Back were both done, in any order. The
+// menu hold is optional: it always leaves practice for the menu anyway.
 function practiceDone() {
   const m = state.practiceMarks;
-  if (!(m.next && m.prev && m.menu)) return false;
+  if (!(m.next && m.prev)) return false;
   preferences.practised = true;
   savePreferences();
   return true;
@@ -299,7 +304,7 @@ function gestureEvent(event) {
     if (practiceDone()) {
       state.practice = false;
       menuPlacement = null;
-      feedback("Practice complete · now reading");
+      feedback("Practice complete · now reading · hold for the menu");
     } else
       feedback(
         (id === "next" ? "Next ✓" : "Back ✓") + "  ·  practice: pages stay put",
@@ -332,6 +337,7 @@ function action(id) {
     return;
   }
   if (id === "practice") {
+    state.practiceMarks = { next: false, prev: false, menu: false };
     state.practice = true;
     state.menuOpen = false;
     state.hover = null;
@@ -407,6 +413,7 @@ $("export").onclick = () => {
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
     // app then did. This is the evidence for "registered but did not turn".
     gestureLog: gestures.log.map((e) => ({ ...e, time: Math.round(e.time) })),
+    ignoredPinches: gestures.ignored.map((e) => ({ ...e, time: Math.round(e.time) })),
     handFeedbackError: state.handFeedbackError,
     controls: {
       swapped: state.swapped,
@@ -738,10 +745,11 @@ function frame(time, xrFrame, generation) {
         if (gestures.owner === source || event) pointerSource = source;
         if (event) {
           const outcome = gestureEvent(event);
-          const entry = gestures.log.at(-1);
-          if (entry && entry.time === time) {
+          const entry = gestures.lastEntry;
+          if (entry) {
             entry.outcome = outcome;
             entry.page = state.page + 1;
+            gestures.lastEntry = null;
           }
           handBadges?.pulse(event.hand, time, outcome);
           if (ending) break;
