@@ -27,7 +27,7 @@ function card(ctx, b, fill) {
 export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
-  ctx.font = "84px Literata";
+  ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText("Library", 274, 470);
   ctx.fillStyle = c.muted;
   ctx.font = "36px Arial";
@@ -40,7 +40,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
       sub = hot ? c.bg : c.muted;
     if (b.id === "lib-menu") {
       ctx.fillStyle = fg;
-      ctx.font = "50px Literata";
+      ctx.font = `50px ${c.serif || "Literata"}`;
       ctx.textAlign = "center";
       ctx.fillText("‹  Menu", b.x + b.w / 2, b.y + 78);
       ctx.textAlign = "left";
@@ -51,7 +51,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
     ctx.font = "30px Arial";
     ctx.fillText(KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""), b.x + 60, b.y + 44);
     ctx.fillStyle = fg;
-    ctx.font = "italic 48px Literata";
+    ctx.font = `italic 48px ${c.serif || "Literata"}`;
     ctx.fillText(w.title, b.x + 60, b.y + 100);
     ctx.textAlign = "right";
     ctx.fillStyle = sub;

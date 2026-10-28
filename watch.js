@@ -10,7 +10,7 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=16";
+} from "./progress.js?v=17";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];

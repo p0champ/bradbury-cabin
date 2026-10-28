@@ -1,3 +1,28 @@
+# PAUSED — Build 017 work in progress (28 October 2026, 01:51)
+
+Bastian paused the work: "Pause credits running low".
+
+**Branch.** Build 017 is on branch `build-017-wip`. It is NOT on `phase-1-gestures`, which GitHub Pages serves, so it is not deployed. **Build 016 is live.**
+
+**Build 017 state:** built and PC-tested (75 unit tests + 111 browser checks), but not yet independently reviewed.
+
+What it adds:
+- **Style:** a Literary or Clean modern mood. This is a main-menu item and also restyles the menu, calendar and Library.
+- **Look to turn pages.** It is off by default, under More settings. Hold your gaze on the bottom-right corner of the page for 1.3 s to go forward, or the bottom-left corner to go back. A small ring layer fills beside that corner. It turns once per look and is only active while reading and attentive.
+- **Background sound.** Off / Soft rain / Fireplace / Quiet room, under More settings. The loops are generated in code (ambience.js), so there are no recordings and no licensing to worry about.
+
+Layout and settings:
+- The main menu now has 8 rows and More settings has 9. Rows are 164 px tall at a 190 px step.
+- Back still sits in the same slot as More settings (index 6).
+- The new preferences are saved under `cabin-controls`: mood, gazeTurn and ambience.
+
+**Next steps:**
+1. Run the independent critic review (8+, up to 3 rounds).
+2. Merge into phase-1-gestures, push, and verify the live site.
+3. Give Bastian Quest test steps.
+4. Then Phase 3: the Claude picker, the Sunday tutor and Drive via the Sunnyvale bridge, plus progress sync.
+
+---
 # Build 016 — real reading: Library, full works, saved place (28 October 2026)
 
 Bastian agreed the plan: real reading first (Phase 1 remainder), then Claude (Phase 3), then polish (Phase 4). The texts come from a small bundled public-domain starter shelf now, with Wikisource fetching to come with the picker. The UI remains a placeholder.

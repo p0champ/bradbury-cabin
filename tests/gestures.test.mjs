@@ -342,20 +342,21 @@ test("near-face palm guard distinguishes palm direction and resting distance", (
   );
 });
 test("only visible menu buttons have targets", () => {
-  // Rows from y=580, 186 high, every 222. Centre of row i = 673 + 222 i.
-  const row = (i) => 673 + 222 * i;
+  // Rows from y=580, 164 high, every 190. Centre of row i = 662 + 190 i.
+  const row = (i) => 662 + 190 * i;
   assert.equal(menuHit(1000, row(0)), "resume");
   assert.equal(menuHit(1000, row(1)), "library");
-  assert.equal(menuHit(1000, row(2)), "calendar");
-  assert.equal(menuHit(1000, 784), null, "gap between buttons");
+  assert.equal(menuHit(1000, row(4)), "mood");
+  assert.equal(menuHit(1000, 757), null, "gap between buttons");
   assert.equal(menuHit(200, row(0)), null, "left margin");
-  assert.equal(menuHit(1000, row(6)), "exit");
+  assert.equal(menuHit(1000, row(7)), "exit");
   // Back on More sits exactly where More settings is on the main page.
-  assert.equal(menuHit(1000, row(5), "main"), "more");
-  assert.equal(menuHit(1000, row(5), "more"), "back");
-  assert.equal(menuHit(1000, row(4), "more"), "recenter");
-  assert.equal(menuHit(1000, row(6), "more"), "practice");
-  assert.equal(menuHit(1000, row(7), "more"), null, "More has seven items");
+  assert.equal(menuHit(1000, row(6), "main"), "more");
+  assert.equal(menuHit(1000, row(6), "more"), "back");
+  assert.equal(menuHit(1000, row(2), "more"), "gaze");
+  assert.equal(menuHit(1000, row(3), "more"), "ambience");
+  assert.equal(menuHit(1000, row(8), "more"), "practice");
+  assert.equal(menuHit(1000, row(9), "more"), null, "More has nine items");
 });
 
 // ---- Build 006 regressions for "registered but did not turn" ----

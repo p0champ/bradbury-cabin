@@ -8,7 +8,7 @@ import {
   parseKey,
   weekSunday,
   ticks,
-} from "./progress.js?v=16";
+} from "./progress.js?v=17";
 
 const MONTHS = "January February March April May June July August September October November December".split(" ");
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -96,7 +96,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
 
   const o = overview(progress, today);
   ctx.fillStyle = c.ink;
-  ctx.font = "84px Literata";
+  ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText(`${MONTHS[view.month]} ${view.year}`, 194, 470);
   ctx.fillStyle = c.muted;
   ctx.font = "38px Arial";
@@ -117,7 +117,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
   for (const b of buttons.slice(0, 3)) {
     card(ctx, b, hot(b.id) ? c.accent : c.card, 26);
     ctx.fillStyle = hot(b.id) ? c.bg : c.ink;
-    ctx.font = "50px Literata";
+    ctx.font = `50px ${c.serif || "Literata"}`;
     ctx.textAlign = "center";
     const label =
       b.id === "cal-menu"
@@ -186,7 +186,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
       if (submitted) card(ctx, tag, filled ? c.bg : c.accent, 12);
       else outline(ctx, tag, filled ? c.bg : unknown ? c.faint : c.muted, 3, 12, unknown ? [6, 6] : []);
       ctx.fillStyle = submitted ? (filled ? c.accent : c.bg) : filled ? c.bg : unknown ? c.faint : c.muted;
-      ctx.font = "30px Literata";
+      ctx.font = `30px ${c.serif || "Literata"}`;
       ctx.textAlign = "center";
       ctx.fillText("✎", tag.x + 25, tag.y + 36);
     }
@@ -213,7 +213,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
   item((x) => outline(ctx, { x, y: ly - 20, w: 40, h: 40 }, c.muted, 3, 8, [6, 5]), "not recorded");
   item((x) => {
     ctx.fillStyle = c.muted;
-    ctx.font = "34px Literata";
+    ctx.font = `34px ${c.serif || "Literata"}`;
     ctx.fillText("✎", x + 6, ly + 12);
     ctx.font = "32px Arial";
   }, "weekly story");
@@ -233,7 +233,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
   const d = progress.days[key] || {};
   const n = ticks(progress, key);
   ctx.fillStyle = c.ink;
-  ctx.font = "84px Literata";
+  ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText(dayTitle(key), 274, 470);
   ctx.fillStyle = s === "missed" ? c.warn : c.muted;
   ctx.font = "38px Arial";
@@ -278,12 +278,12 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
         ctx.stroke();
       }
       ctx.fillStyle = fg;
-      ctx.font = "58px Literata";
+      ctx.font = `58px ${c.serif || "Literata"}`;
       const pick = d.picks?.[k];
       ctx.fillText(KIND_LABEL[k], b.x + 160, b.y + (pick ? 82 : 112));
       if (pick) {
         ctx.fillStyle = sub;
-        ctx.font = "italic 36px Literata";
+        ctx.font = `italic 36px ${c.serif || "Literata"}`;
         ctx.fillText(pick, b.x + 160, b.y + 140);
       }
       ctx.fillStyle = sub;
@@ -292,7 +292,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
       ctx.fillText(done ? "Read" : key === today ? "Not yet" : "Not read", b.x + b.w - 70, b.y + 108);
     } else if (b.id === "weekly") {
       ctx.fillStyle = fg;
-      ctx.font = "52px Literata";
+      ctx.font = `52px ${c.serif || "Literata"}`;
       ctx.fillText("Weekly written story", b.x + 70, b.y + 82);
       ctx.fillStyle = sub;
       ctx.font = "34px Arial";
@@ -306,7 +306,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
       );
     } else {
       ctx.fillStyle = fg;
-      ctx.font = "58px Literata";
+      ctx.font = `58px ${c.serif || "Literata"}`;
       ctx.fillText("‹  Calendar", b.x + 70, b.y + 112);
     }
   }

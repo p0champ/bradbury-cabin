@@ -435,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=16");
+        const { menuButtons } = await import("./gestures.js?v=17");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -615,7 +615,10 @@ async function mock(
           const badge = init.viewPixelWidth === 256;
           const arrival = init.viewPixelWidth === 384;
           const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 448;
-          const width = watch
+          const gazeRing = init.viewPixelWidth === 192;
+          const width = gazeRing
+              ? 192
+              : watch
               ? 512
               : arrival
               ? 384
@@ -624,7 +627,9 @@ async function mock(
                 : scenario === "clamped-layer"
                   ? 1024
                   : 2048,
-            height = watch
+            height = gazeRing
+              ? 192
+              : watch
               ? 448
               : arrival
               ? 960
@@ -641,6 +646,7 @@ async function mock(
               badge,
               arrival,
               watch,
+              gazeRing,
               metresWide: init.width,
               metresHigh: init.height,
               matrix: null,
@@ -651,7 +657,7 @@ async function mock(
             set transform(v) {
               data.matrix = Array.from(v.matrix);
               data.history.push(data.matrix);
-              if (!badge && !arrival && !watch) window.__mock.placed.push(data.matrix);
+              if (!badge && !arrival && !watch && !gazeRing) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
@@ -659,7 +665,7 @@ async function mock(
             },
           };
           window.__mock.layerData.set(layer, data);
-          if (!badge && !arrival && !watch) {
+          if (!badge && !arrival && !watch && !gazeRing) {
             window.__mock.quadWidth = width;
             window.__mock.quadHeight = height;
             window.__mock.texture = tex;
@@ -1094,7 +1100,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-016");
+        assert.equal(details.build, "gestures-017");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2041,7 +2047,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=16");
+        const { paintHandBadge } = await import("./hand-badges.js?v=17");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2362,7 +2368,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=16");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=17");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2426,10 +2432,10 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=16");
+        const { MENU_PAGES } = await import("./gestures.js?v=17");
         return MENU_PAGES;
       });
-      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "size", "more", "exit"]);
+      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit"]);
       await p.evaluate(() => __aim("night"));
       assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
       await p.locator("#page").screenshot({
@@ -2443,7 +2449,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-target"), "sound");
       // Where Exit sits on the main page, this page has its own button.
       await p.evaluate(() => __aim("exit"));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "practice");
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "recenter");
       await p.locator("#page").screenshot({
         path: path.join(out, `menu-more-${night ? "night" : "paper"}.png`),
       });
@@ -2479,8 +2485,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=16");
-            const { loadProgress } = await import("./progress.js?v=16");
+            const { calendarButtons } = await import("./calendar.js?v=17");
+            const { loadProgress } = await import("./progress.js?v=17");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2936,6 +2942,100 @@ async function mock(
         await p.locator("#page").screenshot({ path: path.join(out, name) });
       }
       passed("poem and essay pages render");
+      await p.close();
+    }
+    // Build 017: moods, look-to-turn (off by default) and ambience.
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p, "layer", false);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      const details = async (name) => {
+        const dl = p.waitForEvent("download");
+        await p.locator("#export").click();
+        const f = path.join(out, name);
+        await (await dl).saveAs(f);
+        return JSON.parse(await fs.readFile(f, "utf8"));
+      };
+      const corner = (which) => ({ x: which === "next" ? 1880 : 40, y: 2420, w: 120, h: 100 });
+      // Off by default: a long look at the corner does nothing.
+      await p.evaluate(async (b) => await __aim(b), corner("next"));
+      await p.evaluate(() => __step(2000));
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      // Style: switch to clean modern.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __hold();
+      });
+      await p.evaluate(() => __aim("mood"));
+      await p.evaluate(() => __pinch());
+      // More settings: turn on look-to-turn and background sound.
+      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(() => __aim("gaze"));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(() => __aim("ambience"));
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "menu-more-017.png") });
+      await p.evaluate(() => {
+        __mock.look = null;
+        __hold();
+      });
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      let d = await details("settings-017.json");
+      assert.equal(d.mood, "modern");
+      assert.equal(d.gazeTurn.enabled, true);
+      assert.equal(d.ambience.setting, "rain");
+      assert.equal(d.ambience.kind, "rain");
+      assert.equal(d.ambience.error, null);
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-modern.png") });
+      // Look at the bottom-right corner: the ring fills, then one page turn.
+      await p.evaluate(async (b) => await __aim(b), corner("next"));
+      await p.evaluate(() => __step(600));
+      const ring = await p.evaluate(() => {
+        for (const [layer, d] of __mock.layerData)
+          if (d.gazeRing) return __mock.session.renderState.layers.includes(layer);
+        return false;
+      });
+      assert.ok(ring, "gaze ring shows while looking at the corner");
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/, "no turn before the dwell");
+      await p.evaluate(() => __step(900));
+      assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
+      await p.evaluate(() => __step(2000));
+      assert.match(await p.locator("#place").textContent(), /Page 2 of 2/, "one turn per look");
+      // Look away, then at the bottom-left corner: back.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __step(300);
+      });
+      await p.evaluate(async (b) => await __aim(b), corner("prev"));
+      await p.evaluate(() => __step(1500));
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      d = await details("gaze-017.json");
+      const gazeTurns = d.gestureLog.filter((e) => e.eventSource === "gaze");
+      assert.deepEqual(gazeTurns.map((e) => e.outcome), ["turned", "turned"]);
+      // Preferences persist.
+      const prefs = await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-controls")));
+      assert.equal(prefs.mood, "modern");
+      assert.equal(prefs.gazeTurn, true);
+      assert.equal(prefs.ambience, "rain");
+      assert.deepEqual(errors, []);
+      passed("Style, look-to-turn (off by default, one turn per look) and background sound");
+      await p.close();
+    }
+    {
+      // A full work in the clean modern style, for visual review.
+      const p = await browser.newPage();
+      await p.addInitScript(() => {
+        localStorage.setItem("cabin-reading", JSON.stringify({ last: "ohenry-magi", places: {} }));
+        localStorage.setItem("cabin-controls", JSON.stringify({ mood: "modern" }));
+      });
+      await p.goto("http://127.0.0.1:18140");
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-modern-story.png") });
       await p.close();
     }
     await fs.writeFile(

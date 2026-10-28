@@ -351,16 +351,19 @@ export class GestureEngine {
 // Two short menu pages. Main holds what a reader needs; "More settings"
 // holds rarely used preferences. Page arrows live on the hands, not here.
 export const MENU_PAGES = {
-  main: ["resume", "library", "calendar", "night", "size", "more", "exit"],
+  main: ["resume", "library", "calendar", "night", "mood", "size", "more", "exit"],
   // Back sits exactly where "More settings" was, so a repeated pinch just
   // returns to the main page instead of choosing something new.
-  // Back sits exactly where "More settings" is on the main page (index 5).
-  more: ["swap", "pointer", "sound", "watch", "recenter", "back", "practice"],
+  // Back sits exactly where "More settings" is on the main page (index 6).
+  more: ["swap", "pointer", "gaze", "ambience", "sound", "watch", "back", "recenter", "practice"],
 };
 export const menuLabels = {
   resume: "Continue reading",
   calendar: "Challenge calendar",
   library: "Library",
+  mood: "Style",
+  gaze: "Look to turn pages",
+  ambience: "Background sound",
   recenter: "Move page here",
   night: "Page colour",
   size: "Text size",
@@ -379,9 +382,9 @@ export const menuButtons = Object.entries(MENU_PAGES).flatMap(([page, ids]) =>
     page,
     label: menuLabels[id],
     x: 274,
-    y: 580 + i * 222,
+    y: 580 + i * 190,
     w: 1500,
-    h: 186,
+    h: 164,
   })),
 );
 export function menuHit(x, y, page = "main") {

@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=16";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=17";
 import {
   GestureEngine,
   menuButtons,
@@ -10,15 +10,33 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=16";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=16";
-import { HandBadges } from "./hand-badges.js?v=16";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=16";
-import { LIBRARY } from "./library.js?v=16";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=16";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=16";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=16";
-import { EntrySound } from "./entry-sound.js?v=16";
+} from "./gestures.js?v=17";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=17";
+import { HandBadges } from "./hand-badges.js?v=17";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=17";
+import { LIBRARY } from "./library.js?v=17";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=17";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=17";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=17";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=17";
+const MOODS = {
+  // Literary: warm paper, a bookish serif with italic titles.
+  literary: {
+    paper: { bg: "#f7f0df", ink: "#293b32", muted: "#637569", card: "#ebe6d4" },
+    night: { bg: "#1a211e", ink: "#e4dfd0", muted: "#a8b9aa", card: "#2c3a32" },
+    body: "Literata, Georgia, serif",
+    title: "italic",
+  },
+  // Clean modern: cooler paper, a plain sans with upright bold titles.
+  modern: {
+    paper: { bg: "#f3f3ef", ink: "#1e2427", muted: "#5f686c", card: "#e4e6e2" },
+    night: { bg: "#15181a", ink: "#dfe3e4", muted: "#9aa4a8", card: "#252b2e" },
+    body: "Helvetica Neue, Helvetica, Arial, sans-serif",
+    title: "bold",
+  },
+};
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=17";
+import { EntrySound } from "./entry-sound.js?v=17";
 import {
   readProgress,
   saveProgress,
@@ -27,13 +45,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=16";
+} from "./progress.js?v=17";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=16";
+} from "./calendar.js?v=17";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -161,6 +179,9 @@ const state = {
   handFeedbackError: null,
   watchError: null,
   wristCalendar: preferences.wristCalendar !== false,
+  mood: preferences.mood === "modern" ? "modern" : "literary",
+  gazeTurn: preferences.gazeTurn === true, // off by default
+  ambience: AMBIENCE_KINDS.includes(preferences.ambience) ? preferences.ambience : "off",
   practiceMarks: { next: false, prev: false, menu: false },
   feedback: "",
   feedbackUntil: 0,
@@ -199,6 +220,9 @@ let projectionRoute = false,
 const gestures = new GestureEngine();
 let nativeQueue = [],
   lastFrameTime = 0;
+let gazeRing = null;
+const gazeDwell = new GazeDwell(),
+  ambience = new Ambience();
 let handBadges = null,
   wristWatch = null,
   watchCache = { key: null, summary: null };
@@ -243,15 +267,20 @@ function paint() {
         : "Public domain poem and short story excerpt",
   );
   const work = workById(state.workId);
-  pages = work === SAMPLER ? layout(ctx, state.size) : layoutWork(ctx, work, state.size);
+  pages =
+    work === SAMPLER
+      ? layout(ctx, state.size)
+      : layoutWork(ctx, work, state.size, { serif: MOODS[state.mood].body });
   if (state.pendingAnchor) {
     state.page = pageForAnchor(pages, state.pendingAnchor);
     state.pendingAnchor = null;
   }
   state.page = Math.max(0, Math.min(state.page, pages.length - 1));
-  const bg = state.night ? "#1a211e" : "#f7f0df",
-    ink = state.night ? "#e4dfd0" : "#293b32",
-    muted = state.night ? "#a8b9aa" : "#637569";
+  const mood = MOODS[state.mood],
+    palette = state.night ? mood.night : mood.paper;
+  const bg = palette.bg,
+    ink = palette.ink,
+    muted = palette.muted;
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, PAGE.width, PAGE.height);
   ctx.fillStyle = muted;
@@ -264,7 +293,7 @@ function paint() {
   }
   ctx.textAlign = "left";
   ctx.fillStyle = ink;
-  ctx.font = "74px Literata";
+  ctx.font = `74px ${mood.body}`;
   ctx.fillText("A little room for reading.", 180, 270);
   ctx.strokeStyle = muted;
   ctx.lineWidth = 1;
@@ -274,7 +303,7 @@ function paint() {
   ctx.stroke();
   if (state.centering) {
     ctx.fillStyle = ink;
-    ctx.font = "82px Literata";
+    ctx.font = `82px ${mood.body}`;
     ctx.fillText("Get comfortable.", 180, 650);
     ctx.font = "45px Arial";
     for (const [i, line] of [
@@ -299,7 +328,8 @@ function paint() {
         bg,
         ink,
         muted,
-        card: state.night ? "#2c3a32" : "#ebe6d4",
+        card: palette.card,
+        serif: mood.body,
         accent: state.night ? "#c9b98f" : "#3f5f4e",
       },
     });
@@ -316,7 +346,8 @@ function paint() {
         bg,
         ink,
         muted,
-        card: state.night ? "#2c3a32" : "#ebe6d4",
+        card: palette.card,
+        serif: mood.body,
         accent: state.night ? "#c9b98f" : "#3f5f4e",
         done: state.night ? "#7f9a83" : "#6d8a74",
         faint: state.night ? "#4d5c52" : "#c4c2b0",
@@ -327,7 +358,7 @@ function paint() {
   } else if (state.menuOpen) {
     const more = state.menuPage === "more";
     ctx.fillStyle = ink;
-    ctx.font = "84px Literata";
+    ctx.font = `84px ${mood.body}`;
     ctx.fillText(more ? "More settings" : "Menu", 274, 470);
     ctx.fillStyle = muted;
     ctx.font = "36px Arial";
@@ -347,8 +378,11 @@ function paint() {
       pointer: state.headPointer ? "Head" : "Hand",
       sound: state.entrySound ? "On" : "Off",
       watch: state.wristCalendar ? "Right wrist" : "Off",
+      mood: state.mood === "modern" ? "Clean modern" : "Literary",
+      gaze: state.gazeTurn ? "On" : "Off",
+      ambience: AMBIENCE_LABEL[state.ambience],
     };
-    const card = state.night ? "#2c3a32" : "#ebe6d4",
+    const card = palette.card,
       accent = state.night ? "#c9b98f" : "#3f5f4e";
     for (const b of menuButtons) {
       if (b.page !== state.menuPage) continue;
@@ -359,7 +393,7 @@ function paint() {
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
       ctx.fillStyle = hot ? bg : ink;
-      ctx.font = `${b.id === "resume" ? "italic " : ""}58px Literata`;
+      ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
         (b.id === "back" ? "‹  " : "") + b.label,
@@ -376,7 +410,7 @@ function paint() {
     ctx.textAlign = "left";
   } else if (state.practice) {
     ctx.fillStyle = ink;
-    ctx.font = "76px Literata";
+    ctx.font = `76px ${mood.body}`;
     ctx.fillText("A moment to find your rhythm.", 160, 450);
     ctx.fillStyle = muted;
     ctx.font = "38px Arial";
@@ -411,7 +445,7 @@ function paint() {
       ctx.fillStyle = state.night ? "#29372f" : "#e8e6d7";
       ctx.fillRect(160, y - 110, 1720, 280);
       ctx.fillStyle = ink;
-      ctx.font = "54px Literata";
+      ctx.font = `54px ${mood.body}`;
       ctx.fillText(
         (state.practiceMarks[id] ? "✓  " : "0" + (i + 1) + "  ") + title,
         220,
@@ -437,7 +471,8 @@ function paint() {
     for (const b of pages[state.page]) {
       if (typeof b.text !== "string") continue; // spacing between blocks
       ctx.fillStyle = b.kind === "meta" ? muted : ink;
-      ctx.font = `${b.kind === "meta" ? "" : b.kind === "title" ? "italic " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : "Literata, Georgia, serif"}`;
+      const m = MOODS[state.mood];
+      ctx.font = `${b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : m.body}`;
       ctx.fillText(b.text, b.x ?? 194, b.y);
     }
   }
@@ -602,7 +637,10 @@ function gestureEvent(event) {
     }
     return "select";
   }
-  const id = (event.hand === "right") !== state.swapped ? "next" : "prev";
+  // Gaze turns name their direction; hand turns follow the hand mapping.
+  const id =
+    event.direction ||
+    ((event.hand === "right") !== state.swapped ? "next" : "prev");
   if (state.practice) {
     state.practiceMarks[id] = true;
     if (practiceDone()) {
@@ -707,6 +745,25 @@ function action(id) {
     state.swapped = !state.swapped;
     preferences.swapped = state.swapped;
     savePreferences();
+  }
+  if (id === "mood") {
+    state.mood = state.mood === "modern" ? "literary" : "modern";
+    preferences.mood = state.mood;
+    savePreferences();
+    state.pendingAnchor = reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+  }
+  if (id === "gaze") {
+    state.gazeTurn = !state.gazeTurn;
+    preferences.gazeTurn = state.gazeTurn;
+    savePreferences();
+    gazeDwell.reset();
+  }
+  if (id === "ambience") {
+    const i = AMBIENCE_KINDS.indexOf(state.ambience);
+    state.ambience = AMBIENCE_KINDS[(i + 1) % AMBIENCE_KINDS.length];
+    preferences.ambience = state.ambience;
+    savePreferences();
+    ambience.set(entrySound?.context, state.session ? state.ambience : "off");
   }
   if (id === "watch") {
     state.wristCalendar = !state.wristCalendar;
@@ -859,7 +916,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-016",
+    build: "gestures-017",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -897,6 +954,9 @@ $("export").onclick = () => {
       pages: pages.length,
       anchor: pages[state.page]?.anchor || null,
     },
+    gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
+    ambience: { setting: state.ambience, ...ambience.status() },
+    mood: state.mood,
     wristCalendar: {
       enabled: state.wristCalendar,
       hand: WATCH_HAND,
@@ -942,13 +1002,22 @@ function applyLayers() {
   if (projectionRoute) {
     const primary = quad && state.mode === "layer" ? quad : base;
     const optional = arrival?.visible.length ? arrival : handBadges;
-    const extra = optional === arrival ? [] : wristWatch?.visible || [];
+    const extra =
+      optional === arrival
+        ? []
+        : [...(gazeRing?.visible || []), ...(wristWatch?.visible || [])];
     try {
       session.updateRenderState({
         layers: [primary, ...(optional?.visible || []), ...extra],
       });
     } catch (error) {
-      // The wrist calendar is the first optional layer to give up.
+      // The gaze ring, then the wrist calendar, give up first.
+      if (gazeRing?.visible.length) {
+        gazeRing.failed = true;
+        gazeRing.clearVisible();
+        state.gazeError = error.message;
+        return applyLayers();
+      }
       if (extra.length) {
         wristWatch.failed = true;
         wristWatch.clearVisible();
@@ -969,6 +1038,21 @@ function applyLayers() {
       session.updateRenderState({ layers: [primary] });
     }
   } else session.updateRenderState({ baseLayer: base });
+}
+// Where a head/ray transform meets the displayed page, in canvas pixels.
+function pagePoint(transform, display = presentPose()) {
+  if (!display || !transform) return null;
+  const inv = display.inverse.matrix,
+    m = transform.matrix;
+  const origin = new DOMPoint(m[12], m[13], m[14]).matrixTransform(new DOMMatrix(inv));
+  const direction = new DOMPoint(-m[8], -m[9], -m[10], 0).matrixTransform(new DOMMatrix(inv));
+  if (direction.z >= -0.0001) return null;
+  const t = -origin.z / direction.z;
+  if (t < 0) return null;
+  return {
+    x: ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
+    y: (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
+  };
 }
 function hit(transform) {
   const display = presentPose();
@@ -1014,6 +1098,11 @@ function cleanSession() {
   handBadges = null;
   wristWatch?.dispose();
   wristWatch = null;
+  gazeRing?.dispose();
+  gazeRing = null;
+  gazeDwell.reset();
+  ambience.stop(entrySound?.context);
+  ambience.kind = "off";
   quad?.destroy();
   quad = null;
   if (projectionRoute) base?.destroy();
@@ -1040,6 +1129,7 @@ async function enter() {
   state.entryAudioLast = null;
   entrySound = new EntrySound();
   entrySound.unlock();
+  ambience.set(entrySound.context, state.ambience);
   $("enter").disabled = true;
   state.error = null;
   state.graphicsError = null;
@@ -1134,6 +1224,10 @@ async function enter() {
         report("Hand feedback unavailable: " + error.message);
       });
     state.watchError = null;
+    if (quad)
+      gazeRing = new GazeRing(binding, ref, (error) => {
+        state.gazeError = error.message;
+      });
     if (quad)
       wristWatch = new WristWatch(binding, ref, (error) => {
         state.watchError = error.message;
@@ -1508,6 +1602,24 @@ function frame(time, xrFrame, generation) {
         )
       )
         applyLayers();
+      {
+        // Optional look-to-turn: only while reading, attentive and visible.
+        const readingNow =
+          state.gazeTurn &&
+          attentive &&
+          !state.menuOpen &&
+          !state.practice &&
+          !state.centering &&
+          !state.arriving;
+        const p = readingNow ? pagePoint(pose.transform) : null;
+        const zone = p ? gazeZone(p.x, p.y) : null;
+        const g = gazeDwell.update(zone, time, readingNow);
+        if (gazeRing?.update(presentPose(), g.zone, g.progress, state.night)) applyLayers();
+        if (g.fire) {
+          const outcome = gestureEvent({ type: "page", direction: g.fire, hand: "gaze" });
+          gestures.record({ result: "page", eventSource: "gaze", hand: "gaze", outcome, page: state.page + 1, time });
+        }
+      }
       if (
         wristWatch?.update(watchSample, pose.transform, {
           time,
@@ -1637,6 +1749,7 @@ function frame(time, xrFrame, generation) {
       }
       if (handBadges?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (wristWatch?.draw(xrFrame, gpu, activeLayers)) applyLayers();
+      if (gazeRing?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (arrival?.draw(xrFrame, gpu, activeLayers)) applyLayers();
     }
   } catch (e) {
