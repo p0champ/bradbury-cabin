@@ -28,7 +28,7 @@ import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.
 import { GOOGLE_CLIENT_ID } from "./config.js?v=34";
 import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=34";
 import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=34";
-import { MOODS, UI, accentFor, goldFor, hoverFor, ring, spaced, unspaced } from "./theme.js?v=34";
+import { MOODS, UI, accentFor, goldFor, ring, spaced, unspaced } from "./theme.js?v=34";
 import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=34";
 import { EntrySound } from "./entry-sound.js?v=34";
 import {
@@ -426,7 +426,7 @@ function paint() {
     while (title.length > 8 && ctx.measureText(title).width > 900) title = title.slice(0, -2).trimEnd() + "…";
     if (!state.menuOpen && !state.centering) ctx.fillText(title, 1868, 170);
     // Display only: which of today's three this is, and which are read.
-    if (!state.menuOpen && todayWorks.some((t) => t.id === w.id)) {
+    if (!state.menuOpen && !state.centering && todayWorks.some((t) => t.id === w.id)) {
       let x = 1868 - ctx.measureText(title).width - 56;
       for (const t of [...todayWorks].reverse()) {
         const current = t.id === w.id, read = progress.days[todayKey()]?.[t.kind] === true;
@@ -466,8 +466,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      hover: hoverFor(state.night),
-        accent: accentFor(state.night),
+      hover: palette.hover,
+      accent: accentFor(state.night),
       gold: goldFor(state.night),
     };
     if (state.menuPage === "today") {
@@ -503,8 +503,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      hover: hoverFor(state.night),
-        accent: accentFor(state.night),
+      hover: palette.hover,
+      accent: accentFor(state.night),
       gold: goldFor(state.night),
     };
     if (state.menuPage === "shelf") {
@@ -544,8 +544,8 @@ function paint() {
         card: palette.card,
         serif: mood.body,
         italic: state.mood === "literary" ? "italic " : "",
-        hover: hoverFor(state.night),
-        accent: accentFor(state.night),
+        hover: palette.hover,
+      accent: accentFor(state.night),
       },
     });
   } else if (state.menuOpen && CALENDAR_PAGES.includes(state.menuPage)) {
@@ -610,7 +610,7 @@ function paint() {
     for (const b of menuButtons) {
       if (b.page !== state.menuPage) continue;
       const hot = state.hover === b.id;
-      ctx.fillStyle = hot ? hoverFor(state.night) : card;
+      ctx.fillStyle = hot ? palette.hover : card;
       ctx.beginPath();
       if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
       else ctx.rect(b.x, b.y, b.w, b.h);

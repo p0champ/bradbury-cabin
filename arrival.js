@@ -123,14 +123,13 @@ export class Arrival {
           layer.blendTextureSourceAlpha = true;
           this.entries.push({ side, canvas, layer, dirty: true });
         }
-      const e = progress == null ? 0 : easeArrival(progress),
-        breath = 0; // no idle bobbing: still things feel calm in a headset
+      const e = progress == null ? 0 : easeArrival(progress);
       for (const entry of this.entries) {
         entry.layer.transform = localPose(
           anchor,
           entry.side * (0.43 + 0.3 * e),
           0,
-          -1.03 + 0.12 * e + breath,
+          -1.03 + 0.12 * e,
           entry.side * (0.07 + 1.08 * e),
         );
         entry.layer.opacity =

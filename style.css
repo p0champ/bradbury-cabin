@@ -363,5 +363,6 @@ aside { border-left-color: var(--hair); }
   .intro > aside { animation-delay: .12s; }
   @keyframes bc-rise { from { opacity: 0; transform: translateY(10px); } }
 }
-body.night { background: var(--paper); color: var(--ink); --paper: #131715; --ink: #ebe6da; --muted: #9ba59d; --hair: rgba(235, 230, 218, .14); --accent: #d6c9a4; }
+html:has(body.night), body.night { background: var(--paper); color: var(--ink); --paper: #131715; --ink: #ebe6da; --muted: #9ba59d; --hair: rgba(235, 230, 218, .14); --accent: #d6c9a4; }
 body.night button[aria-pressed="true"], body.night .primary:not(.secondary) { color: #131715; }
+body.night .primary.secondary { border-color: var(--hair); color: var(--ink); }

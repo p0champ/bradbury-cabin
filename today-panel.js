@@ -95,7 +95,7 @@ function card(ctx, b, fill, edge) {
   if (edge) ring(ctx, b, edge, 36);
 }
 // A hairline, not a bar: separation without weight.
-function rule(ctx, y, color) {
+export function rule(ctx, y, color) {
   ctx.fillStyle = color;
   ctx.globalAlpha = 0.4;
   ctx.fillRect(274, y, 1500, 2);
@@ -231,7 +231,8 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
         ctx.lineTo(cx - 3, cy + 12);
         ctx.lineTo(cx + 15, cy - 10);
         ctx.stroke();
-        ctx.lineCap = ctx.lineJoin = "butt";
+        ctx.lineCap = "butt";
+        ctx.lineJoin = "miter";
       } else {
         ctx.strokeStyle = c.muted;
         ctx.lineWidth = 3;

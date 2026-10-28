@@ -4,6 +4,7 @@ import { UI, ring } from "./theme.js?v=34";
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
 import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=34";
+import { rule } from "./today-panel.js?v=34";
 import { dayGuide } from "./guide-archive.js?v=34";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
@@ -142,8 +143,7 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   );
   const buttons = shelfButtons(days, page);
   button(ctx, byId(buttons, "shelf-menu"), "‹  Menu", hover === "shelf-menu", c);
-  ctx.fillStyle = c.gold;
-  ctx.fillRect(274, 600, 1500, 3);
+  rule(ctx, 600, c.gold);
   for (const b of buttons.filter((x) => x.id.startsWith("shelfday:"))) {
     const date = b.id.slice(9), hot = hover === b.id, entries = entriesFor(date);
     card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
@@ -193,8 +193,7 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
   ctx.fillText(`${dayHeading(date).split(" · ")[1]} · ${read} of ${entries.length} read`, 274, 540);
   const buttons = dayButtons(entries);
   button(ctx, byId(buttons, "day-back"), "‹  Shelf", hover === "day-back", c);
-  ctx.fillStyle = read === entries.length && entries.length ? c.ink : c.gold;
-  ctx.fillRect(274, 610, 1500, 3);
+  rule(ctx, 610, read === entries.length && entries.length ? c.muted : c.gold);
   for (const [i, e] of entries.entries()) {
     const b = { id: `pastwork:${e.kind}`, ...ENTRY(i) }, hot = e.work && hover === b.id;
     card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
