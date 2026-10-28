@@ -3,9 +3,9 @@
 // folder "Bradbury Cabin" (a new file per request; the newest one wins).
 // Version 2 contains catalogue references and separate original guide notes.
 // Literary text and edition metadata always come from the reviewed catalogue.
-import { normalizeGuide } from "./study-guide.js?v=32";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=32";
-import { LIBRARY } from "./library.js?v=32";
+import { normalizeGuide } from "./study-guide.js?v=33";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=33";
+import { LIBRARY } from "./library.js?v=33";
 export const KINDS = ["poem", "story", "essay"];
 const MAX_TEXT = 150000; // characters per text: a long story, not a novel
 
@@ -44,7 +44,7 @@ function workText(work) {
 // splitting a quotation into parts (each found in order), " / " between verse
 // lines, and a changed first capital to fit the sentence. The work's own title
 // and quotations under three words are not checked. Returns the first misquote.
-export function misquote(work, guide) {
+export function misquote(work, guide, minimumWords = 3) {
   if (!guide) return null;
   const text = workText(work);
   const strings = Object.values(guide).flat();
@@ -54,11 +54,24 @@ export function misquote(work, guide) {
       if (titleKey(m[1]) === titleKey(work.title.replace(/ \(Songs of \w+\)$/, ""))) continue;
       const parts = m[1].replace(/\s+\/\s+/g, " ").split(/\.\.\.|\.\s\.\s\.|\u2026|\[[^\]]*\]/)
         .map((p) => p.trim().replace(/^[\s,;:.!?'-]+|[\s,;:.!?'-]+$/g, "")).filter(Boolean);
-      if (parts.join(" ").split(" ").length < 3) continue; // titles and single words
+      if (!parts.length && minimumWords === 1) return m[1];
+      if (parts.join(" ").split(" ").length < minimumWords) continue;
       let from = 0;
       for (const part of parts) {
         const recased = (part[0] === part[0].toLowerCase() ? part[0].toUpperCase() : part[0].toLowerCase()) + part.slice(1);
-        const found = [part, recased].map((p) => text.indexOf(p, from)).filter((at) => at >= 0);
+        const word = minimumWords === 1 ? /[\p{L}\p{N}\p{M}_'-]/u : /[\p{L}\p{N}\p{M}_]/u;
+        const findWhole = p => {
+          let at = text.indexOf(p, from);
+          while (at >= 0) {
+            const before = Array.from(text.slice(Math.max(0, at - 2), at)).at(-1) || "";
+            const after = Array.from(text.slice(at + p.length, at + p.length + 2))[0] || "";
+            if (!(word.test(Array.from(p)[0]) && word.test(before)) &&
+                !(word.test(Array.from(p).at(-1)) && word.test(after))) return at;
+            at = text.indexOf(p, at + 1);
+          }
+          return -1;
+        };
+        const found = [part, recased].map(findWhole).filter((at) => at >= 0);
         if (!found.length) return m[1];
         from = Math.min(...found) + part.length;
       }
@@ -72,6 +85,20 @@ const realDate = (s) => {
   const d = new Date(s + "T00:00:00Z");
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
 };
+
+// Optional editorial lines never invalidate the readings. Check each quoted
+// fragment against one complete work, so quotations may not cross editions.
+export function personalLine(value, max, works) {
+  if (typeof value !== "string" || !Array.isArray(works) || works.length !== 3) return null;
+  const line = value.trim();
+  if (!line || Array.from(line).length > max || /[\u0000-\u001f\u007f\u2028\u2029]/.test(line)) return null;
+  const quoted = plainQuote(line);
+  if ((quoted.match(/"/g) || []).length % 2) return null;
+  for (const quote of quoted.matchAll(/"[^"]*"/g)) {
+    if (!quote[0].slice(1, -1).trim() || !works.some(work => !misquote(work, { context: [quote[0]] }, 1))) return null;
+  }
+  return line;
+}
 
 // Validates references. Model-supplied text, metadata and verification claims
 // can never replace the catalogue source. Old cached files use the same check.
@@ -144,7 +171,10 @@ export function parsePicks(json, days = {}) {
       guide,
     });
   }
-  return { date, works, problems };
+  return { date, works, problems, personal: {
+    dedication: personalLine(data.dedication, 70, works),
+    thread: personalLine(data.thread, 160, works),
+  } };
 }
 
 // "Title — Author" labels for the calendar and the wrist card.

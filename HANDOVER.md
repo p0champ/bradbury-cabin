@@ -1,3 +1,12 @@
+# Build 033 — Claude's personal lines and Library shortcut (28 October 2026)
+
+**Built:** optional `dedication` (<=70 code points, shown on Today while the day is incomplete) and `thread` (<=160, shown on Today and the final closing page only after all three are read). Invalid copy is dropped alone, never truncated; quoted fragments must match a selected source. New daily-lines.js binds copy to catalogue IDs/body hashes with its own revision time and null tombstones; swaps clear only the changed work's tick. Direct "Library ›" beside "Your shelf ›" on Today. Skill/contract/workflow carry the new fields via existing sync. See BUILD_033_REVIEW.md.
+
+**Verification:** 155 unit + all source checks; 148/148 full PC browser checks plus targeted picker rerun; 11/11 isolated mutations caught. Independent critic 7 -> 9/10 after legacy-tick and short-quote fixes, no remaining findings. No real Claude/Drive or Quest test.
+
+**Release:** pending (recorded below once live is verified). Branch build-033-personal-lines-library; queries v33, header BUILD 033, diagnostic gestures-033; 28 JS modules.
+
+---
 # Build 032 — saved study notes (28 October 2026)
 
 **Built:** day.guides saves normalized notes with catalogueId, source bodySha256 and independent guide revision timestamp. Your shelf reopens exact day/work notes offline; archives travel with progress/Drive/export. Startup automatically archives valid current/previous cache. Existing Sync recovers newest old pick-file notes for recorded choices only, bounded12 downloads/24 listings with a rotating persisted cursor. Invalid/missing old notes never fabricate content, replace source editions or erase ticks. Swaps and merges cannot attach a different work's guide; later old-device ticks do not overwrite newer note revisions. Adding recovered notes to an open work preserves its section/word anchor. No new guide UI.

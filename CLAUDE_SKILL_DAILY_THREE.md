@@ -86,6 +86,21 @@ Do not send `text`, fabricated verification flags, checksums or source metadata.
 ```
 
 - `date` is today in Europe/Berlin.
+- Optional top-level `dedication`: at most 70 Unicode characters, one calm,
+  original line to welcome him before reading. Set the mood only: no plot,
+  outcomes, surprises or explanations of connections. No quotations unless
+  they are exact words from one of the three selected editions.
+- Optional top-level `thread`: at most 160 Unicode characters, an original
+  reflection connecting the three readings. It appears only after all three
+  are marked read. It may discuss their connection after reading; it is not
+  a plot summary or an answer key. Use exact source quotations only.
+- Both fields are single-line strings. Omit them when you have nothing useful
+  to add. The app drops an invalid, over-length or misquoted field on its own;
+  that never rejects the three readings. Short quotations in these fields
+  are checked too. Do not supply a quotation from memory or another author.
+- On a swap, reconsider both optional lines for the new trio. Do not keep
+  a reflection about works no longer selected. Replaced works become unread;
+  the other selections keep their read status and saved places.
 - When swapping a selection, preserve the other two supported IDs and guides.
   Resolve any legacy title/author to a unique exact catalogue match; if a legacy
   selection cannot be matched, replace it with an eligible unread catalogue work

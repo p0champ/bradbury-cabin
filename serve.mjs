@@ -27,6 +27,7 @@ const allowed = new Set([
   "picker-contract.js",
   "picker-workflow.js",
   "today-panel.js",
+  "daily-lines.js",
   "shelf-panel.js",
   "SOURCE_CATALOGUE.md",
   "drive.js",

@@ -1,3 +1,15 @@
+# Build 033 — add to the combined end-of-work check
+
+1. Open https://p0champ.github.io/bradbury-cabin/?v=33 and confirm BUILD 033. Sync once, ask Claude for today's three normally, then sync again.
+2. If Claude supplied an opening line, it appears under the date on Today. The closing reflection must not appear yet.
+3. Read and mark all three. The reflection now appears on Today and on the last work's closing page.
+4. Ask Claude to swap one work, then sync: only that work's tick clears; the other two stay.
+5. Tap "Library ›" on Today: the full reader list opens directly.
+6. Reload (also offline): lines and ticks remain. Repeat the Today view lying down; text must wrap fully, no clipping.
+
+Not a release gate; part of the one combined test.
+
+---
 # Build 032 — add to the combined end-of-work check
 
 Bastian requested all real Claude/Drive and Quest testing at the end. Do not stop for these checks now.

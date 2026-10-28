@@ -42,7 +42,7 @@ module.exports = async function pickerChecks(browser, { mock, BASE_URL, out, pas
 
     // Exercise the wire format a picker can construct from Drive alone.
     // This is a synthetic producer, NOT a claim that real Claude ran.
-    picks = { version: 2, date: '2026-10-28', picks: {} };
+    picks = { version: 2, date: '2026-10-28', picks: {}, dedication: 'A quiet moment for yourself.', thread: 'Three ways of looking closely.' };
     const chosen = [];
     for (const kind of ['poem', 'story', 'essay']) {
       const w = contract.catalogue.find(w => w.kind === kind && !contract.shelfIds.includes(w.catalogueId));
@@ -52,6 +52,8 @@ module.exports = async function pickerChecks(browser, { mock, BASE_URL, out, pas
     await p.locator('#drive-sync:not([disabled])').click();
     await p.waitForFunction(() => document.querySelector('#status').textContent.includes("Today's three are ready"));
     assert.equal(writes.at(-1).cabinPickerInstructions.lastCheck.accepted, true);
+    assert.equal(writes.at(-1).days['2026-10-28'].personal.dedication, picks.dedication);
+    assert.equal(writes.at(-1).days['2026-10-28'].personal.thread, picks.thread);
     assert.deepEqual(writes.at(-1).days['2026-10-28'].ids, Object.fromEntries(chosen.map(w => [w.kind, w.catalogueId])));
     await p.locator('#enter:not([disabled])').click();
     await p.evaluate(() => { __center(); __step(1600); });

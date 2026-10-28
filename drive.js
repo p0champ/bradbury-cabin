@@ -8,8 +8,9 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=32";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=32";
+import { withPickerContract } from "./picker-contract.js?v=33";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=33";
+import { mergePersonal } from "./daily-lines.js?v=33";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -259,9 +260,13 @@ export function mergeProgress(local, remote) {
     } else if (d.ids && !o.ids && JSON.stringify(d.picks) === JSON.stringify(o.picks)) o.ids = d.ids;
     if (d.missed && o.missed == null) o.missed = d.missed;
     mergeDayGuides(o, d);
+    mergePersonal(o, d);
   }
   // Also validate notes on days present only in the newer copy.
-  for (const day of Object.values(out.days || {})) mergeDayGuides(day, null);
+  for (const day of Object.values(out.days || {})) {
+    mergeDayGuides(day, null);
+    mergePersonal(day, null);
+  }
   for (const [key, w] of Object.entries(older.weeks || {})) {
     const o = (out.weeks[key] ||= {});
     if (w.submitted && !("submitted" in o)) o.submitted = true;

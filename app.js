@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=32";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=33";
 import {
   GestureEngine,
   menuButtons,
@@ -10,23 +10,24 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=32";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=32";
-import { HandBadges } from "./hand-badges.js?v=32";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=32";
-import { LIBRARY } from "./library.js?v=32";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=32";
-import { layoutReading } from "./reading-flow.js?v=32";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=32";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=32";
-import { parsePicks, pickLabels } from "./picks.js?v=32";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=32";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=32";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=32";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=32";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=32";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=32";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=32";
+} from "./gestures.js?v=33";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=33";
+import { HandBadges } from "./hand-badges.js?v=33";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=33";
+import { LIBRARY } from "./library.js?v=33";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=33";
+import { layoutReading } from "./reading-flow.js?v=33";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=33";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=33";
+import { parsePicks, pickLabels } from "./picks.js?v=33";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=33";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=33";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=33";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=33";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=33";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=33";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=33";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=33";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -43,8 +44,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=32";
-import { EntrySound } from "./entry-sound.js?v=32";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=33";
+import { EntrySound } from "./entry-sound.js?v=33";
 import {
   readProgress,
   saveProgress,
@@ -53,13 +54,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=32";
+} from "./progress.js?v=33";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=32";
+} from "./calendar.js?v=33";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -155,10 +156,13 @@ function loadTodayCache() {
   todayWorksFor = dateKey(new Date());
   try {
     const r = parsePicks(localStorage.getItem(TODAY_KEY) || "", progress.days);
-    if (r.date && r.date <= todayWorksFor && r.works.length === 3 && !r.problems.length &&
-        rememberGuides(progress, r.date, r.works, { onlyMissing: true })) {
-      progress.savedAt = new Date().toISOString();
-      if (!saveProgress(store, progress)) progressNotice = "Study notes could not be saved on this headset.";
+    if (r.date && r.date <= todayWorksFor && r.works.length === 3 && !r.problems.length) {
+      const notesChanged = rememberGuides(progress, r.date, r.works, { onlyMissing: true });
+      const linesChanged = rememberPersonal(progress, r.date, r, { onlyMissing: true });
+      if (notesChanged || linesChanged) {
+        progress.savedAt = new Date().toISOString();
+        if (!saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
+      }
     }
     todayWorks = r.date === todayWorksFor && r.works.length === 3 && !r.problems.length ? r.works : [];
     for (const work of todayWorks) {
@@ -489,6 +493,7 @@ function paint() {
         hover: state.hover,
         facts: todayFacts(new Date(), progress, today),
         statuses,
+        personal: personalFor(progress.days[today], todayWorks),
         note: picksNotice,
         reveal: state.todayReveal ?? REVEAL_STEPS,
         c,
@@ -499,6 +504,8 @@ function paint() {
         work,
         next: nextUnread(todayWorks, work, progress, today),
         read: progress.days[today]?.[work.kind] === true,
+        allRead: todayFacts(new Date(), progress, today).allRead,
+        thread: personalFor(progress.days[today], todayWorks).thread,
         hover: state.hover,
         c,
       });
@@ -1092,11 +1099,11 @@ function action(id) {
     paint();
     return;
   }
-  if (id === "today-menu" || id === "today-library" || id === "end-today") {
+  if (id === "today-menu" || id === "today-library" || id === "today-full-library" || id === "end-today") {
     // Guarded like every choice: the pinch that completed Today's build-up,
     // or a repeat of the one that opened this page, must not move on.
     if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
-    state.menuPage = id === "today-menu" ? "main" : id === "today-library" ? "shelf" : "today";
+    state.menuPage = id === "today-menu" ? "main" : id === "today-library" ? "shelf" : id === "today-full-library" ? "library" : "today";
     state.shelfPage = 0;
     state.hover = null;
     dayOpenedAt = lastFrameTime;
@@ -1287,7 +1294,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-032",
+    build: "gestures-033",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1454,7 +1461,7 @@ function panelHit(x, y) {
   if (state.menuPage === "today") {
     // While it builds, only what is already drawn can be a target.
     const id = todayHit(x, y, todayWorks.slice(0, state.todayReveal ?? REVEAL_STEPS));
-    return state.todayReveal != null && id === "today-library" ? null : id;
+    return state.todayReveal != null && ["today-library", "today-full-library"].includes(id) ? null : id;
   }
   if (state.menuPage === "closing")
     return closingHit(x, y, nextUnread(todayWorks, workById(state.workId), progress, todayKey()));
@@ -2270,9 +2277,11 @@ async function syncDrive() {
         picksNotice = "";
         if (todayWorks.some(w => w.id === state.workId)) state.pendingAnchor = currentAnchor();
         const day = (progress.days[today] ||= {});
+        clearReplacedTicks(day, r.works);
         day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
         day.ids = { ...(day.ids || {}), ...Object.fromEntries(r.works.map((w) => [w.kind, w.catalogueId])) };
         rememberGuides(progress, today, r.works, { savedAt: found.createdTime || new Date().toISOString() });
+        rememberPersonal(progress, today, r, { savedAt: found.createdTime || new Date().toISOString() });
         rebuildWorks(state.workId);
         message = `Today's three are ready: ${r.works.map((w) => w.title).join(", ")}.`;
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&

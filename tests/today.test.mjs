@@ -33,7 +33,7 @@ test("each entry shows Read from today's ticks, else In progress from a saved pl
 });
 test("Today targets are large, separate, on the page and away from the menu's exit row", () => {
   const buttons = todayButtons(works);
-  assert.deepEqual(buttons.map((b) => b.id), ["today-menu", ...works.map((w) => "today:" + w.id), "today-library"]);
+  assert.deepEqual(buttons.map((b) => b.id), ["today-menu", ...works.map((w) => "today:" + w.id), "today-library", "today-full-library"]);
   for (const [i, a] of buttons.entries()) {
     assert.ok(a.x >= 0 && a.y >= 0 && a.x + a.w <= 2048 && a.y + a.h <= 2560, a.id);
     for (const b of buttons.slice(i + 1))
@@ -46,7 +46,7 @@ test("Today targets are large, separate, on the page and away from the menu's ex
   assert.ok(menu.y + menu.h <= exit.y || exit.y + exit.h <= menu.y || menu.x >= exit.x + exit.w || exit.x >= menu.x + menu.w);
   assert.equal(todayHit(buttons[2].x + 10, buttons[2].y + 10, works), "today:" + works[1].id);
   assert.equal(todayHit(5, 5, works), null);
-  assert.deepEqual(todayButtons([]).map((b) => b.id), ["today-menu", "today-library"]);
+  assert.deepEqual(todayButtons([]).map((b) => b.id), ["today-menu", "today-library", "today-full-library"]);
 });
 test("the closing page offers Next only while another of today's works is unread", () => {
   const p = base({ "2026-10-28": { story: true } });

@@ -2,13 +2,14 @@
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=32";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=33";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
 // "‹ Menu" sits where the Library's does, away from "Leave the cabin".
 const MENU_BUTTON = { x: 1394, y: 380, w: 380, h: 120 };
 const LIBRARY_BUTTON = { x: 274, y: 1700, w: 760, h: 120 };
+const ALL_LIBRARY_BUTTON = { x: 1074, y: 1700, w: 700, h: 120 };
 const CLOSING_ROW = (i) => ({ x: 274, y: 700 + i * 190, w: 1500, h: 164 });
 
 function partOfDay(date) {
@@ -41,6 +42,7 @@ export function todayButtons(works) {
     { id: "today-menu", ...MENU_BUTTON },
     ...works.slice(0, 3).map((w, i) => ({ id: "today:" + w.id, ...ENTRY(i) })),
     { id: "today-library", ...LIBRARY_BUTTON },
+    { id: "today-full-library", ...ALL_LIBRARY_BUTTON },
   ];
 }
 export function todayHit(x, y, works) {
@@ -113,7 +115,7 @@ export const REVEAL_MS = 300;
 
 // c: { bg, ink, muted, card, accent, gold, serif, italic }
 // reveal: how many works are shown yet; REVEAL_STEPS also shows the rest.
-export function paintToday(ctx, { works, hover, facts, statuses, note = "", reveal = REVEAL_STEPS, c }) {
+export function paintToday(ctx, { works, hover, facts, statuses, note = "", personal = {}, reveal = REVEAL_STEPS, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
   ctx.font = `84px ${c.serif}`;
@@ -125,7 +127,14 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", reve
   smallButton(ctx, byId(buttons, "today-menu"), "‹  Menu", hover === "today-menu", c);
   const complete = reveal >= REVEAL_STEPS;
   // Gold while the day is open; ink once all three are read.
-  if (complete) rule(ctx, 610, facts.allRead ? c.ink : c.gold);
+  let openingLines = [];
+  if (!facts.allRead && personal.dedication) {
+    ctx.font = `${c.italic}32px ${c.serif}`;
+    openingLines = wrapPersonal(ctx, personal.dedication, 1500);
+    ctx.fillStyle = c.muted;
+    openingLines.forEach((line, i) => ctx.fillText(line, 274, 585 + i * 36));
+  }
+  if (complete) rule(ctx, openingLines.length > 1 ? 637 : 610, facts.allRead ? c.ink : c.gold);
   for (const w of works.slice(0, Math.min(3, reveal))) {
     const b = byId(buttons, "today:" + w.id), hot = hover === b.id;
     const status = statuses[w.id] || "";
@@ -155,15 +164,24 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", reve
     ctx.fillText(facts.closing, 274, 1660);
   }
   smallButton(ctx, byId(buttons, "today-library"), "Your shelf  ›", hover === "today-library", c, "left");
+  smallButton(ctx, byId(buttons, "today-full-library"), "Library  ›", hover === "today-full-library", c, "left");
+  let noteY = 1920;
+  if (facts.allRead && personal.thread) {
+    ctx.font = `${c.italic}34px ${c.serif}`;
+    ctx.fillStyle = c.ink;
+    const lines = wrapPersonal(ctx, personal.thread, 1500);
+    lines.forEach((line, i) => ctx.fillText(line, 274, 1885 + i * 44));
+    noteY = Math.max(noteY, 1885 + lines.length * 44 + 50);
+  }
   if (note) {
     ctx.fillStyle = c.muted;
     ctx.font = "34px Arial";
-    for (const [i, line] of wrap2(ctx, note, 1500).entries()) ctx.fillText(line, 274, 1920 + i * 50);
+    for (const [i, line] of wrap2(ctx, note, 1500).entries()) ctx.fillText(line, 274, noteY + i * 50);
   }
 }
 
 // After the last page of one of today's works.
-export function paintClosing(ctx, { work, next, read, hover, c }) {
+export function paintClosing(ctx, { work, next, read, hover, allRead = false, thread = null, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.muted;
   ctx.font = "36px Arial";
@@ -202,4 +220,28 @@ export function paintClosing(ctx, { work, next, read, hover, c }) {
       }
     }
   }
+  if (allRead && thread) {
+    ctx.fillStyle = c.ink;
+    ctx.font = `${c.italic}42px ${c.serif}`;
+    wrapPersonal(ctx, thread, 1500).forEach((line, i) => ctx.fillText(line, 274, 1350 + i * 54));
+  }
+}
+
+// Editorial copy wraps completely; no ellipsis, clipped words or split
+// surrogate pairs. Segmentation also keeps emoji sequences together.
+export function wrapPersonal(ctx, text, width) {
+  const parts = typeof Intl.Segmenter === "function"
+    ? [...new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text)].map(p => p.segment)
+    : Array.from(text);
+  const lines = []; let line = "";
+  for (const part of parts) {
+    while (line && ctx.measureText(line + part).width > width) {
+      const at = line.lastIndexOf(" ");
+      if (at > 0) { lines.push(line.slice(0, at)); line = line.slice(at + 1); }
+      else { lines.push(line); line = ""; }
+    }
+    line += part;
+  }
+  if (line.trim()) lines.push(line.trim());
+  return lines;
 }

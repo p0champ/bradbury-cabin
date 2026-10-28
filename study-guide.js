@@ -1,4 +1,4 @@
-import { BUILTIN_GUIDES } from "./guide-data.js?v=32";
+import { BUILTIN_GUIDES } from "./guide-data.js?v=33";
 
 // Optional editorial material must never invalidate a readable pick.
 export function normalizeGuide(value) {
