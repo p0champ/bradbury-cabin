@@ -1,3 +1,4 @@
+import { UI } from "./theme.js?v=33";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
 // It is locked to the right hand: only an input source whose handedness is
@@ -146,7 +147,7 @@ export function paintWatch(canvas, s, night = false) {
   c.fillText(s.title, 40, 70);
   c.textAlign = "right";
   c.fillStyle = muted;
-  c.font = "28px Arial";
+  c.font = `28px ${UI}`;
   c.fillText(`Streak ${s.streak}`, W - 40, 68);
   // Today's three readings, each with its tick and title.
   const fit = (text, max) => {
@@ -176,12 +177,12 @@ export function paintWatch(canvas, s, night = false) {
     }
     c.textAlign = "left";
     c.fillStyle = muted;
-    c.font = "22px Arial";
+    c.font = `22px ${UI}`;
     c.fillText(label.toUpperCase(), 102, cy - 10);
     // Title only on the wrist; the author is on the calendar day page.
     const title = titleOnly(s.picks?.[i]);
     c.fillStyle = title ? ink : faint;
-    c.font = title ? "italic 28px Literata, Georgia, serif" : "26px Arial";
+    c.font = title ? "italic 28px Literata, Georgia, serif" : `26px ${UI}`;
     c.fillText(fit(title || "not picked yet", W - 140), 102, cy + 22);
   });
   // This week, Monday to Sunday
@@ -209,7 +210,7 @@ export function paintWatch(canvas, s, night = false) {
     }
     c.textAlign = "center";
     c.fillStyle = d.status === "complete" ? bg : d.status === "future" ? faint : muted;
-    c.font = `${d.today ? "bold " : ""}28px Arial`;
+    c.font = `${d.today ? "bold " : ""}28px ${UI}`;
     c.fillText(d.label, x + 24, y + 32);
     if (d.today) {
       c.fillStyle = ink;
@@ -218,7 +219,7 @@ export function paintWatch(canvas, s, night = false) {
   });
   c.textAlign = "left";
   c.fillStyle = muted;
-  c.font = "24px Arial";
+  c.font = `24px ${UI}`;
   c.fillText(s.weekly, 40, H - 28);
 }
 

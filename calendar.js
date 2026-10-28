@@ -1,3 +1,4 @@
+import { UI } from "./theme.js?v=33";
 // Challenge calendar panels drawn on the same crisp page canvas as the menu.
 // Buttons are plain rectangles in canvas pixels, hit-tested like the menu.
 import {
@@ -89,7 +90,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
   ctx.textAlign = "left";
   if (notice) {
     ctx.fillStyle = c.warn;
-    ctx.font = "36px Arial";
+    ctx.font = `36px ${UI}`;
     ctx.fillText(notice, page === "day" ? 274 : 194, 2230);
   }
   if (page === "day") return paintDay(ctx, buttons, view.selected, progress, today, hot, c);
@@ -99,7 +100,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
   ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText(`${MONTHS[view.month]} ${view.year}`, 194, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = "38px Arial";
+  ctx.font = `38px ${UI}`;
   ctx.fillText(
     [
       `Streak ${o.streak} ${o.streak === 1 ? "day" : "days"}`,
@@ -128,7 +129,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
     ctx.fillText(label, b.x + b.w / 2, b.y + b.h / 2 + 18);
   }
   ctx.textAlign = "center";
-  ctx.font = "34px Arial";
+  ctx.font = `34px ${UI}`;
   ctx.fillStyle = c.muted;
   WEEKDAYS.forEach((w, i) =>
     ctx.fillText(w, GRID.x + i * (GRID.w + GRID.gap) + GRID.w / 2, GRID.y - 24),
@@ -157,11 +158,11 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
     const text = filled ? c.bg : s === "future" || s === "before" ? c.faint : c.ink;
     ctx.fillStyle = text;
     ctx.textAlign = "left";
-    ctx.font = "44px Arial";
+    ctx.font = `44px ${UI}`;
     ctx.fillText(String(cell.day), b.x + 26, b.y + 62);
     if (s === "missed") {
       ctx.fillStyle = c.warn;
-      ctx.font = "34px Arial";
+      ctx.font = `34px ${UI}`;
       ctx.fillText("missed", b.x + 26, b.y + 166);
     } else if (s !== "future" && s !== "before" && s !== "unrecorded") {
       const d = progress.days[cell.key] || {};
@@ -195,7 +196,7 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
   // Legend
   let lx = 194;
   const ly = 2082;
-  ctx.font = "32px Arial";
+  ctx.font = `32px ${UI}`;
   const item = (draw, label) => {
     draw(lx);
     ctx.fillStyle = c.muted;
@@ -215,10 +216,10 @@ export function paintCalendar(ctx, { page, view, progress, today, hover, c, noti
     ctx.fillStyle = c.muted;
     ctx.font = `34px ${c.serif || "Literata"}`;
     ctx.fillText("✎", x + 6, ly + 12);
-    ctx.font = "32px Arial";
+    ctx.font = `32px ${UI}`;
   }, "weekly story");
   ctx.fillStyle = c.muted;
-  ctx.font = "36px Arial";
+  ctx.font = `36px ${UI}`;
   ctx.fillText(
     o.weekSubmitted
       ? "This week's written story: handed in ✎"
@@ -236,7 +237,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
   ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText(dayTitle(key), 274, 470);
   ctx.fillStyle = s === "missed" ? c.warn : c.muted;
-  ctx.font = "38px Arial";
+  ctx.font = `38px ${UI}`;
   ctx.fillText(
     {
       complete: "Complete — all three read.",
@@ -287,7 +288,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
         ctx.fillText(pick, b.x + 160, b.y + 140);
       }
       ctx.fillStyle = sub;
-      ctx.font = "40px Arial";
+      ctx.font = `40px ${UI}`;
       ctx.textAlign = "right";
       ctx.fillText(done ? "Read" : key === today ? "Not yet" : "Not read", b.x + b.w - 70, b.y + 108);
     } else if (b.id === "weekly") {
@@ -295,9 +296,9 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
       ctx.font = `52px ${c.serif || "Literata"}`;
       ctx.fillText("Weekly written story", b.x + 70, b.y + 82);
       ctx.fillStyle = sub;
-      ctx.font = "34px Arial";
+      ctx.font = `34px ${UI}`;
       ctx.fillText(`Week ending ${shortDate(sunday)}`, b.x + 70, b.y + 140);
-      ctx.font = "40px Arial";
+      ctx.font = `40px ${UI}`;
       ctx.textAlign = "right";
       ctx.fillText(
         submitted ? "Handed in ✎" : sunday < progress.trackingSince ? "Not recorded" : "Not yet",

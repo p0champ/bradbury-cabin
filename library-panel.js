@@ -1,3 +1,4 @@
+import { UI } from "./theme.js?v=33";
 // Library page inside the menu: "‹ Menu" at the top, then one row per work.
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.
@@ -20,7 +21,7 @@ export function libraryHit(x, y, works) {
 function card(ctx, b, fill) {
   ctx.fillStyle = fill;
   ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 28);
+  if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
 }
@@ -31,7 +32,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
   ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText("Library", 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = "36px Arial";
+  ctx.font = `36px ${UI}`;
   ctx.fillText(
     works.some((w) => w.today)
       ? "Today's three from Claude are at the top. Pick one to read."
@@ -55,7 +56,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     }
     const w = works.find((x) => "work:" + x.id === b.id);
     ctx.fillStyle = sub;
-    ctx.font = "28px Arial";
+    ctx.font = `28px ${UI}`;
     ctx.fillText(
       (w.today ? "TODAY  ·  " : "") + KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""),
       b.x + 60,
@@ -66,7 +67,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     // Long titles are shortened so they never run into the author.
     let title = w.title;
     ctx.save();
-    ctx.font = "32px Arial";
+    ctx.font = `32px ${UI}`;
     let author = w.author;
     while (author.length > 4 && ctx.measureText(author).width > b.w * 0.4) author = author.slice(0, -2);
     if (author !== w.author) author = author.trimEnd() + "…";
@@ -78,7 +79,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     ctx.fillText(title, b.x + 60, b.y + 88);
     ctx.textAlign = "right";
     ctx.fillStyle = sub;
-    ctx.font = "32px Arial";
+    ctx.font = `32px ${UI}`;
     ctx.fillText(author + (places[w.id] ? "  ·  " + places[w.id] : ""), b.x + b.w - 60, b.y + 88);
     ctx.textAlign = "left";
   }

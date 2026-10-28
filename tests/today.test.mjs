@@ -68,6 +68,7 @@ function fakeCtx() {
     fillText(t, x, y) { check(x, y); drawn.push({ t, font: this.font }); },
     fillRect(x, y, w, h) { check(x, y, w, h); }, strokeRect(x, y, w, h) { check(x, y, w, h); },
     beginPath() {}, rect(x, y, w, h) { check(x, y, w, h); }, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
+    moveTo(x, y) { check(x, y); }, lineTo(x, y) { check(x, y); }, stroke() {},
   };
 }
 const colours = { bg: "#000", ink: "#111", muted: "#222", card: "#333", accent: "#444", gold: "#555", serif: "Literata", italic: "" };

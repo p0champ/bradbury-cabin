@@ -42,7 +42,7 @@ test('only a known replaced selection clears its reading checkmark',()=>{
  const same={ids,poem:true,story:true,essay:true};clearReplacedTicks(same,works);assert.equal(same.essay,true);
 });
 const colours={bg:'#fff',ink:'#111',muted:'#333',card:'#eee',accent:'#ddd',gold:'#555',serif:'serif',italic:''};
-function canvas(){return {drawn:[],font:'40px serif',measureText(t){return {width:Array.from(t).length*Number(/(\d+)px/.exec(this.font)[1])}},fillText(t,x,y){this.drawn.push({t,x,y})},fillRect(){},strokeRect(){},beginPath(){},rect(){},roundRect(){},fill(){}}}
+function canvas(){return {drawn:[],font:'40px serif',measureText(t){return {width:Array.from(t).length*Number(/(\d+)px/.exec(this.font)[1])}},fillText(t,x,y){this.drawn.push({t,x,y})},fillRect(){},strokeRect(){},beginPath(){},rect(){},roundRect(){},fill(){},moveTo(){},lineTo(){},stroke(){}}}
 test('opening appears before completion; reflection appears only after all three are read',()=>{
  const parsed=parsePicks(fixture());
  for(let read=0;read<=3;read++){

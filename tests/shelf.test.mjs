@@ -94,6 +94,7 @@ function fakeCtx() {
     measureText(t) { return { width: String(t).length * (parseFloat(/(\d+)px/.exec(this.font)[1]) * 0.55) }; },
     fillText(t, x, y) { check(x, y); drawn.push(t); },
     fillRect(x, y, w, h) { check(x, y, w, h); }, beginPath() {}, rect() {}, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
+    moveTo(x, y) { check(x, y); }, lineTo(x, y) { check(x, y); }, stroke() {},
   };
 }
 const colours = { bg: "#000", ink: "#111", muted: "#222", card: "#333", accent: "#444", gold: "#555", serif: "Literata", italic: "" };

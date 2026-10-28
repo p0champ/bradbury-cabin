@@ -28,22 +28,7 @@ import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.
 import { GOOGLE_CLIENT_ID } from "./config.js?v=33";
 import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=33";
 import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=33";
-const MOODS = {
-  // Literary: warm paper, a bookish serif with italic titles.
-  literary: {
-    paper: { bg: "#f7f0df", ink: "#293b32", muted: "#637569", card: "#ebe6d4" },
-    night: { bg: "#1a211e", ink: "#e4dfd0", muted: "#a8b9aa", card: "#2c3a32" },
-    body: "Literata, Georgia, serif",
-    title: "italic",
-  },
-  // Clean modern: cooler paper, a plain sans with upright bold titles.
-  modern: {
-    paper: { bg: "#f3f3ef", ink: "#1e2427", muted: "#5f686c", card: "#e4e6e2" },
-    night: { bg: "#15181a", ink: "#dfe3e4", muted: "#9aa4a8", card: "#252b2e" },
-    body: "Helvetica Neue, Helvetica, Arial, sans-serif",
-    title: "bold",
-  },
-};
+import { MOODS, UI, accentFor, goldFor, spaced, unspaced } from "./theme.js?v=33";
 import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=33";
 import { EntrySound } from "./entry-sound.js?v=33";
 import {
@@ -427,43 +412,42 @@ function paint() {
     muted = palette.muted;
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, PAGE.width, PAGE.height);
+  // A quiet running head, like a book's: the cabin on the left, the work on
+  // the right, a hairline below. No slogan competing with the page.
   ctx.fillStyle = muted;
-  ctx.font = "28px Arial";
-  ctx.fillText("B / C     BRADBURY CABIN", 180, 155);
+  ctx.font = `500 26px ${UI}`;
+  spaced(ctx, 6);
+  ctx.fillText("BRADBURY CABIN", 180, 170);
+  spaced(ctx, 4);
   ctx.textAlign = "right";
   {
     const w = workById(state.workId);
-    const title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
-    ctx.fillText(title, 1868, 155);
+    let title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
+    while (title.length > 8 && ctx.measureText(title).width > 900) title = title.slice(0, -2).trimEnd() + "…";
+    if (!state.menuOpen && !state.centering) ctx.fillText(title, 1868, 170);
     // Display only: which of today's three this is, and which are read.
     if (!state.menuOpen && todayWorks.some((t) => t.id === w.id)) {
       let x = 1868 - ctx.measureText(title).width - 56;
       for (const t of [...todayWorks].reverse()) {
         const current = t.id === w.id, read = progress.days[todayKey()]?.[t.kind] === true;
-        ctx.font = `${current ? 50 : 38}px Arial`;
+        ctx.font = `${current ? 44 : 34}px ${UI}`;
         ctx.fillStyle = current ? ink : muted;
-        ctx.fillText(read ? "\u25c6" : "\u25c7", x, current ? 161 : 157);
-        x -= 58;
+        ctx.fillText(read ? "\u25c6" : "\u25c7", x, current ? 176 : 172);
+        x -= 54;
       }
-      ctx.font = "28px Arial";
-      ctx.fillStyle = muted;
     }
   }
+  unspaced(ctx);
   ctx.textAlign = "left";
-  ctx.fillStyle = ink;
-  ctx.font = `74px ${mood.body}`;
-  ctx.fillText("A little room for reading.", 180, 270);
-  ctx.strokeStyle = muted;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(180, 312);
-  ctx.lineTo(1868, 312);
-  ctx.stroke();
+  ctx.fillStyle = muted;
+  ctx.globalAlpha = 0.35;
+  ctx.fillRect(180, 222, 1688, 2);
+  ctx.globalAlpha = 1;
   if (state.centering) {
     ctx.fillStyle = ink;
     ctx.font = `82px ${mood.body}`;
     ctx.fillText("Get comfortable.", 180, 650);
-    ctx.font = "45px Arial";
+    ctx.font = `45px ${UI}`;
     for (const [i, line] of [
       "Look where you want to read.",
       "Pinch once, then release to centre here.",
@@ -471,7 +455,7 @@ function paint() {
       "Nothing else is active until you confirm.",
     ].entries())
       ctx.fillText(line, 180, 830 + i * 110);
-    ctx.font = "32px Arial";
+    ctx.font = `32px ${UI}`;
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
   } else if (state.menuOpen && (state.menuPage === "today" || state.menuPage === "closing")) {
     const today = todayKey();
@@ -482,8 +466,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      accent: state.night ? "#c9b98f" : "#3f5f4e",
-      gold: state.night ? "#b49a5e" : "#b08d3c",
+      accent: accentFor(state.night),
+      gold: goldFor(state.night),
     };
     if (state.menuPage === "today") {
       const statuses = {};
@@ -518,8 +502,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      accent: state.night ? "#c9b98f" : "#3f5f4e",
-      gold: state.night ? "#b49a5e" : "#b08d3c",
+      accent: accentFor(state.night),
+      gold: goldFor(state.night),
     };
     if (state.menuPage === "shelf") {
       const days = shelfDays(progress, todayKey());
@@ -558,7 +542,7 @@ function paint() {
         card: palette.card,
         serif: mood.body,
         italic: state.mood === "literary" ? "italic " : "",
-        accent: state.night ? "#c9b98f" : "#3f5f4e",
+        accent: accentFor(state.night),
       },
     });
   } else if (state.menuOpen && CALENDAR_PAGES.includes(state.menuPage)) {
@@ -577,7 +561,7 @@ function paint() {
         card: palette.card,
         serif: mood.body,
         italic: state.mood === "literary" ? "italic " : "",
-        accent: state.night ? "#c9b98f" : "#3f5f4e",
+        accent: accentFor(state.night),
         done: state.night ? "#7f9a83" : "#6d8a74",
         faint: state.night ? "#4d5c52" : "#c4c2b0",
         warn: state.night ? "#d39a77" : "#a5603d",
@@ -590,7 +574,7 @@ function paint() {
     ctx.font = `84px ${mood.body}`;
     ctx.fillText(state.menuPage === "volume" ? "Background volume" : more ? "More settings" : "Menu", 274, 470);
     ctx.fillStyle = muted;
-    ctx.font = "36px Arial";
+    ctx.font = `36px ${UI}`;
     ctx.fillText(
       state.menuPage === "volume" ? `Current volume: ${volumeLabel()} · Choose a level.` : state.headPointer
         ? "Look at a choice, then pinch and release."
@@ -619,13 +603,13 @@ function paint() {
     for (const step of VOLUME_STEPS)
       values[`volume-${step * 100}`] = Math.abs(state.ambienceVolume - step) < 0.001 ? "✓" : "";
     const card = palette.card,
-      accent = state.night ? "#c9b98f" : "#3f5f4e";
+      accent = accentFor(state.night);
     for (const b of menuButtons) {
       if (b.page !== state.menuPage) continue;
       const hot = state.hover === b.id;
       ctx.fillStyle = hot ? accent : card;
       ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 34);
+      if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
       ctx.fillStyle = hot ? bg : ink;
@@ -638,7 +622,7 @@ function paint() {
       );
       if (values[b.id]) {
         ctx.fillStyle = hot ? bg : muted;
-        ctx.font = "42px Arial";
+        ctx.font = `42px ${UI}`;
         ctx.textAlign = "right";
         ctx.fillText(values[b.id], b.x + b.w - 70, b.y + b.h / 2 + 15);
       }
@@ -649,7 +633,7 @@ function paint() {
     ctx.font = `76px ${mood.body}`;
     ctx.fillText("A moment to find your rhythm.", 160, 450);
     ctx.fillStyle = muted;
-    ctx.font = "38px Arial";
+    ctx.font = `38px ${UI}`;
     ctx.fillText(
       "Rest your hands anywhere the headset can see them.",
       160,
@@ -688,11 +672,11 @@ function paint() {
         y,
       );
       ctx.fillStyle = muted;
-      ctx.font = "38px Arial";
+      ctx.font = `38px ${UI}`;
       ctx.fillText(detail, 320, y + 80);
     });
     ctx.fillStyle = muted;
-    ctx.font = "36px Arial";
+    ctx.font = `36px ${UI}`;
     ctx.fillText(
       "Practice never changes your reading page. Next + Back finish it.",
       160,
@@ -708,12 +692,12 @@ function paint() {
       if (typeof b.text !== "string") continue; // spacing between blocks
       ctx.fillStyle = b.kind === "meta" ? muted : ink;
       const m = MOODS[state.mood];
-      ctx.font = `${b.kind === "heading" ? "bold " : b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : m.body}`;
+      ctx.font = `${b.kind === "heading" ? "bold " : b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? UI : m.body}`;
       ctx.fillText(b.text, b.x ?? 194, b.y);
     }
   }
   ctx.fillStyle = muted;
-  ctx.font = "32px Arial";
+  ctx.font = `32px ${UI}`;
   ctx.textAlign = "left";
   if (!state.menuOpen && !state.centering)
     ctx.fillText(
@@ -722,7 +706,7 @@ function paint() {
       160,
       2175,
     );
-  ctx.font = "36px Arial";
+  ctx.font = `36px ${UI}`;
   if (state.gazeTurn && !state.menuOpen) ctx.textAlign = "center";
   ctx.fillText(
     (state.arriving

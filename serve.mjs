@@ -28,6 +28,7 @@ const allowed = new Set([
   "picker-workflow.js",
   "today-panel.js",
   "daily-lines.js",
+  "theme.js",
   "shelf-panel.js",
   "SOURCE_CATALOGUE.md",
   "drive.js",

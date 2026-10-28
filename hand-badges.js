@@ -1,3 +1,4 @@
+import { UI } from "./theme.js?v=33";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,
@@ -76,7 +77,7 @@ export function paintHandBadge(
     c.restore();
   }
   c.textAlign = "center";
-  c.font = "bold 23px Arial";
+  c.font = `bold 23px ${UI}`;
   c.fillStyle = blocked ? "#f2b48a" : arrowColour;
   c.fillText(
     blocked

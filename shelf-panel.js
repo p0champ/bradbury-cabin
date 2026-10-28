@@ -1,3 +1,4 @@
+import { UI } from "./theme.js?v=33";
 // Your shelf: every earlier day's three, newest first, and the works of one
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
@@ -107,7 +108,7 @@ function wrap2(ctx, text, width) {
 function card(ctx, b, fill) {
   ctx.fillStyle = fill;
   ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 28);
+  if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
 }
@@ -115,7 +116,7 @@ function button(ctx, b, label, hot, c, align = "center") {
   if (!b) return;
   card(ctx, b, hot ? c.accent : c.card);
   ctx.fillStyle = hot ? c.bg : c.ink;
-  ctx.font = "44px Arial";
+  ctx.font = `44px ${UI}`;
   ctx.textAlign = align;
   ctx.fillText(label, align === "center" ? b.x + b.w / 2 : b.x + 60, b.y + b.h / 2 + 15);
   ctx.textAlign = "left";
@@ -129,7 +130,7 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   ctx.font = `84px ${c.serif}`;
   ctx.fillText("Your shelf", 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = "36px Arial";
+  ctx.font = `36px ${UI}`;
   const pages = Math.max(1, Math.ceil(days.length / DAYS_PER_PAGE));
   ctx.fillText(
     days.length
@@ -147,7 +148,7 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
     card(ctx, b, hot ? c.accent : c.card);
     const read = entries.filter((e) => e.read).length;
     ctx.fillStyle = hot ? c.bg : c.muted;
-    ctx.font = "34px Arial";
+    ctx.font = `34px ${UI}`;
     ctx.fillText(dayHeading(date), b.x + 60, b.y + 58);
     ctx.textAlign = "right";
     ctx.fillText(read === 3 ? "✓  All three read" : `${read} of ${entries.length} read`, b.x + b.w - 60, b.y + 58);
@@ -173,7 +174,7 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   button(ctx, byId(buttons, "shelf-library"), "The whole Library  ›", hover === "shelf-library", c, "left");
   if (note) {
     ctx.fillStyle = c.muted;
-    ctx.font = "34px Arial";
+    ctx.font = `34px ${UI}`;
     for (const [i, line] of wrap2(ctx, note, 1500).entries()) ctx.fillText(line, 274, 2060 + i * 50);
   }
   button(ctx, byId(buttons, "shelf-later"), "‹  Later", hover === "shelf-later", c);
@@ -186,7 +187,7 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
   ctx.font = `72px ${c.serif}`;
   ctx.fillText(fit(ctx, dayHeading(date).split(" · ")[0], 1050), 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = "36px Arial";
+  ctx.font = `36px ${UI}`;
   const read = entries.filter((e) => e.read).length;
   ctx.fillText(`${dayHeading(date).split(" · ")[1]} · ${read} of ${entries.length} read`, 274, 540);
   const buttons = dayButtons(entries);
@@ -197,12 +198,12 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
     const b = { id: `pastwork:${e.kind}`, ...ENTRY(i) }, hot = e.work && hover === b.id;
     card(ctx, b, hot ? c.accent : c.card);
     ctx.fillStyle = hot ? c.bg : c.muted;
-    ctx.font = "32px Arial";
+    ctx.font = `32px ${UI}`;
     ctx.fillText(KIND[e.kind], b.x + 60, b.y + 62);
     const status = e.read ? "✓  Read" : e.work ? statuses[e.kind] || "" : "Not in the cabin";
     if (status) {
       ctx.fillStyle = hot ? c.bg : e.read ? c.ink : c.muted;
-      ctx.font = "38px Arial";
+      ctx.font = `38px ${UI}`;
       ctx.textAlign = "right";
       ctx.fillText(status, b.x + b.w - 60, b.y + 64);
       ctx.textAlign = "left";
@@ -211,7 +212,7 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
     ctx.fillStyle = hot ? c.bg : e.work && !e.read ? c.ink : c.muted;
     ctx.fillText(fitted(ctx, title, b.w - 120, 64, 44, (s) => `${c.italic}${s}px ${c.serif}`), b.x + 60, b.y + 150);
     ctx.fillStyle = hot ? c.bg : c.muted;
-    ctx.font = "34px Arial";
+    ctx.font = `34px ${UI}`;
     const meta = e.work ? [e.work.author, e.work.year, e.work.place] : [author];
     ctx.fillText(fit(ctx, meta.filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);
   }
