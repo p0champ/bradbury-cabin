@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=24";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=25";
 import {
   GestureEngine,
   menuButtons,
@@ -10,19 +10,19 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=24";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=24";
-import { HandBadges } from "./hand-badges.js?v=24";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=24";
-import { LIBRARY } from "./library.js?v=24";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=24";
-import { layoutReading } from "./reading-flow.js?v=24";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=24";
-import { parsePicks, pickLabels } from "./picks.js?v=24";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=24";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=24";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=24";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=24";
+} from "./gestures.js?v=25";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=25";
+import { HandBadges } from "./hand-badges.js?v=25";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=25";
+import { LIBRARY } from "./library.js?v=25";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=25";
+import { layoutReading } from "./reading-flow.js?v=25";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=25";
+import { parsePicks, pickLabels } from "./picks.js?v=25";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=25";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=25";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=25";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=25";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -39,8 +39,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=24";
-import { EntrySound } from "./entry-sound.js?v=24";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=25";
+import { EntrySound } from "./entry-sound.js?v=25";
 import {
   readProgress,
   saveProgress,
@@ -49,13 +49,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=24";
+} from "./progress.js?v=25";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=24";
+} from "./calendar.js?v=25";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -215,6 +215,7 @@ const state = {
   wristCalendar: preferences.wristCalendar !== false,
   mood: preferences.mood === "modern" ? "modern" : "literary",
   gazeTurn: preferences.gazeTurn === true, // off by default
+  ambienceVolume: ambienceVolume(preferences.ambienceVolume),
   ambience: AMBIENCE_KINDS.includes(preferences.ambience) ? preferences.ambience : "off",
   practiceMarks: { next: false, prev: false, menu: false },
   feedback: "",
@@ -256,7 +257,7 @@ let nativeQueue = [],
   lastFrameTime = 0;
 let gazeRing = null;
 const gazeDwell = new GazeDwell(),
-  ambience = new Ambience();
+  ambience = new Ambience(state.ambienceVolume);
 let handBadges = null,
   wristWatch = null,
   watchCache = { key: null, summary: null };
@@ -286,7 +287,24 @@ function readingPosition() {
     : page?.section === "after" ? "After reading · " : "";
   return `${label}Page ${page?.sectionPage || state.page + 1} of ${page?.sectionPages || pages.length}`;
 }
+const volumeLabel = () => state.ambienceVolume === 0 ? "Off" : `${Math.round(state.ambienceVolume * 100)}%`;
+function updateVolumeControl() {
+  $("ambience-volume").value = Math.round(state.ambienceVolume * 100);
+  $("ambience-volume").setAttribute("aria-valuetext", volumeLabel());
+  $("ambience-volume-value").textContent = volumeLabel();
+}
+function setAmbienceVolume(value) {
+  state.ambienceVolume = ambienceVolume(value);
+  preferences.ambienceVolume = state.ambienceVolume;
+  savePreferences();
+  ambience.setVolume(entrySound?.context, state.ambienceVolume);
+  if (state.session) entrySound?.context?.resume?.().catch?.(() => {});
+  updateVolumeControl();
+  if (state.menuOpen) paint();
+}
+$("ambience-volume").oninput = e => setAmbienceVolume(Number(e.target.value) / 100);
 function paint() {
+  updateVolumeControl();
   canvas.dataset.view = state.arriving
     ? "arrival"
     : state.centering
@@ -415,11 +433,11 @@ function paint() {
     const more = state.menuPage === "more";
     ctx.fillStyle = ink;
     ctx.font = `84px ${mood.body}`;
-    ctx.fillText(more ? "More settings" : "Menu", 274, 470);
+    ctx.fillText(state.menuPage === "volume" ? "Background volume" : more ? "More settings" : "Menu", 274, 470);
     ctx.fillStyle = muted;
     ctx.font = "36px Arial";
     ctx.fillText(
-      state.headPointer
+      state.menuPage === "volume" ? `Current volume: ${volumeLabel()} · Choose a level.` : state.headPointer
         ? "Look at a choice, then pinch and release."
         : "Point at a choice, then pinch and release.",
       274,
@@ -437,7 +455,10 @@ function paint() {
       mood: state.mood === "modern" ? "Clean modern" : "Literary",
       gaze: state.gazeTurn ? "On" : "Off",
       ambience: AMBIENCE_LABEL[state.ambience],
+      volume: volumeLabel(),
     };
+    for (const step of VOLUME_STEPS)
+      values[`volume-${step * 100}`] = Math.abs(state.ambienceVolume - step) < 0.001 ? "✓" : "";
     const card = palette.card,
       accent = state.night ? "#c9b98f" : "#3f5f4e";
     for (const b of menuButtons) {
@@ -452,7 +473,7 @@ function paint() {
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
-        (b.id === "back" ? "‹  " : "") + b.label,
+        (["back", "volume-back"].includes(b.id) ? "‹  " : "") + b.label,
         b.x + 70,
         b.y + b.h / 2 + 20,
       );
@@ -751,6 +772,18 @@ function action(id) {
     toggleMenu(false);
     return;
   }
+  if (id === "volume" || id === "volume-back") {
+    state.menuPage = id === "volume" ? "volume" : "main";
+    dayOpenedAt = lastFrameTime;
+    state.hover = null;
+    paint();
+    return;
+  }
+  if (/^volume-(0|25|50|75|100)$/.test(id)) {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    setAmbienceVolume(Number(id.slice(7)) / 100);
+    return;
+  }
   if (id === "calendar") {
     const d = new Date();
     Object.assign(calendarView, { year: d.getFullYear(), month: d.getMonth() });
@@ -984,7 +1017,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-024",
+    build: "gestures-025",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the

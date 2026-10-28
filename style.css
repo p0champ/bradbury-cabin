@@ -11,6 +11,17 @@
   background: #eeeae1;
   font-synthesis: none;
 }
+.volume-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  max-width: 480px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.volume-control input { flex: 1; min-width: 80px; accent-color: #526b57; }
+.volume-control output { min-width: 42px; text-align: right; }
 * {
   box-sizing: border-box;
 }

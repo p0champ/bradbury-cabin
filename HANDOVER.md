@@ -1,3 +1,18 @@
+# Build 025 — background volume (28 October 2026)
+
+Bastian explicitly parked the study guide after Build 024 failed to show Before reading for one of today's Claude picks. He wants a different guide UI later. Today's old picks may lack guide data; their titles are unknown. A separate opening/resume fix is unfinished in the other checkout's build-025-open-before branch. **It is not included or deployed here.** Do not silently resume guide work.
+
+He approved remembered volume: five VR choices **Off / 25 / 50 / 75 / 100%**, plus a real start-page slider. Main menu → **Background volume** opens the five-choice page. Back stays at the entry's same row (index 8), More/Back remain aligned at index 6, and volume changes are guarded for 600 ms after opening the page. Slider supports intermediate percentages and keyboard input. Both controls stay in sync.
+
+preferences.ambienceVolume stores 0–1; missing/invalid values default to 1 to preserve existing loudness. Off means volume zero and keeps the chosen sound. Choose a sound under More settings → Background sound if sound kind is Off. Volume changes ramp smoothly over 180 ms without replacing the loop; startup retains its 2 s fade. All three kinds scale their gain. This does not change welcome-chime volume. Continuous ramps explicitly anchor the held current level, with a fallback for browsers without cancelAndHoldAtTime. Diagnostics export includes volume and targetGain.
+
+**Verification:** 106 unit + 125 full PC browser checks pass. Independent critic: **9/10**, no actionable issues, independently ran 106 unit + four volume browser checks and reviewed menu/front/side/lying/mobile images. Five mutation checks caught disabled safeguards in isolated copies; production code was not mutated. The repeat-pinch fixture was strengthened and all four volume browser checks rerun. See BUILD_025_REVIEW.md.
+
+**Release:** built, PC-tested, independently reviewed; preparing commit/deployment. Needs Quest listening check in QUEST_CHECK.md. Header BUILD 025; diagnostic gestures-025; all source import queries and index assets use v25. Gesture recognizer, handMapRevision 9, generated texts and existing study-guide behavior are unchanged.
+
+Current checkout: this chat's work/bradbury-volume, branch build-025-volume, a clean clone of Build 024 to keep the parked work separate. Preview port 18142. No Sunnyvale service touched. Next after Quest verdict: discuss the broader UI, one question at a time; guide redesign remains parked until Bastian returns to it.
+
+---
 # Build 024 — automatic notes attached to each work (28 October 2026)
 
 **User verdict:** Build 023 works but is too clunky. He wants the before notes when opening a text and after notes when finishing it, without choosing a guide from a menu. This supersedes the previous detour design. Volume and wider UI changes remain pending.

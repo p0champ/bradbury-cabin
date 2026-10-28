@@ -2,6 +2,62 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { bakeAmbience, AMBIENCE_KINDS, AMBIENCE_LEVEL } from "../ambience.js";
 import { gazeZone, GazeDwell, DWELL_MS } from "../gaze.js";
+import { Ambience, ambienceVolume } from "../ambience.js";
+
+function audioContext() {
+  const calls = [];
+  const param = { setValueAtTime: (...a) => calls.push(["set", ...a]),
+    linearRampToValueAtTime: (...a) => calls.push(["ramp", ...a]),
+    cancelScheduledValues: (...a) => calls.push(["cancel", ...a]) };
+  const context = { currentTime: 0, destination: {}, state: "running",
+    createBuffer: () => ({ copyToChannel() {} }),
+    createGain: () => ({ gain: param, connect() {}, disconnect() {} }),
+    createBufferSource: () => ({ context, connect() {}, disconnect() {}, start() {}, stop() {} }) };
+  return { context, calls };
+}
+test("volume restores a safe default and bounds valid numbers", () => {
+  for (const v of [undefined, null, false, "0.5", NaN, Infinity, {}]) assert.equal(ambienceVolume(v), 1);
+  assert.equal(ambienceVolume(-1), 0); assert.equal(ambienceVolume(3), 1);
+  assert.equal(ambienceVolume(0.37), 0.37);
+});
+test("all sounds start at remembered volume, and adjustments ramp without replacing their source", () => {
+  for (const kind of ["rain", "fire", "room"]) {
+    const {context,calls} = audioContext(), a = new Ambience(0.5);
+    a.kind = kind; a.start(context,kind);
+    assert.deepEqual(calls.at(-1), ["ramp", 0.5, 2]);
+    const source = a.source;
+    context.currentTime = 1;
+    a.setVolume(context,0.75);
+    assert.equal(a.source,source);
+    assert.deepEqual(calls.slice(-3), [["cancel",1],["set",0.25,1],["ramp",0.75,1.18]]);
+    context.currentTime = 1.09;
+    a.setVolume(context,0);
+    assert.ok(Math.abs(calls.at(-2)[1] - 0.5) < 1e-10, "second adjustment starts at interpolated gain, not old target");
+    assert.equal(calls.at(-1)[1],0);
+    assert.equal(a.status().targetGain,0);
+    assert.equal(a.status().playing,true);
+    a.setVolume(context,1);
+    assert.equal(a.source,source);
+    assert.equal(a.status().targetGain,1);
+  }
+});
+test("pending sound starts use the latest volume, and stopped sounds stay stopped", async () => {
+  const {context,calls} = audioContext(), a = new Ambience();
+  a.set(context,"rain"); a.setVolume(context,0.25);
+  await new Promise(r => setTimeout(r,10));
+  assert.deepEqual(calls.at(-1),["ramp",0.25,2]);
+  a.stop(context);
+  a.setVolume(context,0.75);
+  assert.equal(a.source,null);
+  assert.equal(a.status().volume,0.75);
+});
+test("native cancel-and-hold still anchors a new ramp at the actual current level", () => {
+  const {context,calls} = audioContext(), a = new Ambience();
+  a.kind="rain"; a.start(context,"rain");
+  a.gain.gain.cancelAndHoldAtTime = t => calls.push(["hold",t]);
+  context.currentTime=2.5; a.setVolume(context,0.25);
+  assert.deepEqual(calls.slice(-3),[["hold",2.5],["set",1,2.5],["ramp",0.25,2.68]]);
+});
 test("ambience loops are generated, bounded and differ by kind", () => {
   assert.deepEqual(AMBIENCE_KINDS, ["off", "rain", "fire", "room"]);
   const loops = {};

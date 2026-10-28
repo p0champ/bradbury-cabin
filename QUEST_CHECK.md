@@ -1,4 +1,18 @@
-# Build 024 — read straight through
+# Build 025 — background volume
+
+Open [Build 025](https://p0champ.github.io/bradbury-cabin/?v=25) in a fresh Quest Browser tab. Check **BUILD 025**. The study guide remains parked.
+
+1. On the start page, set **Background volume** to 50%, then enter the cabin.
+2. In More settings → **Background sound**, choose Soft rain if sound is Off.
+3. Return to the main menu → **Background volume**. Try 25%, 50%, 75% and 100%. Changes should be smooth without restarting the sound.
+4. Choose **Off**. The background should fade out. Choose 50%: the same sound should return. The welcome chime has its own setting.
+5. Try Fireplace and Quiet room. The volume setting should stay the same and apply to each.
+6. Leave and reopen the app. Check that the slider and VR choices remember your volume. Try it lying down and report any click, jump or awkward target.
+
+Wait for Bastian's verdict before further work.
+
+---
+# Build 024 — read straight through (historical)
 
 Open [Build 024](https://p0champ.github.io/bradbury-cabin/?v=24) in a fresh Quest Browser tab. Check **BUILD 024**.
 

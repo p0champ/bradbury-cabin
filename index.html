@@ -6,14 +6,14 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=24" />
+    <link rel="stylesheet" href="style.css?v=25" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">GESTURE TRIAL / BUILD 024</span>
+        ><span class="edition">GESTURE TRIAL / BUILD 025</span>
       </header>
       <section class="intro">
         <div>
@@ -30,6 +30,11 @@
             <button id="enter" class="primary" disabled>
               Checking headset… <span>↗</span>
             </button>
+          </div>
+          <div class="volume-control">
+            <label for="ambience-volume">Background volume</label>
+            <input id="ambience-volume" type="range" min="0" max="100" step="1" value="100" />
+            <output id="ambience-volume-value" for="ambience-volume">100%</output>
           </div>
           <p id="status" role="status">Preparing the reading page.</p>
         </div>
@@ -94,6 +99,6 @@
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=24"></script>
+    <script type="module" src="app.js?v=25"></script>
   </body>
 </html>

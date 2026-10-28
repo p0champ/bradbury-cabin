@@ -14,7 +14,7 @@
 //     "essay": { ... }
 //   }
 // }
-import { normalizeGuide } from "./study-guide.js?v=24";
+import { normalizeGuide } from "./study-guide.js?v=25";
 export const KINDS = ["poem", "story", "essay"];
 const MAX_TEXT = 150000; // characters per text: a long story, not a novel
 

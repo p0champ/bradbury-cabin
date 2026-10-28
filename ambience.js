@@ -4,6 +4,9 @@
 // small headset speakers can play (energy above ~200 Hz), not by bass.
 export const AMBIENCE_KINDS = ["off", "rain", "fire", "room"];
 export const AMBIENCE_LABEL = { off: "Off", rain: "Soft rain", fire: "Fireplace", room: "Quiet room" };
+export const VOLUME_STEPS = [0, 0.25, 0.5, 0.75, 1];
+export const ambienceVolume = value => typeof value === "number" && Number.isFinite(value)
+  ? Math.max(0, Math.min(1, value)) : 1;
 const BAKE_RATE = 22050;
 const SECONDS = 8,
   // Each loop is baked so its audible band (above ~200 Hz) sits at about
@@ -110,12 +113,38 @@ export function bakeAmbience(kind, rate = BAKE_RATE) {
 }
 
 export class Ambience {
-  constructor() {
+  constructor(volume = 1) {
     this.kind = "off";
     this.source = null;
     this.gain = null;
     this.error = null;
     this.cache = new Map();
+    this.volume = ambienceVolume(volume);
+    this.envelope = null;
+  }
+  currentGain(time) {
+    const e = this.envelope;
+    if (!e) return 0;
+    const fraction = Math.max(0, Math.min(1, (time - e.start) / (e.end - e.start)));
+    return e.from + (e.to - e.from) * fraction;
+  }
+  hold(param, time) {
+    const value = this.currentGain(time);
+    if (param.cancelAndHoldAtTime) param.cancelAndHoldAtTime(time);
+    else param.cancelScheduledValues(time);
+    // Anchor the new ramp explicitly. Holding after a completed ramp alone
+    // can let the next ramp interpolate from that older event and jump now.
+    param.setValueAtTime(value, time);
+    return value;
+  }
+  setVolume(context, volume) {
+    this.volume = ambienceVolume(volume);
+    if (!this.gain) return;
+    const time = (this.source?.context || context).currentTime;
+    const from = this.hold(this.gain.gain, time);
+    const to = LEVEL[this.kind] * this.volume;
+    this.gain.gain.linearRampToValueAtTime(to, time + 0.18);
+    this.envelope = { from, to, start: time, end: time + 0.18 };
   }
   // context: a running or resumable AudioContext (the entry sound's).
   set(context, kind) {
@@ -148,7 +177,9 @@ export class Ambience {
       source.buffer = buffer;
       source.loop = true;
       gain.gain.setValueAtTime(0, context.currentTime);
-      gain.gain.linearRampToValueAtTime(LEVEL[kind], context.currentTime + 2);
+      const target = LEVEL[kind] * this.volume;
+      gain.gain.linearRampToValueAtTime(target, context.currentTime + 2);
+      this.envelope = { from: 0, to: target, start: context.currentTime, end: context.currentTime + 2 };
       source.connect(gain);
       gain.connect(context.destination);
       source.start();
@@ -168,8 +199,7 @@ export class Ambience {
     if (!source) return;
     try {
       const t = context?.currentTime ?? 0;
-      gain.gain.cancelScheduledValues(t);
-      gain.gain.setValueAtTime(gain.gain.value, t);
+      this.hold(gain.gain, t);
       gain.gain.linearRampToValueAtTime(0, t + 0.6);
       source.stop(t + 0.7);
       source.onended = () => {
@@ -182,6 +212,8 @@ export class Ambience {
     return {
       kind: this.kind,
       playing: !!this.source,
+      volume: this.volume,
+      targetGain: this.source ? LEVEL[this.kind] * this.volume : 0,
       context: this.source?.context?.state || null,
       error: this.error,
     };
