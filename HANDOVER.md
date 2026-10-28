@@ -1,3 +1,12 @@
+# Build 029 — entrance and bookmark (28 October 2026)
+
+**Built:** Today's first showing builds in five 300 ms beats (heading, poem, story, essay, rest), one repaint each; a pinch completes it and chooses nothing. Reading bookmark: ◆/◇ marks for today's three in the running head. See BUILD_029_REVIEW.md.
+
+**Verification:** 137 unit + check:sources, 132 PC browser checks, all 32 mutations caught; critic 6 → 7.5/10, its last finding fixed afterwards and author-checked. No Quest check yet; try whether the heading-only first beat feels like a stall.
+
+**Next (not started):** Claude's optional lines (phase 3, needs the skill re-paste); more catalogue authors. Branch build-029-entrance; preview port 18150.
+
+---
 # Build 028 — Your shelf (28 October 2026)
 
 **Built:** shelf-panel.js. Earlier days newest first; a day opens its three; works reopen as the exact catalogue edition under that day's id; works outside the catalogue are listed as Not in the cabin. Synced days now save catalogue IDs (`days[d].ids`), merged and checked together with labels. Menu row 1: Today with a trio, otherwise Your shelf. See BUILD_028_REVIEW.md.

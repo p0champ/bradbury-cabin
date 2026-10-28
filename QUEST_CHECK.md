@@ -1,3 +1,16 @@
+# Build 029 — the entrance and the bookmark
+
+Open [Build 029](https://p0champ.github.io/bradbury-cabin/?v=29) in a fresh Quest Browser tab. Check **BUILD 029**.
+
+The entrance plays only on the day's first entry with Claude's three. If today's Today has already appeared, try it tomorrow.
+
+1. Enter the cabin. The Today page should build: heading, poem, story, essay, then the rest. Does it feel calm, or does the first beat feel like a pause?
+2. Next time, pinch while it builds: it should complete at once and not open anything.
+3. Open one of today's three. Top right, next to its title: three small diamonds. The one you are reading is larger.
+4. Mark a work as read on its Finished page and open another: its diamond should be filled.
+5. Try lying down too: are the diamonds readable?
+
+---
 # Build 028 — Your shelf
 
 Open [Build 028](https://p0champ.github.io/bradbury-cabin/?v=28) in a fresh Quest Browser tab. Check **BUILD 028**.

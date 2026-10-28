@@ -93,3 +93,25 @@ test("long titles shrink before they are cut, so Blake's book label survives", a
   assert.ok(closing.drawn.some((d) => d.t === blake.title), "closing header keeps the full title");
   assert.ok(closing.drawn.some((d) => d.t.startsWith("FINISHED · POEM")));
 });
+test("the first showing builds in steps: heading, then each work, then the rest", async () => {
+  const { paintToday, REVEAL_STEPS } = await import("../today-panel.js");
+  const facts = todayFacts(new Date(2026, 9, 28, 20), base(), "2026-10-28");
+  const shown = (reveal) => {
+    const ctx = fakeCtx();
+    paintToday(ctx, { works, hover: null, facts, statuses: {}, reveal, c: colours });
+    return ctx.drawn.map((d) => d.t);
+  };
+  assert.equal(REVEAL_STEPS, 4);
+  const step0 = shown(0);
+  assert.ok(step0.includes("Today") && step0.includes(facts.dateline));
+  assert.ok(!works.some((w) => step0.includes(w.title)) && !step0.includes("Your shelf  ›"));
+  const step1 = shown(1);
+  assert.ok(step1.includes(works[0].title) && !step1.includes(works[1].title));
+  const step2 = shown(2);
+  assert.ok(step2.includes(works[1].title) && !step2.includes(works[2].title) && !step2.includes("Your shelf  ›"));
+  const step3 = shown(3);
+  assert.ok(works.every((w) => step3.includes(w.title)) && !step3.includes("Your shelf  ›"), "the essay has its own beat");
+  const full = shown(4);
+  assert.ok(works.every((w) => full.includes(w.title)) && full.includes("Your shelf  ›"));
+  assert.deepEqual(shown(undefined), full, "anything but the first showing is complete at once");
+});

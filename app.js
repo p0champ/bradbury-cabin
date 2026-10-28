@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=28";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=29";
 import {
   GestureEngine,
   menuButtons,
@@ -10,22 +10,22 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=28";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=28";
-import { HandBadges } from "./hand-badges.js?v=28";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=28";
-import { LIBRARY } from "./library.js?v=28";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=28";
-import { layoutReading } from "./reading-flow.js?v=28";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=28";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=28";
-import { parsePicks, pickLabels } from "./picks.js?v=28";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=28";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=28";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=28";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=28";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=28";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=28";
+} from "./gestures.js?v=29";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=29";
+import { HandBadges } from "./hand-badges.js?v=29";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=29";
+import { LIBRARY } from "./library.js?v=29";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=29";
+import { layoutReading } from "./reading-flow.js?v=29";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=29";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=29";
+import { parsePicks, pickLabels } from "./picks.js?v=29";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=29";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=29";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=29";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=29";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=29";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=29";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -42,8 +42,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=28";
-import { EntrySound } from "./entry-sound.js?v=28";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=29";
+import { EntrySound } from "./entry-sound.js?v=29";
 import {
   readProgress,
   saveProgress,
@@ -52,13 +52,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=28";
+} from "./progress.js?v=29";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=28";
+} from "./calendar.js?v=29";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -223,6 +223,8 @@ if (preferences.handMapRevision !== 9) {
 }
 const state = {
   menuPage: "main",
+  // Steps of Today's first showing still to come (null: fully shown).
+  todayReveal: null,
   shelfPage: 0,
   shelfDay: null,
   workId: "sampler",
@@ -347,6 +349,7 @@ function paint() {
     // must not choose a shelf row instead.
     state.menuPage = "shelf";
     state.shelfPage = 0;
+    state.todayReveal = null;
     state.hover = null;
     dayOpenedAt = lastFrameTime;
   }
@@ -400,7 +403,21 @@ function paint() {
   ctx.textAlign = "right";
   {
     const w = workById(state.workId);
-    ctx.fillText((w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase(), 1868, 155);
+    const title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
+    ctx.fillText(title, 1868, 155);
+    // Display only: which of today's three this is, and which are read.
+    if (!state.menuOpen && todayWorks.some((t) => t.id === w.id)) {
+      let x = 1868 - ctx.measureText(title).width - 56;
+      for (const t of [...todayWorks].reverse()) {
+        const current = t.id === w.id, read = progress.days[todayKey()]?.[t.kind] === true;
+        ctx.font = `${current ? 50 : 38}px Arial`;
+        ctx.fillStyle = current ? ink : muted;
+        ctx.fillText(read ? "\u25c6" : "\u25c7", x, current ? 161 : 157);
+        x -= 58;
+      }
+      ctx.font = "28px Arial";
+      ctx.fillStyle = muted;
+    }
   }
   ctx.textAlign = "left";
   ctx.fillStyle = ink;
@@ -447,6 +464,7 @@ function paint() {
         facts: todayFacts(new Date(), progress, today),
         statuses,
         note: picksNotice,
+        reveal: state.todayReveal ?? REVEAL_STEPS,
         c,
       });
     } else {
@@ -745,10 +763,15 @@ function markTodayShown() {
   savePreferences();
 }
 // The Today page, as a menu panel in front of the reader.
-function openToday() {
+let todayRevealAt = 0;
+function openToday(build = false) {
   toggleMenu(true);
   state.menuPage = "today";
   dayOpenedAt = lastFrameTime;
+  if (build) {
+    state.todayReveal = 0;
+    todayRevealAt = lastFrameTime;
+  }
   markTodayShown();
   paint();
 }
@@ -786,6 +809,7 @@ function feedback(text) {
 }
 function toggleMenu(open = !state.menuOpen) {
   gazeDwell.consume();
+  state.todayReveal = null;
   state.menuOpen = open;
   state.menuPage = "main";
   if (open) state.feedback = "";
@@ -896,6 +920,11 @@ function gestureEvent(event) {
   return id === "next" ? "last-page" : "first-page";
 }
 function action(id) {
+  if (state.todayReveal != null && state.menuOpen && state.menuPage === "today") {
+    state.todayReveal = null;
+    paint();
+    return;
+  }
   if (
     (state.centering || state.arriving) &&
     ["menu", "practice", "next", "prev", "recenter", "resume"].includes(id)
@@ -1038,6 +1067,9 @@ function action(id) {
     return;
   }
   if (id === "today-menu" || id === "today-library" || id === "end-today") {
+    // Guarded like every choice: the pinch that completed Today's build-up,
+    // or a repeat of the one that opened this page, must not move on.
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
     state.menuPage = id === "today-menu" ? "main" : id === "today-library" ? "shelf" : "today";
     state.shelfPage = 0;
     state.hover = null;
@@ -1229,7 +1261,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-028",
+    build: "gestures-029",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1393,7 +1425,11 @@ function panelHit(x, y) {
   if (state.menuPage === "library") return libraryHit(x, y, libraryWorks());
   if (state.menuPage === "shelf") return shelfHit(x, y, shelfDays(progress, todayKey()), state.shelfPage);
   if (state.menuPage === "shelfday") return dayHit(x, y, resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE));
-  if (state.menuPage === "today") return todayHit(x, y, todayWorks);
+  if (state.menuPage === "today") {
+    // While it builds, only what is already drawn can be a target.
+    const id = todayHit(x, y, todayWorks.slice(0, state.todayReveal ?? REVEAL_STEPS));
+    return state.todayReveal != null && id === "today-library" ? null : id;
+  }
   if (state.menuPage === "closing")
     return closingHit(x, y, nextUnread(todayWorks, workById(state.workId), progress, todayKey()));
   return CALENDAR_PAGES.includes(state.menuPage)
@@ -1402,6 +1438,7 @@ function panelHit(x, y) {
 }
 function cleanSession() {
   sessionGeneration++;
+  state.todayReveal = null;
   state.session = null;
   nativeQueue = [];
   state.centering = false;
@@ -1592,6 +1629,14 @@ async function enter() {
           });
           return;
         }
+        // Any pinch while Today is building completes it at once. Menu
+        // selections need a target, so this happens at the press itself.
+        if (kind === "selectstart" && state.todayReveal != null && state.menuOpen && state.menuPage === "today") {
+          state.todayReveal = null;
+          // This press only completes the page; its release cannot choose.
+          dayOpenedAt = lastFrameTime;
+          paint();
+        }
         nativeQueue.push({
           kind,
           source: e.inputSource,
@@ -1700,7 +1745,12 @@ function frame(time, xrFrame, generation) {
         gestures.setContext("reading");
         state.handEntryStarted = time;
         placeAtArrival = readingPlace();
-        if (hasToday() && preferences.todayShown !== todayKey()) openToday();
+        if (hasToday() && preferences.todayShown !== todayKey()) openToday(true);
+        paint();
+      }
+      if (state.todayReveal != null && (!state.menuOpen || state.menuPage !== "today")) state.todayReveal = null;
+      if (state.todayReveal != null && time - todayRevealAt >= REVEAL_MS * (state.todayReveal + 1)) {
+        state.todayReveal = state.todayReveal + 1 >= REVEAL_STEPS ? null : state.todayReveal + 1;
         paint();
       }
       const sessionVisible = session.visibilityState === "visible";
@@ -2199,7 +2249,7 @@ async function syncDrive() {
         message = `Today's three are ready: ${r.works.map((w) => w.title).join(", ")}.`;
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&
             readingPlace() === placeAtArrival && preferences.todayShown !== today)
-          openToday();
+          openToday(true);
       } else if (r.date === today) {
         picksNotice = "Claude's latest selections failed the source checks. Ask Claude for today's three again; the reasons are now in Drive.";
         message = picksNotice + (todayWorks.length ? " Your previous checked selections are still available." : "");

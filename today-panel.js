@@ -2,7 +2,7 @@
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=28";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=29";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
@@ -105,8 +105,15 @@ function smallButton(ctx, b, label, hot, c, align = "center") {
 }
 const byId = (buttons, id) => buttons.find((b) => b.id === id);
 
+// The day's first showing builds in steps: heading and date, then each
+// work, then the rules and the rest. Each step is one repaint of the page.
+// Four even beats: each work in turn, then the rules and the rest.
+export const REVEAL_STEPS = 4;
+export const REVEAL_MS = 300;
+
 // c: { bg, ink, muted, card, accent, gold, serif, italic }
-export function paintToday(ctx, { works, hover, facts, statuses, note = "", c }) {
+// reveal: how many works are shown yet; REVEAL_STEPS also shows the rest.
+export function paintToday(ctx, { works, hover, facts, statuses, note = "", reveal = REVEAL_STEPS, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
   ctx.font = `84px ${c.serif}`;
@@ -116,9 +123,10 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", c })
   ctx.fillText(facts.dateline + (facts.read && !facts.allRead ? ` · ${facts.read} of 3 read` : ""), 274, 540);
   const buttons = todayButtons(works);
   smallButton(ctx, byId(buttons, "today-menu"), "‹  Menu", hover === "today-menu", c);
+  const complete = reveal >= REVEAL_STEPS;
   // Gold while the day is open; ink once all three are read.
-  rule(ctx, 610, facts.allRead ? c.ink : c.gold);
-  for (const w of works.slice(0, 3)) {
+  if (complete) rule(ctx, 610, facts.allRead ? c.ink : c.gold);
+  for (const w of works.slice(0, Math.min(3, reveal))) {
     const b = byId(buttons, "today:" + w.id), hot = hover === b.id;
     const status = statuses[w.id] || "";
     card(ctx, b, hot ? c.accent : c.card);
@@ -139,6 +147,7 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", c })
     ctx.font = "34px Arial";
     ctx.fillText(fit(ctx, [w.author, w.year, w.place].filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);
   }
+  if (!complete) return;
   rule(ctx, 1590, facts.allRead ? c.ink : c.gold);
   if (facts.closing) {
     ctx.fillStyle = c.ink;

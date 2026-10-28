@@ -1,7 +1,7 @@
 // Sent to Claude in the progress file it already reads. No user-managed
 // uploads or a new account are needed to discover the reference-only format.
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=28";
-import { LIBRARY } from "./library.js?v=28";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=29";
+import { LIBRARY } from "./library.js?v=29";
 
 // lastCheck: the app's verdict on Claude's newest picks file, so a rejected
 // selection reaches Claude with its reasons on the next request.

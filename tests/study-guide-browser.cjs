@@ -251,7 +251,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=28');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=29');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+1)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:blake-sick-rose');
     await p.evaluate(()=>__pinch());
@@ -319,5 +319,83 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.deepEqual(await view(),['menu','shelfday']);
     assert.deepEqual(errors,[]);await p.close();
     passed('Your shelf lists earlier days, opens their exact editions, keeps them after reload and never opens unchecked works');
+  }
+  for (const skip of [false, 'essay', 'shelf']) {
+    // Build 029: Today's first showing builds in steps; a pinch completes it.
+    const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
+    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false);await observe(p);
+    await p.addInitScript(()=>{window.__paints=0;const r=CanvasRenderingContext2D.prototype.fillRect;CanvasRenderingContext2D.prototype.fillRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)window.__paints++;return r.call(this,x,y,w,h);};});
+    const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
+    const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
+    const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
+    const poem = SOURCE_CATALOGUE.filter(w=>w.kind==='poem').sort((a,b)=>lines(a)-lines(b))[0];
+    const story = SOURCE_CATALOGUE.find(w=>w.kind==='story'&&!shelf.includes(w.id));
+    const essay = SOURCE_CATALOGUE.find(w=>w.kind==='essay'&&!shelf.includes(w.id));
+    await p.addInitScript(c=>localStorage.setItem('cabin-today',c),JSON.stringify({version:2,date:'2026-10-28',picks:{poem:{catalogueId:poem.id},story:{catalogueId:story.id},essay:{catalogueId:essay.id}}}));
+    const view = async () => [await p.locator('#page').getAttribute('data-view'), await p.locator('#page').getAttribute('data-menu-page')];
+    const text = async () => (await p.evaluate(()=>__pageText)).join(' ');
+    await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();
+    // Centre and let the arrival settle, stepping frame by frame.
+    await p.evaluate(()=>{__mock.clock=Math.max(__mock.clock,performance.now());__step();__pinch();});
+    let opened=null;
+    for (let i=0;i<60&&!opened;i++){await p.evaluate(()=>__step(40));if((await view())[1]==='today')opened=await p.evaluate(()=>window.__paints);}
+    assert.ok(opened,'Today opened after the arrival');
+    let t=await text();
+    assert.ok(t.includes('Wednesday evening · Day 11') && !t.includes(poem.title) && !t.includes('Your shelf'),'first the heading and date only');
+    // A work not yet shown is not a target.
+    await p.evaluate(async()=>__aim({x:274,y:1240,w:1500,h:260}));
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'','the hidden essay cannot be aimed at');
+    await p.evaluate(async()=>__aim({x:274,y:1700,w:760,h:120}));
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'','the hidden Your shelf button cannot be aimed at');
+    if (skip) {
+      // Aimed where the essay will appear, press mid-build and release late
+      // enough (~700 ms after Today opened) to pass the usual 600 ms guard.
+      await p.evaluate(async(r)=>__aim(r),skip==='shelf'?{x:274,y:1700,w:760,h:120}:{x:274,y:1240,w:1500,h:260});
+      await p.evaluate(()=>{__hand(0.05,'right');__step(420);__hand(0.012,'right');__native('selectstart','right');__step(240);__hand(0.05,'right');__native('select','right');__native('selectend','right');__step(16);});
+      t=await text();
+      assert.ok([poem,story,essay].every(w=>t.includes(w.title)) && t.includes('Your shelf'),'a pinch completes it at once');
+      assert.deepEqual(await view(),['menu','today'],'and that pinch chooses nothing it did not show');
+    } else {
+      // Sample the page every frame: works appear in order, then all is still.
+      const seen=[];
+      for (let i=0;i<30;i++){await p.evaluate(()=>__step(40));const s=await text();seen.push([poem,story,essay].map(w=>s.includes(w.title)).join(''));}
+      const order=seen.filter((s,i)=>s!==seen[i-1]).filter(s=>s!=='falsefalsefalse');
+      assert.deepEqual(order,['truefalsefalse','truetruefalse','truetruetrue'],'poem, then story, then essay');
+      assert.ok((await text()).includes('Your shelf'));
+      const paints=await p.evaluate(()=>window.__paints)-opened;
+      assert.ok(paints<=6,`only a few repaints while building (${paints})`);
+      const before=await p.evaluate(()=>window.__paints);
+      await p.evaluate(()=>__step(1000));
+      assert.equal(await p.evaluate(()=>window.__paints),before,'still once built');
+      await p.locator('#page').screenshot({path:path.join(out,'today-built.png')});
+    }
+    // Bookmark: marks for today's three while reading one of them.
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:274,y:950,w:1500,h:260}));await p.evaluate(()=>__pinch());
+    assert.equal(await p.locator('#page').getAttribute('data-work'),`today-2026-10-28-story-${story.id}`);
+    const marks=async()=>(await p.evaluate(()=>__pageText)).filter(s=>s==='◆'||s==='◇');
+    assert.deepEqual(await marks(),['◇','◇','◇'],'three open marks, none read');
+    if (!skip) await p.locator('#page').screenshot({path:path.join(out,'bookmark.png')});
+    await p.evaluate(()=>{const d=JSON.parse(localStorage.getItem('cabin-progress'));(d.days['2026-10-28']||={}).story=true;localStorage.setItem('cabin-progress',JSON.stringify(d));});
+    await p.reload();await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    assert.equal((await view())[0],'reading','Today was already shown today');
+    assert.deepEqual(await marks(),['◇','◆','◇'],'the story (middle) is read');
+    // Starter works keep the plain running head.
+    await p.evaluate(()=>__hold());await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:274,y:1700,w:760,h:120}));await p.evaluate(()=>__pinch());
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','library']);
+    await p.evaluate(()=>__step(700));
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=29');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
+    await p.evaluate(async(i)=>__aim({x:274,y:700+(i+4)*124,w:1500,h:112}),row);
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'work:bacon-truth');
+    await p.evaluate(()=>__pinch());
+    assert.deepEqual(await marks(),[],'no marks on a starter work');
+    assert.deepEqual(errors,[]);await p.close();
+    passed(skip?`a pinch mid-build completes Today at once and chooses nothing unseen (${skip}); the bookmark follows today's reading`
+      :'Today\'s first showing builds poem, story, essay in a few repaints, then stays still; starter works have no bookmark');
   }
 };
