@@ -1,3 +1,15 @@
+# Build 016 — Library and real reading
+
+Open [Build 016](https://p0champ.github.io/bradbury-cabin/?v=16) and check that the header says **BUILD 016**.
+
+1. Centre the page, then hold a pinch to open the menu and choose **Library**. You should see eight entries: the sampler and seven works.
+2. Open **O Captain! My Captain!**. The stanzas and the stepped refrain lines should look like a printed poem.
+3. Open **Desiree's Baby** and turn a few pages. The paragraphs should flow from page to page.
+4. Change **Text size**. You should still be at the same words.
+5. Leave the cabin and enter again. The same work should open at the same place.
+6. In the Library, choose **‹ Menu**, then pinch again right away. You should stay in the cabin.
+
+---
 # Build 014 — wrist calendar (right wrist)
 
 Open [Build 014](https://p0champ.github.io/bradbury-cabin/?v=14) and check that the header says **BUILD 014**.

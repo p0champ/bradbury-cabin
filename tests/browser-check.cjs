@@ -435,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=15");
+        const { menuButtons } = await import("./gestures.js?v=16");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1094,7 +1094,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-015");
+        assert.equal(details.build, "gestures-016");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2041,7 +2041,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=15");
+        const { paintHandBadge } = await import("./hand-badges.js?v=16");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2362,7 +2362,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=15");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=16");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2426,10 +2426,10 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=15");
+        const { MENU_PAGES } = await import("./gestures.js?v=16");
         return MENU_PAGES;
       });
-      assert.deepEqual(ids.main, ["resume", "calendar", "night", "size", "more", "recenter", "exit"]);
+      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "size", "more", "exit"]);
       await p.evaluate(() => __aim("night"));
       assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
       await p.locator("#page").screenshot({
@@ -2441,9 +2441,9 @@ async function mock(
       // The same spot on the second page is a different, page-specific button.
       await p.evaluate(() => __aim("sound"));
       assert.equal(await p.locator("#page").getAttribute("data-target"), "sound");
-      // Where Exit sits on the main page there is no button on this page.
+      // Where Exit sits on the main page, this page has its own button.
       await p.evaluate(() => __aim("exit"));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "");
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "practice");
       await p.locator("#page").screenshot({
         path: path.join(out, `menu-more-${night ? "night" : "paper"}.png`),
       });
@@ -2479,8 +2479,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=15");
-            const { loadProgress } = await import("./progress.js?v=15");
+            const { calendarButtons } = await import("./calendar.js?v=16");
+            const { loadProgress } = await import("./progress.js?v=16");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2810,6 +2810,132 @@ async function mock(
       assert.ok(["turned", "first-page", "last-page"].includes(rightPages[0].outcome));
       assert.deepEqual(errors, []);
       passed("wrist calendar appears only on the right wrist, settles, blocks that hand, and hides" + (night ? " night" : ""));
+      await p.close();
+    }
+    // Build 016: Library, full-work pagination and saved place.
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await mock(p, "layer", false);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      const row = (i) => ({ x: 274, y: 760 + i * 150, w: 1500, h: 132 });
+      const details = async (name) => {
+        const dl = p.waitForEvent("download");
+        await p.locator("#export").click();
+        const f = path.join(out, name);
+        await (await dl).saveAs(f);
+        return JSON.parse(await fs.readFile(f, "utf8")).reading;
+      };
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("library"));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "library");
+      await p.locator("#page").screenshot({ path: path.join(out, "library.png") });
+      // Open Désirée's Baby (row 5).
+      await p.evaluate(async (b) => await __aim(b), row(5));
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "work:chopin-desiree");
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
+      let r = await details("reading-1.json");
+      assert.equal(r.work, "chopin-desiree");
+      assert.equal(r.page, 1);
+      assert.ok(r.pages >= 5, "a full story spans several pages: " + r.pages);
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-story-p1.png") });
+      // Turn three pages with the PC Next button (same action as a gesture).
+      for (let i = 0; i < 3; i++) await p.locator("#next").click();
+      r = await details("reading-2.json");
+      assert.equal(r.page, 4);
+      const before = r.anchor;
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-story-p4.png") });
+      // Larger text: the place is kept (same first line or the page holding it).
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("size"));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(() => __hold());
+      r = await details("reading-3.json");
+      assert.ok(
+        r.anchor.block < before.block || (r.anchor.block === before.block && r.anchor.word <= before.word),
+        "new page starts at or before the saved words",
+      );
+      assert.ok(r.page >= 4, "larger text means the place is further in");
+      const kept = r;
+      // Reload: the last work and its place come back.
+      await p.reload();
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      const resumed = await details("reading-4.json");
+      assert.equal(resumed.work, "chopin-desiree");
+      assert.deepEqual(resumed.anchor, kept.anchor);
+      // A poem keeps its stanza layout on one page.
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-after-reload.png") });
+      // Size and paper/night survive the reload too.
+      assert.equal(
+        await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-controls")).size),
+        2,
+      );
+      assert.deepEqual(errors, []);
+      passed("Library opens a full work; pages, text size and reload keep the reading place");
+      await p.close();
+    }
+    {
+      // Corrupt or foreign reading data never stops the app from starting.
+      const p = await browser.newPage();
+      const errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.addInitScript(() =>
+        localStorage.setItem(
+          "cabin-reading",
+          JSON.stringify({ last: "sampler", places: { sampler: { anchor: { block: 2, word: 1 }, page: 1 }, "bacon-truth": { anchor: "x" } } }),
+        ),
+      );
+      await p.goto("http://127.0.0.1:18140");
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      assert.deepEqual(errors, []);
+      passed("stored reading data with sampler or malformed anchors loads safely");
+      await p.close();
+    }
+    {
+      // From the Library, "‹ Menu" then an immediate repeat pinch never exits.
+      const p = await browser.newPage();
+      await mock(p, "layer", false);
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("library"));
+      await p.evaluate(() => __pinch());
+      await p.evaluate(async () => await __aim({ x: 1394, y: 380, w: 380, h: 120 }));
+      await p.evaluate(() => __pinch());
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
+      // Now aim at Exit and pinch at once: ignored for 600 ms.
+      await p.evaluate(() => __aim("exit"));
+      await p.evaluate(() => {
+        __hand(0.05);
+        __step(200);
+        __hand(0.012);
+        __native("selectstart");
+        __step(60);
+        __hand(0.05);
+        __native("select");
+        __native("selectend");
+        __step(16);
+      });
+      assert.equal(await p.locator("#enter").isEnabled(), false, "still in the cabin");
+      passed("Library Menu button and the Exit guard prevent an accidental exit");
+      await p.close();
+    }
+    {
+      // Poem and essay screenshots for visual review.
+      const p = await browser.newPage();
+      for (const [id, name] of [["whitman-captain", "reading-poem.png"], ["bacon-studies", "reading-essay.png"]]) {
+        await p.addInitScript((id) => localStorage.setItem("cabin-reading", JSON.stringify({ last: id, places: {} })), id);
+        await p.goto("http://127.0.0.1:18140");
+        await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+        await p.locator("#page").screenshot({ path: path.join(out, name) });
+      }
+      passed("poem and essay pages render");
       await p.close();
     }
     await fs.writeFile(

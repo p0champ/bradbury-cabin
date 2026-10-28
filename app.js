@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=15";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=16";
 import {
   GestureEngine,
   menuButtons,
@@ -10,12 +10,15 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=15";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=15";
-import { HandBadges } from "./hand-badges.js?v=15";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=15";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=15";
-import { EntrySound } from "./entry-sound.js?v=15";
+} from "./gestures.js?v=16";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=16";
+import { HandBadges } from "./hand-badges.js?v=16";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=16";
+import { LIBRARY } from "./library.js?v=16";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=16";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=16";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=16";
+import { EntrySound } from "./entry-sound.js?v=16";
 import {
   readProgress,
   saveProgress,
@@ -24,13 +27,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=15";
+} from "./progress.js?v=16";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=15";
+} from "./calendar.js?v=16";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -107,6 +110,16 @@ const calendarView = (() => {
   return { year: d.getFullYear(), month: d.getMonth(), selected: null };
 })();
 const CALENDAR_PAGES = ["calendar", "day"];
+// The two-page sampler stays the default text; the starter shelf follows.
+const SAMPLER = {
+  id: "sampler",
+  kind: "sampler",
+  title: "A first leaf",
+  author: "Blake & O. Henry excerpts",
+};
+const WORKS = [SAMPLER, ...LIBRARY];
+const reading = loadReading(store);
+const workById = (id) => WORKS.find((w) => w.id === id) || SAMPLER;
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -132,6 +145,8 @@ if (preferences.handMapRevision !== 9) {
 }
 const state = {
   menuPage: "main",
+  workId: "sampler",
+  pendingAnchor: null,
   centering: false,
   arriving: false,
   arrivalError: null,
@@ -149,8 +164,9 @@ const state = {
   practiceMarks: { next: false, prev: false, menu: false },
   feedback: "",
   feedbackUntil: 0,
-  size: 1,
-  night: false,
+  // Text size and paper/night are remembered between visits.
+  size: [0, 1, 2].includes(preferences.size) ? preferences.size : 1,
+  night: preferences.night === true,
   page: 0,
   mode: "layer",
   session: null,
@@ -163,6 +179,11 @@ const state = {
   blend: null,
   turns: 0,
 };
+// Resume the last work opened, at its saved place.
+if (reading.last && WORKS.some((w) => w.id === reading.last)) {
+  state.workId = reading.last;
+  state.pendingAnchor = reading.places[reading.last]?.anchor || null;
+}
 let pages = [],
   gpu,
   ref,
@@ -221,8 +242,13 @@ function paint() {
         ? "Gesture practice: Next, Back and Menu"
         : "Public domain poem and short story excerpt",
   );
-  pages = layout(ctx, state.size);
-  state.page = Math.min(state.page, pages.length - 1);
+  const work = workById(state.workId);
+  pages = work === SAMPLER ? layout(ctx, state.size) : layoutWork(ctx, work, state.size);
+  if (state.pendingAnchor) {
+    state.page = pageForAnchor(pages, state.pendingAnchor);
+    state.pendingAnchor = null;
+  }
+  state.page = Math.max(0, Math.min(state.page, pages.length - 1));
   const bg = state.night ? "#1a211e" : "#f7f0df",
     ink = state.night ? "#e4dfd0" : "#293b32",
     muted = state.night ? "#a8b9aa" : "#637569";
@@ -232,7 +258,10 @@ function paint() {
   ctx.font = "28px Arial";
   ctx.fillText("B / C     BRADBURY CABIN", 180, 155);
   ctx.textAlign = "right";
-  ctx.fillText("THE FIRST LEAF", 1868, 155);
+  {
+    const w = workById(state.workId);
+    ctx.fillText((w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase(), 1868, 155);
+  }
   ctx.textAlign = "left";
   ctx.fillStyle = ink;
   ctx.font = "74px Literata";
@@ -257,6 +286,23 @@ function paint() {
       ctx.fillText(line, 180, 830 + i * 110);
     ctx.font = "32px Arial";
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
+  } else if (state.menuOpen && state.menuPage === "library") {
+    const places = {};
+    for (const w of LIBRARY)
+      if (reading.places[w.id]?.page > 0) places[w.id] = "in progress";
+    paintLibrary(ctx, {
+      works: WORKS,
+      hover: state.hover,
+      current: state.workId,
+      places,
+      c: {
+        bg,
+        ink,
+        muted,
+        card: state.night ? "#2c3a32" : "#ebe6d4",
+        accent: state.night ? "#c9b98f" : "#3f5f4e",
+      },
+    });
   } else if (state.menuOpen && CALENDAR_PAGES.includes(state.menuPage)) {
     paintedToday = todayKey();
     paintCalendar(ctx, {
@@ -389,9 +435,10 @@ function paint() {
     );
   } else {
     for (const b of pages[state.page]) {
+      if (typeof b.text !== "string") continue; // spacing between blocks
       ctx.fillStyle = b.kind === "meta" ? muted : ink;
       ctx.font = `${b.kind === "meta" ? "" : b.kind === "title" ? "italic " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : "Literata, Georgia, serif"}`;
-      ctx.fillText(b.text, 194, b.y);
+      ctx.fillText(b.text, b.x ?? 194, b.y);
     }
   }
   ctx.fillStyle = muted;
@@ -455,6 +502,25 @@ function inFront() {
         lastViewer.orientation,
       )
     : null;
+}
+// Open a work at its saved place (or the start), and remember it as last.
+function openWork(id) {
+  rememberPlace();
+  state.workId = workById(id).id;
+  const saved = reading.places[state.workId];
+  state.page = 0;
+  state.pendingAnchor = saved?.anchor || null;
+  reading.last = state.workId;
+  saveReading(store, reading);
+}
+// Saved place: the first line on the current page, so a text-size change or
+// a later visit lands on the same words.
+function rememberPlace() {
+  const anchor = pages[state.page]?.anchor;
+  if (!anchor) return;
+  reading.places[state.workId] = { anchor, page: state.page };
+  reading.last = state.workId;
+  saveReading(store, reading);
 }
 function feedback(text) {
   state.feedback = text;
@@ -528,8 +594,8 @@ function gestureEvent(event) {
         outcome === "turned"
           ? `Page ${state.page + 1} of ${pages.length}`
           : outcome === "last-page"
-            ? "Last sample page · use BACK on your hand"
-            : "First sample page · use NEXT on your hand",
+            ? "Last page · use BACK on your hand"
+            : "First page · use NEXT on your hand",
       );
       paint();
       return outcome;
@@ -590,6 +656,7 @@ function action(id) {
   if (id === "cal-menu" || id === "cal-back") {
     state.menuPage = id === "cal-menu" ? "main" : "calendar";
     state.hover = null;
+    dayOpenedAt = lastFrameTime;
     paint();
     return;
   }
@@ -622,6 +689,7 @@ function action(id) {
   if (id === "more" || id === "back") {
     state.menuPage = id === "more" ? "more" : "main";
     state.hover = null;
+    dayOpenedAt = lastFrameTime;
     paint();
     return;
   }
@@ -657,6 +725,29 @@ function action(id) {
     gestures.setContext(state.menuOpen ? "menu" : "reading");
     state.hover = null;
   }
+  if (id === "lib-menu") {
+    state.menuPage = "main";
+    state.hover = null;
+    dayOpenedAt = lastFrameTime;
+    paint();
+    return;
+  }
+  if (typeof id === "string" && id.startsWith("work:")) {
+    // A repeated pinch right after opening the Library must not pick a book.
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    openWork(id.slice(5));
+    toggleMenu(false);
+    feedback(workById(state.workId).title);
+    paint();
+    return;
+  }
+  if (id === "library") {
+    state.menuPage = "library";
+    state.hover = null;
+    dayOpenedAt = lastFrameTime;
+    paint();
+    return;
+  }
   if (id === "prev") state.page = Math.max(0, state.page - 1);
   if (id === "next") {
     if (state.page < pages.length - 1) {
@@ -664,13 +755,28 @@ function action(id) {
       state.turns++;
     }
   }
-  if (id === "night") state.night = !state.night;
-  if (id === "size") state.size = (state.size + 1) % 3;
+  if (id === "prev" || id === "next") {
+    paint();
+    rememberPlace();
+  }
+  if (id === "night") {
+    state.night = !state.night;
+    preferences.night = state.night;
+    savePreferences();
+  }
+  if (id === "size") {
+    state.pendingAnchor = reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+    state.size = (state.size + 1) % 3;
+    preferences.size = state.size;
+    savePreferences();
+  }
   if (id === "recenter") {
     wantRecenter = true;
     toggleMenu(false);
   }
   if (id === "exit") {
+    // A pinch repeated just after changing menu page must not leave the cabin.
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
     ending = true;
     state.session?.end();
     return;
@@ -699,8 +805,11 @@ for (const id of [
 document.querySelectorAll("[data-size]").forEach(
   (b) =>
     (b.onclick = () => {
+      state.pendingAnchor =
+        reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
       state.size = +b.dataset.size;
-      state.page = 0;
+      preferences.size = state.size;
+      savePreferences();
       paint();
     }),
 );
@@ -750,7 +859,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-015",
+    build: "gestures-016",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -782,6 +891,12 @@ $("export").onclick = () => {
     },
     attentionPaused: state.attentionPaused,
     handFeedbackError: state.handFeedbackError,
+    reading: {
+      work: state.workId,
+      page: state.page + 1,
+      pages: pages.length,
+      anchor: pages[state.page]?.anchor || null,
+    },
     wristCalendar: {
       enabled: state.wristCalendar,
       hand: WATCH_HAND,
@@ -876,6 +991,7 @@ function hit(transform) {
 }
 // Hit-test the current menu panel: fixed menu pages or the live calendar.
 function panelHit(x, y) {
+  if (state.menuPage === "library") return libraryHit(x, y, WORKS);
   return CALENDAR_PAGES.includes(state.menuPage)
     ? calendarHit(x, y, state.menuPage, calendarView, progress, todayKey())
     : menuHit(x, y, state.menuPage);
