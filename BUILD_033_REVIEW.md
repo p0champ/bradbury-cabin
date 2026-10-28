@@ -26,3 +26,6 @@ Separate critic (build031_critic), which wrote no implementation. Round 1: 7/10,
 
 ## Deferred
 No real Claude, Google Drive or Quest test was performed; PC tests used synthetic XR and mocked Google responses. These remain in the one combined end check (QUEST_CHECK.md). No literary text or source verdict changed.
+
+## Release
+Code commit 2c8ef7e pushed to build-033-personal-lines-library and phase-1-gestures. Live Build 033 verified: index.html, style.css and all 28 JavaScript modules match reviewed local files after normalising line endings. Staged and committed secret scans passed 29 files. Real Claude/Google Drive and Quest checks remain for the combined end test, not claimed as passed.

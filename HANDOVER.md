@@ -4,7 +4,7 @@
 
 **Verification:** 155 unit + all source checks; 148/148 full PC browser checks plus targeted picker rerun; 11/11 isolated mutations caught. Independent critic 7 -> 9/10 after legacy-tick and short-quote fixes, no remaining findings. No real Claude/Drive or Quest test.
 
-**Release:** pending (recorded below once live is verified). Branch build-033-personal-lines-library; queries v33, header BUILD 033, diagnostic gestures-033; 28 JS modules.
+**Release:** code committed as 2c8ef7e, pushed to build-033-personal-lines-library and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=33 verified: index.html, style.css and all 28 JavaScript modules match reviewed source (line endings normalised). Staged and committed secret scans passed 29 files. Branch build-033-personal-lines-library; queries v33, header BUILD 033, diagnostic gestures-033; 28 JS modules.
 
 ---
 # Build 032 — saved study notes (28 October 2026)
