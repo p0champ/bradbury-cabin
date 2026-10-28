@@ -16,3 +16,6 @@
 
 ## Independent review
 Separate critic, no code written by it. 8/10, no P1. P2: nothing tested the rounded window → added the window-shape check. P3s fixed: leaf assertion could never fail (now asserts no arrival layer), greeting could change mid-fade (now fixed at confirmation), weak night hover (brighter). Left: the unused Arrival object is still constructed (harmless, dead code to remove later); 00–05 says "Good evening."
+
+## Release
+Code commit 3919de5 pushed to build-035-window and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=35 verified: index.html, style.css and all 29 JavaScript modules match reviewed local files (line endings normalised). Secret scans passed. Not yet seen on a Quest.
