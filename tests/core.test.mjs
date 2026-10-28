@@ -21,3 +21,19 @@ test("column-major matrix composition preserves translation and scale", () => {
   assert.equal(m[14], -1);
   assert.ok(Math.abs(m[0] - 0.36) < 1e-6);
 });
+test("sampler excerpts are verbatim from the critic-accepted shelf editions", async () => {
+  const { poem, poemIndents, opening, continuation } = await import("../core.js");
+  const { LIBRARY } = await import("../library.js");
+  const rose = LIBRARY.find((w) => w.id === "blake-sick-rose");
+  const stanzas = [];
+  let current = [];
+  poem.forEach((text, i) => {
+    if (text) current.push({ text, indent: poemIndents[i] });
+    else { stanzas.push(current); current = []; }
+  });
+  stanzas.push(current);
+  assert.deepEqual(stanzas, rose.blocks.map((b) => b.lines));
+  const magi = LIBRARY.find((w) => w.id === "ohenry-magi").blocks.map((b) => b.text);
+  assert.ok(magi.includes(opening), "opening is a whole paragraph of the edition");
+  assert.ok(magi.includes(continuation), "continuation is a whole paragraph of the edition");
+});

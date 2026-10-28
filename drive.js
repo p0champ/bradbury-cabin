@@ -8,6 +8,7 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
+import { withPickerContract } from "./picker-contract.js?v=26";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -139,23 +140,22 @@ export class DriveLink {
     const files = ((await (await this.call(url)).json()).files || []).filter((f) =>
       /^picks-\d{4}-\d{2}-\d{2}(-\d+)?\.json$/.test(f.name),
     );
-    // Today's files first (most complete wins, newest breaks ties); then, for
-    // the "old picks" message, only the newest older file is opened.
-    let best = null,
-      fallback = null;
+    // The newest current-day request is authoritative. A failed new swap
+    // must never silently redisplay an older selection as the new request.
     for (const f of files) {
-      if (Number(f.size) > MAX_FILE) continue;
       const nameDate = f.name.slice(6, 16);
-      if (nameDate < today && (best || fallback)) break;
+      if (nameDate > today) continue;
+      if (Number(f.size) > MAX_FILE)
+        return { raw: null, parsed: { date: nameDate, works: [], problems: ["Claude's file is too large; nothing was cut or imported"] } };
       const raw = await (await this.call(`${API}/files/${f.id}?alt=media`)).text();
+      if (new TextEncoder().encode(raw).length > MAX_FILE)
+        return { raw: null, parsed: { date: nameDate, works: [], problems: ["Claude's file is too large; nothing was cut or imported"] } };
       const parsed = parse(raw);
-      if (!parsed.works.length) continue;
-      if (parsed.date === today) {
-        if (!best || parsed.works.length > best.parsed.works.length) best = { raw, parsed };
-        if (best.parsed.works.length === 3) break;
-      } else if (!fallback) fallback = { raw, parsed };
+      if (parsed.date !== nameDate)
+        return { raw: null, parsed: { date: nameDate, works: [], problems: [...parsed.problems, "Claude's file date does not match its name"] } };
+      return { raw, parsed };
     }
-    return best || fallback;
+    return null;
   }
   // Creates the folder and/or progress.json when needed, otherwise updates it.
   writeProgress(text) {
@@ -164,6 +164,7 @@ export class DriveLink {
     return run;
   }
   async writeProgressNow(text) {
+    text = withPickerContract(text, this.lastCheck);
     let folder = await this.folder();
     if (!folder) {
       const r = await this.call(`${API}/files?fields=id`, {

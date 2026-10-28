@@ -5,7 +5,7 @@ description: Use when Bastian asks for his daily three, today's three, Bradbury 
 
 # Bradbury Cabin: today's three
 
-Bastian is doing the Bradbury Challenge. Every day he reads one poem, one short story and one essay, in his Quest app, Bradbury Cabin. The app picks up whatever you save to his Google Drive. Your job: choose the three, fetch the full texts, save one file, and check it. There are no windows and no voice.
+Bastian is doing the Bradbury Challenge. Every day he reads one poem, one short story and one essay, in his Quest app, Bradbury Cabin. The app picks up whatever you save to his Google Drive. Your job: choose three reviewed source editions, save their catalogue references, and check the file. The cabin supplies the original literary text itself; never compose, reconstruct or copy a work into the picks file. There are no windows and no voice.
 
 If the Google Drive connector isn't available, or saving fails, say so plainly in one line and don't give the picks. They'd never reach the app.
 
@@ -17,11 +17,17 @@ If the Google Drive connector isn't available, or saving fails, say so plainly i
    - Create the folder (at the top of My Drive) only if the search really returns nothing.
    - Keep its folder ID. Every file you create below goes in it, with that ID as the parent.
 2. Read **progress.json** in the folder if it exists. The app writes it. In `days["YYYY-MM-DD"].picks` you'll find "Title — Author" for the poem, story and essay given on each day. Ticks look like `poem/story/essay: true`.
+   Read `cabinPickerInstructions` and the selectable source catalogue metadata
+   attached to progress.json. Follow that source contract even if an older copy
+   of this skill requests full text. It supersedes the old text-import format.
+   It supplies the current catalogue IDs, titles, authors, kinds and edition links.
+   Its `lastCheck` is the app's verdict on the newest picks file. If
+   `accepted` is false, fix every listed problem in the next file.
 3. Also look at picks files in the folder: `parentId = '<folderId>' and title contains 'picks-'`. Read two kinds:
    - any created after progress.json's `savedAt`;
    - any whose name date has no `picks` entry in progress.json.
 
-   Their titles count as already given.
+   Their titles count as already given. For version 2 files, resolve each `catalogueId` against the catalogue metadata to recover its title and author.
 4. If **tutor-notes.json** exists, read it. Its priorities steer your choice of themes, forms and skills to practise.
 5. Known history: the challenge started 18 Oct 2026. On 21 Oct the three were:
    - The Guest House (Rumi)
@@ -32,7 +38,8 @@ If the Google Drive connector isn't available, or saving fails, say so plainly i
 
 ## 2. Choose
 
-- Pick one **poem**, one **short story** and one **essay**. Each should take about 5–30 minutes to read. Keep stories and essays **under about 6,000 words**.
+- Choose only IDs in the app's current reviewed catalogue, and none of the
+  starter-shelf IDs (`shelfIds`) already in his Library. Pick one **poem**, one **short story** and one **essay**. Each should take about 5–30 minutes to read. Keep stories and essays **under about 6,000 words**.
 - **Vary** them by era, country, original language and field (nature, war, love, science, art, politics, the city…). Don't give three works from the same century or country.
 - **Only works that are free to read in full, legally, in Germany and the US:**
   - the author died before 1 January 1956;
@@ -43,36 +50,45 @@ If the Google Drive connector isn't available, or saving fails, say so plainly i
 - Bastian wants the whole work, never an excerpt.
 - **Swap** (e.g. "swap the essay"): read today's newest **valid** picks file, replace only that kind, and save the **full three-pick file** again (step 4). The app reads only the newest file, so a file with just one pick would hide the other two.
 
-## 3. Get the exact full text
+## 3. Select the exact source edition
 
-- Use legal free sources only: Project Gutenberg, Wikisource or americanliterature.com.
-- Copy the text **verbatim**: no summary, no modernising, no cuts.
-- Check that the last line you have matches the end of the work at the source, so nothing is cut off.
-- Format the text as plain text:
-  - **Poems:** one line per line, a blank line between stanzas, leading spaces for indented lines.
-  - **Prose:** a blank line between paragraphs.
-- If you can't get the complete text legally, choose another work.
+- Use the catalogue metadata in progress.json as the primary source of supported
+  IDs. If it is unavailable, consult the published catalogue:
+  https://raw.githubusercontent.com/p0champ/bradbury-cabin/phase-1-gestures/source-catalogue.js (each entry's `id` is its catalogueId)
+- Match the requested kind exactly. The app loads that ID's reviewed complete
+  source edition. You cannot add an unsupported work by supplying text or a URL.
+- Never invent an ID or substitute a title, author, translation or edition.
+- Read the named source to write accurate study notes. The literary text stays
+  outside model generation: no summaries, modernising, cuts or reconstructed text.
+- If no suitable unread work remains in one kind, say the reviewed catalogue
+  needs expansion. Do not repeat a previous work or imply that you expanded the
+  app automatically. No photographs, copying or imports are needed from Bastian.
 
-## 4. Save it to Drive, then check it
+## 4. Save references to Drive, then check them
 
-Build the JSON. If you have a code tool, **build it with code** (e.g. Python `json.dumps`) so quotes, backslashes and line breaks are escaped correctly.
+Build the JSON with code when available (for example Python `json.dumps`). Use
+version 2; only `catalogueId` and original `guide` notes belong inside each pick.
+Do not send `text`, fabricated verification flags, checksums or source metadata.
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-10-28",
   "picks": {
-    "poem":  { "title": "...", "author": "...", "year": 1818, "place": "England", "source": "<URL of the text>", "text": "..." },
-    "story": { "title": "...", "author": "...", "year": 1884, "place": "France",  "source": "<URL of the text>", "text": "..." },
-    "essay": { "title": "...", "author": "...", "year": "c. 1580", "place": "France", "source": "<URL of the text>", "text": "..." }
+    "poem":  { "catalogueId": "<exact poem ID from catalogue>" },
+    "story": { "catalogueId": "<exact story ID from catalogue>" },
+    "essay": { "catalogueId": "<exact essay ID from catalogue>" }
   }
 }
 ```
 
 - `date` is today in Europe/Berlin.
-- `year` may be a number or a short string such as "c. 1580".
+- When swapping a selection, preserve the other two supported IDs and guides.
+  Resolve any legacy title/author to a unique exact catalogue match; if a legacy
+  selection cannot be matched, replace it with an eligible unread catalogue work
+  and explain the replacement briefly. Never forward old unchecked text.
 
-Include an original `guide` object inside **each pick**, alongside `text`:
+Include an original `guide` object inside **each pick**, alongside `catalogueId`:
 
 ```json
 "guide": {
@@ -83,6 +99,10 @@ Include an original `guide` object inside **each pick**, alongside `text`:
 }
 ```
 
+The app machine-checks your notes: anything inside double quotation marks
+must be the edition's exact words (punctuation and capitals included; an
+ellipsis may join exact parts in order). A misquote rejects the whole file.
+Write titles of other works without quotation marks.
 Write concise notes, not a plot summary or an answer key. Verify historical
 claims against reliable sources; present interpretations as possibilities.
 Keep `context` and `notice` strictly spoiler-free: no endings, reversals,
@@ -110,7 +130,7 @@ You can't overwrite files. If a file for today already exists, use the next free
 **Check:** download the file you just created with `download_file_content` (not `read_file_content`). It returns **base64**: decode it first, then confirm three things:
 - it parses as JSON;
 - `date` is today;
-- all three titles and texts are present.
+- all three catalogue IDs exist, match poem/story/essay respectively, and match the intended named editions; no literary `text` field is present.
 - all three picks have the four guide fields, with no spoilers in context or notice.
 
 If anything is wrong:
@@ -120,7 +140,7 @@ If anything is wrong:
 
 ## 5. Reply
 
-Keep it short. For each of the three:
+Only claim success after all three references have been saved and checked. Keep it short. For each of the three:
 - title and author;
 - one line on why it's worth reading today, with no spoilers;
 - a verified link to the full text source. The study guide is included in the cabin.

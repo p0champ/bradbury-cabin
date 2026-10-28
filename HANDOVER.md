@@ -1,3 +1,14 @@
+# Build 026 — source fidelity, independent critic loop (28 October 2026)
+
+**Requirement:** complete original texts, exact to a named edition; a real independent second-agent critic with source comparisons and enforced rejection. Bastian will not photograph, transcribe or import texts.
+
+**Design:** Claude's picks file (v2) holds only catalogue IDs and study notes. The app shows literary text only from `source-catalogue.js`, which publishes only works an independent critic agent's own extraction (gutenberg.org HTML, own code, own boundaries) matched exactly against the producer's (gutenberg.org plain text). `tools/critic_compare.py` writes the verdicts; the generator gates on them, bound to the exact text. Starter shelf (`library.js`) is generated from accepted entries. 185 works accepted; Blake "Night" rejected; "Of Fame" excluded. Daily: the app rejects unknown/wrong-kind/shelf IDs, invalid dates, works given on earlier days and misquoted study notes, and keeps the previous checked trio. Its verdict (`lastCheck`) goes back to Claude in progress.json.
+
+**Verification:** 118 unit tests + `check:sources`, 10/10 mutations, 125 PC browser checks. Build critic 6/10 → 8/10; its round-2 findings were then fixed and rechecked by the author only. See BUILD_026_REVIEW.md and SOURCE_CATALOGUE.md. No Quest or real Drive check yet.
+
+**Not done:** claude.ai skill must be replaced by hand from CLAUDE_SKILL_DAILY_THREE.md; no daily independent agent (capability gap: no backend); narrow catalogue (5 authors, 33 stories); opening-poem bookmark UI and Bukowski source still parked. Old GITenberg copies archived in work/build-026-old-gitenberg-sources. Header BUILD 026; diagnostic gestures-026; all queries v26. Preview for this checkout ran on port 18144.
+
+---
 # Build 025 — background volume (28 October 2026)
 
 Bastian explicitly parked the study guide after Build 024 failed to show Before reading for one of today's Claude picks. He wants a different guide UI later. Today's old picks may lack guide data; their titles are unknown. A separate opening/resume fix is unfinished in the other checkout's build-025-open-before branch. **It is not included or deployed here.** Do not silently resume guide work.

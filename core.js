@@ -7,16 +7,18 @@ export const PAGE = {
 };
 export const SIZES = [46, 54, 62];
 export const poem = [
-  "O Rose thou art sick.",
+  "O rose, thou art sick!",
   "The invisible worm,",
-  "That flies in the night",
-  "In the howling storm:",
+  "That flies in the night,",
+  "In the howling storm,",
   "",
   "Has found out thy bed",
-  "Of crimson joy:",
+  "Of crimson joy,",
   "And his dark secret love",
   "Does thy life destroy.",
 ];
+// The edition's stepped indents (in source spaces), line for line with poem.
+export const poemIndents = [0, 4, 0, 4, 0, 0, 4, 0, 4];
 export const opening =
   "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one’s cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.";
 export const continuation =
@@ -42,7 +44,8 @@ export function layout(ctx, size, family = "Literata, Georgia, serif") {
   const blocks = [
     { text: "The Sick Rose", kind: "title" },
     { text: "William Blake · 1794 · England", kind: "meta" },
-    ...poem.map((text) => ({ text, kind: "line" })),
+    // Same indent scale as the reader (reader.js) uses for verse.
+    ...poem.map((text, i) => ({ text, kind: "line", x: 194 + poemIndents[i] * font * 0.32 })),
     { text: "The Gift of the Magi", kind: "title" },
     { text: "O. Henry · 1905 · United States · opening excerpt", kind: "meta" },
     ...wrap(ctx, opening, 1660).map((text) => ({ text, kind: "line" })),

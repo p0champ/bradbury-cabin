@@ -5,3 +5,4 @@ private/
 work/
 evidence/
 *.log
+__pycache__/

@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { normalizeGuide, studyGuide } from "../study-guide.js";
 import { parsePicks } from "../picks.js";
+import { SOURCE_CATALOGUE } from "../source-catalogue.js";
 import { LIBRARY } from "../library.js";
 import { AREA, layoutWork, pageForAnchor } from "../reader.js";
 import { MENU_PAGES, menuButtons } from "../gestures.js";
@@ -26,7 +27,7 @@ test("optional guides accept strings and arrays, cap lengths and ignore malforme
 });
 test("a missing, partial or malformed guide never drops a pick", () => {
   for (const guide of [undefined, null, 42, [], { context: 8 }, { notice: ["Look"] }]) {
-    const r = parsePicks({ date: "2026-10-28", picks: { story: { title: "T", author: "A", text: "Text", guide } } });
+    const r = parsePicks({ version: 2, date: "2026-10-28", picks: { story: { catalogueId: SOURCE_CATALOGUE.find(w => w.kind === "story").id, guide } } });
     assert.equal(r.works.length, 1);
     assert.deepEqual(r.problems, []);
     assert.equal(r.works[0].guide?.notice?.[0] || null, guide?.notice?.[0] || null);

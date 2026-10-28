@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=25";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=26";
 import {
   GestureEngine,
   menuButtons,
@@ -10,19 +10,19 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=25";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=25";
-import { HandBadges } from "./hand-badges.js?v=25";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=25";
-import { LIBRARY } from "./library.js?v=25";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=25";
-import { layoutReading } from "./reading-flow.js?v=25";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=25";
-import { parsePicks, pickLabels } from "./picks.js?v=25";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=25";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=25";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=25";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=25";
+} from "./gestures.js?v=26";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=26";
+import { HandBadges } from "./hand-badges.js?v=26";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=26";
+import { LIBRARY } from "./library.js?v=26";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=26";
+import { layoutReading } from "./reading-flow.js?v=26";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=26";
+import { parsePicks, pickLabels } from "./picks.js?v=26";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=26";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=26";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=26";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=26";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -39,8 +39,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=25";
-import { EntrySound } from "./entry-sound.js?v=25";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=26";
+import { EntrySound } from "./entry-sound.js?v=26";
 import {
   readProgress,
   saveProgress,
@@ -49,13 +49,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=25";
+} from "./progress.js?v=26";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=25";
+} from "./calendar.js?v=26";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -146,11 +146,15 @@ const SAMPLER = {
 const TODAY_KEY = "cabin-today";
 let todayWorks = [];
 let todayWorksFor = null;
+let picksNotice = "";
 function loadTodayCache() {
   todayWorksFor = dateKey(new Date());
   try {
-    const r = parsePicks(localStorage.getItem(TODAY_KEY) || "");
-    todayWorks = r.date === todayWorksFor ? r.works : [];
+    const r = parsePicks(localStorage.getItem(TODAY_KEY) || "", progress.days);
+    todayWorks = r.date === todayWorksFor && r.works.length === 3 && !r.problems.length ? r.works : [];
+    picksNotice = r.date === todayWorksFor && !todayWorks.length
+      ? "Saved selections need source-backed replacements. Sync with Drive, then ask Claude for today's three."
+      : "";
   } catch {
     todayWorks = [];
   }
@@ -1017,7 +1021,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-025",
+    build: "gestures-026",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1889,6 +1893,14 @@ const clientId = (() => {
   }
 })();
 const drive = new DriveLink({ clientId });
+// The app's verdict on Claude's newest picks file travels in every
+// progress.json write, so it must survive a reload until the next sync.
+const LAST_CHECK_KEY = "cabin-last-check";
+try {
+  drive.lastCheck = JSON.parse(localStorage.getItem(LAST_CHECK_KEY) || "null");
+} catch {
+  drive.lastCheck = null;
+}
 const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false };
 function driveNote() {
   if (driveState.error)
@@ -1897,6 +1909,7 @@ function driveNote() {
       driveState.error.slice(0, 90) +
       (driveState.pending ? ` (${driveState.pending} change${driveState.pending === 1 ? "" : "s"} not yet on Drive)` : "")
     );
+  if (picksNotice) return picksNotice;
   if (driveState.last) return "Synced with Google Drive at " + driveState.last;
   return clientId ? "Not synced yet · use Sync with Drive on the browser page" : "";
 }
@@ -1941,22 +1954,7 @@ async function syncDrive() {
   try {
     if (!drive.connected) await drive.signIn();
     const today = todayKey();
-    const found = await drive.readPicksFor(today, parsePicks);
-    let message = "No picks from Claude yet. Ask Claude for today's three.";
-    if (found) {
-      const { raw, parsed: r } = found;
-      if (r.date === today && r.works.length) {
-        try {
-          localStorage.setItem(TODAY_KEY, raw);
-        } catch {}
-        todayWorks = r.works;
-        rebuildWorks(state.workId);
-        const day = (progress.days[today] ||= {});
-        day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
-        message = `Today's three are in the Library: ${r.works.map((w) => w.title).join(", ")}.`;
-      } else if (r.date && r.date !== today) message = `Claude's last picks are from ${r.date}. Ask for today's three.`;
-      if (r.problems.length) message += " (" + r.problems.join("; ") + ")";
-    }
+    // History first: picks are checked against every earlier day's reading.
     const remote = await drive.read("progress.json");
     if (remote) {
       try {
@@ -1964,6 +1962,34 @@ async function syncDrive() {
         if (validProgress(parsed)) progress = mergeProgress(progress, parsed);
       } catch {}
     }
+    const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days));
+    let message = "No picks from Claude yet. Ask Claude for today's three.";
+    drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
+    if (found) {
+      const { raw, parsed: r } = found;
+      const problems = [...r.problems];
+      if (r.date && r.date !== today) problems.push(`the newest picks file is for ${r.date}, not ${today}`);
+      else if (r.works.length !== 3 && !problems.length) problems.push("the file does not contain all three picks");
+      drive.lastCheck = { checked: today, date: r.date, accepted: !problems.length, problems };
+      if (r.date === today && r.works.length === 3 && !r.problems.length) {
+        try {
+          localStorage.setItem(TODAY_KEY, raw);
+        } catch {}
+        todayWorks = r.works;
+        picksNotice = "";
+        rebuildWorks(state.workId);
+        const day = (progress.days[today] ||= {});
+        day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
+        message = `Today's three are in the Library: ${r.works.map((w) => w.title).join(", ")}.`;
+      } else if (r.date === today) {
+        picksNotice = "Claude's latest selections failed the source checks. Ask Claude for today's three again; the reasons are now in Drive.";
+        message = picksNotice + (todayWorks.length ? " Your previous checked selections are still available." : "");
+      } else if (r.date && r.date !== today) message = `Claude's last picks are from ${r.date}. Ask for today's three.`;
+      if (r.problems.length) message += " (" + r.problems.join("; ") + ")";
+    }
+    try {
+      localStorage.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
+    } catch {}
     driveState.everSynced = true;
     storeProgress();
     // This direct write replaces any queued save (no duplicate creation).

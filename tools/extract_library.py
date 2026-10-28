@@ -1,68 +1,49 @@
-# Regenerates library.js from Project Gutenberg plain-text files:
-#   7256.txt (The Gift of the Magi), 160-0.txt saved as pg160.txt (Chopin),
-#   1322.txt (Leaves of Grass), 575.txt (Bacon, Essays).
-# Fetched from the GITenberg mirror (raw.githubusercontent.com/GITenberg/...).
-# Usage: python3 -I tools/extract_library.py <dir-with-those-files> > library.js
-import json, re, sys
-T = sys.argv[1]
-def lines(f, a, b):  # 1-based inclusive
-    return open(f"{T}/{f}", encoding="utf-8-sig").read().split("\n")[a-1:b]
-def fix(s):
-    s = s.replace("--", "—")
-    return re.sub(r"\s+", " ", s).strip()
-def prose(ls):
-    paras, cur = [], []
-    for l in ls:
-        if l.strip(): cur.append(l.strip())
-        elif cur: paras.append(fix(" ".join(cur))); cur = []
-    if cur: paras.append(fix(" ".join(cur)))
-    return [{"type": "para", "text": p} for p in paras]
-def poem(ls, join_cont=False):
-    stanzas, cur = [], []
-    for l in ls:
-        if not l.strip():
-            if cur: stanzas.append(cur); cur = []
-            continue
-        ind = len(l) - len(l.lstrip())
-        text = l.strip().replace("--", "—")
-        if join_cont and cur and ind >= 6:
-            cur[-1]["text"] += " " + text
-            continue
-        cur.append({"text": text, "indent": max(0, (ind - 2) // 1)})
-    if cur: stanzas.append(cur)
-    base = min(x["indent"] for s in stanzas for x in s)
-    return [{"type": "stanza", "lines": [{"text": x["text"], "indent": x["indent"] - base} for x in s]} for s in stanzas]
-def find(f, start_pat, after=1):
-    for i, l in enumerate(open(f"{T}/{f}", encoding="utf-8-sig").read().split("\n"), 1):
-        if i >= after and re.fullmatch(start_pat, l.strip()): return i
-    raise SystemExit("not found " + start_pat)
-works = []
-# Blake: keep the app's existing text (Songs of Experience, 1794)
-works.append({"id": "blake-sick-rose", "kind": "poem", "title": "The Sick Rose", "author": "William Blake", "year": 1794, "place": "England",
-  "source": "Songs of Experience (1794); public domain",
-  "blocks": [{"type": "stanza", "lines": [{"text": t, "indent": 0} for t in ["O Rose thou art sick.", "The invisible worm,", "That flies in the night", "In the howling storm:"]]},
-             {"type": "stanza", "lines": [{"text": t, "indent": 0} for t in ["Has found out thy bed", "Of crimson joy:", "And his dark secret love", "Does thy life destroy."]]}]})
-a = find("1322.txt", r"When I Heard the Learn'd Astronomer", 8000)
-works.append({"id": "whitman-astronomer", "kind": "poem", "title": "When I Heard the Learn'd Astronomer", "author": "Walt Whitman", "year": 1865, "place": "United States",
-  "source": "Leaves of Grass; Project Gutenberg #1322", "blocks": poem(lines("1322.txt", a + 2, a + 11), join_cont=True)})
-a = find("1322.txt", r"O Captain! My Captain!", 10000)
-works.append({"id": "whitman-captain", "kind": "poem", "title": "O Captain! My Captain!", "author": "Walt Whitman", "year": 1865, "place": "United States",
-  "source": "Leaves of Grass; Project Gutenberg #1322", "blocks": poem(lines("1322.txt", a + 2, a + 28))})
-works.append({"id": "ohenry-magi", "kind": "story", "title": "The Gift of the Magi", "author": "O. Henry", "year": 1905, "place": "United States",
-  "source": "Project Gutenberg #7256", "blocks": prose(lines("7256.txt", 43, 273))})
-a = find("pg160.txt", r"DESIREE'S BABY", 6000); b = find("pg160.txt", r"A RESPECTABLE WOMAN", a)
-works.append({"id": "chopin-desiree", "kind": "story", "title": "Desiree's Baby", "author": "Kate Chopin", "year": 1893, "place": "United States",
-  "source": "Project Gutenberg #160", "blocks": prose(lines("pg160.txt", a + 1, b - 1))})
-def essay(title, id_):
-    a = find("575.txt", title, 120)
-    # ends at the next "Of ..." heading line
-    ls = open(f"{T}/575.txt", encoding="utf-8-sig").read().split("\n")
-    b = next(i for i in range(a + 1, len(ls)) if re.fullmatch(r"Of [A-Z][A-Za-z ,']+", ls[i].strip()))
-    return {"id": id_, "kind": "essay", "title": title, "author": "Francis Bacon", "year": 1625, "place": "England",
-            "source": "Essays, Civil and Moral; Project Gutenberg #575", "blocks": prose(ls[a:b])}
-works.append(essay("Of Studies", "bacon-studies"))
-works.append(essay("Of Truth", "bacon-truth"))
-print("// Starter shelf. Public-domain texts, extracted verbatim from the cited")
-print("// Project Gutenberg editions (\"--\" rendered as an em dash, line wrapping removed).")
-print("// Generated; do not hand-edit the texts.")
-print("export const LIBRARY = " + json.dumps(works, ensure_ascii=False, indent=1) + ";")
+# Regenerates library.js (the starter shelf) from source-catalogue.js.
+# The shelf texts are the critic-accepted catalogue blocks, unchanged; only
+# display metadata (title case, first-publication year, source label) is set
+# here. A shelf work the critic did not accept stops generation.
+# Usage: python -I tools/extract_library.py [--check]
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parent.parent
+SHELF = [
+    ("blake-sick-rose", "The Sick Rose", 1794, "Songs of Innocence and of Experience, R. Brimley Johnson edition (1901); Project Gutenberg #1934"),
+    ("whitman-astronomer", "When I Heard the Learn’d Astronomer", 1865, "Leaves of Grass; Project Gutenberg #1322"),
+    ("whitman-captain", "O Captain! My Captain!", 1865, "Leaves of Grass; Project Gutenberg #1322"),
+    ("ohenry-magi", "The Gift of the Magi", 1905, "The Four Million; Project Gutenberg #2776"),
+    ("chopin-desiree", "Désirée’s Baby", 1893, "Project Gutenberg #160"),
+    ("bacon-studies", "Of Studies", 1625, "Essays, Civil and Moral; Project Gutenberg #575"),
+    ("bacon-truth", "Of Truth", 1625, "Essays, Civil and Moral; Project Gutenberg #575"),
+]
+
+
+def load(name, const):
+    text = (ROOT / name).read_text(encoding="utf-8")
+    assert f"export const {const} = " in text
+    return json.loads(text[text.index("["):text.rstrip().rindex("]") + 1])
+
+
+def render():
+    catalogue = {w["id"]: w for w in load("source-catalogue.js", "SOURCE_CATALOGUE")}
+    works = []
+    for id_, title, year, source in SHELF:
+        assert id_ in catalogue, id_ + " is not a critic-accepted catalogue work"
+        w = catalogue[id_]
+        works.append({"id": id_, "kind": w["kind"], "title": title, "author": w["author"], "year": year,
+                      "place": w["place"], "source": source, "blocks": w["blocks"]})
+    return ("// Starter shelf. Generated by tools/extract_library.py from the critic-accepted\n"
+            "// source catalogue: exact words, case and punctuation of the cited Project\n"
+            "// Gutenberg editions; prose wrapping removed, poetry lines retained.\n"
+            "// Generated; do not hand-edit the texts.\n"
+            "export const LIBRARY = " + json.dumps(works, ensure_ascii=False, indent=1) + ";\n")
+
+
+if __name__ == "__main__":
+    out = render()
+    if "--check" in sys.argv:
+        assert (ROOT / "library.js").read_text(encoding="utf-8") == out, "library.js differs; regenerate"
+    else:
+        (ROOT / "library.js").write_text(out, encoding="utf-8", newline="\n")
+    print("Starter shelf matches the critic-accepted catalogue.")

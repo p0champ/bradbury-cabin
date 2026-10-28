@@ -438,7 +438,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=25");
+        const { menuButtons } = await import("./gestures.js?v=26");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1113,7 +1113,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-025");
+        assert.equal(details.build, "gestures-026");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2060,7 +2060,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=25");
+        const { paintHandBadge } = await import("./hand-badges.js?v=26");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2381,7 +2381,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=25");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=26");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2446,7 +2446,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=25");
+        const { MENU_PAGES } = await import("./gestures.js?v=26");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2499,8 +2499,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=25");
-            const { loadProgress } = await import("./progress.js?v=25");
+            const { calendarButtons } = await import("./calendar.js?v=26");
+            const { loadProgress } = await import("./progress.js?v=26");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -3111,14 +3111,13 @@ async function mock(
       await mock(p, "layer", false);
       await p.addInitScript(() => localStorage.setItem("cabin-google-client", "test-client.apps.googleusercontent.com"));
       const today = {
-        version: 1,
+        version: 2,
         date: "2026-10-28",
-        picks: {
-          poem: { title: "Ozymandias", author: "Percy Bysshe Shelley", year: 1818, place: "England", source: "Test", text: "I met a traveller from an antique land,\nWho said—\"Two vast and trunkless legs of stone\n\nStand in the desert....\"" },
-          story: { title: "The Necklace", author: "Guy de Maupassant", year: 1884, text: "She was one of those pretty and charming girls.\n\nShe had no dresses, no jewels, nothing." },
-          essay: { title: "Of Love", author: "Francis Bacon", year: 1625, text: "The stage is more beholding to love, than the life of man." },
-        },
+        picks: {},
       };
+      const { SOURCE_CATALOGUE } = await import("../source-catalogue.js");
+      const originals = ["poem", "story", "essay"].map(kind => SOURCE_CATALOGUE.find(w => w.kind === kind && !['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'].includes(w.id)));
+      for (const w of originals) today.picks[w.kind] = { catalogueId: w.id, text: "FORGED LITERARY TEXT MUST NEVER APPEAR" };
       const writes = [];
       let consent = 0;
       await p.route("https://accounts.google.com/gsi/client", (r) =>
@@ -3146,11 +3145,13 @@ async function mock(
       await p.goto(BASE_URL);
       await p.locator("#drive-sync:not([disabled])").click();
       await p.waitForFunction(() => /Today's three are in the Library/.test(document.querySelector("#status").textContent));
-      assert.match(await p.locator("#status").textContent(), /Ozymandias, The Necklace, Of Love/);
+      assert.ok((await p.locator("#status").textContent()).includes(originals.map(w => w.title).join(", ")));
       assert.equal(writes.filter((w) => w.method === "POST").length, 1, "progress.json created once");
       const created = writes.find((w) => w.method === "POST").body;
       assert.match(created, /"2026-10-28"/);
-      assert.match(created, /Ozymandias — Percy Bysshe Shelley/, "today's picks recorded in progress");
+      assert.ok(created.includes(originals[0].title + " — " + originals[0].author), "today's picks recorded in progress");
+      assert.ok(created.includes('cabinPickerInstructions'), "source instructions travel to Claude automatically");
+      assert.ok(created.includes('catalogueId'), "Claude gets selectable source references without a manual import");
       // In the cabin: Library top row is today's poem; open it, then tick it.
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
@@ -3166,8 +3167,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=25");
-        const { loadProgress } = await import("./progress.js?v=25");
+        const { calendarButtons } = await import("./calendar.js?v=26");
+        const { loadProgress } = await import("./progress.js?v=26");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

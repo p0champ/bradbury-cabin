@@ -1,3 +1,14 @@
+# Build 026 — exact source texts
+
+Open [Build 026](https://p0champ.github.io/bradbury-cabin/?v=26) in a fresh Quest Browser tab. Check **BUILD 026**.
+
+1. On the start page, tap **Sync with Drive**. This sends Claude the new source list.
+2. Ask Claude (phone or PC) for today's three, then Sync again.
+3. Menu → Library: three new works at the top. Open each. The text should be complete, with poem lines and indents intact.
+4. If Sync reports a problem, ask Claude for today's three again; the reasons travel to Claude automatically.
+5. Your existing shelf and reading places should still be there. Report anything missing, cut or oddly broken.
+
+---
 # Build 025 — background volume
 
 Open [Build 025](https://p0champ.github.io/bradbury-cabin/?v=25) in a fresh Quest Browser tab. Check **BUILD 025**. The study guide remains parked.

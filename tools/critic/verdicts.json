@@ -1,0 +1,1749 @@
+{
+  "version": 1,
+  "extractionSha256": "58b9dacb792b59b8fdacbd4e7859815a766e7c68483325c23721db2dc65b71c3",
+  "verdicts": {
+    "bacon-truth": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Truth",
+      "blocksSha256": "7385e690cff9992adb61c9d614fdbe1d3cf22a3a1ba9462a468fd47c1823a6ac",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-death": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Death",
+      "blocksSha256": "574f2d73e5f826b12bd238ade1d2344c7c4e3ee1950da6cac119d18088164e98",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-unity-in-religion": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Unity In Religion",
+      "blocksSha256": "79dc39bb92c442d84d74fc63a41c314f3763e9ecce5b2c7090c60baff5430b5e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-revenge": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Revenge",
+      "blocksSha256": "54f2decc2c3d4521699c8737a74e580f2fd61ebf090b7eeb26e94e1d62e6b0b3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-adversity": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Adversity",
+      "blocksSha256": "1bb508052514f79b77b27c2a029dd2dba3b341e0d5f0490bf8e171da2d07d4bb",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-simulation-and-dissimulation": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Simulation And Dissimulation",
+      "blocksSha256": "ad589ce9757508366dd2d1acfe2daebf76768fec26cdcd4451f6d1b7db107b5f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-parents-and-children": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Parents And Children",
+      "blocksSha256": "fed03e418a297fb783fd3daf056c6b2de8250ea537697ee6eed49914ae3e4b0b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-marriage-and-single-life": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Marriage And Single Life",
+      "blocksSha256": "e3b1987f9fb6e3350edab681c3aab0544b8af1ec20f4aecd4f9094e7dbfb0165",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-envy": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Envy",
+      "blocksSha256": "8f563135bd09a26d19265e1289e62ae53e3d450142b9f8d3ad56e61bf181d7ff",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-love": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Love",
+      "blocksSha256": "c4cb699d63b0817a4196c95943346d553e98afc89d66116f6798694be70016b6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-great-place": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Great Place",
+      "blocksSha256": "afbcf5d95ff466934e4d9ad8733c7306d0537350a957162cbffc5c184e4aacbc",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-boldness": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Boldness",
+      "blocksSha256": "f8b8cac001ffe837664dab5ac0ff6c168216726fab0e538cb02dcadb1fad9793",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-goodness-and-goodness-of-nature": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Goodness and Goodness Of Nature",
+      "blocksSha256": "86787baa7a38aa164cbcb1b3a96cc9cbb49df8e380d783794bb628ae44afe53b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-nobility": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Nobility",
+      "blocksSha256": "416c7f597db3c5314b59c1b2798403c098dca12b9e96145109d355ffe8be286b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-seditions-and-troubles": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Seditions And Troubles",
+      "blocksSha256": "9c6d461af50acf67c77a5c5ac45f80b5bc08eda3ff5351441d20e53b07101438",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-atheism": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Atheism",
+      "blocksSha256": "f6d9b4ea44cd506b7494fe83a6149f4280387fb595baf5831f26bb14a7eda75e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-superstition": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Superstition",
+      "blocksSha256": "59302af1970ea85f63ccd58761c5e9778e90ab3f7a556e14e9e99d80e32cfbbb",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-travel": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Travel",
+      "blocksSha256": "6ba1ed8dc2b2ed4b382ac3a33901914c3743600e3cdcb5a95e4b260b63f5c834",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-empire": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Empire",
+      "blocksSha256": "bde43e3277cf06db3b01bf76d4574c5d0ef0736d3632d27ecd8f311cc73a26c5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-counsel": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Counsel",
+      "blocksSha256": "2d527b59eca08a8a91414a134d2b6cdfef55e2aad7c5a92494e6b7db3e527f17",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-delays": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Delays",
+      "blocksSha256": "d234643abf3641734d0b7270b8bd14f8c871bb251b1ef084cd0849534b27d4e0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-cunning": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Cunning",
+      "blocksSha256": "91fa3f67aa10b464357538b589b1a2db8c7c946f5218da916c8a2c31563d55b9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-wisdom-for-a-man-s-self": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Wisdom For A Man's Self",
+      "blocksSha256": "e5229e30574b7f15fb7fc4765dc716aa5f76a1c5c9030bb928b9e19f65321208",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-innovations": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Innovations",
+      "blocksSha256": "55403793853da04928446bc241aa54926be9a0be80948703b58c1bc23743a077",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-dispatch": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Dispatch",
+      "blocksSha256": "656ecbb1c5e95eb5cce8f3d3e282ad7b574272e78958728a91a2c4b6902302f8",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-seeming-wise": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Seeming Wise",
+      "blocksSha256": "767e362871e480a9abde8f354a8b44e23cbaf5d27dfd919f6a78c55b8106b852",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-friendship": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Friendship",
+      "blocksSha256": "6b60860aba4043a9e36bf684e258111889412c542dd91879dd6f191561f6e04e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-expense": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Expense",
+      "blocksSha256": "2e2cfd457027f5a78b2133c3575a9bc7fbc9785d85c0b8e0868f9483cfd32421",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-the-true-greatness-of-kingdoms-and-estates": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of the True Greatness Of Kingdoms And Estates",
+      "blocksSha256": "5defa1019e4eac627a66ca48865c06fc99076220c147811f62b791e19fb296c3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-regiment-of-health": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Regiment Of Health",
+      "blocksSha256": "3add4e81ba1fc7f5f56e932353a7966c38851d3b24ffbab3a0dad6b3081cf0a4",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-suspicion": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Suspicion",
+      "blocksSha256": "7217880893c0884bc74dc4cc84324ac611f6bc94c261101580949f6197032ae6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-discourse": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Discourse",
+      "blocksSha256": "af3f90e87cc3aaea2ae0a7d8d9c7b0b2d13f0ef7e85e724f3aa5cc717f680f97",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-plantations": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Plantations",
+      "blocksSha256": "5ca15d689be861436590ad6f2b14b93e503ca67eab657d1490039ebb45369c24",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-riches": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Riches",
+      "blocksSha256": "427499501d616ce91ee59f736dea751bf59fcf01691b3c6152b5f9d65e17c3f5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-prophecies": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Prophecies",
+      "blocksSha256": "44da5b2b72fbdbed46dc2db0dd2acb2867a8543d7e834a7ad411797b8ce137ae",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-ambition": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Ambition",
+      "blocksSha256": "ab9f39da402eefadeb55d4af5fcc316e0f0c8b97926d88f96f5a139f8ca8a670",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-masques-and-triumphs": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Masques And Triumphs",
+      "blocksSha256": "a96ef80e0b84a6e3702ccbb784293a72d532103e557e1b680cc4e999d261df6f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-nature-in-men": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Nature In Men",
+      "blocksSha256": "42ae5dc5ab4bf29badbd6b72118b1ee473375085d4c979a643a1992665ed74b7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-custom-and-education": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Custom And Education",
+      "blocksSha256": "b1d104a1977709f5a2e4d070468330d617f06c78bfe0d02d4b080ca19854a95b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-fortune": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Fortune",
+      "blocksSha256": "53008d786157ab5c559f8b6ba9729ff89a6732ff136658f33f4a74bf602d6cda",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-usury": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Usury",
+      "blocksSha256": "38e467e368ee41a4175a7e4e473ee81ede988c55a34662a635b2a7e8bb7fc00a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-youth-and-age": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Youth And Age",
+      "blocksSha256": "db56e1bc4298874794a16e766a470660e1dde39fee29185545fdf43a1465aca6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-beauty": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Beauty",
+      "blocksSha256": "2c1f66cd34a5b7b841f605dee2119fe5a7c2439dac0a4aacb1c8a371b3a051e4",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-deformity": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Deformity",
+      "blocksSha256": "7a01af4b65bf7276fd359edf2a2939d46890f2f5583fe80c1075bfdb0c2b6d94",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-building": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Building",
+      "blocksSha256": "01e1eb70c39daa1f37cddf40922c079cb398e2bb1f93cde5648d24a1b291a518",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-gardens": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Gardens",
+      "blocksSha256": "1d1827f8112317c90d44cf1ce0cc8c9ae36730c008840de241e5456aa3ae61bb",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-negotiating": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Negotiating",
+      "blocksSha256": "1e61a9570d3076e37ac360149d6c643291f6bc6f1431edd72567161e3b2d775a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-followers-and-friends": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Followers And Friends",
+      "blocksSha256": "8d9dff9a502f9e7461dd75a73e059617f47e41486bb4e4c459eaf5cd41e50641",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-suitors": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Suitors",
+      "blocksSha256": "a25f123f71f002f9a6d60bc7cda4f9a534d041ffc924208412b36d20c26376e0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "bacon-studies": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Studies",
+      "blocksSha256": "8ac3c02a0d16b386d0bf1c7fd318015ebefd9667d2086beb0fe86bcbaf8652fa",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-faction": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Faction",
+      "blocksSha256": "c81c759cb4285b8a85f6611ec63f6bb45f9dbb8efbfe3c8e55fcceb30587ef34",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-ceremonies-and-respects": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Ceremonies, And Respects",
+      "blocksSha256": "c2e82ce8d524ce84148841801e84e581992ee1da8857f80721db9593c3372863",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-praise": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Praise",
+      "blocksSha256": "8cf8ddd86ba2196b70a65753540fd1a15c22f5edba0f9c572901d11ac0038353",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-vain-glory": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Vain-glory",
+      "blocksSha256": "6cbf5b35db30a7e8d00c099f5f34b35cde169fc0b94698d32eba80888abc2095",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-honor-and-reputation": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Honor And Reputation",
+      "blocksSha256": "4b2d90e3f56bd24a99cf30d7f020246f3a25ab7235448e2e42335d2ca576d862",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-judicature": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Judicature",
+      "blocksSha256": "a0db8a9583570ff15035a91a1462578ee2e1c746a4f3857aff555f8b52db5e1a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-anger": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Anger",
+      "blocksSha256": "54a20949fa9e85310edaf2856a9d3e73745239a7961d44e8e080bc393a73d40a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "francis-bacon-of-vicissitude-of-things": {
+      "status": "accepted",
+      "gutenbergId": 575,
+      "title": "Of Vicissitude Of Things",
+      "blocksSha256": "a4c90fc8779031f1c08770207cc6325ade3156d1346ba6cda97edce3ecde8eee",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "18b2c1c61d54dc9462222083663af245bf5a0832e66efe46a34477b17068f96b"
+    },
+    "o-henry-tobins-palm": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "TOBIN’S PALM",
+      "blocksSha256": "1ad412a0bd1efe418d01f750df05d957468c8efdf6783605441d68b3a2fa8b5e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "ohenry-magi": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE GIFT OF THE MAGI",
+      "blocksSha256": "fb65d3e48216b82f2896e50dd90f4b4de95440304828ca49561d9d576c166855",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-a-cosmopolite-in-a-cafe": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "A COSMOPOLITE IN A CAFÉ",
+      "blocksSha256": "2d711d166a170f691a8211233af0c055657433518f8faf77bc3d63069981431c",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-between-rounds": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "BETWEEN ROUNDS",
+      "blocksSha256": "a49ce08ae8b637851283587393994c8a409389648cb085416ba1024ca47d48e3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-skylight-room": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE SKYLIGHT ROOM",
+      "blocksSha256": "fecf96ac5edbe2d162ae2ea7e0d01089906d756db99a6ccf822c0dea2ccfb932",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-a-service-of-love": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "A SERVICE OF LOVE",
+      "blocksSha256": "d781af42b028f010714f4f9ded451073169ad2a7236caeb1a2a0294ad32a401f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-coming-out-of-maggie": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE COMING-OUT OF MAGGIE",
+      "blocksSha256": "ba027dff91e8d7179e8230502b91c1574c90a644fabfa1e5d3fa67097ccd2fab",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-man-about-town": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "MAN ABOUT TOWN",
+      "blocksSha256": "f94efb3c27ec86e66a6dd58cf6a67746be7af26c8dee834fb4cc20d4c0879532",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-cop-and-the-anthem": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE COP AND THE ANTHEM",
+      "blocksSha256": "d39baa4ae3c1056dfa3730c7e594e6e0d6cb91c0033bdab070c3a3f4eaab1e78",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-an-adjustment-of-nature": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "AN ADJUSTMENT OF NATURE",
+      "blocksSha256": "a0e424303864eb7a96006d69098d5b5baa14b2f1bcd26445fb43c81a3a73709d",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-memoirs-of-a-yellow-dog": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "MEMOIRS OF A YELLOW DOG",
+      "blocksSha256": "f07139feca74d6885384c021b34ac276dc58d9ed88486073b2f44a834d788077",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-love-philtre-of-ikey-schoenstein": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE LOVE-PHILTRE OF IKEY SCHOENSTEIN",
+      "blocksSha256": "cee376afb6c76450821f4e9b2d9629bc2fc601285b65f872f0f9c381fb49a915",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-mammon-and-the-archer": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "MAMMON AND THE ARCHER",
+      "blocksSha256": "89e2d9643d1d8de990ffdf84772ff3548bc431cb00e6bdf12edae3804e8555d2",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-springtime-a-la-carte": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "SPRINGTIME À LA CARTE",
+      "blocksSha256": "b89bb2046bbaad729ea90c40572c365fa5b6cc9fd6252066072b993476484b1e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-green-door": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE GREEN DOOR",
+      "blocksSha256": "54154e4105954f920308e19167007d9a05551106b7e06c5ec0c34927f36687dc",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-from-the-cabbys-seat": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "FROM THE CABBY’S SEAT",
+      "blocksSha256": "f8a5215a42e83f73c15af1be828e201cebb0b3e6b556ce3839ebcc322064c769",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-an-unfinished-story": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "AN UNFINISHED STORY",
+      "blocksSha256": "a5b2de09f4775d0d530049d14ba729917dbeb70024eb923f2c7bab29e2fab7db",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-caliph-cupid-and-the-clock": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE CALIPH, CUPID AND THE CLOCK",
+      "blocksSha256": "f8b7f64cd8648bdee6faa18121d9591e16b6a98172d9be8c58b86a726c0385e0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-sisters-of-the-golden-circle": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "SISTERS OF THE GOLDEN CIRCLE",
+      "blocksSha256": "87546706a3caa5f983b2301e34b5e11fef7d658ce2967bd9d915f1022aa9f1c5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-romance-of-a-busy-broker": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE ROMANCE OF A BUSY BROKER",
+      "blocksSha256": "1cad71f90b249a69dc8875d18a47f915d6e8853ca7cd5310f7c83205027d3437",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-after-twenty-years": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "AFTER TWENTY YEARS",
+      "blocksSha256": "b90689fad232594b23c955254aa001369140da111bca959bb30677b69d72a2bf",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-lost-on-dress-parade": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "LOST ON DRESS PARADE",
+      "blocksSha256": "01e88bdec8c42adc6f1383342aafbc930d900b55f1011f24764b229fd0b4293b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-by-courier": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "BY COURIER",
+      "blocksSha256": "4bd47b6c445ea58aec13b2cc40c1c9bff2f85343cb70ef455eee986b148cde9a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-furnished-room": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE FURNISHED ROOM",
+      "blocksSha256": "7005372d391acdfbd3a40fd43c12f4542cbc97bf7d7a9bdf6735391186c93ae3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "o-henry-the-brief-debut-of-tildy": {
+      "status": "accepted",
+      "gutenbergId": 2776,
+      "title": "THE BRIEF DÉBUT OF TILDY",
+      "blocksSha256": "e6ae00d32f014093e0664f3096aa88f733c1ad2fb81a109ad8923e6c0b44bc73",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d04abb6f5cdac739dcc074765d733a5f65d5a7e307b860390b6bb4fdba6fce24"
+    },
+    "kate-chopin-beyond-the-bayou": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "BEYOND THE BAYOU",
+      "blocksSha256": "19b243be7c1d430d251c8efd3e838316f33764348791c0b48fe1083cf3c88233",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-maame-pelagie": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "MA’AME PÉLAGIE",
+      "blocksSha256": "fc9ec3d37c233e10457c5c6cc05873d350ae166803ea6c3e5c80980a00f1e0dd",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "chopin-desiree": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "DÉSIRÉE’S BABY",
+      "blocksSha256": "d95dacf5a678ada9fe4283ecaf44ececc6c7412dc19ff8dc6d616de51f2606a7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-a-respectable-woman": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "A RESPECTABLE WOMAN",
+      "blocksSha256": "613940834c69e8d71b0fc8ddb457881e157ac2d7112dd0fc1cfa9a2a15f76e17",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-the-kiss": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "THE KISS",
+      "blocksSha256": "d53928ee9cf4af5ff50fec813a4d0da13263c4db7712992bb4e0c38c4e6d7153",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-a-pair-of-silk-stockings": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "A PAIR OF SILK STOCKINGS",
+      "blocksSha256": "38627bece603eb05b909469cb1abaacb4f0f6d3df5542d41131b1f36e69abb60",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-the-locket": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "THE LOCKET",
+      "blocksSha256": "546558262801e51777db686c407214337461e1ae024606f79a0a5b4fdfbe5ecc",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "kate-chopin-a-reflection": {
+      "status": "accepted",
+      "gutenbergId": 160,
+      "title": "A REFLECTION",
+      "blocksSha256": "cd6676db44f80e54e8259be619c4de7b718624d405932b953441d2844bb0fe3c",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8d1f14b4c368f4e1b211fd566320019cf84c1b0274d83b1534b76ddfef405ad2"
+    },
+    "william-blake-innocence-introduction": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "INTRODUCTION",
+      "blocksSha256": "6ad4c543144863730bcd8205af0088cedb08474bf766cafb86824e0df03078a7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-shepherd": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE SHEPHERD",
+      "blocksSha256": "ebd1987f2d0af43124a0a2a53151cba1b57119c560bd7f8cf03734b0a8428ca0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-echoing-green": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE ECHOING GREEN",
+      "blocksSha256": "ec50fc641363dfbbee8b675db81147a22af8e8a492057ab3816a0278ede1e8d6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-lamb": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LAMB",
+      "blocksSha256": "0e391ad2d26ee814cd8ea7ccefff60b0a367b5b244c1fbd1035da4c41c0d37a2",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-little-black-boy": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE BLACK BOY",
+      "blocksSha256": "6f7b782a852fe684512e600f9c26c98a22359c4e4808a4b81f2c4cba8b32d351",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-blossom": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE BLOSSOM",
+      "blocksSha256": "5fd97629695064d02c16273e2adacb6a9342bcc67746a429a0db811b6b73de2a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-chimney-sweeper": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE CHIMNEY-SWEEPER",
+      "blocksSha256": "5d9d6be7b495e922d270bb64e988b6405de374d8f0328b464e491c2fb04bd8e7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-little-boy-lost": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE BOY LOST",
+      "blocksSha256": "1f270501b7b3bfbe3731ae6cf057aa1a8e4bd874fee4e76efbe93d4ccb110a9a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-little-boy-found": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE BOY FOUND",
+      "blocksSha256": "99978a4fa1a0e4ff35516c3f2ef630b7a51b69e7423af71dfc33f88d7fe16f2a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-laughing-song": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "LAUGHING SONG",
+      "blocksSha256": "2cc711215abe2693fe2b41d24f8f7f6571f998b12705611d4f5ed807cac75cec",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-a-cradle-song": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A CRADLE SONG",
+      "blocksSha256": "c3f161184c0f6f05c1d2c52f6fe5a488ce2eb9cef5a3128eb3ced8973502b2aa",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-the-divine-image": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE DIVINE IMAGE",
+      "blocksSha256": "517a5766ca7d7c089cd9b0aa8403337398f03789ea2a4d3b1c9adc49094453cd",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-holy-thursday": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "HOLY THURSDAY",
+      "blocksSha256": "48f0c9509a82b9b6c06cc9c9d1fe70c698f88e13db354c293c792eec263c99d9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-night": {
+      "status": "rejected",
+      "gutenbergId": 1934,
+      "title": "NIGHT",
+      "blocksSha256": "d9028234f41d1554f178046370ce6c78f8ecbafec0d62ab1e406fcea04e81791",
+      "reasons": [
+        "stanza 6 line 8: producer 'As I guard o’er the fold.' / critic 'As I guard o’er the fold.’'",
+        "text differs at position 251: producer 'guard o’er the fold.' / critic 'guard o’er the fold.’'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-spring": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "SPRING",
+      "blocksSha256": "6d17bb425bb0de882a614c4259afbf93ba5baf102ed2ee05d8249febd0fef00a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-nurses-song": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "NURSE’S SONG",
+      "blocksSha256": "9bc3c8c293c5b2d1d131dcf2064eb2ed69bb75a35513fb169c06cedf1e2abc5a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-infant-joy": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "INFANT JOY",
+      "blocksSha256": "f431235a4667b2c50ef82b1979be2d3c3f49fad8973694d93fa45f75fdc7079d",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-a-dream": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A DREAM",
+      "blocksSha256": "6360841fb694975103a5c238ed43d444c34cfd55f4a733590343e40f77875f2b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-innocence-on-anothers-sorrow": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "ON ANOTHER’S SORROW",
+      "blocksSha256": "9fcca016a27fe4bf14ab06411273301e2af7d5bd17a95cbbd6af1bfbeff23ae4",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-introduction": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "INTRODUCTION",
+      "blocksSha256": "d72324dd8d3de5d206611dd26a8f2ce73faab00d3275e27e2fd1e36f5af305d8",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-earths-answer": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "EARTH’S ANSWER",
+      "blocksSha256": "b10c937210b784f783e4a69ee495ecbee2044c079f478b38e06e6d2e00b16b9b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-clod-and-the-pebble": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE CLOD AND THE PEBBLE",
+      "blocksSha256": "cace3341b9fadb14c537f58af977483bd14b2966ac0341e4fa2d9692a6b3a044",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-holy-thursday": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "HOLY THURSDAY",
+      "blocksSha256": "61d6a51fe15ad624844d7dbb74aa5c66411eb97374019089f77e8bfefaad9db3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-little-girl-lost": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE GIRL LOST",
+      "blocksSha256": "07e0cf78286aa8deab1815f3aba934260a81638a1c648b6e77abd119370b5909",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-little-girl-found": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE GIRL FOUND",
+      "blocksSha256": "94a3c9586409cc2c70c35fbd3a69b05b76197f8483d1013e30cfa4b4195f84d6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-chimney-sweeper": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE CHIMNEY-SWEEPER",
+      "blocksSha256": "60ac449a6fa8154c4d9e5ba1e8467788417f996919d708600c0df5ca31209da9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-nurses-song": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "NURSE’S SONG",
+      "blocksSha256": "81fc75983ed9fd20643e73e17625eabbf1972c8bbcec5c602a559a4901f43ac2",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "blake-sick-rose": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE SICK ROSE",
+      "blocksSha256": "6b6c2c4adf34d645af36bf55fb5d5cb42f0e0d405d59c5099a04dd3262746931",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-fly": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE FLY",
+      "blocksSha256": "a51e2a17bacf5b49c620926c2562bdd5ce8d464fed847e630bebcabb6e478675",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-angel": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE ANGEL",
+      "blocksSha256": "5e8d75b608d7361b92ca006f4c02403846cb0cdce1432041d1c202a3bb238a81",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-tiger": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE TIGER",
+      "blocksSha256": "48225798f470deb6fc769f811202b23c471bae05915a72a0a72554fc48457ad5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-my-pretty-rose-tree": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "MY PRETTY ROSE TREE",
+      "blocksSha256": "eafd255bbd8a9f6738e8a02f5cefa8f90590c9f5a084f02cf2f62e2925f65e5a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-ah-sunflower": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "AH, SUNFLOWER",
+      "blocksSha256": "435f50fbd0230e3e3fc80d12e54068b616e36ac79c2746debf8e2c37c68dc6a5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-lily": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LILY",
+      "blocksSha256": "0542b5f0917cb5db4f184094d5406db6630b6d58c444f985e518db6ac8a2e784",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-garden-of-love": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE GARDEN OF LOVE",
+      "blocksSha256": "870fa9c615a5effe47d3211d92c168a42e815b7f6a5b31639816555ac7b5f401",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-little-vagabond": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE LITTLE VAGABOND",
+      "blocksSha256": "a6c705e2965b6a43d0d6a518db371957b52591bf384047c4c4e0a93aa706754b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-london": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "LONDON",
+      "blocksSha256": "330c2cb98eadecabb3f43f31d8325659ae284c614deabe09468d6c16a2922236",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-human-abstract": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE HUMAN ABSTRACT",
+      "blocksSha256": "0336d5815156c6497a360ca4cf691c5c7eba9fa9a9098fdcf1d1f357afd5d0c0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-infant-sorrow": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "INFANT SORROW",
+      "blocksSha256": "fa309e284ace11f4c5466b6ae165a6d394d9659a4ef21a3a26525242c483ecc9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-a-poison-tree": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A POISON TREE",
+      "blocksSha256": "2192326bbaa37180a649632cf6328c985f7ab269dd55fca667f9dd2332735c15",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-a-little-boy-lost": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A LITTLE BOY LOST",
+      "blocksSha256": "88b1ac07c6fe15c48393ca5d014fd9996ac1e3a547281f9bcaf512868d8a94ce",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-a-little-girl-lost": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A LITTLE GIRL LOST",
+      "blocksSha256": "ae34bb577ed824bc51d70b23741b228c6c783ef636cb956c6633c1746caef8a5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-a-divine-image": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A DIVINE IMAGE",
+      "blocksSha256": "557f9d1510ea4e3845df560ee32bffda81a2deedb6be7ec89d95e3d5ec8b9e82",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-a-cradle-song": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "A CRADLE SONG",
+      "blocksSha256": "57e9da2695393fddb0c1007e0fdcaa1f35e32a96a283522e828b3d760daab77a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-to-tirzah": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "TO TIRZAH",
+      "blocksSha256": "447a7bd76e06ca828277df23daa2a602a535857240157730fc04e0af75c39a94",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-schoolboy": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE SCHOOLBOY",
+      "blocksSha256": "4c1c99cb76567760907584a99bf4da0416b37fdf215d60072d8ce00b734f95e5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "william-blake-experience-the-voice-of-the-ancient-bard": {
+      "status": "accepted",
+      "gutenbergId": 1934,
+      "title": "THE VOICE OF THE ANCIENT BARD",
+      "blocksSha256": "3c1712875233b6e245464b273fc087ed1d3b48e81967974f0a65f11f40336fa1",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "13f1057257bb5d57c2033f18bd290ca01007cb79bbdfc186dd39536cf1f44ed4"
+    },
+    "walt-whitman-ones-self-i-sing": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "One’s-Self I Sing",
+      "blocksSha256": "a86275848c661fd1c11862bd49bf3a8393b1523d566a7ddf62abb32fa8607aae",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-as-i-ponderd-in-silence": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "As I Ponder’d in Silence",
+      "blocksSha256": "a71b8005cdb73d5aa13cdb3f613347d4319ef5318120add5ec1b63309c930a22",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-in-cabind-ships-at-sea": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "In Cabin’d Ships at Sea",
+      "blocksSha256": "6f6e6604132434a8043bf0c431b952ecb0f1678cbb4eec9a01343897f15e6b98",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-foreign-lands": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To Foreign Lands",
+      "blocksSha256": "3e02b17fc579ea5ed4114f23117359fc5e40242babbf4cce8f9a5eb795885282",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-a-historian": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To a Historian",
+      "blocksSha256": "0c885bfd850719a229778f9e6f6b9bf82f955eedafcc0da6e3f3001dabcdc1b4",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-thee-old-cause": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To Thee Old Cause",
+      "blocksSha256": "5ef7f6b401ba7d3644472025c80c2906f5fc7b06e51431a1fac6e827313d1f07",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-eidolons": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Eidolons",
+      "blocksSha256": "094b697514428cbce008cd4219a47d5d4378e2c433759f2a96f5f7f8c381c201",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-for-him-i-sing": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "For Him I Sing",
+      "blocksSha256": "75ba048765d81bd0d309eb7a858fb5d66773c97be6d08cc587128c2239fe7409",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-when-i-read-the-book": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "When I Read the Book",
+      "blocksSha256": "3ea41bbede2e7806c825fd2a04db3f5787acd370fb01883a87657d8148b3beb0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-beginning-my-studies": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Beginning My Studies",
+      "blocksSha256": "fe935513d353355a0dd9b81bb81f66ce99674608a56064990ce0a33cbef06b4f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-beginners": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Beginners",
+      "blocksSha256": "45a93f74576106107287f3ab9d5a873725e9cb60c6e482dfdbcddee8f1b3415b",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-the-states": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To the States",
+      "blocksSha256": "f6d2a3d7be2d8c1da3203f67da4d6372f28c9a0bbbe3a5bfa9aa4dbc23b7cbf1",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-on-journeys-through-the-states": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "On Journeys Through the States",
+      "blocksSha256": "3e03a8d12ccbf5652f7bafb19d928779e937a27c00886c755e332e462c8a4f34",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-a-certain-cantatrice": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To a Certain Cantatrice",
+      "blocksSha256": "84d5e285aad6c6114e1aaa97ed266430ca10a295ac555b83636712a5edb04f57",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-me-imperturbe": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Me Imperturbe",
+      "blocksSha256": "18374d3d461aed2dc7dc987e007979a2fe9013cf67af94454f07036aa1438924",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-savantism": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Savantism",
+      "blocksSha256": "fe8b94ff058f6286994c1800e5a8c42f9603de9a9a274a352b9ae8476808415e",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-the-ship-starting": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "The Ship Starting",
+      "blocksSha256": "2734be16d0f4731f62dc6666588eb4e8019c57458dbe13344f289efd0fd91c6d",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-i-hear-america-singing": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "I Hear America Singing",
+      "blocksSha256": "facdc5d218e7c415e3013fea4c9596527f8b640f2de84527c76256701b304889",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-what-place-is-besieged": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "What Place Is Besieged?",
+      "blocksSha256": "274cdeb565a83e634ee3b5fbb704c01832973c1c82486153ccc317cba5b566b3",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-still-though-the-one-i-sing": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Still Though the One I Sing",
+      "blocksSha256": "91de4b633fed5e5899d716b1bb559eb874e069cf0644a591ddfad6285348153f",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-shut-not-your-doors": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Shut Not Your Doors",
+      "blocksSha256": "49ceb11dc3e2d13097ffee81abd084ff937e490bfeeabd6e417a8b38dfad6379",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-poets-to-come": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Poets to Come",
+      "blocksSha256": "5d11ee1549d519bb0ab8b3a9ed9d75453c92e00df8107a9c0071abcc9de46946",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-you": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To You",
+      "blocksSha256": "5de7caddafe6135fd208d436c11afc927af8041cdc205751eef09bc3145928c0",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-thou-reader": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Thou Reader",
+      "blocksSha256": "5e785844a18920693f3bb38b0a8ca7a8e3bc80032cdea51f85f5b0f25dba32fd",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "whitman-astronomer": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "When I Heard the Learn’d Astronomer",
+      "blocksSha256": "577ccf2b696f9f5cc06ae164dc4b340bea726e9c7c6a0fcdcbdf7f814ac25d12",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "whitman-captain": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "O Captain! My Captain!",
+      "blocksSha256": "aa4df83a22ae354b8b72d4df78f641da1deed81eb173a72c940ef9c1bdcbdc0e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-o-me-o-life": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "O Me! O Life!",
+      "blocksSha256": "2694acdabce1d56269f216332dbf8ddfabb971b2a191309eb54a2285e36c2266",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-i-sit-and-look-out": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "I Sit and Look Out",
+      "blocksSha256": "16779147dff057585540b4fe3175f62d84fdbbdc9e2be86d0cc5c4dd93186637",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-a-noiseless-patient-spider": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "A Noiseless Patient Spider",
+      "blocksSha256": "84c1e9576dbd0c1f18ab1afac90e9710528b5015cb828549b2ea49d46835f374",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-miracles": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Miracles",
+      "blocksSha256": "4a514cc666177c52c7791a6e1e640affc5d107b342b9f2639b408edf89631ae5",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-a-clear-midnight": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "A Clear Midnight",
+      "blocksSha256": "41783b6a3df051aa254bdf573194cf7b4de82bb974c9d7107ae9b8906d53056c",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-the-world-below-the-brine": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "The World below the Brine",
+      "blocksSha256": "0cd03be4fb4367831b2b2f566869a64a53afd724b42014df7c3978569f29df41",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-on-the-beach-at-night-alone": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "On the Beach at Night Alone",
+      "blocksSha256": "cf9c5f7bca87a15e15d006708a19f2cff1619ee47f00aa1919785077dad3e7dd",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-after-the-sea-ship": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "After the Sea-Ship",
+      "blocksSha256": "2e05a82218563987aa487ee83e0452083d4dc845d10bdfd2be9353f3bd9ea5a7",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-a-farm-picture": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "A Farm Picture",
+      "blocksSha256": "22f852bd41eca22341333159c95786651cb47ad75c74c3acef85164b88270b98",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-beautiful-women": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Beautiful Women",
+      "blocksSha256": "6050850a550fa745606f72e2a2a64989408e83c7d76bd0dea1bfa2ba834e68a0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-mother-and-babe": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Mother and Babe",
+      "blocksSha256": "0cb39a8749137616fae56362c2c64c35e6477aa1eb8a1f26053e6ec72d9ff902",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-the-runner": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "The Runner",
+      "blocksSha256": "4895296e9e1bc6f74fdf7b2935c0d54d14304316feee96f707133de1099dc7bb",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-reconciliation": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Reconciliation",
+      "blocksSha256": "8c7afade54600bc4e939875f993284b828e899671ca0748e18831228828606da",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-look-down-fair-moon": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Look Down Fair Moon",
+      "blocksSha256": "1a254b88e410c2e61fd69985da6c1766d3d8a80f08f1a5fe5fa428b2eadb4da7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-a-glimpse": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "A Glimpse",
+      "blocksSha256": "25f0c1c9966652c73ce8a28dc5c6223ed26f46089d00071fecd83b384fc09ebe",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-to-a-stranger": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "To a Stranger",
+      "blocksSha256": "43b784c5878775829dea2ed18697d8ace8caa054f3eeb8928d5146edf43dc3a4",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-i-saw-in-louisiana-a-live-oak-growing": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "I Saw in Louisiana a Live-Oak Growing",
+      "blocksSha256": "c8ec28726c4adfd95b588eee765ecd2a1465df96d652d9ba95a7282b9ecd34c4",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-when-i-heard-at-the-close-of-the-day": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "When I Heard at the Close of the Day",
+      "blocksSha256": "07eaa720890c5c93e6b02f91c75d3c45fa3cc05d2974da32ec466a08b79a1a88",
+      "reasons": [],
+      "warnings": [
+        "transcriber wraps rejoined; compared with the critic's unwrapped view"
+      ],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-a-hand-mirror": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "A Hand-Mirror",
+      "blocksSha256": "74c1f41e24505cd728e456ec6e6f8f0a86a58a2dd7e99bdf9795f18e5e7e941e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-the-last-invocation": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "The Last Invocation",
+      "blocksSha256": "d01ac68b54aca1a6a1e0d15969c9077c9af21d80a3af771987f22302e8151338",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-joy-shipmate-joy": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "Joy, Shipmate, Joy!",
+      "blocksSha256": "338c1bcb4b2ebda8cde3d289289293dc351843524c425bbb9b908f55c8fb7ec9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "walt-whitman-the-untold-want": {
+      "status": "accepted",
+      "gutenbergId": 1322,
+      "title": "The Untold Want",
+      "blocksSha256": "8a0eca9d73f21e7fe6c92cde62c459867cfeeda259919a0f0080b1d5c8d64c93",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    }
+  },
+  "criticWorksNotInCatalogue": [
+    "#575 Of Fame",
+    "#7256 The Gift of the Magi"
+  ]
+}

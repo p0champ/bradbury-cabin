@@ -53,7 +53,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.ok(!(await p.evaluate(()=>__pageText)).includes('Study guide'),'no guide menu task remains');
     await menu();
     await until('text');
-    assert.ok((await p.evaluate(()=>__pageText)).includes('O Rose thou art sick.'));
+    assert.ok((await p.evaluate(()=>__pageText)).includes('O rose, thou art sick!'));
     assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
     assert.ok((await p.evaluate(()=>__pageText)).includes(await p.locator('#place').textContent()), 'turn feedback and page label agree');
     const textPlace=await saved();
@@ -129,22 +129,31 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   {
     const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
     await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false);await observe(p);
-    await p.addInitScript(()=>localStorage.setItem('cabin-today',JSON.stringify({date:'2026-10-28',picks:{story:{title:'Cached story',author:'Test author',text:'The original source text.',guide:{context:'Intro notes.',themes:'After notes.'}}}})));
+    // A complete trio of real catalogue references; the shortest poem fits one page.
+    const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
+    const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
+    const shortPoem = SOURCE_CATALOGUE.filter(w=>w.kind==='poem').sort((a,b)=>lines(a)-lines(b))[0];
+    const ref = k => ({catalogueId:(k==='poem'?shortPoem:SOURCE_CATALOGUE.find(w=>w.kind===k&&!['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'].includes(w.id))).id});
+    const cached = {version:2,date:'2026-10-28',picks:{poem:{...ref('poem'),text:'FORGED CACHED TEXT',guide:{context:'Intro notes.',themes:'After notes.'}},story:ref('story'),essay:ref('essay')}};
+    await p.addInitScript(c=>localStorage.setItem('cabin-today',c),JSON.stringify(cached));
     await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
     await p.evaluate(()=>__hold());await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
     await p.evaluate(async()=>__aim({x:274,y:700,w:1500,h:112}));await p.evaluate(()=>__pinch());
-    const id=await p.locator('#page').getAttribute('data-work');assert.match(id,/^today-2026-10-28-story-/);
+    const id=await p.locator('#page').getAttribute('data-work');assert.equal(id,`today-2026-10-28-poem-${shortPoem.id}`);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'before');
     await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
     await p.evaluate(()=>{__mock.look=null;__step(600);__pinch();});
     assert.equal(await p.locator('#page').getAttribute('data-work'),id);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'text');
-    assert.ok((await p.evaluate(()=>__pageText)).includes('The original source text.'));
+    // A long verse line wraps with a hanging indent, so compare across draws.
+    const shown=(await p.evaluate(()=>__pageText)).join(' ').replace(/\s+/g,' ');
+    assert.ok(shortPoem.blocks.every(b=>b.lines.every(l=>shown.includes(l.text))),'every line of the catalogue poem is shown');
+    assert.ok(!shown.includes('FORGED'),'cached model text never appears');
     await p.evaluate(()=>__pinch());
     assert.equal(await p.locator('#page').getAttribute('data-section'),'after');
     assert.ok((await p.evaluate(()=>__pageText)).includes('After notes.'));
     assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-reading')).last),id);
     assert.deepEqual(errors,[]);await p.close();
-    passed('cached Claude pick flows automatically through all sections offline across midnight');
+    passed('cached catalogue trio flows through all sections offline across midnight; forged cached text ignored');
   }
 };
