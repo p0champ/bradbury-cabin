@@ -1,3 +1,17 @@
+# Build 031 — saved for later, as Bastian requested
+
+The real Claude/Google Drive flow and Quest checks are explicitly deferred. Do not treat them as a release gate or ask Bastian to run them now.
+
+When he chooses to test later:
+1. Open https://p0champ.github.io/bradbury-cabin/?v=31 and confirm BUILD031.
+2. Sync once to send Claude the complete current workflow and expanded catalogue.
+3. Ask Claude for daily three normally, then sync; verify Today shows accepted selections.
+4. When selected, check Yeats/Poe/De Quincey/Tagore works, including their final pages and reopening at the saved place.
+5. Try lying down; check long titles, edition metadata and bookmark readability. Earlier entrance and volume checks below remain pending too.
+
+No manual photographs, transcription, reading-text import or replacement-skill upload is part of this check.
+
+---
 # Build 030 — current instructions reach Claude automatically
 
 Open https://p0champ.github.io/bradbury-cabin/?v=30 and check BUILD 030.

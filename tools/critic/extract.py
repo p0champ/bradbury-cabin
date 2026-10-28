@@ -2,6 +2,7 @@
 Run: python -I extract.py   (paths are resolved relative to this file)
 """
 import hashlib, json, os, re, sys
+import runpy
 from html.parser import HTMLParser
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -347,6 +348,11 @@ notes += [
     'Whitman: poem bodies are <pre> blocks; the edition hard-wraps long verse lines with a +4-space continuation indent. "lines" keeps the source lines exactly (not unwrapped); a heuristic "unwrappedLines" (continuations joined with one space) is provided where wraps exist, as a secondary view only. "When I Heard the Learn\'d Astronomer" is titled by a <p> placed inside the chapter div of the preceding h2 poem, not by an h2; the extractor treats every non-empty plain <p> in the Whitman body as a heading (this edition uses <p> only for such titles), so the preceding poem ends at that <p>.',
 ]
 
+extra = runpy.run_path(os.path.join(HERE, 'extract_031.py'), run_name='cabin_expansion')['extract'](SRC)
+assert not set(sources).intersection(extra['sources']), 'critic expansion overwrites an existing source'
+sources.update(extra['sources'])
+works.extend(extra['works'])
+notes.extend(extra['notes'])
 out = {'critic': 'independent', 'sources': sources, 'works': works, 'notes': notes}
 with open(OUT, 'w', encoding='utf-8') as f:
     json.dump(out, f, ensure_ascii=False, indent=1)

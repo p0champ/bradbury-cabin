@@ -159,4 +159,25 @@ for url_fault in ["https://raw.githubusercontent.com/GITenberg/x/y/1934.txt", No
     assert result["bacon-truth"]["status"] == "accepted"
     cases += 1
 
+# New editions exercise the same exact-text boundary independently of old works.
+for wid, title in [
+    ("w-b-yeats-the-song-of-wandering-aengus", "THE SONG OF WANDERING AENGUS"),
+    ("edgar-allan-poe-the-tell-tale-heart", "THE TELL-TALE HEART."),
+    ("thomas-de-quincey-on-the-knocking-at-the-gate-in-macbeth", "ON THE KNOCKING AT THE GATE, IN MACBETH."),
+    ("rabindranath-tagore-realisation-in-love", "REALISATION IN LOVE"),
+]:
+    must_accept(wid, title)
+    def remove_end(cw):
+        # Every edition's final words must be included, not just its beginning.
+        i = last_text(cw["lines"])
+        cw["lines"][i] = " ".join(cw["lines"][i].split()[:-1])
+    must_reject(wid, title, remove_end, wid + ": final word removed")
+    def not_complete(cw):
+        cw["complete"] = False
+    must_reject(wid, title, not_complete, wid + ": independent completeness denied")
+
+assert producer.unitalic("_a brute beast _—next") == "a brute beast —next"
+assert producer.unitalic("_verse line\nnext line_") == "verse line\nnext line"
+assert producer.unitalic("N_w Yo_k") == "N_w Yo_k"
+assert producer.unitalic("_unfinished") == "_unfinished"
 print(f"Comparator rejected all {cases} damaged inputs and accepted the undamaged ones.")

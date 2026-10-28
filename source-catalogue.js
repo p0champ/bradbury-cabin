@@ -17774,5 +17774,6685 @@ export const SOURCE_CATALOGUE = [
    "bodySha256": "8c777138e82ac7718f8a691aafe05b6747e9c7a80598615eaafc61762b41d043"
   },
   "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-hosting-of-the-sidhe",
+  "kind": "poem",
+  "title": "THE HOSTING OF THE SIDHE",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The host is riding from Knocknarea",
+      "indent": 0
+     },
+     {
+      "text": "And over the grave of Clooth-na-bare;",
+      "indent": 0
+     },
+     {
+      "text": "Caolte tossing his burning hair",
+      "indent": 0
+     },
+     {
+      "text": "And Niamh calling Away, come away:",
+      "indent": 0
+     },
+     {
+      "text": "Empty your heart of its mortal dream.",
+      "indent": 0
+     },
+     {
+      "text": "The winds awaken, the leaves whirl round,",
+      "indent": 0
+     },
+     {
+      "text": "Our cheeks are pale, our hair is unbound,",
+      "indent": 0
+     },
+     {
+      "text": "Our breasts are heaving, our eyes are a-gleam,",
+      "indent": 0
+     },
+     {
+      "text": "Our arms are waving, our lips are apart;",
+      "indent": 0
+     },
+     {
+      "text": "And if any gaze on our rushing band,",
+      "indent": 0
+     },
+     {
+      "text": "We come between him and the deed of his hand,",
+      "indent": 0
+     },
+     {
+      "text": "We come between him and the hope of his heart.",
+      "indent": 0
+     },
+     {
+      "text": "The host is rushing 'twixt night and day,",
+      "indent": 0
+     },
+     {
+      "text": "And where is there hope or deed as fair?",
+      "indent": 0
+     },
+     {
+      "text": "Caolte tossing his burning hair,",
+      "indent": 0
+     },
+     {
+      "text": "And Niamh calling Away, come away.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 158,
+   "startLine": 159,
+   "endLine": 176,
+   "heading": "THE HOSTING OF THE SIDHE",
+   "bodySha256": "b955c18ec61d30345a7505536a31df936d6b1a2138871b022c71562b6250a88a"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-everlasting-voices",
+  "kind": "poem",
+  "title": "THE EVERLASTING VOICES",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O sweet everlasting Voices be still;",
+      "indent": 0
+     },
+     {
+      "text": "Go to the guards of the heavenly fold",
+      "indent": 0
+     },
+     {
+      "text": "And bid them wander obeying your will",
+      "indent": 0
+     },
+     {
+      "text": "Flame under flame, till Time be no more;",
+      "indent": 0
+     },
+     {
+      "text": "Have you not heard that our hearts are old,",
+      "indent": 0
+     },
+     {
+      "text": "That you call in birds, in wind on the hill,",
+      "indent": 0
+     },
+     {
+      "text": "In shaken boughs, in tide on the shore?",
+      "indent": 0
+     },
+     {
+      "text": "O sweet everlasting Voices be still.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 181,
+   "startLine": 182,
+   "endLine": 191,
+   "heading": "THE EVERLASTING VOICES",
+   "bodySha256": "0c5b77daa7c6a15575c61c6116fd4e0fbb812cb9e87a4c3114ceea1eae4125c9"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-moods",
+  "kind": "poem",
+  "title": "THE MOODS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Time drops in decay,",
+      "indent": 0
+     },
+     {
+      "text": "Like a candle burnt out,",
+      "indent": 0
+     },
+     {
+      "text": "And the mountains and woods",
+      "indent": 0
+     },
+     {
+      "text": "Have their day, have their day;",
+      "indent": 0
+     },
+     {
+      "text": "What one in the rout",
+      "indent": 0
+     },
+     {
+      "text": "Of the fire-born moods,",
+      "indent": 0
+     },
+     {
+      "text": "Has fallen away?",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 196,
+   "startLine": 197,
+   "endLine": 205,
+   "heading": "THE MOODS",
+   "bodySha256": "23c8144b17a1c6d2e220db8614133daa79ed6e17449476f8d594b039bfb1e8f6"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-host-of-the-air",
+  "kind": "poem",
+  "title": "THE HOST OF THE AIR",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O'Driscoll drove with a song,",
+      "indent": 0
+     },
+     {
+      "text": "The wild duck and the drake,",
+      "indent": 0
+     },
+     {
+      "text": "From the tall and the tufted reeds",
+      "indent": 0
+     },
+     {
+      "text": "Of the drear Hart Lake.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And he saw how the reeds grew dark",
+      "indent": 0
+     },
+     {
+      "text": "At the coming of night tide,",
+      "indent": 0
+     },
+     {
+      "text": "And dreamed of the long dim hair",
+      "indent": 0
+     },
+     {
+      "text": "Of Bridget his bride.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "He heard while he sang and dreamed",
+      "indent": 0
+     },
+     {
+      "text": "A piper piping away,",
+      "indent": 0
+     },
+     {
+      "text": "And never was piping so sad,",
+      "indent": 0
+     },
+     {
+      "text": "And never was piping so gay.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And he saw young men and young girls",
+      "indent": 0
+     },
+     {
+      "text": "Who danced on a level place",
+      "indent": 0
+     },
+     {
+      "text": "And Bridget his bride among them,",
+      "indent": 0
+     },
+     {
+      "text": "With a sad and a gay face.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The dancers crowded about him,",
+      "indent": 0
+     },
+     {
+      "text": "And many a sweet thing said,",
+      "indent": 0
+     },
+     {
+      "text": "And a young man brought him red wine",
+      "indent": 0
+     },
+     {
+      "text": "And a young girl white bread.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "But Bridget drew him by the sleeve,",
+      "indent": 0
+     },
+     {
+      "text": "Away from the merry bands,",
+      "indent": 0
+     },
+     {
+      "text": "To old men playing at cards",
+      "indent": 0
+     },
+     {
+      "text": "With a twinkling of ancient hands.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The bread and the wine had a doom,",
+      "indent": 0
+     },
+     {
+      "text": "For these were the host of the air;",
+      "indent": 0
+     },
+     {
+      "text": "He sat and played in a dream",
+      "indent": 0
+     },
+     {
+      "text": "Of her long dim hair.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "He played with the merry old men",
+      "indent": 0
+     },
+     {
+      "text": "And thought not of evil chance,",
+      "indent": 0
+     },
+     {
+      "text": "Until one bore Bridget his bride",
+      "indent": 0
+     },
+     {
+      "text": "Away from the merry dance.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "He bore her away in his arms,",
+      "indent": 0
+     },
+     {
+      "text": "The handsomest young man there,",
+      "indent": 0
+     },
+     {
+      "text": "And his neck and his breast and his arms",
+      "indent": 0
+     },
+     {
+      "text": "Were drowned in her long dim hair.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O'Driscoll scattered the cards",
+      "indent": 0
+     },
+     {
+      "text": "And out of his dream awoke:",
+      "indent": 0
+     },
+     {
+      "text": "Old men and young men and young girls",
+      "indent": 0
+     },
+     {
+      "text": "Were gone like a drifting smoke;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "But he heard high up in the air",
+      "indent": 0
+     },
+     {
+      "text": "A piper piping away,",
+      "indent": 0
+     },
+     {
+      "text": "And never was piping so sad,",
+      "indent": 0
+     },
+     {
+      "text": "And never was piping so gay.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 227,
+   "startLine": 228,
+   "endLine": 283,
+   "heading": "THE HOST OF THE AIR",
+   "bodySha256": "c4ff7c3c42d039abbe33440288b9f05fb40995af7d4fe863590f1708546f0071"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-breasal-the-fisherman",
+  "kind": "poem",
+  "title": "BREASAL THE FISHERMAN",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Although you hide in the ebb and flow",
+      "indent": 0
+     },
+     {
+      "text": "Of the pale tide when the moon has set,",
+      "indent": 0
+     },
+     {
+      "text": "The people of coming days will know",
+      "indent": 0
+     },
+     {
+      "text": "About the casting out of my net,",
+      "indent": 0
+     },
+     {
+      "text": "And how you have leaped times out of mind",
+      "indent": 0
+     },
+     {
+      "text": "Over the little silver cords,",
+      "indent": 0
+     },
+     {
+      "text": "And think that you were hard and unkind,",
+      "indent": 0
+     },
+     {
+      "text": "And blame you with many bitter words.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 288,
+   "startLine": 289,
+   "endLine": 298,
+   "heading": "BREASAL THE FISHERMAN",
+   "bodySha256": "e017e90fa6303b0b3b12cb1a4ad464abec7d571feff2291d29032748858cb4a0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-a-cradle-song",
+  "kind": "poem",
+  "title": "A CRADLE SONG",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The Danann children laugh, in cradles of wrought gold,",
+      "indent": 0
+     },
+     {
+      "text": "And clap their hands together, and half close their eyes,",
+      "indent": 0
+     },
+     {
+      "text": "For they will ride the North when the ger-eagle flies,",
+      "indent": 0
+     },
+     {
+      "text": "With heavy whitening wings, and a heart fallen cold:",
+      "indent": 0
+     },
+     {
+      "text": "I kiss my wailing child and press it to my breast,",
+      "indent": 0
+     },
+     {
+      "text": "And hear the narrow graves calling my child and me.",
+      "indent": 0
+     },
+     {
+      "text": "Desolate winds that cry over the wandering sea;",
+      "indent": 0
+     },
+     {
+      "text": "Desolate winds that hover in the flaming West;",
+      "indent": 0
+     },
+     {
+      "text": "Desolate winds that beat the doors of Heaven, and beat",
+      "indent": 0
+     },
+     {
+      "text": "The doors of Hell and blow there many a whimpering ghost;",
+      "indent": 0
+     },
+     {
+      "text": "O heart the winds have shaken; the unappeasable host",
+      "indent": 0
+     },
+     {
+      "text": "Is comelier than candles before Maurya's feet.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 303,
+   "startLine": 304,
+   "endLine": 317,
+   "heading": "A CRADLE SONG",
+   "bodySha256": "0dd754f02518b8af1278b59f74c0aee1c0a29f2e87fc947c8b4d51b981fac4d9"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-into-the-twilight",
+  "kind": "poem",
+  "title": "INTO THE TWILIGHT",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Out-worn heart, in a time out-worn,",
+      "indent": 0
+     },
+     {
+      "text": "Come clear of the nets of wrong and right;",
+      "indent": 0
+     },
+     {
+      "text": "Laugh heart again in the gray twilight,",
+      "indent": 0
+     },
+     {
+      "text": "Sigh, heart, again in the dew of the morn.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Your mother Eire is always young,",
+      "indent": 0
+     },
+     {
+      "text": "Dew ever shining and twilight gray;",
+      "indent": 0
+     },
+     {
+      "text": "Though hope fall from you and love decay,",
+      "indent": 0
+     },
+     {
+      "text": "Burning in fires of a slanderous tongue.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Come, heart, where hill is heaped upon hill:",
+      "indent": 0
+     },
+     {
+      "text": "For there the mystical brotherhood",
+      "indent": 0
+     },
+     {
+      "text": "Of sun and moon and hollow and wood",
+      "indent": 0
+     },
+     {
+      "text": "And river and stream work out their will;",
+      "indent": 0
+     },
+     {
+      "text": "And God stands winding His lonely horn,",
+      "indent": 0
+     },
+     {
+      "text": "And time and the world are ever in flight;",
+      "indent": 0
+     },
+     {
+      "text": "And love is less kind than the gray twilight,",
+      "indent": 0
+     },
+     {
+      "text": "And hope is less dear than the dew of the morn.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 322,
+   "startLine": 323,
+   "endLine": 342,
+   "heading": "INTO THE TWILIGHT",
+   "bodySha256": "dc03af1e04f13384a5ae732650444a1728ccb48df208e3db046eda2edef00b22"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-song-of-wandering-aengus",
+  "kind": "poem",
+  "title": "THE SONG OF WANDERING AENGUS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I went out to the hazel wood,",
+      "indent": 0
+     },
+     {
+      "text": "Because a fire was in my head,",
+      "indent": 0
+     },
+     {
+      "text": "And cut and peeled a hazel wand,",
+      "indent": 0
+     },
+     {
+      "text": "And hooked a berry to a thread;",
+      "indent": 0
+     },
+     {
+      "text": "And when white moths were on the wing,",
+      "indent": 0
+     },
+     {
+      "text": "And moth-like stars were flickering out,",
+      "indent": 0
+     },
+     {
+      "text": "I dropped the berry in a stream",
+      "indent": 0
+     },
+     {
+      "text": "And caught a little silver trout.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "When I had laid it on the floor",
+      "indent": 0
+     },
+     {
+      "text": "I went to blow the fire a-flame,",
+      "indent": 0
+     },
+     {
+      "text": "But something rustled on the floor,",
+      "indent": 0
+     },
+     {
+      "text": "And someone called me by my name:",
+      "indent": 0
+     },
+     {
+      "text": "It had become a glimmering girl",
+      "indent": 0
+     },
+     {
+      "text": "With apple blossom in her hair",
+      "indent": 0
+     },
+     {
+      "text": "Who called me by my name and ran",
+      "indent": 0
+     },
+     {
+      "text": "And faded through the brightening air.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Though I am old with wandering",
+      "indent": 0
+     },
+     {
+      "text": "Through hollow lands and hilly lands,",
+      "indent": 0
+     },
+     {
+      "text": "I will find out where she has gone,",
+      "indent": 0
+     },
+     {
+      "text": "And kiss her lips and take her hands;",
+      "indent": 0
+     },
+     {
+      "text": "And walk among long dappled grass,",
+      "indent": 0
+     },
+     {
+      "text": "And pluck till time and times are done,",
+      "indent": 0
+     },
+     {
+      "text": "The silver apples of the moon,",
+      "indent": 0
+     },
+     {
+      "text": "The golden apples of the sun.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 347,
+   "startLine": 348,
+   "endLine": 375,
+   "heading": "THE SONG OF WANDERING AENGUS",
+   "bodySha256": "8ab3ec4eb27a44b5018eb183b2cfd34e3a196e8c9048326013fcbd3d74e5192c"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-song-of-the-old-mother",
+  "kind": "poem",
+  "title": "THE SONG OF THE OLD MOTHER",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I rise in the dawn, and I kneel and blow",
+      "indent": 0
+     },
+     {
+      "text": "Till the seed of the fire flicker and glow;",
+      "indent": 0
+     },
+     {
+      "text": "And then I must scrub and bake and sweep",
+      "indent": 0
+     },
+     {
+      "text": "Till stars are beginning to blink and peep;",
+      "indent": 0
+     },
+     {
+      "text": "And the young lie long and dream in their bed",
+      "indent": 0
+     },
+     {
+      "text": "Of the matching of ribbons for bosom and head,",
+      "indent": 0
+     },
+     {
+      "text": "And their day goes over in idleness,",
+      "indent": 0
+     },
+     {
+      "text": "And they sigh if the wind but lift a tress:",
+      "indent": 0
+     },
+     {
+      "text": "While I must work because I am old,",
+      "indent": 0
+     },
+     {
+      "text": "And the seed of the fire gets feeble and cold.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 380,
+   "startLine": 381,
+   "endLine": 392,
+   "heading": "THE SONG OF THE OLD MOTHER",
+   "bodySha256": "eb654593c9c10a316e6395e8142a63b7be41029873cb1482e786321bfe3ddc8f"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-fiddler-of-dooney",
+  "kind": "poem",
+  "title": "THE FIDDLER OF DOONEY",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "When I play on my fiddle in Dooney,",
+      "indent": 0
+     },
+     {
+      "text": "Folk dance like a wave of the sea;",
+      "indent": 0
+     },
+     {
+      "text": "My cousin is priest in Kilvarnet,",
+      "indent": 0
+     },
+     {
+      "text": "My brother in Moharabuiee.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I passed my brother and cousin:",
+      "indent": 0
+     },
+     {
+      "text": "They read in their books of prayer;",
+      "indent": 0
+     },
+     {
+      "text": "I read in my book of songs",
+      "indent": 0
+     },
+     {
+      "text": "I bought at the Sligo fair.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "When we come at the end of time,",
+      "indent": 0
+     },
+     {
+      "text": "To Peter sitting in state,",
+      "indent": 0
+     },
+     {
+      "text": "He will smile on the three old spirits,",
+      "indent": 0
+     },
+     {
+      "text": "But call me first through the gate;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "For the good are always the merry,",
+      "indent": 0
+     },
+     {
+      "text": "Save by an evil chance,",
+      "indent": 0
+     },
+     {
+      "text": "And the merry love the fiddle",
+      "indent": 0
+     },
+     {
+      "text": "And the merry love to dance:",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And when the folk there spy me,",
+      "indent": 0
+     },
+     {
+      "text": "They will all come up to me,",
+      "indent": 0
+     },
+     {
+      "text": "With 'Here is the fiddler of Dooney!'",
+      "indent": 0
+     },
+     {
+      "text": "And dance like a wave of the sea.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 397,
+   "startLine": 398,
+   "endLine": 423,
+   "heading": "THE FIDDLER OF DOONEY",
+   "bodySha256": "222eb553ef1478f2ac921b759545cf7b6c4ccd75f74ee70c9ab2a0c6ce50c7ce"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-heart-of-the-woman",
+  "kind": "poem",
+  "title": "THE HEART OF THE WOMAN",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O what to me the little room",
+      "indent": 0
+     },
+     {
+      "text": "That was brimmed up with prayer and rest;",
+      "indent": 0
+     },
+     {
+      "text": "He bade me out into the gloom,",
+      "indent": 0
+     },
+     {
+      "text": "And my breast lies upon his breast.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O what to me my mother's care,",
+      "indent": 0
+     },
+     {
+      "text": "The house where I was safe and warm;",
+      "indent": 0
+     },
+     {
+      "text": "The shadowy blossom of my hair",
+      "indent": 0
+     },
+     {
+      "text": "Will hide us from the bitter storm.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O hiding hair and dewy eyes,",
+      "indent": 0
+     },
+     {
+      "text": "I am no more with life and death,",
+      "indent": 0
+     },
+     {
+      "text": "My heart upon his warm heart lies,",
+      "indent": 0
+     },
+     {
+      "text": "My breath is mixed into his breath.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 428,
+   "startLine": 429,
+   "endLine": 444,
+   "heading": "THE HEART OF THE WOMAN",
+   "bodySha256": "3769e841a1c77282cf79f15bc3634dc37e329d587ab6139b4921bafc261764d9"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-laments-the-loss-of-love",
+  "kind": "poem",
+  "title": "AEDH LAMENTS THE LOSS OF LOVE",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Pale brows, still hands and dim hair,",
+      "indent": 0
+     },
+     {
+      "text": "I had a beautiful friend",
+      "indent": 0
+     },
+     {
+      "text": "And dreamed that the old despair",
+      "indent": 0
+     },
+     {
+      "text": "Would end in love in the end:",
+      "indent": 0
+     },
+     {
+      "text": "She looked in my heart one day",
+      "indent": 0
+     },
+     {
+      "text": "And saw your image was there;",
+      "indent": 0
+     },
+     {
+      "text": "She has gone weeping away.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 449,
+   "startLine": 450,
+   "endLine": 458,
+   "heading": "AEDH LAMENTS THE LOSS OF LOVE",
+   "bodySha256": "2877d62954c16b4d19ed7f88d6fb540bd3e3c8216cded92ddd2c729f4d1cf23f"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-mongan-laments-the-change-that-has-come-upon-him-and-his-beloved",
+  "kind": "poem",
+  "title": "MONGAN LAMENTS THE CHANGE THAT HAS COME UPON HIM AND HIS BELOVED",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Do you not hear me calling, white deer with no horns!",
+      "indent": 0
+     },
+     {
+      "text": "I have been changed to a hound with one red ear;",
+      "indent": 0
+     },
+     {
+      "text": "I have been in the Path of Stones and the Wood of Thorns,",
+      "indent": 0
+     },
+     {
+      "text": "For somebody hid hatred and hope and desire and fear",
+      "indent": 0
+     },
+     {
+      "text": "Under my feet that they follow you night and day.",
+      "indent": 0
+     },
+     {
+      "text": "A man with a hazel wand came without sound;",
+      "indent": 0
+     },
+     {
+      "text": "He changed me suddenly; I was looking another way;",
+      "indent": 0
+     },
+     {
+      "text": "And now my calling is but the calling of a hound;",
+      "indent": 0
+     },
+     {
+      "text": "And Time and Birth and Change are hurrying by.",
+      "indent": 0
+     },
+     {
+      "text": "I would that the boar without bristles had come from the West",
+      "indent": 0
+     },
+     {
+      "text": "And had rooted the sun and moon and stars out of the sky",
+      "indent": 0
+     },
+     {
+      "text": "And lay in the darkness, grunting, and turning to his rest.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 463,
+   "startLine": 464,
+   "endLine": 477,
+   "heading": "MONGAN LAMENTS THE CHANGE THAT HAS COME UPON HIM AND HIS BELOVED",
+   "bodySha256": "82d38795ee1cf09f2eafde1fb5289b92d3b421fed94e15dd1c2b4562d406dd38"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-michael-robartes-bids-his-beloved-be-at-peace",
+  "kind": "poem",
+  "title": "MICHAEL ROBARTES BIDS HIS BELOVED BE AT PEACE",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I hear the Shadowy Horses, their long manes a-shake,",
+      "indent": 0
+     },
+     {
+      "text": "Their hoofs heavy with tumult, their eyes glimmering white;",
+      "indent": 0
+     },
+     {
+      "text": "The North unfolds above them clinging, creeping night,",
+      "indent": 0
+     },
+     {
+      "text": "The East her hidden joy before the morning break,",
+      "indent": 0
+     },
+     {
+      "text": "The West weeps in pale dew and sighs passing away,",
+      "indent": 0
+     },
+     {
+      "text": "The South is pouring down roses of crimson fire:",
+      "indent": 0
+     },
+     {
+      "text": "O vanity of Sleep, Hope, Dream, endless Desire,",
+      "indent": 0
+     },
+     {
+      "text": "The Horses of Disaster plunge in the heavy clay:",
+      "indent": 0
+     },
+     {
+      "text": "Beloved, let your eyes half close, and your heart beat",
+      "indent": 0
+     },
+     {
+      "text": "Over my heart, and your hair fall over my breast,",
+      "indent": 0
+     },
+     {
+      "text": "Drowning love's lonely hour in deep twilight of rest,",
+      "indent": 0
+     },
+     {
+      "text": "And hiding their tossing manes and their tumultuous feet.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 482,
+   "startLine": 483,
+   "endLine": 496,
+   "heading": "MICHAEL ROBARTES BIDS HIS BELOVED BE AT PEACE",
+   "bodySha256": "7833041219401672810e16cec5d6ebd370819825f098dfcf18751d5b47e0afd3"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-hanrahan-reproves-the-curlew",
+  "kind": "poem",
+  "title": "HANRAHAN REPROVES THE CURLEW",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O, curlew, cry no more in the air,",
+      "indent": 0
+     },
+     {
+      "text": "Or only to the waters in the West;",
+      "indent": 0
+     },
+     {
+      "text": "Because your crying brings to my mind",
+      "indent": 0
+     },
+     {
+      "text": "Passion-dimmed eyes and long heavy hair",
+      "indent": 0
+     },
+     {
+      "text": "That was shaken out over my breast:",
+      "indent": 0
+     },
+     {
+      "text": "There is enough evil in the crying of wind.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 501,
+   "startLine": 502,
+   "endLine": 509,
+   "heading": "HANRAHAN REPROVES THE CURLEW",
+   "bodySha256": "ce8f72d21ca2f5f6477b1db6bf18f77046243ea02143a858e0af517a3655fde8"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-michael-robartes-remembers-forgotten-beauty",
+  "kind": "poem",
+  "title": "MICHAEL ROBARTES REMEMBERS FORGOTTEN BEAUTY",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "When my arms wrap you round I press",
+      "indent": 0
+     },
+     {
+      "text": "My heart upon the loveliness",
+      "indent": 0
+     },
+     {
+      "text": "That has long faded from the world;",
+      "indent": 0
+     },
+     {
+      "text": "The jewelled crowns that kings have hurled",
+      "indent": 0
+     },
+     {
+      "text": "In shadowy pools, when armies fled;",
+      "indent": 0
+     },
+     {
+      "text": "The love-tales wove with silken thread",
+      "indent": 0
+     },
+     {
+      "text": "By dreaming ladies upon cloth",
+      "indent": 0
+     },
+     {
+      "text": "That has made fat the murderous moth;",
+      "indent": 0
+     },
+     {
+      "text": "The roses that of old time were",
+      "indent": 0
+     },
+     {
+      "text": "Woven by ladies in their hair,",
+      "indent": 0
+     },
+     {
+      "text": "The dew-cold lilies ladies bore",
+      "indent": 0
+     },
+     {
+      "text": "Through many a sacred corridor",
+      "indent": 0
+     },
+     {
+      "text": "Where such gray clouds of incense rose",
+      "indent": 0
+     },
+     {
+      "text": "That only the gods' eyes did not close:",
+      "indent": 0
+     },
+     {
+      "text": "For that pale breast and lingering hand",
+      "indent": 0
+     },
+     {
+      "text": "Come from a more dream-heavy land,",
+      "indent": 0
+     },
+     {
+      "text": "A more dream-heavy hour than this;",
+      "indent": 0
+     },
+     {
+      "text": "And when you sigh from kiss to kiss",
+      "indent": 0
+     },
+     {
+      "text": "I hear white Beauty sighing, too,",
+      "indent": 0
+     },
+     {
+      "text": "For hours when all must fade like dew",
+      "indent": 0
+     },
+     {
+      "text": "But flame on flame, deep under deep,",
+      "indent": 0
+     },
+     {
+      "text": "Throne over throne, where in half sleep",
+      "indent": 0
+     },
+     {
+      "text": "Their swords upon their iron knees",
+      "indent": 0
+     },
+     {
+      "text": "Brood her high lonely mysteries.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 514,
+   "startLine": 515,
+   "endLine": 540,
+   "heading": "MICHAEL ROBARTES REMEMBERS FORGOTTEN BEAUTY",
+   "bodySha256": "24f4456627517df15dba815915f38aa880219a9b7dff51e5afa863d371a372e5"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-a-poet-to-his-beloved",
+  "kind": "poem",
+  "title": "A POET TO HIS BELOVED",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I bring you with reverent hands",
+      "indent": 0
+     },
+     {
+      "text": "The books of my numberless dreams;",
+      "indent": 0
+     },
+     {
+      "text": "White woman that passion has worn",
+      "indent": 0
+     },
+     {
+      "text": "As the tide wears the dove-gray sands,",
+      "indent": 0
+     },
+     {
+      "text": "And with heart more old than the horn",
+      "indent": 0
+     },
+     {
+      "text": "That is brimmed from the pale fire of time:",
+      "indent": 0
+     },
+     {
+      "text": "White woman with numberless dreams",
+      "indent": 0
+     },
+     {
+      "text": "I bring you my passionate rhyme.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 545,
+   "startLine": 546,
+   "endLine": 555,
+   "heading": "A POET TO HIS BELOVED",
+   "bodySha256": "a2b0761019adbb85bf26a38f656077c853b25167d265f26d2d5c608c28ccfc2d"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-gives-his-beloved-certain-rhymes",
+  "kind": "poem",
+  "title": "AEDH GIVES HIS BELOVED CERTAIN RHYMES",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Fasten your hair with a golden pin,",
+      "indent": 0
+     },
+     {
+      "text": "And bind up every wandering tress;",
+      "indent": 0
+     },
+     {
+      "text": "I bade my heart build these poor rhymes:",
+      "indent": 0
+     },
+     {
+      "text": "It worked at them, day out, day in,",
+      "indent": 0
+     },
+     {
+      "text": "Building a sorrowful loveliness",
+      "indent": 0
+     },
+     {
+      "text": "Out of the battles of old times.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "You need but lift a pearl-pale hand,",
+      "indent": 0
+     },
+     {
+      "text": "And bind up your long hair and sigh;",
+      "indent": 0
+     },
+     {
+      "text": "And all men's hearts must burn and beat;",
+      "indent": 0
+     },
+     {
+      "text": "And candle-like foam on the dim sand,",
+      "indent": 0
+     },
+     {
+      "text": "And stars climbing the dew-dropping sky,",
+      "indent": 0
+     },
+     {
+      "text": "Live but to light your passing feet.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 560,
+   "startLine": 561,
+   "endLine": 575,
+   "heading": "AEDH GIVES HIS BELOVED CERTAIN RHYMES",
+   "bodySha256": "2769b5629fcc3075f5d6bb277f92bd51a446b54776c0dad32150482b31167d7c"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-to-my-heart-bidding-it-have-no-fear",
+  "kind": "poem",
+  "title": "TO MY HEART, BIDDING IT HAVE NO FEAR",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Be you still, be you still, trembling heart;",
+      "indent": 0
+     },
+     {
+      "text": "Remember the wisdom out of the old days:",
+      "indent": 0
+     },
+     {
+      "text": "Him who trembles before the flame and the flood,",
+      "indent": 0
+     },
+     {
+      "text": "And the winds that blow through the starry ways,",
+      "indent": 0
+     },
+     {
+      "text": "Let the starry winds and the flame and the flood",
+      "indent": 0
+     },
+     {
+      "text": "Cover over and hide, for he has no part",
+      "indent": 0
+     },
+     {
+      "text": "With the proud, majestical multitude.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 580,
+   "startLine": 581,
+   "endLine": 589,
+   "heading": "TO MY HEART, BIDDING IT HAVE NO FEAR",
+   "bodySha256": "2fca19113f257422250de15a5cb0e5f3ac586a36e32333f77bf3193720c67dd5"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-cap-and-bells",
+  "kind": "poem",
+  "title": "THE CAP AND BELLS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The jester walked in the garden:",
+      "indent": 0
+     },
+     {
+      "text": "The garden had fallen still;",
+      "indent": 0
+     },
+     {
+      "text": "He bade his soul rise upward",
+      "indent": 0
+     },
+     {
+      "text": "And stand on her window-sill.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "It rose in a straight blue garment,",
+      "indent": 0
+     },
+     {
+      "text": "When owls began to call:",
+      "indent": 0
+     },
+     {
+      "text": "It had grown wise-tongued by thinking",
+      "indent": 0
+     },
+     {
+      "text": "Of a quiet and light footfall;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "But the young queen would not listen;",
+      "indent": 0
+     },
+     {
+      "text": "She rose in her pale night gown;",
+      "indent": 0
+     },
+     {
+      "text": "She drew in the heavy casement",
+      "indent": 0
+     },
+     {
+      "text": "And pushed the latches down.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "He bade his heart go to her,",
+      "indent": 0
+     },
+     {
+      "text": "When the owls called out no more;",
+      "indent": 0
+     },
+     {
+      "text": "In a red and quivering garment",
+      "indent": 0
+     },
+     {
+      "text": "It sang to her through the door.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "It had grown sweet-tongued by dreaming,",
+      "indent": 0
+     },
+     {
+      "text": "Of a flutter of flower-like hair;",
+      "indent": 0
+     },
+     {
+      "text": "But she took up her fan from the table",
+      "indent": 0
+     },
+     {
+      "text": "And waved it off on the air.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'I have cap and bells,' he pondered,",
+      "indent": 0
+     },
+     {
+      "text": "'I will send them to her and die;'",
+      "indent": 0
+     },
+     {
+      "text": "And when the morning whitened",
+      "indent": 0
+     },
+     {
+      "text": "He left them where she went by.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "She laid them upon her bosom,",
+      "indent": 0
+     },
+     {
+      "text": "Under a cloud of her hair,",
+      "indent": 0
+     },
+     {
+      "text": "And her red lips sang them a love song:",
+      "indent": 0
+     },
+     {
+      "text": "Till stars grew out of the air.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "She opened her door and her window,",
+      "indent": 0
+     },
+     {
+      "text": "And the heart and the soul came through,",
+      "indent": 0
+     },
+     {
+      "text": "To her right hand came the red one,",
+      "indent": 0
+     },
+     {
+      "text": "To her left hand came the blue.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "They set up a noise like crickets,",
+      "indent": 0
+     },
+     {
+      "text": "A chattering wise and sweet,",
+      "indent": 0
+     },
+     {
+      "text": "And her hair was a folded flower",
+      "indent": 0
+     },
+     {
+      "text": "And the quiet of love in her feet.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 594,
+   "startLine": 595,
+   "endLine": 640,
+   "heading": "THE CAP AND BELLS",
+   "bodySha256": "347be8e803660ec80b0e16fb42721416560e06d1e6ae39c24a6774883e73f863"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-valley-of-the-black-pig",
+  "kind": "poem",
+  "title": "THE VALLEY OF THE BLACK PIG",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The dews drop slowly and dreams gather: unknown spears",
+      "indent": 0
+     },
+     {
+      "text": "Suddenly hurtle before my dream-awakened eyes,",
+      "indent": 0
+     },
+     {
+      "text": "And then the clash of fallen horsemen and the cries",
+      "indent": 0
+     },
+     {
+      "text": "Of unknown perishing armies beat about my ears.",
+      "indent": 0
+     },
+     {
+      "text": "We who still labour by the cromlec on the shore,",
+      "indent": 0
+     },
+     {
+      "text": "The grey cairn on the hill, when day sinks drowned in dew,",
+      "indent": 0
+     },
+     {
+      "text": "Being weary of the world's empires, bow down to you",
+      "indent": 0
+     },
+     {
+      "text": "Master of the still stars and of the flaming door.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 645,
+   "startLine": 646,
+   "endLine": 655,
+   "heading": "THE VALLEY OF THE BLACK PIG",
+   "bodySha256": "25162157e13b6b90e74aed3a2f8e2370ed13df16f797ad894039393845f6f2b1"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-tells-of-a-valley-full-of-lovers",
+  "kind": "poem",
+  "title": "AEDH TELLS OF A VALLEY FULL OF LOVERS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I dreamed that I stood in a valley, and amid sighs,",
+      "indent": 0
+     },
+     {
+      "text": "For happy lovers passed two by two where I stood;",
+      "indent": 0
+     },
+     {
+      "text": "And I dreamed my lost love came stealthily out of the wood",
+      "indent": 0
+     },
+     {
+      "text": "With her cloud-pale eyelids falling on dream-dimmed eyes:",
+      "indent": 0
+     },
+     {
+      "text": "I cried in my dream 'O women bid the young men lay",
+      "indent": 0
+     },
+     {
+      "text": "'Their heads on your knees, and drown their eyes with your hair,",
+      "indent": 0
+     },
+     {
+      "text": "'Or remembering hers they will find no other face fair",
+      "indent": 0
+     },
+     {
+      "text": "'Till all the valleys of the world have been withered away.'",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 691,
+   "startLine": 692,
+   "endLine": 701,
+   "heading": "AEDH TELLS OF A VALLEY FULL OF LOVERS",
+   "bodySha256": "f1ce8bff63ae482087619ed3056bcd5981cee46af9c8441c0bd14b44b74a5a62"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-tells-of-the-perfect-beauty",
+  "kind": "poem",
+  "title": "AEDH TELLS OF THE PERFECT BEAUTY",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O cloud-pale eyelids, dream-dimmed eyes",
+      "indent": 0
+     },
+     {
+      "text": "The poets labouring all their days",
+      "indent": 0
+     },
+     {
+      "text": "To build a perfect beauty in rhyme",
+      "indent": 0
+     },
+     {
+      "text": "Are overthrown by a woman's gaze",
+      "indent": 0
+     },
+     {
+      "text": "And by the unlabouring brood of the skies:",
+      "indent": 0
+     },
+     {
+      "text": "And therefore my heart will bow, when dew",
+      "indent": 0
+     },
+     {
+      "text": "Is dropping sleep, until God burn time,",
+      "indent": 0
+     },
+     {
+      "text": "Before the unlabouring stars and you.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 706,
+   "startLine": 707,
+   "endLine": 716,
+   "heading": "AEDH TELLS OF THE PERFECT BEAUTY",
+   "bodySha256": "5f155cacbdfffac5c022914c52b64427a6f764ff489e5e50f57839886d5411bc"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-hears-the-cry-of-the-sedge",
+  "kind": "poem",
+  "title": "AEDH HEARS THE CRY OF THE SEDGE",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I wander by the edge",
+      "indent": 0
+     },
+     {
+      "text": "Of this desolate lake",
+      "indent": 0
+     },
+     {
+      "text": "Where wind cries in the sedge",
+      "indent": 0
+     },
+     {
+      "text": "Until the axle break",
+      "indent": 0
+     },
+     {
+      "text": "That keeps the stars in their round",
+      "indent": 0
+     },
+     {
+      "text": "And hands hurl in the deep",
+      "indent": 0
+     },
+     {
+      "text": "The banners of East and West",
+      "indent": 0
+     },
+     {
+      "text": "And the girdle of light is unbound,",
+      "indent": 0
+     },
+     {
+      "text": "Your breast will not lie by the breast",
+      "indent": 0
+     },
+     {
+      "text": "Of your beloved in sleep.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 721,
+   "startLine": 722,
+   "endLine": 733,
+   "heading": "AEDH HEARS THE CRY OF THE SEDGE",
+   "bodySha256": "cff5b100d2f91c9013ad29bc47f8baaf8b57d03bf39949f9f8a691f14a598b7f"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-thinks-of-those-who-have-spoken-evil-of-his-beloved",
+  "kind": "poem",
+  "title": "AEDH THINKS OF THOSE WHO HAVE SPOKEN EVIL OF HIS BELOVED",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Half close your eyelids, loosen your hair,",
+      "indent": 0
+     },
+     {
+      "text": "And dream about the great and their pride;",
+      "indent": 0
+     },
+     {
+      "text": "They have spoken against you everywhere,",
+      "indent": 0
+     },
+     {
+      "text": "But weigh this song with the great and their pride;",
+      "indent": 0
+     },
+     {
+      "text": "I made it out of a mouthful of air,",
+      "indent": 0
+     },
+     {
+      "text": "Their children's children shall say they have lied.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 738,
+   "startLine": 739,
+   "endLine": 746,
+   "heading": "AEDH THINKS OF THOSE WHO HAVE SPOKEN EVIL OF HIS BELOVED",
+   "bodySha256": "cfcd80c3e80fd9ec1460b7462279d4f9c566ea32a3c610c61331c4026952c892"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-blessed",
+  "kind": "poem",
+  "title": "THE BLESSED",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Cumhal called out, bending his head,",
+      "indent": 0
+     },
+     {
+      "text": "Till Dathi came and stood,",
+      "indent": 0
+     },
+     {
+      "text": "With a blink in his eyes at the cave mouth,",
+      "indent": 0
+     },
+     {
+      "text": "Between the wind and the wood.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And Cumhal said, bending his knees,",
+      "indent": 0
+     },
+     {
+      "text": "'I have come by the windy way",
+      "indent": 0
+     },
+     {
+      "text": "'To gather the half of your blessedness",
+      "indent": 0
+     },
+     {
+      "text": "'And learn to pray when you pray.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'I can bring you salmon out of the streams",
+      "indent": 0
+     },
+     {
+      "text": "'And heron out of the skies.'",
+      "indent": 0
+     },
+     {
+      "text": "But Dathi folded his hands and smiled",
+      "indent": 0
+     },
+     {
+      "text": "With the secrets of God in his eyes.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And Cumhal saw like a drifting smoke",
+      "indent": 0
+     },
+     {
+      "text": "All manner of blessed souls,",
+      "indent": 0
+     },
+     {
+      "text": "Women and children, young men with books,",
+      "indent": 0
+     },
+     {
+      "text": "And old men with croziers and stoles.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'Praise God and God's mother,' Dathi said,",
+      "indent": 0
+     },
+     {
+      "text": "'For God and God's mother have sent",
+      "indent": 0
+     },
+     {
+      "text": "'The blessedest souls that walk in the world",
+      "indent": 0
+     },
+     {
+      "text": "'To fill your heart with content.'",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'And which is the blessedest,' Cumhal said,",
+      "indent": 0
+     },
+     {
+      "text": "'Where all are comely and good?",
+      "indent": 0
+     },
+     {
+      "text": "'Is it these that with golden thuribles",
+      "indent": 0
+     },
+     {
+      "text": "'Are singing about the wood?'",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'My eyes are blinking,' Dathi said,",
+      "indent": 0
+     },
+     {
+      "text": "'With the secrets of God half blind,",
+      "indent": 0
+     },
+     {
+      "text": "'But I can see where the wind goes",
+      "indent": 0
+     },
+     {
+      "text": "'And follow the way of the wind;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'And blessedness goes where the wind goes,",
+      "indent": 0
+     },
+     {
+      "text": "'And when it is gone we are dead;",
+      "indent": 0
+     },
+     {
+      "text": "'I see the blessedest soul in the world",
+      "indent": 0
+     },
+     {
+      "text": "'And he nods a drunken head.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'O blessedness comes in the night and the day",
+      "indent": 0
+     },
+     {
+      "text": "'And whither the wise heart knows;",
+      "indent": 0
+     },
+     {
+      "text": "'And one has seen in the redness of wine",
+      "indent": 0
+     },
+     {
+      "text": "'The Incorruptible Rose,",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'That drowsily drops faint leaves on him",
+      "indent": 0
+     },
+     {
+      "text": "'And the sweetness of desire,",
+      "indent": 0
+     },
+     {
+      "text": "'While time and the world are ebbing away",
+      "indent": 0
+     },
+     {
+      "text": "'In twilights of dew and of fire.'",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 751,
+   "startLine": 752,
+   "endLine": 802,
+   "heading": "THE BLESSED",
+   "bodySha256": "012a69b296165f2fe6ac5fd4d46a3079c615d271261f0161438951b87f7d7c7b"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-secret-rose",
+  "kind": "poem",
+  "title": "THE SECRET ROSE",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Far off, most secret, and inviolate Rose,",
+      "indent": 0
+     },
+     {
+      "text": "Enfold me in my hour of hours; where those",
+      "indent": 0
+     },
+     {
+      "text": "Who sought thee in the Holy Sepulchre,",
+      "indent": 0
+     },
+     {
+      "text": "Or in the wine vat, dwell beyond the stir",
+      "indent": 0
+     },
+     {
+      "text": "And tumult of defeated dreams; and deep",
+      "indent": 0
+     },
+     {
+      "text": "Among pale eyelids, heavy with the sleep",
+      "indent": 0
+     },
+     {
+      "text": "Men have named beauty. Thy great leaves enfold",
+      "indent": 0
+     },
+     {
+      "text": "The ancient beards, the helms of ruby and gold",
+      "indent": 0
+     },
+     {
+      "text": "Of the crowned Magi; and the king whose eyes",
+      "indent": 0
+     },
+     {
+      "text": "Saw the Pierced Hands and Rood of elder rise",
+      "indent": 0
+     },
+     {
+      "text": "In druid vapour and make the torches dim;",
+      "indent": 0
+     },
+     {
+      "text": "Till vain frenzy awoke and he died; and him",
+      "indent": 0
+     },
+     {
+      "text": "Who met Fand walking among flaming dew",
+      "indent": 0
+     },
+     {
+      "text": "By a gray shore where the wind never blew,",
+      "indent": 0
+     },
+     {
+      "text": "And lost the world and Emer for a kiss;",
+      "indent": 0
+     },
+     {
+      "text": "And him who drove the gods out of their liss,",
+      "indent": 0
+     },
+     {
+      "text": "And till a hundred morns had flowered red,",
+      "indent": 0
+     },
+     {
+      "text": "Feasted and wept the barrows of his dead;",
+      "indent": 0
+     },
+     {
+      "text": "And the proud dreaming king who flung the crown",
+      "indent": 0
+     },
+     {
+      "text": "And sorrow away, and calling bard and clown",
+      "indent": 0
+     },
+     {
+      "text": "Dwelt among wine-stained wanderers in deep woods;",
+      "indent": 0
+     },
+     {
+      "text": "And him who sold tillage, and house, and goods,",
+      "indent": 0
+     },
+     {
+      "text": "And sought through lands and islands numberless years,",
+      "indent": 0
+     },
+     {
+      "text": "Until he found with laughter and with tears,",
+      "indent": 0
+     },
+     {
+      "text": "A woman, of so shining loveliness,",
+      "indent": 0
+     },
+     {
+      "text": "That men threshed corn at midnight by a tress,",
+      "indent": 0
+     },
+     {
+      "text": "A little stolen tress. I, too, await",
+      "indent": 0
+     },
+     {
+      "text": "The hour of thy great wind of love and hate.",
+      "indent": 0
+     },
+     {
+      "text": "When shall the stars be blown about the sky,",
+      "indent": 0
+     },
+     {
+      "text": "Like the sparks blown out of a smithy, and die?",
+      "indent": 0
+     },
+     {
+      "text": "Surely thine hour has come, thy great wind blows,",
+      "indent": 0
+     },
+     {
+      "text": "Far off, most secret, and inviolate Rose?",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 807,
+   "startLine": 808,
+   "endLine": 841,
+   "heading": "THE SECRET ROSE",
+   "bodySha256": "fe2da0fd314465edacb4aad1e5a8650c15290c3ddef393d0a9aba4f50a9b2caa"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-hanrahan-laments-because-of-his-wanderings",
+  "kind": "poem",
+  "title": "HANRAHAN LAMENTS BECAUSE OF HIS WANDERINGS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O where is our Mother of Peace",
+      "indent": 0
+     },
+     {
+      "text": "Nodding her purple hood?",
+      "indent": 0
+     },
+     {
+      "text": "For the winds that awakened the stars",
+      "indent": 0
+     },
+     {
+      "text": "Are blowing through my blood.",
+      "indent": 0
+     },
+     {
+      "text": "I would that the death-pale deer",
+      "indent": 0
+     },
+     {
+      "text": "Had come through the mountain side,",
+      "indent": 0
+     },
+     {
+      "text": "And trampled the mountain away,",
+      "indent": 0
+     },
+     {
+      "text": "And drunk up the murmuring tide;",
+      "indent": 0
+     },
+     {
+      "text": "For the winds that awakened the stars",
+      "indent": 0
+     },
+     {
+      "text": "Are blowing through my blood,",
+      "indent": 0
+     },
+     {
+      "text": "And our Mother of Peace has forgot me",
+      "indent": 0
+     },
+     {
+      "text": "Under her purple hood.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 846,
+   "startLine": 847,
+   "endLine": 860,
+   "heading": "HANRAHAN LAMENTS BECAUSE OF HIS WANDERINGS",
+   "bodySha256": "5ad22c458f53ba322efa35d317ee81b9c42da9f0fb484b5889de94c0cbf6c874"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-travail-of-passion",
+  "kind": "poem",
+  "title": "THE TRAVAIL OF PASSION",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "When the flaming lute-thronged angelic door is wide;",
+      "indent": 0
+     },
+     {
+      "text": "When an immortal passion breathes in mortal clay;",
+      "indent": 0
+     },
+     {
+      "text": "Our hearts endure the scourge, the plaited thorns, the way",
+      "indent": 0
+     },
+     {
+      "text": "Crowded with bitter faces, the wounds in palm and side,",
+      "indent": 0
+     },
+     {
+      "text": "The hyssop-heavy sponge, the flowers by Kidron stream:",
+      "indent": 0
+     },
+     {
+      "text": "We will bend down and loosen our hair over you,",
+      "indent": 0
+     },
+     {
+      "text": "That it may drop faint perfume, and be heavy with dew,",
+      "indent": 0
+     },
+     {
+      "text": "Lilies of death-pale hope, roses of passionate dream.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 865,
+   "startLine": 866,
+   "endLine": 875,
+   "heading": "THE TRAVAIL OF PASSION",
+   "bodySha256": "18239f3bff71166b564e97c0c03cb5bb11ee03ad2bcfc0a275f23de71adc48ff"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-the-poet-pleads-with-his-friend-for-old-friends",
+  "kind": "poem",
+  "title": "THE POET PLEADS WITH HIS FRIEND FOR OLD FRIENDS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Though you are in your shining days,",
+      "indent": 0
+     },
+     {
+      "text": "Voices among the crowd",
+      "indent": 0
+     },
+     {
+      "text": "And new friends busy with your praise,",
+      "indent": 0
+     },
+     {
+      "text": "Be not unkind or proud,",
+      "indent": 0
+     },
+     {
+      "text": "But think about old friends the most:",
+      "indent": 0
+     },
+     {
+      "text": "Time's bitter flood will rise,",
+      "indent": 0
+     },
+     {
+      "text": "Your beauty perish and be lost",
+      "indent": 0
+     },
+     {
+      "text": "For all eyes but these eyes.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 880,
+   "startLine": 881,
+   "endLine": 890,
+   "heading": "THE POET PLEADS WITH HIS FRIEND FOR OLD FRIENDS",
+   "bodySha256": "256d42f62664f7b6e55a37f1b759c257938d42ec61cc433e491228d15cf30166"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-hanrahan-speaks-to-the-lovers-of-his-songs-in-coming-days",
+  "kind": "poem",
+  "title": "HANRAHAN SPEAKS TO THE LOVERS OF HIS SONGS IN COMING DAYS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "O, colleens, kneeling by your altar rails long hence,",
+      "indent": 0
+     },
+     {
+      "text": "When songs I wove for my beloved hide the prayer,",
+      "indent": 0
+     },
+     {
+      "text": "And smoke from this dead heart drifts through the violet air",
+      "indent": 0
+     },
+     {
+      "text": "And covers away the smoke of myrrh and frankincense;",
+      "indent": 0
+     },
+     {
+      "text": "Bend down and pray for the great sin I wove in song,",
+      "indent": 0
+     },
+     {
+      "text": "Till Maurya of the wounded heart cry a sweet cry,",
+      "indent": 0
+     },
+     {
+      "text": "And call to my beloved and me: 'No longer fly",
+      "indent": 0
+     },
+     {
+      "text": "'Amid the hovering, piteous, penitential throng.'",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 895,
+   "startLine": 896,
+   "endLine": 905,
+   "heading": "HANRAHAN SPEAKS TO THE LOVERS OF HIS SONGS IN COMING DAYS",
+   "bodySha256": "14178399a7712812d9e94e927e003984dacd5a90e834eeddde5d22c294bc05ba"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-pleads-with-the-elemental-powers",
+  "kind": "poem",
+  "title": "AEDH PLEADS WITH THE ELEMENTAL POWERS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The Powers whose name and shape no living creature knows",
+      "indent": 0
+     },
+     {
+      "text": "Have pulled the Immortal Rose;",
+      "indent": 0
+     },
+     {
+      "text": "And though the Seven Lights bowed in their dance and wept,",
+      "indent": 0
+     },
+     {
+      "text": "The Polar Dragon slept,",
+      "indent": 0
+     },
+     {
+      "text": "His heavy rings uncoiled from glimmering deep to deep:",
+      "indent": 0
+     },
+     {
+      "text": "When will he wake from sleep?",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Great Powers of falling wave and wind and windy fire,",
+      "indent": 0
+     },
+     {
+      "text": "With your harmonious choir",
+      "indent": 0
+     },
+     {
+      "text": "Encircle her I love and sing her into peace,",
+      "indent": 0
+     },
+     {
+      "text": "That my old care may cease;",
+      "indent": 0
+     },
+     {
+      "text": "Unfold your flaming wings and cover out of sight",
+      "indent": 0
+     },
+     {
+      "text": "The nets of day and night.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Dim Powers of drowsy thought, let her no longer be",
+      "indent": 0
+     },
+     {
+      "text": "Like the pale cup of the sea,",
+      "indent": 0
+     },
+     {
+      "text": "When winds have gathered and sun and moon burned dim",
+      "indent": 0
+     },
+     {
+      "text": "Above its cloudy rim;",
+      "indent": 0
+     },
+     {
+      "text": "But let a gentle silence wrought with music flow",
+      "indent": 0
+     },
+     {
+      "text": "Whither her footsteps go.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 910,
+   "startLine": 911,
+   "endLine": 932,
+   "heading": "AEDH PLEADS WITH THE ELEMENTAL POWERS",
+   "bodySha256": "f750d4835168a0b55c1b7b95983ecc012dfedc850390d0c0ae1238a12f93965e"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-wishes-his-beloved-were-dead",
+  "kind": "poem",
+  "title": "AEDH WISHES HIS BELOVED WERE DEAD",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Were you but lying cold and dead,",
+      "indent": 0
+     },
+     {
+      "text": "And lights were paling out of the West,",
+      "indent": 0
+     },
+     {
+      "text": "You would come hither, and bend your head,",
+      "indent": 0
+     },
+     {
+      "text": "And I would lay my head on your breast;",
+      "indent": 0
+     },
+     {
+      "text": "And you would murmur tender words,",
+      "indent": 0
+     },
+     {
+      "text": "Forgiving me, because you were dead:",
+      "indent": 0
+     },
+     {
+      "text": "Nor would you rise and hasten away,",
+      "indent": 0
+     },
+     {
+      "text": "Though you have the will of the wild birds,",
+      "indent": 0
+     },
+     {
+      "text": "But know your hair was bound and wound",
+      "indent": 0
+     },
+     {
+      "text": "About the stars and moon and sun:",
+      "indent": 0
+     },
+     {
+      "text": "O would beloved that you lay",
+      "indent": 0
+     },
+     {
+      "text": "Under the dock-leaves in the ground,",
+      "indent": 0
+     },
+     {
+      "text": "While lights were paling one by one.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 937,
+   "startLine": 938,
+   "endLine": 952,
+   "heading": "AEDH WISHES HIS BELOVED WERE DEAD",
+   "bodySha256": "ea9210e87570ae59d39cb2f4764fc25f40d5b664829f7b250ab5ab63e09e76f3"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-aedh-wishes-for-the-cloths-of-heaven",
+  "kind": "poem",
+  "title": "AEDH WISHES FOR THE CLOTHS OF HEAVEN",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Had I the heavens' embroidered cloths,",
+      "indent": 0
+     },
+     {
+      "text": "Enwrought with golden and silver light,",
+      "indent": 0
+     },
+     {
+      "text": "The blue and the dim and the dark cloths",
+      "indent": 0
+     },
+     {
+      "text": "Of night and light and the half light,",
+      "indent": 0
+     },
+     {
+      "text": "I would spread the cloths under your feet:",
+      "indent": 0
+     },
+     {
+      "text": "But I, being poor, have only my dreams;",
+      "indent": 0
+     },
+     {
+      "text": "I have spread my dreams under your feet;",
+      "indent": 0
+     },
+     {
+      "text": "Tread softly because you tread on my dreams.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 957,
+   "startLine": 958,
+   "endLine": 967,
+   "heading": "AEDH WISHES FOR THE CLOTHS OF HEAVEN",
+   "bodySha256": "76c3cdea34067349f16d985c18d58487535ecdca47b00bb9543acd909ec553b4"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-b-yeats-mongan-thinks-of-his-past-greatness",
+  "kind": "poem",
+  "title": "MONGAN THINKS OF HIS PAST GREATNESS",
+  "author": "W. B. Yeats",
+  "year": "1899; 1903 edition",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/32233",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I have drunk ale from the Country of the Young",
+      "indent": 0
+     },
+     {
+      "text": "And weep because I know all things now:",
+      "indent": 0
+     },
+     {
+      "text": "I have been a hazel tree and they hung",
+      "indent": 0
+     },
+     {
+      "text": "The Pilot Star and the Crooked Plough",
+      "indent": 0
+     },
+     {
+      "text": "Among my leaves in times out of mind:",
+      "indent": 0
+     },
+     {
+      "text": "I became a rush that horses tread:",
+      "indent": 0
+     },
+     {
+      "text": "I became a man, a hater of the wind,",
+      "indent": 0
+     },
+     {
+      "text": "Knowing one, out of all things, alone, that his head",
+      "indent": 0
+     },
+     {
+      "text": "Would not lie on the breast or his lips on the hair",
+      "indent": 0
+     },
+     {
+      "text": "Of the woman that he loves, until he dies;",
+      "indent": 0
+     },
+     {
+      "text": "Although the rushes and the fowl of the air",
+      "indent": 0
+     },
+     {
+      "text": "Cry of his love with their pitiful cries.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 32233,
+   "path": "pg32233.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "8b590f84a3dadd76210845d677cd05bb123171833c2c1cbe1a9a93098789ff71",
+   "url": "https://www.gutenberg.org/cache/epub/32233/pg32233.txt",
+   "headingLine": 972,
+   "startLine": 973,
+   "endLine": 986,
+   "heading": "MONGAN THINKS OF HIS PAST GREATNESS",
+   "bodySha256": "96b731e3defd06acfd4bd6c3e065a62333aa15d612be3f40e6fc9362c8defd68"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-von-kempelen-and-his-discovery",
+  "kind": "story",
+  "title": "VON KEMPELEN AND HIS DISCOVERY",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "After the very minute and elaborate paper by Arago, to say nothing of the summary in ‘Silliman’s Journal,’ with the detailed statement just published by Lieutenant Maury, it will not be supposed, of course, that in offering a few hurried remarks in reference to Von Kempelen’s discovery, I have any design to look at the subject in a scientific point of view. My object is simply, in the first place, to say a few words of Von Kempelen himself (with whom, some years ago, I had the honor of a slight personal acquaintance), since every thing which concerns him must necessarily, at this moment, be of interest; and, in the second place, to look in a general way, and speculatively, at the results of the discovery."
+   },
+   {
+    "type": "para",
+    "text": "It may be as well, however, to premise the cursory observations which I have to offer, by denying, very decidedly, what seems to be a general impression (gleaned, as usual in a case of this kind, from the newspapers), viz.: that this discovery, astounding as it unquestionably is, is unanticipated."
+   },
+   {
+    "type": "para",
+    "text": "By reference to the ‘Diary of Sir Humphrey Davy’ (Cottle and Munroe, London, pp. 150), it will be seen at pp. 53 and 82, that this illustrious chemist had not only conceived the idea now in question, but had actually made no inconsiderable progress, experimentally, in the very identical analysis now so triumphantly brought to an issue by Von Kempelen, who although he makes not the slightest allusion to it, is, without doubt (I say it unhesitatingly, and can prove it, if required), indebted to the ‘Diary’ for at least the first hint of his own undertaking."
+   },
+   {
+    "type": "para",
+    "text": "The paragraph from the ‘Courier and Enquirer,’ which is now going the rounds of the press, and which purports to claim the invention for a Mr. Kissam, of Brunswick, Maine, appears to me, I confess, a little apocryphal, for several reasons; although there is nothing either impossible or very improbable in the statement made. I need not go into details. My opinion of the paragraph is founded principally upon its manner. It does not look true. Persons who are narrating facts, are seldom so particular as Mr. Kissam seems to be, about day and date and precise location. Besides, if Mr. Kissam actually did come upon the discovery he says he did, at the period designated—nearly eight years ago—how happens it that he took no steps, on the instant, to reap the immense benefits which the merest bumpkin must have known would have resulted to him individually, if not to the world at large, from the discovery? It seems to me quite incredible that any man of common understanding could have discovered what Mr. Kissam says he did, and yet have subsequently acted so like a baby—so like an owl—as Mr. Kissam admits that he did. By-the-way, who is Mr. Kissam? and is not the whole paragraph in the ‘Courier and Enquirer’ a fabrication got up to ‘make a talk’? It must be confessed that it has an amazingly moon-hoaxy-air. Very little dependence is to be placed upon it, in my humble opinion; and if I were not well aware, from experience, how very easily men of science are mystified, on points out of their usual range of inquiry, I should be profoundly astonished at finding so eminent a chemist as Professor Draper, discussing Mr. Kissam’s (or is it Mr. Quizzem’s?) pretensions to the discovery, in so serious a tone."
+   },
+   {
+    "type": "para",
+    "text": "But to return to the ‘Diary’ of Sir Humphrey Davy. This pamphlet was not designed for the public eye, even upon the decease of the writer, as any person at all conversant with authorship may satisfy himself at once by the slightest inspection of the style. At page 13, for example, near the middle, we read, in reference to his researches about the protoxide of azote: ‘In less than half a minute the respiration being continued, diminished gradually and were succeeded by analogous to gentle pressure on all the muscles.’ That the respiration was not ‘diminished,’ is not only clear by the subsequent context, but by the use of the plural, ‘were.’ The sentence, no doubt, was thus intended: ‘In less than half a minute, the respiration [being continued, these feelings] diminished gradually, and were succeeded by [a sensation] analogous to gentle pressure on all the muscles.’ A hundred similar instances go to show that the MS. so inconsiderately published, was merely a rough note-book, meant only for the writer’s own eye, but an inspection of the pamphlet will convince almost any thinking person of the truth of my suggestion. The fact is, Sir Humphrey Davy was about the last man in the world to commit himself on scientific topics. Not only had he a more than ordinary dislike to quackery, but he was morbidly afraid of appearing empirical; so that, however fully he might have been convinced that he was on the right track in the matter now in question, he would never have spoken out, until he had every thing ready for the most practical demonstration. I verily believe that his last moments would have been rendered wretched, could he have suspected that his wishes in regard to burning this ‘Diary’ (full of crude speculations) would have been unattended to; as, it seems, they were. I say ‘his wishes,’ for that he meant to include this note-book among the miscellaneous papers directed ‘to be burnt,’ I think there can be no manner of doubt. Whether it escaped the flames by good fortune or by bad, yet remains to be seen. That the passages quoted above, with the other similar ones referred to, gave Von Kempelen the hint, I do not in the slightest degree question; but I repeat, it yet remains to be seen whether this momentous discovery itself (momentous under any circumstances) will be of service or disservice to mankind at large. That Von Kempelen and his immediate friends will reap a rich harvest, it would be folly to doubt for a moment. They will scarcely be so weak as not to ‘realize,’ in time, by large purchases of houses and land, with other property of intrinsic value."
+   },
+   {
+    "type": "para",
+    "text": "In the brief account of Von Kempelen which appeared in the ‘Home Journal,’ and has since been extensively copied, several misapprehensions of the German original seem to have been made by the translator, who professes to have taken the passage from a late number of the Presburg ‘Schnellpost.’ ‘Viele’ has evidently been misconceived (as it often is), and what the translator renders by ‘sorrows,’ is probably ‘lieden,’ which, in its true version, ‘sufferings,’ would give a totally different complexion to the whole account; but, of course, much of this is merely guess, on my part."
+   },
+   {
+    "type": "para",
+    "text": "Von Kempelen, however, is by no means ‘a misanthrope,’ in appearance, at least, whatever he may be in fact. My acquaintance with him was casual altogether; and I am scarcely warranted in saying that I know him at all; but to have seen and conversed with a man of so prodigious a notoriety as he has attained, or will attain in a few days, is not a small matter, as times go."
+   },
+   {
+    "type": "para",
+    "text": "“The Literary World” speaks of him, confidently, as a native of Presburg (misled, perhaps, by the account in “The Home Journal”) but I am pleased in being able to state positively, since I have it from his own lips, that he was born in Utica, in the State of New York, although both his parents, I believe, are of Presburg descent. The family is connected, in some way, with Mäelzel, of Automaton-chess-player memory. In person, he is short and stout, with large, fat, blue eyes, sandy hair and whiskers, a wide but pleasing mouth, fine teeth, and I think a Roman nose. There is some defect in one of his feet. His address is frank, and his whole manner noticeable for bonhomie. Altogether, he looks, speaks, and acts as little like ‘a misanthrope’ as any man I ever saw. We were fellow-sojourners for a week about six years ago, at Earl’s Hotel, in Providence, Rhode Island; and I presume that I conversed with him, at various times, for some three or four hours altogether. His principal topics were those of the day; and nothing that fell from him led me to suspect his scientific attainments. He left the hotel before me, intending to go to New York, and thence to Bremen; it was in the latter city that his great discovery was first made public; or, rather, it was there that he was first suspected of having made it. This is about all that I personally know of the now immortal Von Kempelen; but I have thought that even these few details would have interest for the public."
+   },
+   {
+    "type": "para",
+    "text": "There can be little question that most of the marvellous rumors afloat about this affair are pure inventions, entitled to about as much credit as the story of Aladdin’s lamp; and yet, in a case of this kind, as in the case of the discoveries in California, it is clear that the truth may be stranger than fiction. The following anecdote, at least, is so well authenticated, that we may receive it implicitly."
+   },
+   {
+    "type": "para",
+    "text": "Von Kempelen had never been even tolerably well off during his residence at Bremen; and often, it was well known, he had been put to extreme shifts in order to raise trifling sums. When the great excitement occurred about the forgery on the house of Gutsmuth & Co., suspicion was directed toward Von Kempelen, on account of his having purchased a considerable property in Gasperitch Lane, and his refusing, when questioned, to explain how he became possessed of the purchase money. He was at length arrested, but nothing decisive appearing against him, was in the end set at liberty. The police, however, kept a strict watch upon his movements, and thus discovered that he left home frequently, taking always the same road, and invariably giving his watchers the slip in the neighborhood of that labyrinth of narrow and crooked passages known by the flash name of the ‘Dondergat.’ Finally, by dint of great perseverance, they traced him to a garret in an old house of seven stories, in an alley called Flatzplatz,—and, coming upon him suddenly, found him, as they imagined, in the midst of his counterfeiting operations. His agitation is represented as so excessive that the officers had not the slightest doubt of his guilt. After hand-cuffing him, they searched his room, or rather rooms, for it appears he occupied all the mansarde."
+   },
+   {
+    "type": "para",
+    "text": "Opening into the garret where they caught him, was a closet, ten feet by eight, fitted up with some chemical apparatus, of which the object has not yet been ascertained. In one corner of the closet was a very small furnace, with a glowing fire in it, and on the fire a kind of duplicate crucible—two crucibles connected by a tube. One of these crucibles was nearly full of lead in a state of fusion, but not reaching up to the aperture of the tube, which was close to the brim. The other crucible had some liquid in it, which, as the officers entered, seemed to be furiously dissipating in vapor. They relate that, on finding himself taken, Kempelen seized the crucibles with both hands (which were encased in gloves that afterwards turned out to be asbestic), and threw the contents on the tiled floor. It was now that they hand-cuffed him; and before proceeding to ransack the premises they searched his person, but nothing unusual was found about him, excepting a paper parcel, in his coat-pocket, containing what was afterward ascertained to be a mixture of antimony and some unknown substance, in nearly, but not quite, equal proportions. All attempts at analyzing the unknown substance have, so far, failed, but that it will ultimately be analyzed, is not to be doubted."
+   },
+   {
+    "type": "para",
+    "text": "Passing out of the closet with their prisoner, the officers went through a sort of ante-chamber, in which nothing material was found, to the chemist’s sleeping-room. They here rummaged some drawers and boxes, but discovered only a few papers, of no importance, and some good coin, silver and gold. At length, looking under the bed, they saw a large, common hair trunk, without hinges, hasp, or lock, and with the top lying carelessly across the bottom portion. Upon attempting to draw this trunk out from under the bed, they found that, with their united strength (there were three of them, all powerful men), they ‘could not stir it one inch.’ Much astonished at this, one of them crawled under the bed, and looking into the trunk, said:"
+   },
+   {
+    "type": "para",
+    "text": "‘No wonder we couldn’t move it—why it’s full to the brim of old bits of brass!’"
+   },
+   {
+    "type": "para",
+    "text": "Putting his feet, now, against the wall so as to get a good purchase, and pushing with all his force, while his companions pulled with all theirs, the trunk, with much difficulty, was slid out from under the bed, and its contents examined. The supposed brass with which it was filled was all in small, smooth pieces, varying from the size of a pea to that of a dollar; but the pieces were irregular in shape, although more or less flat-looking, upon the whole, “very much as lead looks when thrown upon the ground in a molten state, and there suffered to grow cool.” Now, not one of these officers for a moment suspected this metal to be anything but brass. The idea of its being gold never entered their brains, of course; how could such a wild fancy have entered it? And their astonishment may be well conceived, when the next day it became known, all over Bremen, that the “lot of brass” which they had carted so contemptuously to the police office, without putting themselves to the trouble of pocketing the smallest scrap, was not only gold—real gold—but gold far finer than any employed in coinage—gold, in fact, absolutely pure, virgin, without the slightest appreciable alloy."
+   },
+   {
+    "type": "para",
+    "text": "I need not go over the details of Von Kempelen’s confession (as far as it went) and release, for these are familiar to the public. That he has actually realized, in spirit and in effect, if not to the letter, the old chimaera of the philosopher’s stone, no sane person is at liberty to doubt. The opinions of Arago are, of course, entitled to the greatest consideration; but he is by no means infallible; and what he says of bismuth, in his report to the Academy, must be taken cum grano salis. The simple truth is, that up to this period all analysis has failed; and until Von Kempelen chooses to let us have the key to his own published enigma, it is more than probable that the matter will remain, for years, in statu quo. All that as yet can fairly be said to be known is, that ‘Pure gold can be made at will, and very readily from lead in connection with certain other substances, in kind and in proportions, unknown.’"
+   },
+   {
+    "type": "para",
+    "text": "Speculation, of course, is busy as to the immediate and ultimate results of this discovery—a discovery which few thinking persons will hesitate in referring to an increased interest in the matter of gold generally, by the late developments in California; and this reflection brings us inevitably to another—the exceeding inopportuneness of Von Kempelen’s analysis. If many were prevented from adventuring to California, by the mere apprehension that gold would so materially diminish in value, on account of its plentifulness in the mines there, as to render the speculation of going so far in search of it a doubtful one—what impression will be wrought now, upon the minds of those about to emigrate, and especially upon the minds of those actually in the mineral region, by the announcement of this astounding discovery of Von Kempelen? a discovery which declares, in so many words, that beyond its intrinsic worth for manufacturing purposes (whatever that worth may be), gold now is, or at least soon will be (for it cannot be supposed that Von Kempelen can long retain his secret), of no greater value than lead, and of far inferior value to silver. It is, indeed, exceedingly difficult to speculate prospectively upon the consequences of the discovery, but one thing may be positively maintained—that the announcement of the discovery six months ago would have had material influence in regard to the settlement of California."
+   },
+   {
+    "type": "para",
+    "text": "In Europe, as yet, the most noticeable results have been a rise of two hundred per cent. in the price of lead, and nearly twenty-five per cent. that of silver."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 2199,
+   "startLine": 2200,
+   "endLine": 2476,
+   "heading": "VON KEMPELEN AND HIS DISCOVERY",
+   "bodySha256": "6b5deb15c7d2e9faa22cb5371145bf3796902ed630c9defa2ddfb48f8ce612cb"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-mesmeric-revelation",
+  "kind": "story",
+  "title": "MESMERIC REVELATION",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Whatever doubt may still envelop the rationale of mesmerism, its startling facts are now almost universally admitted. Of these latter, those who doubt, are your mere doubters by profession—an unprofitable and disreputable tribe. There can be no more absolute waste of time than the attempt to prove, at the present day, that man, by mere exercise of will, can so impress his fellow, as to cast him into an abnormal condition, of which the phenomena resemble very closely those of death, or at least resemble them more nearly than they do the phenomena of any other normal condition within our cognizance; that, while in this state, the person so impressed employs only with effort, and then feebly, the external organs of sense, yet perceives, with keenly refined perception, and through channels supposed unknown, matters beyond the scope of the physical organs; that, moreover, his intellectual faculties are wonderfully exalted and invigorated; that his sympathies with the person so impressing him are profound; and, finally, that his susceptibility to the impression increases with its frequency, while, in the same proportion, the peculiar phenomena elicited are more extended and more pronounced."
+   },
+   {
+    "type": "para",
+    "text": "I say that these—which are the laws of mesmerism in its general features—it would be supererogation to demonstrate; nor shall I inflict upon my readers so needless a demonstration; to-day. My purpose at present is a very different one indeed. I am impelled, even in the teeth of a world of prejudice, to detail without comment the very remarkable substance of a colloquy, occurring between a sleep-waker and myself."
+   },
+   {
+    "type": "para",
+    "text": "I had been long in the habit of mesmerizing the person in question (Mr. Vankirk), and the usual acute susceptibility and exaltation of the mesmeric perception had supervened. For many months he had been laboring under confirmed phthisis, the more distressing effects of which had been relieved by my manipulations; and on the night of Wednesday, the fifteenth instant, I was summoned to his bedside."
+   },
+   {
+    "type": "para",
+    "text": "The invalid was suffering with acute pain in the region of the heart, and breathed with great difficulty, having all the ordinary symptoms of asthma. In spasms such as these he had usually found relief from the application of mustard to the nervous centres, but to-night this had been attempted in vain."
+   },
+   {
+    "type": "para",
+    "text": "As I entered his room he greeted me with a cheerful smile, and although evidently in much bodily pain, appeared to be, mentally, quite at ease."
+   },
+   {
+    "type": "para",
+    "text": "“I sent for you to-night,” he said, “not so much to administer to my bodily ailment, as to satisfy me concerning certain psychal impressions which, of late, have occasioned me much anxiety and surprise. I need not tell you how sceptical I have hitherto been on the topic of the soul’s immortality. I cannot deny that there has always existed, as if in that very soul which I have been denying, a vague half-sentiment of its own existence. But this half-sentiment at no time amounted to conviction. With it my reason had nothing to do. All attempts at logical inquiry resulted, indeed, in leaving me more sceptical than before. I had been advised to study Cousin. I studied him in his own works as well as in those of his European and American echoes. The ‘Charles Elwood’ of Mr. Brownson, for example, was placed in my hands. I read it with profound attention. Throughout I found it logical, but the portions which were not merely logical were unhappily the initial arguments of the disbelieving hero of the book. In his summing up it seemed evident to me that the reasoner had not even succeeded in convincing himself. His end had plainly forgotten his beginning, like the government of Trinculo. In short, I was not long in perceiving that if man is to be intellectually convinced of his own immortality, he will never be so convinced by the mere abstractions which have been so long the fashion of the moralists of England, of France, and of Germany. Abstractions may amuse and exercise, but take no hold on the mind. Here upon earth, at least, philosophy, I am persuaded, will always in vain call upon us to look upon qualities as things. The will may assent—the soul—the intellect, never."
+   },
+   {
+    "type": "para",
+    "text": "“I repeat, then, that I only half felt, and never intellectually believed. But latterly there has been a certain deepening of the feeling, until it has come so nearly to resemble the acquiescence of reason, that I find it difficult to distinguish between the two. I am enabled, too, plainly to trace this effect to the mesmeric influence. I cannot better explain my meaning than by the hypothesis that the mesmeric exaltation enables me to perceive a train of ratiocination which, in my abnormal existence, convinces, but which, in full accordance with the mesmeric phenomena, does not extend, except through its effect, into my normal condition. In sleep-waking, the reasoning and its conclusion—the cause and its effect—are present together. In my natural state, the cause vanishing, the effect only, and perhaps only partially, remains."
+   },
+   {
+    "type": "para",
+    "text": "“These considerations have led me to think that some good results might ensue from a series of well-directed questions propounded to me while mesmerized. You have often observed the profound self-cognizance evinced by the sleep-waker—the extensive knowledge he displays upon all points relating to the mesmeric condition itself; and from this self-cognizance may be deduced hints for the proper conduct of a catechism.”"
+   },
+   {
+    "type": "para",
+    "text": "I consented of course to make this experiment.  A few passes threw Mr. Vankirk into the mesmeric sleep. His breathing became immediately more easy, and he seemed to suffer no physical uneasiness. The following conversation then ensued:—V. in the dialogue representing the patient, and P. myself."
+   },
+   {
+    "type": "para",
+    "text": "P. Are you asleep?"
+   },
+   {
+    "type": "para",
+    "text": "V. Yes—no; I would rather sleep more soundly."
+   },
+   {
+    "type": "para",
+    "text": "P. [After a few more passes.] Do you sleep now?"
+   },
+   {
+    "type": "para",
+    "text": "V. Yes."
+   },
+   {
+    "type": "para",
+    "text": "P. How do you think your present illness will result?"
+   },
+   {
+    "type": "para",
+    "text": "V. [After a long hesitation and speaking as if with effort.] I must die."
+   },
+   {
+    "type": "para",
+    "text": "P. Does the idea of death afflict you?"
+   },
+   {
+    "type": "para",
+    "text": "V. [Very quickly.] No—no!"
+   },
+   {
+    "type": "para",
+    "text": "P. Are you pleased with the prospect?"
+   },
+   {
+    "type": "para",
+    "text": "V. If I were awake I should like to die, but now it is no matter. The mesmeric condition is so near death as to content me."
+   },
+   {
+    "type": "para",
+    "text": "P. I wish you would explain yourself, Mr. Vankirk."
+   },
+   {
+    "type": "para",
+    "text": "V. I am willing to do so, but it requires more effort than I feel able to make. You do not question me properly."
+   },
+   {
+    "type": "para",
+    "text": "P. What then shall I ask?"
+   },
+   {
+    "type": "para",
+    "text": "V. You must begin at the beginning."
+   },
+   {
+    "type": "para",
+    "text": "P. The beginning! But where is the beginning?"
+   },
+   {
+    "type": "para",
+    "text": "V. You know that the beginning is GOD. [This was said in a low, fluctuating tone, and with every sign of the most profound veneration.]"
+   },
+   {
+    "type": "para",
+    "text": "P. What then, is God?"
+   },
+   {
+    "type": "para",
+    "text": "V. [Hesitating for many minutes.] I cannot tell."
+   },
+   {
+    "type": "para",
+    "text": "P. Is not God spirit?"
+   },
+   {
+    "type": "para",
+    "text": "V. While I was awake I knew what you meant by “spirit,” but now it seems only a word—such, for instance, as truth, beauty—a quality, I mean."
+   },
+   {
+    "type": "para",
+    "text": "P. Is not God immaterial?"
+   },
+   {
+    "type": "para",
+    "text": "V. There is no immateriality—it is a mere word. That which is not matter, is not at all—unless qualities are things."
+   },
+   {
+    "type": "para",
+    "text": "P. Is God, then, material?"
+   },
+   {
+    "type": "para",
+    "text": "V. No. [This reply startled me very much.]"
+   },
+   {
+    "type": "para",
+    "text": "P. What, then, is he?"
+   },
+   {
+    "type": "para",
+    "text": "V. [After a long pause, and mutteringly.] I see—but it is a thing difficult to tell. [Another long pause.] He is not spirit, for he exists. Nor is he matter, as you understand it. But there are gradations of matter of which man knows nothing; the grosser impelling the finer, the finer pervading the grosser. The atmosphere, for example, impels the electric principle, while the electric principle permeates the atmosphere. These gradations of matter increase in rarity or fineness, until we arrive at a matter unparticled—without particles—indivisible—one; and here the law of impulsion and permeation is modified. The ultimate, or unparticled matter, not only permeates all things but impels all things; and thus is all things within itself. This matter is God. What men attempt to embody in the word “thought,” is this matter in motion."
+   },
+   {
+    "type": "para",
+    "text": "P. The metaphysicians maintain that all action is reducible to motion and thinking, and that the latter is the origin of the former."
+   },
+   {
+    "type": "para",
+    "text": "V. Yes; and I now see the confusion of idea. Motion is the action of mind, not of thinking. The unparticled matter, or God, in quiescence, is (as nearly as we can conceive it) what men call mind. And the power of self-movement (equivalent in effect to human volition) is, in the unparticled matter, the result of its unity and omniprevalence; how I know not, and now clearly see that I shall never know. But the unparticled matter, set in motion by a law, or quality, existing within itself, is thinking."
+   },
+   {
+    "type": "para",
+    "text": "P. Can you give me no more precise idea of what you term the unparticled matter?"
+   },
+   {
+    "type": "para",
+    "text": "V. The matters of which man is cognizant escape the senses in gradation. We have, for example, a metal, a piece of wood, a drop of water, the atmosphere, a gas, caloric, electricity, the luminiferous ether. Now we call all these things matter, and embrace all matter in one general definition; but in spite of this, there can be no two ideas more essentially distinct than that which we attach to a metal, and that which we attach to the luminiferous ether. When we reach the latter, we feel an almost irresistible inclination to class it with spirit, or with nihility. The only consideration which restrains us is our conception of its atomic constitution; and here, even, we have to seek aid from our notion of an atom, as something possessing in infinite minuteness, solidity, palpability, weight. Destroy the idea of the atomic constitution and we should no longer be able to regard the ether as an entity, or at least as matter. For want of a better word we might term it spirit. Take, now, a step beyond the luminiferous ether—conceive a matter as much more rare than the ether, as this ether is more rare than the metal, and we arrive at once (in spite of all the school dogmas) at a unique mass—an unparticled matter. For although we may admit infinite littleness in the atoms themselves, the infinitude of littleness in the spaces between them is an absurdity. There will be a point—there will be a degree of rarity, at which, if the atoms are sufficiently numerous, the interspaces must vanish, and the mass absolutely coalesce. But the consideration of the atomic constitution being now taken away, the nature of the mass inevitably glides into what we conceive of spirit. It is clear, however, that it is as fully matter as before. The truth is, it is impossible to conceive spirit, since it is impossible to imagine what is not. When we flatter ourselves that we have formed its conception, we have merely deceived our understanding by the consideration of infinitely rarified matter."
+   },
+   {
+    "type": "para",
+    "text": "P. There seems to me an insurmountable objection to the idea of absolute coalescence;—and that is the very slight resistance experienced by the heavenly bodies in their revolutions through space—a resistance now ascertained, it is true, to exist in some degree, but which is, nevertheless, so slight as to have been quite overlooked by the sagacity even of Newton. We know that the resistance of bodies is, chiefly, in proportion to their density. Absolute coalescence is absolute density. Where there are no interspaces, there can be no yielding. An ether, absolutely dense, would put an infinitely more effectual stop to the progress of a star than would an ether of adamant or of iron."
+   },
+   {
+    "type": "para",
+    "text": "V. Your objection is answered with an ease which is nearly in the ratio of its apparent unanswerability.—As regards the progress of the star, it can make no difference whether the star passes through the ether or the ether through it. There is no astronomical error more unaccountable than that which reconciles the known retardation of the comets with the idea of their passage through an ether: for, however rare this ether be supposed, it would put a stop to all sidereal revolution in a very far briefer period than has been admitted by those astronomers who have endeavored to slur over a point which they found it impossible to comprehend. The retardation actually experienced is, on the other hand, about that which might be expected from the friction of the ether in the instantaneous passage through the orb. In the one case, the retarding force is momentary and complete within itself—in the other it is endlessly accumulative."
+   },
+   {
+    "type": "para",
+    "text": "P. But in all this—in this identification of mere matter with God—is there nothing of irreverence? [I was forced to repeat this question before the sleep-waker fully comprehended my meaning.]"
+   },
+   {
+    "type": "para",
+    "text": "V. Can you say why matter should be less reverenced than mind? But you forget that the matter of which I speak is, in all respects, the very “mind” or “spirit” of the schools, so far as regards its high capacities, and is, moreover, the “matter” of these schools at the same time. God, with all the powers attributed to spirit, is but the perfection of matter."
+   },
+   {
+    "type": "para",
+    "text": "P. You assert, then, that the unparticled matter, in motion, is thought?"
+   },
+   {
+    "type": "para",
+    "text": "V. In general, this motion is the universal thought of the universal mind. This thought creates. All created things are but the thoughts of God."
+   },
+   {
+    "type": "para",
+    "text": "P. You say, “in general.”"
+   },
+   {
+    "type": "para",
+    "text": "V. Yes. The universal mind is God. For new individualities, matter is necessary."
+   },
+   {
+    "type": "para",
+    "text": "P. But you now speak of “mind” and “matter” as do the metaphysicians."
+   },
+   {
+    "type": "para",
+    "text": "V. Yes—to avoid confusion. When I say “mind,” I mean the unparticled or ultimate matter; by “matter,” I intend all else."
+   },
+   {
+    "type": "para",
+    "text": "P. You were saying that “for new individualities matter is necessary.”"
+   },
+   {
+    "type": "para",
+    "text": "V. Yes; for mind, existing unincorporate, is merely God. To create individual, thinking beings, it was necessary to incarnate portions of the divine mind. Thus man is individualized. Divested of corporate investiture, he were God. Now, the particular motion of the incarnated portions of the unparticled matter is the thought of man; as the motion of the whole is that of God."
+   },
+   {
+    "type": "para",
+    "text": "P. You say that divested of the body man will be God?"
+   },
+   {
+    "type": "para",
+    "text": "V. [After much hesitation.] I could not have said this; it is an absurdity."
+   },
+   {
+    "type": "para",
+    "text": "P. [Referring to my notes.] You did say that “divested of corporate investiture man were God.”"
+   },
+   {
+    "type": "para",
+    "text": "V. And this is true. Man thus divested would be God—would be unindividualized. But he can never be thus divested—at least never will be—else we must imagine an action of God returning upon itself—a purposeless and futile action. Man is a creature. Creatures are thoughts of God. It is the nature of thought to be irrevocable."
+   },
+   {
+    "type": "para",
+    "text": "P. I do not comprehend. You say that man will never put off the body?"
+   },
+   {
+    "type": "para",
+    "text": "V. I say that he will never be bodiless."
+   },
+   {
+    "type": "para",
+    "text": "P. Explain."
+   },
+   {
+    "type": "para",
+    "text": "V. There are two bodies—the rudimental and the complete; corresponding with the two conditions of the worm and the butterfly. What we call “death,” is but the painful metamorphosis. Our present incarnation is progressive, preparatory, temporary. Our future is perfected, ultimate, immortal. The ultimate life is the full design."
+   },
+   {
+    "type": "para",
+    "text": "P. But of the worm’s metamorphosis we are palpably cognizant."
+   },
+   {
+    "type": "para",
+    "text": "V. We, certainly—but not the worm. The matter of which our rudimental body is composed, is within the ken of the organs of that body; or, more distinctly, our rudimental organs are adapted to the matter of which is formed the rudimental body; but not to that of which the ultimate is composed. The ultimate body thus escapes our rudimental senses, and we perceive only the shell which falls, in decaying, from the inner form; not that inner form itself; but this inner form, as well as the shell, is appreciable by those who have already acquired the ultimate life."
+   },
+   {
+    "type": "para",
+    "text": "P. You have often said that the mesmeric state very nearly resembles death. How is this?"
+   },
+   {
+    "type": "para",
+    "text": "V. When I say that it resembles death, I mean that it resembles the ultimate life; for when I am entranced the senses of my rudimental life are in abeyance, and I perceive external things directly, without organs, through a medium which I shall employ in the ultimate, unorganized life."
+   },
+   {
+    "type": "para",
+    "text": "P. Unorganized?"
+   },
+   {
+    "type": "para",
+    "text": "V. Yes; organs are contrivances by which the individual is brought into sensible relation with particular classes and forms of matter, to the exclusion of other classes and forms. The organs of man are adapted to his rudimental condition, and to that only; his ultimate condition, being unorganized, is of unlimited comprehension in all points but one—the nature of the volition of God—that is to say, the motion of the unparticled matter. You will have a distinct idea of the ultimate body by conceiving it to be entire brain. This it is not; but a conception of this nature will bring you near a comprehension of what it is. A luminous body imparts vibration to the luminiferous ether. The vibrations generate similar ones within the retina; these again communicate similar ones to the optic nerve. The nerve conveys similar ones to the brain; the brain, also, similar ones to the unparticled matter which permeates it. The motion of this latter is thought, of which perception is the first undulation. This is the mode by which the mind of the rudimental life communicates with the external world; and this external world is, to the rudimental life, limited, through the idiosyncrasy of its organs. But in the ultimate, unorganized life, the external world reaches the whole body, (which is of a substance having affinity to brain, as I have said,) with no other intervention than that of an infinitely rarer ether than even the luminiferous; and to this ether—in unison with it—the whole body vibrates, setting in motion the unparticled matter which permeates it. It is to the absence of idiosyncratic organs, therefore, that we must attribute the nearly unlimited perception of the ultimate life. To rudimental beings, organs are the cages necessary to confine them until fledged."
+   },
+   {
+    "type": "para",
+    "text": "P. You speak of rudimental “beings.” Are there other rudimental thinking beings than man?"
+   },
+   {
+    "type": "para",
+    "text": "V. The multitudinous conglomeration of rare matter into nebulæ, planets, suns, and other bodies which are neither nebulæ, suns, nor planets, is for the sole purpose of supplying pabulum for the idiosyncrasy of the organs of an infinity of rudimental beings. But for the necessity of the rudimental, prior to the ultimate life, there would have been no bodies such as these. Each of these is tenanted by a distinct variety of organic, rudimental, thinking creatures. In all, the organs vary with the features of the place tenanted. At death, or metamorphosis, these creatures, enjoying the ultimate life—immortality—and cognizant of all secrets but the one, act all things and pass everywhere by mere volition:—indwelling, not the stars, which to us seem the sole palpabilities, and for the accommodation of which we blindly deem space created—but that SPACE itself—that infinity of which the truly substantive vastness swallows up the star-shadows—blotting them out as non-entities from the perception of the angels."
+   },
+   {
+    "type": "para",
+    "text": "P. You say that “but for the necessity of the rudimental life” there would have been no stars. But why this necessity?"
+   },
+   {
+    "type": "para",
+    "text": "V. In the inorganic life, as well as in the inorganic matter generally, there is nothing to impede the action of one simple unique law—the Divine Volition. With the view of producing impediment, the organic life and matter, (complex, substantial, and law-encumbered,) were contrived."
+   },
+   {
+    "type": "para",
+    "text": "P. But again—why need this impediment have been produced?"
+   },
+   {
+    "type": "para",
+    "text": "V. The result of law inviolate is perfection—right—negative happiness. The result of law violate is imperfection, wrong, positive pain. Through the impediments afforded by the number, complexity, and substantiality of the laws of organic life and matter, the violation of law is rendered, to a certain extent, practicable. Thus pain, which in the inorganic life is impossible, is possible in the organic."
+   },
+   {
+    "type": "para",
+    "text": "P. But to what good end is pain thus rendered possible?"
+   },
+   {
+    "type": "para",
+    "text": "V. All things are either good or bad by comparison. A sufficient analysis will show that pleasure, in all cases, is but the contrast of pain. Positive pleasure is a mere idea. To be happy at any one point we must have suffered at the same. Never to suffer would have been never to have been blessed. But it has been shown that, in the inorganic life, pain cannot be thus the necessity for the organic. The pain of the primitive life of Earth, is the sole basis of the bliss of the ultimate life in Heaven."
+   },
+   {
+    "type": "para",
+    "text": "P. Still, there is one of your expressions which I find it impossible to comprehend—“the truly substantive vastness of infinity.”"
+   },
+   {
+    "type": "para",
+    "text": "V. This, probably, is because you have no sufficiently generic conception of the term “substance” itself. We must not regard it as a quality, but as a sentiment:—it is the perception, in thinking beings, of the adaptation of matter to their organization. There are many things on the Earth, which would be nihility to the inhabitants of Venus—many things visible and tangible in Venus, which we could not be brought to appreciate as existing at all. But to the inorganic beings—to the angels—the whole of the unparticled matter is substance—that is to say, the whole of what we term “space” is to them the truest substantiality;—the stars, meantime, through what we consider their materiality, escaping the angelic sense, just in proportion as the unparticled matter, through what we consider its immateriality, eludes the organic."
+   },
+   {
+    "type": "para",
+    "text": "As the sleep-waker pronounced these latter words, in a feeble tone, I observed on his countenance a singular expression, which somewhat alarmed me, and induced me to awake him at once. No sooner had I done this, than, with a bright smile irradiating all his features, he fell back upon his pillow and expired. I noticed that in less than a minute afterward his corpse had all the stern rigidity of stone. His brow was of the coldness of ice. Thus, ordinarily, should it have appeared, only after long pressure from Azrael’s hand. Had the sleep-waker, indeed, during the latter portion of his discourse, been addressing me from out the region of the shadows?"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 2481,
+   "startLine": 2482,
+   "endLine": 2935,
+   "heading": "MESMERIC REVELATION",
+   "bodySha256": "02de53ad99aebb8c1739663d862c0446c67864e1cd0e7742c4761a2854d817b8"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-facts-in-the-case-of-m-valdemar",
+  "kind": "story",
+  "title": "THE FACTS IN THE CASE OF M. VALDEMAR",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Of course I shall not pretend to consider it any matter for wonder, that the extraordinary case of M. Valdemar has excited discussion. It would have been a miracle had it not—especially under the circumstances. Through the desire of all parties concerned, to keep the affair from the public, at least for the present, or until we had farther opportunities for investigation—through our endeavors to effect this—a garbled or exaggerated account made its way into society, and became the source of many unpleasant misrepresentations; and, very naturally, of a great deal of disbelief."
+   },
+   {
+    "type": "para",
+    "text": "It is now rendered necessary that I give the facts—as far as I comprehend them myself. They are, succinctly, these:"
+   },
+   {
+    "type": "para",
+    "text": "My attention, for the last three years, had been repeatedly drawn to the subject of Mesmerism; and, about nine months ago it occurred to me, quite suddenly, that in the series of experiments made hitherto, there had been a very remarkable and most unaccountable omission:—no person had as yet been mesmerized in articulo mortis. It remained to be seen, first, whether, in such condition, there existed in the patient any susceptibility to the magnetic influence; secondly, whether, if any existed, it was impaired or increased by the condition; thirdly, to what extent, or for how long a period, the encroachments of Death might be arrested by the process. There were other points to be ascertained, but these most excited my curiosity—the last in especial, from the immensely important character of its consequences."
+   },
+   {
+    "type": "para",
+    "text": "In looking around me for some subject by whose means I might test these particulars, I was brought to think of my friend, M. Ernest Valdemar, the well-known compiler of the “Bibliotheca Forensica,” and author (under the nom de plume of Issachar Marx) of the Polish versions of “Wallenstein” and “Gargantua.” M. Valdemar, who has resided principally at Harlem, N.Y., since the year 1839, is (or was) particularly noticeable for the extreme spareness of his person—his lower limbs much resembling those of John Randolph; and, also, for the whiteness of his whiskers, in violent contrast to the blackness of his hair—the latter, in consequence, being very generally mistaken for a wig. His temperament was markedly nervous, and rendered him a good subject for mesmeric experiment. On two or three occasions I had put him to sleep with little difficulty, but was disappointed in other results which his peculiar constitution had naturally led me to anticipate. His will was at no period positively, or thoroughly, under my control, and in regard to clairvoyance, I could accomplish with him nothing to be relied upon. I always attributed my failure at these points to the disordered state of his health. For some months previous to my becoming acquainted with him, his physicians had declared him in a confirmed phthisis. It was his custom, indeed, to speak calmly of his approaching dissolution, as of a matter neither to be avoided nor regretted."
+   },
+   {
+    "type": "para",
+    "text": "When the ideas to which I have alluded first occurred to me, it was of course very natural that I should think of M. Valdemar. I knew the steady philosophy of the man too well to apprehend any scruples from him; and he had no relatives in America who would be likely to interfere. I spoke to him frankly upon the subject; and, to my surprise, his interest seemed vividly excited. I say to my surprise, for, although he had always yielded his person freely to my experiments, he had never before given me any tokens of sympathy with what I did. His disease was of that character which would admit of exact calculation in respect to the epoch of its termination in death; and it was finally arranged between us that he would send for me about twenty-four hours before the period announced by his physicians as that of his decease."
+   },
+   {
+    "type": "para",
+    "text": "It is now rather more than seven months since I received, from M. Valdemar himself, the subjoined note:"
+   },
+   {
+    "type": "para",
+    "text": "MY DEAR P——,"
+   },
+   {
+    "type": "para",
+    "text": "You may as well come now. D—— and F—— are agreed that I cannot hold out beyond to-morrow midnight; and I think they have hit the time very nearly."
+   },
+   {
+    "type": "para",
+    "text": "VALDEMAR"
+   },
+   {
+    "type": "para",
+    "text": "I received this note within half an hour after it was written, and in fifteen minutes more I was in the dying man’s chamber. I had not seen him for ten days, and was appalled by the fearful alteration which the brief interval had wrought in him. His face wore a leaden hue; the eyes were utterly lustreless; and the emaciation was so extreme that the skin had been broken through by the cheek-bones. His expectoration was excessive. The pulse was barely perceptible. He retained, nevertheless, in a very remarkable manner, both his mental power and a certain degree of physical strength. He spoke with distinctness—took some palliative medicines without aid—and, when I entered the room, was occupied in penciling memoranda in a pocket-book. He was propped up in the bed by pillows. Doctors D—— and F—— were in attendance."
+   },
+   {
+    "type": "para",
+    "text": "After pressing Valdemar’s hand, I took these gentlemen aside, and obtained from them a minute account of the patient’s condition. The left lung had been for eighteen months in a semi-osseous or cartilaginous state, and was, of course, entirely useless for all purposes of vitality. The right, in its upper portion, was also partially, if not thoroughly, ossified, while the lower region was merely a mass of purulent tubercles, running one into another. Several extensive perforations existed; and, at one point, permanent adhesion to the ribs had taken place. These appearances in the right lobe were of comparatively recent date. The ossification had proceeded with very unusual rapidity; no sign of it had been discovered a month before, and the adhesion had only been observed during the three previous days. Independently of the phthisis, the patient was suspected of aneurism of the aorta; but on this point the osseous symptoms rendered an exact diagnosis impossible. It was the opinion of both physicians that M. Valdemar would die about midnight on the morrow (Sunday). It was then seven o’clock on Saturday evening."
+   },
+   {
+    "type": "para",
+    "text": "On quitting the invalid’s bed-side to hold conversation with myself, Doctors D—— and F—— had bidden him a final farewell. It had not been their intention to return; but, at my request, they agreed to look in upon the patient about ten the next night."
+   },
+   {
+    "type": "para",
+    "text": "When they had gone, I spoke freely with M. Valdemar on the subject of his approaching dissolution, as well as, more particularly, of the experiment proposed. He still professed himself quite willing and even anxious to have it made, and urged me to commence it at once. A male and a female nurse were in attendance; but I did not feel myself altogether at liberty to engage in a task of this character with no more reliable witnesses than these people, in case of sudden accident, might prove. I therefore postponed operations until about eight the next night, when the arrival of a medical student with whom I had some acquaintance, (Mr. Theodore L—l,) relieved me from farther embarrassment. It had been my design, originally, to wait for the physicians; but I was induced to proceed, first, by the urgent entreaties of M. Valdemar, and secondly, by my conviction that I had not a moment to lose, as he was evidently sinking fast."
+   },
+   {
+    "type": "para",
+    "text": "Mr. L—l was so kind as to accede to my desire that he would take notes of all that occurred, and it is from his memoranda that what I now have to relate is, for the most part, either condensed or copied verbatim."
+   },
+   {
+    "type": "para",
+    "text": "It wanted about five minutes of eight when, taking the patient’s hand, I begged him to state, as distinctly as he could, to Mr. L—l, whether he (M. Valdemar) was entirely willing that I should make the experiment of mesmerizing him in his then condition."
+   },
+   {
+    "type": "para",
+    "text": "He replied feebly, yet quite audibly, “Yes, I wish to be. I fear you have mesmerized”—adding immediately afterwards: “I fear you have deferred it too long.”"
+   },
+   {
+    "type": "para",
+    "text": "While he spoke thus, I commenced the passes which I had already found most effectual in subduing him. He was evidently influenced with the first lateral stroke of my hand across his forehead; but although I exerted all my powers, no further perceptible effect was induced until some minutes after ten o’clock, when Doctors D—— and F—— called, according to appointment. I explained to them, in a few words, what I designed, and as they opposed no objection, saying that the patient was already in the death agony, I proceeded without hesitation—exchanging, however, the lateral passes for downward ones, and directing my gaze entirely into the right eye of the sufferer."
+   },
+   {
+    "type": "para",
+    "text": "By this time his pulse was imperceptible and his breathing was stertorous, and at intervals of half a minute."
+   },
+   {
+    "type": "para",
+    "text": "This condition was nearly unaltered for a quarter of an hour. At the expiration of this period, however, a natural although a very deep sigh escaped the bosom of the dying man, and the stertorous breathing ceased—that is to say, its stertorousness was no longer apparent; the intervals were undiminished. The patient’s extremities were of an icy coldness."
+   },
+   {
+    "type": "para",
+    "text": "At five minutes before eleven I perceived unequivocal signs of the mesmeric influence. The glassy roll of the eye was changed for that expression of uneasy inward examination which is never seen except in cases of sleep-waking, and which it is quite impossible to mistake. With a few rapid lateral passes I made the lids quiver, as in incipient sleep, and with a few more I closed them altogether. I was not satisfied, however, with this, but continued the manipulations vigorously, and with the fullest exertion of the will, until I had completely stiffened the limbs of the slumberer, after placing them in a seemingly easy position. The legs were at full length; the arms were nearly so, and reposed on the bed at a moderate distance from the loin. The head was very slightly elevated."
+   },
+   {
+    "type": "para",
+    "text": "When I had accomplished this, it was fully midnight, and I requested the gentlemen present to examine M. Valdemar’s condition. After a few experiments, they admitted him to be an unusually perfect state of mesmeric trance. The curiosity of both the physicians was greatly excited. Dr. D—— resolved at once to remain with the patient all night, while Dr. F—— took leave with a promise to return at daybreak. Mr. L—l and the nurses remained."
+   },
+   {
+    "type": "para",
+    "text": "We left M. Valdemar entirely undisturbed until about three o’clock in the morning, when I approached him and found him in precisely the same condition as when Dr. F—— went away—that is to say, he lay in the same position; the pulse was imperceptible; the breathing was gentle (scarcely noticeable, unless through the application of a mirror to the lips); the eyes were closed naturally; and the limbs were as rigid and as cold as marble. Still, the general appearance was certainly not that of death."
+   },
+   {
+    "type": "para",
+    "text": "As I approached M. Valdemar I made a kind of half effort to influence his right arm into pursuit of my own, as I passed the latter gently to and fro above his person. In such experiments with this patient, I had never perfectly succeeded before, and assuredly I had little thought of succeeding now; but to my astonishment, his arm very readily, although feebly, followed every direction I assigned it with mine. I determined to hazard a few words of conversation."
+   },
+   {
+    "type": "para",
+    "text": "“M. Valdemar,” I said, “are you asleep?” He made no answer, but I perceived a tremor about the lips, and was thus induced to repeat the question, again and again. At its third repetition, his whole frame was agitated by a very slight shivering; the eyelids unclosed themselves so far as to display a white line of the ball; the lips moved sluggishly, and from between them, in a barely audible whisper, issued the words:"
+   },
+   {
+    "type": "para",
+    "text": "“Yes;—asleep now. Do not wake me!—let me die so!”"
+   },
+   {
+    "type": "para",
+    "text": "I here felt the limbs and found them as rigid as ever. The right arm, as before, obeyed the direction of my hand. I questioned the sleep-waker again:"
+   },
+   {
+    "type": "para",
+    "text": "“Do you still feel pain in the breast, M. Valdemar?”"
+   },
+   {
+    "type": "para",
+    "text": "The answer now was immediate, but even less audible than before:"
+   },
+   {
+    "type": "para",
+    "text": "“No pain—I am dying.”"
+   },
+   {
+    "type": "para",
+    "text": "I did not think it advisable to disturb him farther just then, and nothing more was said or done until the arrival of Dr. F——, who came a little before sunrise, and expressed unbounded astonishment at finding the patient still alive. After feeling the pulse and applying a mirror to the lips, he requested me to speak to the sleep-waker again. I did so, saying:"
+   },
+   {
+    "type": "para",
+    "text": "“M. Valdemar, do you still sleep?”"
+   },
+   {
+    "type": "para",
+    "text": "As before, some minutes elapsed ere a reply was made; and during the interval the dying man seemed to be collecting his energies to speak. At my fourth repetition of the question, he said very faintly, almost inaudibly:"
+   },
+   {
+    "type": "para",
+    "text": "“Yes; still asleep—dying.”"
+   },
+   {
+    "type": "para",
+    "text": "It was now the opinion, or rather the wish, of the physicians, that M. Valdemar should be suffered to remain undisturbed in his present apparently tranquil condition, until death should supervene—and this, it was generally agreed, must now take place within a few minutes. I concluded, however, to speak to him once more, and merely repeated my previous question."
+   },
+   {
+    "type": "para",
+    "text": "While I spoke, there came a marked change over the countenance of the sleep-waker. The eyes rolled themselves slowly open, the pupils disappearing upwardly; the skin generally assumed a cadaverous hue, resembling not so much parchment as white paper; and the circular hectic spots which, hitherto, had been strongly defined in the centre of each cheek, went out at once. I use this expression, because the suddenness of their departure put me in mind of nothing so much as the extinguishment of a candle by a puff of the breath. The upper lip, at the same time, writhed itself away from the teeth, which it had previously covered completely; while the lower jaw fell with an audible jerk, leaving the mouth widely extended, and disclosing in full view the swollen and blackened tongue. I presume that no member of the party then present had been unaccustomed to death-bed horrors; but so hideous beyond conception was the appearance of M. Valdemar at this moment, that there was a general shrinking back from the region of the bed."
+   },
+   {
+    "type": "para",
+    "text": "I now feel that I have reached a point of this narrative at which every reader will be startled into positive disbelief. It is my business, however, simply to proceed."
+   },
+   {
+    "type": "para",
+    "text": "There was no longer the faintest sign of vitality in M. Valdemar; and concluding him to be dead, we were consigning him to the charge of the nurses, when a strong vibratory motion was observable in the tongue. This continued for perhaps a minute. At the expiration of this period, there issued from the distended and motionless jaws a voice—such as it would be madness in me to attempt describing. There are, indeed, two or three epithets which might be considered as applicable to it in part; I might say, for example, that the sound was harsh, and broken and hollow; but the hideous whole is indescribable, for the simple reason that no similar sounds have ever jarred upon the ear of humanity. There were two particulars, nevertheless, which I thought then, and still think, might fairly be stated as characteristic of the intonation—as well adapted to convey some idea of its unearthly peculiarity. In the first place, the voice seemed to reach our ears—at least mine—from a vast distance, or from some deep cavern within the earth. In the second place, it impressed me (I fear, indeed, that it will be impossible to make myself comprehended) as gelatinous or glutinous matters impress the sense of touch."
+   },
+   {
+    "type": "para",
+    "text": "I have spoken both of “sound” and of “voice.” I mean to say that the sound was one of distinct—of even wonderfully, thrillingly distinct—syllabification. M. Valdemar spoke—obviously in reply to the question I had propounded to him a few minutes before. I had asked him, it will be remembered, if he still slept. He now said:"
+   },
+   {
+    "type": "para",
+    "text": "“Yes;—no;—I have been sleeping—and now—now—I am dead.”"
+   },
+   {
+    "type": "para",
+    "text": "No person present even affected to deny, or attempted to repress, the unutterable, shuddering horror which these few words, thus uttered, were so well calculated to convey. Mr. L—l (the student) swooned. The nurses immediately left the chamber, and could not be induced to return. My own impressions I would not pretend to render intelligible to the reader. For nearly an hour, we busied ourselves, silently—without the utterance of a word—in endeavors to revive Mr. L—l. When he came to himself, we addressed ourselves again to an investigation of M. Valdemar’s condition."
+   },
+   {
+    "type": "para",
+    "text": "It remained in all respects as I have last described it, with the exception that the mirror no longer afforded evidence of respiration. An attempt to draw blood from the arm failed. I should mention, too, that this limb was no farther subject to my will. I endeavored in vain to make it follow the direction of my hand. The only real indication, indeed, of the mesmeric influence, was now found in the vibratory movement of the tongue, whenever I addressed M. Valdemar a question. He seemed to be making an effort to reply, but had no longer sufficient volition. To queries put to him by any other person than myself he seemed utterly insensible—although I endeavored to place each member of the company in mesmeric rapport with him. I believe that I have now related all that is necessary to an understanding of the sleep-waker’s state at this epoch. Other nurses were procured; and at ten o’clock I left the house in company with the two physicians and Mr. L—l."
+   },
+   {
+    "type": "para",
+    "text": "In the afternoon we all called again to see the patient. His condition remained precisely the same. We had now some discussion as to the propriety and feasibility of awakening him; but we had little difficulty in agreeing that no good purpose would be served by so doing. It was evident that, so far, death (or what is usually termed death) had been arrested by the mesmeric process. It seemed clear to us all that to awaken M. Valdemar would be merely to insure his instant, or at least his speedy, dissolution."
+   },
+   {
+    "type": "para",
+    "text": "From this period until the close of last week—an interval of nearly seven months—we continued to make daily calls at M. Valdemar’s house, accompanied, now and then, by medical and other friends. All this time the sleeper-waker remained exactly as I have last described him. The nurses’ attentions were continual."
+   },
+   {
+    "type": "para",
+    "text": "It was on Friday last that we finally resolved to make the experiment of awakening, or attempting to awaken him; and it is the (perhaps) unfortunate result of this latter experiment which has given rise to so much discussion in private circles—to so much of what I cannot help thinking unwarranted popular feeling."
+   },
+   {
+    "type": "para",
+    "text": "For the purpose of relieving M. Valdemar from the mesmeric trance, I made use of the customary passes. These, for a time, were unsuccessful. The first indication of revival was afforded by a partial descent of the iris. It was observed, as especially remarkable, that this lowering of the pupil was accompanied by the profuse out-flowing of a yellowish ichor (from beneath the lids) of a pungent and highly offensive odor."
+   },
+   {
+    "type": "para",
+    "text": "It was now suggested that I should attempt to influence the patient’s arm, as heretofore. I made the attempt and failed. Dr. F—— then intimated a desire to have me put a question. I did so, as follows:"
+   },
+   {
+    "type": "para",
+    "text": "“M. Valdemar, can you explain to us what are your feelings or wishes now?”"
+   },
+   {
+    "type": "para",
+    "text": "There was an instant return of the hectic circles on the cheeks; the tongue quivered, or rather rolled violently in the mouth (although the jaws and lips remained rigid as before), and at length the same hideous voice which I have already described, broke forth:"
+   },
+   {
+    "type": "para",
+    "text": "“For God’s sake!—quick!—quick!—put me to sleep—or, quick!—waken me!—quick!—I say to you that I am dead!”"
+   },
+   {
+    "type": "para",
+    "text": "I was thoroughly unnerved, and for an instant remained undecided what to do. At first I made an endeavor to recompose the patient; but, failing in this through total abeyance of the will, I retraced my steps and as earnestly struggled to awaken him. In this attempt I soon saw that I should be successful—or at least I soon fancied that my success would be complete—and I am sure that all in the room were prepared to see the patient awaken."
+   },
+   {
+    "type": "para",
+    "text": "For what really occurred, however, it is quite impossible that any human being could have been prepared."
+   },
+   {
+    "type": "para",
+    "text": "As I rapidly made the mesmeric passes, amid ejaculations of “dead! dead!” absolutely bursting from the tongue and not from the lips of the sufferer, his whole frame at once—within the space of a single minute, or even less, shrunk—crumbled—absolutely rotted away beneath my hands. Upon the bed, before that whole company, there lay a nearly liquid mass of loathsome—of detestable putrescence."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 2940,
+   "startLine": 2941,
+   "endLine": 3338,
+   "heading": "THE FACTS IN THE CASE OF M. VALDEMAR",
+   "bodySha256": "8349c6c6a9e066b095ca5cd2c0b7d136165f08782a2d90281f690a7b7f4055ac"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-black-cat",
+  "kind": "story",
+  "title": "THE BLACK CAT.",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "For the most wild, yet most homely narrative which I am about to pen, I neither expect nor solicit belief. Mad indeed would I be to expect it, in a case where my very senses reject their own evidence. Yet, mad am I not—and very surely do I not dream. But to-morrow I die, and to-day I would unburthen my soul. My immediate purpose is to place before the world, plainly, succinctly, and without comment, a series of mere household events. In their consequences, these events have terrified—have tortured—have destroyed me. Yet I will not attempt to expound them. To me, they have presented little but horror—to many they will seem less terrible than barroques. Hereafter, perhaps, some intellect may be found which will reduce my phantasm to the common-place—some intellect more calm, more logical, and far less excitable than my own, which will perceive, in the circumstances I detail with awe, nothing more than an ordinary succession of very natural causes and effects."
+   },
+   {
+    "type": "para",
+    "text": "From my infancy I was noted for the docility and humanity of my disposition. My tenderness of heart was even so conspicuous as to make me the jest of my companions. I was especially fond of animals, and was indulged by my parents with a great variety of pets. With these I spent most of my time, and never was so happy as when feeding and caressing them. This peculiarity of character grew with my growth, and in my manhood, I derived from it one of my principal sources of pleasure. To those who have cherished an affection for a faithful and sagacious dog, I need hardly be at the trouble of explaining the nature or the intensity of the gratification thus derivable. There is something in the unselfish and self-sacrificing love of a brute, which goes directly to the heart of him who has had frequent occasion to test the paltry friendship and gossamer fidelity of mere Man."
+   },
+   {
+    "type": "para",
+    "text": "I married early, and was happy to find in my wife a disposition not uncongenial with my own. Observing my partiality for domestic pets, she lost no opportunity of procuring those of the most agreeable kind. We had birds, gold-fish, a fine dog, rabbits, a small monkey, and a cat."
+   },
+   {
+    "type": "para",
+    "text": "This latter was a remarkably large and beautiful animal, entirely black, and sagacious to an astonishing degree. In speaking of his intelligence, my wife, who at heart was not a little tinctured with superstition, made frequent allusion to the ancient popular notion, which regarded all black cats as witches in disguise. Not that she was ever serious upon this point—and I mention the matter at all for no better reason than that it happens, just now, to be remembered."
+   },
+   {
+    "type": "para",
+    "text": "Pluto—this was the cat’s name—was my favorite pet and playmate. I alone fed him, and he attended me wherever I went about the house. It was even with difficulty that I could prevent him from following me through the streets."
+   },
+   {
+    "type": "para",
+    "text": "Our friendship lasted, in this manner, for several years, during which my general temperament and character—through the instrumentality of the Fiend Intemperance—had (I blush to confess it) experienced a radical alteration for the worse. I grew, day by day, more moody, more irritable, more regardless of the feelings of others. I suffered myself to use intemperate language to my wife. At length, I even offered her personal violence. My pets, of course, were made to feel the change in my disposition. I not only neglected, but ill-used them. For Pluto, however, I still retained sufficient regard to restrain me from maltreating him, as I made no scruple of maltreating the rabbits, the monkey, or even the dog, when by accident, or through affection, they came in my way. But my disease grew upon me—for what disease is like Alcohol!—and at length even Pluto, who was now becoming old, and consequently somewhat peevish—even Pluto began to experience the effects of my ill temper."
+   },
+   {
+    "type": "para",
+    "text": "One night, returning home, much intoxicated, from one of my haunts about town, I fancied that the cat avoided my presence. I seized him; when, in his fright at my violence, he inflicted a slight wound upon my hand with his teeth. The fury of a demon instantly possessed me. I knew myself no longer. My original soul seemed, at once, to take its flight from my body and a more than fiendish malevolence, gin-nurtured, thrilled every fibre of my frame. I took from my waistcoat-pocket a pen-knife, opened it, grasped the poor beast by the throat, and deliberately cut one of its eyes from the socket! I blush, I burn, I shudder, while I pen the damnable atrocity."
+   },
+   {
+    "type": "para",
+    "text": "When reason returned with the morning—when I had slept off the fumes of the night’s debauch—I experienced a sentiment half of horror, half of remorse, for the crime of which I had been guilty; but it was, at best, a feeble and equivocal feeling, and the soul remained untouched. I again plunged into excess, and soon drowned in wine all memory of the deed."
+   },
+   {
+    "type": "para",
+    "text": "In the meantime the cat slowly recovered. The socket of the lost eye presented, it is true, a frightful appearance, but he no longer appeared to suffer any pain. He went about the house as usual, but, as might be expected, fled in extreme terror at my approach. I had so much of my old heart left, as to be at first grieved by this evident dislike on the part of a creature which had once so loved me. But this feeling soon gave place to irritation. And then came, as if to my final and irrevocable overthrow, the spirit of PERVERSENESS. Of this spirit philosophy takes no account. Yet I am not more sure that my soul lives, than I am that perverseness is one of the primitive impulses of the human heart—one of the indivisible primary faculties, or sentiments, which give direction to the character of Man. Who has not, a hundred times, found himself committing a vile or a silly action, for no other reason than because he knows he should not? Have we not a perpetual inclination, in the teeth of our best judgment, to violate that which is Law, merely because we understand it to be such? This spirit of perverseness, I say, came to my final overthrow. It was this unfathomable longing of the soul to vex itself—to offer violence to its own nature—to do wrong for the wrong’s sake only—that urged me to continue and finally to consummate the injury I had inflicted upon the unoffending brute. One morning, in cool blood, I slipped a noose about its neck and hung it to the limb of a tree;—hung it with the tears streaming from my eyes, and with the bitterest remorse at my heart;—hung it because I knew that it had loved me, and because I felt it had given me no reason of offence;—hung it because I knew that in so doing I was committing a sin—a deadly sin that would so jeopardize my immortal soul as to place it—if such a thing were possible—even beyond the reach of the infinite mercy of the Most Merciful and Most Terrible God."
+   },
+   {
+    "type": "para",
+    "text": "On the night of the day on which this cruel deed was done, I was aroused from sleep by the cry of fire. The curtains of my bed were in flames. The whole house was blazing. It was with great difficulty that my wife, a servant, and myself, made our escape from the conflagration. The destruction was complete. My entire worldly wealth was swallowed up, and I resigned myself thenceforward to despair."
+   },
+   {
+    "type": "para",
+    "text": "I am above the weakness of seeking to establish a sequence of cause and effect, between the disaster and the atrocity. But I am detailing a chain of facts—and wish not to leave even a possible link imperfect. On the day succeeding the fire, I visited the ruins. The walls, with one exception, had fallen in. This exception was found in a compartment wall, not very thick, which stood about the middle of the house, and against which had rested the head of my bed. The plastering had here, in great measure, resisted the action of the fire—a fact which I attributed to its having been recently spread. About this wall a dense crowd were collected, and many persons seemed to be examining a particular portion of it with very minute and eager attention. The words “strange!” “singular!” and other similar expressions, excited my curiosity. I approached and saw, as if graven in bas relief upon the white surface, the figure of a gigantic cat. The impression was given with an accuracy truly marvellous. There was a rope about the animal’s neck."
+   },
+   {
+    "type": "para",
+    "text": "When I first beheld this apparition—for I could scarcely regard it as less—my wonder and my terror were extreme. But at length reflection came to my aid. The cat, I remembered, had been hung in a garden adjacent to the house. Upon the alarm of fire, this garden had been immediately filled by the crowd—by some one of whom the animal must have been cut from the tree and thrown, through an open window, into my chamber. This had probably been done with the view of arousing me from sleep. The falling of other walls had compressed the victim of my cruelty into the substance of the freshly-spread plaster; the lime of which, with the flames, and the ammonia from the carcass, had then accomplished the portraiture as I saw it."
+   },
+   {
+    "type": "para",
+    "text": "Although I thus readily accounted to my reason, if not altogether to my conscience, for the startling fact just detailed, it did not the less fail to make a deep impression upon my fancy. For months I could not rid myself of the phantasm of the cat; and, during this period, there came back into my spirit a half-sentiment that seemed, but was not, remorse. I went so far as to regret the loss of the animal, and to look about me, among the vile haunts which I now habitually frequented, for another pet of the same species, and of somewhat similar appearance, with which to supply its place."
+   },
+   {
+    "type": "para",
+    "text": "One night as I sat, half stupefied, in a den of more than infamy, my attention was suddenly drawn to some black object, reposing upon the head of one of the immense hogsheads of gin, or of rum, which constituted the chief furniture of the apartment. I had been looking steadily at the top of this hogshead for some minutes, and what now caused me surprise was the fact that I had not sooner perceived the object thereupon. I approached it, and touched it with my hand. It was a black cat—a very large one—fully as large as Pluto, and closely resembling him in every respect but one. Pluto had not a white hair upon any portion of his body; but this cat had a large, although indefinite splotch of white, covering nearly the whole region of the breast. Upon my touching him, he immediately arose, purred loudly, rubbed against my hand, and appeared delighted with my notice. This, then, was the very creature of which I was in search. I at once offered to purchase it of the landlord; but this person made no claim to it—knew nothing of it—had never seen it before."
+   },
+   {
+    "type": "para",
+    "text": "I continued my caresses, and, when I prepared to go home, the animal evinced a disposition to accompany me. I permitted it to do so; occasionally stooping and patting it as I proceeded. When it reached the house it domesticated itself at once, and became immediately a great favorite with my wife."
+   },
+   {
+    "type": "para",
+    "text": "For my own part, I soon found a dislike to it arising within me. This was just the reverse of what I had anticipated; but—I know not how or why it was—its evident fondness for myself rather disgusted and annoyed. By slow degrees, these feelings of disgust and annoyance rose into the bitterness of hatred. I avoided the creature; a certain sense of shame, and the remembrance of my former deed of cruelty, preventing me from physically abusing it. I did not, for some weeks, strike, or otherwise violently ill use it; but gradually—very gradually—I came to look upon it with unutterable loathing, and to flee silently from its odious presence, as from the breath of a pestilence."
+   },
+   {
+    "type": "para",
+    "text": "What added, no doubt, to my hatred of the beast, was the discovery, on the morning after I brought it home, that, like Pluto, it also had been deprived of one of its eyes. This circumstance, however, only endeared it to my wife, who, as I have already said, possessed, in a high degree, that humanity of feeling which had once been my distinguishing trait, and the source of many of my simplest and purest pleasures."
+   },
+   {
+    "type": "para",
+    "text": "With my aversion to this cat, however, its partiality for myself seemed to increase. It followed my footsteps with a pertinacity which it would be difficult to make the reader comprehend. Whenever I sat, it would crouch beneath my chair, or spring upon my knees, covering me with its loathsome caresses. If I arose to walk it would get between my feet and thus nearly throw me down, or, fastening its long and sharp claws in my dress, clamber, in this manner, to my breast. At such times, although I longed to destroy it with a blow, I was yet withheld from so doing, partly by a memory of my former crime, but chiefly—let me confess it at once—by absolute dread of the beast."
+   },
+   {
+    "type": "para",
+    "text": "This dread was not exactly a dread of physical evil—and yet I should be at a loss how otherwise to define it. I am almost ashamed to own—yes, even in this felon’s cell, I am almost ashamed to own—that the terror and horror with which the animal inspired me, had been heightened by one of the merest chimaeras it would be possible to conceive. My wife had called my attention, more than once, to the character of the mark of white hair, of which I have spoken, and which constituted the sole visible difference between the strange beast and the one I had destroyed. The reader will remember that this mark, although large, had been originally very indefinite; but, by slow degrees—degrees nearly imperceptible, and which for a long time my reason struggled to reject as fanciful—it had, at length, assumed a rigorous distinctness of outline. It was now the representation of an object that I shudder to name—and for this, above all, I loathed, and dreaded, and would have rid myself of the monster had I dared—it was now, I say, the image of a hideous—of a ghastly thing—of the GALLOWS!—oh, mournful and terrible engine of Horror and of Crime—of Agony and of Death!"
+   },
+   {
+    "type": "para",
+    "text": "And now was I indeed wretched beyond the wretchedness of mere Humanity. And a brute beast —whose fellow I had contemptuously destroyed—a brute beast to work out for me—for me a man, fashioned in the image of the High God—so much of insufferable woe! Alas! neither by day nor by night knew I the blessing of rest any more! During the former the creature left me no moment alone, and in the latter I started hourly from dreams of unutterable fear to find the hot breath of the thing upon my face, and its vast weight—an incarnate nightmare that I had no power to shake off—incumbent eternally upon my heart!"
+   },
+   {
+    "type": "para",
+    "text": "Beneath the pressure of torments such as these, the feeble remnant of the good within me succumbed. Evil thoughts became my sole intimates—the darkest and most evil of thoughts. The moodiness of my usual temper increased to hatred of all things and of all mankind; while, from the sudden, frequent, and ungovernable outbursts of a fury to which I now blindly abandoned myself, my uncomplaining wife, alas, was the most usual and the most patient of sufferers."
+   },
+   {
+    "type": "para",
+    "text": "One day she accompanied me, upon some household errand, into the cellar of the old building which our poverty compelled us to inhabit. The cat followed me down the steep stairs, and, nearly throwing me headlong, exasperated me to madness. Uplifting an axe, and forgetting, in my wrath, the childish dread which had hitherto stayed my hand, I aimed a blow at the animal which, of course, would have proved instantly fatal had it descended as I wished. But this blow was arrested by the hand of my wife. Goaded, by the interference, into a rage more than demoniacal, I withdrew my arm from her grasp and buried the axe in her brain. She fell dead upon the spot, without a groan."
+   },
+   {
+    "type": "para",
+    "text": "This hideous murder accomplished, I set myself forthwith, and with entire deliberation, to the task of concealing the body. I knew that I could not remove it from the house, either by day or by night, without the risk of being observed by the neighbors. Many projects entered my mind. At one period I thought of cutting the corpse into minute fragments, and destroying them by fire. At another, I resolved to dig a grave for it in the floor of the cellar. Again, I deliberated about casting it in the well in the yard—about packing it in a box, as if merchandise, with the usual arrangements, and so getting a porter to take it from the house. Finally I hit upon what I considered a far better expedient than either of these. I determined to wall it up in the cellar—as the monks of the middle ages are recorded to have walled up their victims."
+   },
+   {
+    "type": "para",
+    "text": "For a purpose such as this the cellar was well adapted. Its walls were loosely constructed, and had lately been plastered throughout with a rough plaster, which the dampness of the atmosphere had prevented from hardening. Moreover, in one of the walls was a projection, caused by a false chimney, or fireplace, that had been filled up, and made to resemble the red of the cellar. I made no doubt that I could readily displace the bricks at this point, insert the corpse, and wall the whole up as before, so that no eye could detect any thing suspicious. And in this calculation I was not deceived. By means of a crow-bar I easily dislodged the bricks, and, having carefully deposited the body against the inner wall, I propped it in that position, while, with little trouble, I re-laid the whole structure as it originally stood. Having procured mortar, sand, and hair, with every possible precaution, I prepared a plaster which could not be distinguished from the old, and with this I very carefully went over the new brickwork. When I had finished, I felt satisfied that all was right. The wall did not present the slightest appearance of having been disturbed. The rubbish on the floor was picked up with the minutest care. I looked around triumphantly, and said to myself: “Here at least, then, my labor has not been in vain.”"
+   },
+   {
+    "type": "para",
+    "text": "My next step was to look for the beast which had been the cause of so much wretchedness; for I had, at length, firmly resolved to put it to death. Had I been able to meet with it, at the moment, there could have been no doubt of its fate; but it appeared that the crafty animal had been alarmed at the violence of my previous anger, and forebore to present itself in my present mood. It is impossible to describe, or to imagine, the deep, the blissful sense of relief which the absence of the detested creature occasioned in my bosom. It did not make its appearance during the night; and thus for one night at least, since its introduction into the house, I soundly and tranquilly slept; aye, slept even with the burden of murder upon my soul!"
+   },
+   {
+    "type": "para",
+    "text": "The second and the third day passed, and still my tormentor came not. Once again I breathed as a freeman. The monster, in terror, had fled the premises forever! I should behold it no more! My happiness was supreme! The guilt of my dark deed disturbed me but little. Some few inquiries had been made, but these had been readily answered. Even a search had been instituted—but of course nothing was to be discovered. I looked upon my future felicity as secured."
+   },
+   {
+    "type": "para",
+    "text": "Upon the fourth day of the assassination, a party of the police came, very unexpectedly, into the house, and proceeded again to make rigorous investigation of the premises. Secure, however, in the inscrutability of my place of concealment, I felt no embarrassment whatever. The officers bade me accompany them in their search. They left no nook or corner unexplored. At length, for the third or fourth time, they descended into the cellar. I quivered not in a muscle. My heart beat calmly as that of one who slumbers in innocence. I walked the cellar from end to end. I folded my arms upon my bosom, and roamed easily to and fro. The police were thoroughly satisfied and prepared to depart. The glee at my heart was too strong to be restrained. I burned to say if but one word, by way of triumph, and to render doubly sure their assurance of my guiltlessness."
+   },
+   {
+    "type": "para",
+    "text": "“Gentlemen,” I said at last, as the party ascended the steps, “I delight to have allayed your suspicions. I wish you all health, and a little more courtesy. By the bye, gentlemen, this—this is a very well-constructed house.” (In the rabid desire to say something easily, I scarcely knew what I uttered at all.)—“I may say an excellently well-constructed house. These walls—are you going, gentlemen?—these walls are solidly put together;” and here, through the mere phrenzy of bravado, I rapped heavily, with a cane which I held in my hand, upon that very portion of the brick-work behind which stood the corpse of the wife of my bosom."
+   },
+   {
+    "type": "para",
+    "text": "But may God shield and deliver me from the fangs of the Arch-Fiend! No sooner had the reverberation of my blows sunk into silence, than I was answered by a voice from within the tomb!—by a cry, at first muffled and broken, like the sobbing of a child, and then quickly swelling into one long, loud, and continuous scream, utterly anomalous and inhuman—a howl—a wailing shriek, half of horror and half of triumph, such as might have arisen only out of hell, conjointly from the throats of the damned in their agony and of the demons that exult in the damnation."
+   },
+   {
+    "type": "para",
+    "text": "Of my own thoughts it is folly to speak. Swooning, I staggered to the opposite wall. For one instant the party upon the stairs remained motionless, through extremity of terror and of awe. In the next, a dozen stout arms were toiling at the wall. It fell bodily. The corpse, already greatly decayed and clotted with gore, stood erect before the eyes of the spectators. Upon its head, with red extended mouth and solitary eye of fire, sat the hideous beast whose craft had seduced me into murder, and whose informing voice had consigned me to the hangman. I had walled the monster up within the tomb!"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 3343,
+   "startLine": 3344,
+   "endLine": 3729,
+   "heading": "THE BLACK CAT.",
+   "bodySha256": "0ee2dbe9e7bc89a12aefa5a09bd98ad30b64a80a48f51f717027de4b51bf3a11"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-silencea-fable",
+  "kind": "story",
+  "title": "SILENCE—A FABLE",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "“The mountain pinnacles slumber; valleys, crags and caves are silent.”"
+   },
+   {
+    "type": "para",
+    "text": "“Listen to me,” said the Demon as he placed his hand upon my head. “The region of which I speak is a dreary region in Libya, by the borders of the river Zaire. And there is no quiet there, nor silence."
+   },
+   {
+    "type": "para",
+    "text": "“The waters of the river have a saffron and sickly hue; and they flow not onwards to the sea, but palpitate forever and forever beneath the red eye of the sun with a tumultuous and convulsive motion. For many miles on either side of the river’s oozy bed is a pale desert of gigantic water-lilies. They sigh one unto the other in that solitude, and stretch towards the heaven their long and ghastly necks, and nod to and fro their everlasting heads. And there is an indistinct murmur which cometh out from among them like the rushing of subterrene water. And they sigh one unto the other."
+   },
+   {
+    "type": "para",
+    "text": "“But there is a boundary to their realm—the boundary of the dark, horrible, lofty forest. There, like the waves about the Hebrides, the low underwood is agitated continually. But there is no wind throughout the heaven. And the tall primeval trees rock eternally hither and thither with a crashing and mighty sound. And from their high summits, one by one, drop everlasting dews. And at the roots strange poisonous flowers lie writhing in perturbed slumber. And overhead, with a rustling and loud noise, the gray clouds rush westwardly forever, until they roll, a cataract, over the fiery wall of the horizon. But there is no wind throughout the heaven. And by the shores of the river Zaire there is neither quiet nor silence."
+   },
+   {
+    "type": "para",
+    "text": "“It was night, and the rain fell; and falling, it was rain, but, having fallen, it was blood. And I stood in the morass among the tall and the rain fell upon my head—and the lilies sighed one unto the other in the solemnity of their desolation."
+   },
+   {
+    "type": "para",
+    "text": "“And, all at once, the moon arose through the thin ghastly mist, and was crimson in color. And mine eyes fell upon a huge gray rock which stood by the shore of the river, and was lighted by the light of the moon. And the rock was gray, and ghastly, and tall,—and the rock was gray. Upon its front were characters engraven in the stone; and I walked through the morass of water-lilies, until I came close unto the shore, that I might read the characters upon the stone. But I could not decypher them. And I was going back into the morass, when the moon shone with a fuller red, and I turned and looked again upon the rock, and upon the characters, and the characters were DESOLATION."
+   },
+   {
+    "type": "para",
+    "text": "“And I looked upwards, and there stood a man upon the summit of the rock; and I hid myself among the water-lilies that I might discover the actions of the man. And the man was tall and stately in form, and was wrapped up from his shoulders to his feet in the toga of old Rome. And the outlines of his figure were indistinct—but his features were the features of a deity; for the mantle of the night, and of the mist, and of the moon, and of the dew, had left uncovered the features of his face. And his brow was lofty with thought, and his eye wild with care; and, in the few furrows upon his cheek I read the fables of sorrow, and weariness, and disgust with mankind, and a longing after solitude."
+   },
+   {
+    "type": "para",
+    "text": "“And the man sat upon the rock, and leaned his head upon his hand, and looked out upon the desolation. He looked down into the low unquiet shrubbery, and up into the tall primeval trees, and up higher at the rustling heaven, and into the crimson moon. And I lay close within shelter of the lilies, and observed the actions of the man. And the man trembled in the solitude;—but the night waned, and he sat upon the rock."
+   },
+   {
+    "type": "para",
+    "text": "“And the man turned his attention from the heaven, and looked out upon the dreary river Zaire, and upon the yellow ghastly waters, and upon the pale legions of the water-lilies. And the man listened to the sighs of the water-lilies, and to the murmur that came up from among them. And I lay close within my covert and observed the actions of the man. And the man trembled in the solitude;—but the night waned and he sat upon the rock."
+   },
+   {
+    "type": "para",
+    "text": "“Then I went down into the recesses of the morass, and waded afar in among the wilderness of the lilies, and called unto the hippopotami which dwelt among the fens in the recesses of the morass. And the hippopotami heard my call, and came, with the behemoth, unto the foot of the rock, and roared loudly and fearfully beneath the moon. And I lay close within my covert and observed the actions of the man. And the man trembled in the solitude;—but the night waned and he sat upon the rock."
+   },
+   {
+    "type": "para",
+    "text": "“Then I cursed the elements with the curse of tumult; and a frightful tempest gathered in the heaven where, before, there had been no wind. And the heaven became livid with the violence of the tempest—and the rain beat upon the head of the man—and the floods of the river came down—and the river was tormented into foam—and the water-lilies shrieked within their beds—and the forest crumbled before the wind—and the thunder rolled—and the lightning fell—and the rock rocked to its foundation. And I lay close within my covert and observed the actions of the man. And the man trembled in the solitude;—but the night waned and he sat upon the rock."
+   },
+   {
+    "type": "para",
+    "text": "“Then I grew angry and cursed, with the curse of silence, the river, and the lilies, and the wind, and the forest, and the heaven, and the thunder, and the sighs of the water-lilies. And they became accursed, and were still. And the moon ceased to totter up its pathway to heaven—and the thunder died away—and the lightning did not flash—and the clouds hung motionless—and the waters sunk to their level and remained—and the trees ceased to rock—and the water-lilies sighed no more—and the murmur was heard no longer from among them, nor any shadow of sound throughout the vast illimitable desert. And I looked upon the characters of the rock, and they were changed; and the characters were SILENCE."
+   },
+   {
+    "type": "para",
+    "text": "“And mine eyes fell upon the countenance of the man, and his countenance was wan with terror. And, hurriedly, he raised his head from his hand, and stood forth upon the rock and listened. But there was no voice throughout the vast illimitable desert, and the characters upon the rock were SILENCE. And the man shuddered, and turned his face away, and fled afar off, in haste, so that I beheld him no more.”"
+   },
+   {
+    "type": "para",
+    "text": "Now there are fine tales in the volumes of the Magi—in the iron-bound, melancholy volumes of the Magi. Therein, I say, are glorious histories of the Heaven, and of the Earth, and of the mighty sea—and of the Genii that over-ruled the sea, and the earth, and the lofty heaven. There was much lore too in the sayings which were said by the Sybils; and holy, holy things were heard of old by the dim leaves that trembled around Dodona—but, as Allah liveth, that fable which the Demon told me as he sat by my side in the shadow of the tomb, I hold to be the most wonderful of all! And as the Demon made an end of his story, he fell back within the cavity of the tomb and laughed. And I could not laugh with the Demon, and he cursed me because I could not laugh. And the lynx which dwelleth forever in the tomb, came out therefrom, and lay down at the feet of the Demon, and looked at him steadily in the face."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 4504,
+   "startLine": 4505,
+   "endLine": 4640,
+   "heading": "SILENCE—A FABLE",
+   "bodySha256": "4339e09bf9d6f34697c6794854c6ad6a2ba941363f5a45f90b8a10c497fd2169"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-masque-of-the-red-death",
+  "kind": "story",
+  "title": "THE MASQUE OF THE RED DEATH.",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The “Red Death” had long devastated the country. No pestilence had ever been so fatal, or so hideous. Blood was its Avatar and its seal—the redness and the horror of blood. There were sharp pains, and sudden dizziness, and then profuse bleeding at the pores, with dissolution. The scarlet stains upon the body and especially upon the face of the victim, were the pest ban which shut him out from the aid and from the sympathy of his fellow-men. And the whole seizure, progress and termination of the disease, were the incidents of half an hour."
+   },
+   {
+    "type": "para",
+    "text": "But the Prince Prospero was happy and dauntless and sagacious. When his dominions were half depopulated, he summoned to his presence a thousand hale and light-hearted friends from among the knights and dames of his court, and with these retired to the deep seclusion of one of his castellated abbeys. This was an extensive and magnificent structure, the creation of the prince’s own eccentric yet august taste. A strong and lofty wall girdled it in. This wall had gates of iron. The courtiers, having entered, brought furnaces and massy hammers and welded the bolts. They resolved to leave means neither of ingress or egress to the sudden impulses of despair or of frenzy from within. The abbey was amply provisioned. With such precautions the courtiers might bid defiance to contagion. The external world could take care of itself. In the meantime it was folly to grieve, or to think. The prince had provided all the appliances of pleasure. There were buffoons, there were improvisatori, there were ballet-dancers, there were musicians, there was Beauty, there was wine. All these and security were within. Without was the “Red Death.”"
+   },
+   {
+    "type": "para",
+    "text": "It was toward the close of the fifth or sixth month of his seclusion, and while the pestilence raged most furiously abroad, that the Prince Prospero entertained his thousand friends at a masked ball of the most unusual magnificence."
+   },
+   {
+    "type": "para",
+    "text": "It was a voluptuous scene, that masquerade. But first let me tell of the rooms in which it was held. There were seven—an imperial suite. In many palaces, however, such suites form a long and straight vista, while the folding doors slide back nearly to the walls on either hand, so that the view of the whole extent is scarcely impeded. Here the case was very different; as might have been expected from the duke’s love of the bizarre. The apartments were so irregularly disposed that the vision embraced but little more than one at a time. There was a sharp turn at every twenty or thirty yards, and at each turn a novel effect. To the right and left, in the middle of each wall, a tall and narrow Gothic window looked out upon a closed corridor which pursued the windings of the suite. These windows were of stained glass whose color varied in accordance with the prevailing hue of the decorations of the chamber into which it opened. That at the eastern extremity was hung, for example, in blue—and vividly blue were its windows. The second chamber was purple in its ornaments and tapestries, and here the panes were purple. The third was green throughout, and so were the casements. The fourth was furnished and lighted with orange—the fifth with white—the sixth with violet. The seventh apartment was closely shrouded in black velvet tapestries that hung all over the ceiling and down the walls, falling in heavy folds upon a carpet of the same material and hue. But in this chamber only, the color of the windows failed to correspond with the decorations. The panes here were scarlet—a deep blood color. Now in no one of the seven apartments was there any lamp or candelabrum, amid the profusion of golden ornaments that lay scattered to and fro or depended from the roof. There was no light of any kind emanating from lamp or candle within the suite of chambers. But in the corridors that followed the suite, there stood, opposite to each window, a heavy tripod, bearing a brazier of fire that projected its rays through the tinted glass and so glaringly illumined the room. And thus were produced a multitude of gaudy and fantastic appearances. But in the western or black chamber the effect of the fire-light that streamed upon the dark hangings through the blood-tinted panes, was ghastly in the extreme, and produced so wild a look upon the countenances of those who entered, that there were few of the company bold enough to set foot within its precincts at all."
+   },
+   {
+    "type": "para",
+    "text": "It was in this apartment, also, that there stood against the western wall, a gigantic clock of ebony. Its pendulum swung to and fro with a dull, heavy, monotonous clang; and when the minute-hand made the circuit of the face, and the hour was to be stricken, there came from the brazen lungs of the clock a sound which was clear and loud and deep and exceedingly musical, but of so peculiar a note and emphasis that, at each lapse of an hour, the musicians of the orchestra were constrained to pause, momentarily, in their performance, to hearken to the sound; and thus the waltzers perforce ceased their evolutions; and there was a brief disconcert of the whole gay company; and, while the chimes of the clock yet rang, it was observed that the giddiest grew pale, and the more aged and sedate passed their hands over their brows as if in confused reverie or meditation. But when the echoes had fully ceased, a light laughter at once pervaded the assembly; the musicians looked at each other and smiled as if at their own nervousness and folly, and made whispering vows, each to the other, that the next chiming of the clock should produce in them no similar emotion; and then, after the lapse of sixty minutes (which embrace three thousand and six hundred seconds of the Time that flies), there came yet another chiming of the clock, and then were the same disconcert and tremulousness and meditation as before."
+   },
+   {
+    "type": "para",
+    "text": "But, in spite of these things, it was a gay and magnificent revel. The tastes of the duke were peculiar. He had a fine eye for colors and effects. He disregarded the decora of mere fashion. His plans were bold and fiery, and his conceptions glowed with barbaric lustre. There are some who would have thought him mad. His followers felt that he was not. It was necessary to hear and see and touch him to be sure that he was not."
+   },
+   {
+    "type": "para",
+    "text": "He had directed, in great part, the moveable embellishments of the seven chambers, upon occasion of this great fête; and it was his own guiding taste which had given character to the masqueraders. Be sure they were grotesque. There were much glare and glitter and piquancy and phantasm—much of what has been since seen in “Hernani.” There were arabesque figures with unsuited limbs and appointments. There were delirious fancies such as the madman fashions. There was much of the beautiful, much of the wanton, much of the bizarre, something of the terrible, and not a little of that which might have excited disgust. To and fro in the seven chambers there stalked, in fact, a multitude of dreams. And these—the dreams—writhed in and about, taking hue from the rooms, and causing the wild music of the orchestra to seem as the echo of their steps. And, anon, there strikes the ebony clock which stands in the hall of the velvet. And then, for a moment, all is still, and all is silent save the voice of the clock. The dreams are stiff-frozen as they stand. But the echoes of the chime die away—they have endured but an instant—and a light, half-subdued laughter floats after them as they depart. And now again the music swells, and the dreams live, and writhe to and fro more merrily than ever, taking hue from the many-tinted windows through which stream the rays from the tripods. But to the chamber which lies most westwardly of the seven, there are now none of the maskers who venture; for the night is waning away; and there flows a ruddier light through the blood-colored panes; and the blackness of the sable drapery appals; and to him whose foot falls upon the sable carpet, there comes from the near clock of ebony a muffled peal more solemnly emphatic than any which reaches their ears who indulge in the more remote gaieties of the other apartments."
+   },
+   {
+    "type": "para",
+    "text": "But these other apartments were densely crowded, and in them beat feverishly the heart of life. And the revel went whirlingly on, until at length there commenced the sounding of midnight upon the clock. And then the music ceased, as I have told; and the evolutions of the waltzers were quieted; and there was an uneasy cessation of all things as before. But now there were twelve strokes to be sounded by the bell of the clock; and thus it happened, perhaps, that more of thought crept, with more of time, into the meditations of the thoughtful among those who revelled. And thus, too, it happened, perhaps, that before the last echoes of the last chime had utterly sunk into silence, there were many individuals in the crowd who had found leisure to become aware of the presence of a masked figure which had arrested the attention of no single individual before. And the rumor of this new presence having spread itself whisperingly around, there arose at length from the whole company a buzz, or murmur, expressive of disapprobation and surprise—then, finally, of terror, of horror, and of disgust."
+   },
+   {
+    "type": "para",
+    "text": "In an assembly of phantasms such as I have painted, it may well be supposed that no ordinary appearance could have excited such sensation. In truth the masquerade license of the night was nearly unlimited; but the figure in question had out-Heroded Herod, and gone beyond the bounds of even the prince’s indefinite decorum. There are chords in the hearts of the most reckless which cannot be touched without emotion. Even with the utterly lost, to whom life and death are equally jests, there are matters of which no jest can be made. The whole company, indeed, seemed now deeply to feel that in the costume and bearing of the stranger neither wit nor propriety existed. The figure was tall and gaunt, and shrouded from head to foot in the habiliments of the grave. The mask which concealed the visage was made so nearly to resemble the countenance of a stiffened corpse that the closest scrutiny must have had difficulty in detecting the cheat. And yet all this might have been endured, if not approved, by the mad revellers around. But the mummer had gone so far as to assume the type of the Red Death. His vesture was dabbled in blood—and his broad brow, with all the features of the face, was besprinkled with the scarlet horror."
+   },
+   {
+    "type": "para",
+    "text": "When the eyes of Prince Prospero fell upon this spectral image (which with a slow and solemn movement, as if more fully to sustain its role, stalked to and fro among the waltzers) he was seen to be convulsed, in the first moment with a strong shudder either of terror or distaste; but, in the next, his brow reddened with rage."
+   },
+   {
+    "type": "para",
+    "text": "“Who dares?” he demanded hoarsely of the courtiers who stood near him—“who dares insult us with this blasphemous mockery? Seize him and unmask him—that we may know whom we have to hang at sunrise, from the battlements!”"
+   },
+   {
+    "type": "para",
+    "text": "It was in the eastern or blue chamber in which stood the Prince Prospero as he uttered these words. They rang throughout the seven rooms loudly and clearly—for the prince was a bold and robust man, and the music had become hushed at the waving of his hand."
+   },
+   {
+    "type": "para",
+    "text": "It was in the blue room where stood the prince, with a group of pale courtiers by his side. At first, as he spoke, there was a slight rushing movement of this group in the direction of the intruder, who at the moment was also near at hand, and now, with deliberate and stately step, made closer approach to the speaker. But from a certain nameless awe with which the mad assumptions of the mummer had inspired the whole party, there were found none who put forth hand to seize him; so that, unimpeded, he passed within a yard of the prince’s person; and, while the vast assembly, as if with one impulse, shrank from the centres of the rooms to the walls, he made his way uninterruptedly, but with the same solemn and measured step which had distinguished him from the first, through the blue chamber to the purple—through the purple to the green—through the green to the orange—through this again to the white—and even thence to the violet, ere a decided movement had been made to arrest him. It was then, however, that the Prince Prospero, maddening with rage and the shame of his own momentary cowardice, rushed hurriedly through the six chambers, while none followed him on account of a deadly terror that had seized upon all. He bore aloft a drawn dagger, and had approached, in rapid impetuosity, to within three or four feet of the retreating figure, when the latter, having attained the extremity of the velvet apartment, turned suddenly and confronted his pursuer. There was a sharp cry—and the dagger dropped gleaming upon the sable carpet, upon which, instantly afterwards, fell prostrate in death the Prince Prospero. Then, summoning the wild courage of despair, a throng of the revellers at once threw themselves into the black apartment, and, seizing the mummer, whose tall figure stood erect and motionless within the shadow of the ebony clock, gasped in unutterable horror at finding the grave-cerements and corpse-like mask which they handled with so violent a rudeness, untenanted by any tangible form."
+   },
+   {
+    "type": "para",
+    "text": "And now was acknowledged the presence of the Red Death. He had come like a thief in the night. And one by one dropped the revellers in the blood-bedewed halls of their revel, and died each in the despairing posture of his fall. And the life of the ebony clock went out with that of the last of the gay. And the flames of the tripods expired. And Darkness and Decay and the Red Death held illimitable dominion over all."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 4645,
+   "startLine": 4646,
+   "endLine": 4883,
+   "heading": "THE MASQUE OF THE RED DEATH.",
+   "bodySha256": "999f82ec772e0fdbf2689a48f8b0616925148ef2d79e0449622af4c315d2edb8"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-cask-of-amontillado",
+  "kind": "story",
+  "title": "THE CASK OF AMONTILLADO.",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The thousand injuries of Fortunato I had borne as I best could; but when he ventured upon insult, I vowed revenge. You, who so well know the nature of my soul, will not suppose, however, that I gave utterance to a threat. At length I would be avenged; this was a point definitively settled—but the very definitiveness with which it was resolved, precluded the idea of risk. I must not only punish, but punish with impunity. A wrong is unredressed when retribution overtakes its redresser. It is equally unredressed when the avenger fails to make himself felt as such to him who has done the wrong."
+   },
+   {
+    "type": "para",
+    "text": "It must be understood, that neither by word nor deed had I given Fortunato cause to doubt my good will. I continued, as was my wont, to smile in his face, and he did not perceive that my smile now was at the thought of his immolation."
+   },
+   {
+    "type": "para",
+    "text": "He had a weak point—this Fortunato—although in other regards he was a man to be respected and even feared. He prided himself on his connoisseurship in wine. Few Italians have the true virtuoso spirit. For the most part their enthusiasm is adopted to suit the time and opportunity—to practise imposture upon the British and Austrian millionaires. In painting and gemmary, Fortunato, like his countrymen, was a quack—but in the matter of old wines he was sincere. In this respect I did not differ from him materially: I was skilful in the Italian vintages myself, and bought largely whenever I could."
+   },
+   {
+    "type": "para",
+    "text": "It was about dusk, one evening during the supreme madness of the carnival season, that I encountered my friend. He accosted me with excessive warmth, for he had been drinking much. The man wore motley. He had on a tight-fitting parti-striped dress, and his head was surmounted by the conical cap and bells. I was so pleased to see him, that I thought I should never have done wringing his hand."
+   },
+   {
+    "type": "para",
+    "text": "I said to him: “My dear Fortunato, you are luckily met. How remarkably well you are looking to-day! But I have received a pipe of what passes for Amontillado, and I have my doubts.”"
+   },
+   {
+    "type": "para",
+    "text": "“How?” said he. “Amontillado? A pipe? Impossible! And in the middle of the carnival!”"
+   },
+   {
+    "type": "para",
+    "text": "“I have my doubts,” I replied; “and I was silly enough to pay the full Amontillado price without consulting you in the matter. You were not to be found, and I was fearful of losing a bargain.”"
+   },
+   {
+    "type": "para",
+    "text": "“Amontillado!”"
+   },
+   {
+    "type": "para",
+    "text": "“I have my doubts.”"
+   },
+   {
+    "type": "para",
+    "text": "“Amontillado!”"
+   },
+   {
+    "type": "para",
+    "text": "“And I must satisfy them.”"
+   },
+   {
+    "type": "para",
+    "text": "“Amontillado!”"
+   },
+   {
+    "type": "para",
+    "text": "“As you are engaged, I am on my way to Luchesi. If any one has a critical turn, it is he. He will tell me—”"
+   },
+   {
+    "type": "para",
+    "text": "“Luchesi cannot tell Amontillado from Sherry.”"
+   },
+   {
+    "type": "para",
+    "text": "“And yet some fools will have it that his taste is a match for your own.”"
+   },
+   {
+    "type": "para",
+    "text": "“Come, let us go.”"
+   },
+   {
+    "type": "para",
+    "text": "“Whither?”"
+   },
+   {
+    "type": "para",
+    "text": "“To your vaults.”"
+   },
+   {
+    "type": "para",
+    "text": "“My friend, no; I will not impose upon your good nature. I perceive you have an engagement. Luchesi—”"
+   },
+   {
+    "type": "para",
+    "text": "“I have no engagement;—come.”"
+   },
+   {
+    "type": "para",
+    "text": "“My friend, no. It is not the engagement, but the severe cold with which I perceive you are afflicted. The vaults are insufferably damp. They are encrusted with nitre.”"
+   },
+   {
+    "type": "para",
+    "text": "“Let us go, nevertheless. The cold is merely nothing. Amontillado! You have been imposed upon. And as for Luchesi, he cannot distinguish Sherry from Amontillado.”"
+   },
+   {
+    "type": "para",
+    "text": "Thus speaking, Fortunato possessed himself of my arm. Putting on a mask of black silk, and drawing a roquelaire closely about my person, I suffered him to hurry me to my palazzo."
+   },
+   {
+    "type": "para",
+    "text": "There were no attendants at home; they had absconded to make merry in honor of the time. I had told them that I should not return until the morning, and had given them explicit orders not to stir from the house. These orders were sufficient, I well knew, to insure their immediate disappearance, one and all, as soon as my back was turned."
+   },
+   {
+    "type": "para",
+    "text": "I took from their sconces two flambeaux, and giving one to Fortunato, bowed him through several suites of rooms to the archway that led into the vaults. I passed down a long and winding staircase, requesting him to be cautious as he followed. We came at length to the foot of the descent, and stood together on the damp ground of the catacombs of the Montresors."
+   },
+   {
+    "type": "para",
+    "text": "The gait of my friend was unsteady, and the bells upon his cap jingled as he strode."
+   },
+   {
+    "type": "para",
+    "text": "“The pipe,” said he."
+   },
+   {
+    "type": "para",
+    "text": "“It is farther on,” said I; “but observe the white web-work which gleams from these cavern walls.”"
+   },
+   {
+    "type": "para",
+    "text": "He turned towards me, and looked into my eyes with two filmy orbs that distilled the rheum of intoxication."
+   },
+   {
+    "type": "para",
+    "text": "“Nitre?” he asked, at length."
+   },
+   {
+    "type": "para",
+    "text": "“Nitre,” I replied. “How long have you had that cough?”"
+   },
+   {
+    "type": "para",
+    "text": "“Ugh! ugh! ugh!—ugh! ugh! ugh!—ugh! ugh! ugh!—ugh! ugh! ugh!—ugh! ugh! ugh!”"
+   },
+   {
+    "type": "para",
+    "text": "My poor friend found it impossible to reply for many minutes."
+   },
+   {
+    "type": "para",
+    "text": "“It is nothing,” he said, at last."
+   },
+   {
+    "type": "para",
+    "text": "“Come,” I said, with decision, “we will go back; your health is precious. You are rich, respected, admired, beloved; you are happy, as once I was. You are a man to be missed. For me it is no matter. We will go back; you will be ill, and I cannot be responsible. Besides, there is Luchesi—”"
+   },
+   {
+    "type": "para",
+    "text": "“Enough,” he said; “the cough is a mere nothing; it will not kill me. I shall not die of a cough.”"
+   },
+   {
+    "type": "para",
+    "text": "“True—true,” I replied; “and, indeed, I had no intention of alarming you unnecessarily—but you should use all proper caution. A draught of this Medoc will defend us from the damps.”"
+   },
+   {
+    "type": "para",
+    "text": "Here I knocked off the neck of a bottle which I drew from a long row of its fellows that lay upon the mould."
+   },
+   {
+    "type": "para",
+    "text": "“Drink,” I said, presenting him the wine."
+   },
+   {
+    "type": "para",
+    "text": "He raised it to his lips with a leer. He paused and nodded to me familiarly, while his bells jingled."
+   },
+   {
+    "type": "para",
+    "text": "“I drink,” he said, “to the buried that repose around us.”"
+   },
+   {
+    "type": "para",
+    "text": "“And I to your long life.”"
+   },
+   {
+    "type": "para",
+    "text": "He again took my arm, and we proceeded."
+   },
+   {
+    "type": "para",
+    "text": "“These vaults,” he said, “are extensive.”"
+   },
+   {
+    "type": "para",
+    "text": "“The Montresors,” I replied, “were a great and numerous family.”"
+   },
+   {
+    "type": "para",
+    "text": "“I forget your arms.”"
+   },
+   {
+    "type": "para",
+    "text": "“A huge human foot d’or, in a field azure; the foot crushes a serpent rampant whose fangs are imbedded in the heel.”"
+   },
+   {
+    "type": "para",
+    "text": "“And the motto?”"
+   },
+   {
+    "type": "para",
+    "text": "“Nemo me impune lacessit.”"
+   },
+   {
+    "type": "para",
+    "text": "“Good!” he said."
+   },
+   {
+    "type": "para",
+    "text": "The wine sparkled in his eyes and the bells jingled. My own fancy grew warm with the Medoc. We had passed through walls of piled bones, with casks and puncheons intermingling, into the inmost recesses of the catacombs. I paused again, and this time I made bold to seize Fortunato by an arm above the elbow."
+   },
+   {
+    "type": "para",
+    "text": "“The nitre!” I said: “see, it increases. It hangs like moss upon the vaults. We are below the river’s bed. The drops of moisture trickle among the bones. Come, we will go back ere it is too late. Your cough—”"
+   },
+   {
+    "type": "para",
+    "text": "“It is nothing,” he said; “let us go on. But first, another draught of the Medoc.”"
+   },
+   {
+    "type": "para",
+    "text": "I broke and reached him a flagon of De Grâve. He emptied it at a breath. His eyes flashed with a fierce light. He laughed and threw the bottle upwards with a gesticulation I did not understand."
+   },
+   {
+    "type": "para",
+    "text": "I looked at him in surprise. He repeated the movement—a grotesque one."
+   },
+   {
+    "type": "para",
+    "text": "“You do not comprehend?” he said."
+   },
+   {
+    "type": "para",
+    "text": "“Not I,” I replied."
+   },
+   {
+    "type": "para",
+    "text": "“Then you are not of the brotherhood.”"
+   },
+   {
+    "type": "para",
+    "text": "“How?”"
+   },
+   {
+    "type": "para",
+    "text": "“You are not of the masons.”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, yes,” I said, “yes, yes.”"
+   },
+   {
+    "type": "para",
+    "text": "“You? Impossible! A mason?”"
+   },
+   {
+    "type": "para",
+    "text": "“A mason,” I replied."
+   },
+   {
+    "type": "para",
+    "text": "“A sign,” he said."
+   },
+   {
+    "type": "para",
+    "text": "“It is this,” I answered, producing a trowel from beneath the folds of my roquelaire."
+   },
+   {
+    "type": "para",
+    "text": "“You jest,” he exclaimed, recoiling a few paces. “But let us proceed to the Amontillado.”"
+   },
+   {
+    "type": "para",
+    "text": "“Be it so,” I said, replacing the tool beneath the cloak, and again offering him my arm. He leaned upon it heavily. We continued our route in search of the Amontillado. We passed through a range of low arches, descended, passed on, and descending again, arrived at a deep crypt, in which the foulness of the air caused our flambeaux rather to glow than flame."
+   },
+   {
+    "type": "para",
+    "text": "At the most remote end of the crypt there appeared another less spacious. Its walls had been lined with human remains, piled to the vault overhead, in the fashion of the great catacombs of Paris. Three sides of this interior crypt were still ornamented in this manner. From the fourth the bones had been thrown down, and lay promiscuously upon the earth, forming at one point a mound of some size. Within the wall thus exposed by the displacing of the bones, we perceived a still interior recess, in depth about four feet, in width three, in height six or seven. It seemed to have been constructed for no especial use in itself, but formed merely the interval between two of the colossal supports of the roof of the catacombs, and was backed by one of their circumscribing walls of solid granite."
+   },
+   {
+    "type": "para",
+    "text": "It was in vain that Fortunato, uplifting his dull torch, endeavored to pry into the depths of the recess. Its termination the feeble light did not enable us to see."
+   },
+   {
+    "type": "para",
+    "text": "“Proceed,” I said; “herein is the Amontillado. As for Luchesi—”"
+   },
+   {
+    "type": "para",
+    "text": "“He is an ignoramus,” interrupted my friend, as he stepped unsteadily forward, while I followed immediately at his heels. In an instant he had reached the extremity of the niche, and finding his progress arrested by the rock, stood stupidly bewildered. A moment more and I had fettered him to the granite. In its surface were two iron staples, distant from each other about two feet, horizontally. From one of these depended a short chain, from the other a padlock. Throwing the links about his waist, it was but the work of a few seconds to secure it. He was too much astounded to resist. Withdrawing the key I stepped back from the recess."
+   },
+   {
+    "type": "para",
+    "text": "“Pass your hand,” I said, “over the wall; you cannot help feeling the nitre. Indeed it is very damp. Once more let me implore you to return. No? Then I must positively leave you. But I must first render you all the little attentions in my power.”"
+   },
+   {
+    "type": "para",
+    "text": "“The Amontillado!” ejaculated my friend, not yet recovered from his astonishment."
+   },
+   {
+    "type": "para",
+    "text": "“True,” I replied; “the Amontillado.”"
+   },
+   {
+    "type": "para",
+    "text": "As I said these words I busied myself among the pile of bones of which I have before spoken. Throwing them aside, I soon uncovered a quantity of building stone and mortar. With these materials and with the aid of my trowel, I began vigorously to wall up the entrance of the niche."
+   },
+   {
+    "type": "para",
+    "text": "I had scarcely laid the first tier of my masonry when I discovered that the intoxication of Fortunato had in a great measure worn off. The earliest indication I had of this was a low moaning cry from the depth of the recess. It was not the cry of a drunken man. There was then a long and obstinate silence. I laid the second tier, and the third, and the fourth; and then I heard the furious vibrations of the chain. The noise lasted for several minutes, during which, that I might hearken to it with the more satisfaction, I ceased my labors and sat down upon the bones. When at last the clanking subsided, I resumed the trowel, and finished without interruption the fifth, the sixth, and the seventh tier. The wall was now nearly upon a level with my breast. I again paused, and holding the flambeaux over the mason-work, threw a few feeble rays upon the figure within."
+   },
+   {
+    "type": "para",
+    "text": "A succession of loud and shrill screams, bursting suddenly from the throat of the chained form, seemed to thrust me violently back. For a brief moment I hesitated—I trembled. Unsheathing my rapier, I began to grope with it about the recess; but the thought of an instant reassured me. I placed my hand upon the solid fabric of the catacombs, and felt satisfied. I reapproached the wall. I replied to the yells of him who clamored. I re-echoed—I aided—I surpassed them in volume and in strength. I did this, and the clamorer grew still."
+   },
+   {
+    "type": "para",
+    "text": "It was now midnight, and my task was drawing to a close. I had completed the eighth, the ninth, and the tenth tier. I had finished a portion of the last and the eleventh; there remained but a single stone to be fitted and plastered in. I struggled with its weight; I placed it partially in its destined position. But now there came from out the niche a low laugh that erected the hairs upon my head. It was succeeded by a sad voice, which I had difficulty in recognising as that of the noble Fortunato. The voice said—"
+   },
+   {
+    "type": "para",
+    "text": "“Ha! ha! ha!—he! he!—a very good joke indeed—an excellent jest. We will have many a rich laugh about it at the palazzo—he! he! he!—over our wine—he! he! he!”"
+   },
+   {
+    "type": "para",
+    "text": "“The Amontillado!” I said."
+   },
+   {
+    "type": "para",
+    "text": "“He! he! he!—he! he! he!—yes, the Amontillado. But is it not getting late? Will not they be awaiting us at the palazzo, the Lady Fortunato and the rest? Let us be gone.”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes,” I said, “let us be gone.”"
+   },
+   {
+    "type": "para",
+    "text": "“For the love of God, Montressor!”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes,” I said, “for the love of God!”"
+   },
+   {
+    "type": "para",
+    "text": "But to these words I hearkened in vain for a reply. I grew impatient. I called aloud—"
+   },
+   {
+    "type": "para",
+    "text": "“Fortunato!”"
+   },
+   {
+    "type": "para",
+    "text": "No answer. I called again—"
+   },
+   {
+    "type": "para",
+    "text": "“Fortunato!”"
+   },
+   {
+    "type": "para",
+    "text": "No answer still. I thrust a torch through the remaining aperture and let it fall within. There came forth in return only a jingling of the bells. My heart grew sick—on account of the dampness of the catacombs. I hastened to make an end of my labor. I forced the last stone into its position; I plastered it up. Against the new masonry I re-erected the old rampart of bones. For the half of a century no mortal has disturbed them. In pace requiescat!"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 4888,
+   "startLine": 4889,
+   "endLine": 5223,
+   "heading": "THE CASK OF AMONTILLADO.",
+   "bodySha256": "4ae570b0137ef5393b76908a01eddcef5206c3fb7e529525c4cd078476ef0afc"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-imp-of-the-perverse",
+  "kind": "story",
+  "title": "THE IMP OF THE PERVERSE",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "In the consideration of the faculties and impulses—of the prima mobilia of the human soul, the phrenologists have failed to make room for a propensity which, although obviously existing as a radical, primitive, irreducible sentiment, has been equally overlooked by all the moralists who have preceded them. In the pure arrogance of the reason, we have all overlooked it. We have suffered its existence to escape our senses, solely through want of belief—of faith;—whether it be faith in Revelation, or faith in the Kabbala. The idea of it has never occurred to us, simply because of its supererogation. We saw no need of the impulse—for the propensity. We could not perceive its necessity. We could not understand, that is to say, we could not have understood, had the notion of this primum mobile ever obtruded itself;—we could not have understood in what manner it might be made to further the objects of humanity, either temporal or eternal. It cannot be denied that phrenology and, in great measure, all metaphysicianism have been concocted a priori. The intellectual or logical man, rather than the understanding or observant man, set himself to imagine designs—to dictate purposes to God. Having thus fathomed, to his satisfaction, the intentions of Jehovah, out of these intentions he built his innumerable systems of mind. In the matter of phrenology, for example, we first determined, naturally enough, that it was the design of the Deity that man should eat. We then assigned to man an organ of alimentiveness, and this organ is the scourge with which the Deity compels man, will-I nill-I, into eating. Secondly, having settled it to be God’s will that man should continue his species, we discovered an organ of amativeness, forthwith. And so with combativeness, with ideality, with causality, with constructiveness,—so, in short, with every organ, whether representing a propensity, a moral sentiment, or a faculty of the pure intellect. And in these arrangements of the Principia of human action, the Spurzheimites, whether right or wrong, in part, or upon the whole, have but followed, in principle, the footsteps of their predecessors; deducing and establishing every thing from the preconceived destiny of man, and upon the ground of the objects of his Creator."
+   },
+   {
+    "type": "para",
+    "text": "It would have been wiser, it would have been safer, to classify (if classify we must) upon the basis of what man usually or occasionally did, and was always occasionally doing, rather than upon the basis of what we took it for granted the Deity intended him to do. If we cannot comprehend God in his visible works, how then in his inconceivable thoughts, that call the works into being? If we cannot understand him in his objective creatures, how then in his substantive moods and phases of creation?"
+   },
+   {
+    "type": "para",
+    "text": "Induction, a posteriori, would have brought phrenology to admit, as an innate and primitive principle of human action, a paradoxical something, which we may call perverseness, for want of a more characteristic term. In the sense I intend, it is, in fact, a mobile without motive, a motive not motivirt. Through its promptings we act without comprehensible object; or, if this shall be understood as a contradiction in terms, we may so far modify the proposition as to say, that through its promptings we act, for the reason that we should not. In theory, no reason can be more unreasonable, but, in fact, there is none more strong. With certain minds, under certain conditions, it becomes absolutely irresistible. I am not more certain that I breathe, than that the assurance of the wrong or error of any action is often the one unconquerable force which impels us, and alone impels us to its prosecution. Nor will this overwhelming tendency to do wrong for the wrong’s sake, admit of analysis, or resolution into ulterior elements. It is a radical, a primitive impulse—elementary. It will be said, I am aware, that when we persist in acts because we feel we should not persist in them, our conduct is but a modification of that which ordinarily springs from the combativeness of phrenology. But a glance will show the fallacy of this idea. The phrenological combativeness has for its essence, the necessity of self-defence. It is our safeguard against injury. Its principle regards our well-being; and thus the desire to be well is excited simultaneously with its development. It follows, that the desire to be well must be excited simultaneously with any principle which shall be merely a modification of combativeness, but in the case of that something which I term perverseness, the desire to be well is not only not aroused, but a strongly antagonistical sentiment exists."
+   },
+   {
+    "type": "para",
+    "text": "An appeal to one’s own heart is, after all, the best reply to the sophistry just noticed. No one who trustingly consults and thoroughly questions his own soul, will be disposed to deny the entire radicalness of the propensity in question. It is not more incomprehensible than distinctive. There lives no man who at some period has not been tormented, for example, by an earnest desire to tantalize a listener by circumlocution. The speaker is aware that he displeases; he has every intention to please, he is usually curt, precise, and clear; the most laconic and luminous language is struggling for utterance upon his tongue; it is only with difficulty that he restrains himself from giving it flow; he dreads and deprecates the anger of him whom he addresses; yet, the thought strikes him, that by certain involutions and parentheses this anger may be engendered. That single thought is enough. The impulse increases to a wish, the wish to a desire, the desire to an uncontrollable longing, and the longing (to the deep regret and mortification of the speaker, and in defiance of all consequences) is indulged."
+   },
+   {
+    "type": "para",
+    "text": "We have a task before us which must be speedily performed. We know that it will be ruinous to make delay. The most important crisis of our life calls, trumpet-tongued, for immediate energy and action. We glow, we are consumed with eagerness to commence the work, with the anticipation of whose glorious result our whole souls are on fire. It must, it shall be undertaken to-day, and yet we put it off until to-morrow; and why? There is no answer, except that we feel perverse, using the word with no comprehension of the principle. To-morrow arrives, and with it a more impatient anxiety to do our duty, but with this very increase of anxiety arrives, also, a nameless, a positively fearful, because unfathomable, craving for delay. This craving gathers strength as the moments fly. The last hour for action is at hand. We tremble with the violence of the conflict within us,—of the definite with the indefinite—of the substance with the shadow. But, if the contest have proceeded thus far, it is the shadow which prevails,—we struggle in vain. The clock strikes, and is the knell of our welfare. At the same time, it is the chanticleer-note to the ghost that has so long overawed us. It flies—it disappears—we are free. The old energy returns. We will labor now. Alas, it is too late!"
+   },
+   {
+    "type": "para",
+    "text": "We stand upon the brink of a precipice. We peer into the abyss—we grow sick and dizzy. Our first impulse is to shrink from the danger. Unaccountably we remain. By slow degrees our sickness and dizziness and horror become merged in a cloud of unnamable feeling. By gradations, still more imperceptible, this cloud assumes shape, as did the vapor from the bottle out of which arose the genius in the Arabian Nights. But out of this our cloud upon the precipice’s edge, there grows into palpability, a shape, far more terrible than any genius or any demon of a tale, and yet it is but a thought, although a fearful one, and one which chills the very marrow of our bones with the fierceness of the delight of its horror. It is merely the idea of what would be our sensations during the sweeping precipitancy of a fall from such a height. And this fall—this rushing annihilation—for the very reason that it involves that one most ghastly and loathsome of all the most ghastly and loathsome images of death and suffering which have ever presented themselves to our imagination—for this very cause do we now the most vividly desire it. And because our reason violently deters us from the brink, therefore do we the most impetuously approach it. There is no passion in nature so demoniacally impatient, as that of him who, shuddering upon the edge of a precipice, thus meditates a plunge. To indulge, for a moment, in any attempt at thought, is to be inevitably lost; for reflection but urges us to forbear, and therefore it is, I say, that we cannot. If there be no friendly arm to check us, or if we fail in a sudden effort to prostrate ourselves backward from the abyss, we plunge, and are destroyed."
+   },
+   {
+    "type": "para",
+    "text": "Examine these similar actions as we will, we shall find them resulting solely from the spirit of the Perverse. We perpetrate them because we feel that we should not. Beyond or behind this there is no intelligible principle; and we might, indeed, deem this perverseness a direct instigation of the Arch-Fiend, were it not occasionally known to operate in furtherance of good."
+   },
+   {
+    "type": "para",
+    "text": "I have said thus much, that in some measure I may answer your question—that I may explain to you why I am here—that I may assign to you something that shall have at least the faint aspect of a cause for my wearing these fetters, and for my tenanting this cell of the condemned. Had I not been thus prolix, you might either have misunderstood me altogether, or, with the rabble, have fancied me mad. As it is, you will easily perceive that I am one of the many uncounted victims of the Imp of the Perverse."
+   },
+   {
+    "type": "para",
+    "text": "It is impossible that any deed could have been wrought with a more thorough deliberation. For weeks, for months, I pondered upon the means of the murder. I rejected a thousand schemes, because their accomplishment involved a chance of detection. At length, in reading some French memoirs, I found an account of a nearly fatal illness that occurred to Madame Pilau, through the agency of a candle accidentally poisoned. The idea struck my fancy at once. I knew my victim’s habit of reading in bed. I knew, too, that his apartment was narrow and ill-ventilated. But I need not vex you with impertinent details. I need not describe the easy artifices by which I substituted, in his bed-room candle-stand, a wax-light of my own making for the one which I there found. The next morning he was discovered dead in his bed, and the coroner’s verdict was—“Death by the visitation of God.”"
+   },
+   {
+    "type": "para",
+    "text": "Having inherited his estate, all went well with me for years. The idea of detection never once entered my brain. Of the remains of the fatal taper I had myself carefully disposed. I had left no shadow of a clew by which it would be possible to convict, or even to suspect me of the crime. It is inconceivable how rich a sentiment of satisfaction arose in my bosom as I reflected upon my absolute security. For a very long period of time I was accustomed to revel in this sentiment. It afforded me more real delight than all the mere worldly advantages accruing from my sin. But there arrived at length an epoch, from which the pleasurable feeling grew, by scarcely perceptible gradations, into a haunting and harassing thought. It harassed because it haunted. I could scarcely get rid of it for an instant. It is quite a common thing to be thus annoyed with the ringing in our ears, or rather in our memories, of the burthen of some ordinary song, or some unimpressive snatches from an opera. Nor will we be the less tormented if the song in itself be good, or the opera air meritorious. In this manner, at last, I would perpetually catch myself pondering upon my security, and repeating, in a low undertone, the phrase, “I am safe.”"
+   },
+   {
+    "type": "para",
+    "text": "One day, whilst sauntering along the streets, I arrested myself in the act of murmuring, half aloud, these customary syllables. In a fit of petulance, I remodelled them thus: “I am safe—I am safe—yes—if I be not fool enough to make open confession!”"
+   },
+   {
+    "type": "para",
+    "text": "No sooner had I spoken these words, than I felt an icy chill creep to my heart. I had had some experience in these fits of perversity (whose nature I have been at some trouble to explain), and I remembered well that in no instance I had successfully resisted their attacks. And now my own casual self-suggestion that I might possibly be fool enough to confess the murder of which I had been guilty, confronted me, as if the very ghost of him whom I had murdered—and beckoned me on to death."
+   },
+   {
+    "type": "para",
+    "text": "At first, I made an effort to shake off this nightmare of the soul. I walked vigorously—faster—still faster—at length I ran. I felt a maddening desire to shriek aloud. Every succeeding wave of thought overwhelmed me with new terror, for, alas! I well, too well understood that to think, in my situation, was to be lost. I still quickened my pace. I bounded like a madman through the crowded thoroughfares. At length, the populace took the alarm, and pursued me. I felt then the consummation of my fate. Could I have torn out my tongue, I would have done it, but a rough voice resounded in my ears—a rougher grasp seized me by the shoulder. I turned—I gasped for breath. For a moment I experienced all the pangs of suffocation; I became blind, and deaf, and giddy; and then some invisible fiend, I thought, struck me with his broad palm upon the back. The long imprisoned secret burst forth from my soul."
+   },
+   {
+    "type": "para",
+    "text": "They say that I spoke with a distinct enunciation, but with marked emphasis and passionate hurry, as if in dread of interruption before concluding the brief but pregnant sentences that consigned me to the hangman and to hell."
+   },
+   {
+    "type": "para",
+    "text": "Having related all that was necessary for the fullest judicial conviction, I fell prostrate in a swoon."
+   },
+   {
+    "type": "para",
+    "text": "But why shall I say more? To-day I wear these chains, and am here! To-morrow I shall be fetterless!—but where?"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 5228,
+   "startLine": 5229,
+   "endLine": 5469,
+   "heading": "THE IMP OF THE PERVERSE",
+   "bodySha256": "c5360760f0a03a358c18f54b10a779d57a2880974074027f864b9a3d8f2ff14f"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-assignation",
+  "kind": "story",
+  "title": "THE ASSIGNATION",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Stay for me there! I will not fail. To meet thee in that hollow vale."
+   },
+   {
+    "type": "para",
+    "text": "(Exequy on the death of his wife, by Henry King, Bishop of Chichester.)"
+   },
+   {
+    "type": "para",
+    "text": "Ill-fated and mysterious man!—bewildered in the brilliancy of thine own imagination, and fallen in the flames of thine own youth! Again in fancy I behold thee! Once more thy form hath risen before me!—not—oh! not as thou art—in the cold valley and shadow—but as thou shouldst be—squandering away a life of magnificent meditation in that city of dim visions, thine own Venice—which is a star-beloved Elysium of the sea, and the wide windows of whose Palladian palaces look down with a deep and bitter meaning upon the secrets of her silent waters. Yes! I repeat it—as thou shouldst be. There are surely other worlds than this—other thoughts than the thoughts of the multitude—other speculations than the speculations of the sophist. Who then shall call thy conduct into question? who blame thee for thy visionary hours, or denounce those occupations as a wasting away of life, which were but the overflowings of thine everlasting energies?"
+   },
+   {
+    "type": "para",
+    "text": "It was at Venice, beneath the covered archway there called the Ponte di Sospiri, that I met for the third or fourth time the person of whom I speak. It is with a confused recollection that I bring to mind the circumstances of that meeting. Yet I remember—ah! how should I forget?—the deep midnight, the Bridge of Sighs, the beauty of woman, and the Genius of Romance that stalked up and down the narrow canal."
+   },
+   {
+    "type": "para",
+    "text": "It was a night of unusual gloom. The great clock of the Piazza had sounded the fifth hour of the Italian evening. The square of the Campanile lay silent and deserted, and the lights in the old Ducal Palace were dying fast away. I was returning home from the Piazetta, by way of the Grand Canal. But as my gondola arrived opposite the mouth of the canal San Marco, a female voice from its recesses broke suddenly upon the night, in one wild, hysterical, and long continued shriek. Startled at the sound, I sprang upon my feet: while the gondolier, letting slip his single oar, lost it in the pitchy darkness beyond a chance of recovery, and we were consequently left to the guidance of the current which here sets from the greater into the smaller channel. Like some huge and sable-feathered condor, we were slowly drifting down towards the Bridge of Sighs, when a thousand flambeaux flashing from the windows, and down the staircases of the Ducal Palace, turned all at once that deep gloom into a livid and preternatural day."
+   },
+   {
+    "type": "para",
+    "text": "A child, slipping from the arms of its own mother, had fallen from an upper window of the lofty structure into the deep and dim canal. The quiet waters had closed placidly over their victim; and, although my own gondola was the only one in sight, many a stout swimmer, already in the stream, was seeking in vain upon the surface, the treasure which was to be found, alas! only within the abyss. Upon the broad black marble flagstones at the entrance of the palace, and a few steps above the water, stood a figure which none who then saw can have ever since forgotten. It was the Marchesa Aphrodite—the adoration of all Venice—the gayest of the gay—the most lovely where all were beautiful—but still the young wife of the old and intriguing Mentoni, and the mother of that fair child, her first and only one, who now, deep beneath the murky water, was thinking in bitterness of heart upon her sweet caresses, and exhausting its little life in struggles to call upon her name."
+   },
+   {
+    "type": "para",
+    "text": "She stood alone. Her small, bare, and silvery feet gleamed in the black mirror of marble beneath her. Her hair, not as yet more than half loosened for the night from its ball-room array, clustered, amid a shower of diamonds, round and round her classical head, in curls like those of the young hyacinth. A snowy-white and gauze-like drapery seemed to be nearly the sole covering to her delicate form; but the mid-summer and midnight air was hot, sullen, and still, and no motion in the statue-like form itself, stirred even the folds of that raiment of very vapor which hung around it as the heavy marble hangs around the Niobe. Yet—strange to say!—her large lustrous eyes were not turned downwards upon that grave wherein her brightest hope lay buried—but riveted in a widely different direction! The prison of the Old Republic is, I think, the stateliest building in all Venice—but how could that lady gaze so fixedly upon it, when beneath her lay stifling her only child? Yon dark, gloomy niche, too, yawns right opposite her chamber window—what, then, could there be in its shadows—in its architecture—in its ivy-wreathed and solemn cornices—that the Marchesa di Mentoni had not wondered at a thousand times before? Nonsense!—Who does not remember that, at such a time as this, the eye, like a shattered mirror, multiplies the images of its sorrow, and sees in innumerable far-off places, the woe which is close at hand?"
+   },
+   {
+    "type": "para",
+    "text": "Many steps above the Marchesa, and within the arch of the water-gate, stood, in full dress, the Satyr-like figure of Mentoni himself. He was occasionally occupied in thrumming a guitar, and seemed ennuye to the very death, as at intervals he gave directions for the recovery of his child. Stupefied and aghast, I had myself no power to move from the upright position I had assumed upon first hearing the shriek, and must have presented to the eyes of the agitated group a spectral and ominous appearance, as with pale countenance and rigid limbs, I floated down among them in that funereal gondola."
+   },
+   {
+    "type": "para",
+    "text": "All efforts proved in vain. Many of the most energetic in the search were relaxing their exertions, and yielding to a gloomy sorrow. There seemed but little hope for the child; (how much less than for the mother!) but now, from the interior of that dark niche which has been already mentioned as forming a part of the Old Republican prison, and as fronting the lattice of the Marchesa, a figure muffled in a cloak, stepped out within reach of the light, and, pausing a moment upon the verge of the giddy descent, plunged headlong into the canal. As, in an instant afterwards, he stood with the still living and breathing child within his grasp, upon the marble flagstones by the side of the Marchesa, his cloak, heavy with the drenching water, became unfastened, and, falling in folds about his feet, discovered to the wonder-stricken spectators the graceful person of a very young man, with the sound of whose name the greater part of Europe was then ringing."
+   },
+   {
+    "type": "para",
+    "text": "No word spoke the deliverer. But the Marchesa! She will now receive her child—she will press it to her heart—she will cling to its little form, and smother it with her caresses. Alas! another’s arms have taken it from the stranger—another’s arms have taken it away, and borne it afar off, unnoticed, into the palace! And the Marchesa! Her lip—her beautiful lip trembles; tears are gathering in her eyes—those eyes which, like Pliny’s acanthus, are “soft and almost liquid.” Yes! tears are gathering in those eyes—and see! the entire woman thrills throughout the soul, and the statue has started into life! The pallor of the marble countenance, the swelling of the marble bosom, the very purity of the marble feet, we behold suddenly flushed over with a tide of ungovernable crimson; and a slight shudder quivers about her delicate frame, as a gentle air at Napoli about the rich silver lilies in the grass."
+   },
+   {
+    "type": "para",
+    "text": "Why should that lady blush! To this demand there is no answer—except that, having left, in the eager haste and terror of a mother’s heart, the privacy of her own boudoir, she has neglected to enthral her tiny feet in their slippers, and utterly forgotten to throw over her Venetian shoulders that drapery which is their due. What other possible reason could there have been for her so blushing?—for the glance of those wild appealing eyes?—for the unusual tumult of that throbbing bosom?—for the convulsive pressure of that trembling hand?—that hand which fell, as Mentoni turned into the palace, accidentally, upon the hand of the stranger. What reason could there have been for the low—the singularly low tone of those unmeaning words which the lady uttered hurriedly in bidding him adieu? “Thou hast conquered,” she said, or the murmurs of the water deceived me; “thou hast conquered—one hour after sunrise—we shall meet—so let it be!”"
+   },
+   {
+    "type": "para",
+    "text": "The tumult had subsided, the lights had died away within the palace, and the stranger, whom I now recognized, stood alone upon the flags. He shook with inconceivable agitation, and his eye glanced around in search of a gondola. I could not do less than offer him the service of my own; and he accepted the civility. Having obtained an oar at the water-gate, we proceeded together to his residence, while he rapidly recovered his self-possession, and spoke of our former slight acquaintance in terms of great apparent cordiality."
+   },
+   {
+    "type": "para",
+    "text": "There are some subjects upon which I take pleasure in being minute. The person of the stranger—let me call him by this title, who to all the world was still a stranger—the person of the stranger is one of these subjects. In height he might have been below rather than above the medium size: although there were moments of intense passion when his frame actually expanded and belied the assertion. The light, almost slender symmetry of his figure, promised more of that ready activity which he evinced at the Bridge of Sighs, than of that Herculean strength which he has been known to wield without an effort, upon occasions of more dangerous emergency. With the mouth and chin of a deity—singular, wild, full, liquid eyes, whose shadows varied from pure hazel to intense and brilliant jet—and a profusion of curling, black hair, from which a forehead of unusual breadth gleamed forth at intervals all light and ivory—his were features than which I have seen none more classically regular, except, perhaps, the marble ones of the Emperor Commodus. Yet his countenance was, nevertheless, one of those which all men have seen at some period of their lives, and have never afterwards seen again. It had no peculiar, it had no settled predominant expression to be fastened upon the memory; a countenance seen and instantly forgotten, but forgotten with a vague and never-ceasing desire of recalling it to mind. Not that the spirit of each rapid passion failed, at any time, to throw its own distinct image upon the mirror of that face—but that the mirror, mirror-like, retained no vestige of the passion, when the passion had departed."
+   },
+   {
+    "type": "para",
+    "text": "Upon leaving him on the night of our adventure, he solicited me, in what I thought an urgent manner, to call upon him very early the next morning. Shortly after sunrise, I found myself accordingly at his Palazzo, one of those huge structures of gloomy, yet fantastic pomp, which tower above the waters of the Grand Canal in the vicinity of the Rialto. I was shown up a broad winding staircase of mosaics, into an apartment whose unparalleled splendor burst through the opening door with an actual glare, making me blind and dizzy with luxuriousness."
+   },
+   {
+    "type": "para",
+    "text": "I knew my acquaintance to be wealthy. Report had spoken of his possessions in terms which I had even ventured to call terms of ridiculous exaggeration. But as I gazed about me, I could not bring myself to believe that the wealth of any subject in Europe could have supplied the princely magnificence which burned and blazed around."
+   },
+   {
+    "type": "para",
+    "text": "Although, as I say, the sun had arisen, yet the room was still brilliantly lighted up. I judge from this circumstance, as well as from an air of exhaustion in the countenance of my friend, that he had not retired to bed during the whole of the preceding night. In the architecture and embellishments of the chamber, the evident design had been to dazzle and astound. Little attention had been paid to the decora of what is technically called keeping, or to the proprieties of nationality. The eye wandered from object to object, and rested upon none—neither the grotesques of the Greek painters, nor the sculptures of the best Italian days, nor the huge carvings of untutored Egypt. Rich draperies in every part of the room trembled to the vibration of low, melancholy music, whose origin was not to be discovered. The senses were oppressed by mingled and conflicting perfumes, reeking up from strange convolute censers, together with multitudinous flaring and flickering tongues of emerald and violet fire. The rays of the newly risen sun poured in upon the whole, through windows, formed each of a single pane of crimson-tinted glass. Glancing to and fro, in a thousand reflections, from curtains which rolled from their cornices like cataracts of molten silver, the beams of natural glory mingled at length fitfully with the artificial light, and lay weltering in subdued masses upon a carpet of rich, liquid-looking cloth of Chili gold."
+   },
+   {
+    "type": "para",
+    "text": "“Ha! ha! ha!—ha! ha! ha!”—laughed the proprietor, motioning me to a seat as I entered the room, and throwing himself back at full-length upon an ottoman. “I see,” said he, perceiving that I could not immediately reconcile myself to the bienseance of so singular a welcome—“I see you are astonished at my apartment—at my statues—my pictures—my originality of conception in architecture and upholstery! absolutely drunk, eh, with my magnificence? But pardon me, my dear sir, (here his tone of voice dropped to the very spirit of cordiality,) pardon me for my uncharitable laughter. You appeared so utterly astonished. Besides, some things are so completely ludicrous, that a man must laugh or die. To die laughing, must be the most glorious of all glorious deaths! Sir Thomas More—a very fine man was Sir Thomas More—Sir Thomas More died laughing, you remember. Also in the Absurdities of Ravisius Textor, there is a long list of characters who came to the same magnificent end. Do you know, however,” continued he musingly, “that at Sparta (which is now Palæochori,) at Sparta, I say, to the west of the citadel, among a chaos of scarcely visible ruins, is a kind of socle, upon which are still legible the letters ΛΑΞΜ. They are undoubtedly part of ΓΕΛΑΞΜΑ. Now, at Sparta were a thousand temples and shrines to a thousand different divinities. How exceedingly strange that the altar of Laughter should have survived all the others! But in the present instance,” he resumed, with a singular alteration of voice and manner, “I have no right to be merry at your expense. You might well have been amazed. Europe cannot produce anything so fine as this, my little regal cabinet. My other apartments are by no means of the same order—mere ultras of fashionable insipidity. This is better than fashion—is it not? Yet this has but to be seen to become the rage—that is, with those who could afford it at the cost of their entire patrimony. I have guarded, however, against any such profanation. With one exception, you are the only human being besides myself and my valet, who has been admitted within the mysteries of these imperial precincts, since they have been bedizened as you see!”"
+   },
+   {
+    "type": "para",
+    "text": "I bowed in acknowledgment—for the overpowering sense of splendor and perfume, and music, together with the unexpected eccentricity of his address and manner, prevented me from expressing, in words, my appreciation of what I might have construed into a compliment."
+   },
+   {
+    "type": "para",
+    "text": "“Here,” he resumed, arising and leaning on my arm as he sauntered around the apartment, “here are paintings from the Greeks to Cimabue, and from Cimabue to the present hour. Many are chosen, as you see, with little deference to the opinions of Virtu. They are all, however, fitting tapestry for a chamber such as this. Here, too, are some chefs d’oeuvre of the unknown great; and here, unfinished designs by men, celebrated in their day, whose very names the perspicacity of the academies has left to silence and to me. What think you,” said he, turning abruptly as he spoke—“what think you of this Madonna della Pieta?”"
+   },
+   {
+    "type": "para",
+    "text": "“It is Guido’s own!” I said, with all the enthusiasm of my nature, for I had been poring intently over its surpassing loveliness. “It is Guido’s own!—how could you have obtained it?—she is undoubtedly in painting what the Venus is in sculpture.”"
+   },
+   {
+    "type": "para",
+    "text": "“Ha!” said he thoughtfully, “the Venus—the beautiful Venus?—the Venus of the Medici?—she of the diminutive head and the gilded hair? Part of the left arm (here his voice dropped so as to be heard with difficulty,) and all the right, are restorations; and in the coquetry of that right arm lies, I think, the quintessence of all affectation. Give me the Canova! The Apollo, too, is a copy—there can be no doubt of it—blind fool that I am, who cannot behold the boasted inspiration of the Apollo! I cannot help—pity me!—I cannot help preferring the Antinous. Was it not Socrates who said that the statuary found his statue in the block of marble? Then Michael Angelo was by no means original in his couplet—"
+   },
+   {
+    "type": "para",
+    "text": "‘Non ha l’ottimo artista alcun concetto Che un marmo solo in se non circunscriva.’”"
+   },
+   {
+    "type": "para",
+    "text": "It has been, or should be remarked, that, in the manner of the true gentleman, we are always aware of a difference from the bearing of the vulgar, without being at once precisely able to determine in what such difference consists. Allowing the remark to have applied in its full force to the outward demeanor of my acquaintance, I felt it, on that eventful morning, still more fully applicable to his moral temperament and character. Nor can I better define that peculiarity of spirit which seemed to place him so essentially apart from all other human beings, than by calling it a habit of intense and continual thought, pervading even his most trivial actions—intruding upon his moments of dalliance—and interweaving itself with his very flashes of merriment—like adders which writhe from out the eyes of the grinning masks in the cornices around the temples of Persepolis."
+   },
+   {
+    "type": "para",
+    "text": "I could not help, however, repeatedly observing, through the mingled tone of levity and solemnity with which he rapidly descanted upon matters of little importance, a certain air of trepidation—a degree of nervous unction in action and in speech—an unquiet excitability of manner which appeared to me at all times unaccountable, and upon some occasions even filled me with alarm. Frequently, too, pausing in the middle of a sentence whose commencement he had apparently forgotten, he seemed to be listening in the deepest attention, as if either in momentary expectation of a visitor, or to sounds which must have had existence in his imagination alone."
+   },
+   {
+    "type": "para",
+    "text": "It was during one of these reveries or pauses of apparent abstraction, that, in turning over a page of the poet and scholar Politian’s beautiful tragedy “The Orfeo,” (the first native Italian tragedy,) which lay near me upon an ottoman, I discovered a passage underlined in pencil. It was a passage towards the end of the third act—a passage of the most heart-stirring excitement—a passage which, although tainted with impurity, no man shall read without a thrill of novel emotion—no woman without a sigh. The whole page was blotted with fresh tears; and, upon the opposite interleaf, were the following English lines, written in a hand so very different from the peculiar characters of my acquaintance, that I had some difficulty in recognising it as his own:—"
+   },
+   {
+    "type": "para",
+    "text": "Thou wast that all to me, love, For which my soul did pine— A green isle in the sea, love, A fountain and a shrine, All wreathed with fairy fruits and flowers; And all the flowers were mine."
+   },
+   {
+    "type": "para",
+    "text": "Ah, dream too bright to last! Ah, starry Hope, that didst arise But to be overcast! A voice from out the Future cries, “Onward!”—but o’er the Past (Dim gulf!) my spirit hovering lies, Mute—motionless—aghast!"
+   },
+   {
+    "type": "para",
+    "text": "For alas!  alas!  with me The light of life is o’er. “No more—no more—no more,” (Such language holds the solemn sea To the sands upon the shore,) Shall bloom the thunder-blasted tree, Or the stricken eagle soar!"
+   },
+   {
+    "type": "para",
+    "text": "Now all my hours are trances; And all my nightly dreams Are where the dark eye glances, And where thy footstep gleams, In what ethereal dances, By what Italian streams."
+   },
+   {
+    "type": "para",
+    "text": "Alas!  for that accursed time They bore thee o’er the billow, From Love to titled age and crime, And an unholy pillow!— From me, and from our misty clime, Where weeps the silver willow!"
+   },
+   {
+    "type": "para",
+    "text": "That these lines were written in English—a language with which I had not believed their author acquainted—afforded me little matter for surprise. I was too well aware of the extent of his acquirements, and of the singular pleasure he took in concealing them from observation, to be astonished at any similar discovery; but the place of date, I must confess, occasioned me no little amazement. It had been originally written London, and afterwards carefully overscored—not, however, so effectually as to conceal the word from a scrutinizing eye. I say, this occasioned me no little amazement; for I well remember that, in a former conversation with a friend, I particularly inquired if he had at any time met in London the Marchesa di Mentoni, (who for some years previous to her marriage had resided in that city,) when his answer, if I mistake not, gave me to understand that he had never visited the metropolis of Great Britain. I might as well here mention, that I have more than once heard, (without, of course, giving credit to a report involving so many improbabilities,) that the person of whom I speak, was not only by birth, but in education, an Englishman."
+   },
+   {
+    "type": "para",
+    "text": "“There is one painting,” said he, without being aware of my notice of the tragedy—“there is still one painting which you have not seen.” And throwing aside a drapery, he discovered a full-length portrait of the Marchesa Aphrodite."
+   },
+   {
+    "type": "para",
+    "text": "Human art could have done no more in the delineation of her superhuman beauty. The same ethereal figure which stood before me the preceding night upon the steps of the Ducal Palace, stood before me once again. But in the expression of the countenance, which was beaming all over with smiles, there still lurked (incomprehensible anomaly!) that fitful stain of melancholy which will ever be found inseparable from the perfection of the beautiful. Her right arm lay folded over her bosom. With her left she pointed downward to a curiously fashioned vase. One small, fairy foot, alone visible, barely touched the earth; and, scarcely discernible in the brilliant atmosphere which seemed to encircle and enshrine her loveliness, floated a pair of the most delicately imagined wings. My glance fell from the painting to the figure of my friend, and the vigorous words of Chapman’s Bussy D’Ambois, quivered instinctively upon my lips:"
+   },
+   {
+    "type": "para",
+    "text": "“He is up There like a Roman statue!  He will stand Till Death hath made him marble!”"
+   },
+   {
+    "type": "para",
+    "text": "“Come,” he said at length, turning towards a table of richly enamelled and massive silver, upon which were a few goblets fantastically stained, together with two large Etruscan vases, fashioned in the same extraordinary model as that in the foreground of the portrait, and filled with what I supposed to be Johannisberger. “Come,” he said, abruptly, “let us drink! It is early—but let us drink. It is indeed early,” he continued, musingly, as a cherub with a heavy golden hammer made the apartment ring with the first hour after sunrise: “It is indeed early—but what matters it? let us drink! Let us pour out an offering to yon solemn sun which these gaudy lamps and censers are so eager to subdue!” And, having made me pledge him in a bumper, he swallowed in rapid succession several goblets of the wine."
+   },
+   {
+    "type": "para",
+    "text": "“To dream,” he continued, resuming the tone of his desultory conversation, as he held up to the rich light of a censer one of the magnificent vases—“to dream has been the business of my life. I have therefore framed for myself, as you see, a bower of dreams. In the heart of Venice could I have erected a better? You behold around you, it is true, a medley of architectural embellishments. The chastity of Ionia is offended by antediluvian devices, and the sphynxes of Egypt are outstretched upon carpets of gold. Yet the effect is incongruous to the timid alone. Proprieties of place, and especially of time, are the bugbears which terrify mankind from the contemplation of the magnificent. Once I was myself a decorist; but that sublimation of folly has palled upon my soul. All this is now the fitter for my purpose. Like these arabesque censers, my spirit is writhing in fire, and the delirium of this scene is fashioning me for the wilder visions of that land of real dreams whither I am now rapidly departing.” He here paused abruptly, bent his head to his bosom, and seemed to listen to a sound which I could not hear. At length, erecting his frame, he looked upwards, and ejaculated the lines of the Bishop of Chichester:"
+   },
+   {
+    "type": "para",
+    "text": "“Stay for me there!  I will not fail To meet thee in that hollow vale.”"
+   },
+   {
+    "type": "para",
+    "text": "In the next instant, confessing the power of the wine, he threw himself at full-length upon an ottoman."
+   },
+   {
+    "type": "para",
+    "text": "A quick step was now heard upon the staircase, and a loud knock at the door rapidly succeeded. I was hastening to anticipate a second disturbance, when a page of Mentoni’s household burst into the room, and faltered out, in a voice choking with emotion, the incoherent words, “My mistress!—my mistress!—Poisoned!—poisoned! Oh, beautiful—oh, beautiful Aphrodite!”"
+   },
+   {
+    "type": "para",
+    "text": "Bewildered, I flew to the ottoman, and endeavored to arouse the sleeper to a sense of the startling intelligence. But his limbs were rigid—his lips were livid—his lately beaming eyes were riveted in death. I staggered back towards the table—my hand fell upon a cracked and blackened goblet—and a consciousness of the entire and terrible truth flashed suddenly over my soul."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 5678,
+   "startLine": 5679,
+   "endLine": 6160,
+   "heading": "THE ASSIGNATION",
+   "bodySha256": "ce22712c09d68c1cb71dba34ddd17d02232a700f4f6e30147d0b50b90dbe4fd0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-premature-burial",
+  "kind": "story",
+  "title": "THE PREMATURE BURIAL",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "There are certain themes of which the interest is all-absorbing, but which are too entirely horrible for the purposes of legitimate fiction. These the mere romanticist must eschew, if he do not wish to offend or to disgust. They are with propriety handled only when the severity and majesty of Truth sanctify and sustain them. We thrill, for example, with the most intense of “pleasurable pain” over the accounts of the Passage of the Beresina, of the Earthquake at Lisbon, of the Plague at London, of the Massacre of St. Bartholomew, or of the stifling of the hundred and twenty-three prisoners in the Black Hole at Calcutta. But in these accounts it is the fact——it is the reality——it is the history which excites. As inventions, we should regard them with simple abhorrence."
+   },
+   {
+    "type": "para",
+    "text": "I have mentioned some few of the more prominent and august calamities on record; but in these it is the extent, not less than the character of the calamity, which so vividly impresses the fancy. I need not remind the reader that, from the long and weird catalogue of human miseries, I might have selected many individual instances more replete with essential suffering than any of these vast generalities of disaster. The true wretchedness, indeed—the ultimate woe——is particular, not diffuse. That the ghastly extremes of agony are endured by man the unit, and never by man the mass——for this let us thank a merciful God!"
+   },
+   {
+    "type": "para",
+    "text": "To be buried while alive is, beyond question, the most terrific of these extremes which has ever fallen to the lot of mere mortality. That it has frequently, very frequently, so fallen will scarcely be denied by those who think. The boundaries which divide Life from Death are at best shadowy and vague. Who shall say where the one ends, and where the other begins? We know that there are diseases in which occur total cessations of all the apparent functions of vitality, and yet in which these cessations are merely suspensions, properly so called. They are only temporary pauses in the incomprehensible mechanism. A certain period elapses, and some unseen mysterious principle again sets in motion the magic pinions and the wizard wheels. The silver cord was not for ever loosed, nor the golden bowl irreparably broken. But where, meantime, was the soul?"
+   },
+   {
+    "type": "para",
+    "text": "Apart, however, from the inevitable conclusion, a priori that such causes must produce such effects——that the well-known occurrence of such cases of suspended animation must naturally give rise, now and then, to premature interments—apart from this consideration, we have the direct testimony of medical and ordinary experience to prove that a vast number of such interments have actually taken place. I might refer at once, if necessary, to a hundred well-authenticated instances. One of very remarkable character, and of which the circumstances may be fresh in the memory of some of my readers, occurred, not very long ago, in the neighboring city of Baltimore, where it occasioned a painful, intense, and widely-extended excitement. The wife of one of the most respectable citizens—a lawyer of eminence and a member of Congress—was seized with a sudden and unaccountable illness, which completely baffled the skill of her physicians. After much suffering she died, or was supposed to die. No one suspected, indeed, or had reason to suspect, that she was not actually dead. She presented all the ordinary appearances of death. The face assumed the usual pinched and sunken outline. The lips were of the usual marble pallor. The eyes were lustreless. There was no warmth. Pulsation had ceased. For three days the body was preserved unburied, during which it had acquired a stony rigidity. The funeral, in short, was hastened, on account of the rapid advance of what was supposed to be decomposition."
+   },
+   {
+    "type": "para",
+    "text": "The lady was deposited in her family vault, which, for three subsequent years, was undisturbed. At the expiration of this term it was opened for the reception of a sarcophagus; but, alas! how fearful a shock awaited the husband, who, personally, threw open the door! As its portals swung outwardly back, some white-apparelled object fell rattling within his arms. It was the skeleton of his wife in her yet unmoulded shroud."
+   },
+   {
+    "type": "para",
+    "text": "A careful investigation rendered it evident that she had revived within two days after her entombment; that her struggles within the coffin had caused it to fall from a ledge, or shelf to the floor, where it was so broken as to permit her escape. A lamp which had been accidentally left, full of oil, within the tomb, was found empty; it might have been exhausted, however, by evaporation. On the uttermost of the steps which led down into the dread chamber was a large fragment of the coffin, with which, it seemed, that she had endeavored to arrest attention by striking the iron door. While thus occupied, she probably swooned, or possibly died, through sheer terror; and, in failing, her shroud became entangled in some iron-work which projected interiorly. Thus she remained, and thus she rotted, erect."
+   },
+   {
+    "type": "para",
+    "text": "In the year 1810, a case of living inhumation happened in France, attended with circumstances which go far to warrant the assertion that truth is, indeed, stranger than fiction. The heroine of the story was a Mademoiselle Victorine Lafourcade, a young girl of illustrious family, of wealth, and of great personal beauty. Among her numerous suitors was Julien Bossuet, a poor litterateur, or journalist of Paris. His talents and general amiability had recommended him to the notice of the heiress, by whom he seems to have been truly beloved; but her pride of birth decided her, finally, to reject him, and to wed a Monsieur Renelle, a banker and a diplomatist of some eminence. After marriage, however, this gentleman neglected, and, perhaps, even more positively ill-treated her. Having passed with him some wretched years, she died—at least her condition so closely resembled death as to deceive every one who saw her. She was buried——not in a vault, but in an ordinary grave in the village of her nativity. Filled with despair, and still inflamed by the memory of a profound attachment, the lover journeys from the capital to the remote province in which the village lies, with the romantic purpose of disinterring the corpse, and possessing himself of its luxuriant tresses. He reaches the grave. At midnight he unearths the coffin, opens it, and is in the act of detaching the hair, when he is arrested by the unclosing of the beloved eyes. In fact, the lady had been buried alive. Vitality had not altogether departed, and she was aroused by the caresses of her lover from the lethargy which had been mistaken for death. He bore her frantically to his lodgings in the village. He employed certain powerful restoratives suggested by no little medical learning. In fine, she revived. She recognized her preserver. She remained with him until, by slow degrees, she fully recovered her original health. Her woman’s heart was not adamant, and this last lesson of love sufficed to soften it. She bestowed it upon Bossuet. She returned no more to her husband, but, concealing from him her resurrection, fled with her lover to America. Twenty years afterward, the two returned to France, in the persuasion that time had so greatly altered the lady’s appearance that her friends would be unable to recognize her. They were mistaken, however, for, at the first meeting, Monsieur Renelle did actually recognize and make claim to his wife. This claim she resisted, and a judicial tribunal sustained her in her resistance, deciding that the peculiar circumstances, with the long lapse of years, had extinguished, not only equitably, but legally, the authority of the husband."
+   },
+   {
+    "type": "para",
+    "text": "The “Chirurgical Journal” of Leipsic, a periodical of high authority and merit, which some American bookseller would do well to translate and republish, records in a late number a very distressing event of the character in question."
+   },
+   {
+    "type": "para",
+    "text": "An officer of artillery, a man of gigantic stature and of robust health, being thrown from an unmanageable horse, received a very severe contusion upon the head, which rendered him insensible at once; the skull was slightly fractured, but no immediate danger was apprehended. Trepanning was accomplished successfully. He was bled, and many other of the ordinary means of relief were adopted. Gradually, however, he fell into a more and more hopeless state of stupor, and, finally, it was thought that he died."
+   },
+   {
+    "type": "para",
+    "text": "The weather was warm, and he was buried with indecent haste in one of the public cemeteries. His funeral took place on Thursday. On the Sunday following, the grounds of the cemetery were, as usual, much thronged with visitors, and about noon an intense excitement was created by the declaration of a peasant that, while sitting upon the grave of the officer, he had distinctly felt a commotion of the earth, as if occasioned by some one struggling beneath. At first little attention was paid to the man’s asseveration; but his evident terror, and the dogged obstinacy with which he persisted in his story, had at length their natural effect upon the crowd. Spades were hurriedly procured, and the grave, which was shamefully shallow, was in a few minutes so far thrown open that the head of its occupant appeared. He was then seemingly dead; but he sat nearly erect within his coffin, the lid of which, in his furious struggles, he had partially uplifted."
+   },
+   {
+    "type": "para",
+    "text": "He was forthwith conveyed to the nearest hospital, and there pronounced to be still living, although in an asphytic condition. After some hours he revived, recognized individuals of his acquaintance, and, in broken sentences spoke of his agonies in the grave."
+   },
+   {
+    "type": "para",
+    "text": "From what he related, it was clear that he must have been conscious of life for more than an hour, while inhumed, before lapsing into insensibility. The grave was carelessly and loosely filled with an exceedingly porous soil; and thus some air was necessarily admitted. He heard the footsteps of the crowd overhead, and endeavored to make himself heard in turn. It was the tumult within the grounds of the cemetery, he said, which appeared to awaken him from a deep sleep, but no sooner was he awake than he became fully aware of the awful horrors of his position."
+   },
+   {
+    "type": "para",
+    "text": "This patient, it is recorded, was doing well and seemed to be in a fair way of ultimate recovery, but fell a victim to the quackeries of medical experiment. The galvanic battery was applied, and he suddenly expired in one of those ecstatic paroxysms which, occasionally, it superinduces."
+   },
+   {
+    "type": "para",
+    "text": "The mention of the galvanic battery, nevertheless, recalls to my memory a well known and very extraordinary case in point, where its action proved the means of restoring to animation a young attorney of London, who had been interred for two days. This occurred in 1831, and created, at the time, a very profound sensation wherever it was made the subject of converse."
+   },
+   {
+    "type": "para",
+    "text": "The patient, Mr. Edward Stapleton, had died, apparently of typhus fever, accompanied with some anomalous symptoms which had excited the curiosity of his medical attendants. Upon his seeming decease, his friends were requested to sanction a post-mortem examination, but declined to permit it. As often happens, when such refusals are made, the practitioners resolved to disinter the body and dissect it at leisure, in private. Arrangements were easily effected with some of the numerous corps of body-snatchers, with which London abounds; and, upon the third night after the funeral, the supposed corpse was unearthed from a grave eight feet deep, and deposited in the opening chamber of one of the private hospitals."
+   },
+   {
+    "type": "para",
+    "text": "An incision of some extent had been actually made in the abdomen, when the fresh and undecayed appearance of the subject suggested an application of the battery. One experiment succeeded another, and the customary effects supervened, with nothing to characterize them in any respect, except, upon one or two occasions, a more than ordinary degree of life-likeness in the convulsive action."
+   },
+   {
+    "type": "para",
+    "text": "It grew late. The day was about to dawn; and it was thought expedient, at length, to proceed at once to the dissection. A student, however, was especially desirous of testing a theory of his own, and insisted upon applying the battery to one of the pectoral muscles. A rough gash was made, and a wire hastily brought in contact, when the patient, with a hurried but quite unconvulsive movement, arose from the table, stepped into the middle of the floor, gazed about him uneasily for a few seconds, and then—spoke. What he said was unintelligible, but words were uttered; the syllabification was distinct. Having spoken, he fell heavily to the floor."
+   },
+   {
+    "type": "para",
+    "text": "For some moments all were paralyzed with awe—but the urgency of the case soon restored them their presence of mind. It was seen that Mr. Stapleton was alive, although in a swoon. Upon exhibition of ether he revived and was rapidly restored to health, and to the society of his friends—from whom, however, all knowledge of his resuscitation was withheld, until a relapse was no longer to be apprehended. Their wonder—their rapturous astonishment—may be conceived."
+   },
+   {
+    "type": "para",
+    "text": "The most thrilling peculiarity of this incident, nevertheless, is involved in what Mr. S. himself asserts. He declares that at no period was he altogether insensible—that, dully and confusedly, he was aware of everything which happened to him, from the moment in which he was pronounced dead by his physicians, to that in which he fell swooning to the floor of the hospital. “I am alive,” were the uncomprehended words which, upon recognizing the locality of the dissecting-room, he had endeavored, in his extremity, to utter."
+   },
+   {
+    "type": "para",
+    "text": "It were an easy matter to multiply such histories as these—but I forbear—for, indeed, we have no need of such to establish the fact that premature interments occur. When we reflect how very rarely, from the nature of the case, we have it in our power to detect them, we must admit that they may frequently occur without our cognizance. Scarcely, in truth, is a graveyard ever encroached upon, for any purpose, to any great extent, that skeletons are not found in postures which suggest the most fearful of suspicions."
+   },
+   {
+    "type": "para",
+    "text": "Fearful indeed the suspicion—but more fearful the doom! It may be asserted, without hesitation, that no event is so terribly well adapted to inspire the supremeness of bodily and of mental distress, as is burial before death. The unendurable oppression of the lungs—the stifling fumes from the damp earth—the clinging to the death garments—the rigid embrace of the narrow house—the blackness of the absolute Night—the silence like a sea that overwhelms—the unseen but palpable presence of the Conqueror Worm—these things, with the thoughts of the air and grass above, with memory of dear friends who would fly to save us if but informed of our fate, and with consciousness that of this fate they can never be informed—that our hopeless portion is that of the really dead—these considerations, I say, carry into the heart, which still palpitates, a degree of appalling and intolerable horror from which the most daring imagination must recoil. We know of nothing so agonizing upon Earth—we can dream of nothing half so hideous in the realms of the nethermost Hell. And thus all narratives upon this topic have an interest profound; an interest, nevertheless, which, through the sacred awe of the topic itself, very properly and very peculiarly depends upon our conviction of the truth of the matter narrated. What I have now to tell is of my own actual knowledge—of my own positive and personal experience."
+   },
+   {
+    "type": "para",
+    "text": "For several years I had been subject to attacks of the singular disorder which physicians have agreed to term catalepsy, in default of a more definitive title. Although both the immediate and the predisposing causes, and even the actual diagnosis, of this disease are still mysterious, its obvious and apparent character is sufficiently well understood. Its variations seem to be chiefly of degree. Sometimes the patient lies, for a day only, or even for a shorter period, in a species of exaggerated lethargy. He is senseless and externally motionless; but the pulsation of the heart is still faintly perceptible; some traces of warmth remain; a slight color lingers within the centre of the cheek; and, upon application of a mirror to the lips, we can detect a torpid, unequal, and vacillating action of the lungs. Then again the duration of the trance is for weeks—even for months; while the closest scrutiny, and the most rigorous medical tests, fail to establish any material distinction between the state of the sufferer and what we conceive of absolute death. Very usually he is saved from premature interment solely by the knowledge of his friends that he has been previously subject to catalepsy, by the consequent suspicion excited, and, above all, by the non-appearance of decay. The advances of the malady are, luckily, gradual. The first manifestations, although marked, are unequivocal. The fits grow successively more and more distinctive, and endure each for a longer term than the preceding. In this lies the principal security from inhumation. The unfortunate whose first attack should be of the extreme character which is occasionally seen, would almost inevitably be consigned alive to the tomb."
+   },
+   {
+    "type": "para",
+    "text": "My own case differed in no important particular from those mentioned in medical books. Sometimes, without any apparent cause, I sank, little by little, into a condition of semi-syncope, or half swoon; and, in this condition, without pain, without ability to stir, or, strictly speaking, to think, but with a dull lethargic consciousness of life and of the presence of those who surrounded my bed, I remained, until the crisis of the disease restored me, suddenly, to perfect sensation. At other times I was quickly and impetuously smitten. I grew sick, and numb, and chilly, and dizzy, and so fell prostrate at once. Then, for weeks, all was void, and black, and silent, and Nothing became the universe. Total annihilation could be no more. From these latter attacks I awoke, however, with a gradation slow in proportion to the suddenness of the seizure. Just as the day dawns to the friendless and houseless beggar who roams the streets throughout the long desolate winter night—just so tardily—just so wearily—just so cheerily came back the light of the Soul to me."
+   },
+   {
+    "type": "para",
+    "text": "Apart from the tendency to trance, however, my general health appeared to be good; nor could I perceive that it was at all affected by the one prevalent malady—unless, indeed, an idiosyncrasy in my ordinary sleep may be looked upon as superinduced. Upon awaking from slumber, I could never gain, at once, thorough possession of my senses, and always remained, for many minutes, in much bewilderment and perplexity—the mental faculties in general, but the memory in especial, being in a condition of absolute abeyance."
+   },
+   {
+    "type": "para",
+    "text": "In all that I endured there was no physical suffering but of moral distress an infinitude. My fancy grew charnel, I talked “of worms, of tombs, and epitaphs.” I was lost in reveries of death, and the idea of premature burial held continual possession of my brain. The ghastly Danger to which I was subjected haunted me day and night. In the former, the torture of meditation was excessive—in the latter, supreme. When the grim Darkness overspread the Earth, then, with every horror of thought, I shook—shook as the quivering plumes upon the hearse. When Nature could endure wakefulness no longer, it was with a struggle that I consented to sleep—for I shuddered to reflect that, upon awaking, I might find myself the tenant of a grave. And when, finally, I sank into slumber, it was only to rush at once into a world of phantasms, above which, with vast, sable, overshadowing wing, hovered, predominant, the one sepulchral Idea."
+   },
+   {
+    "type": "para",
+    "text": "From the innumerable images of gloom which thus oppressed me in dreams, I select for record but a solitary vision. Methought I was immersed in a cataleptic trance of more than usual duration and profundity. Suddenly there came an icy hand upon my forehead, and an impatient, gibbering voice whispered the word “Arise!” within my ear."
+   },
+   {
+    "type": "para",
+    "text": "I sat erect. The darkness was total. I could not see the figure of him who had aroused me. I could call to mind neither the period at which I had fallen into the trance, nor the locality in which I then lay. While I remained motionless, and busied in endeavors to collect my thought, the cold hand grasped me fiercely by the wrist, shaking it petulantly, while the gibbering voice said again:"
+   },
+   {
+    "type": "para",
+    "text": "“Arise! did I not bid thee arise?”"
+   },
+   {
+    "type": "para",
+    "text": "“And who,” I demanded, “art thou?”"
+   },
+   {
+    "type": "para",
+    "text": "“I have no name in the regions which I inhabit,” replied the voice, mournfully; “I was mortal, but am fiend. I was merciless, but am pitiful. Thou dost feel that I shudder. My teeth chatter as I speak, yet it is not with the chilliness of the night—of the night without end. But this hideousness is insufferable. How canst thou tranquilly sleep? I cannot rest for the cry of these great agonies. These sights are more than I can bear. Get thee up! Come with me into the outer Night, and let me unfold to thee the graves. Is not this a spectacle of woe?—Behold!”"
+   },
+   {
+    "type": "para",
+    "text": "I looked; and the unseen figure, which still grasped me by the wrist, had caused to be thrown open the graves of all mankind; and from each issued the faint phosphoric radiance of decay; so that I could see into the innermost recesses, and there view the shrouded bodies in their sad and solemn slumbers with the worm. But alas! the real sleepers were fewer, by many millions, than those who slumbered not at all; and there was a feeble struggling; and there was a general sad unrest; and from out the depths of the countless pits there came a melancholy rustling from the garments of the buried. And of those who seemed tranquilly to repose, I saw that a vast number had changed, in a greater or less degree, the rigid and uneasy position in which they had originally been entombed. And the voice again said to me as I gazed:"
+   },
+   {
+    "type": "para",
+    "text": "“Is it not—oh! is it not a pitiful sight?” But, before I could find words to reply, the figure had ceased to grasp my wrist, the phosphoric lights expired, and the graves were closed with a sudden violence, while from out them arose a tumult of despairing cries, saying again: “Is it not—O, God, is it not a very pitiful sight?”"
+   },
+   {
+    "type": "para",
+    "text": "Phantasies such as these, presenting themselves at night, extended their terrific influence far into my waking hours. My nerves became thoroughly unstrung, and I fell a prey to perpetual horror. I hesitated to ride, or to walk, or to indulge in any exercise that would carry me from home. In fact, I no longer dared trust myself out of the immediate presence of those who were aware of my proneness to catalepsy, lest, falling into one of my usual fits, I should be buried before my real condition could be ascertained. I doubted the care, the fidelity of my dearest friends. I dreaded that, in some trance of more than customary duration, they might be prevailed upon to regard me as irrecoverable. I even went so far as to fear that, as I occasioned much trouble, they might be glad to consider any very protracted attack as sufficient excuse for getting rid of me altogether. It was in vain they endeavored to reassure me by the most solemn promises. I exacted the most sacred oaths, that under no circumstances they would bury me until decomposition had so materially advanced as to render farther preservation impossible. And, even then, my mortal terrors would listen to no reason—would accept no consolation. I entered into a series of elaborate precautions. Among other things, I had the family vault so remodelled as to admit of being readily opened from within. The slightest pressure upon a long lever that extended far into the tomb would cause the iron portal to fly back. There were arrangements also for the free admission of air and light, and convenient receptacles for food and water, within immediate reach of the coffin intended for my reception. This coffin was warmly and softly padded, and was provided with a lid, fashioned upon the principle of the vault-door, with the addition of springs so contrived that the feeblest movement of the body would be sufficient to set it at liberty. Besides all this, there was suspended from the roof of the tomb, a large bell, the rope of which, it was designed, should extend through a hole in the coffin, and so be fastened to one of the hands of the corpse. But, alas? what avails the vigilance against the Destiny of man? Not even these well-contrived securities sufficed to save from the uttermost agonies of living inhumation, a wretch to these agonies foredoomed!"
+   },
+   {
+    "type": "para",
+    "text": "There arrived an epoch—as often before there had arrived—in which I found myself emerging from total unconsciousness into the first feeble and indefinite sense of existence. Slowly—with a tortoise gradation—approached the faint gray dawn of the psychal day. A torpid uneasiness. An apathetic endurance of dull pain. No care—no hope—no effort. Then, after a long interval, a ringing in the ears; then, after a lapse still longer, a prickling or tingling sensation in the extremities; then a seemingly eternal period of pleasurable quiescence, during which the awakening feelings are struggling into thought; then a brief re-sinking into non-entity; then a sudden recovery. At length the slight quivering of an eyelid, and immediately thereupon, an electric shock of a terror, deadly and indefinite, which sends the blood in torrents from the temples to the heart. And now the first positive effort to think. And now the first endeavor to remember. And now a partial and evanescent success. And now the memory has so far regained its dominion, that, in some measure, I am cognizant of my state. I feel that I am not awaking from ordinary sleep. I recollect that I have been subject to catalepsy. And now, at last, as if by the rush of an ocean, my shuddering spirit is overwhelmed by the one grim Danger—by the one spectral and ever-prevalent idea."
+   },
+   {
+    "type": "para",
+    "text": "For some minutes after this fancy possessed me, I remained without motion. And why? I could not summon courage to move. I dared not make the effort which was to satisfy me of my fate—and yet there was something at my heart which whispered me it was sure. Despair—such as no other species of wretchedness ever calls into being—despair alone urged me, after long irresolution, to uplift the heavy lids of my eyes. I uplifted them. It was dark—all dark. I knew that the fit was over. I knew that the crisis of my disorder had long passed. I knew that I had now fully recovered the use of my visual faculties—and yet it was dark—all dark—the intense and utter raylessness of the Night that endureth for evermore."
+   },
+   {
+    "type": "para",
+    "text": "I endeavored to shriek; and my lips and my parched tongue moved convulsively together in the attempt—but no voice issued from the cavernous lungs, which oppressed as if by the weight of some incumbent mountain, gasped and palpitated, with the heart, at every elaborate and struggling inspiration."
+   },
+   {
+    "type": "para",
+    "text": "The movement of the jaws, in this effort to cry aloud, showed me that they were bound up, as is usual with the dead. I felt, too, that I lay upon some hard substance; and by something similar my sides were, also, closely compressed. So far, I had not ventured to stir any of my limbs—but now I violently threw up my arms, which had been lying at length, with the wrists crossed. They struck a solid wooden substance, which extended above my person at an elevation of not more than six inches from my face. I could no longer doubt that I reposed within a coffin at last."
+   },
+   {
+    "type": "para",
+    "text": "And now, amid all my infinite miseries, came sweetly the cherub Hope—for I thought of my precautions. I writhed, and made spasmodic exertions to force open the lid: it would not move. I felt my wrists for the bell-rope: it was not to be found. And now the Comforter fled for ever, and a still sterner Despair reigned triumphant; for I could not help perceiving the absence of the paddings which I had so carefully prepared—and then, too, there came suddenly to my nostrils the strong peculiar odor of moist earth. The conclusion was irresistible. I was not within the vault. I had fallen into a trance while absent from home—while among strangers—when, or how, I could not remember—and it was they who had buried me as a dog—nailed up in some common coffin—and thrust deep, deep, and for ever, into some ordinary and nameless grave."
+   },
+   {
+    "type": "para",
+    "text": "As this awful conviction forced itself, thus, into the innermost chambers of my soul, I once again struggled to cry aloud. And in this second endeavor I succeeded. A long, wild, and continuous shriek, or yell of agony, resounded through the realms of the subterranean Night."
+   },
+   {
+    "type": "para",
+    "text": "“Hillo! hillo, there!” said a gruff voice, in reply."
+   },
+   {
+    "type": "para",
+    "text": "“What the devil’s the matter now!” said a second."
+   },
+   {
+    "type": "para",
+    "text": "“Get out o’ that!” said a third."
+   },
+   {
+    "type": "para",
+    "text": "“What do you mean by yowling in that ere kind of style, like a cattymount?” said a fourth; and hereupon I was seized and shaken without ceremony, for several minutes, by a junto of very rough-looking individuals. They did not arouse me from my slumber—for I was wide awake when I screamed—but they restored me to the full possession of my memory."
+   },
+   {
+    "type": "para",
+    "text": "This adventure occurred near Richmond, in Virginia. Accompanied by a friend, I had proceeded, upon a gunning expedition, some miles down the banks of the James River. Night approached, and we were overtaken by a storm. The cabin of a small sloop lying at anchor in the stream, and laden with garden mould, afforded us the only available shelter. We made the best of it, and passed the night on board. I slept in one of the only two berths in the vessel—and the berths of a sloop of sixty or twenty tons need scarcely be described. That which I occupied had no bedding of any kind. Its extreme width was eighteen inches. The distance of its bottom from the deck overhead was precisely the same. I found it a matter of exceeding difficulty to squeeze myself in. Nevertheless, I slept soundly, and the whole of my vision—for it was no dream, and no nightmare—arose naturally from the circumstances of my position—from my ordinary bias of thought—and from the difficulty, to which I have alluded, of collecting my senses, and especially of regaining my memory, for a long time after awaking from slumber. The men who shook me were the crew of the sloop, and some laborers engaged to unload it. From the load itself came the earthly smell. The bandage about the jaws was a silk handkerchief in which I had bound up my head, in default of my customary nightcap."
+   },
+   {
+    "type": "para",
+    "text": "The tortures endured, however, were indubitably quite equal for the time, to those of actual sepulture. They were fearfully—they were inconceivably hideous; but out of Evil proceeded Good; for their very excess wrought in my spirit an inevitable revulsion. My soul acquired tone—acquired temper. I went abroad. I took vigorous exercise. I breathed the free air of Heaven. I thought upon other subjects than Death. I discarded my medical books. “Buchan” I burned. I read no “Night Thoughts”—no fustian about churchyards—no bugaboo tales—such as this. In short, I became a new man, and lived a man’s life. From that memorable night, I dismissed forever my charnel apprehensions, and with them vanished the cataleptic disorder, of which, perhaps, they had been less the consequence than the cause."
+   },
+   {
+    "type": "para",
+    "text": "There are moments when, even to the sober eye of Reason, the world of our sad Humanity may assume the semblance of a Hell—but the imagination of man is no Carathis, to explore with impunity its every cavern. Alas! the grim legion of sepulchral terrors cannot be regarded as altogether fanciful—but, like the Demons in whose company Afrasiab made his voyage down the Oxus, they must sleep, or they will devour us—they must be suffered to slumber, or we perish."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 6770,
+   "startLine": 6771,
+   "endLine": 7347,
+   "heading": "THE PREMATURE BURIAL",
+   "bodySha256": "c1152eea6c9f79efcd8388edfbc6627380a86c64456ad935baf33a90680e14c8"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-landors-cottage",
+  "kind": "story",
+  "title": "LANDOR’S COTTAGE",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "A Pendant to “The Domain of Arnheim”"
+   },
+   {
+    "type": "para",
+    "text": "During A pedestrian trip last summer, through one or two of the river counties of New York, I found myself, as the day declined, somewhat embarrassed about the road I was pursuing. The land undulated very remarkably; and my path, for the last hour, had wound about and about so confusedly, in its effort to keep in the valleys, that I no longer knew in what direction lay the sweet village of B——, where I had determined to stop for the night. The sun had scarcely shone—strictly speaking—during the day, which nevertheless, had been unpleasantly warm. A smoky mist, resembling that of the Indian summer, enveloped all things, and of course, added to my uncertainty. Not that I cared much about the matter. If I did not hit upon the village before sunset, or even before dark, it was more than possible that a little Dutch farmhouse, or something of that kind, would soon make its appearance—although, in fact, the neighborhood (perhaps on account of being more picturesque than fertile) was very sparsely inhabited. At all events, with my knapsack for a pillow, and my hound as a sentry, a bivouac in the open air was just the thing which would have amused me. I sauntered on, therefore, quite at ease—Ponto taking charge of my gun—until at length, just as I had begun to consider whether the numerous little glades that led hither and thither, were intended to be paths at all, I was conducted by one of them into an unquestionable carriage track. There could be no mistaking it. The traces of light wheels were evident; and although the tall shrubberies and overgrown undergrowth met overhead, there was no obstruction whatever below, even to the passage of a Virginian mountain wagon—the most aspiring vehicle, I take it, of its kind. The road, however, except in being open through the wood—if wood be not too weighty a name for such an assemblage of light trees—and except in the particulars of evident wheel-tracks—bore no resemblance to any road I had before seen. The tracks of which I speak were but faintly perceptible—having been impressed upon the firm, yet pleasantly moist surface of—what looked more like green Genoese velvet than any thing else. It was grass, clearly—but grass such as we seldom see out of England—so short, so thick, so even, and so vivid in color. Not a single impediment lay in the wheel-route—not even a chip or dead twig. The stones that once obstructed the way had been carefully placed—not thrown—along the sides of the lane, so as to define its boundaries at bottom with a kind of half-precise, half-negligent, and wholly picturesque definition. Clumps of wild flowers grew everywhere, luxuriantly, in the interspaces."
+   },
+   {
+    "type": "para",
+    "text": "What to make of all this, of course I knew not. Here was art undoubtedly—that did not surprise me—all roads, in the ordinary sense, are works of art; nor can I say that there was much to wonder at in the mere excess of art manifested; all that seemed to have been done, might have been done here—with such natural “capabilities” (as they have it in the books on Landscape Gardening)—with very little labor and expense. No; it was not the amount but the character of the art which caused me to take a seat on one of the blossomy stones and gaze up and down this fairy-like avenue for half an hour or more in bewildered admiration. One thing became more and more evident the longer I gazed: an artist, and one with a most scrupulous eye for form, had superintended all these arrangements. The greatest care had been taken to preserve a due medium between the neat and graceful on the one hand, and the pittoresque, in the true sense of the Italian term, on the other. There were few straight, and no long uninterrupted lines. The same effect of curvature or of color appeared twice, usually, but not oftener, at any one point of view. Everywhere was variety in uniformity. It was a piece of “composition,” in which the most fastidiously critical taste could scarcely have suggested an emendation."
+   },
+   {
+    "type": "para",
+    "text": "I had turned to the right as I entered this road, and now, arising, I continued in the same direction. The path was so serpentine, that at no moment could I trace its course for more than two or three paces in advance. Its character did not undergo any material change."
+   },
+   {
+    "type": "para",
+    "text": "Presently the murmur of water fell gently upon my ear—and in a few moments afterward, as I turned with the road somewhat more abruptly than hitherto, I became aware that a building of some kind lay at the foot of a gentle declivity just before me. I could see nothing distinctly on account of the mist which occupied all the little valley below. A gentle breeze, however, now arose, as the sun was about descending; and while I remained standing on the brow of the slope, the fog gradually became dissipated into wreaths, and so floated over the scene."
+   },
+   {
+    "type": "para",
+    "text": "As it came fully into view—thus gradually as I describe it—piece by piece, here a tree, there a glimpse of water, and here again the summit of a chimney, I could scarcely help fancying that the whole was one of the ingenious illusions sometimes exhibited under the name of “vanishing pictures.”"
+   },
+   {
+    "type": "para",
+    "text": "By the time, however, that the fog had thoroughly disappeared, the sun had made its way down behind the gentle hills, and thence, as if with a slight chassez to the south, had come again fully into sight, glaring with a purplish lustre through a chasm that entered the valley from the west. Suddenly, therefore—and as if by the hand of magic—this whole valley and every thing in it became brilliantly visible."
+   },
+   {
+    "type": "para",
+    "text": "The first coup d’œil, as the sun slid into the position described, impressed me very much as I have been impressed, when a boy, by the concluding scene of some well-arranged theatrical spectacle or melodrama. Not even the monstrosity of color was wanting; for the sunlight came out through the chasm, tinted all orange and purple; while the vivid green of the grass in the valley was reflected more or less upon all objects from the curtain of vapor that still hung overhead, as if loth to take its total departure from a scene so enchantingly beautiful."
+   },
+   {
+    "type": "para",
+    "text": "The little vale into which I thus peered down from under the fog canopy could not have been more than four hundred yards long; while in breadth it varied from fifty to one hundred and fifty or perhaps two hundred. It was most narrow at its northern extremity, opening out as it tended southwardly, but with no very precise regularity. The widest portion was within eighty yards of the southern extreme. The slopes which encompassed the vale could not fairly be called hills, unless at their northern face. Here a precipitous ledge of granite arose to a height of some ninety feet; and, as I have mentioned, the valley at this point was not more than fifty feet wide; but as the visitor proceeded southwardly from the cliff, he found on his right hand and on his left, declivities at once less high, less precipitous, and less rocky. All, in a word, sloped and softened to the south; and yet the whole vale was engirdled by eminences, more or less high, except at two points. One of these I have already spoken of. It lay considerably to the north of west, and was where the setting sun made its way, as I have before described, into the amphitheatre, through a cleanly cut natural cleft in the granite embankment; this fissure might have been ten yards wide at its widest point, so far as the eye could trace it. It seemed to lead up, up like a natural causeway, into the recesses of unexplored mountains and forests. The other opening was directly at the southern end of the vale. Here, generally, the slopes were nothing more than gentle inclinations, extending from east to west about one hundred and fifty yards. In the middle of this extent was a depression, level with the ordinary floor of the valley. As regards vegetation, as well as in respect to every thing else, the scene softened and sloped to the south. To the north—on the craggy precipice—a few paces from the verge—up sprang the magnificent trunks of numerous hickories, black walnuts, and chestnuts, interspersed with occasional oak; and the strong lateral branches thrown out by the walnuts especially, spread far over the edge of the cliff. Proceeding southwardly, the explorer saw, at first, the same class of trees, but less and less lofty and Salvatorish in character; then he saw the gentler elm, succeeded by the sassafras and locust—these again by the softer linden, red-bud, catalpa, and maple—these yet again by still more graceful and more modest varieties. The whole face of the southern declivity was covered with wild shrubbery alone—an occasional silver willow or white poplar excepted. In the bottom of the valley itself—(for it must be borne in mind that the vegetation hitherto mentioned grew only on the cliffs or hillsides)—were to be seen three insulated trees. One was an elm of fine size and exquisite form: it stood guard over the southern gate of the vale. Another was a hickory, much larger than the elm, and altogether a much finer tree, although both were exceedingly beautiful: it seemed to have taken charge of the northwestern entrance, springing from a group of rocks in the very jaws of the ravine, and throwing its graceful body, at an angle of nearly forty-five degrees, far out into the sunshine of the amphitheatre. About thirty yards east of this tree stood, however, the pride of the valley, and beyond all question the most magnificent tree I have ever seen, unless, perhaps, among the cypresses of the Itchiatuckanee. It was a triple-stemmed tulip-tree—the Liriodendron Tulipiferum—one of the natural order of magnolias. Its three trunks separated from the parent at about three feet from the soil, and diverging very slightly and gradually, were not more than four feet apart at the point where the largest stem shot out into foliage: this was at an elevation of about eighty feet. The whole height of the principal division was one hundred and twenty feet. Nothing can surpass in beauty the form, or the glossy, vivid green of the leaves of the tulip-tree. In the present instance they were fully eight inches wide; but their glory was altogether eclipsed by the gorgeous splendor of the profuse blossoms. Conceive, closely congregated, a million of the largest and most resplendent tulips! Only thus can the reader get any idea of the picture I would convey. And then the stately grace of the clean, delicately-granulated columnar stems, the largest four feet in diameter, at twenty from the ground. The innumerable blossoms, mingling with those of other trees scarcely less beautiful, although infinitely less majestic, filled the valley with more than Arabian perfumes."
+   },
+   {
+    "type": "para",
+    "text": "The general floor of the amphitheatre was grass of the same character as that I had found in the road; if anything, more deliciously soft, thick, velvety, and miraculously green. It was hard to conceive how all this beauty had been attained."
+   },
+   {
+    "type": "para",
+    "text": "I have spoken of two openings into the vale. From the one to the northwest issued a rivulet, which came, gently murmuring and slightly foaming, down the ravine, until it dashed against the group of rocks out of which sprang the insulated hickory. Here, after encircling the tree, it passed on a little to the north of east, leaving the tulip tree some twenty feet to the south, and making no decided alteration in its course until it came near the midway between the eastern and western boundaries of the valley. At this point, after a series of sweeps, it turned off at right angles and pursued a generally southern direction meandering as it went—until it became lost in a small lake of irregular figure (although roughly oval), that lay gleaming near the lower extremity of the vale. This lakelet was, perhaps, a hundred yards in diameter at its widest part. No crystal could be clearer than its waters. Its bottom, which could be distinctly seen, consisted altogether, of pebbles brilliantly white. Its banks, of the emerald grass already described, rounded, rather than sloped, off into the clear heaven below; and so clear was this heaven, so perfectly, at times, did it reflect all objects above it, that where the true bank ended and where the mimic one commenced, it was a point of no little difficulty to determine. The trout, and some other varieties of fish, with which this pond seemed to be almost inconveniently crowded, had all the appearance of veritable flying-fish. It was almost impossible to believe that they were not absolutely suspended in the air. A light birch canoe that lay placidly on the water, was reflected in its minutest fibres with a fidelity unsurpassed by the most exquisitely polished mirror. A small island, fairly laughing with flowers in full bloom, and affording little more space than just enough for a picturesque little building, seemingly a fowl-house—arose from the lake not far from its northern shore—to which it was connected by means of an inconceivably light-looking and yet very primitive bridge. It was formed of a single, broad and thick plank of the tulip wood. This was forty feet long, and spanned the interval between shore and shore with a slight but very perceptible arch, preventing all oscillation. From the southern extreme of the lake issued a continuation of the rivulet, which, after meandering for, perhaps, thirty yards, finally passed through the “depression” (already described) in the middle of the southern declivity, and tumbling down a sheer precipice of a hundred feet, made its devious and unnoticed way to the Hudson."
+   },
+   {
+    "type": "para",
+    "text": "The lake was deep—at some points thirty feet—but the rivulet seldom exceeded three, while its greatest width was about eight. Its bottom and banks were as those of the pond—if a defect could have been attributed, in point of picturesqueness, it was that of excessive neatness."
+   },
+   {
+    "type": "para",
+    "text": "The expanse of the green turf was relieved, here and there, by an occasional showy shrub, such as the hydrangea, or the common snowball, or the aromatic seringa; or, more frequently, by a clump of geraniums blossoming gorgeously in great varieties. These latter grew in pots which were carefully buried in the soil, so as to give the plants the appearance of being indigenous. Besides all this, the lawn’s velvet was exquisitely spotted with sheep—a considerable flock of which roamed about the vale, in company with three tamed deer, and a vast number of brilliantly-plumed ducks. A very large mastiff seemed to be in vigilant attendance upon these animals, each and all."
+   },
+   {
+    "type": "para",
+    "text": "Along the eastern and western cliffs—where, toward the upper portion of the amphitheatre, the boundaries were more or less precipitous—grew ivy in great profusion—so that only here and there could even a glimpse of the naked rock be obtained. The northern precipice, in like manner, was almost entirely clothed by grape-vines of rare luxuriance; some springing from the soil at the base of the cliff, and others from ledges on its face."
+   },
+   {
+    "type": "para",
+    "text": "The slight elevation which formed the lower boundary of this little domain, was crowned by a neat stone wall, of sufficient height to prevent the escape of the deer. Nothing of the fence kind was observable elsewhere; for nowhere else was an artificial enclosure needed:—any stray sheep, for example, which should attempt to make its way out of the vale by means of the ravine, would find its progress arrested, after a few yards’ advance, by the precipitous ledge of rock over which tumbled the cascade that had arrested my attention as I first drew near the domain. In short, the only ingress or egress was through a gate occupying a rocky pass in the road, a few paces below the point at which I stopped to reconnoitre the scene."
+   },
+   {
+    "type": "para",
+    "text": "I have described the brook as meandering very irregularly through the whole of its course. Its two general directions, as I have said, were first from west to east, and then from north to south. At the turn, the stream, sweeping backward, made an almost circular loop, so as to form a peninsula which was very nearly an island, and which included about the sixteenth of an acre. On this peninsula stood a dwelling-house—and when I say that this house, like the infernal terrace seen by Vathek, “etait d’une architecture inconnue dans les annales de la terre,” I mean, merely, that its tout ensemble struck me with the keenest sense of combined novelty and propriety—in a word, of poetry—(for, than in the words just employed, I could scarcely give, of poetry in the abstract, a more rigorous definition)—and I do not mean that merely outre was perceptible in any respect."
+   },
+   {
+    "type": "para",
+    "text": "In fact nothing could well be more simple—more utterly unpretending than this cottage. Its marvellous effect lay altogether in its artistic arrangement as a picture. I could have fancied, while I looked at it, that some eminent landscape-painter had built it with his brush."
+   },
+   {
+    "type": "para",
+    "text": "The point of view from which I first saw the valley, was not altogether, although it was nearly, the best point from which to survey the house. I will therefore describe it as I afterwards saw it—from a position on the stone wall at the southern extreme of the amphitheatre."
+   },
+   {
+    "type": "para",
+    "text": "The main building was about twenty-four feet long and sixteen broad—certainly not more. Its total height, from the ground to the apex of the roof, could not have exceeded eighteen feet. To the west end of this structure was attached one about a third smaller in all its proportions:—the line of its front standing back about two yards from that of the larger house, and the line of its roof, of course, being considerably depressed below that of the roof adjoining. At right angles to these buildings, and from the rear of the main one—not exactly in the middle—extended a third compartment, very small—being, in general, one-third less than the western wing. The roofs of the two larger were very steep—sweeping down from the ridge-beam with a long concave curve, and extending at least four feet beyond the walls in front, so as to form the roofs of two piazzas. These latter roofs, of course, needed no support; but as they had the air of needing it, slight and perfectly plain pillars were inserted at the corners alone. The roof of the northern wing was merely an extension of a portion of the main roof. Between the chief building and western wing arose a very tall and rather slender square chimney of hard Dutch bricks, alternately black and red:—a slight cornice of projecting bricks at the top. Over the gables the roofs also projected very much:—in the main building about four feet to the east and two to the west. The principal door was not exactly in the main division, being a little to the east—while the two windows were to the west. These latter did not extend to the floor, but were much longer and narrower than usual—they had single shutters like doors—the panes were of lozenge form, but quite large. The door itself had its upper half of glass, also in lozenge panes—a movable shutter secured it at night. The door to the west wing was in its gable, and quite simple—a single window looked out to the south. There was no external door to the north wing, and it also had only one window to the east."
+   },
+   {
+    "type": "para",
+    "text": "The blank wall of the eastern gable was relieved by stairs (with a balustrade) running diagonally across it—the ascent being from the south. Under cover of the widely projecting eave these steps gave access to a door leading to the garret, or rather loft—for it was lighted only by a single window to the north, and seemed to have been intended as a store-room."
+   },
+   {
+    "type": "para",
+    "text": "The piazzas of the main building and western wing had no floors, as is usual; but at the doors and at each window, large, flat irregular slabs of granite lay imbedded in the delicious turf, affording comfortable footing in all weather. Excellent paths of the same material—not nicely adapted, but with the velvety sod filling frequent intervals between the stones, led hither and thither from the house, to a crystal spring about five paces off, to the road, or to one or two out-houses that lay to the north, beyond the brook, and were thoroughly concealed by a few locusts and catalpas."
+   },
+   {
+    "type": "para",
+    "text": "Not more than six steps from the main door of the cottage stood the dead trunk of a fantastic pear-tree, so clothed from head to foot in the gorgeous bignonia blossoms that one required no little scrutiny to determine what manner of sweet thing it could be. From various arms of this tree hung cages of different kinds. In one, a large wicker cylinder with a ring at top, revelled a mocking bird; in another an oriole; in a third the impudent bobolink—while three or four more delicate prisons were loudly vocal with canaries."
+   },
+   {
+    "type": "para",
+    "text": "The pillars of the piazza were enwreathed in jasmine and sweet honeysuckle; while from the angle formed by the main structure and its west wing, in front, sprang a grape-vine of unexampled luxuriance. Scorning all restraint, it had clambered first to the lower roof—then to the higher; and along the ridge of this latter it continued to writhe on, throwing out tendrils to the right and left, until at length it fairly attained the east gable, and fell trailing over the stairs."
+   },
+   {
+    "type": "para",
+    "text": "The whole house, with its wings, was constructed of the old-fashioned Dutch shingles—broad, and with unrounded corners. It is a peculiarity of this material to give houses built of it the appearance of being wider at bottom than at top—after the manner of Egyptian architecture; and in the present instance, this exceedingly picturesque effect was aided by numerous pots of gorgeous flowers that almost encompassed the base of the buildings."
+   },
+   {
+    "type": "para",
+    "text": "The shingles were painted a dull gray; and the happiness with which this neutral tint melted into the vivid green of the tulip tree leaves that partially overshadowed the cottage, can readily be conceived by an artist."
+   },
+   {
+    "type": "para",
+    "text": "From the position near the stone wall, as described, the buildings were seen at great advantage—for the southeastern angle was thrown forward—so that the eye took in at once the whole of the two fronts, with the picturesque eastern gable, and at the same time obtained just a sufficient glimpse of the northern wing, with parts of a pretty roof to the spring-house, and nearly half of a light bridge that spanned the brook in the near vicinity of the main buildings."
+   },
+   {
+    "type": "para",
+    "text": "I did not remain very long on the brow of the hill, although long enough to make a thorough survey of the scene at my feet. It was clear that I had wandered from the road to the village, and I had thus good traveller’s excuse to open the gate before me, and inquire my way, at all events; so, without more ado, I proceeded."
+   },
+   {
+    "type": "para",
+    "text": "The road, after passing the gate, seemed to lie upon a natural ledge, sloping gradually down along the face of the north-eastern cliffs. It led me on to the foot of the northern precipice, and thence over the bridge, round by the eastern gable to the front door. In this progress, I took notice that no sight of the out-houses could be obtained."
+   },
+   {
+    "type": "para",
+    "text": "As I turned the corner of the gable, the mastiff bounded towards me in stern silence, but with the eye and the whole air of a tiger. I held him out my hand, however, in token of amity—and I never yet knew the dog who was proof against such an appeal to his courtesy. He not only shut his mouth and wagged his tail, but absolutely offered me his paw—afterward extending his civilities to Ponto."
+   },
+   {
+    "type": "para",
+    "text": "As no bell was discernible, I rapped with my stick against the door, which stood half open. Instantly a figure advanced to the threshold—that of a young woman about twenty-eight years of age—slender, or rather slight, and somewhat above the medium height. As she approached, with a certain modest decision of step altogether indescribable. I said to myself, “Surely here I have found the perfection of natural, in contradistinction from artificial grace.” The second impression which she made on me, but by far the more vivid of the two, was that of enthusiasm. So intense an expression of romance, perhaps I should call it, or of unworldliness, as that which gleamed from her deep-set eyes, had never so sunk into my heart of hearts before. I know not how it is, but this peculiar expression of the eye, wreathing itself occasionally into the lips, is the most powerful, if not absolutely the sole spell, which rivets my interest in woman. “Romance,” provided my readers fully comprehended what I would here imply by the word—“romance” and “womanliness” seem to me convertible terms: and, after all, what man truly loves in woman, is simply her womanhood. The eyes of Annie (I heard some one from the interior call her “Annie, darling!”) were “spiritual grey;” her hair, a light chestnut: this is all I had time to observe of her."
+   },
+   {
+    "type": "para",
+    "text": "At her most courteous of invitations, I entered—passing first into a tolerably wide vestibule. Having come mainly to observe, I took notice that to my right as I stepped in, was a window, such as those in front of the house; to the left, a door leading into the principal room; while, opposite me, an open door enabled me to see a small apartment, just the size of the vestibule, arranged as a study, and having a large bow window looking out to the north."
+   },
+   {
+    "type": "para",
+    "text": "Passing into the parlor, I found myself with Mr. Landor—for this, I afterwards found, was his name. He was civil, even cordial in his manner, but just then, I was more intent on observing the arrangements of the dwelling which had so much interested me, than the personal appearance of the tenant."
+   },
+   {
+    "type": "para",
+    "text": "The north wing, I now saw, was a bed-chamber, its door opened into the parlor. West of this door was a single window, looking toward the brook. At the west end of the parlor, were a fireplace, and a door leading into the west wing—probably a kitchen."
+   },
+   {
+    "type": "para",
+    "text": "Nothing could be more rigorously simple than the furniture of the parlor. On the floor was an ingrain carpet, of excellent texture—a white ground, spotted with small circular green figures. At the windows were curtains of snowy white jaconet muslin: they were tolerably full, and hung decisively, perhaps rather formally in sharp, parallel plaits to the floor—just to the floor. The walls were prepared with a French paper of great delicacy, a silver ground, with a faint green cord running zig-zag throughout. Its expanse was relieved merely by three of Julien’s exquisite lithographs a trois crayons, fastened to the wall without frames. One of these drawings was a scene of Oriental luxury, or rather voluptuousness; another was a “carnival piece,” spirited beyond compare; the third was a Greek female head—a face so divinely beautiful, and yet of an expression so provokingly indeterminate, never before arrested my attention."
+   },
+   {
+    "type": "para",
+    "text": "The more substantial furniture consisted of a round table, a few chairs (including a large rocking-chair), and a sofa, or rather “settee;” its material was plain maple painted a creamy white, slightly interstriped with green; the seat of cane. The chairs and table were “to match,” but the forms of all had evidently been designed by the same brain which planned “the grounds;” it is impossible to conceive anything more graceful."
+   },
+   {
+    "type": "para",
+    "text": "On the table were a few books; a large, square, crystal bottle of some novel perfume; a plain ground glass astral (not solar) lamp with an Italian shade; and a large vase of resplendently-blooming flowers. Flowers, indeed, of gorgeous colours and delicate odour formed the sole mere decoration of the apartment. The fire-place was nearly filled with a vase of brilliant geranium. On a triangular shelf in each angle of the room stood also a similar vase, varied only as to its lovely contents. One or two smaller bouquets adorned the mantel, and late violets clustered about the open windows."
+   },
+   {
+    "type": "para",
+    "text": "It is not the purpose of this work to do more than give in detail, a picture of Mr. Landor’s residence—as I found it. How he made it what it was—and why—with some particulars of Mr. Landor himself—may, possibly form the subject of another article."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 7954,
+   "startLine": 7955,
+   "endLine": 8451,
+   "heading": "LANDOR’S COTTAGE",
+   "bodySha256": "1d98f547d527386e02985c8f766615379c854a539433c9a90fe4b7029477b012"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-the-tell-tale-heart",
+  "kind": "story",
+  "title": "THE TELL-TALE HEART.",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "True!—nervous—very, very dreadfully nervous I had been and am; but why will you say that I am mad? The disease had sharpened my senses—not destroyed—not dulled them. Above all was the sense of hearing acute. I heard all things in the heaven and in the earth. I heard many things in hell. How, then, am I mad? Hearken! and observe how healthily—how calmly I can tell you the whole story."
+   },
+   {
+    "type": "para",
+    "text": "It is impossible to say how first the idea entered my brain; but once conceived, it haunted me day and night. Object there was none. Passion there was none. I loved the old man. He had never wronged me. He had never given me insult. For his gold I had no desire. I think it was his eye! yes, it was this! He had the eye of a vulture—a pale blue eye, with a film over it. Whenever it fell upon me, my blood ran cold; and so by degrees—very gradually—I made up my mind to take the life of the old man, and thus rid myself of the eye forever."
+   },
+   {
+    "type": "para",
+    "text": "Now this is the point. You fancy me mad. Madmen know nothing. But you should have seen me. You should have seen how wisely I proceeded—with what caution—with what foresight—with what dissimulation I went to work! I was never kinder to the old man than during the whole week before I killed him. And every night, about midnight, I turned the latch of his door and opened it—oh, so gently! And then, when I had made an opening sufficient for my head, I put in a dark lantern, all closed, closed, that no light shone out, and then I thrust in my head. Oh, you would have laughed to see how cunningly I thrust it in! I moved it slowly—very, very slowly, so that I might not disturb the old man’s sleep. It took me an hour to place my whole head within the opening so far that I could see him as he lay upon his bed. Ha!—would a madman have been so wise as this? And then, when my head was well in the room, I undid the lantern cautiously—oh, so cautiously—cautiously (for the hinges creaked)—I undid it just so much that a single thin ray fell upon the vulture eye. And this I did for seven long nights—every night just at midnight—but I found the eye always closed; and so it was impossible to do the work; for it was not the old man who vexed me, but his Evil Eye. And every morning, when the day broke, I went boldly into the chamber, and spoke courageously to him, calling him by name in a hearty tone, and inquiring how he has passed the night. So you see he would have been a very profound old man, indeed, to suspect that every night, just at twelve, I looked in upon him while he slept."
+   },
+   {
+    "type": "para",
+    "text": "Upon the eighth night I was more than usually cautious in opening the door. A watch’s minute hand moves more quickly than did mine. Never before that night had I felt the extent of my own powers—of my sagacity. I could scarcely contain my feelings of triumph. To think that there I was, opening the door, little by little, and he not even to dream of my secret deeds or thoughts. I fairly chuckled at the idea; and perhaps he heard me; for he moved on the bed suddenly, as if startled. Now you may think that I drew back—but no. His room was as black as pitch with the thick darkness, (for the shutters were close fastened, through fear of robbers,) and so I knew that he could not see the opening of the door, and I kept pushing it on steadily, steadily."
+   },
+   {
+    "type": "para",
+    "text": "I had my head in, and was about to open the lantern, when my thumb slipped upon the tin fastening, and the old man sprang up in bed, crying out—“Who’s there?”"
+   },
+   {
+    "type": "para",
+    "text": "I kept quite still and said nothing. For a whole hour I did not move a muscle, and in the meantime I did not hear him lie down. He was still sitting up in the bed listening;—just as I have done, night after night, hearkening to the death watches in the wall."
+   },
+   {
+    "type": "para",
+    "text": "Presently I heard a slight groan, and I knew it was the groan of mortal terror. It was not a groan of pain or of grief—oh, no!—it was the low stifled sound that arises from the bottom of the soul when overcharged with awe. I knew the sound well. Many a night, just at midnight, when all the world slept, it has welled up from my own bosom, deepening, with its dreadful echo, the terrors that distracted me. I say I knew it well. I knew what the old man felt, and pitied him, although I chuckled at heart. I knew that he had been lying awake ever since the first slight noise, when he had turned in the bed. His fears had been ever since growing upon him. He had been trying to fancy them causeless, but could not. He had been saying to himself—“It is nothing but the wind in the chimney—it is only a mouse crossing the floor,” or “It is merely a cricket which has made a single chirp.” Yes, he had been trying to comfort himself with these suppositions: but he had found all in vain. All in vain; because Death, in approaching him had stalked with his black shadow before him, and enveloped the victim. And it was the mournful influence of the unperceived shadow that caused him to feel—although he neither saw nor heard—to feel the presence of my head within the room."
+   },
+   {
+    "type": "para",
+    "text": "When I had waited a long time, very patiently, without hearing him lie down, I resolved to open a little—a very, very little crevice in the lantern. So I opened it—you cannot imagine how stealthily, stealthily—until, at length a single dim ray, like the thread of the spider, shot from out the crevice and fell full upon the vulture eye."
+   },
+   {
+    "type": "para",
+    "text": "It was open—wide, wide open—and I grew furious as I gazed upon it. I saw it with perfect distinctness—all a dull blue, with a hideous veil over it that chilled the very marrow in my bones; but I could see nothing else of the old man’s face or person: for I had directed the ray as if by instinct, precisely upon the damned spot."
+   },
+   {
+    "type": "para",
+    "text": "And have I not told you that what you mistake for madness is but over-acuteness of the sense?—now, I say, there came to my ears a low, dull, quick sound, such as a watch makes when enveloped in cotton. I knew that sound well, too. It was the beating of the old man’s heart. It increased my fury, as the beating of a drum stimulates the soldier into courage."
+   },
+   {
+    "type": "para",
+    "text": "But even yet I refrained and kept still. I scarcely breathed. I held the lantern motionless. I tried how steadily I could maintain the ray upon the eye. Meantime the hellish tattoo of the heart increased. It grew quicker and quicker, and louder and louder every instant. The old man’s terror must have been extreme! It grew louder, I say, louder every moment!—do you mark me well? I have told you that I am nervous: so I am. And now at the dead hour of the night, amid the dreadful silence of that old house, so strange a noise as this excited me to uncontrollable terror. Yet, for some minutes longer I refrained and stood still. But the beating grew louder, louder! I thought the heart must burst. And now a new anxiety seized me—the sound would be heard by a neighbour! The old man’s hour had come! With a loud yell, I threw open the lantern and leaped into the room. He shrieked once—once only. In an instant I dragged him to the floor, and pulled the heavy bed over him. I then smiled gaily, to find the deed so far done. But, for many minutes, the heart beat on with a muffled sound. This, however, did not vex me; it would not be heard through the wall. At length it ceased. The old man was dead. I removed the bed and examined the corpse. Yes, he was stone, stone dead. I placed my hand upon the heart and held it there many minutes. There was no pulsation. He was stone dead. His eye would trouble me no more."
+   },
+   {
+    "type": "para",
+    "text": "If still you think me mad, you will think so no longer when I describe the wise precautions I took for the concealment of the body. The night waned, and I worked hastily, but in silence. First of all I dismembered the corpse. I cut off the head and the arms and the legs."
+   },
+   {
+    "type": "para",
+    "text": "I then took up three planks from the flooring of the chamber, and deposited all between the scantlings. I then replaced the boards so cleverly, so cunningly, that no human eye—not even his—could have detected any thing wrong. There was nothing to wash out—no stain of any kind—no blood-spot whatever. I had been too wary for that. A tub had caught all—ha! ha!"
+   },
+   {
+    "type": "para",
+    "text": "When I had made an end of these labors, it was four o’clock—still dark as midnight. As the bell sounded the hour, there came a knocking at the street door. I went down to open it with a light heart,—for what had I now to fear? There entered three men, who introduced themselves, with perfect suavity, as officers of the police. A shriek had been heard by a neighbour during the night; suspicion of foul play had been aroused; information had been lodged at the police office, and they (the officers) had been deputed to search the premises."
+   },
+   {
+    "type": "para",
+    "text": "I smiled,—for what had I to fear? I bade the gentlemen welcome. The shriek, I said, was my own in a dream. The old man, I mentioned, was absent in the country. I took my visitors all over the house. I bade them search—search well. I led them, at length, to his chamber. I showed them his treasures, secure, undisturbed. In the enthusiasm of my confidence, I brought chairs into the room, and desired them here to rest from their fatigues, while I myself, in the wild audacity of my perfect triumph, placed my own seat upon the very spot beneath which reposed the corpse of the victim."
+   },
+   {
+    "type": "para",
+    "text": "The officers were satisfied. My manner had convinced them. I was singularly at ease. They sat, and while I answered cheerily, they chatted of familiar things. But, ere long, I felt myself getting pale and wished them gone. My head ached, and I fancied a ringing in my ears: but still they sat and still chatted. The ringing became more distinct:—it continued and became more distinct: I talked more freely to get rid of the feeling: but it continued and gained definiteness—until, at length, I found that the noise was not within my ears."
+   },
+   {
+    "type": "para",
+    "text": "No doubt I now grew very pale;—but I talked more fluently, and with a heightened voice. Yet the sound increased—and what could I do? It was a low, dull, quick sound—much such a sound as a watch makes when enveloped in cotton. I gasped for breath—and yet the officers heard it not. I talked more quickly—more vehemently; but the noise steadily increased. I arose and argued about trifles, in a high key and with violent gesticulations; but the noise steadily increased. Why would they not be gone? I paced the floor to and fro with heavy strides, as if excited to fury by the observations of the men—but the noise steadily increased. Oh God! what could I do? I foamed—I raved—I swore! I swung the chair upon which I had been sitting, and grated it upon the boards, but the noise arose over all and continually increased. It grew louder—louder—louder! And still the men chatted pleasantly, and smiled. Was it possible they heard not? Almighty God!—no, no! They heard!—they suspected!—they knew!—they were making a mockery of my horror!—this I thought, and this I think. But anything was better than this agony! Anything was more tolerable than this derision! I could bear those hypocritical smiles no longer! I felt that I must scream or die! and now—again!—hark! louder! louder! louder! louder!"
+   },
+   {
+    "type": "para",
+    "text": "“Villains!” I shrieked, “dissemble no more! I admit the deed!—tear up the planks!—here, here!—It is the beating of his hideous heart!”"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 9279,
+   "startLine": 9280,
+   "endLine": 9483,
+   "heading": "THE TELL-TALE HEART.",
+   "bodySha256": "771fd8ac77a83d8b5866f0499b654dd0ab1700d575982ecd7c894fa3bfc1efea"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-allan-poe-eleonora",
+  "kind": "story",
+  "title": "ELEONORA",
+  "author": "Edgar Allan Poe",
+  "year": "1830s–1840s; Raven edition",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2148",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Sub conservatione formæ specificæ salva anima. —Raymond Lully."
+   },
+   {
+    "type": "para",
+    "text": "I am come of a race noted for vigor of fancy and ardor of passion. Men have called me mad; but the question is not yet settled, whether madness is or is not the loftiest intelligence—whether much that is glorious—whether all that is profound—does not spring from disease of thought—from moods of mind exalted at the expense of the general intellect. They who dream by day are cognizant of many things which escape those who dream only by night. In their gray visions they obtain glimpses of eternity, and thrill, in awakening, to find that they have been upon the verge of the great secret. In snatches, they learn something of the wisdom which is of good, and more of the mere knowledge which is of evil. They penetrate, however, rudderless or compassless into the vast ocean of the “light ineffable,” and again, like the adventures of the Nubian geographer, “agressi sunt mare tenebrarum, quid in eo esset exploraturi.”"
+   },
+   {
+    "type": "para",
+    "text": "We will say, then, that I am mad. I grant, at least, that there are two distinct conditions of my mental existence—the condition of a lucid reason, not to be disputed, and belonging to the memory of events forming the first epoch of my life—and a condition of shadow and doubt, appertaining to the present, and to the recollection of what constitutes the second great era of my being. Therefore, what I shall tell of the earlier period, believe; and to what I may relate of the later time, give only such credit as may seem due, or doubt it altogether, or, if doubt it ye cannot, then play unto its riddle the Oedipus."
+   },
+   {
+    "type": "para",
+    "text": "She whom I loved in youth, and of whom I now pen calmly and distinctly these remembrances, was the sole daughter of the only sister of my mother long departed. Eleonora was the name of my cousin. We had always dwelled together, beneath a tropical sun, in the Valley of the Many-Colored Grass. No unguided footstep ever came upon that vale; for it lay away up among a range of giant hills that hung beetling around about it, shutting out the sunlight from its sweetest recesses. No path was trodden in its vicinity; and, to reach our happy home, there was need of putting back, with force, the foliage of many thousands of forest trees, and of crushing to death the glories of many millions of fragrant flowers. Thus it was that we lived all alone, knowing nothing of the world without the valley—I, and my cousin, and her mother."
+   },
+   {
+    "type": "para",
+    "text": "From the dim regions beyond the mountains at the upper end of our encircled domain, there crept out a narrow and deep river, brighter than all save the eyes of Eleonora; and, winding stealthily about in mazy courses, it passed away, at length, through a shadowy gorge, among hills still dimmer than those whence it had issued. We called it the “River of Silence”; for there seemed to be a hushing influence in its flow. No murmur arose from its bed, and so gently it wandered along, that the pearly pebbles upon which we loved to gaze, far down within its bosom, stirred not at all, but lay in a motionless content, each in its own old station, shining on gloriously forever."
+   },
+   {
+    "type": "para",
+    "text": "The margin of the river, and of the many dazzling rivulets that glided through devious ways into its channel, as well as the spaces that extended from the margins away down into the depths of the streams until they reached the bed of pebbles at the bottom,—these spots, not less than the whole surface of the valley, from the river to the mountains that girdled it in, were carpeted all by a soft green grass, thick, short, perfectly even, and vanilla-perfumed, but so besprinkled throughout with the yellow buttercup, the white daisy, the purple violet, and the ruby-red asphodel, that its exceeding beauty spoke to our hearts in loud tones, of the love and of the glory of God."
+   },
+   {
+    "type": "para",
+    "text": "And, here and there, in groves about this grass, like wildernesses of dreams, sprang up fantastic trees, whose tall slender stems stood not upright, but slanted gracefully toward the light that peered at noon-day into the centre of the valley. Their mark was speckled with the vivid alternate splendor of ebony and silver, and was smoother than all save the cheeks of Eleonora; so that, but for the brilliant green of the huge leaves that spread from their summits in long, tremulous lines, dallying with the Zephyrs, one might have fancied them giant serpents of Syria doing homage to their sovereign the Sun."
+   },
+   {
+    "type": "para",
+    "text": "Hand in hand about this valley, for fifteen years, roamed I with Eleonora before Love entered within our hearts. It was one evening at the close of the third lustrum of her life, and of the fourth of my own, that we sat, locked in each other’s embrace, beneath the serpent-like trees, and looked down within the water of the River of Silence at our images therein. We spoke no words during the rest of that sweet day, and our words even upon the morrow were tremulous and few. We had drawn the God Eros from that wave, and now we felt that he had enkindled within us the fiery souls of our forefathers. The passions which had for centuries distinguished our race, came thronging with the fancies for which they had been equally noted, and together breathed a delirious bliss over the Valley of the Many-Colored Grass. A change fell upon all things. Strange, brilliant flowers, star-shaped, burn out upon the trees where no flowers had been known before. The tints of the green carpet deepened; and when, one by one, the white daisies shrank away, there sprang up in place of them, ten by ten of the ruby-red asphodel. And life arose in our paths; for the tall flamingo, hitherto unseen, with all gay glowing birds, flaunted his scarlet plumage before us. The golden and silver fish haunted the river, out of the bosom of which issued, little by little, a murmur that swelled, at length, into a lulling melody more divine than that of the harp of Æolus—sweeter than all save the voice of Eleonora. And now, too, a voluminous cloud, which we had long watched in the regions of Hesper, floated out thence, all gorgeous in crimson and gold, and settling in peace above us, sank, day by day, lower and lower, until its edges rested upon the tops of the mountains, turning all their dimness into magnificence, and shutting us up, as if forever, within a magic prison-house of grandeur and of glory."
+   },
+   {
+    "type": "para",
+    "text": "The loveliness of Eleonora was that of the Seraphim; but she was a maiden artless and innocent as the brief life she had led among the flowers. No guile disguised the fervor of love which animated her heart, and she examined with me its inmost recesses as we walked together in the Valley of the Many-Colored Grass, and discoursed of the mighty changes which had lately taken place therein."
+   },
+   {
+    "type": "para",
+    "text": "At length, having spoken one day, in tears, of the last sad change which must befall Humanity, she thenceforward dwelt only upon this one sorrowful theme, interweaving it into all our converse, as, in the songs of the bard of Schiraz, the same images are found occurring, again and again, in every impressive variation of phrase."
+   },
+   {
+    "type": "para",
+    "text": "She had seen that the finger of Death was upon her bosom—that, like the ephemeron, she had been made perfect in loveliness only to die; but the terrors of the grave to her lay solely in a consideration which she revealed to me, one evening at twilight, by the banks of the River of Silence. She grieved to think that, having entombed her in the Valley of the Many-Colored Grass, I would quit forever its happy recesses, transferring the love which now was so passionately her own to some maiden of the outer and everyday world. And, then and there, I threw myself hurriedly at the feet of Eleonora, and offered up a vow, to herself and to Heaven, that I would never bind myself in marriage to any daughter of Earth—that I would in no manner prove recreant to her dear memory, or to the memory of the devout affection with which she had blessed me. And I called the Mighty Ruler of the Universe to witness the pious solemnity of my vow. And the curse which I invoked of Him and of her, a saint in Helusion should I prove traitorous to that promise, involved a penalty the exceeding great horror of which will not permit me to make record of it here. And the bright eyes of Eleonora grew brighter at my words; and she sighed as if a deadly burthen had been taken from her breast; and she trembled and very bitterly wept; but she made acceptance of the vow, (for what was she but a child?) and it made easy to her the bed of her death. And she said to me, not many days afterward, tranquilly dying, that, because of what I had done for the comfort of her spirit she would watch over me in that spirit when departed, and, if so it were permitted her return to me visibly in the watches of the night; but, if this thing were, indeed, beyond the power of the souls in Paradise, that she would, at least, give me frequent indications of her presence, sighing upon me in the evening winds, or filling the air which I breathed with perfume from the censers of the angels. And, with these words upon her lips, she yielded up her innocent life, putting an end to the first epoch of my own."
+   },
+   {
+    "type": "para",
+    "text": "Thus far I have faithfully said. But as I pass the barrier in Time’s path, formed by the death of my beloved, and proceed with the second era of my existence, I feel that a shadow gathers over my brain, and I mistrust the perfect sanity of the record. But let me on.—Years dragged themselves along heavily, and still I dwelled within the Valley of the Many-Colored Grass; but a second change had come upon all things. The star-shaped flowers shrank into the stems of the trees, and appeared no more. The tints of the green carpet faded; and, one by one, the ruby-red asphodels withered away; and there sprang up, in place of them, ten by ten, dark, eye-like violets, that writhed uneasily and were ever encumbered with dew. And Life departed from our paths; for the tall flamingo flaunted no longer his scarlet plumage before us, but flew sadly from the vale into the hills, with all the gay glowing birds that had arrived in his company. And the golden and silver fish swam down through the gorge at the lower end of our domain and bedecked the sweet river never again. And the lulling melody that had been softer than the wind-harp of Æolus, and more divine than all save the voice of Eleonora, it died little by little away, in murmurs growing lower and lower, until the stream returned, at length, utterly, into the solemnity of its original silence. And then, lastly, the voluminous cloud uprose, and, abandoning the tops of the mountains to the dimness of old, fell back into the regions of Hesper, and took away all its manifold golden and gorgeous glories from the Valley of the Many-Colored Grass."
+   },
+   {
+    "type": "para",
+    "text": "Yet the promises of Eleonora were not forgotten; for I heard the sounds of the swinging of the censers of the angels; and streams of a holy perfume floated ever and ever about the valley; and at lone hours, when my heart beat heavily, the winds that bathed my brow came unto me laden with soft sighs; and indistinct murmurs filled often the night air, and once—oh, but once only! I was awakened from a slumber, like the slumber of death, by the pressing of spiritual lips upon my own."
+   },
+   {
+    "type": "para",
+    "text": "But the void within my heart refused, even thus, to be filled. I longed for the love which had before filled it to overflowing. At length the valley pained me through its memories of Eleonora, and I left it for ever for the vanities and the turbulent triumphs of the world."
+   },
+   {
+    "type": "para",
+    "text": "I found myself within a strange city, where all things might have served to blot from recollection the sweet dreams I had dreamed so long in the Valley of the Many-Colored Grass. The pomps and pageantries of a stately court, and the mad clangor of arms, and the radiant loveliness of women, bewildered and intoxicated my brain. But as yet my soul had proved true to its vows, and the indications of the presence of Eleonora were still given me in the silent hours of the night. Suddenly these manifestations they ceased, and the world grew dark before mine eyes, and I stood aghast at the burning thoughts which possessed, at the terrible temptations which beset me; for there came from some far, far distant and unknown land, into the gay court of the king I served, a maiden to whose beauty my whole recreant heart yielded at once—at whose footstool I bowed down without a struggle, in the most ardent, in the most abject worship of love. What, indeed, was my passion for the young girl of the valley in comparison with the fervor, and the delirium, and the spirit-lifting ecstasy of adoration with which I poured out my whole soul in tears at the feet of the ethereal Ermengarde?—Oh, bright was the seraph Ermengarde! and in that knowledge I had room for none other. Oh, divine was the angel Ermengarde! and as I looked down into the depths of her memorial eyes, I thought only of them—and of her."
+   },
+   {
+    "type": "para",
+    "text": "I wedded—nor dreaded the curse I had invoked; and its bitterness was not visited upon me. And once—but once again in the silence of the night; there came through my lattice the soft sighs which had forsaken me; and they modelled themselves into familiar and sweet voice, saying:"
+   },
+   {
+    "type": "para",
+    "text": "“Sleep in peace! for the Spirit of Love reigneth and ruleth, and, in taking to thy passionate heart her who is Ermengarde, thou art absolved, for reasons which shall be made known to thee in Heaven, of thy vows unto Eleonora.”"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2148,
+   "path": "pg2148.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "159989d413c3240447627d0964a15ad10e4535ba1d25e0468c02f9ecdab9e12e",
+   "url": "https://www.gutenberg.org/cache/epub/2148/pg2148.txt",
+   "headingLine": 9818,
+   "startLine": 9819,
+   "endLine": 10055,
+   "heading": "ELEONORA",
+   "bodySha256": "e45e244bb9866d1602574630d0478430b7d60166885c9456d037633a8259d828"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "thomas-de-quincey-on-the-knocking-at-the-gate-in-macbeth",
+  "kind": "essay",
+  "title": "On the Knocking at the Gate, in Macbeth",
+  "author": "Thomas De Quincey",
+  "year": 1823,
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/10708",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "From my boyish days I had always felt a great perplexity on one point in Macbeth. It was this: the knocking at the gate, which succeeds to the murder of Duncan, produced to my feelings an effect for which I never could account. The effect was, that it reflected back upon the murder a peculiar awfulness and a depth of solemnity; yet, however obstinately I endeavored with my understanding to comprehend this, for many years I never could see why it should produce such an effect."
+   },
+   {
+    "type": "para",
+    "text": "Here I pause for one moment, to exhort the reader never to pay any attention to his understanding when it stands in opposition to any other faculty of his mind. The mere understanding, however useful and indispensable, is the meanest faculty in the human mind, and the most to be distrusted; and yet the great majority of people trust to nothing else; which may do for ordinary life, but not for philosophical purposes. Of this out of ten thousand instances that I might produce, I will cite one. Ask of any person whatsoever, who is not previously prepared for the demand by a knowledge of perspective, to draw in the rudest way the commonest appearance which depends upon the laws of that science; as for instance, to represent the effect of two walls standing at right angles to each other, or the appearance of the houses on each side of a street, as seen by a person looking down the street from one extremity. Now in all cases, unless the person has happened to observe in pictures how it is that artists produce these effects, he will be utterly unable to make the smallest approximation to it. Yet why? For he has actually seen the effect every day of his life. The reason is--that he allows his understanding to overrule his eyes. His understanding, which includes no intuitive knowledge of the laws of vision, can furnish him with no reason why a line which is known and can be proved to be a horizontal line, should not appear a horizontal line; a line that made any angle with the perpendicular less than a right angle, would seem to him to indicate that his houses were all tumbling down together. Accordingly he makes the line of his houses a horizontal line, and fails of course to produce the effect demanded. Here then is one instance out of many, in which not only the understanding is allowed to overrule the eyes, but where the understanding is positively allowed to obliterate the eyes as it were, for not only does the man believe the evidence of his understanding in opposition to that of his eyes, but, (what is monstrous!) the idiot is not aware that his eyes ever gave such evidence. He does not know that he has seen (and therefore quoad his consciousness has not seen) that which he has seen every day of his life. But to return from this digression, my understanding could furnish no reason why the knocking at the gate in Macbeth should produce any effect, direct or reflected. In fact, my understanding said positively that it could not produce any effect. But I knew better; I felt that it did; and I waited and clung to the problem until further knowledge should enable me to solve it. At length, in 1812, Mr. Williams made his début on the stage of Ratcliffe Highway, and executed those unparalleled murders which have procured for him such a brilliant and undying reputation. On which murders, by the way, I must observe, that in one respect they have had an ill effect, by making the connoisseur in murder very fastidious in his taste, and dissatisfied by anything that has been since done in that line. All other murders look pale by the deep crimson of his; and, as an amateur once said to me in a querulous tone, \"There has been absolutely nothing doing since his time, or nothing that's worth speaking of.\" But this is wrong; for it is unreasonable to expect all men to be great artists, and born with the genius of Mr. Williams. Now it will be remembered that in the first of these murders, (that of the Marrs,) the same incident (of a knocking at the door soon after the work of extermination was complete) did actually occur, which the genius of Shakspeare has invented; and all good judges, and the most eminent dilettanti, acknowledged the felicity of Shakspeare's suggestion as soon as it was actually realized. Here, then, was a fresh proof that I was right in relying on my own feeling in opposition to my understanding; and I again set myself to study the problem; at length I solved it to my own satisfaction; and my solution is this. Murder in ordinary cases, where the sympathy is wholly directed to the case of the murdered person, is an incident of coarse and vulgar horror; and for this reason, that it flings the interest exclusively upon the natural but ignoble instinct by which we cleave to life; an instinct, which, as being indispensable to the primal law of self-preservation, is the same in kind, (though different in degree,) amongst all living creatures; this instinct therefore, because it annihilates all distinctions, and degrades the greatest of men to the level of \"the poor beetle that we tread on,\" exhibits human nature in its most abject and humiliating attitude. Such an attitude would little suit the purposes of the poet. What then must he do? He must throw the interest on the murderer. Our sympathy must be with him; (of course I mean a sympathy of comprehension, a sympathy by which we enter into his feelings, and are made to understand them,--not a sympathy[1] of pity or approbation.) In the murdered person all strife of thought, all flux and reflux of passion and of purpose, are crushed by one overwhelming panic; the fear of instant death smites him \"with its petrific mace.\" But in the murderer, such a murderer as a poet will condescend to, there must be raging some great storm of passion,--jealousy, ambition, vengeance, hatred,--which will create a hell within him; and into this hell we are to look."
+   },
+   {
+    "type": "para",
+    "text": "[Footnote 1: It seems almost ludicrous to guard and explain my use of a word in a situation where it would naturally explain itself. But it has become necessary to do so, in consequence of the unscholarlike use of the word sympathy, at present so general, by which, instead of taking it in its proper sense, as the act of reproducing in our minds the feelings of another, whether for hatred, indignation, love, pity, or approbation, it is made a mere synonyme of the word pity; and hence, instead of saying \"sympathy with another,\" many writers adopt the monstrous barbarism of \"sympathy for another.\"]"
+   },
+   {
+    "type": "para",
+    "text": "In Macbeth, for the sake of gratifying his own enormous and teeming faculty of creation, Shakspeare has introduced two murderers: and, as usual in his hands, they are remarkably discriminated: but, though in Macbeth the strife of mind is greater than in his wife, the tiger spirit not so awake, and his feelings caught chiefly by contagion from her,--yet, as both were finally involved in the guilt of murder, the murderous mind of necessity is finally to be presumed in both. This was to be expressed; and on its own account, as well as to make it a more proportionable antagonist to the unoffending nature of their victim, \"the gracious Duncan,\" and adequately to expound \"the deep damnation of his taking off,\" this was to be expressed with peculiar energy. We were to be made to feel that the human nature, i.e., the divine nature of love and mercy, spread through the hearts of all creatures, and seldom utterly withdrawn from man,--was gone, vanished, extinct; and that the fiendish nature had taken its place. And, as this effect is marvellously accomplished in the dialogues and soliloquies themselves, so it is finally consummated by the expedient under consideration; and it is to this that I now solicit the reader's attention. If the reader has ever witnessed a wife, daughter, or sister, in a fainting fit, he may chance to have observed that the most affecting moment in such a spectacle, is that in which a sigh and a stirring announce the recommencement of suspended life. Or, if the reader has ever been present in a vast metropolis, on the day when some great national idol was carried in funeral pomp to his grave, and chancing to walk near the course through which it passed, has felt powerfully, in the silence and desertion of the streets and in the stagnation of ordinary business, the deep interest which at that moment was possessing the heart of man,--if all at once he should hear the death-like stillness broken up by the sound of wheels rattling away from the scene, and making known that the transitory vision was dissolved, he will be aware that at no moment was his sense of the complete suspension and pause in ordinary human concerns so full and affecting, as at that moment when the suspension ceases, and the goings-on of human life are suddenly resumed. All action in any direction is best expounded, measured, and made apprehensible, by reaction. Now apply this to the case in Macbeth. Here, as I have said, the retiring of the human heart and the entrance of the fiendish heart was to be expressed and made sensible. Another world has stepped in; and the murderers are taken out of the region of human things, human purposes, human desires. They are transfigured: Lady Macbeth is \"unsexed;\" Macbeth has forgot that he was born of woman; both are conformed to the image of devils; and the world of devils is suddenly revealed. But how shall this be conveyed and made palpable? In order that a new world may step in, this world must for a time disappear. The murderers, and the murder, must be insulated--cut off by an immeasurable gulph from the ordinary tide and succession of human affairs--locked up and sequestered in some deep recess; we must be made sensible that the world of ordinary life is suddenly arrested--laid asleep--tranced--racked into a dread armistice: time must be annihilated; relation to things without abolished; and all must pass self-withdrawn into a deep syncope and suspension of earthly passion. Hence it is, that when the deed is done, when the work of darkness is perfect, then the world of darkness passes away like a pageantry in the clouds: the knocking at the gate is heard; and it makes known audibly that the reaction has commenced: the human has made its reflux upon the fiendish; the pulses of life are beginning to beat again; and the re-establishment of the goings-on of the world in which we live, first makes us profoundly sensible of the awful parenthesis that had suspended them."
+   },
+   {
+    "type": "para",
+    "text": "O, mighty poet! Thy works are not as those of other men, simply and merely great works of art; but are also like the phenomena of nature, like the sun and the sea, the stars and the flowers,--like frost and snow, rain and dew, hail-storm and thunder, which are to be studied with entire submission of our own faculties, and in the perfect faith that in them there can be no too much or too little, nothing useless or inert--but that, the further we press in our discoveries, the more we shall see proofs of design and self-supporting arrangement where the careless eye had seen nothing but accident!"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 10708,
+   "path": "pg10708.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "61a5337e29466c8389c70858fa6023ac94a9b9ab2e7333967e4757489ae394b2",
+   "url": "https://www.gutenberg.org/cache/epub/10708/pg10708.txt",
+   "headingLine": 79,
+   "startLine": 80,
+   "endLine": 240,
+   "heading": "IN MACBETH.",
+   "bodySha256": "f6dcbe8bda277c244ccb6bcbbcfa8c3845f95310a8e9136fa7d29e9f1c247df8",
+   "headingStartLine": 75
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-the-relation-of-the-individual-to-the-universe",
+  "kind": "essay",
+  "title": "THE RELATION OF THE INDIVIDUAL TO THE UNIVERSE",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The civilisation of ancient Greece was nurtured within city walls.  In fact, all the modern civilisations have their cradles of brick and mortar."
+   },
+   {
+    "type": "para",
+    "text": "These walls leave their mark deep in the minds of men.  They set up a principle of \"divide and rule\" in our mental outlook, which begets in us a habit of securing all our conquests by fortifying them and separating them from one another.  We divide nation and nation, knowledge and knowledge, man and nature.  It breeds in us a strong suspicion of whatever is beyond the barriers we have built, and everything has to fight hard for its entrance into our recognition."
+   },
+   {
+    "type": "para",
+    "text": "When the first Aryan invaders appeared in India it was a vast land of forests, and the new-comers rapidly took advantage of them.  These forests afforded them shelter from the fierce heat of the sun and the ravages of tropical storms, pastures for cattle, fuel for sacrificial fire, and materials for building cottages.  And the different Aryan clans with their patriarchal heads settled in the different forest tracts which had some special advantage of natural protection, and food and water in plenty."
+   },
+   {
+    "type": "para",
+    "text": "Thus in India it was in the forests that our civilisation had its birth, and it took a distinct character from this origin and environment.  It was surrounded by the vast life of nature, was fed and clothed by her, and had the closest and most constant intercourse with her varying aspects."
+   },
+   {
+    "type": "para",
+    "text": "Such a life, it may be thought, tends to have the effect of dulling human intelligence and dwarfing the incentives to progress by lowering the standards of existence.  But in ancient India we find that the circumstances of forest life did not overcome man's mind, and did not enfeeble the current of his energies, but only gave to it a particular direction.  Having been in constant contact with the living growth of nature, his mind was free from the desire to extend his dominion by erecting boundary walls around his acquisitions.  His aim was not to acquire but to realise, to enlarge his consciousness by growing with and growing into his surroundings.  He felt that truth is all-comprehensive, that there is no such thing as absolute isolation in existence, and the only way of attaining truth is through the interpenetration of our being into all objects.  To realise this great harmony between man's spirit and the spirit of the world was the endeavour of the forest-dwelling sages of ancient India."
+   },
+   {
+    "type": "para",
+    "text": "In later days there came a time when these primeval forests gave way to cultivated fields, and wealthy cities sprang up on all sides.  Mighty kingdoms were established, which had communications with all the great powers of the world.  But even in the heyday of its material prosperity the heart of India ever looked back with adoration upon the early ideal of strenuous self-realisation, and the dignity of the simple life of the forest hermitage, and drew its best inspiration from the wisdom stored there."
+   },
+   {
+    "type": "para",
+    "text": "The west seems to take a pride in thinking that it is subduing nature; as if we are living in a hostile world where we have to wrest everything we want from an unwilling and alien arrangement of things.  This sentiment is the product of the city-wall habit and training of mind.  For in the city life man naturally directs the concentrated light of his mental vision upon his own life and works, and this creates an artificial dissociation between himself and the Universal Nature within whose bosom he lies."
+   },
+   {
+    "type": "para",
+    "text": "But in India the point of view was different; it included the world with the man as one great truth.  India put all her emphasis on the harmony that exists between the individual and the universal.  She felt we could have no communication whatever with our surroundings if they were absolutely foreign to us. Man's complaint against nature is that he has to acquire most of his necessaries by his own efforts.  Yes, but his efforts are not in vain; he is reaping success every day, and that shows there is a rational connection between him and nature, for we never can make anything our own except that which is truly related to us."
+   },
+   {
+    "type": "para",
+    "text": "We can look upon a road from two different points of view.  One regards it as dividing us from the object of our desire; in that case we count every step of our journey over it as something attained by force in the face of obstruction.  The other sees it as the road which leads us to our destination; and as such it is part of our goal.  It is already the beginning of our attainment, and by journeying over it we can only gain that which in itself it offers to us.  This last point of view is that of India with regard to nature.  For her, the great fact is that we are in harmony with nature; that man can think because his thoughts are in harmony with things; that he can use the forces of nature for his own purpose only because his power is in harmony with the power which is universal, and that in the long run his purpose never can knock against the purpose which works through nature."
+   },
+   {
+    "type": "para",
+    "text": "In the west the prevalent feeling is that nature belongs exclusively to inanimate things and to beasts, that there is a sudden unaccountable break where human-nature begins.  According to it, everything that is low in the scale of beings is merely nature, and whatever has the stamp of perfection on it, intellectual or moral, is human-nature.  It is like dividing the bud and the blossom into two separate categories, and putting their grace to the credit of two different and antithetical principles.  But the Indian mind never has any hesitation in acknowledging its kinship with nature, its unbroken relation with all."
+   },
+   {
+    "type": "para",
+    "text": "The fundamental unity of creation was not simply a philosophical speculation for India; it was her life-object to realise this great harmony in feeling and in action.  With mediation and service, with a regulation of life, she cultivated her consciousness in such a way that everything had a spiritual meaning to her.  The earth, water and light, fruits and flowers, to her were not merely physical phenomena to be turned to use and then left aside.  They were necessary to her in the attainment of her ideal of perfection, as every note is necessary to the completeness of the symphony.  India intuitively felt that the essential fact of this world has a vital meaning for us; we have to be fully alive to it and establish a conscious relation with it, not merely impelled by scientific curiosity or greed of material advantage, but realising it in the spirit of sympathy, with a large feeling of joy and peace."
+   },
+   {
+    "type": "para",
+    "text": "The man of science knows, in one aspect, that the world is not merely what it appears to be to our senses; he knows that earth and water are really the play of forces that manifest themselves to us as earth and water--how, we can but partially apprehend. Likewise the man who has his spiritual eyes open knows that the ultimate truth about earth and water lies in our apprehension of the eternal will which works in time and takes shape in the forces we realise under those aspects.  This is not mere knowledge, as science is, but it is a preception of the soul by the soul.  This does not lead us to power, as knowledge does, but it gives us joy, which is the product of the union of kindred things.  The man whose acquaintance with the world does not lead him deeper than science leads him, will never understand what it is that the man with the spiritual vision finds in these natural phenomena.  The water does not merely cleanse his limbs, but it purifies his heart; for it touches his soul.  The earth does not merely hold his body, but it gladdens his mind; for its contact is more than a physical contact--it is a living presence.  When a man does not realise his kinship with the world, he lives in a prison-house whose walls are alien to him.  When he meets the eternal spirit in all objects, then is he emancipated, for then he discovers the fullest significance of the world into which he is born; then he finds himself in perfect truth, and his harmony with the all is established.  In India men are enjoined to be fully awake to the fact that they are in the closest relation to things around them, body and soul, and that they are to hail the morning sun, the flowing water, the fruitful earth, as the manifestation of the same living truth which holds them in its embrace.  Thus the text of our everyday meditation is the Gayathri, a verse which is considered to be the epitome of all the Vedas.  By its help we try to realise the essential unity of the world with the conscious soul of man; we learn to perceive the unity held together by the one Eternal Spirit, whose power creates the earth, the sky, and the stars, and at the same time irradiates our minds with the light of a consciousness that moves and exists in unbroken continuity with the outer world."
+   },
+   {
+    "type": "para",
+    "text": "It is not true that India has tried to ignore differences of value in different things, for she knows that would make life impossible.  The sense of the superiority of man in the scale of creation has not been absent from her mind.  But she has had her own idea as to that in which his superiority really consists.  It is not in the power of possession but in the power of union. Therefore India chose her places of pilgrimage wherever there was in nature some special grandeur or beauty, so that her mind could come out of its world of narrow necessities and realise its place in the infinite.  This was the reason why in India a whole people who once were meat-eaters gave up taking animal food to cultivate the sentiment of universal sympathy for life, an event unique in the history of mankind."
+   },
+   {
+    "type": "para",
+    "text": "India knew that when by physical and mental barriers we violently detach ourselves from the inexhaustible life of nature; when we become merely man, but not man-in-the-universe, we create bewildering problems, and having shut off the source of their solution, we try all kinds of artificial methods each of which brings its own crop of interminable difficulties.  When man leaves his resting-place in universal nature, when he walks on the single rope of humanity, it means either a dance or a fall for him, he has ceaselessly to strain every nerve and muscle to keep his balance at each step, and then, in the intervals of his weariness, he fulminates against Providence and feels a secret pride and satisfaction in thinking that he has been unfairly dealt with by the whole scheme of things."
+   },
+   {
+    "type": "para",
+    "text": "But this cannot go on for ever.  Man must realise the wholeness of his existence, his place in the infinite; he must know that hard as he may strive he can never create his honey within the cells of his hive; for the perennial supply of his life food is outside their walls.  He must know that when man shuts himself out from the vitalising and purifying touch of the infinite, and falls back upon himself for his sustenance and his healing, then he goads himself into madness, tears himself into shreds, and eats his own substance.  Deprived of the background of the whole, his poverty loses its one great quality, which is simplicity, and becomes squalid and shamefaced.  His wealth is no longer magnanimous; it grows merely extravagant.  His appetites do not minister to his life, keeping to the limits of their purpose; they become an end in themselves and set fire to his life and play the fiddle in the lurid light of the conflagration.  Then it is that in our self-expression we try to startle and not to attract; in art we strive for originality and lose sight of truth which is old and yet ever new; in literature we miss the complete view of man which is simple and yet great, but he appears as a psychological problem or the embodiment of a passion that is intense because abnormal and because exhibited in the glare of a fiercely emphatic light which is artificial.  When man's consciousness is restricted only to the immediate vicinity of his human self, the deeper roots of his nature do not find their permanent soil, his spirit is ever on the brink of starvation, and in the place of healthful strength he substitutes rounds of stimulation.  Then it is that man misses his inner perspective and measures his greatness by its bulk and not by its vital link with the infinite, judges his activity by its movement and not by the repose of perfection--the repose which is in the starry heavens, in the ever-flowing rhythmic dance of creation."
+   },
+   {
+    "type": "para",
+    "text": "The first invasion of India has its exact parallel in the invasion of America by the European settlers.  They also were confronted with primeval forests and a fierce struggle with aboriginal races.  But this struggle between man and man, and man and nature lasted till the very end; they never came to any terms.  In India the forests which were the habitation of the barbarians became the sanctuary of sages, but in America these great living cathedrals of nature had no deeper significance to man.  The brought wealth and power to him, and perhaps at times they ministered to his enjoyment of beauty, and inspired a solitary poet.  They never acquired a sacred association in the hearts of men as the site of some great spiritual reconcilement where man's soul has its meeting-place with the soul of the world."
+   },
+   {
+    "type": "para",
+    "text": "I do not for a moment wish to suggest that these things should have been otherwise.  It would be an utter waste of opportunities if history were to repeat itself exactly in the same manner in every place.  It is best for the commerce of the spirit that people differently situated should bring their different products into the market of humanity, each of which is complementary and necessary to the others.  All that I wish to say is that India at the outset of her career met with a special combination of circumstances which was not lost upon her.  She had, according to her opportunities, thought and pondered, striven and suffered, dived into the depths of existence, and achieved something which surely cannot be without its value to people whose evolution in history took a different way altogether.  Man for his perfect growth requires all the living elements that constitute his complex life; that is why his food has to be cultivated in different fields and brought from different sources."
+   },
+   {
+    "type": "para",
+    "text": "Civilisation is a kind of mould that each nation is busy making for itself to shape its men and women according to its best ideal.  All its institutions, its legislature, its standard of approbation and condemnation, its conscious and unconscious teachings tend toward that object.  The modern civilisation of the west, by all its organised efforts, is trying to turn out men perfect in physical, intellectual, and moral efficiency.  There the vast energies of the nations are employed in extending man's power over his surroundings, and people are combining and straining every faculty to possess and to turn to account all that they can lay their hands upon, to overcome every obstacle on their path of conquest.  They are ever disciplining themselves to fight nature and other races; their armaments are getting more and more stupendous every day; their machines, their appliances, their organisations go on multiplying at an amazing rate.  This is a splendid achievement, no doubt, and a wonderful manifestation of man's masterfulness which knows no obstacle, and which has for its object the supremacy of himself over everything else."
+   },
+   {
+    "type": "para",
+    "text": "The ancient civilisation of India had its own ideal of perfection towards which its efforts were directed.  Its aim was not attaining power, and it neglected to cultivate to the utmost its capacities, and to organise men for defensive and offensive purposes, for co-operation in the acquisition of wealth and for military and political ascendancy.  The ideal that India tried to realise led her best men to the isolation of a contemplative life, and the treasures that she gained for mankind by penetrating into the mysteries of reality cost her dear in the sphere of worldly success.  Yet, this also was a sublime achievement,--it was a supreme manifestation of that human aspiration which knows no limit, and which has for its object nothing less than the realisation of the Infinite."
+   },
+   {
+    "type": "para",
+    "text": "There were the virtuous, the wise, the courageous; there were the statesmen, kings and emperors of India; but whom amongst all these classes did she look up to and choose to be the representative of men?"
+   },
+   {
+    "type": "para",
+    "text": "They were the rishis.  What were the rishis?  They who having attained the supreme soul in knowledge were filled with wisdom, and having found him in union with the soul were in perfect harmony with the inner self; they having realised him in the heart were free from all selfish desires, and having experienced him in all the activities of the world, had attained calmness. The rishis were they who having reached the supreme God from all sides had found abiding peace, had become united with all, had entered into the life of the Universe. [Footnote: /** Samprāpyainam rishayo jñānatripatāh Kritātmānō vītarāgāh praçantāh tē sarvagam sarvatah prāpya dhīrāh Yuktātmānah sarvamēvāviçanti. */ ]"
+   },
+   {
+    "type": "para",
+    "text": "Thus the state of realising our relationship with all, of entering into everything through union with God, was considered in India to be the ultimate end and fulfilment of humanity."
+   },
+   {
+    "type": "para",
+    "text": "Man can destroy and plunder, earn and accumulate, invent and discover, but he is great because his soul comprehends all.  It is dire destruction for him when he envelopes his soul in a dead shell of callous habits, and when a blind fury of works whirls round him like an eddying dust storm, shutting out the horizon. That indeed kills the very spirit of his being, which is the spirit of comprehension.  Essentially man is not a slave either of himself or of the world; but he is a lover.  His freedom and fulfilment is in love, which is another name for perfect comprehension.  By this power of comprehension, this permeation of his being, he is united with the all-pervading Spirit, who is also the breath of his soul.  Where a man tries to raise himself to eminence by pushing and jostling all others, to achieve a distinction by which he prides himself to be more than everybody else, there he is alienated from that Spirit.  This is why the Upanishads describe those who have attained the goal of human life as \"peaceful\" [Footnote: Praçantāh] and as \"at-one-with-God,\" [Footnote: Yuktātmānah] meaning that they are in perfect harmony with man and nature, and therefore in undisturbed union with God."
+   },
+   {
+    "type": "para",
+    "text": "We have a glimpse of the same truth in the teachings of Jesus when he says, \"It is easier for a camel to pass through the eye of a needle than for a rich man to enter the kingdom of Heaven\"--which implies that whatever we treasure for ourselves separates us from others; our possessions are our limitations.  He who is bent upon accumulating riches is unable, with his ego continually bulging, to pass through the gates of comprehension of the spiritual world, which is the world of perfect harmony; he is shut up within the narrow walls of his limited acquisitions."
+   },
+   {
+    "type": "para",
+    "text": "Hence the spirit of the teachings of Upanishad is: In order to find him you must embrace all.  In the pursuit of wealth you really give up everything to gain a few things, and that is not the way to attain him who is completeness."
+   },
+   {
+    "type": "para",
+    "text": "Some modern philosophers of Europe, who are directly or indirectly indebted to the Upanishads, far from realising their debt, maintain that the Brahma of India is a mere abstraction, a negation of all that is in the world.  In a word, that the Infinite Being is to be found nowhere except in metaphysics.  It may be, that such a doctrine has been and still is prevalent with a section of our countrymen.  But this is certainly not in accord with the pervading spirit of the Indian mind.  Instead, it is the practice of realising and affirming the presence of the infinite in all things which has been its constant inspiration."
+   },
+   {
+    "type": "para",
+    "text": "We are enjoined to see whatever there is in the world as being enveloped by God. [Footnote: Içāvāsyamidam sarvam yat kiñcha jagatyāñ jagat.]"
+   },
+   {
+    "type": "para",
+    "text": "I bow to God over and over again who is in fire and in water, who permeates the whole world, who is in the annual crops as well as in the perennial trees.  [Footnote: Yo dēvō'gnau y'ōpsu y'ō viçvambhuvanamāvivēça ya ōshadhishu yō  vanaspatishu tasmai dēvāya namōnamah.]"
+   },
+   {
+    "type": "para",
+    "text": "Can this be God abstracted from the world?  Instead, it signifies not merely seeing him in all things, but saluting him in all the objects of the world.  The attitude of the God-conscious man of the Upanishad towards the universe is one of a deep feeling of adoration.  His object of worship is present everywhere.  It is the one living truth that makes all realities true.  This truth is not only of knowledge but of devotion.  'Namonamah,'--we bow to him everywhere, and over and over again.  It is recognised in the outburst of the Rishi, who addresses the whole world in a sudden ecstasy of joy: Listen to me, ye sons of the immortal spirit, ye who live in the heavenly abode, I have known the Supreme Person whose light shines forth from beyond the darkness. [Footnote: Çrinvantu viçve amritasya putrā ā ye divya dhāmāni tasthuh vedāhametam purusham mahāntam āditya varņam tamasah parastāt.]  Do we not find the overwhelming delight of a direct and positive experience where there is not the least trace of vagueness or passivity?"
+   },
+   {
+    "type": "para",
+    "text": "Buddha who developed the practical side of the teaching of Upanishads, preached the same message when he said, With everything, whether it is above or below, remote or near, visible or invisible, thou shalt preserve a relation of unlimited love without any animosity or without a desire to kill.  To live in such a consciousness while standing or walking, sitting or lying down till you are asleep, is Brahma vihāra, or, in other words, is living and moving and having your joy in the spirit of Brahma."
+   },
+   {
+    "type": "para",
+    "text": "What is that spirit?  The Upanishad says, The being who is in his essence the light and life of all, who is world-conscious, is Brahma.  [Footnote: Yaçchāyamasminnākāçē tējōmayō'mritamayah purushah sarvānubhūh.]  To feel all, to be conscious of everything, is his spirit.  We are immersed in his consciousness body and soul.  It is through his consciousness that the sun attracts the earth; it is through his consciousness that the light-waves are being transmitted from planet to planet."
+   },
+   {
+    "type": "para",
+    "text": "Not only in space, but this light and life, this all-feeling being is in our souls.  [Footnote: Yaçchāyamasminnātmani tējōmayō'mritamayah purushah sarvānubhūh.]  He is all-conscious in space, or the world of extension; and he is all-conscious in soul, or the world of intension."
+   },
+   {
+    "type": "para",
+    "text": "Thus to attain our world-consciousness, we have to unite our feeling with this all-pervasive infinite feeling.  In fact, the only true human progress is coincident with this widening of the range of feeling.  All our poetry, philosophy, science, art and religion are serving to extend the scope of our consciousness towards higher and larger spheres.  Man does not acquire rights through occupation of larger space, nor through external conduct, but his rights extend only so far as he is real, and his reality is measured by the scope of his consciousness."
+   },
+   {
+    "type": "para",
+    "text": "We have, however, to pay a price for this attainment of the freedom of consciousness.  What is the price?  It is to give one's self away.  Our soul can realise itself truly only by denying itself.  The Upanishad says, Thou shalt gain by giving away [Footnote: Tyaktēna bhuñjīthāh], Thou shalt not covet. [Footnote: Mā gridhah]"
+   },
+   {
+    "type": "para",
+    "text": "In Gita we are advised to work disinterestedly, abandoning all lust for the result.  Many outsiders conclude from this teaching that the conception of the world as something unreal lies at the root of the so-called disinterestedness preached in India.  But the reverse is true."
+   },
+   {
+    "type": "para",
+    "text": "The man who aims at his own aggrandisement underrates everything else.  Compared to his ego the rest of the world is unreal.  Thus in order to be fully conscious of the reality of all, one has to be free himself from the bonds of personal desires.  This discipline we have to go through to prepare ourselves for our social duties--for sharing the burdens of our fellow-beings. Every endeavour to attain a larger life requires of man \"to gain by giving away, and not to be greedy.\"  And thus to expand gradually the consciousness of one's unity with all is the striving of humanity."
+   },
+   {
+    "type": "para",
+    "text": "The Infinite in India was not a thin nonentity, void of all content.  The Rishis of India asserted emphatically, \"To know him in this life is to be true; not to know him in this life is the desolation of death.\"  [Footnote: Iha chēt avēdit atha satyamasti, nachēt iha avēdit mahatī vinashtih.]  How to know him then?  \"By realising him in each and all.\"  [Footnote: Bhūtēshu bhūtēshu vichintva.]  Not only in nature but in the family, in society, and in the state, the more we realise the World-conscious in all, the better for us.  Failing to realise it, we turn our faces to destruction."
+   },
+   {
+    "type": "para",
+    "text": "It fills me with great joy and a high hope for the future of humanity when I realise that there was a time in the remote past when our poet-prophets stood under the lavish sunshine of an Indian sky and greeted the world with the glad recognition of kindred.  It was not an anthropomorphic hallucination.  It was not seeing man reflected everywhere in grotesquely exaggerated images, and witnessing the human drama acted on a gigantic scale in nature's arena of flitting lights and shadows.  On the contrary, it meant crossing the limiting barriers of the individual, to become more than man, to become one with the All. It was not a mere play of the imagination, but it was the liberation of consciousness from all the mystifications and exaggerations of the self.  These ancient seers felt in the serene depth of their mind that the same energy which vibrates and passes into the endless forms of the world manifests itself in our inner being as consciousness; and there is no break in unity.  For these seers there was no gap in their luminous vision of perfection.  They never acknowledged even death itself as creating a chasm in the field of reality.  They said, His reflection is death as well as immortality.  [Footnote: Yasya chhāyāmritam yasya mrityuh.]  They did not recognise any essential opposition between life and death, and they said with absolute assurance, \"It is life that is death.\"  [Footnote: Prāno mrityuh.]  They saluted with the same serenity of gladness \"life in its aspect of appearing and in its aspect of departure\"--That which is past is hidden in life, and that which is to come. [Footnote: Namō astu āyatē namō astu parāyatē.  Prānē ha bhūtam bhavyañcha.]  They knew that mere appearance and disappearance are on the surface like waves on the sea, but life which is permanent knows no decay or diminution."
+   },
+   {
+    "type": "para",
+    "text": "Everything has sprung from immortal life and is vibrating with life, [Footnote: Yadidan kiñcha praņa ejati nihsritam.] for life is immense.  [Footnote: Prāno virāt.]"
+   },
+   {
+    "type": "para",
+    "text": "This is the noble heritage from our forefathers waiting to be claimed by us as our own, this ideal of the supreme freedom of consciousness.  It is not merely intellectual or emotional, it has an ethical basis, and it must be translated into action.  In the Upanishad it is said, The supreme being is all-pervading, therefore he is the innate good in all.  [Footnote: Sarvavyāpī sa bhagavān tasmāt sarvagatah çivah.]  To be truly united in knowledge, love, and service with all beings, and thus to realise one's self in the all-pervading God is the essence of goodness, and this is the keynote of the teachings of the Upanishads: Life is immense!  [Footnote: Prāņo virāt.]"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 148,
+   "startLine": 149,
+   "endLine": 650,
+   "heading": "THE RELATION OF THE INDIVIDUAL TO THE UNIVERSE",
+   "bodySha256": "479abc5757f144304bb1696cf35b63117c7ae244024ef2743b26670a1c7101e1"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-the-problem-of-evil",
+  "kind": "essay",
+  "title": "THE PROBLEM OF EVIL",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The question why there is evil in existence is the same as why there is imperfection, or, in other words, why there is creation at all.  We must take it for granted that it could not be otherwise; that creation must be imperfect, must be gradual, and that it is futile to ask the question, Why we are?"
+   },
+   {
+    "type": "para",
+    "text": "But this is the real question we ought to ask: Is this imperfection the final truth, is evil absolute and ultimate?  The river has its boundaries, its banks, but is a river all banks? or are the banks the final facts about the river?  Do not these obstructions themselves give its water an onward motion?  The towing rope binds a boat, but is the bondage its meaning?  Does it not at the same time draw the boat forward?"
+   },
+   {
+    "type": "para",
+    "text": "The current of the world has its boundaries, otherwise it could have no existence, but its purpose is not shown in the boundaries which restrain it, but in its movement, which is towards perfection.  The wonder is not that there should be obstacles and sufferings in this world, but that there should be law and order, beauty and joy, goodness and love.  The idea of God that man has in his being is the wonder of all wonders.  He has felt in the depths of his life that what appears as imperfect is the manifestation of the perfect; just as a man who has an ear for music realises the perfection of a song, while in fact he is only listening to a succession of notes.  Man has found out the great paradox that what is limited is not imprisoned within its limits; it is ever moving, and therewith shedding its finitude every moment.  In fact, imperfection is not a negation of perfectness; finitude is not contradictory to infinity: they are but completeness manifested in parts, infinity revealed within bounds."
+   },
+   {
+    "type": "para",
+    "text": "Pain, which is the feeling of our finiteness, is not a fixture in our life.  It is not an end in itself, as joy is.  To meet with it is to know that it has no part in the true permanence of creation.  It is what error is in our intellectual life.  To go through the history of the development of science is to go through the maze of mistakes it made current at different times. Yet no one really believes that science is the one perfect mode of disseminating mistakes.  The progressive ascertainment of truth is the important thing to remember in the history of science, not its innumerable mistakes.  Error, by its nature, cannot be stationary; it cannot remain with truth; like a tramp, it must quit its lodging as soon as it fails to pay its score to the full."
+   },
+   {
+    "type": "para",
+    "text": "As in intellectual error, so in evil of any other form, its essence is impermanence, for it cannot accord with the whole. Every moment it is being corrected by the totality of things and keeps changing its aspect.  We exaggerate its importance by imagining it as a standstill.  Could we collect the statistics of the immense amount of death and putrefaction happening every moment in this earth, they would appal us.  But evil is ever moving; with all its incalculable immensity it does not effectually clog the current of our life; and we find that the earth, water, and air remain sweet and pure for living beings. All statistics consist of our attempts to represent statistically what is in motion; and in the process things assume a weight in our mind which they have not in reality.  For this reason a man, who by his profession is concerned with any particular aspect of life, is apt to magnify its proportions; in laying undue stress upon facts he loses his hold upon truth.  A detective may have the opportunity of studying crimes in detail, but he loses his sense of their relative places in the whole social economy.  When science collects facts to illustrate the struggle for existence that is going on in the kingdom of life, it raises a picture in our minds of \"nature red in tooth and claw.\"  But in these mental pictures we give a fixity to colours and forms which are really evanescent.  It is like calculating the weight of the air on each square inch of our body to prove that it must be crushingly heavy for us.  With every weight, however, there is an adjustment, and we lightly bear our burden.  With the struggle for existence in nature there is reciprocity.  There is the love for children and for comrades; there is the sacrifice of self, which springs from love; and this love is the positive element in life."
+   },
+   {
+    "type": "para",
+    "text": "If we kept the search-light of our observation turned upon the fact of death, the world would appear to us like a huge charnel-house; but in the world of life the thought of death has, we find, the least possible hold upon our minds.  Not because it is the least apparent, but because it is the negative aspect of life; just as, in spite of the fact that we shut our eyelids every second, it is the openings of the eye that count.  Life as a whole never takes death seriously.  It laughs, dances and plays, it builds, hoards and loves in death's face.  Only when we detach one individual fact of death do we see its blankness and become dismayed.  We lose sight of the wholeness of a life of which death is part.  It is like looking at a piece of cloth through a microscope.  It appears like a net; we gaze at the big holes and shiver in imagination.  But the truth is, death is not the ultimate reality.  It looks black, as the sky looks blue; but it does not blacken existence, just as the sky does not leave its stain upon the wings of the bird."
+   },
+   {
+    "type": "para",
+    "text": "When we watch a child trying to walk, we see its countless failures; its successes are but few.  If we had to limit our observation within a narrow space of time, the sight would be cruel.  But we find that in spite of its repeated failures there is an impetus of joy in the child which sustains it in its seemingly impossible task.  We see it does not think of its falls so much as of its power to keep its balance though for only a moment."
+   },
+   {
+    "type": "para",
+    "text": "Like these accidents in a child's attempts to walk, we meet with sufferings in various forms in our life every day, showing the imperfections in our knowledge and our available power, and in the application of our will.  But if these revealed our weakness to us only, we should die of utter depression.  When we select for observation a limited area of our activities, our individual failures and miseries loom large in our minds; but our life leads us instinctively to take a wider view.  It gives us an ideal of perfection which ever carries us beyond our present limitations. Within us we have a hope which always walks in front of our present narrow experience; it is the undying faith in the infinite in us; it will never accept any of our disabilities as a permanent fact; it sets no limit to its own scope; it dares to assert that man has oneness with God; and its wild dreams become true every day."
+   },
+   {
+    "type": "para",
+    "text": "We see the truth when we set our mind towards the infinite.  The ideal of truth is not in the narrow present, not in our immediate sensations, but in the consciousness of the whole which give us a taste of what we should have in what we do have.  Consciously or unconsciously we have in our life this feeling of Truth which is ever larger than its appearance; for our life is facing the infinite, and it is in movement.  Its aspiration is therefore infinitely more than its achievement, and as it goes on it finds that no realisation of truth ever leaves it stranded on the desert of finality, but carries it to a region beyond.  Evil cannot altogether arrest the course of life on the highway and rob it of its possessions.  For the evil has to pass on, it has to grow into good; it cannot stand and give battle to the All. If the least evil could stop anywhere indefinitely, it would sink deep and cut into the very roots of existence.  As it is, man does not really believe in evil, just as he cannot believe that violin strings have been purposely made to create the exquisite torture of discordant notes, though by the aid of statistics it can be mathematically proved that the probability of discord is far greater than that of harmony, and for one who can play the violin there are thousands who cannot.  The potentiality of perfection outweighs actual contradictions.  No doubt there have been people who asserted existence to be an absolute evil, but man can never take them seriously.  Their pessimism is a mere pose, either intellectual or sentimental; but life itself is optimistic: it wants to go on.  Pessimism is a form of mental dipsomania, it disdains healthy nourishment, indulges in the strong drink of denunciation, and creates an artificial dejection which thirsts for a stronger draught.  If existence were an evil, it would wait for no philosopher to prove it.  It is like convicting a man of suicide, while all the time he stands before you in the flesh.  Existence itself is here to prove that it cannot be an evil."
+   },
+   {
+    "type": "para",
+    "text": "An imperfection which is not all imperfection, but which has perfection for its ideal, must go through a perpetual realisation.  Thus, it is the function of our intellect to realise the truth through untruths, and knowledge is nothing but the continually burning up of error to set free the light of truth.  Our will, our character, has to attain perfection by continually overcoming evils, either inside or outside us, or both; our physical life is consuming bodily materials every moment to maintain the life fire; and our moral life too has its fuel to burn.  This life process is going on--we know it, we have felt it; and we have a faith which no individual instances to the contrary can shake, that the direction of humanity is from evil to good.  For we feel that good is the positive element in man's nature, and in every age and every clime what man values most is his ideals of goodness.  We have known the good, we have loved it, and we have paid our highest reverence to men who have shown in their lives what goodness is."
+   },
+   {
+    "type": "para",
+    "text": "The question will be asked, What is goodness; what does our moral nature mean?  My answer is, that when a man begins to have an extended vision of his self, when he realises that he is much more than at present he seems to be, he begins to get conscious of his moral nature.  Then he grows aware of that which he is yet to be, and the state not yet experienced by him becomes more real than that under his direct experience.  Necessarily, his perspective of life changes, and his will takes the place of his wishes.  For will is the supreme wish of the larger life, the life whose greater portion is out of our present reach, most of whose objects are not before our sight.  Then comes the conflict of our lesser man with our greater man, of our wishes with our will, of the desire for things affecting our senses with the purpose that is within our heart.  Then we begin to distinguish between what we immediately desire and what is good.  For good is that which is desirable for our greater self.  Thus the sense of goodness comes out of a truer view of our life, which is the connected view of the wholeness of the field of life, and which takes into account not only what is present before us but what is not, and perhaps never humanly can be.  Man, who is provident, feels for that life of his which is not yet existent, feels much more that than for the life that is with him; therefore he is ready to sacrifice his present inclination for the unrealised future.  In this he becomes great, for he realises truth.  Even to be efficiently selfish one has to recognise this truth, and has to curb his immediate impulses--in other words, has to be moral.  For our moral faculty is the faculty by which we know that life is not made up of fragments, purposeless and discontinuous.  This moral sense of man not only gives him the power to see that the self has a continuity in time, but it also enables him to see that he is not true when he is only restricted to his own self.  He is more in truth than he is in fact.  He truly belongs to individuals who are not included in his own individuality, and whom he is never even likely to know.  As he has a feeling for his future self which is outside his present consciousness, so he has a feeling for his greater self which is outside the limits of his personality.  There is no man who has not this feeling to some extent, who has never sacrificed his selfish desire for the sake of some other person, who has never felt a pleasure in undergoing some loss or trouble because it pleased somebody else.  It is a truth that man is not a detached being, that he has a universal aspect; and when he recognises this he becomes great.  Even the most evilly-disposed selfishness has to recognise this when it seeks the power to do evil; for it cannot ignore truth and yet be strong.  So in order to claim the aid of truth, selfishness has to be unselfish to some extent.  A band of robbers must be moral in order to hold together as a band; they may rob the whole world but not each other.  To make an immoral intention successful, some of its weapons must be moral.  In fact, very often it is our very moral strength which gives us most effectively the power to do evil, to exploit other individuals for our own benefit, to rob other people of their rights.  The life of an animal is unmoral, for it is aware only of an immediate present; the life of a man can be immoral, but that only means that it must have a moral basis.  What is immoral is imperfectly moral, just as what is false is true to a small extent, or it cannot even be false.  Not to see is to be blind, but to see wrongly is to see only in an imperfect manner.  Man's selfishness is a beginning to see some connection, some purpose in life; and to act in accordance with its dictates requires self-restraint and regulation of conduct.  A selfish man willingly undergoes troubles for the sake of the self, he suffers hardship and privation without a murmur, simply because he knows that what is pain and trouble, looked at from the point of view of a short space of time, are just the opposite when seen in a larger perspective.  Thus what is a loss to the smaller man is a gain to the greater, and vice versa."
+   },
+   {
+    "type": "para",
+    "text": "To the man who lives for an idea, for his country, for the good of humanity, life has an extensive meaning, and to that extent pain becomes less important to him.  To live the life of goodness is to live the life of all.  Pleasure is for one's own self, but goodness is concerned with the happiness of all humanity and for all time.  From the point of view of the good, pleasure and pain appear in a different meaning; so much so, that pleasure may be shunned, and pain be courted in its place, and death itself be made welcome as giving a higher value to life.  From these higher standpoints of a man's life, the standpoints of the good, pleasure and pain lose their absolute value.  Martyrs prove it in history, and we prove it every day in our life in our little martyrdoms.  When we take a pitcherful of water from the sea it has its weight, but when we take a dip into the sea itself a thousand pitchersful of water flow above our head, and we do not feel their weight.  We have to carry the pitcher of self with our strength; and so, while on the plane of selfishness pleasure and pain have their full weight, on the moral plane they are so much lightened that the man who has reached it appears to us almost superhuman in his patience under crushing trails, and his forbearance in the face of malignant persecution."
+   },
+   {
+    "type": "para",
+    "text": "To live in perfect goodness is to realise one's life in the infinitive.  This is the most comprehensive view of life which we can have by our inherent power of the moral vision of the wholeness of life.  And the teaching of Buddha is to cultivate this moral power to the highest extent, to know that our field of activities is not bound to the plane of our narrow self.  This is the vision of the heavenly kingdom of Christ.  When we attain to that universal life, which is the moral life, we become freed from the bonds of pleasure and pain, and the place vacated by our self becomes filled with an unspeakable joy which springs from measureless love.  In this state the soul's activity is all the more heightened, only its motive power is not from desires, but in its own joy.  This is the Karma-yoga of the Gita, the way to become one with the infinite activity by the exercise of the activity of disinterested goodness."
+   },
+   {
+    "type": "para",
+    "text": "When Buddha mentioned upon the way of realising mankind from the grip of misery he came to this truth: that when man attains his highest end by merging the individual in the universal, he becomes free from the thraldom of pain.  Let us consider this point more fully."
+   },
+   {
+    "type": "para",
+    "text": "A student of mine once related to me his adventure in a storm, and complained that all the time he was troubled with the feeling that this great commotion in nature behaved to him as if he were no more than a mere handful of dust.  That he was a distinct personality with a will of his own had not the least influence upon what was happening."
+   },
+   {
+    "type": "para",
+    "text": "I said, \"If consideration for our individuality could sway nature from her path, then it would be the individuals who would suffer most.\""
+   },
+   {
+    "type": "para",
+    "text": "But he persisted in his doubt, saying that there was this fact which could not be ignored--the feeling that I am.  The \"I\" in us seeks for a relation which is individual to it."
+   },
+   {
+    "type": "para",
+    "text": "I replied that the relation of the \"I\" is with something which is \"not-I.\"  So we must have a medium which is common to both, and we must be absolutely certain that it is the same to the \"I\" as it is to the \"not-I.\""
+   },
+   {
+    "type": "para",
+    "text": "This is what needs repeating here.  We have to keep in mind that our individuality by its nature is impelled to seek for the universal.  Our body can only die if it tries to eat its own substance, and our eye loses the meaning of its function if it can only see itself."
+   },
+   {
+    "type": "para",
+    "text": "Just as we find that the stronger the imagination the less is it merely imaginary and the more is it in harmony with truth, so we see the more vigorous our individuality the more does it widen towards the universal.  For the greatness of a personality is not in itself but in its content, which is universal, just as the depth of a lake is judged not by the size of its cavity but by the depth of its water."
+   },
+   {
+    "type": "para",
+    "text": "So, if it is a truth that the yearning of our nature is for reality, and that our personality cannot be happy with a fantastic universe of its own creation, then it is clearly best for it that our will can only deal with things by following their law, and cannot do with them just as it pleases.  This unyielding sureness of reality sometimes crosses our will, and very often leads us to disaster, just as the firmness of the earth invariably hurts the falling child who is learning to walk. Nevertheless it is the same firmness that hurts him which makes his walking possible.  Once, while passing under a bridge, the mast of my boat got stuck in one of its girders.  If only for a moment the mast would have bent an inch or two, or the bridge raised its back like a yawning cat, or the river given in, it would have been all right with me.  But they took no notice of my helplessness.  That is the very reason why I could make use of the river, and sail upon it with the help of the mast, and that is why, when its current was inconvenient, I could rely upon the bridge.  Things are what they are, and we have to know them if we would deal with them, and knowledge of them is possible because our wish is not their law.  This knowledge is a joy to us, for the knowledge is one of the channels of our relation with the things outside us; it is making them our own, and thus widening the limit of our self."
+   },
+   {
+    "type": "para",
+    "text": "At every step we have to take into account others than ourselves. For only in death are we alone.  A poet is a true poet when he can make his personal idea joyful to all men, which he could not do if he had not a medium common to all his audience.  This common language has its own law which the poet must discover and follow, by doing which he becomes true and attains poetical immortality."
+   },
+   {
+    "type": "para",
+    "text": "We see then that man's individuality is not his highest truth; there is that in him which is universal.  If he were made to live in a world where his own self was the only factor to consider, then that would be the worst prison imaginable to him, for man's deepest joy is in growing greater and greater by more and more union with the all.  This, as we have seen, would be an impossibility if there were no law common to all.  Only by discovering the law and following it, do we become great, do we realise the universal; while, so long as our individual desires are at conflict with the universal law, we suffer pain and are futile."
+   },
+   {
+    "type": "para",
+    "text": "There was a time when we prayed for special concessions, we expected that the laws of nature should be held in abeyance for our own convenience.  But now we know better.  We know that law cannot be set aside, and in this knowledge we have become strong. For this law is not something apart from us; it is our own.  The universal power which is manifested in the universal law is one with our own power.  It will thwart us where we are small, where we are against the current of things; but it will help us where we are great, where we are in unison with the all.  Thus, through the help of science, as we come to know more of the laws of nature, we gain in power; we tend to attain a universal body. Our organ of sight, our organ of locomotion, our physical strength becomes world-wide; steam and electricity become our nerve and muscle.  Thus we find that, just as throughout our bodily organisation there is a principle of relation by virtue of which we can call the entire body our own, and can use it as such, so all through the universe there is that principle of uninterrupted relation by virtue of which we can call the whole world our extended body and use it accordingly.  And in this age of science it is our endeavour fully to establish our claim to our world-self.  We know all our poverty and sufferings are owing to our inability to realise this legitimate claim of ours. Really, there is no limit to our powers, for we are not outside the universal power which is the expression of universal law.  We are on our way to overcome disease and death, to conquer pain and poverty; for through scientific knowledge we are ever on our way to realise the universal in its physical aspect.  And as we make progress we find that pain, disease, and poverty of power are not absolute, but that is only the want of adjustment of our individual self to our universal self which gives rise to them."
+   },
+   {
+    "type": "para",
+    "text": "It is the same with our spiritual life.  When the individual man in us chafes against the lawful rule of the universal man we become morally small, and we must suffer.  In such a condition our successes are our greatest failures, and the very fulfilment of our desires leaves us poorer.  We hanker after special gains for ourselves, we want to enjoy privileges which none else can share with us.  But everything that is absolutely special must keep up a perpetual warfare with what is general.  In such a state of civil war man always lives behind barricades, and in any civilisation which is selfish our homes are not real homes, but artificial barriers around us.  Yet we complain that we are not happy, as if there were something inherent in the nature of things to make us miserable.  The universal spirit is waiting to crown us with happiness, but our individual spirit would not accept it.  It is our life of the self that causes conflicts and complications everywhere, upsets the normal balance of society and gives rise to miseries of all kinds.  It brings things to such a pass that to maintain order we have to create artificial coercions and organised forms of tyranny, and tolerate infernal institutions in our midst, whereby at every moment humanity is humiliated."
+   },
+   {
+    "type": "para",
+    "text": "We have seen that in order to be powerful we have to submit to the laws of the universal forces, and to realise in practice that they are our own.  So, in order to be happy, we have to submit our individual will to the sovereignty of the universal will, and to feel in truth that it is our own will.  When we reach that state wherein the adjustment of the finite in us to the infinite is made perfect, then pain itself becomes a valuable asset.  It becomes a measuring rod with which to gauge the true value of our joy."
+   },
+   {
+    "type": "para",
+    "text": "The most important lesson that man can learn from his life is not that there is pain in this world, but that it depends upon him to turn it into good account, that it is possible for him to transmute it into joy.  The lesson has not been lost altogether to us, and there is no man living who would willingly be deprived of his right to suffer pain, for that is his right to be a man. One day the wife of a poor labourer complained bitterly to me that her eldest boy was going to be sent away to a rich relative's house for part of the year.  It was the implied kind intention of trying to relieve her of her trouble that gave her the shock, for a mother's trouble is a mother's own by her inalienable right of love, and she was not going to surrender it to any dictates of expediency.  Man's freedom is never in being saved troubles, but it is the freedom to take trouble for his own good, to make the trouble an element in his joy.  It can be made so only when we realise that our individual self is not the highest meaning of our being, that in us we have the world-man who is immortal, who is not afraid of death or sufferings, and who looks upon pain as only the other side of joy.  He who has realised this knows that it is pain which is our true wealth as imperfect beings, and has made us great and worthy to take our seat with the perfect.  He knows that we are not beggars; that it is the hard coin which must be paid for everything valuable in this life, for our power, our wisdom, our love; that in pain is symbolised the infinite possibility of perfection, the eternal unfolding of joy; and the man who loses all pleasure in accepting pain sinks down and down to the lowest depth of penury and degradation.  It is only when we invoke the aid of pain for our self-gratification that she becomes evil and takes her vengeance for the insult done to her by hurling us into misery. For she is the vestal virgin consecrated to the service of the immortal perfection, and when she takes her true place before the altar of the infinite she casts off her dark veil and bares her face to the beholder as a revelation of supreme joy."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 1157,
+   "startLine": 1158,
+   "endLine": 1616,
+   "heading": "THE PROBLEM OF EVIL",
+   "bodySha256": "7b5a8221c5d78b5aec83b5fd0c0506ca219958a666bb4af0c68aae7911e28897"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-the-problem-of-self",
+  "kind": "essay",
+  "title": "THE PROBLEM OF SELF",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "At one pole of my being I am one with stocks and stones.  There I have to acknowledge the rule of universal law.  That is where the foundation of my existence lies, deep down below.  Its strength lies in its being held firm in the clasp of comprehensive world, and in the fullness of its community with all things."
+   },
+   {
+    "type": "para",
+    "text": "But at the other pole of my being I am separate from all.  There I have broken through the cordon of equality and stand alone as an individual.  I am absolutely unique, I am I, I am incomparable.  The whole weight of the universe cannot crush out this individuality of mine.  I maintain it in spite of the tremendous gravitation of all things.  It is small in appearance but great in reality.  For it holds its own against the forces that would rob it of its distinction and make it one with the dust."
+   },
+   {
+    "type": "para",
+    "text": "This is the superstructure of the self which rises from the indeterminate depth and darkness of its foundation into the open, proud of its isolation, proud of having given shape to a single individual idea of the architect's which has no duplicate in the whole universe.  If this individuality be demolished, then though no material be lost, not an atom destroyed, the creative joy which was crystallised therein is gone.  We are absolutely bankrupt if we are deprived of this specialty, this individuality, which is the only thing we can call our own; and which, if lost, is also a loss to the whole world.  It is most valuable because it is not universal.  And therefore only through it can we gain the universe more truly than if we were lying within its breast unconscious of our distinctiveness.  The universal is ever seeking its consummation in the unique.  And the desire we have to keep our uniqueness intact is really the desire of the universe acting in us.  It is our joy of the infinite in us that gives us our joy in ourselves."
+   },
+   {
+    "type": "para",
+    "text": "That this separateness of self is considered by man as his most precious possession is proved by the sufferings he undergoes and the sins he commits for its sake.  But the consciousness of separation has come from the eating of the fruit of knowledge. It has led man to shame and crime and death; yet it is dearer to him than any paradise where the self lies, securely slumbering in perfect innocence in the womb of mother nature."
+   },
+   {
+    "type": "para",
+    "text": "It is a constant striving and suffering for us to maintain the separateness of this self of ours.  And in fact it is this suffering which measures its value.  One side of the value is sacrifice, which represents how much the cost has been.  The other side of it is the attainment, which represents how much has been gained.  If the self meant nothing to us but pain and sacrifice, it could have no value for us, and on no account would we willingly undergo such sacrifice.  In such case there could be no doubt at all that the highest object of humanity would be the annihilation of self."
+   },
+   {
+    "type": "para",
+    "text": "But if there is a corresponding gain, if it does not end in a void but in a fullness, then it is clear that its negative qualities, its very sufferings and sacrifices, make it all the more precious.  That it is so has been proved by those who have realised the positive significance of self, and have accepted its responsibilities with eagerness and undergone sacrifices without flinching."
+   },
+   {
+    "type": "para",
+    "text": "With the foregoing introduction it will be easy for me to answer the question once asked by one of my audience as to whether the annihilation of self has not been held by India as the supreme goal of humanity?"
+   },
+   {
+    "type": "para",
+    "text": "In the first place we must keep in mind the fact that man is never literal in the expression of his ideas, except in matters most trivial.  Very often man's words are not a language at all, but merely a vocal gesture of the dumb.  They may indicate, but do not express his thoughts.  The more vital his thoughts the more have his words to be explained by the context of his life. Those who seek to know his meaning by the aid of the dictionary only technically reach the house, for they are stopped by the outside wall and find no entrance to the hall.  This is the reason why the teachings of our greatest prophets give rise to endless disputations when we try to understand them by following their words and not be realising them in our own lives.  The men who are cursed with the gift of the literal mind are the unfortunate ones who are always busy with their nets and neglect the fishing."
+   },
+   {
+    "type": "para",
+    "text": "It is not only in Buddhism and the Indian religions, but in Christianity too, that the ideal of selflessness is preached with all fervour.  In the last the symbol of death has been used for expressing the idea of man's deliverance from the life which is not true.  This is the same as Nirvnāna, the symbol of the extinction of the lamp."
+   },
+   {
+    "type": "para",
+    "text": "In the typical thought of India it is held that the true deliverance of man is the deliverance from avidyā, from ignorance.  It is not in destroying anything that is positive and real, for that cannot be possible, but that which is negative, which obstructs our vision of truth.  When this obstruction, which is ignorance, is removed, then only is the eyelid drawn up which is no loss to the eye."
+   },
+   {
+    "type": "para",
+    "text": "It is our ignorance which makes us think that our self, as self, is real, that it has its complete meaning in itself.  When we take that wrong view of self then we try to live in such a manner as to make self the ultimate object of our life.  Then we are doomed to disappointment like the man who tries to reach his destination by firmly clutching the dust of the road.  Our self has no means of holding us, for its own nature is to pass on; and by clinging to this thread of self which is passing through the loom of life we cannot make it serve the purpose of the cloth into which it is being woven.  When a man, with elaborate care, arranges for an enjoyment of the self, he lights a fire but has no dough to make his bread with; the fire flares up and consumes itself to extinction, like an unnatural beast that eats its own progeny and dies."
+   },
+   {
+    "type": "para",
+    "text": "In an unknown language the words are tyrannically prominent. They stop us but say nothing.  To be rescued from this fetter of words we must rid ourselves of the avidyā, our ignorance, and then our mind will find its freedom in the inner idea.  But it would be foolish to say that our ignorance of the language can be dispelled only by the destruction of the words.  No, when the perfect knowledge comes, every word remains in its place, only they do not bind us to themselves, but let us pass through them and lead us to the idea which is emancipation."
+   },
+   {
+    "type": "para",
+    "text": "Thus it is only avidyā which makes the self our fetter by making us think that it is an end in itself, and by preventing our seeing that it contains the idea that transcends its limits. That is why the wise man comes and says, \"Set yourselves free from the avidyā; know your true soul and be saved from the grasp of the self which imprisons you.\""
+   },
+   {
+    "type": "para",
+    "text": "We gain our freedom when we attain our truest nature.  The man who is an artist finds his artistic freedom when he finds his ideal of art.  Then is he freed from laborious attempts at imitation, from the goadings of popular approbation.  It is the function of religion not to destroy our nature but to fulfil it."
+   },
+   {
+    "type": "para",
+    "text": "The Sanskrit word dharma which is usually translated into English as religion has a deeper meaning in our language. Dharma is the innermost nature, the essence, the implicit truth, of all things.  Dharma is the ultimate purpose that is working in our self.  When any wrong is done we say that dharma is violated, meaning that the lie has been given to our true nature."
+   },
+   {
+    "type": "para",
+    "text": "But this dharma, which is the truth in us, is not apparent, because it is inherent.  So much so, that it has been held that sinfulness is the nature of man, and only by the special grace of God can a particular person be saved.  This is like saying that the nature of the seed is to remain enfolded within its shell, and it is only by some special miracle that it can be grown into a tree.  But do we not know that the appearance of the seed contradicts its true nature?  When you submit it to chemical analysis you may find in it carbon and proteid and a good many other things, but not the idea of a branching tree. Only when the tree begins to take shape do you come to see its dharma, and then you can affirm without doubt that the seed which has been wasted and allowed to rot in the ground has been thwarted in its dharma, in the fulfilment of its true nature. In the history of humanity we have known the living seed in us to sprout.  We have seen the great purpose in us taking shape in the lives of our greatest men, and have felt certain that though there are numerous individual lives that seem ineffectual, still it is not their dharma to remain barren; but it is for them to burst their cover and transform themselves into a vigorous spiritual shoot, growing up into the air and light, and branching out in all directions."
+   },
+   {
+    "type": "para",
+    "text": "The freedom of the seed is in the attainment of its dharma, its nature and destiny of becoming a tree; it is the non-accomplishment which is its prison.  The sacrifice by which a thing attains its fulfilment is not a sacrifice which ends in death; it is the casting-off of bonds which wins freedom."
+   },
+   {
+    "type": "para",
+    "text": "When we know the highest ideal of freedom which a man has, we know his dharma, the essence of his nature, the real meaning of his self.  At first sight it seems that man counts that as freedom by which he gets unbounded opportunities of self gratification and self-aggrandisement.  But surely this is not borne out by history.  Our revelatory men have always been those who have lived the life of self-sacrifice.  The higher nature in man always seeks for something which transcends itself and yet is its deepest truth; which claims all its sacrifice, yet makes this sacrifice its own recompense.  This is man's dharma, man's religion, and man's self is the vessel which is to carry this sacrifice to the altar."
+   },
+   {
+    "type": "para",
+    "text": "We can look at our self in its two different aspects.  The self which displays itself, and the self which transcends itself and thereby reveals its own meaning.  To display itself it tries to be big, to stand upon the pedestal of its accumulations, and to retain everything to itself.  To reveal itself it gives up everything it has; thus becoming perfect like a flower that has blossomed out from the bud, pouring from its chalice of beauty all its sweetness."
+   },
+   {
+    "type": "para",
+    "text": "The lamp contains its oil, which it holds securely in its close grasp and guards from the least loss.  Thus is it separate from all other objects around it and is miserly.  But when lighted it finds its meaning at once; its relation with all things far and near is established, and it freely sacrifices its fund of oil to feed the flame."
+   },
+   {
+    "type": "para",
+    "text": "Such a lamp is our self.  So long as it hoards its possessions it keeps itself dark, its conduct contradicts its true purpose. When it finds illumination it forgets itself in a moment, holds the light high, and serves it with everything it has; for therein is its revelation.  This revelation is the freedom which Buddha preached.  He asked the lamp to give up its oil.  But purposeless giving up is a still darker poverty which he never could have meant.  The lamp must give up its oil to the light and thus set free the purpose it has in its hoarding.  This is emancipation. The path Buddha pointed out was not merely the practice of self-abnegation, but the widening of love.  And therein lies the true meaning of Buddha's preaching."
+   },
+   {
+    "type": "para",
+    "text": "When we find that the state of Nirvāna preached by Buddha is through love, then we know for certain that Nirvāna is the highest culmination of love.  For love is an end unto itself. Everything else raises the question \"Why?\" in our mind, and we require a reason for it.  But when we say, \"I love,\" then there is no room for the \"why\"; it is the final answer in itself."
+   },
+   {
+    "type": "para",
+    "text": "Doubtless, even selfishness impels one to give away.  But the selfish man does it on compulsion.  That is like plucking fruit when it is unripe; you have to tear it from the tree and bruise the branch.  But when a man loves, giving becomes a matter of joy to him, like the tree's surrender of the ripe fruit.  All our belongings assume a weight by the ceaseless gravitation of our selfish desires; we cannot easily cast them away from us.  They seem to belong to our very nature, to stick to us as a second skin, and we bleed as we detach them.  But when we are possessed by love, its force acts in the opposite direction.  The things that closely adhered to us lose their adhesion and weight, and we find that they are not of us.  Far from being a loss to give them away, we find in that the fulfilment of our being."
+   },
+   {
+    "type": "para",
+    "text": "Thus we find in perfect love the freedom of our self.  That only which is done for love is done freely, however much pain it may cause.  Therefore working for love is freedom in action.  This is the meaning of the teaching of disinterested work in the Gīta."
+   },
+   {
+    "type": "para",
+    "text": "The Gīta says action we must have, for only in action do we manifest our nature.  But this manifestation is not perfect so long as our action is not free.  In fact, our nature is obscured by work done by the compulsion of want or fear.  The mother reveals herself in the service of her children, so our true freedom is not the freedom from action but freedom in action, which can only be attained in the work of love."
+   },
+   {
+    "type": "para",
+    "text": "God's manifestation is in his work of creation and it is said in the Upanishad, Knowledge, power, and action are of his nature [Footnote: \"Svābhāvikī jnāna bala kriyācha.\"]; they are not imposed upon him from outside.  Therefore his work is his freedom, and in his creation he realises himself.  The same thing is said elsewhere in other words: From joy does spring all this creation, by joy is it maintained, towards joy does it progress, and into joy does it enter.  [Footnote: Ānandādhyēva khalvimāni bhūtāni jāyantē, ānandēna jātāni jīvanti, ānandamprayantyabhisamviçanti.]  It means that God's creation has not its source in any necessity; it comes from his fullness of joy; it is his love that creates, therefore in creation is his own revealment."
+   },
+   {
+    "type": "para",
+    "text": "The artist who has a joy in the fullness of his artistic idea objectifies it and thus gains it more fully by holding it afar. It is joy which detaches ourselves from us, and then gives it form in creations of love in order to make it more perfectly our own.  Hence there must be this separation, not a separation of repulsion but a separation of love.  Repulsion has only the one element, the element of severance.  But love has two, the element of severance, which is only an appearance, and the element of union which is the ultimate truth.  Just as when the father tosses his child up from his arms it has the appearance of rejection but its truth is quite the reverse."
+   },
+   {
+    "type": "para",
+    "text": "So we must know that the meaning of our self is not to be found in its separateness from God and others, but in the ceaseless realisation of yoga, of union; not on the side of the canvas where it is blank, but on the side where the picture is being painted."
+   },
+   {
+    "type": "para",
+    "text": "This is the reason why the separateness of our self has been described by our philosophers as māyā, as an illusion, because it has no intrinsic reality of its own.  It looks perilous; it raises its isolation to a giddy height and casts a black shadow upon the fair face of existence; from the outside it has an aspect of a sudden disruption, rebellious and destructive; it is proud, domineering and wayward; it is ready to rob the world of all its wealth to gratify its craving of a moment; to pluck with a reckless, cruel hand all the plumes from the divine bird of beauty to deck its ugliness for a day; indeed man's legend has it that it bears the black mark of disobedience stamped on its forehead for ever; but still all this māyā, envelopment of avidyā; it is the mist, it is not the sun; it is the black smoke that presages the fire of love."
+   },
+   {
+    "type": "para",
+    "text": "Imagine some savage who, in his ignorance, thinks that it is the paper of the banknote that has the magic, by virtue of which the possessor of it gets all he wants.  He piles up the papers, hides them, handles them in all sorts of absurd ways, and then at last, wearied by his efforts, comes to the sad conclusion that they are absolutely worthless, only fit to be thrown into the fire.  But the wise man knows that the paper of the banknote is all māyā, and until it is given up to the bank it is futile.  It is only avidyā, our ignorance, that makes us believe that the separateness of our self like the paper of the banknote is precious in itself, and by acting on this belief our self is rendered valueless.  It is only when the avidyā is removed that this very self comes to us with a wealth which is priceless.  For He manifests Himself in forms which His joy assumes.  [Footnote: Ānandarūpamamritam yadvibhāti.]  These forms are separate from Him, and the value that these forms have is only what his joy has imparted to them.  When we transfer back these forms into that original joy, which is love, then we cash them in the bank and we find their truth."
+   },
+   {
+    "type": "para",
+    "text": "When pure necessity drives man to his work it takes an accidental and contingent character, it becomes a mere makeshift arrangement; it is deserted and left in ruins when necessity changes its course.  But when his work is the outcome of joy, the forms that it takes have the elements of immortality.  The immortal in man imparts to it its own quality of permanence."
+   },
+   {
+    "type": "para",
+    "text": "Our self, as a form of God's joy, is deathless.  For his joy is amritham, eternal.  This it is in us which makes us sceptical of death, even when the fact of death cannot be doubted.  In reconcilement of this contradiction in us we come to the truth that in the dualism of death and life there is a harmony.  We know that the life of a soul, which is finite in its expression and infinite in its principle, must go through the portals of death in its journey to realise the infinite.  It is death which is monistic, it has no life in it.  But life is dualistic; it has an appearance as well as truth; and death is that appearance, that māyā, which is an inseparable companion to life.  Our self to live must go through a continual change and growth of form, which may be termed a continual death and a continual life going on at the same time.  It is really courting death when we refuse to accept death; when we wish to give the form of the self some fixed changelessness; when the self feels no impulse which urges it to grow out of itself; when it treats its limits as final and acts accordingly.  Then comes our teacher's call to die to this death; not a call to annihilation but to eternal life.  It is the extinction of the lamp in the morning light; not the abolition of the sun.  It is really asking us consciously to give effect to the innermost wish that we have in the depths of our nature."
+   },
+   {
+    "type": "para",
+    "text": "We have a dual set of desires in our being, which it should be our endeavour to bring into a harmony.  In the region of our physical nature we have one set of which we are conscious always. We wish to enjoy our food and drink, we hanker after bodily pleasure and comfort.  These desires are self-centered; they are solely concerned with their respective impulses.  The wishes of our palate often run counter to what our stomach can allow."
+   },
+   {
+    "type": "para",
+    "text": "But we have another set, which is the desire of our physical system as a whole, of which we are usually unconscious.  It is the wish for health.  This is always doing its work, mending and repairing, making new adjustments in cases of accident, and skilfully restoring the balance wherever disturbed.  It has no concern with the fulfilment of our immediate bodily desires, but it goes beyond the present time.  It is the principle of our physical wholeness, it links our life with its past and its future and maintains the unity of its parts.  He who is wise knows it, and makes his other physical wishes harmonise with it."
+   },
+   {
+    "type": "para",
+    "text": "We have a greater body which is the social body.  Society is an organism, of which we as parts have our individual wishes.  We want our own pleasure and license.  We want to pay less and gain more than anybody else.  This causes scramblings and fights.  But there is that other wish in us which does its work in the depths of the social being.  It is the wish for the welfare of the society.  It transcends the limits of the present and the personal.  It is on the side of the infinite."
+   },
+   {
+    "type": "para",
+    "text": "He who is wise tries to harmonise the wishes that seek for self-gratification with the wish for the social good, and only thus can he realise his higher self."
+   },
+   {
+    "type": "para",
+    "text": "In its finite aspect the self is conscious of its separateness, and there it is ruthless in its attempt to have more distinction than all others.  But in its infinite aspect its wish is to gain that harmony which leads to its perfection and not its mere aggrandisement."
+   },
+   {
+    "type": "para",
+    "text": "The emancipation of our physical nature is in attaining health, of our social being in attaining goodness, and of our self in attaining love.  This last is what Buddha describes as extinction--the extinction of selfishness--which is the function of love, and which does not lead to darkness but to illumination. This is the attainment of bodhi, or the true awakening; it is the revealing in us of the infinite joy by the light of love."
+   },
+   {
+    "type": "para",
+    "text": "The passage of our self is through its selfhood, which is independent, to its attainment of soul, which is harmonious. This harmony can never be reached through compulsion.  So our will, in the history of its growth, must come through independence and rebellion to the ultimate completion.  We must have the possibility of the negative form of freedom, which is licence, before we can attain the positive freedom, which is love."
+   },
+   {
+    "type": "para",
+    "text": "This negative freedom, the freedom of self-will, can turn its back upon its highest realisation, but it cannot cut itself away from it altogether, for then it will lose its own meaning.  Our self-will has freedom up to a certain extent; it can know what it is to break away from the path, but it cannot continue in that direction indefinitely.  For we are finite on our negative side. We must come to an end in our evil doing, in our career of discord.  For evil is not infinite, and discord cannot be an end in itself.  Our will has freedom in order that it may find out that its true course is towards goodness and love.  For goodness and love are infinite, and only in the infinite is the perfect realisation of freedom possible.  So our will can be free not towards the limitations of our self, not where it is māyā and negation, but towards the unlimited, where is truth and love. Our freedom cannot go against its own principle of freedom and yet be free; it cannot commit suicide and yet live.  We cannot say that we should have infinite freedom to fetter ourselves, for the fettering ends the freedom."
+   },
+   {
+    "type": "para",
+    "text": "So in the freedom of our will, we have the same dualism of appearance and truth--our self-will is only the appearance of freedom and love is the truth.  When we try to make this appearance independent of truth, then our attempt brings misery and proves its own futility in the end.  Everything has this dualism of māyā and satyam, appearance and truth.  Words are māyā where they are merely sounds and finite, they are satyam where they are ideas and infinite.  Our self is māyā where it is merely individual and finite, where it considers its separateness as absolute; it is satyam where it recognises its essence in the universal and infinite, in the supreme self, in paramātman.  This is what Christ means when he says, \"Before Abraham was I am.\"  This is the eternal I am that speaks through the I am that is in me.  The individual I am attains its perfect end when it realises its freedom of harmony in the infinite I am.  Then is it mukti, its deliverance from the thraldom of māyā, of appearance, which springs from avidyā, from ignorance; its emancipation in çāntam çivam advaitam, in the perfect repose in truth, in the perfect activity in goodness, and in the perfect union in love."
+   },
+   {
+    "type": "para",
+    "text": "Not only in our self but also in nature is there this separateness from God, which has been described as māyā by our philosophers, because the separateness does not exist by itself, it does not limit God's infinity from outside.  It is his own will that has imposed limits to itself, just as the chess-player restricts his will with regard to the moving of the chessmen. The player willingly enters into definite relations with each particular piece and realises the joy of his power by these very restrictions.  It is not that he cannot move the chessmen just as he pleases, but if he does so then there can be no play.  If God assumes his rôle of omnipotence, then his creation is at an end and his power loses all its meaning.  For power to be a power must act within limits.  God's water must be water, his earth can never be other than earth.  The law that has made them water and earth is his own law by which he has separated the play from the player, for therein the joy of the player consists."
+   },
+   {
+    "type": "para",
+    "text": "As by the limits of law nature is separated from God, so it is the limits of its egoism which separates the self from him.  He has willingly set limits to his will, and has given us mastery over the little world of our own.  It is like a father's settling upon his son some allowance within the limit of which he is free to do what he likes.  Though it remains a portion of the father's own property, yet he frees it from the operation of his own will. The reason of it is that the will, which is love's will and therefore free, can have its joy only in a union with another free will.  The tyrant who must have slaves looks upon them as instruments of his purpose.  It is the consciousness of his own necessity which makes him crush the will out of them, to make his self-interest absolutely secure.  This self-interest cannot brook the least freedom in others, because it is not itself free.  The tyrant is really dependent on his slaves, and therefore he tries to make them completely useful by making them subservient to his own will.  But a lover must have two wills for the realisation of his love, because the consummation of love is in harmony, the harmony between freedom and freedom.  So God's love from which our self has taken form has made it separate from God; and it is God's love which again establishes a reconciliation and unites God with our self through the separation.  That is why our self has to go through endless renewals.  For in its career of separateness it cannot go on for ever.  Separateness is the finitude where it finds its barriers to come back again and again to its infinite source.  Our self has ceaselessly to cast off its age, repeatedly shed its limits in oblivion and death, in order to realise its immortal youth.  Its personality must merge in the universal time after time, in fact pass through it every moment, ever to refresh its individual life.  It must follow the eternal rhythm and touch the fundamental unity at every step, and thus maintain its separation balanced in beauty and strength."
+   },
+   {
+    "type": "para",
+    "text": "The play of life and death we see everywhere--this transmutation of the old into the new.  The day comes to us every morning, naked and white, fresh as a flower.  But we know it is old.  It is age itself.  It is that very ancient day which took up the newborn earth in its arms, covered it with its white mantle of light, and sent it forth on its pilgrimage among the stars."
+   },
+   {
+    "type": "para",
+    "text": "Yet its feet are untired and its eyes undimmed.  It carries the golden amulet of ageless eternity, at whose touch all wrinkles vanish from the forehead of creation.  In the very core of the world's heart stands immortal youth.  Death and decay cast over its face momentary shadows and pass on; they leave no marks of their steps--and truth remains fresh and young."
+   },
+   {
+    "type": "para",
+    "text": "This old, old day of our earth is born again and again every morning.  It comes back to the original refrain of its music.  If its march were the march of an infinite straight line, if it had not the awful pause of its plunge in the abysmal darkness and its repeated rebirth in the life of the endless beginning, then it would gradually soil and bury truth with its dust and spread ceaseless aching over the earth under its heavy tread.  Then every moment would leave its load of weariness behind, and decrepitude would reign supreme on its throne of eternal dirt."
+   },
+   {
+    "type": "para",
+    "text": "But every morning the day is reborn among the newly-blossomed flowers with the same message retold and the same assurance renewed that death eternally dies, that the waves of turmoil are on the surface, and that the sea of tranquillity is fathomless. The curtain of night is drawn aside and truth emerges without a speck of dust on its garment, without a furrow of age on its lineaments."
+   },
+   {
+    "type": "para",
+    "text": "We see that he who is before everything else is the same to-day. Every note of the song of creation comes fresh from his voice. The universe is not a mere echo, reverberating from sky to sky, like a homeless wanderer--the echo of an old song sung once for all in the dim beginning of things and then left orphaned.  Every moment it comes from the heart of the master, it is breathed in his breath."
+   },
+   {
+    "type": "para",
+    "text": "And that is the reason why it overspreads the sky like a thought taking shape in a poem, and never has to break into pieces with the burden of its own accumulating weight.  Hence the surprise of endless variations, the advent of the unaccountable, the ceaseless procession of individuals, each of whom is without a parallel in creation.  As at the first so to the last, the beginning never ends--the world is ever old and ever new."
+   },
+   {
+    "type": "para",
+    "text": "It is for our self to know that it must be born anew every moment of its life.  It must break through all illusions that encase it in their crust to make it appear old, burdening it with death."
+   },
+   {
+    "type": "para",
+    "text": "For life is immortal youthfulness, and it hates age that tries to clog its movements--age that belongs not to life in truth, but follows it as the shadow follows the lamp."
+   },
+   {
+    "type": "para",
+    "text": "Our life, like a river, strikes its banks not to find itself closed in by them, but to realise anew every moment that it has its unending opening towards the sea.  It is a poem that strikes its metre at every step not to be silenced by its rigid regulations, but to give expression every moment to the inner freedom of its harmony."
+   },
+   {
+    "type": "para",
+    "text": "The boundary walls of our individuality thrust us back within our limits, on the one hand, and thus lead us, on the other, to the unlimited.  Only when we try to make these limits infinite are we launched into an impossible contradiction and court miserable failure."
+   },
+   {
+    "type": "para",
+    "text": "This is the cause which leads to the great revolutions in human history.  Whenever the part, spurning the whole, tries to run a separate course of its own, the great pull of the all gives it a violent wrench, stops it suddenly, and brings it to the dust. Whenever the individual tries to dam the ever-flowing current of the world-force and imprison it within the area of his particular use, it brings on disaster.  However powerful a king may be, he cannot raise his standard or rebellion against the infinite source of strength, which is unity, and yet remain powerful."
+   },
+   {
+    "type": "para",
+    "text": "It has been said, By unrighteousness men prosper, gain what they desire, and triumph over their enemies, but at the end they are cut off at the root and suffer extinction.  [Footnote: Adharmēnaidhatē tāvat tatō bahdrāņi paçyati tatah sapatnān jayati samūlastu vinaçyati.]  Our roots must go deep down into the universal if we would attain the greatness of personality."
+   },
+   {
+    "type": "para",
+    "text": "It is the end of our self to seek that union.  It must bend its head low in love and meekness and take its stand where great and small all meet.  It has to gain by its loss and rise by its surrender.  His games would be a horror to the child if he could not come back to his mother, and our pride of personality will be a curse to us if we cannot give it up in love.  We must know that it is only the revelation of the Infinite which is endlessly new and eternally beautiful in us, and which gives the only meaning to our self."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 1624,
+   "startLine": 1625,
+   "endLine": 2211,
+   "heading": "THE PROBLEM OF SELF",
+   "bodySha256": "bce3064d924da0fbe2a50606b35a7d9d0d1d98f218f4bebd01beca10b4939831"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-realisation-in-love",
+  "kind": "essay",
+  "title": "REALISATION IN LOVE",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "We come now to the eternal problem of co-existence of the infinite and the finite, of the supreme being and our soul. There is a sublime paradox that lies at the root of existence. We never can go round it, because we never can stand outside the problem and weigh it against any other possible alternative.  But the problem exists in logic only; in reality it does not offer us any difficulty at all.  Logically speaking, the distance between two points, however near, may be said to be infinite because it is infinitely divisible.  But we do cross the infinite at every step, and meet the eternal in every second.  Therefore some of our philosophers say there is no such thing as finitude; it is but a māyā, an illusion.  The real is the infinite, and it is only māyā, the unreality, which causes the appearance of the finite. But the word māyā is a mere name, it is no explanation.  It is merely saying that with truth there is this appearance which is the opposite of truth; but how they come to exist at one and the same time is incomprehensible."
+   },
+   {
+    "type": "para",
+    "text": "We have what we call in Sanskrit dvandva, a series of opposites in creation; such as, the positive pole and the negative, the centripetal force and the centrifugal, attraction and repulsion. These are also mere names, they are no explanations.  They are only different ways of asserting that the world in its essence is a reconciliation of pairs of opposing forces.  These forces, like the left and the right hands of the creator, are acting in absolute harmony, yet acting from opposite directions."
+   },
+   {
+    "type": "para",
+    "text": "There is a bond of harmony between our two eyes, which makes them act in unison.  Likewise there is an unbreakable continuity of relation in the physical world between heat and cold, light and darkness, motion and rest, as between the bass and treble notes of a piano.  That is why these opposites do not bring confusion in the universe, but harmony.  If creation were but a chaos, we should have to imagine the two opposing principles as trying to get the better of each other.  But the universe is not under martial law, arbitrary and provisional.  Here we find no force which can run amok, or go on indefinitely in its wild road, like an exiled outlaw, breaking all harmony with its surroundings; each force, on the contrary, has to come back in a curved line to its equilibrium.  Waves rise, each to its individual height in a seeming attitude of unrelenting competition, but only up to a certain point; and thus we know of the great repose of the sea to which they are all related, and to which they must all return in a rhythm which is marvellously beautiful."
+   },
+   {
+    "type": "para",
+    "text": "In fact, these undulations and vibrations, these risings and fallings, are not due to the erratic contortions of disparate bodies, they are a rhythmic dance.  Rhythm never can be born of the haphazard struggle of combat.  Its underlying principle must be unity, not opposition."
+   },
+   {
+    "type": "para",
+    "text": "This principle of unity is the mystery of all mysteries.  The existence of a duality at once raises a question in our minds, and we seek its solution in the One.  When at last we find a relation between these two, and thereby see them as one in essence, we feel that we have come to the truth.  And then we give utterance to this most startling of all paradoxes, that the One appears as many, that the appearance is the opposite of truth and yet is inseparably related to it."
+   },
+   {
+    "type": "para",
+    "text": "Curiously enough, there are men who lose that feeling of mystery, which is at the root of all our delights, when they discover the uniformity of law among the diversity of nature.  As if gravitation is not more of a mystery than the fall of an apple, as if the evolution from one scale of being to the other is not something which is even more shy of explanation than a succession of creations.  The trouble is that we very often stop at such a law as if it were the final end of our search, and then we find that it does not even begin to emancipate our spirit.  It only gives satisfaction to our intellect, and as it does not appeal to our whole being it only deadens in us the sense of the infinite."
+   },
+   {
+    "type": "para",
+    "text": "A great poem, when analysed, is a set of detached sounds.  The reader who finds out the meaning, which is the inner medium that connects these outer sounds, discovers a perfect law all through, which is never violated in the least; the law of the evolution of ideas, the law of the music and the form."
+   },
+   {
+    "type": "para",
+    "text": "But law in itself is a limit.  It only shows that whatever is can never be otherwise.  When a man is exclusively occupied with the search for the links of causality, his mind succumbs to the tyranny of law in escaping from the tyranny of facts.  In learning a language, when from mere words we reach the laws of words we have gained a great deal.  But if we stop at that point, and only concern ourselves with the marvels of the formation of a language, seeking the hidden reason of all its apparent caprices, we do not reach the end--for grammar is not literature, prosody is not a poem."
+   },
+   {
+    "type": "para",
+    "text": "When we come to literature we find that though it conforms to rules of grammar it is yet a thing of joy, it is freedom itself. The beauty of a poem is bound by strict laws, yet it transcends them.  The laws are its wings, they do not keep it weighed down, they carry it to freedom.  Its form is in law but its spirit is in beauty.  Law is the first step towards freedom, and beauty is the complete liberation which stands on the pedestal of law. Beauty harmonises in itself the limit and the beyond, the law and the liberty."
+   },
+   {
+    "type": "para",
+    "text": "In the world-poem, the discovery of the law of its rhythms, the measurement of its expansion and contraction, movement and pause, the pursuit of its evolution of forms and characters, are true achievements of the mind; but we cannot stop there.  It is like a railway station; but the station platform is not our home.  Only he has attained the final truth who knows that the whole world is a creation of joy."
+   },
+   {
+    "type": "para",
+    "text": "This leads me to think how mysterious the relation of the human heart with nature must be.  In the outer world of activity nature has one aspect, but in our hearts, in the inner world, it presents an altogether different picture."
+   },
+   {
+    "type": "para",
+    "text": "Take an instance--the flower of a plant.  However fine and dainty it may look, it is pressed to do a great service, and its colours and forms are all suited to its work.  It must bring forth the fruit, or the continuity of plant life will be broken and the earth will be turned into a desert ere long.  The colour and the smell of the flower are all for some purpose therefore; no sooner is it fertilised by the bee, and the time of its fruition arrives, than it sheds its exquisite petals and a cruel economy compels it to give up its sweet perfume.  It has no time to flaunt its finery, for it is busy beyond measure.  Viewed from without, necessity seems to be the only factor in nature for which everything works and moves.  There the bud develops into the flower, the flower into the fruit, the fruit into the seed, the seed into a new plant again, and so forth, the chain of activity running on unbroken.  Should there crop up any disturbance or impediment, no excuse would be accepted, and the unfortunate thing thus choked in its movement would at once be labelled as rejected, and be bound to die and disappear post-haste.  In the great office of nature there are innumerable departments with endless work going on, and the fine flower that you behold there, gaudily attired and scented like a dandy, is by no means what it appears to be, but rather, is like a labourer toiling in sun and shower, who has to submit a clear account of his work and has no breathing space to enjoy himself in playful frolic."
+   },
+   {
+    "type": "para",
+    "text": "But when this same flower enters the heart of men its aspect of busy practicality is gone, and it becomes the very emblem of leisure and repose.  The same object that is the embodiment of endless activity without is the perfect expression of beauty and peace within."
+   },
+   {
+    "type": "para",
+    "text": "Science here warns us that we are mistaken, that the purpose of a flower is nothing but what is outwardly manifested, and that the relation of beauty and sweetness which we think it bears to us is all our own making, gratuitous and imaginary."
+   },
+   {
+    "type": "para",
+    "text": "But our heart replies that we are not in the least mistaken.  In the sphere of nature the flower carries with it a certificate which recommends it as having immense capacity for doing useful work, but it brings an altogether different letter of introduction when it knocks at the door of our hearts.  Beauty becomes its only qualification.  At one place it comes as a slave, and at another as a free thing.  How, then, should we give credit to its first recommendation and disbelieve the second one? That the flower has got its being in the unbroken chain of causation is true beyond doubt; but that is an outer truth.  The inner truth is: Verily from the everlasting joy do all objects have their birth.  [Footnote: Ānandādhyēva khalvimāni bhūtāni jāyantē.]"
+   },
+   {
+    "type": "para",
+    "text": "A flower, therefore, has not its only function in nature, but has another great function to exercise in the mind of man.  And what is that function?  In nature its work is that of a servant who has to make his appearance at appointed times, but in the heart of man it comes like a messenger from the King.  In the Rāmāyana, when Sītā, forcibly separated from her husband, was bewailing her evil fate in Ravana's golden palace, she was met by a messenger who brought with him a ring of her beloved Rāmachandra himself.  The very sight of it convinced Sītā of the truth of tidings he bore.  She was at once reassured that he came indeed from her beloved one, who had not forgotten her and was at hand to rescue her."
+   },
+   {
+    "type": "para",
+    "text": "Such a messenger is a flower from our great lover.  Surrounded with the pomp and pageantry of worldliness, which may be linked to Ravana's golden city, we still live in exile, while the insolent spirit of worldly prosperity tempts us with allurements and claims us as its bride.  In the meantime the flower comes across with a message from the other shore, and whispers in our ears, \"I am come.  He has sent me.  I am a messenger of the beautiful, the one whose soul is the bliss of love.  This island of isolation has been bridged over by him, and he has not forgotten thee, and will rescue thee even now.  He will draw thee unto him and make thee his own.  This illusion will not hold thee in thraldom for ever.\""
+   },
+   {
+    "type": "para",
+    "text": "If we happen to be awake then, we question him: \"How are we to know that thou art come from him indeed?\"  The messenger says, \"Look!  I have this ring from him.  How lovely are its hues and charms!\""
+   },
+   {
+    "type": "para",
+    "text": "Ah, doubtless it is his--indeed, it is our wedding ring.  Now all else passes into oblivion, only this sweet symbol of the touch of the eternal love fills us with a deep longing.  We realise that the palace of gold where we are has nothing to do with us--our deliverance is outside it--and there our love has its fruition and our life its fulfilment."
+   },
+   {
+    "type": "para",
+    "text": "What to the bee in nature is merely colour and scent, and the marks or spots which show the right track to the honey, is to the human heart beauty and joy untrammelled by necessity.  They bring a love letter to the heart written in many-coloured inks."
+   },
+   {
+    "type": "para",
+    "text": "I was telling you, therefore, that however busy our active nature outwardly may be, she has a secret chamber within the heart where she comes and goes freely, without any design whatsoever.  There the fire of her workshop is transformed into lamps of a festival, the noise of her factory is heard like music.  The iron chain of cause and effect sounds heavily outside in nature, but in the human heart its unalloyed delight seems to sound, as it were, like the golden strings of a harp."
+   },
+   {
+    "type": "para",
+    "text": "It indeed seems to be wonderful that nature has these two aspects at one and the same time, and so antithetical--one being of thraldom and the other of freedom.  In the same form, sound, colour, and taste two contrary notes are heard, one of necessity and the other of joy.  Outwardly nature is busy and restless, inwardly she is all silence and peace.  She has toil on one side and leisure on the other.  You see her bondage only when you see her from without, but within her heart is a limitless beauty."
+   },
+   {
+    "type": "para",
+    "text": "Our seer says, \"From joy are born all creatures, by joy they are sustained, towards joy they progress, and into joy they enter.\""
+   },
+   {
+    "type": "para",
+    "text": "Not that he ignores law, or that his contemplation of this infinite joy is born of the intoxication produced by an indulgence in abstract thought.  He fully recognises the inexorable laws of nature, and says, \"Fire burns for fear of him (i.e. by his law); the sun shines by fear of him; and for fear of him the wind, the clouds, and death perform their offices.\"  It is a reign of iron rule, ready to punish the least transgression. Yet the poet chants the glad song, \"From joy are born all creatures, by joy they are sustained, towards joy they progress, and into joy they enter.\""
+   },
+   {
+    "type": "para",
+    "text": "The immortal being manifests himself in joy-form.  [Footnote: Ānandarūpamamritam yad vibhāti.]  His manifestation in creation is out of his fullness of joy.  It is the nature of this abounding joy to realise itself in form which is law.  The joy, which is without form, must create, must translate itself into forms.  The joy of the singer is expressed in the form of a song, that of the poet in the form of a poem.  Man in his rôle of a creator is ever creating forms, and they come out of his abounding joy."
+   },
+   {
+    "type": "para",
+    "text": "This joy, whose other name is love, must by its very nature have duality for its realisation.  When the singer has his inspiration he makes himself into two; he has within him his other self as the hearer, and the outside audience is merely an extension of this other self of his.  The lover seeks his own other self in his beloved.  It is the joy that creates this separation, in order to realise through obstacles of union."
+   },
+   {
+    "type": "para",
+    "text": "The amritam, the immortal bliss, has made himself into two. Our soul is the loved one, it is his other self.  We are separate; but if this separation were absolute, then there would have been absolute misery and unmitigated evil in this world. Then from untruth we never could reach truth, and from sin we never could hope to attain purity of heart; then all opposites would ever remain opposites, and we could never find a medium through which our differences could ever tend to meet.  Then we could have no language, no understanding, no blending of hearts, no co-operation in life.  But on the contrary, we find that the separateness of objects is in a fluid state.  Their individualities are even changing, they are meeting and merging into each other, till science itself is turning into metaphysics, matter losing its boundaries, and the definition of life becoming more and more indefinite."
+   },
+   {
+    "type": "para",
+    "text": "Yes, our individual soul has been separated from the supreme soul, but this has not been from alienation but from the fullness of love.  It is for that reason that untruths, sufferings, and evils are not at a standstill; the human soul can defy them, can overcome them, nay, can altogether transform them into new power and beauty."
+   },
+   {
+    "type": "para",
+    "text": "The singer is translating his song into singing, his joy into forms, and the hearer has to translate back the singing into the original joy; then the communion between the singer and the hearer is complete.  The infinite joy is manifesting itself in manifold forms, taking upon itself the bondage of law, and we fulfil our destiny when we go back from forms to joy, from law to the love, when we untie the knot of the finite and hark back to the infinite."
+   },
+   {
+    "type": "para",
+    "text": "The human soul is on its journey from the law to love, from discipline to liberation, from the moral plane to the spiritual. Buddha preached the discipline of self-restraint and moral life; it is a complete acceptance of law.  But this bondage of law cannot be an end by itself; by mastering it thoroughly we acquire the means of getting beyond it.  It is going back to Brahma, to the infinite love, which is manifesting itself through the finite forms of law.  Buddha names it Brahma-vihāra, the joy of living in Brahma.  He who wants to reach this stage, according to Buddha, \"shall deceive none, entertain no hatred for anybody, and never wish to injure through anger.  He shall have measureless love for all creatures, even as a mother has for her only child, whom she protects with her own life.  Up above, below, and all around him he shall extend his love, which is without bounds and obstacles, and which is free from all cruelty and antagonism.  While standing, sitting, walking, lying down, till he fall asleep, he shall keep his mind active in this exercise of universal goodwill.\""
+   },
+   {
+    "type": "para",
+    "text": "Want of love is a degree of callousness; for love is the perfection of consciousness.  We do not love because we do not comprehend, or rather we do not comprehend because we do not love.  For love is the ultimate meaning of everything around us. It is not a mere sentiment; it is truth; it is the joy that is at the root of all creation.  It is the white light of pure consciousness that emanates from Brahma.  So, to be one with this sarvānubhūh, this all-feeling being who is in the external sky, as well as in our inner soul, we must attain to that summit of consciousness, which is love: Who could have breathed or moved if the sky were not filled with joy, with love?  [Footnote: Ko hyēvānyāt kah prānyāt yadēsha ākāça ānandō na syāt.]  It is through the heightening of our consciousness into love, and extending it all over the world, that we can attain Brahma-vihāra, communion with this infinite joy."
+   },
+   {
+    "type": "para",
+    "text": "Love spontaneously gives itself in endless gifts.  But these gifts lose their fullest significance if through them we do not reach that love, which is the giver.  To do that, we must have love in our own heart.  He who has no love in him values the gifts of his lover only according to their usefulness.  But utility is temporary and partial.  It can never occupy our whole being; what is useful only touches us at the point where we have some want.  When the want is satisfied, utility becomes a burden if it still persists.  On the other hand, a mere token is of permanent worth to us when we have love in our heart.  For it is not for any special use.  It is an end in itself; it is for our whole being and therefore can never tire us."
+   },
+   {
+    "type": "para",
+    "text": "The question is, In what manner do we accept this world, which is a perfect gift of joy?  Have we been able to receive it in our heart where we keep enshrined things that are of deathless value to us?  We are frantically busy making use of the forces of the universe to gain more and more power; we feed and we clothe ourselves from its stores, we scramble for its riches, and it becomes for us a field of fierce competition.  But were we born for this, to extend our proprietary rights over this world and make of it a marketable commodity?  When our whole mind is bent only upon making use of this world it loses for us its true value.  We make it cheap by our sordid desires; and thus to the end of our days we only try to feed upon it and miss its truth, just like the greedy child who tears leaves from a precious book and tries to swallow them."
+   },
+   {
+    "type": "para",
+    "text": "In the lands where cannibalism is prevalent man looks upon man as his food.  In such a country civilisation can never thrive, for there man loses his higher value and is made common indeed.  But there are other kinds of cannibalism, perhaps not so gross, but not less heinous, for which one need not travel far.  In countries higher in the scale of civilisation we find sometimes man looked upon as a mere body, and he is bought and sold in the market by the price of his flesh only.  And sometimes he gets his sole value from being useful; he is made into a machine, and is traded upon by the man of money to acquire for him more money. Thus our lust, our greed, our love of comfort result in cheapening man to his lowest value.  It is self deception on a large scale.  Our desires blind us to the truth that there is in man, and this is the greatest wrong done by ourselves to our own soul.  It deadens our consciousness, and is but a gradual method of spiritual suicide.  It produces ugly sores in the body of civilisation, gives rise to its hovels and brothels, its vindictive penal codes, its cruel prison systems, its organised method of exploiting foreign races to the extent of permanently injuring them by depriving them of the discipline of self-government and means of self-defence."
+   },
+   {
+    "type": "para",
+    "text": "Of course man is useful to man, because his body is a marvellous machine and his mind an organ of wonderful efficiency.  But he is a spirit as well, and this spirit is truly known only by love. When we define a man by the market value of the service we can expect of him, we know him imperfectly.  With this limited knowledge of him it becomes easy for us to be unjust to him and to entertain feelings of triumphant self-congratulation when, on account of some cruel advantage on our side, we can get out of him much more than we have paid for.  But when we know him as a spirit we know him as our own.  We at once feel that cruelty to him is cruelty to ourselves, to make him small is stealing from our own humanity, and in seeking to make use of him solely for personal profit we merely gain in money or comfort what we pay in truth."
+   },
+   {
+    "type": "para",
+    "text": "One day I was out in a boat on the Ganges.  It was a beautiful evening in autumn.  The sun had just set; the silence of the sky was full to the brim with ineffable peace and beauty.  The vast expanse of water was without a ripple, mirroring all the changing shades of the sunset glow.  Miles and miles of a desolate sandbank lay like a huge amphibious reptile of some antediluvian age, with its scales glistening in shining colours.  As our boat was silently gliding by the precipitous river-bank, riddled with the nest-holes of a colony of birds, suddenly a big fish leapt up to the surface of the water and then disappeared, displaying on its vanishing figure all the colours of the evening sky.  It drew aside for a moment the many-coloured screen behind which there was a silent world full of the joy of life.  It came up from the depths of its mysterious dwelling with a beautiful dancing motion and added its own music to the silent symphony of the dying day. I felt as if I had a friendly greeting from an alien world in its own language, and it touched my heart with a flash of gladness. Then suddenly the man at the helm exclaimed with a distinct note of regret, \"Ah, what a big fish!\"  It at once brought before his vision the picture of the fish caught and made ready for his supper.  He could only look at the fish through his desire, and thus missed the whole truth of its existence.  But man is not entirely an animal.  He aspires to a spiritual vision, which is the vision of the whole truth.  This gives him the highest delight, because it reveals to him the deepest harmony that exists between him and his surroundings.  It is our desires that limit the scope of our self-realisation, hinder our extension of consciousness, and give rise to sin, which is the innermost barrier that keeps us apart from our God, setting up disunion and the arrogance of exclusiveness.  For sin is not one mere action, but it is an attitude of life which takes for granted that our goal is finite, that our self is the ultimate truth, and that we are not all essentially one but exist each for his own separate individual existence."
+   },
+   {
+    "type": "para",
+    "text": "So I repeat we never can have a true view of man unless we have a love for him.  Civilisation must be judged and prized, not by the amount of power it has developed, but by how much it has evolved and given expression to, by its laws and institutions, the love of humanity.  The first question and the last which it has to answer is, Whether and how far it recognises man more as a spirit than a machine?  Whenever some ancient civilisation fell into decay and died, it was owing to causes which produced callousness of heart and led to the cheapening of man's worth; when either the state or some powerful group of men began to look upon the people as a mere instrument of their power; when, by compelling weaker races to slavery and trying to keep them down by every means, man struck at the foundation of his greatness, his own love of freedom and fair-play.  Civilisation can never sustain itself upon cannibalism of any form.  For that by which alone man is true can only be nourished by love and justice."
+   },
+   {
+    "type": "para",
+    "text": "As with man, so with this universe.  When we look at the world through the veil of our desires we make it small and narrow, and fail to perceive its full truth.  Of course it is obvious that the world serves us and fulfils our needs, but our relation to it does not end there.  We are bound to it with a deeper and truer bond than that of necessity.  Our soul is drawn to it; our love of life is really our wish to continue our relation with this great world.  This relation is one of love.  We are glad that we are in it; we are attached to it with numberless threads, which extend from this earth to the stars.  Man foolishly tries to prove his superiority by imagining his radical separateness from what he calls his physical world, which, in his blind fanaticism, he sometimes goes to the extent of ignoring altogether, holding it at his direst enemy.  Yet the more his knowledge progresses, the more it becomes difficult for man to establish this separateness, and all the imaginary boundaries he had set up around himself vanish one after another.  Every time we lose some of our badges of absolute distinction by which we conferred upon our humanity the right to hold itself apart from its surroundings, it gives us a shock of humiliation.  But we have to submit to this.  If we set up our pride on the path of our self-realisation to create divisions and disunion, then it must sooner or later come under the wheels of truth and be ground to dust.  No, we are not burdened with some monstrous superiority, unmeaning in its singular abruptness.  It would be utterly degrading for us to live in a world immeasurably less than ourselves in the quality of soul, just as it would be repulsive and degrading to be surrounded and served by a host of slaves, day and night, from birth to the moment of death.  On the contrary, this world is our compeer, nay, we are one with it."
+   },
+   {
+    "type": "para",
+    "text": "Through our progress in science the wholeness of the world and our oneness with it is becoming clearer to our mind.  When this perception of the perfection of unity is not merely intellectual, when it opens out our whole being into a luminous consciousness of the all, then it becomes a radiant joy, an overspreading love. Our spirit finds its larger self in the whole world, and is filled with an absolute certainty that it is immortal.  It dies a hundred times in its enclosures of self; for separateness is doomed to die, it cannot be made eternal.  But it never can die where it is one with the all, for there is its truth, its joy. When a man feels the rhythmic throb of the soul-life of the whole world in his own soul, then is he free.  Then he enters into the secret courting that goes on between this beautiful world-bride, veiled with the veil of the many-coloured finiteness, and the paramatmam, the bridegroom, in his spotless white.  Then he knows that he is the partaker of this gorgeous love festival, and he is the honoured guest at the feast of immortality.  Then he understands the meaning of the seer-poet who sings, \"From love the world is born, by love it is sustained, towards love it moves, and into love it enters.\""
+   },
+   {
+    "type": "para",
+    "text": "In love all the contradictions of existence merge themselves and are lost.  Only in love are unity and duality not at variance. Love must be one and two at the same time."
+   },
+   {
+    "type": "para",
+    "text": "Only love is motion and rest in one.  Our heart ever changes its place till it finds love, and then it has its rest.  But this rest itself is an intense form of activity where utter quiescence and unceasing energy meet at the same point in love."
+   },
+   {
+    "type": "para",
+    "text": "In love, loss and gain are harmonised.  In its balance-sheet, credit and debit accounts are in the same column, and gifts are added to gains.  In this wonderful festival of creation, this great ceremony of self-sacrifice of God, the lover constantly gives himself up to gain himself in love.  Indeed, love is what brings together and inseparably connects both the act of abandoning and that of receiving."
+   },
+   {
+    "type": "para",
+    "text": "In love, at one of its poles you find the personal, and at the other the impersonal.  At one you have the positive assertion--Here I am; at the other the equally strong denial--I am not. Without this ego what is love?  And again, with only this ego how can love be possible?"
+   },
+   {
+    "type": "para",
+    "text": "Bondage and liberation are not antagonistic in love.  For love is most free and at the same time most bound.  If God were absolutely free there would be no creation.  The infinite being has assumed unto himself the mystery of finitude.  And in him who is love the finite and the infinite are made one."
+   },
+   {
+    "type": "para",
+    "text": "Similarly, when we talk about the relative values of freedom and non-freedom, it becomes a mere play of words.  It is not that we desire freedom alone, we want thraldom as well.  It is the high function of love to welcome all limitations and to transcend them.  For nothing is more independent than love, and where else, again, shall we find so much of dependence?  In love, thraldom is as glorious as freedom."
+   },
+   {
+    "type": "para",
+    "text": "The Vaishnava religion has boldly declared that God has bound himself to man, and in that consists the greatest glory of human existence.  In the spell of the wonderful rhythm of the finite he fetters himself at every step, and thus gives his love out in music in his most perfect lyrics of beauty.  Beauty is his wooing of our heart; it can have no other purpose.  It tells us everywhere that the display of power is not the ultimate meaning of creation; wherever there is a bit of colour, a note of song, a grace of form, there comes the call for our love.  Hunger compels us to obey its behests, but hunger is not the last word for a man. There have been men who have deliberately defied its commands to show that the human soul is not to be led by the pressure of wants and threat of pain.  In fact, to live the life of man we have to resist its demands every day, the least of us as well as the greatest.  But, on the other hand, there is a beauty in the world which never insults our freedom, never raises even its little finger to make us acknowledge its sovereignty.  We can absolutely ignore it and suffer no penalty in consequence.  It is a call to us, but not a command.  It seeks for love in us, and love can never be had by compulsion.  Compulsion is not indeed the final appeal to man, but joy is.  Any joy is everywhere; it is in the earth's green covering of grass; in the blue serenity of the sky; in the reckless exuberance of spring; in the severe abstinence of grey winter; in the living flesh that animates our bodily frame; in the perfect poise of the human figure, noble and upright; in living; in the exercise of all our powers; in the acquisition of knowledge; in fighting evils; in dying for gains we never can share.  Joy is there everywhere; it is superfluous, unnecessary; nay, it very often contradicts the most peremptory behests of necessity.  It exists to show that the bonds of law can only be explained by love; they are like body and soul.  Joy is the realisation of the truth of oneness, the oneness of our soul with the world and of the world-soul with the supreme lover."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 2218,
+   "startLine": 2219,
+   "endLine": 2781,
+   "heading": "REALISATION IN LOVE",
+   "bodySha256": "469d58cfb15fc7adab5b04e12366c8a509b7900cf7bcd94152a8dca958b3e0b5"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-realisation-in-action",
+  "kind": "essay",
+  "title": "REALISATION IN ACTION",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "It is only those who have known that joy expresses itself through law who have learnt to transcend the law.  Not that the bonds of law have ceased to exist for them--but that the bonds have become to them as the form of freedom incarnate.  The freed soul delights in accepting bonds, and does not seek to evade any of them, for in each does it feel the manifestation of an infinite energy whose joy is in creation."
+   },
+   {
+    "type": "para",
+    "text": "As a matter of fact, where there are no bonds, where there is the madness of license, the soul ceases to be free.  There is its hurt; there is its separation from the infinite, its agony of sin.  Whenever at the call of temptation the soul falls away from the bondage of law, then, like a child deprived of the support of its mother's arms, it cries out, Smite me not!  [Footnote: Mā mā himsīh.]  \"Bind me,\" it prays, \"oh, bind me in the bonds of thy law; bind me within and without; hold me tight; let me in the clasp of thy law be bound up together with thy joy; protect me by thy firm hold from the deadly laxity of sin.\""
+   },
+   {
+    "type": "para",
+    "text": "As some, under the idea that law is the opposite of joy, mistake intoxication for joy, so there are many in our country who imagine action to be opposed to freedom.  They think that activity being in the material plane is a restriction of the free spirit of the soul.  But we must remember that as joy expresses itself in law, so the soul finds its freedom in action.  It is because joy cannot find expression in itself alone that it desires the law which is outside.  Likewise it is because the soul cannot find freedom within itself that it wants external action.  The soul of man is ever freeing itself from its own folds by its activity; had it been otherwise it could not have done any voluntary work."
+   },
+   {
+    "type": "para",
+    "text": "The more man acts and makes actual what was latent in him, the nearer does he bring the distant Yet-to-be.  In that actualisation man is ever making himself more and yet more distinct, and seeing himself clearly under newer and newer aspects in the midst of his varied activities, in the state, in society.  This vision makes for freedom."
+   },
+   {
+    "type": "para",
+    "text": "Freedom is not in darkness, nor in vagueness.  There is no bondage so fearful as that of obscurity.  It is to escape from this obscurity that the seed struggles to sprout, the bud to blossom.  It is to rid itself of this envelope of vagueness that the ideas in our mind are constantly seeking opportunities to take on outward form.  In the same way our soul, in order to release itself from the mist of indistinctness and come out into the open, is continually creating for itself fresh fields of action, and is busy contriving new forms of activity, even such as are not needful for the purposes of its earthly life.  And why?  Because it wants freedom.  It wants to see itself, to realise itself."
+   },
+   {
+    "type": "para",
+    "text": "When man cuts down the pestilential jungle and makes unto himself a garden, the beauty that he thus sets free from within its enclosure of ugliness is the beauty of his own soul: without giving it this freedom outside, he cannot make it free within. When he implants law and order in the midst of the waywardness of society, the good which he sets free from the obstruction of the bad is the goodness of his own soul: without being thus made free outside it cannot find freedom within.  Thus is man continually engaged in setting free in action his powers, his beauty, his goodness, his very soul.  And the more he succeeds in so doing, the greater does he see himself to be, the broader becomes the field of his knowledge of self."
+   },
+   {
+    "type": "para",
+    "text": "The Upanishad says: In the midst of activity alone wilt thou desire to live a hundred years.  [Footnote:  Kurvannēvēha karmāni jijīvishet çatam samāh.]  It is the saying of those who had amply tasted of the joy of the soul.  Those who have fully realised the soul have never talked in mournful accents of the sorrowfulness of life or of the bondage of action.  They are not like the weakling flower whose stem-hold is so light that it drops away before attaining fruition.  They hold on to life with all their might and say, \"never will we let go till the fruit is ripe.\"  They desire in their joy to express themselves strenuously in their life and in their work.  Pain and sorrow dismay them not, they are not bowed down to the dust by the weight of their own heart.  With the erect head of the victorious hero they march through life seeing themselves and showing themselves in increasing resplendence of soul through both joys and sorrows.  The joy of their life keeps step with the joy of that energy which is playing at building and breaking throughout the universe.  The joy of the sunlight, the joy of the free air, mingling with the joy of their lives, makes one sweet harmony reign within and without.  It is they who say, In the midst of activity alone wilt thou desire to live a hundred years."
+   },
+   {
+    "type": "para",
+    "text": "This joy of life, this joy of work, in man is absolutely true. It is no use saying that it is a delusion of ours; that unless we cast it away we cannot enter upon the path of self-realisation. It will never do the least good to attempt the realisation of the infinite apart from the world of action."
+   },
+   {
+    "type": "para",
+    "text": "It is not the truth that man is active on compulsion.  If there is compulsion on one side, on the other there is pleasure; on the one hand action is spurred on by want, on the other it hies to its natural fulfilment.  That is why, as man's civilisation advances, he increases his obligations and the work that he willingly creates for himself.  One should have thought that nature had given him quite enough to do to keep him busy, in fact that it was working him to death with the lash of hunger and thirst,--but no.  Man does not think that sufficient; he cannot rest content with only doing the work that nature prescribes for him in common with the birds and beasts.  He needs must surpass all, even in activity.  No creature has to work so hard as man; he has been impelled to contrive for himself a vast field of action in society; and in this field he is for every building up and pulling down, making and unmaking laws, piling up heaps of material, and incessantly thinking, seeking and suffering.  In this field he has fought his mightiest battles, gained continual new life, made death glorious, and, far from evading troubles, has willingly and continually taken up the burden of fresh trouble.  He has discovered the truth that he is not complete in the cage of his immediate surroundings, that he is greater than his present, and that while to stand still in one place may be comforting, the arrest of life destroys his true function and the real purpose of his existence."
+   },
+   {
+    "type": "para",
+    "text": "This mahatī vinashtih--this great destruction he cannot bear, and accordingly he toils and suffers in order that he may gain in stature by transcending his present, in order to become that which he yet is not.  In this travail is man's glory, and it is because he knows it, that he has not sought to circumscribe his field of action, but is constantly occupied in extending the bounds.  Sometimes he wanders so far that his work tends to lose its meaning, and his rushings to and fro create fearful eddies round different centres--eddies of self-interest, of pride of power.  Still, so long as the strength of the current is not lost, there is no fear; the obstructions and the dead accumulations of his activity are dissipated and carried away; the impetus corrects its own mistakes.  Only when the soul sleeps in stagnation do its enemies gain overmastering strength, and these obstructions become too clogging to be fought through.  Hence have we been warned by our teachers that to work we must live, to live we must work; that life and activity are inseparably connected."
+   },
+   {
+    "type": "para",
+    "text": "It is very characteristic of life that it is not complete within itself; it must come out.  Its truth is in the commerce of the inside and the outside.  In order to live, the body must maintain its various relations with the outside light and air--not only to gain life-force, but also to manifest it.  Consider how fully employed the body is with its own inside activities; its heart-beat must not stop for a second, its stomach, its brain, must be ceaselessly working.  Yet this is not enough; the body is outwardly restless all the while.  Its life leads it to an endless dance of work and play outside; it cannot be satisfied with the circulations of its internal economy, and only finds the fulfilment of joy in its outward excursions."
+   },
+   {
+    "type": "para",
+    "text": "The same with the soul.  It cannot live on its own internal feelings and imaginings.  It is ever in need of external objects; not only to feed its inner consciousness but to apply itself in action, not only to receive but also to give."
+   },
+   {
+    "type": "para",
+    "text": "The real truth is, we cannot live if we divide him who is truth itself into two parts.  We must abide in him within as well as without.  In whichever aspect we deny him we deceive ourselves and incur a loss.  Brahma has not left me, let me not leave Brahma.  [Footnote:  Māham brahma nirākuryyām mā mā brahma nirākarōt.]  If we say that we would realise him in introspection alone and leave him out of our external activity, that we would enjoy him by the love in our heart, but not worship him by outward ministrations; or if we say the opposite, and overweight ourselves on one side in the journey of our life's quest, we shall alike totter to our downfall."
+   },
+   {
+    "type": "para",
+    "text": "In the great western continent we see that the soul of man is mainly concerned with extending itself outwards; the open field of the exercise of power is its field.  Its partiality is entirely for the world of extension, and it would leave aside--nay, hardly believe in--that field of inner consciousness which is the field of fulfilment.  It has gone so far in this that the perfection of fulfilment seems to exist for it nowhere.  Its science has always talked of the never-ending evolution of the world.  Its metaphysic has now begun to talk of the evolution of God himself.  They will not admit that he is; they would have it that he also is becoming."
+   },
+   {
+    "type": "para",
+    "text": "They fail to realise that while the infinite is always greater than any assignable limit, it is also complete; that on the one hand Brahma is evolving, on the other he is perfection; that in the one aspect he is essence, in the other manifestation--both together at the same time, as is the song and the act of singing. This is like ignoring the consciousness of the singer and saying that only the singing is in progress, that there is no song. Doubtless we are directly aware only of the singing, and never at any one time of the song as a whole; but do we not all the time know that the complete song is in the soul of the singer?"
+   },
+   {
+    "type": "para",
+    "text": "It is because of this insistence on the doing and the becoming that we perceive in the west the intoxication of power.  These men seem to have determined to despoil and grasp everything by force.  They would always obstinately be doing and never be done--they would not allow to death its natural place in the scheme of things--they know not the beauty of completion."
+   },
+   {
+    "type": "para",
+    "text": "In our country the danger comes from the opposite side.  Our partiality is for the internal world.  We would cast aside with contumely the field of power and of extension.  We would realise Brahma in mediation only in his aspect of completeness, we have determined not to see him in the commerce of the universe in his aspect of evolution.  That is why in our seekers we so often find the intoxication of the spirit and its consequent degradation. Their faith would acknowledge no bondage of law, their imagination soars unrestricted, their conduct disdains to offer any explanation to reason.  Their intellect, in its vain attempts to see Brahma inseparable from his creation, works itself stone-dry, and their heart, seeking to confine him within its own outpourings, swoons in a drunken ecstasy of emotion.  They have not even kept within reach any standard whereby they can measure the loss of strength and character which manhood sustains by thus ignoring the bonds of law and the claims of action in the external universe."
+   },
+   {
+    "type": "para",
+    "text": "But true spirituality, as taught in our sacred lore, is calmly balanced in strength, in the correlation of the within and the without.  The truth has its law, it has its joy.  On one side of it is being chanted the Bhayādasyāgnistapati [Footnote: \"For fear of him the fire doth burn,\" etc], on the other the Ānandādhyeva khalvimāni bhūtāni jāyante.  [Footnote: \"From Joy are born all created things,\" etc.]  Freedom is impossible of attainment without submission to law, for Brahma is in one aspect bound by his truth, in the other free in his joy."
+   },
+   {
+    "type": "para",
+    "text": "As for ourselves, it is only when we wholly submit to the bonds of truth that we fully gain the joy of freedom.  And how?  As does the string that is bound to the harp.  When the harp is truly strung, when there is not the slightest laxity in the strength of the bond, then only does music result; and the string transcending itself in its melody finds at every chord its true freedom.  It is because it is bound by such hard and fast rules on the one side that it can find this range of freedom in music on the other.  While the string was not true, it was indeed merely bound; but a loosening of its bondage would not have been the way to freedom, which it can only fully achieve by being bound tighter and tighter till it has attained the true pitch."
+   },
+   {
+    "type": "para",
+    "text": "The bass and treble strings of our duty are only bonds so long as we cannot maintain them steadfastly attuned according to the law of truth; and we cannot call by the name of freedom the loosening of them into the nothingness of inaction.  That is why I would say that the true striving in the quest of truth, of dharma, consists not in the neglect of action but in the effort to attune it closer and closer to the eternal harmony.  The text of this striving should be, Whatever works thou doest, consecrate them to Brahma.  [Footnote:  Yadyat karma prakurvīta tadbrahmani samarpayet.]  That is to say, the soul is to dedicate itself to Brahma through all its activities.  This dedication is the song of the soul, in this is its freedom.  Joy reigns when all work becomes the path to the union with Brahma; when the soul ceases to return constantly to its own desires; when in it our self-offering grows more and more intense.  Then there is completion, then there is freedom, then, in this world, comes the kingdom of God."
+   },
+   {
+    "type": "para",
+    "text": "Who is there that, sitting in his corner, would deride this grand self-expression of humanity in action, this incessant self-consecration?  Who is there that thinks the union of God and man is to be found in some secluded enjoyment of his own imaginings, away from the sky-towering temple of the greatness of humanity, which the whole of mankind, in sunshine and storm, is toiling to erect through the ages?  Who is there that thinks this secluded communion is the highest form of religion?"
+   },
+   {
+    "type": "para",
+    "text": "O thou distraught wanderer, thou Sannyasin, drunk in the wine of self-intoxication, dost thou not already hear the progress of the human soul along the highway traversing the wide fields of humanity--the thunder of its progress in the car of its achievements, which is destined to overpass the bounds that prevent its expansion into the universe?  The very mountains are cleft asunder and give way before the march of its banners waving triumphantly in the heavens; as the mist before the rising sun, the tangled obscurities of material things vanish at its irresistible approach.  Pain, disease, and disorder are at every step receding before its onset; the obstructions of ignorance are being thrust aside; the darkness of blindness is being pierced through; and behold, the promised land of wealth and health, of poetry and art, of knowledge and righteousness is gradually being revealed to view.  Do you in your lethargy desire to say that this car of humanity, which is shaking the very earth with the triumph of its progress along the mighty vistas of history, has no charioteer leading it on to its fulfilment?  Who is there who refuses to respond to his call to join in this triumphal progress? Who so foolish as to run away from the gladsome throng and seek him in the listlessness of inaction?  Who so steeped in untruth as to dare to call all this untrue--this great world of men, this civilisation of expanding humanity, this eternal effort of man, through depths of sorrow, through heights of gladness, through innumerable impediments within and without, to win victory for his powers?  He who can think of this immensity of achievement as an immense fraud, can he truly believe in God who is the truth?  He who thinks to reach God by running away from the world, when and where does he expect to meet him?  How far can he fly--can he fly and fly, till he flies into nothingness itself?  No, the coward who would fly can nowhere find him.  We must be brave enough to be able to say: We are reaching him here in this very spot, now at this very moment.  We must be able to assure ourselves that as in our actions we are realising ourselves, so in ourselves we are realising him who is the self of self.  We must earn the right to say so unhesitatingly by clearing away with our own effort all obstruction, all disorder, all discords from our path of activity; we must be able to say, \"In my work is my joy, and in that joy does the joy of my joy abide.\""
+   },
+   {
+    "type": "para",
+    "text": "Whom does the Upanishad call The chief among the knowers of Brahma?  [Footnote: Brahmavidāmvaristhah.]  He is defined as He whose joy is in Brahma, whose play is in Brahma, the active one. [Footnote: Ātmakrīrha ātmaratih kriyāvān.]  Joy without the play of joy is no joy at all--play without activity is no play. Activity is the play of joy.  He whose joy is in Brahma, how can he live in inaction?  For must he not by his activity provide that in which the joy of Brahma is to take form and manifest itself?  That is why he who knows Brahma, who has his joy in Brahma, must also have all his activity in Brahma--his eating and drinking, his earning of livelihood and his beneficence. Just as the joy of the poet in his poem, of the artist in his art, of the brave man in the output of his courage, of the wise man in his discernment of truths, ever seeks expression in their several activities, so the joy of the knower of Brahma, in the whole of his everyday work, little and big, in truth, in beauty, in orderliness and in beneficence, seeks to give expression to the infinite."
+   },
+   {
+    "type": "para",
+    "text": "Brahma himself gives expression to his joy in just the same way. By his many-sided activity, which radiates in all directions, does he fulfil the inherent want of his different creatures. [Footnote: Bahudhā çakti yogāt varņānanekān nihitārtho dadhāti.] That inherent want is he himself, and so he is in so many ways, in so many forms, giving himself.  He works, for without working how could he give himself.  His joy is ever dedicating itself in the dedication which is his creation."
+   },
+   {
+    "type": "para",
+    "text": "In this very thing does our own true meaning lie, in this is our likeness to our father.  We must also give up ourselves in many-sided variously aimed activity.  In the Vedas he is called the giver of himself, the giver of strength.  [Footnote:  Ātmadā baladā.]  He is not content with giving us himself, but he gives us strength that we may likewise give ourselves.  That is why the seer of the Upanishad prays to him who is thus fulfilling our wants, May he grant us the beneficent mind [Footnote: Sa no buddhya çubhayā samyunaktu.], may he fulfil that uttermost want of ours by granting us the beneficent mind.  That is to say, it is not enough he should alone work to remove our want, but he should give us the desire and the strength to work with him in his activity and in the exercise of the goodness.  Then, indeed, will our union with him alone be accomplished.  The beneficent mind is that which shows us the want (swārtha) of another self to be the inherent want (nihitārtha) of our own self; that which shows that our joy consists in the varied aiming of our many-sided powers in the work of humanity.  When we work under the guidance of this beneficent mind, then our activity is regulated, but does not become mechanical; it is action not goaded on by want, but stimulated by the satisfaction of the soul.  Such activity ceases to be a blind imitation of that of the multitude, a cowardly following of the dictates of fashion. Therein we begin to see that He is in the beginning and in the end of the universe [Footnote: Vichaiti chāntē viçvamādau.], and likewise see that of our own work is he the fount and the inspiration, and at the end thereof is he, and therefore that all our activity is pervaded by peace and good and joy."
+   },
+   {
+    "type": "para",
+    "text": "The Upanishad says: Knowledge, power, and action are of his nature. [Footnote: Svābhāvikījnāna bala kriyā cha.]  It is because this naturalness has not yet been born in us that we tend to divide joy from work.  Our day of work is not our day of joy--for that we require a holiday; for, miserable that we are, we cannot find our holiday in our work.  The river finds its holiday in its onward flow, the fire in its outburst of flame, the scent of the flower in its permeation of the atmosphere; but in our everyday work there is no such holiday for us.  It is because we do not let ourselves go, because we do not give ourselves joyously and entirely up to it, that our work overpowers us."
+   },
+   {
+    "type": "para",
+    "text": "O giver of thyself! at the vision of thee as joy let our souls flame up to thee as the fire, flow on to thee as the river, permeate thy being as the fragrance of the flower.  Give us strength to love, to love fully, our life in its joys and sorrows, in its gains and losses, in its rise and fall.  Let us have strength enough fully to see and hear thy universe, and to work with full vigour therein.  Let us fully live the life thou hast given us, let us bravely take and bravely give.  This is our prayer to thee.  Let us once for all dislodge from our minds the feeble fancy that would make out thy joy to be a thing apart from action, thin, formless, and unsustained.  Wherever the peasant tills the hard earth, there does thy joy gush out in the green of the corn, wherever man displaces the entangled forest, smooths the stony ground, and clears for himself a homestead, there does thy joy enfold it in orderliness and peace."
+   },
+   {
+    "type": "para",
+    "text": "O worker of the universe!  We would pray to thee to let the irresistible current of thy universal energy come like the impetuous south wind of spring, let it come rushing over the vast field of the life of man, let it bring the scent of many flowers, the murmurings of many woodlands, let it make sweet and vocal the lifelessness of our dried-up soul-life.  Let our newly awakened powers cry out for unlimited fulfilment in leaf and flower and fruit."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 2789,
+   "startLine": 2790,
+   "endLine": 3188,
+   "heading": "REALISATION IN ACTION",
+   "bodySha256": "7eeb758d656f8892d483da218aa3d88c03e333600dbeb2452e0e72b8d45be473"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-the-realisation-of-beauty",
+  "kind": "essay",
+  "title": "THE REALISATION OF BEAUTY",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Things in which we do not take joy are either a burden upon our minds to be got rid of at any cost; or they are useful, and therefore in temporary and partial relation to us, becoming burdensome when their utility is lost; or they are like wandering vagabonds, loitering for a moment on the outskirts of our recognition, and then passing on.  A thing is only completely our own when it is a thing of joy to us."
+   },
+   {
+    "type": "para",
+    "text": "The greater part of this world is to us as if it were nothing. But we cannot allow it to remain so, for thus it belittles our own self.  The entire world is given to us, and all our powers have their final meaning in the faith that by their help we are to take possession of our patrimony."
+   },
+   {
+    "type": "para",
+    "text": "But what is the function of our sense of beauty in this process of the extension of our consciousness?  Is it there to separate truth into strong lights and shadows, and bring it before us in its uncompromising distinction of beauty and ugliness?  If that were so, then we would have had to admit that this sense of beauty creates a dissension in our universe and sets up a wall of hindrance across the highway of communication that leads from everything to all things."
+   },
+   {
+    "type": "para",
+    "text": "But that cannot be true.  As long as our realisation is incomplete a division necessarily remains between things known and unknown, pleasant and unpleasant.  But in spite of the dictum of some philosophers man does not accept any arbitrary and absolute limit to his knowable world.  Every day his science is penetrating into the region formerly marked in his map as unexplored or inexplorable.  Our sense of beauty is similarly engaged in ever pushing on its conquests.  Truth is everywhere, therefore everything is the object of our knowledge.  Beauty is omnipresent, therefore everything is capable of giving us joy."
+   },
+   {
+    "type": "para",
+    "text": "In the early days of his history man took everything as a phenomenon of life.  His science of life began by creating a sharp distinction between life and non-life.  But as it is proceeding farther and farther the line of demarcation between the animate and inanimate is growing more and more dim.  In the beginning of our apprehension these sharp lines of contrast are helpful to us, but as our comprehension becomes clearer they gradually fade away."
+   },
+   {
+    "type": "para",
+    "text": "The Upanishads have said that all things are created and sustained by an infinite joy.  To realise this principle of creation we have to start with a division--the division into the beautiful and the non-beautiful.  Then the apprehension of beauty has to come to us with a vigorous blow to awaken our consciousness from its primitive lethargy, and it attains its object by the urgency of the contrast.  Therefore our first acquaintance with beauty is in her dress of motley colours, that affects us with its stripes and feathers, nay, with its disfigurements.  But as our acquaintance ripens, the apparent discords are resolved into modulations of rhythm.  At first we detach beauty from its surroundings, we hold it apart from the rest, but at the end we realise its harmony with all.  Then the music of beauty has no more need of exciting us with loud noise; it renounces violence, and appeals to our heart with the truth that it is meekness inherits the earth."
+   },
+   {
+    "type": "para",
+    "text": "In some stage of our growth, in some period of our history, we try to set up a special cult of beauty, and pare it down to a narrow circuit, so as to make it a matter of pride for a chosen few.  Then it breeds in its votaries affections and exaggerations, as it did with the Brahmins in the time of the decadence of Indian civilisation, when the perception of the higher truth fell away and superstitions grew up unchecked."
+   },
+   {
+    "type": "para",
+    "text": "In the history of æsthetics there also comes an age of emancipation when the recognition of beauty in things great and small become easy, and when we see it more in the unassuming harmony of common objects than in things startling in their singularity.  So much so, that we have to go through the stages of reaction when in the representation of beauty we try to avoid everything that is obviously pleasing and that has been crowned by the sanction of convention.  We are then tempted in defiance to exaggerate the commonness of commonplace things, thereby making them aggressively uncommon.  To restore harmony we create the discords which are a feature of all reactions.  We already see in the present age the sign of this æsthetic reaction, which proves that man has at last come to know that it is only the narrowness of perception which sharply divides the field of his æsthetic consciousness into ugliness and beauty.  When he has the power to see things detached from self-interest and from the insistent claims of the lust of the senses, then alone can he have the true vision of the beauty that is everywhere.  Then only can he see that what is unpleasant to us is not necessarily unbeautiful, but has its beauty in truth."
+   },
+   {
+    "type": "para",
+    "text": "When we say that beauty is everywhere we do not mean that the word ugliness should be abolished from our language, just as it would be absurd to say that there is no such thing as untruth. Untruth there certainly is, not in the system of the universe, but in our power of comprehension, as its negative element.  In the same manner there is ugliness in the distorted expression of beauty in our life and in our art which comes from our imperfect realisation of Truth.  To a certain extent we can set our life against the law of truth which is in us and which is in all, and likewise we can give rise to ugliness by going counter to the eternal law of harmony which is everywhere."
+   },
+   {
+    "type": "para",
+    "text": "Through our sense of truth we realise law in creation, and through our sense of beauty we realise harmony in the universe. When we recognise the law in nature we extend our mastery over physical forces and become powerful; when we recognise the law in our moral nature we attain mastery over self and become free.  In like manner the more we comprehend the harmony in the physical world the more our life shares the gladness of creation, and our expression of beauty in art becomes more truly catholic.  As we become conscious of the harmony in our soul, our apprehension of the blissfulness of the spirit of the world becomes universal, and the expression of beauty in our life moves in goodness and love towards the infinite.  This is the ultimate object of our existence, that we must ever know that \"beauty is truth, truth beauty\"; we must realise the whole world in love, for love gives it birth, sustains it, and takes it back to its bosom.  We must have that perfect emancipation of heart which gives us the power to stand at the innermost centre of things and have the taste of that fullness of disinterested joy which belongs to Brahma."
+   },
+   {
+    "type": "para",
+    "text": "Music is the purest form of art, and therefore the most direct expression of beauty, with a form and spirit which is one and simple, and least encumbered with anything extraneous.  We seem to feel that the manifestation of the infinite in the finite forms of creation is music itself, silent and visible.  The evening sky, tirelessly repeating the starry constellations, seems like a child struck with wonder at the mystery of its own first utterance, lisping the same word over and over again, and listening to it in unceasing joy.  When in the rainy night of July the darkness is thick upon the meadows and the pattering rain draws veil upon veil over the stillness of the slumbering earth, this monotony of the rain patter seems to be the darkness of sound itself.  The gloom of the dim and dense line of trees, the thorny bushes scattered in the bare heath like floating heads of swimmers with bedraggled hair, the smell of the damp grass and the wet earth, the spire of the temple rising above the undefined mass of blackness grouped around the village huts--everything seems like notes rising from the heart of the night, mingling and losing themselves in the one sound of ceaseless rain filling the sky."
+   },
+   {
+    "type": "para",
+    "text": "Therefore the true poets, they who are seers, seek to express the universe in terms of music."
+   },
+   {
+    "type": "para",
+    "text": "They rarely use symbols of painting to express the unfolding of forms, the mingling of endless lines and colours that goes on every moment on the canvas of the blue sky."
+   },
+   {
+    "type": "para",
+    "text": "They have their reason.  For the man who paints must have canvas, brush and colour-box.  The first touch of his brush is very far from the complete idea.  And then when the work is finished the artist is gone, the windowed picture stands alone, the incessant touches of love of the creative hand are withdrawn."
+   },
+   {
+    "type": "para",
+    "text": "But the singer has everything within him.  The notes come out from his very life.  They are not materials gathered from outside.  His idea and his expression are brother and sister; very often they are born as twins.  In music the heart reveals itself immediately; it suffers not from any barrier of alien material."
+   },
+   {
+    "type": "para",
+    "text": "Therefore though music has to wait for its completeness like any other art, yet at every step it gives out the beauty of the whole.  As the material of expression even words are barriers, for their meaning has to be constructed by thought.  But music never has to depend upon any obvious meaning; it expresses what no words can ever express."
+   },
+   {
+    "type": "para",
+    "text": "What is more, music and the musician are inseparable.  When the singer departs, his singing dies with him; it is in eternal union with the life and joy of the master."
+   },
+   {
+    "type": "para",
+    "text": "This world-song is never for a moment separated from its singer. It is not fashioned from any outward material.  It is his joy itself taking never-ending form.  It is the great heart sending the tremor of its thrill over the sky."
+   },
+   {
+    "type": "para",
+    "text": "There is a perfection in each individual strain of this music, which is the revelation of completion in the incomplete.  No one of its notes is final, yet each reflects the infinite."
+   },
+   {
+    "type": "para",
+    "text": "What does it matter if we fail to derive the exact meaning of this great harmony?  Is it not like the hand meeting the string and drawing out at once all its tones at the touch?  It is the language of beauty, the caress, that comes from the heart of the world straightway reaches our heart."
+   },
+   {
+    "type": "para",
+    "text": "Last night, in the silence which pervaded the darkness, I stood alone and heard the voice of the singer of eternal melodies. When I went to sleep I closed my eyes with this last thought in my mind, that even when I remain unconscious in slumber the dance of life will still go on in the hushed arena of my sleeping body, keeping step with the stars.  The heart will throb, the blood will leap in the veins, and the millions of living atoms of my body will vibrate in tune with the note of the harp-string that thrills at the touch of the master."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 3195,
+   "startLine": 3196,
+   "endLine": 3393,
+   "heading": "THE REALISATION OF BEAUTY",
+   "bodySha256": "f75c02d8669233a9839a52bae6fa099f915aeab8b1107dd5b11ced2e31622c3b"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "rabindranath-tagore-the-realisation-of-the-infinite",
+  "kind": "essay",
+  "title": "THE REALISATION OF THE INFINITE",
+  "author": "Rabindranath Tagore",
+  "year": "1913; 1916 edition",
+  "place": "India",
+  "source": "https://www.gutenberg.org/ebooks/6842",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The Upanishads say: \"Man becomes true if in this life he can apprehend God; if not, it is the greatest calamity for him.\""
+   },
+   {
+    "type": "para",
+    "text": "But what is the nature of this attainment of God?  It is quite evident that the infinite is not like one object among many, to be definitely classified and kept among our possessions, to be used as an ally specially favouring us in our politics, warfare, money-making, or in social competitions.  We cannot put our God in the same list with our summer-houses, motor-cars, or our credit at the bank, as so many people seem to want to do."
+   },
+   {
+    "type": "para",
+    "text": "We must try to understand the true character of the desire that a man has when his soul longs for his God.  Does it consist of his wish to make an addition, however valuable, to his belongings? Emphatically no!  It is an endlessly wearisome task, this continual adding to our stores.  In fact, when the soul seeks God she seeks her final escape from this incessant gathering and heaping and never coming to an end.  It is not an additional object the she seeks, but it is the nityo 'nityānām, the permanent in all that is impermanent, the rasānām rasatamah, the highest abiding joy unifying all enjoyments.  Therefore when the Upanishads teach us to realise everything in Brahma, it is not to seek something extra, not to manufacture something new."
+   },
+   {
+    "type": "para",
+    "text": "Know everything that there is in the universe as enveloped by God.  [Footnote: Īçhāvāsyamdiam sarvam yat kincha jagatyānjagat.]  Enjoy whatever is given by him and harbour not in your mind the greed for wealth which is not your own. [Footnoe: Tēna tyaktēna bhunjīţhā mā gŗidhah kasyasviddhanam.]"
+   },
+   {
+    "type": "para",
+    "text": "When you know that whatever there is is filled by him and whatever you have is his gift, then you realise the infinite in the finite, and the giver in the gifts.  Then you know that all the facts of the reality have their only meaning in the manifestation of the one truth, and all your possessions have their only significance for you, not in themselves but in the relation they establish with the infinite."
+   },
+   {
+    "type": "para",
+    "text": "So it cannot be said that we can find Brahma as we find other objects; there is no question of searching from him in one thing in preference to another, in one place instead of somewhere else. We do not have to run to the grocer's shop for our morning light; we open our eyes and there it is; so we need only give ourselves up to find that Brahma is everywhere."
+   },
+   {
+    "type": "para",
+    "text": "This is the reason why Buddha admonished us to free ourselves from the confinement of the life of the self.  If there were nothing else to take its place more positively perfect and satisfying, then such admonition would be absolutely unmeaning. No man can seriously consider the advice, much less have any enthusiasm for it, of surrendering everything one has for gaining nothing whatever."
+   },
+   {
+    "type": "para",
+    "text": "So our daily worship of God is not really the process of gradual acquisition of him, but the daily process of surrendering ourselves, removing all obstacles to union and extending our consciousness of him in devotion and service, in goodness and in love."
+   },
+   {
+    "type": "para",
+    "text": "The Upanishads say: Be lost altogether in Brahma like an arrow that has completely penetrated its target.  Thus to be conscious of being absolutely enveloped by Brahma is not an act of mere concentration of mind.  It must be the aim of the whole of our life.  In all our thoughts and deeds we must be conscious of the infinite.  Let the realisation of this truth become easier every day of our life, that none could live or move if the energy of the all-pervading joy did not fill the sky.  [Footnote: Ko hyevānyāt kah prānyāt yadesha ākāçha ānando na syāt.]  In all our actions let us feel that impetus of the infinite energy and be glad."
+   },
+   {
+    "type": "para",
+    "text": "It may be said that the infinite is beyond our attainment, so it is for us as if it were naught.  Yes, if the word attainment implies any idea of possession, then it must be admitted that the infinite is unattainable.  But we must keep in mind that the highest enjoyment of man is not in the having but in a getting, which is at the same time not getting.  Our physical pleasures leave no margin for the unrealised.  They, like the dead satellite of the earth, have but little atmosphere around them. When we take food and satisfy our hunger it is a complete act of possession.  So long as the hunger is not satisfied it is a pleasure to eat.  For then our enjoyment of eating touches at every point the infinite.  But, when it attains completion, or in other words, when our desire for eating reaches the end of the stage of its non-realisation, it reaches the end of its pleasure. In all our intellectual pleasures the margin is broader, the limit is far off.  In all our deeper love getting and non-getting run ever parallel.  In one of our Vaishnava lyrics the lover says to his beloved: \"I feel as if I have gazed upon the beauty of thy face from my birth, yet my eyes are hungry still: as if I have kept thee pressed to my heart for millions of years, yet my heart is not satisfied.\""
+   },
+   {
+    "type": "para",
+    "text": "This makes it clear that it is really the infinite whom we seek in our pleasures.  Our desire for being wealthy is not a desire for a particular sum of money but it is indefinite, and the most fleeting of our enjoyments are but the momentary touches of the eternal.  The tragedy of human life consists in our vain attempts to stretch the limits of things which can never become unlimited,--to reach the infinite by absurdly adding to the rungs of the ladder of the finite."
+   },
+   {
+    "type": "para",
+    "text": "It is evident from this that the real desire of our soul is to get beyond all our possessions.  Surrounded by things she can touch and feel, she cries, \"I am weary of getting; ah, where is he who is never to be got?\""
+   },
+   {
+    "type": "para",
+    "text": "We see everywhere in the history of man that the spirit of renunciation is the deepest reality of the human soul.  When the soul says of anything, \"I do not want it, for I am above it,\" she gives utterance to the highest truth that is in her.  When a girl's life outgrows her doll, when she realises that in every respect she is more than her doll is, then she throws it away. By the very act of possession we know that we are greater than the things we possess.  It is a perfect misery to be kept bound up with things lesser than ourselves.  This it is that Maitreyī felt when her husband gave her his property on the eve of leaving home.  She asked him, \"Would these material things help one to attain the highest?\"--or, in other words, \"Are they more than my soul to me?\"  When her husband answered, \"They will make you rich in worldly possessions,\" she said at once, \"then what am I to do with these?\"  It is only when a man truly realises what his possessions are that he has no more illusions about them; then he knows his soul is far above these things and he becomes free from their bondage.  Thus man truly realises his soul by outgrowing his possessions, and man's progress in the path of eternal life is through a series of renunciations."
+   },
+   {
+    "type": "para",
+    "text": "That we cannot absolutely possess the infinite being is not a mere intellectual proposition.  It has to be experienced, and this experience is bliss.  The bird, while taking its flight in the sky, experiences at every beat of its wings that the sky is boundless, that its wings can never carry it beyond.  Therein lies its joy.  In the cage the sky is limited; it may be quite enough for all the purposes of the bird's life, only it is not more than is necessary.  The bird cannot rejoice within the limits of the necessary.  It must feel that what it has is immeasurably more than it ever can want or comprehend, and then only can it be glad."
+   },
+   {
+    "type": "para",
+    "text": "Thus our soul must soar in the infinite, and she must feel every moment that in the sense of not being able to come to the end of her attainment is her supreme joy, her final freedom."
+   },
+   {
+    "type": "para",
+    "text": "Man's abiding happiness is not in getting anything but in giving himself up to what is greater than himself, to ideas which are larger than his individual life, the idea of his country, of humanity, of God.  They make it easier for him to part with all that he has, not expecting his life.  His existence is miserable and sordid till he finds some great idea which can truly claim his all, which can release him from all attachment to his belongings.  Buddha and Jesus, and all our great prophets, represent such great ideas.  They hold before us opportunities for surrendering our all.  When they bring forth their divine alms-bowl we feel we cannot help giving, and we find that in giving is our truest joy and liberation, for it is uniting ourselves to that extent with the infinite."
+   },
+   {
+    "type": "para",
+    "text": "Man is not complete; he is yet to be.  In what he is he is small, and if we could conceive him stopping there for eternity we should have an idea of the most awful hell that man can imagine.  In his to be he is infinite, there is his heaven, his deliverance.  His is is occupied every moment with what it can get and have done with; his to be is hungering for something which is more than can be got, which he never can lose because he never has possessed."
+   },
+   {
+    "type": "para",
+    "text": "The finite pole of our existence has its place in the world of necessity.  There man goes about searching for food to live, clothing to get warmth.  In this region--the region of nature--it is his function to get things.  The natural man is occupied with enlarging his possessions."
+   },
+   {
+    "type": "para",
+    "text": "But this act of getting is partial.  It is limited to man's necessities.  We can have a thing only to the extent of our requirements, just as a vessel can contain water only to the extent of its emptiness.  Our relation to food is only in feeding, our relation to a house is only in habitation.  We call it a benefit when a thing is fitted only to some particular want of ours.  Thus to get is always to get partially, and it never can be otherwise.  So this craving for acquisition belongs to our finite self."
+   },
+   {
+    "type": "para",
+    "text": "But that side of our existence whose direction is towards the infinite seeks not wealth, but freedom and joy.  There the reign of necessity ceases, and there our function is not to get but to be.  To be what?  To be one with Brahma.  For the region of the infinite is the region of unity.  Therefore the Upanishads say: If man apprehends God he becomes true.  Here it is becoming, it is not having more.  Words do no gather bulk when you know their meaning; they become true by being one with the idea."
+   },
+   {
+    "type": "para",
+    "text": "Though the West has accepted as its teacher him who boldly proclaimed his oneness with his Father, and who exhorted his followers to be perfect as God, it has never been reconciled to this idea of our unity with the infinite being.  It condemns, as a piece of blasphemy, any implication of man's becoming God. This is certainly not the idea that Christ preached, nor perhaps the idea of the Christian mystics, but this seems to be the idea that has become popular in the Christian west."
+   },
+   {
+    "type": "para",
+    "text": "But the highest wisdom in the East holds that it is not the function of our soul to gain God, to utilise him for any special material purpose.  All that we can ever aspire to is to become more and more one with God.  In the region of nature, which is the region of diversity, we grow by acquisition; in the spiritual world, which is the region of unity, we grow by losing ourselves, by uniting.  Gaining a thing, as we have said, is by its nature partial, it is limited only to a particular want; but being is complete, it belongs to our wholeness, it springs not from any necessity but from our affinity with the infinite, which is the principle of perfection that we have in our soul."
+   },
+   {
+    "type": "para",
+    "text": "Yes, we must become Brahma.  We must not shrink to avow this. Our existence is meaningless if we never can expect to realise the highest perfection that there is.  If we have an aim and yet can never reach it, then it is no aim at all."
+   },
+   {
+    "type": "para",
+    "text": "But can it then be said that there is no difference between Brahma and our individual soul?  Of course the difference is obvious.  Call it illusion or ignorance, or whatever name you may give it, it is there.  You can offer explanations but you cannot explain it away.  Even illusion is true an illusion."
+   },
+   {
+    "type": "para",
+    "text": "Brahma is Brahma, he is the infinite ideal of perfection.  But we are not what we truly are; we are ever to become true, ever to become Brahma.  There is the eternal play of love in the relation between this being and the becoming; and in the depth of this mystery is the source of all truth and beauty that sustains the endless march of creation."
+   },
+   {
+    "type": "para",
+    "text": "In the music of the rushing stream sounds the joyful assurance, \"I shall become the sea.\"  It is not a vain assumption; it is true humility, for it is the truth.  The river has no other alternative.  On both sides of its banks it has numerous fields and forests, villages and towns; it can serve them in various ways, cleanse them and feed them, carry their produce from place to place.  But it can have only partial relations with these, and however long it may linger among them it remains separate; it never can become a town or a forest."
+   },
+   {
+    "type": "para",
+    "text": "But it can and does become the sea.  The lesser moving water has its affinity with the great motionless water of the ocean.  It moves through the thousand objects on its onward course, and its motion finds its finality when it reaches the sea."
+   },
+   {
+    "type": "para",
+    "text": "The river can become the sea, but she can never make the sea part and parcel of herself.  If, by some chance, she has encircled some broad sheet of water and pretends that she has made the sea a part of herself, we at once know that it is not so, that her current is still seeking rest in the great ocean to which it can never set boundaries."
+   },
+   {
+    "type": "para",
+    "text": "In the same manner, our soul can only become Brahma as the river can become the sea.  Everything else she touches at one of her points, then leaves and moves on, but she never can leave Brahma and move beyond him.  Once our soul realises her ultimate object of repose in Brahma, all her movements acquire a purpose.  It is this ocean of infinite rest which gives significance to endless activities.  It is this perfectness of being that lends to the imperfection of becoming that quality of beauty which finds its expression in all poetry, drama and art."
+   },
+   {
+    "type": "para",
+    "text": "There must be a complete idea that animates a poem.  Every sentence of the poem touches that idea.  When the reader realises that pervading idea, as he reads on, then the reading of the poem is full of joy to him.  Then every part of the poem becomes radiantly significant by the light of the whole.  But if the poem goes on interminably, never expressing the idea of the whole, only throwing off disconnected images, however beautiful, it becomes wearisome and unprofitable in the extreme.  The progress of our soul is like a perfect poem.  It has an infinite idea which once realised makes all movements full of meaning and joy. But if we detach its movements from that ultimate idea, if we do not see the infinite rest and only see the infinite motion, then existence appears to us a monstrous evil, impetuously rushing towards an unending aimlessness."
+   },
+   {
+    "type": "para",
+    "text": "I remember in our childhood we had a teacher who used to make us learn by heart the whole book of Sanskrit grammer, which is written in symbols, without explaining their meaning to us.  Day after day we went toiling on, but on towards what, we had not the least notion.  So, as regards our lessons, we were in the position of the pessimist who only counts the breathless activities of the world, but cannot see the infinite repose of the perfection whence these activities are gaining their equilibrium every moment in absolute fitness and harmony.  We lose all joy in thus contemplating existence, because we miss the truth.  We see the gesticulations of the dancer, and we imagine these are directed by a ruthless tyranny of chance, while we are deaf to the eternal music which makes every one of these gestures inevitably spontaneous and beautiful.  These motions are ever growing into that music of perfection, becoming one with it, dedicating to that melody at every step the multitudinous forms they go on creating."
+   },
+   {
+    "type": "para",
+    "text": "And this is the truth of our soul, and this is her joy, that she must ever be growing into Brahma, that all her movements should be modulated by this ultimate idea, and all her creations should be given as offerings to the supreme spirit of perfection."
+   },
+   {
+    "type": "para",
+    "text": "There is a remarkable saying in the Upanishads: I think not that I know him well, or that I know him, or even that I know him not. [Footnote: Nāham manye suvedeti no na vedeti vedacha.]"
+   },
+   {
+    "type": "para",
+    "text": "By the process of knowledge we can never know the infinite being. But if he is altogether beyond our reach, then he is absolutely nothing to us.  The truth is that we know him not, yet we know him."
+   },
+   {
+    "type": "para",
+    "text": "This has been explained in another saying of the Upanishads: From Brahma words come back baffled, as well as the mind, but he who knows him by the joy of him is free from all fears. [Footnote: Yato vācho nivartante aprāpya manasā saha ānandam brahmaņo vidvān na vibheti kutaçchana.]"
+   },
+   {
+    "type": "para",
+    "text": "Knowledge is partial, because our intellect is an instrument, it is only a part of us, it can give us information about things which can be divided and analysed, and whose properties can be classified part by part.  But Brahma is perfect, and knowledge which is partial can never be a knowledge of him."
+   },
+   {
+    "type": "para",
+    "text": "But he can be known by joy, by love.  For joy is knowledge in its completeness, it is knowing by our whole being.  Intellect sets us apart from the things to be known, but love knows its object by fusion.  Such knowledge is immediate and admits no doubt.  It is the same as knowing our own selves, only more so."
+   },
+   {
+    "type": "para",
+    "text": "Therefore, as the Upanishads say, mind can never know Brahma, words can never describe him; he can only be known by our soul, by her joy in him, by her love.  Or, in other words, we can only come into relation with him by union--union of our whole being. We must be one with our Father, we must be perfect as he is."
+   },
+   {
+    "type": "para",
+    "text": "But how can that be?  There can be no grade in infinite perfection.  We cannot grow more and more into Brahma.  He is the absolute one, and there can be no more or less in him."
+   },
+   {
+    "type": "para",
+    "text": "Indeed, the realisation of the paramātman, the supreme soul, within our antarātman, our inner individual soul, is in a state of absolute completion.  We cannot think of it as non-existent and depending on our limited powers for its gradual construction.  If our relation with the divine were all a thing of our own making, how should we rely on it as true, and how should it lend us support?"
+   },
+   {
+    "type": "para",
+    "text": "Yes, we must know that within us we have that where space and time cease to rule and where the links of evolution are merged in unity.  In that everlasting abode of the ātaman, the soul, the revelation of the paramātman, the supreme soul, is already complete.  Therefore the Upanishads say: He who knows Brahman, the true, the all-conscious, and the infinite as hidden in the depths of the soul, which is the supreme sky (the inner sky of consciousness), enjoys all objects of desire in union with the all-knowing Brahman.  [Footnote: Satyam jñānam anantam brahma yo veda nihitam guhāyām paramo vyoman so'çnute sarvān kāmān saha brahmaņa vipasçhite.]"
+   },
+   {
+    "type": "para",
+    "text": "The union is already accomplished.  The paramātman, the supreme soul, has himself chosen this soul of ours as his bride and the marriage has been completed.  The solemn mantram has been uttered: Let thy heart be even as my heart is. [Footnote: Yadetat hŗidayam mama tadastu hŗidayan tava.]  There is no room in this marriage for evolution to act the part of the master of ceremonies.  The eshah, who cannot otherwise be described than as This, the nameless immediate presence, is ever here in our innermost being.  \"This eshah, or This, is the supreme end of the other this\"; [Footnote: Eshāsya paramā gatih] \"this This is the supreme treasure of the other this\"; [Footnote: Eshāsya paramā sampat.] \"this This is the supreme dwelling of the other this\"; [Footnote: Eshāsya paramo lokah] \"this This is the supreme joy of the other this.\"  [Footnote: Eshāsya parama ānandah]  Because the marriage of supreme love has been accomplished in timeless time.  And now goes on the endless līlā, the play of love.  He who has been gained in eternity is now being pursued in time and space, in joys and sorrows, in this world and in the worlds beyond. When the soul-bride understands this well, her heart is blissful and at rest.  She knows that she, like a river, has attained the ocean of her fulfilment at one end of her being, and at the other end she is ever attaining it; at one end it is eternal rest and completion, at the other it is incessant movement and change. When she knows both ends as inseparably connected, then she knows the world as her own household by the right of knowing the master of the world as her own lord.  Then all her services becomes services of love, all the troubles and tribulations of life come to her as trials triumphantly borne to prove the strength of her love, smilingly to win the wager from her lover.  But so long as she remains obstinately in the dark, lifts not her veil, does not recognise her lover, and only knows the world dissociated from him, she serves as a handmaid here, where by right she might reign as a queen; she sways in doubt, and weeps in sorrow and dejection.  She passes from starvation to starvation, from trouble to trouble, and from fear to fear.  [Footnote: Daurbhikshāt yāti daurbhiksham kleçāt kleçam bhayāt bhayam.]"
+   },
+   {
+    "type": "para",
+    "text": "I can never forget that scrap of a song I once heard in the early dawn in the midst of the din of the crowd that had collected for a festival the night before: \"Ferryman, take me across to the other shore!\""
+   },
+   {
+    "type": "para",
+    "text": "In the bustle of all our work there comes out this cry, \"Take me across.\"  The carter in India sings while driving his cart, \"Take me across.\"  The itinerant grocer deals out his goods to his customers and sings, \"Take me across\"."
+   },
+   {
+    "type": "para",
+    "text": "What is the meaning of this cry?  We feel we have not reached our goal; and we know with all our striving and toiling we do not come to the end, we do not attain our object.  Like a child dissatisfied with its dolls, our heart cries, \"Not this, not this.\"  But what is that other?  Where is the further shore?"
+   },
+   {
+    "type": "para",
+    "text": "Is it something else than what we have?  Is it somewhere else than where we are?  Is it to take rest from all our works, to be relieved from all the responsibilities of life?"
+   },
+   {
+    "type": "para",
+    "text": "No, in the very heart of our activities we are seeking for our end.  We are crying for the across, even where we stand.  So, while our lips utter their prayer to be carried away, our busy hands are never idle."
+   },
+   {
+    "type": "para",
+    "text": "In truth, thou ocean of joy, this shore and the other shore are one and the same in thee.  When I call this my own, the other lies estranged; and missing the sense of that completeness which is in me, my heart incessantly cries out for the other.  All my this, and that other, are waiting to be completely reconciled in thy love."
+   },
+   {
+    "type": "para",
+    "text": "This \"I\" of mine toils hard, day and night, for a home which it knows as its own.  Alas, there will be no end of its sufferings so long as it is not able to call this home thine.  Till then it will struggle on, and its heart will ever cry, \"Ferryman, lead me across.\"  When this home of mine is made thine, that very moment is it taken across, even while its old walls enclose it.  This \"I\" is restless.  It is working for a gain which can never be assimilated with its spirit, which it never can hold and retain. In its efforts to clasp in its own arms that which is for all, it hurts others and is hurt in its turn, and cries, \"Lead me across\". But as soon as it is able to say, \"All my work is thine,\" everything remains the same, only it is taken across."
+   },
+   {
+    "type": "para",
+    "text": "Where can I meet thee unless in this mine home made thine?  Where can I join thee unless in this my work transformed into thy work? If I leave my home I shall not reach thy home; if I cease my work I can never join thee in thy work.  For thou dwellest in me and I in thee.  Thou without me or I without thee are nothing."
+   },
+   {
+    "type": "para",
+    "text": "Therefore, in the midst of our home and our work, the prayer rises, \"Lead me across!\"  For here rolls the sea, and even here lies the other shore waiting to be reached--yes, here is this everlasting present, not distant, not anywhere else."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 6842,
+   "path": "pg6842.txt",
+   "retrieved": "2026-10-28",
+   "sha256": "09453e7dfd87e1b2da0d5e4ce96c1227e945072073dbc181c9ff51ba188936db",
+   "url": "https://www.gutenberg.org/cache/epub/6842/pg6842.txt",
+   "headingLine": 3400,
+   "startLine": 3401,
+   "endLine": 3852,
+   "heading": "THE REALISATION OF THE INFINITE",
+   "bodySha256": "02d43f4d0956d471ce5d4737e72d0d1e75a9c0ab0e477714d1fed148beef2866"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
  }
 ];

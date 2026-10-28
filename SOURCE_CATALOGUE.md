@@ -1,7 +1,7 @@
-# Source catalogue (Build 026)
+# Source catalogue (Build 031)
 
-`source-catalogue.js` holds the only literary texts Claude can select: 185
-complete works (94 poems, 33 stories, 58 essays). Claude's picks file names a
+`source-catalogue.js` holds the only literary texts Claude can select: 241
+complete works (129 poems, 46 stories, 66 essays). Claude's picks file names a
 catalogue ID and adds its own study notes; the app never displays text that
 Claude supplies.
 
@@ -36,7 +36,7 @@ Claude supplies.
 Check everything (no network, no model): `npm run check:sources`. It
 reproduces the critic's extraction from its saved downloads, recomputes every
 verdict, regenerates both catalogues for comparison, and runs the comparator
-against 31 deliberately damaged inputs (on both the critic's and the
+against 39 deliberately damaged inputs (on both the critic's and the
 producer's side). `npm test` runs all of this after the unit tests.
 
 ## What the critic loop found
@@ -65,6 +65,10 @@ producer's side). `npm test` runs all of this after the unit tests.
 | Chopin, Gutenberg 160 | 8 short stories after the novel | Story heading to next story or end marker |
 | Blake, Gutenberg 1934 (R. Brimley Johnson ed., 1901) | 46 poems | Upper-case headings; section headers excluded |
 | Whitman, Gutenberg 1322 | 48 short poems | Book I (Inscriptions) plus 24 named poems, heading to next heading |
+| Yeats, Gutenberg 32233 (fourth edition, 1903) | 35 poems | 37 complete poems proposed; two strict comparison failures excluded; separate NOTES commentary excluded |
+| Poe, Gutenberg 2148 (Raven edition, volume II) | 13 stories | Complete stories within 6,000 words, excluding works needing distant endnotes |
+| De Quincey, Gutenberg 10708 | 1 essay | On the Knocking at the Gate, in Macbeth; complete body including inline footnote; full multiline source heading recorded |
+| Tagore, Gutenberg 6842 (1916 edition) | 7 essays | Complete named Sadhana essays; Soul Consciousness excluded for malformed source markup |
 
 ## Limits
 
@@ -82,5 +86,14 @@ producer's side). `npm test` runs all of this after the unit tests.
   every printed edition.
 - The critic checks literary text. It does not fact-check Claude's study notes.
   The app does reject notes whose quotations are not exact.
-- Five authors from England and the United States: daily variety is narrow
-  until more editions go through the same critic loop.
+- Nine authors from England, the United States, Ireland and India. Variety is broader, but this is still a finite catalogue; unsupported works require the same independent source process.
+
+## Build 031 independent expansion
+
+Producer: tools/expand_catalogue_031.py, unchanged plain-text downloads and explicit boundaries in tools/expansion-031.json. Independent critic: a fresh agent with no producer history or access, its own unchanged HTML downloads and its own DOM extraction implementation, tools/critic/extract_031.py. The original critic runner combines both independent datasets for reproducible comparison. The main source manifest must now also reproduce exactly from discovery.
+
+58 new candidates were compared;56 accepted. Yeats Aedh Tells of the Rose in His Heart failed verse-line structure; Michael Robartes Asks Forgiveness Because of His Many Moods failed Phoenix/Phœnix typography between formats. Neither was hand-corrected or published. The earlier Blake Night rejection remains. Four independent Poe extractions missing distant associated notes are explicitly marked incomplete and cannot pass; the producer does not propose those works. Over-length stories are excluded whole, never shortened.
+
+The paired underscore italic-marker remover preserves its enclosed whitespace, including a space immediately before the closing marker in The Black Cat; it also handles verse markup. Actual text still has to match independently extracted HTML. A genuinely unmatched marker in Tagore Soul Consciousness causes whole-work exclusion. De Quincey's source title spans lines75–79; the recorded headingStartLine allows matching the full source title rather than its last line, with the body unchanged.
+
+Edition dates remain explicit: Yeats collection first1899, this source1903; Tagore first1913, this source1916. Sadhana's English contributors are credited in CREDITS.md and tools/EXPANSION_031_NOTES.md. Agreement with these digital editions does not establish error-free first-edition or manuscript text. Existing185 published works remain unchanged.

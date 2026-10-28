@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "extractionSha256": "58b9dacb792b59b8fdacbd4e7859815a766e7c68483325c23721db2dc65b71c3",
+  "extractionSha256": "2f86730d78764cea14ec35a2bddbab7c7d5d9ced4481ff916b1c161efb056521",
   "verdicts": {
     "bacon-truth": {
       "status": "accepted",
@@ -1740,10 +1740,543 @@
       "reasons": [],
       "warnings": [],
       "criticSourceSha256": "b1a42ddbfb10daa6a066c3c506200fbe5ea0e4c1ac5838dc6decaf3450537e32"
+    },
+    "w-b-yeats-the-hosting-of-the-sidhe": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE HOSTING OF THE SIDHE",
+      "blocksSha256": "a0aa6c6637430827a4566ec2d9bd6e13f7e5b657e16fbf4fc8f0a07b217aa17a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-everlasting-voices": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE EVERLASTING VOICES",
+      "blocksSha256": "e2f10f8d72c8c159498a09cbdbc6656a3dea1a1703e3f1cf571ec72f1a162d2e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-moods": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE MOODS",
+      "blocksSha256": "e237ad86ad41d156370bc76ad36b1d337c92715a8fc99c1e4d51f2505e78d864",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-tells-of-the-rose-in-his-heart": {
+      "status": "rejected",
+      "gutenbergId": 32233,
+      "title": "AEDH TELLS OF THE ROSE IN HIS HEART",
+      "blocksSha256": "fef07c908adc7ab6861fecf145930251f6c970a1e64bf15dd553d9d6758f0926",
+      "reasons": [
+        "stanza/line structure differs: producer [4, 5], critic [4, 4]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-host-of-the-air": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE HOST OF THE AIR",
+      "blocksSha256": "460353768ac069bc980f07e9f27d0f311a4b9fc95fa14e9728f6d4d04a455092",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-breasal-the-fisherman": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "BREASAL THE FISHERMAN",
+      "blocksSha256": "c573b43af7b9219bc48424041916c28520423ab4824f22db1a78786b62453eac",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-a-cradle-song": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "A CRADLE SONG",
+      "blocksSha256": "ca738d20554c257117f1f183eec8e5ecc8803e742adc49df9809a30e6faf3167",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-into-the-twilight": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "INTO THE TWILIGHT",
+      "blocksSha256": "74ab60b3b388fc9ca77c98c8f06f7814560f1352f7e9d641905d1ffc1f0b8642",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-song-of-wandering-aengus": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE SONG OF WANDERING AENGUS",
+      "blocksSha256": "555953211f458fa7a6c42b2aa913abe41c2685e2445c42d7f432c2ae9f864d6a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-song-of-the-old-mother": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE SONG OF THE OLD MOTHER",
+      "blocksSha256": "8a1a548e481c51c168a8f22bf8982aab08b770dac8f8184b4338bd521030e6af",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-fiddler-of-dooney": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE FIDDLER OF DOONEY",
+      "blocksSha256": "bec257011eb1adb959e064f9340a5784692c699cc42fc37dfe2671395ee75fde",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-heart-of-the-woman": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE HEART OF THE WOMAN",
+      "blocksSha256": "d4621d3a89f9452e4dfa105b1a60174aea12ee067ded325ae8c87a01d85a1ba6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-laments-the-loss-of-love": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH LAMENTS THE LOSS OF LOVE",
+      "blocksSha256": "c81e1badbcde48787a94336985c920634df60188f4355dcee58de768ca4fa4ff",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-mongan-laments-the-change-that-has-come-upon-him-and-his-beloved": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "MONGAN LAMENTS THE CHANGE THAT HAS COME UPON HIM AND HIS BELOVED",
+      "blocksSha256": "6229c178db59ab2c2fb800094b9f169176b0d9d8267cc966d065bf2f68fb557a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-michael-robartes-bids-his-beloved-be-at-peace": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "MICHAEL ROBARTES BIDS HIS BELOVED BE AT PEACE",
+      "blocksSha256": "d0e18426f60692861b816a850c258eca5343363242cbeb73e550744ea6316e99",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-hanrahan-reproves-the-curlew": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "HANRAHAN REPROVES THE CURLEW",
+      "blocksSha256": "4c65f43626460bda30e1eb287b904aecdfcb7dd5691ee841012820534b24d75e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-michael-robartes-remembers-forgotten-beauty": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "MICHAEL ROBARTES REMEMBERS FORGOTTEN BEAUTY",
+      "blocksSha256": "a02eddca0183945a8f57302fc4cf6f9babccc77496af02c41f6903c3c32c36e0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-a-poet-to-his-beloved": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "A POET TO HIS BELOVED",
+      "blocksSha256": "84e55058bf9c9f259fcb79451be1ebf927edaee02924f6ffc1888b8bec1514ab",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-gives-his-beloved-certain-rhymes": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH GIVES HIS BELOVED CERTAIN RHYMES",
+      "blocksSha256": "15b8976e84a7c6d4973f875ce996b05ae554366825e811742e86812a4a10bc22",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-to-my-heart-bidding-it-have-no-fear": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "TO MY HEART, BIDDING IT HAVE NO FEAR",
+      "blocksSha256": "4b801bfbeff26a5041521f8ac1f277893563ce24a9562d81533f0bb63d2bee37",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-cap-and-bells": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE CAP AND BELLS",
+      "blocksSha256": "11588e30ed4c8bf1b7d098043cfb6305421e078225d8b4341a7f8eb40b386bd7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-valley-of-the-black-pig": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE VALLEY OF THE BLACK PIG",
+      "blocksSha256": "adb760f6040ef818d2168d6f44efdf68c317905816731e6d32fab1f6dd606fc6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-michael-robartes-asks-forgiveness-because-of-his-many-moods": {
+      "status": "rejected",
+      "gutenbergId": 32233,
+      "title": "MICHAEL ROBARTES ASKS FORGIVENESS BECAUSE OF HIS MANY MOODS",
+      "blocksSha256": "87a6c7ca483674f91f04c9d36df02a933680ec420cf88ae86d556e323aecf4f9",
+      "reasons": [
+        "stanza 1 line 16: producer \"'Where the last Phoenix died\" / critic \"'Where the last Phœnix died\"",
+        "text differs at position 101: producer \"'Where the last Phoenix died 'And wrapped\" / critic \"'Where the last Phœnix died 'And wrapped\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-tells-of-a-valley-full-of-lovers": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH TELLS OF A VALLEY FULL OF LOVERS",
+      "blocksSha256": "75746836a8993d594f91c271868e953a055512f622cf6dd25907738b1a6d81f5",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-tells-of-the-perfect-beauty": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH TELLS OF THE PERFECT BEAUTY",
+      "blocksSha256": "0278a808c75fea454481894b8b0dad084ed86aa89d4538fce319c920c8767c85",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-hears-the-cry-of-the-sedge": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH HEARS THE CRY OF THE SEDGE",
+      "blocksSha256": "a61acfe4021b67dd067b7ce5e4cf7d1d09154357a494697574be24e17d5c34f0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-thinks-of-those-who-have-spoken-evil-of-his-beloved": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH THINKS OF THOSE WHO HAVE SPOKEN EVIL OF HIS BELOVED",
+      "blocksSha256": "302e3f000bc47c4d8ae3dec6a25eae152c7ba655a60aed6d2fb562e15eae41d7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-blessed": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE BLESSED",
+      "blocksSha256": "766fdc20e45035979a63da711f7e25896d0b212d1722d3b3b36fac69a20ac909",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-secret-rose": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE SECRET ROSE",
+      "blocksSha256": "cadfdfe5f1539536aac7238d123c8ed609a40250d034d35eadf275c44397ee98",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-hanrahan-laments-because-of-his-wanderings": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "HANRAHAN LAMENTS BECAUSE OF HIS WANDERINGS",
+      "blocksSha256": "b0f2e5155efcc390e8d551b4e66d264934778020ad347f09f358ec3386417808",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-travail-of-passion": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE TRAVAIL OF PASSION",
+      "blocksSha256": "4cfbc3981ddf41c531f55fb08ccd278c8f3fe8e7d788937ecb96a2342b7b6640",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-the-poet-pleads-with-his-friend-for-old-friends": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "THE POET PLEADS WITH HIS FRIEND FOR OLD FRIENDS",
+      "blocksSha256": "2b0a4ee78bb475931d2aacff84f1b622155cfb98e3a4f9f05e9f807ca3c9011b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-hanrahan-speaks-to-the-lovers-of-his-songs-in-coming-days": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "HANRAHAN SPEAKS TO THE LOVERS OF HIS SONGS IN COMING DAYS",
+      "blocksSha256": "84634912f1a1b2f25ab6e98e3a8eb1f3e86bba1eb82e21d78d406b32d27ff088",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-pleads-with-the-elemental-powers": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH PLEADS WITH THE ELEMENTAL POWERS",
+      "blocksSha256": "9c6c42111a505585306e63adcafc538277cd10d973108648d2f383299044d3ab",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-wishes-his-beloved-were-dead": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH WISHES HIS BELOVED WERE DEAD",
+      "blocksSha256": "1eeb9d91454c696843508b7181249f7e2ad4e34be0ae71085bd58b6e52e11e5c",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-aedh-wishes-for-the-cloths-of-heaven": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "AEDH WISHES FOR THE CLOTHS OF HEAVEN",
+      "blocksSha256": "b82816fac41188525f01d6f3e652b4ae0057e5a2de223047d5da53d52ce1ffe0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "w-b-yeats-mongan-thinks-of-his-past-greatness": {
+      "status": "accepted",
+      "gutenbergId": 32233,
+      "title": "MONGAN THINKS OF HIS PAST GREATNESS",
+      "blocksSha256": "76dd056fd7bed18e1c6c13850404e01258c96f493c65857349facbf25248bbe6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b53a3e1aeab6341a55dd0da400468dd8fe1c027e044a2e5dacc397be0970fb92"
+    },
+    "edgar-allan-poe-von-kempelen-and-his-discovery": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "VON KEMPELEN AND HIS DISCOVERY",
+      "blocksSha256": "9aca5265f09650f6cf25b78ae20e59cc15b3fb13fe6c50073e31a5dc9bd367e0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-mesmeric-revelation": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "MESMERIC REVELATION",
+      "blocksSha256": "3217aa0342d54b3a7e3f8cb68c69837c97539d6b9d196600ea350d38cbfbd779",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-facts-in-the-case-of-m-valdemar": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE FACTS IN THE CASE OF M. VALDEMAR",
+      "blocksSha256": "c47aecef0a8ba5d4b564730736b4ca121ad2cb550efd11bb7fa0e1d26776c2f7",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-black-cat": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE BLACK CAT.",
+      "blocksSha256": "6b110fa64155daf82701c8b6d07535906b0fa3bdb58881a9bf913d02753a72ef",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-silencea-fable": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "SILENCE—A FABLE",
+      "blocksSha256": "409e993aeea6ac734e8bbb002a91f73c5d533c9b8e4cec70ec30db23134bc28f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-masque-of-the-red-death": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE MASQUE OF THE RED DEATH.",
+      "blocksSha256": "462caddff45bb2c002d62d1462b103e87a3ef073886ad6369f1e2263f9b20243",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-cask-of-amontillado": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE CASK OF AMONTILLADO.",
+      "blocksSha256": "678cd7c6598d8f216775fff0b99ca80f5108a32630d088b389c84aaa63a6c6b4",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-imp-of-the-perverse": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE IMP OF THE PERVERSE",
+      "blocksSha256": "56e1f05cfdc27fac478a7e17618a701694a6335975f73342f0f4921b8ef6ab52",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-assignation": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE ASSIGNATION",
+      "blocksSha256": "944edc0c3ea347fc06e268dd7a54ce9526160cabadfe5f03d31d32379900dfbc",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-premature-burial": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE PREMATURE BURIAL",
+      "blocksSha256": "ae44b1f83b60d5dc5676540536dc99a67d0326ea689799711f0283d5c49d22fb",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-landors-cottage": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "LANDOR’S COTTAGE",
+      "blocksSha256": "ec4d04febd4b83d0dfe411d26b6cac12d9a75e683a7aee518f1084f3a8adb709",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-the-tell-tale-heart": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "THE TELL-TALE HEART.",
+      "blocksSha256": "4749b3c0a0b5241c7a8888d4c45ab642c30687ddf02d306d5346204a1f5eae03",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "edgar-allan-poe-eleonora": {
+      "status": "accepted",
+      "gutenbergId": 2148,
+      "title": "ELEONORA",
+      "blocksSha256": "9f159a66f4b84fe676e01a6b6851837861afe30b36991339174a0f9b6c7cd1ae",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b1708a8c0a2b7887e79742d4fbeda797e18eac145912d5ba1d4f10c74b949de4"
+    },
+    "thomas-de-quincey-on-the-knocking-at-the-gate-in-macbeth": {
+      "status": "accepted",
+      "gutenbergId": 10708,
+      "title": "ON  THE KNOCKING AT THE GATE,  IN MACBETH.",
+      "blocksSha256": "34f230a23b5d84a04a285747056f8082c4303105681a775816af0fa5fb58139c",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "2345aea84b4a6e1d7678377f93ded1d9e39fe7dc37e63c20f15fa8d0633db42c"
+    },
+    "rabindranath-tagore-the-relation-of-the-individual-to-the-universe": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "THE RELATION OF THE INDIVIDUAL TO THE UNIVERSE",
+      "blocksSha256": "d8dc5cdbd1b393b7ce8fe42e97dc9f2469de16b1974f79806cb5d0b488559980",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-the-problem-of-evil": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "THE PROBLEM OF EVIL",
+      "blocksSha256": "b4f410231c72e24c36eb954303222da2666821ad811073f0700ad5caab088cb9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-the-problem-of-self": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "THE PROBLEM OF SELF",
+      "blocksSha256": "054afdd1bf7176ca93e23409e68b6568e93238ac426e873df5bac0b20c8882fa",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-realisation-in-love": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "REALISATION IN LOVE",
+      "blocksSha256": "747ba7bb573fd71ca27f99a55e7a1940fe6ea8265994053eec64762b7a75e2ca",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-realisation-in-action": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "REALISATION IN ACTION",
+      "blocksSha256": "ae82d729a709fa5eee258e205685010f50d1adc6f65f03633f0d1686a3dcd63f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-the-realisation-of-beauty": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "THE REALISATION OF BEAUTY",
+      "blocksSha256": "750b4127c7c97c20c88c1ea3190ff8eb14f09e9e6021506e4f774c424e71891b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "rabindranath-tagore-the-realisation-of-the-infinite": {
+      "status": "accepted",
+      "gutenbergId": 6842,
+      "title": "THE REALISATION OF THE INFINITE",
+      "blocksSha256": "6af05a790d059c12422f595d66e06889f87771f830c77064d536f54363706ed9",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
     }
   },
   "criticWorksNotInCatalogue": [
     "#575 Of Fame",
-    "#7256 The Gift of the Magi"
+    "#7256 The Gift of the Magi",
+    "#2148 THE THOUSAND-AND-SECOND TALE OF SCHEHERAZADE",
+    "#2148 THE ISLAND OF THE FAY",
+    "#2148 THE DOMAIN OF ARNHEIM",
+    "#2148 BERENICE",
+    "#10708 SECOND PAPER ON MURDER, CONSIDERED AS ONE OF THE FINE ARTS.",
+    "#6842 SOUL CONSCIOUSNESS"
   ]
 }

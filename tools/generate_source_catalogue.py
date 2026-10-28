@@ -9,6 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import runpy
 import sys
 import unicodedata
 
@@ -173,12 +174,18 @@ def discover():
         sources[path] = {"gutenbergId": number, "path": path, "retrieved": RETRIEVED,
                          "sha256": digest((SOURCES / path).read_bytes()),
                          "url": f"https://www.gutenberg.org/cache/epub/{number}/{path}"}
+    expansion = runpy.run_path(str(ROOT / "tools" / "expand_catalogue_031.py"), run_name="cabin_expansion")["discover"]()
+    assert not set(sources) & set(expansion["sources"]), "expansion overwrites an existing source"
+    sources.update(expansion["sources"])
+    entries.extend(expansion["works"])
+    assert len({e["id"] for e in entries}) == len(entries), "duplicate expansion ID"
+    assert len({(e["author"], e["title"].casefold()) for e in entries}) == len(entries), "duplicate expansion title"
     return {"version": 2, "sources": sources, "works": entries}
 
 
 def unitalic(text):
     # Gutenberg plain text marks italics as _word_; the reader has no italics.
-    return re.sub(r"(?<![\w_])_(\S(?:[^_]*?\S)?)_(?![\w_])", r"\1", text)
+    return re.sub(r"(?<![\w_])_(\S(?:[^_]*?\S)?\s*)_(?![\w_])", r"\1", text)
 
 
 def blocks_for(kind, lines, join_continuations=False):
@@ -215,15 +222,16 @@ def render_works(manifest):
         path = entry["sourceFile"]
         ls = load(path)
         assert ls[entry["headingLine"] - 1] == entry["heading"]
+        assert 1 <= entry.get("headingStartLine", entry["headingLine"]) <= entry["headingLine"], "invalid multi-line heading boundary"
         assert entry["startLine"] == entry["headingLine"] + 1
         body_lines = ls[entry["startLine"] - 1:entry["endLine"]]
         body = "\n".join(body_lines)
         assert digest(body) == entry["bodySha256"], entry["id"] + " source slice changed"
-        if entry["kind"] != "poem":
-            # Italic spans may cross a paragraph break, so mark-up goes first.
-            body_lines = unitalic(body).split("\n")
-            # Underscores inside a word are text (O. Henry's "N_w Yo_k").
-            assert not re.search(r"(?<!\w)_|_(?!\w)", unitalic(body)), entry["id"] + " unmatched italic marker"
+        # Italic spans may cross a paragraph or verse-line break. Only their
+        # paired presentation markers go; words and source line breaks stay.
+        body_lines = unitalic(body).split("\n")
+        # Underscores inside a word are text (O. Henry's "N_w Yo_k").
+        assert not re.search(r"(?<!\w)_|_(?!\w)", unitalic(body)), entry["id"] + " unmatched italic marker"
         blocks = blocks_for(entry["kind"], body_lines, entry["joinContinuations"])
         rendered = " ".join(b["text"] if b["type"] == "para" else " ".join(l["text"] for l in b["lines"]) for b in blocks)
         # Independently compare all original whitespace-delimited tokens:
@@ -232,6 +240,8 @@ def render_works(manifest):
         assert rendered.split() == unitalic(body).split(), entry["id"] + " text changed"
         source = manifest["sources"][path]
         edition = {**source, **{k: entry[k] for k in ("headingLine", "startLine", "endLine", "heading", "bodySha256")}}
+        if "headingStartLine" in entry:
+            edition["headingStartLine"] = entry["headingStartLine"]
         work = {k: entry[k] for k in ("id", "kind", "title", "author", "year", "place")}
         work.update(source=f"https://www.gutenberg.org/ebooks/{source['gutenbergId']}", blocks=blocks, sourceEdition=edition)
         works.append(work)
@@ -257,6 +267,8 @@ def main():
     if "--discover" in sys.argv:
         MANIFEST.write_text(json.dumps(discover(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    if "--check" in sys.argv:
+        assert manifest == discover(), "source boundary manifest differs from reproducible discovery"
     output = render(manifest)
     if "--check" in sys.argv:
         assert OUTPUT.read_text(encoding="utf-8") == output, "generated catalogue differs; regenerate"

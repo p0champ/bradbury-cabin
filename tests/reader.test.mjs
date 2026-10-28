@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { layoutWork, pageForAnchor, AREA, loadReading, saveReading } from "../reader.js";
 import { LIBRARY } from "../library.js";
+import { SOURCE_CATALOGUE } from "../source-catalogue.js";
+const ADDED_AUTHORS = new Set(["W. B. Yeats", "Edgar Allan Poe", "Thomas De Quincey", "Rabindranath Tagore"]);
 // Fake canvas: every character is 0.5 em wide at the current font size.
 function fakeCtx() {
   let size = 54;
@@ -137,4 +139,32 @@ test("pages contain only drawable text items (no blank spacers drawn)", () => {
 test("every Library work has a row (no silent overflow until paging exists)", async () => {
   const { LIBRARY_ROWS } = await import("../library-panel.js");
   assert.ok(LIBRARY.length + 1 <= LIBRARY_ROWS, "sampler + shelf must fit");
+});
+
+test("new authors' complete texts survive pagination at every size without altered or missing words", () => {
+  const added = SOURCE_CATALOGUE.filter(w => ADDED_AUTHORS.has(w.author));
+  assert.deepEqual(new Set(added.map(w => w.author)), ADDED_AUTHORS);
+  for (const w of added) {
+    const original = w.blocks.flatMap(b => b.type === "stanza" ? b.lines.map(l => l.text) : [b.text]).join(" ").split(/\s+/).filter(Boolean);
+    assert.ok(original.length <= 6000, w.id + " whole-work daily length limit");
+    for (const size of [0, 1, 2]) {
+      const pages = layoutWork(fakeCtx(), w, size);
+      assert.deepEqual(pages.flatMap(text).join(" ").split(/\s+/).filter(Boolean), original, w.id + " size " + size);
+    }
+  }
+});
+
+test("new edition metadata stays explicit and differing or unsupported sources remain unpublished", () => {
+  const yeats = SOURCE_CATALOGUE.find(w => w.id === "w-b-yeats-the-song-of-wandering-aengus");
+  const deq = SOURCE_CATALOGUE.find(w => w.id === "thomas-de-quincey-on-the-knocking-at-the-gate-in-macbeth");
+  const tagore = SOURCE_CATALOGUE.find(w => w.id === "rabindranath-tagore-realisation-in-love");
+  assert.match(yeats.year, /1903 edition/);
+  assert.match(tagore.year, /1916 edition/);
+  assert.ok(deq.sourceEdition.headingStartLine < deq.sourceEdition.headingLine);
+  for (const id of [
+    "w-b-yeats-aedh-tells-of-the-rose-in-his-heart",
+    "w-b-yeats-michael-robartes-asks-forgiveness-because-of-his-many-moods",
+    "rabindranath-tagore-soul-consciousness",
+    "edgar-allan-poe-the-pit-and-the-pendulum",
+  ]) assert.ok(!SOURCE_CATALOGUE.some(w => w.id === id), id + " must not be silently corrected or shortened");
 });

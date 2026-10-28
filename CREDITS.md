@@ -15,3 +15,12 @@ All these authors died more than 70 years ago. Only the underlying public-domain
 **Literata**, Google Fonts / TypeTogether: bundled unmodified variable font under SIL Open Font License 1.1. See [assets/Literata-OFL.txt](assets/Literata-OFL.txt) and the [official source](https://github.com/google/fonts/tree/main/ofl/literata). The interface uses installed device sans-serif fonts.
 
 The skip icons, hold rings, paper-and-gold welcome leaves, hand-entry orbit and hand labels are original procedural Canvas artwork. The welcome chime and background sound are synthesized, without third-party recordings.
+
+## Build 031 daily-source additions
+
+- W. B. Yeats, The Wind Among the Reeds, fourth edition1903 (collection first1899), [Project Gutenberg32233](https://www.gutenberg.org/ebooks/32233):35 accepted complete poems; two differing transcriptions remain excluded.
+- Edgar Allan Poe, The Works of Edgar Allan Poe, Raven edition, volumeII, [Project Gutenberg2148](https://www.gutenberg.org/ebooks/2148):13 complete stories; over-length works and works requiring distant source notes excluded whole.
+- Thomas De Quincey, On the Knocking at the Gate, in Macbeth (first1823), collected in Miscellaneous Essays, [Project Gutenberg10708](https://www.gutenberg.org/ebooks/10708). Inline footnote retained.
+- Rabindranath Tagore, Sadhana, the Realisation of Life, source edition1916 (first1913), [Project Gutenberg6842](https://www.gutenberg.org/ebooks/6842):seven complete essays. The source preface credits translated passages by Satish Chandra Roy and Ajit Kumar Chakravarti; Realisation in Action is translated by Surendra Nath Tagore; Ernest Rhys assisted revisions and proofs. These historical English contributions are part of the identified edition. Source-specific dates and authority links are retained in tools/EXPANSION_031_NOTES.md.
+
+Raw full-book snapshots and separate critic HTML downloads are retained unchanged for provenance. Only independently accepted complete works enter the reader; unsupported source markup and differing words/verse structure are not repaired by model generation.

@@ -176,7 +176,13 @@ def verdicts(extraction):
         source_ok[int(gid)] = (s["url"].startswith("https://www.gutenberg.org/") and s["sha256"] in saved
                                and s["sha256"] not in producer_hashes)
     manifest = json.loads(producer.MANIFEST.read_text(encoding="utf-8"))
-    candidates = [(e["id"], manifest["sources"][e["sourceFile"]]["gutenbergId"], e["heading"].strip(),
+    # A source heading can span several physical lines. Match its complete
+    # source text, never merely its last line or an invented display title.
+    def source_heading(e):
+        a = e.get("headingStartLine", e["headingLine"])
+        assert 1 <= a <= e["headingLine"], "invalid heading boundary"
+        return " ".join(producer.load(e["sourceFile"])[a - 1:e["headingLine"]]).strip()
+    candidates = [(e["id"], manifest["sources"][e["sourceFile"]]["gutenbergId"], source_heading(e),
                    e.get("section", ""), w)
                   for e, w in zip(manifest["works"], producer.render_works(manifest))]
     out, used = {}, set()

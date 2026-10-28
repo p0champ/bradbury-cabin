@@ -1,3 +1,16 @@
+# Build 031 — more authors (28 October 2026)
+
+**Built:**56 new independently matched complete works:35 Yeats poems,13 Poe stories,1 De Quincey essay,7 Tagore essays. Total241 accepted works by9 authors (129 poems,46 stories,66 essays). All185 previous works unchanged. A fresh blinded source critic wrote its own HTML extraction independently of the plain-text producer. Strict comparator rejects two new differing Yeats poems; no hand correction. Whole unsupported/over-length/missing-note works remain excluded. Source editions1903 Yeats and1916 Tagore are explicit; historical English contributors credited. See SOURCE_CATALOGUE.md and BUILD_031_REVIEW.md.
+
+**Verification:**141 unit + all source checks pass;39 comparator damage cases rejected;8/8 isolated source mutations caught;138 full PC browser checks pass, including four new-author first/last-page and offline resume cases. Independent build critic final9/10, no findings; inspected front/side/lying views and independently confirmed old works unchanged. No real Claude/Drive or Quest check claimed.
+
+**Deferred by Bastian:** keep Build030 real Claude/Drive and Builds027–031 Quest tests for later; do not stop work for a user test gate. Notes retained in QUEST_CHECK.md. Source diversity expansion is complete. Parked guide UI, optional lines and historical study-note persistence remain separate future work.
+
+**Release:** reviewed locally on build-031-more-authors; commit/push/live verification pending. Header BUILD031, diagnostic gestures-031, all queries v31. Existing static preview18151. No Sunnyvale or account automation touched.
+
+---
+**Bastian, 28 October:** defer the real Build030 Claude/Drive/Quest test until later; do not block further work on it. Next authorised work: expand the independently checked author selection. This is a saved testing note, not a claim the test passed.
+
 # Build 030 — automatic current picker workflow (28 October 2026)
 
 **Built:** progress.json now begins with the complete maintained Claude daily-three workflow, source catalogue and current rejection reasons. Both initial Drive creation and updates include it. The existing Claude skill reads this file, so no manual replacement-skill paste is required to make current instructions available. A generated picker-workflow.js is checked against CLAUDE_SKILL_DAILY_THREE.md during npm test; stale instructions fail verification. No reading text or source verdict changed. No saved Claude account skill was edited and no daily critic/backend was added.
