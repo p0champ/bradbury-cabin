@@ -6,6 +6,8 @@
 
 **Verification:** 125 unit + check:sources, 128 PC browser checks, 5/5 new browser mutations, critic 6/10 → 8.5/10 (its last polish points fixed afterwards, author-checked). No Quest check yet.
 
+**Release:** committed as 690ce02, pushed to build-027-today and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=27; index.html, style.css and all 24 JavaScript modules verified against the reviewed source. Needs Bastian's Quest check (QUEST_CHECK.md).
+
 **Next phases (not started):** 2 "Your shelf" (needs work IDs saved per day), 3 Claude's optional dedication/thread lines (skill re-paste), 4 title-card animation. Branch build-027-today; preview port 18145.
 
 ---
