@@ -1,7 +1,9 @@
+const guideChecks = require("./study-guide-browser.cjs");
 const { chromium } = require(process.env.CABIN_PLAYWRIGHT_PATH || "playwright");
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const BASE_URL = process.env.CABIN_BASE_URL || "http://127.0.0.1:18140";
 const out = path.resolve(process.env.CABIN_EVIDENCE_DIR || "evidence");
 async function mock(
   page,
@@ -435,7 +437,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=21");
+        const { menuButtons } = await import("./gestures.js?v=23");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -716,6 +718,11 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_GUIDE_ONLY) {
+      await guideChecks(browser, { mock, BASE_URL, out, passed });
+      console.log(`${checks} guide browser checks passed.`);
+      return;
+    }
     const page = await browser.newPage({
       viewport: { width: 1440, height: 1100 },
     });
@@ -727,7 +734,7 @@ async function mock(
     );
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
-    await page.goto("http://127.0.0.1:18140");
+    await page.goto(BASE_URL);
     await page.waitForFunction(() =>
       document.querySelector("#place").textContent.includes("Page"),
     );
@@ -817,7 +824,7 @@ async function mock(
       const es = [];
       p.on("pageerror", (e) => es.push(e.message));
       await mock(p, scenario, lying);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").waitFor();
       await p.locator("#enter").click();
       await p.evaluate(() => __center());
@@ -1100,7 +1107,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-021");
+        assert.equal(details.build, "gestures-023");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1156,7 +1163,7 @@ async function mock(
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate((controller) => {
         __mock.clock = Math.max(__mock.clock, performance.now());
@@ -1260,7 +1267,7 @@ async function mock(
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", lying, { practised: true, headPointer: false });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => {
         __mock.clock = Math.max(__mock.clock, performance.now());
@@ -1704,7 +1711,7 @@ async function mock(
     {
       const p = await browser.newPage();
       await mock(p, "limited-layers");
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => {
@@ -1731,7 +1738,7 @@ async function mock(
     for (const lying of [false, true]) {
       const p = await browser.newPage();
       await mock(p, "layer", lying);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => {
@@ -1868,7 +1875,7 @@ async function mock(
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", lying);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => {
@@ -2006,7 +2013,7 @@ async function mock(
     {
       const p = await browser.newPage();
       await mock(p, "layer", false, { headPointer: true });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => __step());
@@ -2047,7 +2054,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=21");
+        const { paintHandBadge } = await import("./hand-badges.js?v=23");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2084,7 +2091,7 @@ async function mock(
         handMapRevision: 8,
         swapped: false,
       });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       assert.equal(
         await p.evaluate(
           () => JSON.parse(localStorage.getItem("cabin-controls")).swapped,
@@ -2191,7 +2198,7 @@ async function mock(
         swapped: false,
         practised: true,
       });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => {
         __mock.clock = Math.max(__mock.clock, performance.now());
@@ -2299,7 +2306,7 @@ async function mock(
     {
       const p = await browser.newPage();
       await mock(p, "layer");
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => {
@@ -2356,7 +2363,7 @@ async function mock(
     {
       const p = await browser.newPage();
       await mock(p, "layer", false, { practised: true, entrySound: false });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       const wait = p.waitForEvent("download");
@@ -2368,7 +2375,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=21");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=23");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2420,7 +2427,7 @@ async function mock(
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", false);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       if (night) {
@@ -2433,10 +2440,10 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=21");
+        const { MENU_PAGES } = await import("./gestures.js?v=23");
         return MENU_PAGES;
       });
-      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit"]);
+      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "guide"]);
       await p.evaluate(() => __aim("night"));
       assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
       await p.locator("#page").screenshot({
@@ -2475,7 +2482,7 @@ async function mock(
       p.on("pageerror", (e) => errors.push(e.message));
       await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
       await mock(p, "layer", false);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => __hold());
@@ -2486,8 +2493,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=21");
-            const { loadProgress } = await import("./progress.js?v=21");
+            const { calendarButtons } = await import("./calendar.js?v=23");
+            const { loadProgress } = await import("./progress.js?v=23");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2589,7 +2596,7 @@ async function mock(
           sessionStorage.setItem("seeded", "1");
         }
       });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       const keys = await p.evaluate(() => Object.keys(localStorage));
       const backup = keys.find((k) => k.startsWith("cabin-progress.bak-"));
@@ -2609,7 +2616,7 @@ async function mock(
       });
       const errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       await p.locator("#calendar").click();
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-not-saving.png") });
@@ -2648,7 +2655,7 @@ async function mock(
             }),
           ),
         );
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       if (night) await p.locator("#night").click();
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
@@ -2819,13 +2826,14 @@ async function mock(
       passed("wrist calendar appears only on the right wrist, settles, blocks that hand, and hides" + (night ? " night" : ""));
       await p.close();
     }
+    await guideChecks(browser, { mock, BASE_URL, out, passed });
     // Build 016: Library, full-work pagination and saved place.
     {
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", false);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       const row = (i) => ({ x: 274, y: 700 + i * 124, w: 1500, h: 112 });
@@ -2897,7 +2905,7 @@ async function mock(
           JSON.stringify({ last: "sampler", places: { sampler: { anchor: { block: 2, word: 1 }, page: 1 }, "bacon-truth": { anchor: "x" } } }),
         ),
       );
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       assert.deepEqual(errors, []);
       passed("stored reading data with sampler or malformed anchors loads safely");
@@ -2907,7 +2915,7 @@ async function mock(
       // From the Library, "‹ Menu" then an immediate repeat pinch never exits.
       const p = await browser.newPage();
       await mock(p, "layer", false);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => __hold());
@@ -2938,7 +2946,7 @@ async function mock(
       const p = await browser.newPage();
       for (const [id, name] of [["whitman-captain", "reading-poem.png"], ["bacon-studies", "reading-essay.png"]]) {
         await p.addInitScript((id) => localStorage.setItem("cabin-reading", JSON.stringify({ last: id, places: {} })), id);
-        await p.goto("http://127.0.0.1:18140");
+        await p.goto(BASE_URL);
         await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
         await p.locator("#page").screenshot({ path: path.join(out, name) });
       }
@@ -2951,7 +2959,7 @@ async function mock(
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
       await mock(p, "layer", false);
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       const details = async (name) => {
@@ -3082,7 +3090,7 @@ async function mock(
         localStorage.setItem("cabin-reading", JSON.stringify({ last: "ohenry-magi", places: {} }));
         localStorage.setItem("cabin-controls", JSON.stringify({ mood: "modern" }));
       });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       await p.locator("#page").screenshot({ path: path.join(out, "reading-modern-story.png") });
       await p.close();
@@ -3128,7 +3136,7 @@ async function mock(
         }
         return r.fulfill({ status: 404, body: "" });
       });
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.locator("#drive-sync:not([disabled])").click();
       await p.waitForFunction(() => /Today's three are in the Library/.test(document.querySelector("#status").textContent));
       assert.match(await p.locator("#status").textContent(), /Ozymandias, The Necklace, Of Love/);
@@ -3151,8 +3159,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=21");
-        const { loadProgress } = await import("./progress.js?v=21");
+        const { calendarButtons } = await import("./calendar.js?v=23");
+        const { loadProgress } = await import("./progress.js?v=23");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);
@@ -3196,7 +3204,7 @@ async function mock(
       const p = await browser.newPage();
       const errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.goto("http://127.0.0.1:18140");
+      await p.goto(BASE_URL);
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       // Build 020: Bastian's (public) client ID is configured.
       assert.match(await p.locator("#drive-sync").textContent(), /^Sync with Drive/);

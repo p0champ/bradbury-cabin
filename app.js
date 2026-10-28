@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=22";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=23";
 import {
   GestureEngine,
   menuButtons,
@@ -10,18 +10,19 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=22";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=22";
-import { HandBadges } from "./hand-badges.js?v=22";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=22";
-import { LIBRARY } from "./library.js?v=22";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=22";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=22";
-import { parsePicks, pickLabels } from "./picks.js?v=22";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=22";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=22";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=22";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=22";
+} from "./gestures.js?v=23";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=23";
+import { HandBadges } from "./hand-badges.js?v=23";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=23";
+import { LIBRARY } from "./library.js?v=23";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=23";
+import { studyGuide } from "./study-guide.js?v=23";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=23";
+import { parsePicks, pickLabels } from "./picks.js?v=23";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=23";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=23";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=23";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=23";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -38,8 +39,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=22";
-import { EntrySound } from "./entry-sound.js?v=22";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=23";
+import { EntrySound } from "./entry-sound.js?v=23";
 import {
   readProgress,
   saveProgress,
@@ -48,13 +49,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=22";
+} from "./progress.js?v=23";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=22";
+} from "./calendar.js?v=23";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -170,6 +171,13 @@ function rebuildWorks(openId = null) {
 rebuildWorks();
 const reading = loadReading(store);
 const workById = (id) => WORKS.find((w) => w.id === id) || SAMPLER;
+// The source work stays current even across midnight or a Drive refresh.
+// A guide is a temporary reader view, never the last real work opened.
+let guideWork = null, textReturn = null;
+const displayedWork = () => guideWork || workById(state.workId);
+const currentAnchor = () => guideWork
+  ? pages[state.page]?.anchor || null
+  : reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -303,7 +311,10 @@ function paint() {
     loadTodayCache();
     rebuildWorks(state.workId);
   }
-  const work = workById(state.workId);
+  const work = displayedWork();
+  canvas.dataset.work = work.id;
+  if (!state.menuOpen && !state.practice && !state.centering)
+    canvas.setAttribute("aria-label", `${guideWork ? "Study guide: " : "Reading: "}${work.title}`);
   pages =
     work === SAMPLER
       ? layout(ctx, state.size, MOODS[state.mood].body)
@@ -439,7 +450,7 @@ function paint() {
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
-        (b.id === "back" ? "‹  " : "") + b.label,
+        (b.id === "back" ? "‹  " : "") + (b.id === "guide" && guideWork ? "Back to the text" : b.label),
         b.x + 70,
         b.y + b.h / 2 + 20,
       );
@@ -515,7 +526,7 @@ function paint() {
       if (typeof b.text !== "string") continue; // spacing between blocks
       ctx.fillStyle = b.kind === "meta" ? muted : ink;
       const m = MOODS[state.mood];
-      ctx.font = `${b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : m.body}`;
+      ctx.font = `${b.kind === "heading" ? "bold " : b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? "Arial" : m.body}`;
       ctx.fillText(b.text, b.x ?? 194, b.y);
     }
   }
@@ -595,6 +606,8 @@ function inFront() {
 // Open a work at its saved place (or the start), and remember it as last.
 function openWork(id) {
   rememberPlace();
+  guideWork = null;
+  textReturn = null;
   state.workId = workById(id).id;
   const saved = reading.places[state.workId];
   state.page = 0;
@@ -605,6 +618,7 @@ function openWork(id) {
 // Saved place: the first line on the current page, so a text-size change or
 // a later visit lands on the same words.
 function rememberPlace() {
+  if (guideWork) return;
   const anchor = pages[state.page]?.anchor;
   if (!anchor) return;
   reading.places[state.workId] = { anchor, page: state.page };
@@ -738,6 +752,28 @@ function action(id) {
     toggleMenu(false);
     return;
   }
+  if (id === "guide") {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    if (guideWork) {
+      guideWork = null;
+      state.page = textReturn.page;
+      state.pendingAnchor = state.size === textReturn.size && state.mood === textReturn.mood
+        ? null : textReturn.anchor;
+      textReturn = null;
+    } else {
+      rememberPlace();
+      textReturn = { page: state.page, anchor: pages[state.page]?.anchor || null,
+        size: state.size, mood: state.mood };
+      guideWork = studyGuide(workById(state.workId));
+      state.page = 0;
+      state.pendingAnchor = null;
+    }
+    gazeDwell.consume();
+    dayOpenedAt = lastFrameTime;
+    state.feedback = "";
+    toggleMenu(false);
+    return;
+  }
   if (id === "calendar") {
     const d = new Date();
     Object.assign(calendarView, { year: d.getFullYear(), month: d.getMonth() });
@@ -805,7 +841,7 @@ function action(id) {
     state.mood = state.mood === "modern" ? "literary" : "modern";
     preferences.mood = state.mood;
     savePreferences();
-    state.pendingAnchor = reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+    state.pendingAnchor = currentAnchor();
   }
   if (id === "gaze") {
     state.gazeTurn = !state.gazeTurn;
@@ -878,7 +914,7 @@ function action(id) {
     savePreferences();
   }
   if (id === "size") {
-    state.pendingAnchor = reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+    state.pendingAnchor = currentAnchor();
     state.size = (state.size + 1) % 3;
     preferences.size = state.size;
     savePreferences();
@@ -918,8 +954,7 @@ for (const id of [
 document.querySelectorAll("[data-size]").forEach(
   (b) =>
     (b.onclick = () => {
-      state.pendingAnchor =
-        reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+      state.pendingAnchor = currentAnchor();
       state.size = +b.dataset.size;
       preferences.size = state.size;
       savePreferences();
@@ -972,7 +1007,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-021",
+    build: "gestures-023",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1006,7 +1041,7 @@ $("export").onclick = () => {
     handFeedbackError: state.handFeedbackError,
     reading: {
       // The work actually shown (falls back to the sampler if unknown).
-      work: workById(state.workId).id,
+      work: displayedWork().id,
       page: state.page + 1,
       pages: pages.length,
       anchor: pages[state.page]?.anchor || null,

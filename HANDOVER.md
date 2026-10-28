@@ -1,3 +1,20 @@
+# Build 023 — study guide detour (28 October 2026)
+
+Bastian approved the study-guide plan and asked that it feel seamless. Menu → **Study guide** opens the current work's notes using the existing reader. The same row becomes **Back to the text**. Returning restores the exact page when size/style are unchanged, or the page containing its saved word anchor after reflow. Guides always open at their safe beginning. They never overwrite the real text's saved place or reading.last; reloading resumes the real work.
+
+`study-guide.js` builds a synthetic `guide:<workId>` work. `guide-data.js` contains original notes for all seven shelf works. Optional pick.guide fields accept strings/arrays with caps; missing or malformed notes never invalidate a pick. Before reading is spoiler-free; After reading — spoilers starts a fresh page. Partial after-only notes get a safe introduction. Sampler/no-guide shows the agreed fallback. No content or trigger warnings.
+
+`reader.js` supports bold headings, flush-left guide paragraphs and explicit section page breaks. Menu has a ninth row; More/Back remain at index 6. Guide entry uses dayInputAllowed's 600 ms repeat guard. The source work remains current underneath its guide, including across midnight. Gesture recognizer, handMapRevision 9, rendering path and generated library texts are unchanged.
+
+**Claude skill changed:** `CLAUDE_SKILL_DAILY_THREE.md` now requests guide context/notice/themes/questions for each pick. Bastian must update the copy saved in Claude. Old files still load; guides require newly supplied notes.
+
+**Verification:** baseline 92 unit + 113 browser checks. Build 99 unit tests pass; final browser rerun 120/120 passes. Four mutation checks caught removed safeguards and code was restored. Critic round 1: 7.5/10, orphan-heading issue fixed with 1–399-length/all-size regression. Round 2: **9/10**, no remaining actionable code issues; critic independently passed 99 unit, seven targeted browser checks and 16,218 pagination combinations. See BUILD_023_REVIEW.md.
+
+**Release:** built, PC-tested (99 + 120) and independently reviewed (9/10). Commit/push/deployment is being prepared; verify the chat release report before claiming it is live. Needs Bastian's Quest check in QUEST_CHECK.md. All module queries and index assets use v23; header BUILD 023 and diagnostic gestures-023.
+
+Work is in this chat's `work/bradbury-cabin`, branch `build-023-study-guide`, freshly cloned from phase-1-gestures. The old Build 011 checkout in the previous chat's outputs was left untouched. Static preview uses 18141 because 18140 was already occupied; browser tests now accept CABIN_BASE_URL. No bridge was started or restarted. Next after Bastian's verdict: propose volume control, then discuss UI one question at a time.
+
+---
 # Build 022 — Drive permission check (28 October 2026, afternoon)
 
 First real request: Claude saved `picks-2026-10-28.json` correctly (valid JSON, today's date, all three works), but the picks did not reach the Library.

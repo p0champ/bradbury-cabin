@@ -72,6 +72,29 @@ Build the JSON. If you have a code tool, **build it with code** (e.g. Python `js
 - `date` is today in Europe/Berlin.
 - `year` may be a number or a short string such as "c. 1580".
 
+Include an original `guide` object inside **each pick**, alongside `text`:
+
+```json
+"guide": {
+  "context": "A short paragraph: author, era, and why this work matters. No spoilers.",
+  "notice": ["One or two details of language or form to notice, without revealing outcomes."],
+  "themes": "A short discussion to read AFTER the work. Spoilers are allowed here.",
+  "questions": ["Two or three specific, open questions grounded in the work."]
+}
+```
+
+Write concise notes, not a plot summary or an answer key. Verify historical
+claims against reliable sources; present interpretations as possibilities.
+Keep `context` and `notice` strictly spoiler-free: no endings, reversals,
+revealed identities or explanations that give away a discovery. Keep all
+spoilers in `themes` and `questions`. No content or trigger warnings.
+Each field accepts a string or an array of strings; use the shape above.
+Limit each string to 1,200 characters and each array to 8 entries. A missing
+guide still loads the text, but include all four fields for new picks.
+When swapping a pick, preserve the other two picks and their guides.
+The cabin displays Before reading first, then After reading — spoilers on a
+separate page, using Menu → Study guide for the work currently being read.
+
 Create the file with the Drive `create_file` tool, using exactly these fields:
 
 | Field | Value |
@@ -88,6 +111,7 @@ You can't overwrite files. If a file for today already exists, use the next free
 - it parses as JSON;
 - `date` is today;
 - all three titles and texts are present.
+- all three picks have the four guide fields, with no spoilers in context or notice.
 
 If anything is wrong:
 - move the bad file to the trash (`trash_file`);
@@ -99,8 +123,8 @@ If anything is wrong:
 Keep it short. For each of the three:
 - title and author;
 - one line on why it's worth reading today, with no spoilers;
-- a link that includes a **study guide**. Try americanliterature.com, then LitCharts or SparkNotes, then Poetry Foundation for poems. Only give a URL you actually found. If none exists for that work, say "no study guide found".
+- a verified link to the full text source. The study guide is included in the cabin.
 
-End with: "In the cabin: Sync with Drive on the start page, then Menu → Library."
+End with: "In the cabin: Sync with Drive on the start page, then Menu → Library. While reading, Menu → Study guide opens the notes."
 
 Don't add content or trigger warnings. He finds them spoilers.

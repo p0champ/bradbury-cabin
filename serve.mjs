@@ -15,6 +15,8 @@ const allowed = new Set([
   "watch.js",
   "library.js",
   "reader.js",
+  "study-guide.js",
+  "guide-data.js",
   "library-panel.js",
   "ambience.js",
   "gaze.js",

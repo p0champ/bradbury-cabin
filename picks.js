@@ -14,6 +14,7 @@
 //     "essay": { ... }
 //   }
 // }
+import { normalizeGuide } from "./study-guide.js?v=23";
 export const KINDS = ["poem", "story", "essay"];
 const MAX_TEXT = 150000; // characters per text: a long story, not a novel
 
@@ -88,6 +89,7 @@ export function parsePicks(json) {
       place: str(p.place, 80),
       source: str(p.source, 300) || "Chosen by Claude",
       blocks,
+      guide: normalizeGuide(p.guide),
     });
   }
   return { date, works, problems };

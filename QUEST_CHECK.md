@@ -1,3 +1,21 @@
+# Build 023 — study guide detour
+
+Open [Build 023](https://p0champ.github.io/bradbury-cabin/?v=23) in a fresh Quest Browser tab. Check **BUILD 023**. PC checks are not a Quest approval.
+
+1. Open Menu → Library → **Desiree's Baby**. Turn a few pages and note your place.
+2. Open Menu → **Study guide**. Check that it belongs to this story and opens at **Before reading**.
+3. Read the introduction and Things to notice. No ending or interpretation should be revealed here. Turn to the separate **After reading — spoilers** page only when ready.
+4. Open Menu → **Back to the text**. You should return to the exact page you left, with the same placement.
+5. Open the guide again. Try Text size, Style and Page colour. Return to the text: it should still contain the words where you stopped.
+6. While the guide is open, reload the browser. The real story should resume at its saved place.
+7. Try a poem's guide, then the sampler. The sampler should say **No study guide for this text.** Returning should preserve its page too.
+8. Try the guide lying down. Check text clarity, menu targeting and comfortable return to reading. Report any lost place, accidental selection or awkward extra step.
+
+All seven shelf works have guides. Existing Claude picks without a guide show the fallback. Update the saved Claude skill from **CLAUDE_SKILL_DAILY_THREE.md** so future picks include notes.
+
+Stop after this build and wait for Bastian's verdict. Volume and UI redesign remain separate tasks.
+
+---
 # Build 017 — Style, look-to-turn, background sound
 
 Open [Build 017](https://p0champ.github.io/bradbury-cabin/?v=17). The header should say **BUILD 017**.

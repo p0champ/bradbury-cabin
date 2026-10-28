@@ -4,7 +4,7 @@
 // and flows across pages with at least two lines kept together at a split.
 // Every page records an anchor (block, word) so a saved place survives a
 // change of text size.
-import { SIZES } from "./core.js?v=22";
+import { SIZES } from "./core.js?v=23";
 
 export const AREA = { left: 194, right: 1854, top: 380, bottom: 2120 };
 const WIDTH = AREA.right - AREA.left;
@@ -51,7 +51,14 @@ export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, se
   });
   ctx.font = `${font}px ${serif}`;
   work.blocks.forEach((b, bi) => {
-    if (b.type === "stanza") {
+    if (b.type === "heading") {
+      ctx.font = `bold ${font}px ${serif}`;
+      const lines = wrapWords(ctx, b.text, WIDTH);
+      lines.forEach((text, i) => items.push({ kind: "heading", text, font,
+        h: leading, anchor: { block: bi, word: 0 },
+        pageBreak: b.pageBreak && i === 0, keepNext: true }));
+      ctx.font = `${font}px ${serif}`;
+    } else if (b.type === "stanza") {
       if (bi > 0) items.push({ kind: "gap", h: Math.round(leading * 0.8), anchor: { block: bi, word: 0 } });
       let wordsBefore = 0;
       b.lines.forEach((l, li) => {
@@ -75,7 +82,7 @@ export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, se
     } else {
       if (bi > 0) items.push({ kind: "gap", h: Math.round(leading * 0.45), anchor: { block: bi, word: 0 } });
       const first = bi === 0 || work.blocks[bi - 1]?.type !== "para";
-      const indent = first ? 0 : font * 1.4;
+      const indent = first || work.kind === "guide" ? 0 : font * 1.4;
       const ls = wrapWords(ctx, b.text, WIDTH - indent);
       // Re-wrap so only the first line is indented.
       const firstLine = ls[0];
@@ -102,6 +109,7 @@ function paginate(items, work) {
   };
   for (let i = 0; i < items.length; i++) {
     const it = items[i];
+    if (it.pageBreak) push();
     if (it.kind === "gap" && !page.length) continue;
     let need = it.h;
     if (work.kind === "poem" && it.kind === "gap") {
@@ -121,8 +129,19 @@ function paginate(items, work) {
       if (it.paraLine === 0 && left > 1) need = it.h * 2;
       if (left === 2 && it.paraLine > 0) need = it.h * 2;
     }
-    if (it.keepNext) need += it.h;
-    if (y + need > AREA.bottom && page.some((p) => p.kind === "line")) {
+    if (it.kind === "heading") {
+      // Keep the complete heading with at least two body lines when present.
+      let j = i + 1;
+      while (items[j]?.kind === "heading") need += items[j++].h;
+      if (items[j]?.kind === "gap") need += items[j++].h;
+      if (items[j]?.kind === "line") {
+        need += items[j].h;
+        if (items[j + 1]?.kind === "line") need += items[j + 1].h;
+        // A three-line paragraph cannot split under widow/orphan control.
+        if (items[j].paraLines === 3) need += items[j + 2].h;
+      }
+    } else if (it.keepNext) need += it.h;
+    if (y + need > AREA.bottom && page.some((p) => p.kind === "line" || p.kind === "heading")) {
       // If the break would strand a paragraph's first line, carry it over.
       let carry = null;
       if (
@@ -142,12 +161,12 @@ function paginate(items, work) {
       if (page.length) y += it.h;
       continue;
     }
-    page.push({ ...it, y: y + (it.kind === "line" ? it.font : it.kind === "title" ? 66 : 36) });
+    page.push({ ...it, y: y + (["line", "heading"].includes(it.kind) ? it.font : it.kind === "title" ? 66 : 36) });
     y += it.h;
   }
   push();
   return pages.map((p) => {
-    const first = p.find((x) => x.kind === "line") || p[0];
+    const first = p.find((x) => x.kind === "line" || x.kind === "heading") || p[0];
     p.anchor = first.anchor;
     return p;
   });
