@@ -435,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=17");
+        const { menuButtons } = await import("./gestures.js?v=18");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1100,7 +1100,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-017");
+        assert.equal(details.build, "gestures-018");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2047,7 +2047,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=17");
+        const { paintHandBadge } = await import("./hand-badges.js?v=18");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2368,7 +2368,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=17");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=18");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2388,8 +2388,9 @@ async function mock(
           tail,
         };
       });
-      assert.ok(sound.peak > 0.003 && sound.peak < 0.04);
-      assert.ok(sound.rms < 0.01);
+      // Build 018: louder so it is heard over background sound, still gentle.
+      assert.ok(sound.peak > 0.05 && sound.peak < 0.2, "chime peak " + sound.peak);
+      assert.ok(sound.rms < 0.05, "chime rms " + sound.rms);
       assert.equal(sound.tail, 0);
       const wav = Buffer.alloc(44 + sound.samples.length * 2);
       wav.write("RIFF");
@@ -2432,7 +2433,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=17");
+        const { MENU_PAGES } = await import("./gestures.js?v=18");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit"]);
@@ -2485,8 +2486,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=17");
-            const { loadProgress } = await import("./progress.js?v=17");
+            const { calendarButtons } = await import("./calendar.js?v=18");
+            const { loadProgress } = await import("./progress.js?v=18");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2991,6 +2992,8 @@ async function mock(
       assert.equal(d.ambience.setting, "rain");
       assert.equal(d.ambience.kind, "rain");
       assert.equal(d.ambience.error, null);
+      assert.equal(d.ambience.playing, true, "the background sound is actually playing");
+      assert.equal(d.ambience.context, "running");
       await p.locator("#page").screenshot({ path: path.join(out, "reading-modern.png") });
       // After closing the menu, look at the page (which re-arms), then at the
       // bottom-right corner: the ring fills, then one page turn.

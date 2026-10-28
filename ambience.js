@@ -1,11 +1,49 @@
 // Optional background ambience, generated in code: no recordings, no network,
 // no third-party audio, so there is nothing to license. Each kind is an
-// 8-second loop baked from a seeded noise source, played very quietly.
+// 8-second loop baked from a seeded noise source. Levels are set by what
+// small headset speakers can play (energy above ~200 Hz), not by bass.
 export const AMBIENCE_KINDS = ["off", "rain", "fire", "room"];
 export const AMBIENCE_LABEL = { off: "Off", rain: "Soft rain", fire: "Fireplace", room: "Quiet room" };
 const BAKE_RATE = 22050;
 const SECONDS = 8,
-  LEVEL = { rain: 0.05, fire: 0.06, room: 0.04 };
+  // Each loop is baked so its audible band (above ~200 Hz) sits at about
+  // −24 dBFS with peaks ≤ 0.9; playback gain is then 1. (Build 017 played at
+  // about −40 dBFS and was inaudible on the Quest speakers.)
+  TARGET_DB = -24,
+  MAX_PEAK = 0.9,
+  LEVEL = { rain: 1, fire: 1, room: 1 };
+export { LEVEL as AMBIENCE_LEVEL };
+// Second-order high-pass (RBJ biquad), a stand-in for small speakers.
+export function highPass(samples, rate, hz = 200) {
+  const w = (2 * Math.PI * hz) / rate,
+    q = Math.SQRT1_2,
+    a = Math.sin(w) / (2 * q),
+    c = Math.cos(w);
+  const b0 = (1 + c) / 2 / (1 + a),
+    b1 = -(1 + c) / (1 + a),
+    a1 = (-2 * c) / (1 + a),
+    a2 = (1 - a) / (1 + a);
+  const out = new Float32Array(samples.length);
+  let x1 = 0,
+    x2 = 0,
+    y1 = 0,
+    y2 = 0;
+  for (let i = 0; i < samples.length; i++) {
+    const x = samples[i],
+      y = b0 * x + b1 * x1 + b0 * x2 - a1 * y1 - a2 * y2;
+    out[i] = y;
+    x2 = x1;
+    x1 = x;
+    y2 = y1;
+    y1 = y;
+  }
+  return out;
+}
+const rms = (a) => {
+  let s = 0;
+  for (const x of a) s += x * x;
+  return Math.sqrt(s / a.length);
+};
 
 function rng(seed) {
   let s = seed >>> 0 || 1;
@@ -13,7 +51,7 @@ function rng(seed) {
 }
 
 // Returns a Float32Array of mono samples for one loop. Pure, so it is tested.
-export function bakeAmbience(kind, rate = 48000) {
+export function bakeAmbience(kind, rate = BAKE_RATE) {
   const n = SECONDS * rate,
     out = new Float32Array(n),
     r = rng(kind.length * 7919 + 17);
@@ -34,19 +72,22 @@ export function bakeAmbience(kind, rate = 48000) {
       v = (lp * 0.5 + hp * 0.5) * swell;
       if (r() < 0.0006) v += (r() * 2 - 1) * 0.6;
     } else if (kind === "fire") {
-      // Low rumble with occasional short crackles.
-      lp += (brown - lp) * 0.05;
-      v = lp * 1.4;
-      if (r() < 0.00025) {
-        const len = 40 + Math.floor(r() * 200);
-        for (let k = 0; k < len && i + k < n; k++) out[i + k] += (r() * 2 - 1) * Math.exp(-k / 30) * 0.7;
+      // A warm, softly flickering hiss (mid-range, so speakers can play it),
+      // a little low rumble, and frequent short bright crackles.
+      lp += (white - lp) * 0.22;
+      hp += (brown - hp) * 0.05;
+      const flicker = 0.7 + 0.3 * Math.sin(i / (rate * 0.37)) * Math.sin(i / (rate * 1.3));
+      v = lp * 0.35 * flicker + hp * 0.35;
+      if (r() < 0.0005) {
+        const len = 20 + Math.floor(r() * 80),
+          amp = 0.15 + r() * 0.25;
+        for (let k = 0; k < len && i + k < n; k++) out[i + k] += (r() * 2 - 1) * Math.exp(-k / 9) * amp;
       }
     } else if (kind === "room") {
-      // Low room tone plus a little soft mid-range "air", so small headset
-      // speakers can actually reproduce it.
-      lp += (brown - lp) * 0.02;
-      hp += (white - hp) * 0.08;
-      v = lp + hp * 0.12;
+      // Soft, steady "air" (like a quiet ventilated room) over a low tone.
+      lp += (brown - lp) * 0.08;
+      hp += (white - hp) * 0.1;
+      v = lp * 0.5 + hp * 0.5;
     }
     out[i] += v;
   }
@@ -58,10 +99,13 @@ export function bakeAmbience(kind, rate = 48000) {
     out[k] = out[k] * Math.sqrt(t) + out[n - fade + k] * Math.sqrt(1 - t);
   }
   const looped = out.subarray(0, n - fade);
-  // Normalise to a fixed peak so every kind sits at a predictable level.
+  // Level by the audible band, then cap the peak.
+  const audible = rms(highPass(looped, rate));
   let peak = 0;
   for (const x of looped) peak = Math.max(peak, Math.abs(x));
-  if (peak > 0) for (let k = 0; k < looped.length; k++) looped[k] /= peak;
+  let scale = audible > 0 ? 10 ** (TARGET_DB / 20) / audible : 0;
+  if (peak * scale > MAX_PEAK) scale = MAX_PEAK / peak;
+  for (let k = 0; k < looped.length; k++) looped[k] *= scale;
   return looped;
 }
 
@@ -135,6 +179,11 @@ export class Ambience {
     } catch {}
   }
   status() {
-    return { kind: this.kind, playing: !!this.source, error: this.error };
+    return {
+      kind: this.kind,
+      playing: !!this.source,
+      context: this.source?.context?.state || null,
+      error: this.error,
+    };
   }
 }

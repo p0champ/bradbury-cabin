@@ -1,3 +1,17 @@
+# Build 018 — background sound audible (28 October 2026)
+
+**What Bastian reported.**
+- On Build 017 he said: "Looks good however the background music i cant hear".
+- About Claude, he said it must be seamless, with no window and no voice as in Sunnyvale ("it was way too clunky"). He chose to get the daily three **only on request**.
+- He then asked whether his PC must be running, and would like to "write from my phone and it then would be in the app". We are waiting for his decision between two options:
+  - **PC bridge:** the PC must be on.
+  - **Google Drive route:** no PC needed. Claude saves the picks file with the texts to a "Bradbury Cabin" Drive folder. The cabin reads it through Google sign-in, with a one-time OAuth client ID that Bastian creates.
+
+**The fix.** Bastian couldn't hear the sounds because they played at −40 dBFS and were bass-heavy. They are now reshaped and levelled so the audible band (above 200 Hz) sits at −24 dBFS. The chime is louder, and the audio resumes after an interruption. The critic scored 5/10, then 8/10 (BUILD_018_REVIEW.md).
+
+**Status.** Live at ?v=18. The Quest listen is still needed.
+
+---
 # Build 017 — Style, look-to-turn, background sound (28 October 2026)
 
 **Status.** Resumed after the pause; Bastian said "continue". The critic scored round 1 at 6/10 and round 2 at 8/10 (BUILD_017_REVIEW.md). Merged to phase-1-gestures and live at ?v=17. Needs a Quest check.

@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=17";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=18";
 import {
   GestureEngine,
   menuButtons,
@@ -10,15 +10,15 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=17";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=17";
-import { HandBadges } from "./hand-badges.js?v=17";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=17";
-import { LIBRARY } from "./library.js?v=17";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=17";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=17";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=17";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=17";
+} from "./gestures.js?v=18";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=18";
+import { HandBadges } from "./hand-badges.js?v=18";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=18";
+import { LIBRARY } from "./library.js?v=18";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=18";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=18";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=18";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=18";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -35,8 +35,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=17";
-import { EntrySound } from "./entry-sound.js?v=17";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=18";
+import { EntrySound } from "./entry-sound.js?v=18";
 import {
   readProgress,
   saveProgress,
@@ -45,13 +45,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=17";
+} from "./progress.js?v=18";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=17";
+} from "./calendar.js?v=18";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -780,6 +780,7 @@ function action(id) {
     state.ambience = AMBIENCE_KINDS[(i + 1) % AMBIENCE_KINDS.length];
     preferences.ambience = state.ambience;
     savePreferences();
+    entrySound?.context?.resume?.().catch?.(() => {});
     ambience.set(entrySound?.context, state.session ? state.ambience : "off");
   }
   if (id === "watch") {
@@ -933,7 +934,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-017",
+    build: "gestures-018",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1320,6 +1321,9 @@ async function enter() {
       }
     });
     session.addEventListener("visibilitychange", () => {
+      // Quest can suspend audio behind system UI; resume when we return.
+      if (session.visibilityState === "visible")
+        entrySound?.context?.resume?.().catch?.(() => {});
       gazeDwell.consume();
       if (gazeRing?.clearVisible()) applyLayers();
       nativeQueue = [];

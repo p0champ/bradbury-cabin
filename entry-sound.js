@@ -11,7 +11,8 @@ export function scheduleEntryChime(
     oscillator.type = "sine";
     oscillator.frequency.value = hz;
     const start = at + i * 0.11,
-      peak = [0.014, 0.01, 0.008][i];
+      // Loud enough to be heard over the background sound (about −21 dBFS).
+      peak = [0.09, 0.07, 0.055][i];
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(peak, start + 0.045);
     gain.gain.exponentialRampToValueAtTime(0.00001, start + 1.15);

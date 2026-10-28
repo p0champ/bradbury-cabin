@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { bakeAmbience, AMBIENCE_KINDS } from "../ambience.js";
+import { bakeAmbience, AMBIENCE_KINDS, AMBIENCE_LEVEL } from "../ambience.js";
 import { gazeZone, GazeDwell, DWELL_MS } from "../gaze.js";
 test("ambience loops are generated, bounded and differ by kind", () => {
   assert.deepEqual(AMBIENCE_KINDS, ["off", "rain", "fire", "room"]);
@@ -10,7 +10,7 @@ test("ambience loops are generated, bounded and differ by kind", () => {
     assert.ok(a.length > 8000 * 7, k);
     let peak = 0;
     for (const x of a) peak = Math.max(peak, Math.abs(x));
-    assert.ok(peak <= 1 + 1e-6 && peak > 0.5, k + " normalised");
+    assert.ok(peak <= 0.9 + 1e-6 && peak > 0.2, k + " bounded");
     loops[k] = a;
   }
   assert.notDeepEqual(loops.rain.slice(0, 50), loops.room.slice(0, 50));
@@ -70,4 +70,18 @@ test("after a hand action, looking at the middle of the page re-arms", () => {
   let fired = 0;
   for (let t = 100; t < 100 + DWELL_MS + 100; t += 50) if (g.update("next", t).fire) fired++;
   assert.equal(fired, 1);
+});
+
+test("each background sound is audible on small speakers (energy above 200 Hz) without clipping", async () => {
+  const { highPass } = await import("../ambience.js");
+  for (const k of ["rain", "fire", "room"]) {
+    const a = bakeAmbience(k, 22050);
+    let s = 0;
+    for (const x of highPass(a, 22050)) s += x * x;
+    const db = 20 * Math.log10(Math.sqrt(s / a.length) * AMBIENCE_LEVEL[k]);
+    assert.ok(db > -28 && db < -18, `${k}: ${db.toFixed(1)} dBFS above 200 Hz`);
+    let peak = 0;
+    for (const x of a) peak = Math.max(peak, Math.abs(x));
+    assert.ok(peak * AMBIENCE_LEVEL[k] <= 0.9, `${k} peak ${peak}`);
+  }
 });
