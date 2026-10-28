@@ -1,3 +1,16 @@
+# Build 014 — wrist calendar (right wrist)
+
+Open [Build 014](https://p0champ.github.io/bradbury-cabin/?v=14) and check that the header says **BUILD 014**.
+
+1. Centre, then raise your RIGHT forearm across your body as if you were checking a watch, with the back of your wrist toward your eyes. A small calendar card should appear just above your wrist.
+2. Turn your wrist away. The card should disappear.
+3. Do the same with your LEFT wrist. Nothing should appear, ever.
+4. Turn pages normally with both hands. The card should not pop up.
+5. While the card is showing, pinch with your right hand. No page should turn.
+6. Tick something in Menu → Challenge calendar, then glance at your wrist. The card should show the tick.
+7. If the card appears when it shouldn't, or won't appear, leave VR, choose **Save test details** and send me the file.
+
+---
 # Build 013 — Challenge calendar
 
 Open [Build 013](https://p0champ.github.io/bradbury-cabin/?v=13) and check the header says **BUILD 013**.

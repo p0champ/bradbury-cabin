@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=13";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=14";
 import {
   GestureEngine,
   menuButtons,
@@ -10,11 +10,12 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=13";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=13";
-import { HandBadges } from "./hand-badges.js?v=13";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=13";
-import { EntrySound } from "./entry-sound.js?v=13";
+} from "./gestures.js?v=14";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=14";
+import { HandBadges } from "./hand-badges.js?v=14";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=14";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=14";
+import { EntrySound } from "./entry-sound.js?v=14";
 import {
   readProgress,
   saveProgress,
@@ -23,13 +24,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=13";
+} from "./progress.js?v=14";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=13";
+} from "./calendar.js?v=14";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -53,7 +54,8 @@ const store = (() => {
   }
 })();
 const todayKey = () => dateKey(new Date());
-let progress;
+let progress,
+  progressVersion = 0;
 {
   const loaded = readProgress(store, todayKey());
   progress = loaded.progress;
@@ -88,6 +90,7 @@ let progress;
 }
 // Saves, and tells the truth when it could not.
 function storeProgress() {
+  progressVersion++;
   const ok = progressPersistent && saveProgress(store, progress);
   if (!ok) {
     progressNotice = "Not saving on this headset · export before leaving.";
@@ -141,6 +144,8 @@ const state = {
   swapped: !!preferences.swapped,
   headPointer: !!preferences.headPointer,
   handFeedbackError: null,
+  watchError: null,
+  wristCalendar: preferences.wristCalendar !== false,
   practiceMarks: { next: false, prev: false, menu: false },
   feedback: "",
   feedbackUntil: 0,
@@ -173,7 +178,16 @@ let projectionRoute = false,
 const gestures = new GestureEngine();
 let nativeQueue = [],
   lastFrameTime = 0;
-let handBadges = null;
+let handBadges = null,
+  wristWatch = null,
+  watchCache = { key: null, summary: null };
+// Recomputed only when progress or the date changes, not every frame.
+function currentWatchSummary() {
+  const key = progressVersion + ":" + todayKey();
+  if (watchCache.key !== key)
+    watchCache = { key, summary: watchSummary(progress, todayKey()) };
+  return watchCache.summary;
+}
 let entrySound = null;
 let arrival = null,
   arrivalElapsed = 0,
@@ -286,6 +300,7 @@ function paint() {
       swap: state.swapped ? "Left hand" : "Right hand",
       pointer: state.headPointer ? "Head" : "Hand",
       sound: state.entrySound ? "On" : "Off",
+      watch: state.wristCalendar ? "Right wrist" : "Off",
     };
     const card = state.night ? "#2c3a32" : "#ebe6d4",
       accent = state.night ? "#c9b98f" : "#3f5f4e";
@@ -625,6 +640,11 @@ function action(id) {
     preferences.swapped = state.swapped;
     savePreferences();
   }
+  if (id === "watch") {
+    state.wristCalendar = !state.wristCalendar;
+    preferences.wristCalendar = state.wristCalendar;
+    savePreferences();
+  }
   if (id === "sound") {
     state.entrySound = !state.entrySound;
     preferences.entrySound = state.entrySound;
@@ -730,7 +750,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-013",
+    build: "gestures-014",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -762,6 +782,14 @@ $("export").onclick = () => {
     },
     attentionPaused: state.attentionPaused,
     handFeedbackError: state.handFeedbackError,
+    wristCalendar: {
+      enabled: state.wristCalendar,
+      hand: WATCH_HAND,
+      error: state.watchError,
+      // Recent show/hide decisions with their measurements, for tuning the
+      // pose limits from a real Quest trace.
+      decisions: wristWatch?.log || [],
+    },
     controls: {
       swapped: state.swapped,
       pointer: state.headPointer ? "head" : "hand",
@@ -799,11 +827,20 @@ function applyLayers() {
   if (projectionRoute) {
     const primary = quad && state.mode === "layer" ? quad : base;
     const optional = arrival?.visible.length ? arrival : handBadges;
+    const extra = optional === arrival ? [] : wristWatch?.visible || [];
     try {
       session.updateRenderState({
-        layers: [primary, ...(optional?.visible || [])],
+        layers: [primary, ...(optional?.visible || []), ...extra],
       });
     } catch (error) {
+      // The wrist calendar is the first optional layer to give up.
+      if (extra.length) {
+        wristWatch.failed = true;
+        wristWatch.clearVisible();
+        state.watchError = error.message;
+        report("Wrist calendar unavailable: " + error.message);
+        return applyLayers();
+      }
       if (!optional?.visible.length) throw error;
       optional.failed = true;
       optional.clearVisible();
@@ -859,6 +896,8 @@ function cleanSession() {
   gestures.reset();
   handBadges?.dispose();
   handBadges = null;
+  wristWatch?.dispose();
+  wristWatch = null;
   quad?.destroy();
   quad = null;
   if (projectionRoute) base?.destroy();
@@ -978,6 +1017,12 @@ async function enter() {
         state.handFeedbackError = error.message;
         report("Hand feedback unavailable: " + error.message);
       });
+    state.watchError = null;
+    if (quad)
+      wristWatch = new WristWatch(binding, ref, (error) => {
+        state.watchError = error.message;
+        report("Wrist calendar unavailable: " + error.message);
+      });
     if (quad)
       arrival = new Arrival(binding, ref, (error) => {
         state.arrivalError = error.message;
@@ -1050,7 +1095,7 @@ async function enter() {
     session.addEventListener("visibilitychange", () => {
       nativeQueue = [];
       gestures.reset("visibility-change");
-      if (handBadges?.clearVisible()) applyLayers();
+      if (handBadges?.clearVisible() | !!wristWatch?.clearVisible()) applyLayers();
       if (arrival?.clearVisible()) applyLayers();
     });
     const generation = ++sessionGeneration;
@@ -1085,7 +1130,7 @@ function frame(time, xrFrame, generation) {
       lastArrivalTick = time;
       nativeQueue = [];
       gestures.reset("viewer-pose-lost");
-      if (handBadges?.clearVisible()) applyLayers();
+      if (handBadges?.clearVisible() | !!wristWatch?.clearVisible()) applyLayers();
       if (arrival?.clearVisible()) applyLayers();
       if (state.hover) {
         state.hover = null;
@@ -1137,6 +1182,7 @@ function frame(time, xrFrame, generation) {
         }
       const targets = new Map(),
         samples = [];
+      let watchSample = null;
       for (const source of session.inputSources) {
         if (!source.hand) continue;
         const joint = (name) => {
@@ -1181,11 +1227,30 @@ function frame(time, xrFrame, generation) {
             !!source.hand.get("wrist") ||
             !!source.hand.get("index-finger-metacarpal"),
         });
+        // Only the source Quest reports as the RIGHT hand may feed the wrist
+        // calendar. No fallback to the other or the nearest hand.
+        if (source.handedness === WATCH_HAND) {
+          const p = (name) => {
+            const j = joint(name);
+            return j && !j.emulatedPosition ? j.transform.position : null;
+          };
+          watchSample = {
+            // The real handedness, so watchPose's own check is a second lock.
+            hand: source.handedness,
+            wrist: p("wrist"),
+            index: p("index-finger-metacarpal"),
+            pinky: p("pinky-finger-metacarpal"),
+            middle: p("middle-finger-metacarpal"),
+          };
+        }
+        // While the right wrist is being read like a watch, that hand cannot
+        // turn pages or select, and its hand icon steps aside.
+        const glancing = !!wristWatch?.showingFor(source.handedness);
         samples.push({
           source,
           hand: source.handedness,
           position: anchor.position,
-          systemGesture,
+          systemGesture: systemGesture || glancing,
         });
         const tipsTracked =
           !!a && !!b && !a.emulatedPosition && !b.emulatedPosition;
@@ -1197,7 +1262,7 @@ function frame(time, xrFrame, generation) {
         if (!attentive || !handInView || systemGesture)
           targets.set(source, null);
         gestures.update(source, {
-          tracked,
+          tracked: tracked && !wristWatch?.showingFor(source.handedness),
           anchorKind: anchor.kind,
           tipsTracked,
           inView: handInView,
@@ -1327,6 +1392,19 @@ function frame(time, xrFrame, generation) {
         )
       )
         applyLayers();
+      if (
+        wristWatch?.update(watchSample, pose.transform, {
+          time,
+          summary: currentWatchSummary(),
+          night: state.night,
+          enabled:
+            state.wristCalendar &&
+            sessionVisible &&
+            !state.centering &&
+            !state.arriving,
+        })
+      )
+        applyLayers();
       const progress = state.arriving
         ? Math.min(1, arrivalElapsed / ARRIVAL_MS)
         : null;
@@ -1442,6 +1520,7 @@ function frame(time, xrFrame, generation) {
         }
       }
       if (handBadges?.draw(xrFrame, gpu, activeLayers)) applyLayers();
+      if (wristWatch?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (arrival?.draw(xrFrame, gpu, activeLayers)) applyLayers();
     }
   } catch (e) {

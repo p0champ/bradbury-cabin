@@ -12,6 +12,7 @@ const allowed = new Set([
   "entry-sound.js",
   "progress.js",
   "calendar.js",
+  "watch.js",
   "gl.js",
   "CREDITS.md",
   "QUEST_CHECK.md",

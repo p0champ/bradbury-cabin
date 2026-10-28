@@ -1,3 +1,38 @@
+# Build 014 — wrist calendar, right wrist only (28 October 2026)
+
+**What Bastian asked for:**
+- Feedback on Build 013: "Note that we will change the whole UI in the end to match exactly what I want and this is a placeholder. I like it but id rather want a calander floating somewhere or on my wrist". He chose the wrist.
+- Then: "last time we did this wrist thing it kept changing wrists and it was an issue. Lets fix this right away and make sure it can only appear on my right wrist".
+
+**What the card shows** (`watch.js`, a 512×352 native quad at 8.8×6 cm): the day and date, today's Poem/Story/Essay ticks, Monday–Sunday of this week, the streak, and whether the weekly story is due or handed in.
+
+**When it appears.** It shows when the back of the RIGHT wrist faces the eyes in a watch-checking posture:
+- the palm normal points away from the eyes (below −0.7);
+- the user is looking at the wrist (within 25°);
+- the hand runs across the body;
+- the wrist is 12–65 cm away.
+
+It waits 200 ms before showing and 350 ms before hiding.
+
+**The right-hand lock:**
+- The app reads only from the source whose handedness is "right", and `watchPose` checks again. There is no fallback to the left or the nearest hand.
+- While the face is shown, the right hand counts as untracked for gestures, and its badge steps aside.
+
+**Settings and recovery:**
+- More settings → Wrist calendar turns it on or off. The More page is now swap, pointer, sound, watch, Back, practice; Back stays at index 4.
+- A dropped wrist joint only hides the face.
+- On a layer-budget error, the watch is the first layer to give up.
+- Save test details includes `wristCalendar.decisions`, used to tune the thresholds on the headset.
+
+**Known open issue:** gestures.js `nearFacePalm` probably uses the same inverted palm sign. It needs a headset trace before any change, because it is part of the recogniser.
+
+**Status:**
+- PC tests: 58 pure + 106 browser checks pass.
+- Critic: round 1 scored 4/10, round 2 scored 8/10 (BUILD_014_REVIEW.md).
+- Committed and pushed on phase-1-gestures, live at ?v=14.
+- Still needs Bastian's Quest check.
+
+---
 # Build 013 — Bradbury Challenge calendar (Phase 2 start, 28 October 2026)
 
 Bastian on Build 012: "looks good as a placeholder - we can move on". Then: "dont begin with claude lets get the calander done first". The Phase 1 reading features (full pagination, saved place, moods, ambience) are still pending; he chose the calendar first.

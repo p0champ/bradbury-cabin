@@ -263,6 +263,7 @@ async function mock(
           }
         }
       };
+      window.__headMatrix = () => head().matrix;
       window.__hand = (distance, handedness = "right") => {
         window.__mock.sources ||= {};
         let source = window.__mock.sources[handedness];
@@ -434,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=13");
+        const { menuButtons } = await import("./gestures.js?v=14");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -613,14 +614,19 @@ async function mock(
             throw Error("Deliberate unsupported layer fixture");
           const badge = init.viewPixelWidth === 256;
           const arrival = init.viewPixelWidth === 384;
-          const width = arrival
+          const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 352;
+          const width = watch
+              ? 512
+              : arrival
               ? 384
               : badge
                 ? 256
                 : scenario === "clamped-layer"
                   ? 1024
                   : 2048,
-            height = arrival
+            height = watch
+              ? 352
+              : arrival
               ? 960
               : badge
                 ? 256
@@ -634,6 +640,7 @@ async function mock(
               height,
               badge,
               arrival,
+              watch,
               metresWide: init.width,
               metresHigh: init.height,
               matrix: null,
@@ -644,7 +651,7 @@ async function mock(
             set transform(v) {
               data.matrix = Array.from(v.matrix);
               data.history.push(data.matrix);
-              if (!badge && !arrival) window.__mock.placed.push(data.matrix);
+              if (!badge && !arrival && !watch) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
@@ -652,7 +659,7 @@ async function mock(
             },
           };
           window.__mock.layerData.set(layer, data);
-          if (!badge && !arrival) {
+          if (!badge && !arrival && !watch) {
             window.__mock.quadWidth = width;
             window.__mock.quadHeight = height;
             window.__mock.texture = tex;
@@ -1087,7 +1094,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-013");
+        assert.equal(details.build, "gestures-014");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2034,7 +2041,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=13");
+        const { paintHandBadge } = await import("./hand-badges.js?v=14");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2355,7 +2362,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=13");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=14");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2419,7 +2426,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=13");
+        const { MENU_PAGES } = await import("./gestures.js?v=14");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "calendar", "night", "size", "more", "recenter", "exit"]);
@@ -2472,8 +2479,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=13");
-            const { loadProgress } = await import("./progress.js?v=13");
+            const { calendarButtons } = await import("./calendar.js?v=14");
+            const { loadProgress } = await import("./progress.js?v=14");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2601,6 +2608,184 @@ async function mock(
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-not-saving.png") });
       assert.deepEqual(errors, []);
       passed("blocked storage keeps the app working and is reported");
+      await p.close();
+    }
+    // Build 014: wrist calendar, locked to the RIGHT wrist.
+    for (const night of [false, true]) {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await mock(p, "layer", false, night ? { practised: true, headPointer: true } : undefined);
+      await p.goto("http://127.0.0.1:18140");
+      if (night) await p.locator("#night").click();
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => {
+        // Place wrist + metacarpals in head space using real right-hand
+        // anatomy: thumb side = fingers × palm-normal. pose "watch" = forearm
+        // across the body, fingers to the left, back of hand to the eyes;
+        // "palm" = the same with the palm to the eyes; "turn" = a raised
+        // page-turn pinch with fingers forward and palm down.
+        window.__wrist = (hand, kind) => {
+          const s = __hand(0.05, hand);
+          const H = new DOMMatrix(__headMatrix());
+          const at = (q) => {
+            const r = new DOMPoint(q.x, q.y, q.z).matrixTransform(H);
+            return { x: r.x, y: r.y, z: r.z };
+          };
+          const add = (a, b, k) => ({ x: a.x + b.x * k, y: a.y + b.y * k, z: a.z + b.z * k });
+          const cross = (a, b) => ({ x: a.y * b.z - a.z * b.y, y: a.z * b.x - a.x * b.z, z: a.x * b.y - a.y * b.x });
+          const [w, f, n] =
+            kind === "turn"
+              ? [{ x: 0.08, y: -0.12, z: -0.4 }, { x: 0, y: 0, z: -1 }, { x: 0, y: -1, z: 0 }]
+              : [{ x: 0.03, y: -0.08, z: -0.35 }, { x: -1, y: 0, z: 0 }, { x: 0, y: 0, z: kind === "palm" ? 1 : -1 }];
+          const th = cross(f, n);
+          s.testJoints.set("wrist", { pose: at(w) });
+          s.testJoints.set("index-finger-metacarpal", { pose: at(add(add(w, f, 0.07), th, 0.02)) });
+          s.testJoints.set("pinky-finger-metacarpal", { pose: at(add(add(w, f, 0.06), th, -0.02)) });
+          s.testJoints.set("middle-finger-metacarpal", { pose: at(add(w, f, 0.08)) });
+          return s;
+        };
+        window.__watchLayer = () => {
+          for (const [layer, d] of __mock.layerData)
+            if (d.watch && !d.destroyed)
+              return {
+                opacity: layer.opacity,
+                listed: __mock.session.renderState.layers.includes(layer),
+              };
+          return null;
+        };
+      });
+      // The LEFT hand in the exact right-hand watch geometry never shows it.
+      await p.evaluate(() => {
+        __wrist("left", "watch");
+        __step(600);
+      });
+      const left = await p.evaluate(() => __watchLayer());
+      assert.ok(!left || !left.listed, "left wrist must never show the calendar");
+      // Right wrist palm toward the eyes, or a normal page-turn pose: no.
+      for (const kind of ["palm", "turn"]) {
+        await p.evaluate((kind) => {
+          __wrist("right", kind);
+          __step(600);
+        }, kind);
+        const w = await p.evaluate(() => __watchLayer());
+        assert.ok(!w || !w.listed, kind + " must not show it");
+      }
+      // Right wrist turned like a watch: shows after a short settle.
+      await p.evaluate(() => {
+        __wrist("right", "watch");
+        __step(100);
+      });
+      const early = await p.evaluate(() => __watchLayer());
+      assert.ok(!early || !early.listed, "brief turns do not flash it");
+      await p.evaluate(() => __step(300));
+      const shown = await p.evaluate(() => __watchLayer());
+      assert.ok(shown && shown.listed && shown.opacity === 1, "right wrist shows it");
+      const pixels = await p.evaluate(() => {
+        const gl = __mock.gl;
+        const d = [...__mock.layerData.values()].find((x) => x.watch);
+        const fb = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, d.tex, 0);
+        const px = new Uint8Array(512 * 352 * 4);
+        gl.readPixels(0, 0, 512, 352, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.deleteFramebuffer(fb);
+        let opaque = 0;
+        for (let i = 3; i < px.length; i += 4) if (px[i] > 200) opaque++;
+        const c = document.createElement("canvas");
+        c.width = 512;
+        c.height = 352;
+        const g = c.getContext("2d");
+        g.fillStyle = "#7d8a80";
+        g.fillRect(0, 0, 512, 352);
+        const tmp = document.createElement("canvas");
+        tmp.width = 512;
+        tmp.height = 352;
+        tmp.getContext("2d").putImageData(new ImageData(new Uint8ClampedArray(px), 512, 352), 0, 0);
+        g.save();
+        g.scale(1, -1);
+        g.drawImage(tmp, 0, -352);
+        g.restore();
+        return { opaque, corner: px[3], image: c.toDataURL("image/png") };
+      });
+      assert.ok(pixels.opaque > 100000, "watch face uploaded");
+      assert.equal(pixels.corner, 0, "rounded transparent corners");
+      await fs.writeFile(
+        path.join(out, `wrist-calendar-${night ? "night" : "paper"}.png`),
+        Buffer.from(pixels.image.split(",")[1], "base64"),
+      );
+      // While glancing, a right-hand click never acts.
+      await p.evaluate(() => {
+        __mock.clock = Math.max(__mock.clock, performance.now());
+        __native("selectstart", "right");
+        __step(120);
+        __native("select", "right");
+        __native("selectend", "right");
+        __step(40);
+      });
+      // Turning the palm back hides it again.
+      await p.evaluate(() => {
+        __wrist("right", "palm");
+        __step(500);
+      });
+      const hidden = await p.evaluate(() => __watchLayer());
+      assert.ok(!hidden.listed, "hidden after turning away");
+      // Both hands present: with the LEFT in the watch pose and the right
+      // resting, nothing shows; then only the right shows; removing the
+      // right source hides it at once.
+      await p.evaluate(() => {
+        const l = __wrist("left", "watch");
+        const r = __wrist("right", "palm");
+        __mock.session.inputSources = [l, r];
+        __step(600);
+      });
+      assert.ok(!(await p.evaluate(() => __watchLayer())).listed, "two hands: left watch pose ignored");
+      await p.evaluate(() => {
+        const l = __wrist("left", "palm");
+        const r = __wrist("right", "watch");
+        __mock.session.inputSources = [l, r];
+        __step(600);
+      });
+      assert.ok((await p.evaluate(() => __watchLayer())).listed, "two hands: right shows");
+      await p.evaluate(() => {
+        __mock.session.inputSources = [__mock.sources.left];
+        __step(16); // layer list changes apply at the next frame boundary
+        __step(16);
+      });
+      assert.ok(!(await p.evaluate(() => __watchLayer())).listed, "right removed: hidden at once");
+      // After glancing, the right hand turns pages again.
+      const before = await p.locator("#place").textContent();
+      await p.evaluate(() => {
+        __mock.sources.right.testJoints.delete("wrist");
+        __mock.sources.right.testJoints.delete("index-finger-metacarpal");
+        __mock.sources.right.testJoints.delete("pinky-finger-metacarpal");
+        __mock.sources.right.testJoints.delete("middle-finger-metacarpal");
+        __mock.sources.left.testJoints.clear();
+        __mock.sources.left.testJoints.set("index-finger-tip", {});
+        __mock.sources.left.testJoints.set("thumb-tip", {});
+        __pinch("left");
+        __pinch("right");
+      });
+      void before;
+      const dl = p.waitForEvent("download");
+      await p.locator("#export").click();
+      const f = path.join(out, `wrist-details-${night ? "night" : "paper"}.json`);
+      await (await dl).saveAs(f);
+      const details = JSON.parse(await fs.readFile(f, "utf8"));
+      assert.equal(details.wristCalendar.hand, "right");
+      assert.equal(details.wristCalendar.error, null);
+      const shownLog = details.wristCalendar.decisions.filter((d) => d.shown);
+      assert.ok(shownLog.length >= 1 && shownLog.every((d) => d.palm <= -0.7 && d.across <= -0.4));
+      assert.ok(details.wristCalendar.decisions.some((d) => !d.shown && d.reason));
+      // Exactly one right-hand page action: the one made after the glance.
+      const rightPages = details.gestureLog.filter((e) => e.hand === "right" && e.result === "page");
+      assert.equal(rightPages.length, 1, "no right-hand action while glancing, one afterwards");
+      assert.ok(["turned", "first-page", "last-page"].includes(rightPages[0].outcome));
+      assert.deepEqual(errors, []);
+      passed("wrist calendar appears only on the right wrist, settles, blocks that hand, and hides" + (night ? " night" : ""));
       await p.close();
     }
     await fs.writeFile(

@@ -354,7 +354,7 @@ export const MENU_PAGES = {
   main: ["resume", "calendar", "night", "size", "more", "recenter", "exit"],
   // Back sits exactly where "More settings" was, so a repeated pinch just
   // returns to the main page instead of choosing something new.
-  more: ["swap", "pointer", "sound", "practice", "back"],
+  more: ["swap", "pointer", "sound", "watch", "back", "practice"],
 };
 export const menuLabels = {
   resume: "Continue reading",
@@ -369,6 +369,7 @@ export const menuLabels = {
   pointer: "Point with",
   sound: "Welcome chime",
   practice: "Practise gestures",
+  watch: "Wrist calendar",
 };
 export const menuButtons = Object.entries(MENU_PAGES).flatMap(([page, ids]) =>
   ids.map((id, i) => ({

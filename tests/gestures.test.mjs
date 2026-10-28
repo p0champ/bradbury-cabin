@@ -352,7 +352,9 @@ test("only visible menu buttons have targets", () => {
   assert.equal(menuHit(1000, 1561, "main"), "more");
   assert.equal(menuHit(1000, 1561, "more"), "back");
   assert.equal(menuHit(1000, 673, "more"), "swap");
-  assert.equal(menuHit(1000, 1783, "more"), null, "More has five items");
+  assert.equal(menuHit(1000, 1339, "more"), "watch");
+  assert.equal(menuHit(1000, 1783, "more"), "practice");
+  assert.equal(menuHit(1000, 2005, "more"), null, "More has six items");
 });
 
 // ---- Build 006 regressions for "registered but did not turn" ----
