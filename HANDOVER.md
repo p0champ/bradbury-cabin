@@ -1,3 +1,20 @@
+# Build 020 — Google Drive activated (28 October 2026, 13:42)
+
+Bastian completed the Google Cloud setup step by step:
+- project "Bradbury Cabin";
+- Drive API enabled;
+- Google Auth Platform: External, Testing, himself as test user;
+- Web OAuth client with origin https://p0champ.github.io.
+
+The public client ID is now in config.js. **Sync with Drive** is active.
+
+Next:
+1. Bastian's first sign-in from the start page. He will see "Google hasn't verified this app"; choose Continue.
+2. Propose the skill (`CLAUDE_SKILL_DAILY_THREE.md`) with `propose_skills`.
+3. Do a real end-to-end request.
+4. Design the **study guide** with him (his note from the night).
+
+---
 # Build 019: Claude's daily three through Google Drive (28 October 2026, early morning)
 
 **Bastian's decisions**
