@@ -442,7 +442,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=34");
+        const { menuButtons } = await import("./gestures.js?v=35");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1053,7 +1053,11 @@ async function mock(
           await p.evaluate(() => __step());
           assert.ok(await p.evaluate((n) => __mock.uploads > n, uploads));
           assert.deepEqual(
-            await p.evaluate(() => Array.from(__mock.latestPixels.slice(0, 3))),
+            // Sample inside the window: its rounded corners are transparent.
+            await p.evaluate(() => {
+              const i = (40 * 2048 + 1024) * 4;
+              return Array.from(__mock.latestPixels.slice(i, i + 3));
+            }),
             [19, 23, 21],
           );
           await p.locator("#night").click();
@@ -1133,7 +1137,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-034");
+        assert.equal(details.build, "gestures-035");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1403,11 +1407,15 @@ async function mock(
           .map((d) => d.matrix),
         version: __mock.versions.get(__mock.texture),
       }));
-      assert.notDeepEqual(mid.wings, initialWings);
-      assert.ok(
-        mid.wings.every(
-          (m, i) => Math.abs(m[12]) > Math.abs(initialWings[i][12]),
+      // The cover leaves are retired: nothing decorative is shown while the
+      // window fades in.
+      assert.equal(
+        await p.evaluate(
+          () =>
+            [...__mock.layerData].filter(([l, d]) => d.arrival && l.opacity > 0)
+              .length,
         ),
+        0,
       );
       await p.evaluate(() => {
         __mock.offsetX = 0.12;
@@ -1931,6 +1939,9 @@ async function mock(
               sum =
                 (sum * 31 + m.latestPixels[i] + 7 * m.latestPixels[i + 1]) %
                 1000000007;
+              // The window's rounded corners are uploaded premultiplied, so
+              // their soft edge pixels legitimately differ; compare the rest.
+              if (bytes[i + 3] !== 255) continue;
               for (let c = 0; c < 4; c++)
                 if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
             }
@@ -2080,7 +2091,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=34");
+        const { paintHandBadge } = await import("./hand-badges.js?v=35");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2401,7 +2412,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=34");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=35");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2466,7 +2477,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=34");
+        const { MENU_PAGES } = await import("./gestures.js?v=35");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2519,8 +2530,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=34");
-            const { loadProgress } = await import("./progress.js?v=34");
+            const { calendarButtons } = await import("./calendar.js?v=35");
+            const { loadProgress } = await import("./progress.js?v=35");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -3195,8 +3206,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=34");
-        const { loadProgress } = await import("./progress.js?v=34");
+        const { calendarButtons } = await import("./calendar.js?v=35");
+        const { loadProgress } = await import("./progress.js?v=35");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

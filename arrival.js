@@ -33,7 +33,7 @@ export function localPose(anchor, x, y, z, yaw = 0) {
 export function pageArrivalPose(anchor, p) {
   const e = easeArrival(p);
   // A short approach, a few centimetres: the page settles rather than travels.
-  return localPose(anchor, 0, 0, -1.1 - 0.06 * (1 - e), -0.03 * (1 - e));
+  return localPose(anchor, 0, 0, -1.1 - 0.03 * (1 - e), 0);
 }
 export function paintLeaf(canvas, side) {
   const c = canvas.getContext("2d"),

@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=34";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=35";
 import {
   GestureEngine,
   menuButtons,
@@ -10,27 +10,27 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=34";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=34";
-import { HandBadges } from "./hand-badges.js?v=34";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=34";
-import { LIBRARY } from "./library.js?v=34";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=34";
-import { layoutReading } from "./reading-flow.js?v=34";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=34";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=34";
-import { parsePicks, pickLabels } from "./picks.js?v=34";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=34";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=34";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=34";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=34";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=34";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=34";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=34";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=34";
-import { MOODS, UI, accentFor, goldFor, ring, spaced, unspaced } from "./theme.js?v=34";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=34";
-import { EntrySound } from "./entry-sound.js?v=34";
+} from "./gestures.js?v=35";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=35";
+import { HandBadges } from "./hand-badges.js?v=35";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=35";
+import { LIBRARY } from "./library.js?v=35";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=35";
+import { layoutReading } from "./reading-flow.js?v=35";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=35";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=35";
+import { parsePicks, pickLabels } from "./picks.js?v=35";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=35";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=35";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=35";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=35";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=35";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=35";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=35";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=35";
+import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=35";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=35";
+import { EntrySound } from "./entry-sound.js?v=35";
 import {
   readProgress,
   saveProgress,
@@ -39,13 +39,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=34";
+} from "./progress.js?v=35";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=34";
+} from "./calendar.js?v=35";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -424,9 +424,9 @@ function paint() {
     const w = workById(state.workId);
     let title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
     while (title.length > 8 && ctx.measureText(title).width > 900) title = title.slice(0, -2).trimEnd() + "…";
-    if (!state.menuOpen && !state.centering) ctx.fillText(title, 1868, 170);
+    if (!state.menuOpen && !state.centering && !state.arriving) ctx.fillText(title, 1868, 170);
     // Display only: which of today's three this is, and which are read.
-    if (!state.menuOpen && !state.centering && todayWorks.some((t) => t.id === w.id)) {
+    if (!state.menuOpen && !state.centering && !state.arriving && todayWorks.some((t) => t.id === w.id)) {
       let x = 1868 - ctx.measureText(title).width - 56;
       for (const t of [...todayWorks].reverse()) {
         const current = t.id === w.id, read = progress.days[todayKey()]?.[t.kind] === true;
@@ -443,7 +443,26 @@ function paint() {
   ctx.globalAlpha = 0.35;
   ctx.fillRect(180, 222, 1688, 2);
   ctx.globalAlpha = 1;
-  if (state.centering) {
+  if (state.arriving) {
+    // A short greeting while the window fades in: the time of day, then what
+    // waits. Painted once, so the page stays still while it appears.
+    const h = new Date().getHours();
+    const hello = h < 5 ? "Good evening." : h < 12 ? "Good morning." : h < 18 ? "Good afternoon." : "Good evening.";
+    const w = workById(state.workId);
+    const next = hasToday()
+      ? "Today’s three are ready."
+      : `Continuing ${w === SAMPLER ? "the first leaf" : w.title}`;
+    ctx.textAlign = "center";
+    ctx.fillStyle = ink;
+    ctx.font = `120px ${mood.body}`;
+    ctx.fillText(hello, 1024, 1180);
+    ctx.fillStyle = muted;
+    ctx.font = `44px ${UI}`;
+    let line = next;
+    while (line.length > 12 && ctx.measureText(line).width > 1500) line = line.slice(0, -2).trimEnd() + "…";
+    ctx.fillText(line, 1024, 1290);
+    ctx.textAlign = "left";
+  } else if (state.centering) {
     ctx.fillStyle = ink;
     ctx.font = `82px ${mood.body}`;
     ctx.fillText("Get comfortable.", 180, 650);
@@ -611,11 +630,12 @@ function paint() {
       if (b.page !== state.menuPage) continue;
       const hot = state.hover === b.id;
       ctx.fillStyle = hot ? palette.hover : card;
+      if (hot) lift(ctx);
       ctx.beginPath();
       if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
-      if (hot) ring(ctx, b, accent, 40);
+      if (hot) unlift(ctx);
       ctx.fillStyle = ink;
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
@@ -703,7 +723,7 @@ function paint() {
   ctx.fillStyle = muted;
   ctx.font = `32px ${UI}`;
   ctx.textAlign = "left";
-  if (!state.menuOpen && !state.centering)
+  if (!state.menuOpen && !state.centering && !state.arriving)
     ctx.fillText(
       readingPosition() +
         (state.mode === "layer" ? "" : "  ·  sharpness test B"),
@@ -714,14 +734,16 @@ function paint() {
   if (state.gazeTurn && !state.menuOpen) ctx.textAlign = "center";
   ctx.fillText(
     (state.arriving
-      ? "Welcome in. Make yourself comfortable."
+      ? " "
       : state.centering
         ? "Only centring is active · pinch and release to place the page."
         : state.attentionPaused
           ? "Paused · look toward the page, then open your hand."
           : state.feedback) ||
       (state.menuOpen
-        ? "Hold a pinch to close the menu."
+        ? state.menuPage === "today"
+          ? "Hold a pinch to continue reading."
+          : "Hold a pinch to close the menu."
         : (state.swapped
             ? "Left: next   ·   Right: back   ·   Hold: menu"
             : "Right: next   ·   Left: back   ·   Hold: menu") +
@@ -738,6 +760,15 @@ function paint() {
     2320,
   );
   ctx.textAlign = "left";
+  // A window, not a sheet: soft rounded corners, transparent beyond them.
+  if (state.mode !== "texture") {
+    ctx.globalCompositeOperation = "destination-in";
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(0, 0, PAGE.width, PAGE.height, WINDOW_RADIUS);
+    else ctx.rect(0, 0, PAGE.width, PAGE.height);
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+  }
   $("place").textContent = readingPosition();
   $("prev").disabled = state.page === 0;
   $("next").disabled = state.page === pages.length - 1;
@@ -1282,7 +1313,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-034",
+    build: "gestures-035",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1569,6 +1600,7 @@ async function enter() {
         isStatic: false,
         clearOnAccess: false,
       });
+      quad.blendTextureSourceAlpha = true; // rounded window corners
       state.layerStatus = "created; awaiting first draw";
       state.mode = "layer";
       applyLayers();
@@ -1766,7 +1798,9 @@ function frame(time, xrFrame, generation) {
         gestures.setContext("reading");
         state.handEntryStarted = time;
         placeAtArrival = readingPlace();
-        if (hasToday() && preferences.todayShown !== todayKey()) openToday(true);
+        // Every entry opens on Today when the three are ready; the gentle
+        // build plays only on the first entry of the day.
+        if (hasToday()) openToday(preferences.todayShown !== todayKey());
         paint();
       }
       if (state.todayReveal != null && (!state.menuOpen || state.menuPage !== "today")) state.todayReveal = null;
@@ -2040,21 +2074,13 @@ function frame(time, xrFrame, generation) {
       const progress = state.arriving
         ? Math.min(1, arrivalElapsed / ARRIVAL_MS)
         : null;
-      if (sessionVisible && (state.centering || state.arriving)) {
-        if (
-          arrival?.update(
-            state.arriving ? arrivalAnchor : pose.transform,
-            time,
-            progress,
-          )
-        )
-          applyLayers();
-      } else if (arrival?.clearVisible()) applyLayers();
+      // The old cover leaves are retired: the window simply fades in.
+      if (arrival?.clearVisible()) applyLayers();
       const display = state.arriving
         ? pageArrivalPose(arrivalAnchor, progress)
         : presentPose();
       if (quad)
-        quad.opacity = state.arriving ? Math.min(1, 0.2 + progress * 1.3) : 1;
+        quad.opacity = state.arriving ? smooth(progress) : 1;
       if (quad && display !== lastDisplay) {
         quad.transform = display;
         lastDisplay = display;
@@ -2142,7 +2168,7 @@ function frame(time, xrFrame, generation) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
         checkGl(gl, "quad subimage acquisition");
-        gpu.copyPage(sub, canvas);
+        gpu.copyPage(sub, canvas, { premultiplied: true });
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";

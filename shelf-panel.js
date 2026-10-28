@@ -1,11 +1,11 @@
-import { UI, ring } from "./theme.js?v=34";
+import { UI, lift, unlift } from "./theme.js?v=35";
 // Your shelf: every earlier day's three, newest first, and the works of one
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
-import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=34";
-import { rule } from "./today-panel.js?v=34";
-import { dayGuide } from "./guide-archive.js?v=34";
+import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=35";
+import { rule } from "./today-panel.js?v=35";
+import { dayGuide } from "./guide-archive.js?v=35";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 export const DAYS_PER_PAGE = 6;
@@ -108,11 +108,12 @@ function wrap2(ctx, text, width) {
 }
 function card(ctx, b, fill, edge) {
   ctx.fillStyle = fill;
+  if (edge) lift(ctx);
   ctx.beginPath();
   if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
-  if (edge) ring(ctx, b, edge, 36);
+  if (edge) unlift(ctx);
 }
 function button(ctx, b, label, hot, c, align = "center") {
   if (!b) return;

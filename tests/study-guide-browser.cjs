@@ -214,8 +214,12 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(()=>__hold());
     assert.deepEqual(await view(),['menu','main']);
     assert.ok((await text()).includes('1 of 3 read'));
-    // Re-entering later the same day resumes reading; Today does not reappear.
+    // Re-entering later the same day opens on Today again (no rebuild);
+    // holding a pinch continues reading.
     await p.reload();await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    assert.deepEqual(await view(),['menu','today']);
+    assert.equal(await p.evaluate(()=>__pageText.some(t=>t.includes('Hold a pinch to continue reading'))),true);
+    await p.evaluate(()=>__hold());
     assert.equal((await view())[0],'reading');
     assert.deepEqual(errors,[]);await p.close();
     passed(`Today appears once a day, opens a work, and the closing page marks it read and leads on${night?' (night)':''}`);
@@ -251,7 +255,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=34');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=35');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+1)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:blake-sick-rose');
     await p.evaluate(()=>__pinch());
@@ -378,7 +382,9 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     if (!skip) await p.locator('#page').screenshot({path:path.join(out,'bookmark.png')});
     await p.evaluate(()=>{const d=JSON.parse(localStorage.getItem('cabin-progress'));(d.days['2026-10-28']||={}).story=true;localStorage.setItem('cabin-progress',JSON.stringify(d));});
     await p.reload();await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
-    assert.equal((await view())[0],'reading','Today was already shown today');
+    assert.deepEqual(await view(),['menu','today'],'every entry opens on Today');
+    await p.evaluate(()=>__hold());
+    assert.equal((await view())[0],'reading','holding a pinch continues reading');
     assert.deepEqual(await marks(),['◇','◆','◇'],'the story (middle) is read');
     // Starter works keep the plain running head.
     await p.evaluate(()=>__hold());await p.evaluate(()=>__step(700));
@@ -389,7 +395,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=34');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=35');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+4)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:bacon-truth');
     await p.evaluate(()=>__pinch());

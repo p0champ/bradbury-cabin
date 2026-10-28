@@ -6,31 +6,35 @@ export const UI = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue
 export const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
-    paper: { bg: "#f6f2e9", ink: "#1f2a24", muted: "#6a746c", card: "#ebe6da", hover: "#ddd4bf" },
-    night: { bg: "#131715", ink: "#ebe6da", muted: "#9ba59d", card: "#1f2522", hover: "#2e3732" },
+    paper: { bg: "#f6f2e9", ink: "#1f2a24", muted: "#6a746c", card: "#ebe6da", hover: "#fffdf8" },
+    night: { bg: "#131715", ink: "#ebe6da", muted: "#9ba59d", card: "#1f2522", hover: "#323b36" },
     body: "Literata, Georgia, serif",
     title: "italic",
   },
   // Clean modern: cooler paper, the interface sans with upright bold titles.
   modern: {
-    paper: { bg: "#f4f4f2", ink: "#1c1f21", muted: "#646b6f", card: "#e8e9e6", hover: "#d9dcd8" },
-    night: { bg: "#111314", ink: "#e6e8e9", muted: "#9aa1a5", card: "#202426", hover: "#2e3437" },
+    paper: { bg: "#f4f4f2", ink: "#1c1f21", muted: "#646b6f", card: "#e8e9e6", hover: "#ffffff" },
+    night: { bg: "#111314", ink: "#e6e8e9", muted: "#9aa1a5", card: "#202426", hover: "#33393c" },
     body: UI,
     title: "bold",
   },
 };
 
 export const accentFor = (night) => (night ? "#d6c9a4" : "#2f4b3e");
-// Hover is a deeper tint (palette.hover) plus a ring; the label never changes
-// colour, so what you are reading stays put while the choice lights up.
-export function ring(ctx, b, color, radius) {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 8;
-  ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(b.x + 4, b.y + 4, b.w - 8, b.h - 8, Math.max(0, radius - 4));
-  else ctx.rect(b.x + 4, b.y + 4, b.w - 8, b.h - 8);
-  ctx.stroke();
+// Hover lifts the choice, as on visionOS: the card brightens and a soft
+// shadow appears beneath it. No coloured ring; the label never changes.
+export function lift(ctx) {
+  ctx.shadowColor = "rgba(20, 24, 22, 0.16)";
+  ctx.shadowBlur = 48;
+  ctx.shadowOffsetY = 14;
 }
+export function unlift(ctx) {
+  ctx.shadowColor = "rgba(0, 0, 0, 0)";
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+}
+// The page is a floating window: this radius rounds its corners.
+export const WINDOW_RADIUS = 88;
 export const goldFor = (night) => (night ? "#b8a06a" : "#a8873e");
 
 // Small capitals for labels and running heads, spaced like a book's folio.

@@ -1,4 +1,4 @@
-import { UI } from "./theme.js?v=34";
+import { UI } from "./theme.js?v=35";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,
