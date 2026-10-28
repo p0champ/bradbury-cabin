@@ -1,26 +1,24 @@
-# PAUSED — Build 017 work in progress (28 October 2026, 01:51)
+# Build 017 — Style, look-to-turn, background sound (28 October 2026)
 
-Bastian paused the work: "Pause credits running low".
+**Status.** Resumed after the pause; Bastian said "continue". The critic scored round 1 at 6/10 and round 2 at 8/10 (BUILD_017_REVIEW.md). Merged to phase-1-gestures and live at ?v=17. Needs a Quest check.
 
-**Branch.** Build 017 is on branch `build-017-wip`. It is NOT on `phase-1-gestures`, which GitHub Pages serves, so it is not deployed. **Build 016 is live.**
+**Style.** Literary or Clean modern. It sits on the main menu and applies to the pages, menu, calendar and Library.
 
-**Build 017 state:** built and PC-tested (75 unit tests + 111 browser checks), but not yet independently reviewed.
+**Look to turn pages.** Off by default; turn it on under More settings. It uses head direction, not eye tracking.
+- Hold your gaze on the bottom-right corner for 1.3 s to go forward, or the bottom-left for back.
+- A small ring fills beside the corner while you look.
+- It turns once per look. A hand action, the menu, pose loss or a visibility change ends the current look, and you must look away to re-arm it.
+- When it is on, the footer hint is centred, away from the corners.
 
-What it adds:
-- **Style:** a Literary or Clean modern mood. This is a main-menu item and also restyles the menu, calendar and Library.
-- **Look to turn pages.** It is off by default, under More settings. Hold your gaze on the bottom-right corner of the page for 1.3 s to go forward, or the bottom-left corner to go back. A small ring layer fills beside that corner. It turns once per look and is only active while reading and attentive.
-- **Background sound.** Off / Soft rain / Fireplace / Quiet room, under More settings. The loops are generated in code (ambience.js), so there are no recordings and no licensing to worry about.
+**Background sound.** Off, Soft rain, Fireplace or Quiet room, under More settings. The sounds are generated in code (ambience.js): an 8 s loop at 22.05 kHz with an equal-power seam, so there are no recordings and nothing to license.
 
-Layout and settings:
-- The main menu now has 8 rows and More settings has 9. Rows are 164 px tall at a 190 px step.
-- Back still sits in the same slot as More settings (index 6).
-- The new preferences are saved under `cabin-controls`: mood, gazeTurn and ambience.
+**Menu layout.**
+- Main has 8 rows and More has 9. Rows are 164 px tall with a 190 px step.
+- Back sits at index 6, the same slot as More settings.
 
-**Next steps:**
-1. Run the independent critic review (8+, up to 3 rounds).
-2. Merge into phase-1-gestures, push, and verify the live site.
-3. Give Bastian Quest test steps.
-4. Then Phase 3: the Claude picker, the Sunday tutor and Drive via the Sunnyvale bridge, plus progress sync.
+**Saved preferences.** Mood, gazeTurn and ambience are stored in `cabin-controls`.
+
+**Next.** Phase 3: Claude integration through the Sunnyvale bridge. This changes Sunnyvale's bridge, so the work happens on a separate branch with a throwaway BRIDGE_PRIVATE_DIR and test ports. Restarting the real bridge needs Bastian's explicit approval. Present the plan to him first.
 
 ---
 # Build 016 — real reading: Library, full works, saved place (28 October 2026)

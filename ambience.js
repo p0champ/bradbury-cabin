@@ -42,8 +42,11 @@ export function bakeAmbience(kind, rate = 48000) {
         for (let k = 0; k < len && i + k < n; k++) out[i + k] += (r() * 2 - 1) * Math.exp(-k / 30) * 0.7;
       }
     } else if (kind === "room") {
+      // Low room tone plus a little soft mid-range "air", so small headset
+      // speakers can actually reproduce it.
       lp += (brown - lp) * 0.02;
-      v = lp;
+      hp += (white - hp) * 0.08;
+      v = lp + hp * 0.12;
     }
     out[i] += v;
   }

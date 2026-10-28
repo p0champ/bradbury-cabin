@@ -1,3 +1,16 @@
+# Build 017 — Style, look-to-turn, background sound
+
+Open [Build 017](https://p0champ.github.io/bradbury-cabin/?v=17). The header should say **BUILD 017**.
+
+1. Open Menu → **Style**. It switches between Literary and Clean modern. Check the page, the menu and the Library in both.
+2. Go to More settings → **Look to turn pages: On**. Close the menu and read.
+3. Look at the bottom-right corner of the page. A small ring fills, and after about a second the page turns forward. Keep looking: it should not turn again.
+4. Look at the middle of the page, then at the bottom-left corner. The page turns back.
+5. Look at a corner and pinch before the ring fills. The page must turn exactly once.
+6. More settings → **Background sound**. Try Soft rain, Fireplace and Quiet room. Are they pleasant? Is the volume right? Do you notice any stutter when you switch?
+7. If you don't like look-to-turn, switch it off again in More settings.
+
+---
 # Build 016 — Library and real reading
 
 Open [Build 016](https://p0champ.github.io/bradbury-cabin/?v=16) and check that the header says **BUILD 016**.
