@@ -13,7 +13,7 @@ Status:
 - unit tests 92/92, including a mutation check of the scope test;
 - PC browser checks 113/113;
 - small fix; no separate critic round;
-- **Quest/phone check pending.**
+- **Confirmed by Bastian (14:36): today's three now show in the Library.**
 
 ---
 # Build 020 — Google Drive activated (28 October 2026, 13:42)
