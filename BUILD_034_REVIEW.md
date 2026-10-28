@@ -26,3 +26,6 @@ A separate critic agent that wrote none of the code reviewed the diff, screensho
 ## Not done / deferred
 - Not tried on the Quest yet; PC browser uses synthetic XR. Check hover ring visibility in bright and dim rooms, and that the shorter arrival feels calm.
 - Today reveal still steps in four repaints (no per-frame fade) to keep repaint cost low in XR.
+
+## Release
+Code commit 83eb773 pushed to build-034-design and phase-1-gestures. Live Build 034 verified: index.html, style.css and all 29 JavaScript modules match reviewed local files after normalising line endings. Staged and committed secret scans passed. Not yet seen on a Quest.

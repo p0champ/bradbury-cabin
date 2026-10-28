@@ -4,7 +4,7 @@
 
 **Verification:** 155 unit + all source checks; 148/148 full PC browser checks; independent critic 7.5 -> 8.5/10, no P1/P2 remaining. No Quest check: hover visibility in real room light is the main thing to look at (QUEST_CHECK.md). Remaining P3 polish listed in the review. ChatGPT's earlier standalone concept/motion studies (work/cabin-*-preview.html) informed the direction; their Bukowski opening poem stays parked.
 
-**Release:** pending below. Branch build-034-design; queries v34, header BUILD 034, diagnostic gestures-034; 29 JS modules (theme.js new).
+**Release:** code committed as 83eb773, pushed to build-034-design and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=34 verified: index.html, style.css and all 29 JavaScript modules match reviewed source (line endings normalised). Secret scans passed. Branch build-034-design; queries v34, header BUILD 034, diagnostic gestures-034; 29 JS modules (theme.js new).
 
 ---
 # Build 033 — Claude's personal lines and Library shortcut (28 October 2026)
