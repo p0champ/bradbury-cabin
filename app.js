@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=31";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=32";
 import {
   GestureEngine,
   menuButtons,
@@ -10,22 +10,23 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=31";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=31";
-import { HandBadges } from "./hand-badges.js?v=31";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=31";
-import { LIBRARY } from "./library.js?v=31";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=31";
-import { layoutReading } from "./reading-flow.js?v=31";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=31";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=31";
-import { parsePicks, pickLabels } from "./picks.js?v=31";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=31";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=31";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=31";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=31";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=31";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=31";
+} from "./gestures.js?v=32";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=32";
+import { HandBadges } from "./hand-badges.js?v=32";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=32";
+import { LIBRARY } from "./library.js?v=32";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=32";
+import { layoutReading } from "./reading-flow.js?v=32";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=32";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=32";
+import { parsePicks, pickLabels } from "./picks.js?v=32";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=32";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=32";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=32";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=32";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=32";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=32";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=32";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -42,8 +43,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=31";
-import { EntrySound } from "./entry-sound.js?v=31";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=32";
+import { EntrySound } from "./entry-sound.js?v=32";
 import {
   readProgress,
   saveProgress,
@@ -52,13 +53,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=31";
+} from "./progress.js?v=32";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=31";
+} from "./calendar.js?v=32";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -154,7 +155,17 @@ function loadTodayCache() {
   todayWorksFor = dateKey(new Date());
   try {
     const r = parsePicks(localStorage.getItem(TODAY_KEY) || "", progress.days);
+    if (r.date && r.date <= todayWorksFor && r.works.length === 3 && !r.problems.length &&
+        rememberGuides(progress, r.date, r.works, { onlyMissing: true })) {
+      progress.savedAt = new Date().toISOString();
+      if (!saveProgress(store, progress)) progressNotice = "Study notes could not be saved on this headset.";
+    }
     todayWorks = r.date === todayWorksFor && r.works.length === 3 && !r.problems.length ? r.works : [];
+    for (const work of todayWorks) {
+      const original = SOURCE_CATALOGUE.find(w => w.id === work.catalogueId);
+      const saved = original && dayGuide(progress.days[r.date], work.kind, original);
+      if (saved) work.guide = saved;
+    }
     picksNotice = r.date === todayWorksFor && !todayWorks.length
       ? "Saved selections need source-backed replacements. Sync with Drive, then ask Claude for today's three."
       : "";
@@ -190,9 +201,24 @@ function addShelfWork(id) {
   if (known) return known;
   const work = SOURCE_CATALOGUE.find((w) => w.id === m[3] && w.kind === m[2]);
   if (!work) return null;
-  shelfWorks.push(pastWork(m[1], m[2], work));
+  shelfWorks.push(pastWork(m[1], m[2], work, progress.days[m[1]]));
   rebuildWorks(state?.workId);
   return WORKS.find((w) => w.id === id) || null;
+}
+// Notes arriving from Drive must not move an open source page into the
+// newly inserted introduction. Keep its existing section/word anchor.
+function refreshSavedGuides() {
+  for (const work of WORKS) {
+    const match = /^today-(\d{4}-\d{2}-\d{2})-(poem|story|essay)-(.+)$/.exec(work.id);
+    if (!match) continue;
+    const original = SOURCE_CATALOGUE.find(w => w.id === match[3] && w.kind === match[2]);
+    if (!original) continue;
+    const guide = dayGuide(progress.days[match[1]], match[2], original);
+    if (JSON.stringify(work.guide || null) !== JSON.stringify(guide)) {
+      if (work.id === state.workId) state.pendingAnchor = currentAnchor();
+      work.guide = guide;
+    }
+  }
 }
 rebuildWorks();
 const reading = loadReading(store);
@@ -1261,7 +1287,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-031",
+    build: "gestures-032",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -2242,10 +2268,12 @@ async function syncDrive() {
         } catch {}
         todayWorks = r.works;
         picksNotice = "";
-        rebuildWorks(state.workId);
+        if (todayWorks.some(w => w.id === state.workId)) state.pendingAnchor = currentAnchor();
         const day = (progress.days[today] ||= {});
         day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
         day.ids = { ...(day.ids || {}), ...Object.fromEntries(r.works.map((w) => [w.kind, w.catalogueId])) };
+        rememberGuides(progress, today, r.works, { savedAt: found.createdTime || new Date().toISOString() });
+        rebuildWorks(state.workId);
         message = `Today's three are ready: ${r.works.map((w) => w.title).join(", ")}.`;
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&
             readingPlace() === placeAtArrival && preferences.todayShown !== today)
@@ -2259,6 +2287,12 @@ async function syncDrive() {
     try {
       localStorage.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
     } catch {}
+    try {
+      await drive.recoverGuides(progress, today, raw => parsePicks(raw));
+    } catch {
+      message += " Earlier study notes could not be recovered this time; existing readings are kept.";
+    }
+    refreshSavedGuides();
     driveState.everSynced = true;
     storeProgress();
     // This direct write replaces any queued save (no duplicate creation).

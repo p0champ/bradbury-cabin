@@ -8,7 +8,8 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=31";
+import { withPickerContract } from "./picker-contract.js?v=32";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=32";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -153,9 +154,46 @@ export class DriveLink {
       const parsed = parse(raw);
       if (parsed.date !== nameDate)
         return { raw: null, parsed: { date: nameDate, works: [], problems: [...parsed.problems, "Claude's file date does not match its name"] } };
-      return { raw, parsed };
+      return { raw, parsed, createdTime: f.createdTime };
     }
     return null;
+  }
+  // Recover optional notes for recorded past days through the existing Sync.
+  // Twelve downloads per sync bounds the work; unchanged empty/bad files are
+  // remembered, so later syncs can continue further back instead of retrying.
+  async recoverGuides(progress, today, parse) {
+    const days = Object.keys(progress.days).filter(d => d < today && missingGuideKinds(progress.days[d]).length).sort().reverse();
+    if (!days.length) return 0;
+    const folder = await this.folder();
+    if (!folder) return 0;
+    const cursor = progress.guideRecoveryCursor;
+    const next = typeof cursor === "string" ? days.findIndex(d => d < cursor) : -1;
+    const ordered = next > 0 ? [...days.slice(next), ...days.slice(0, next)] : days;
+    let downloads = 0, recovered = 0, listed = 0;
+    for (const date of ordered) {
+      if (downloads >= 12 || listed >= 24) break;
+      progress.guideRecoveryCursor = date;
+      listed++;
+      const query = `'${folder}' in parents and trashed = false and name contains 'picks-${date}'`;
+      const url = `${API}/files?q=${encodeURIComponent(query)}&fields=files(id,name,size,createdTime,modifiedTime)&orderBy=createdTime desc&pageSize=100&spaces=drive`;
+      const files = ((await (await this.call(url)).json()).files || []).filter(f =>
+        new RegExp(`^picks-${date}(-[0-9]+)?\\.json$`).test(f.name));
+      const file = files[0];
+      if (!file || Number(file.size) > MAX_FILE) continue;
+      const day = progress.days[date], revision = `${file.id}:${file.modifiedTime || file.createdTime || ""}:${file.size || ""}`;
+      if (day.guideRecovery === revision) continue;
+      const raw = await (await this.call(`${API}/files/${file.id}?alt=media`)).text();
+      downloads++;
+      // Remember oversized successful downloads too, so they cannot consume
+      // every later recovery pass. Network failures remain eligible to retry.
+      day.guideRecovery = revision;
+      if (new TextEncoder().encode(raw).length > MAX_FILE) continue;
+      const parsed = parse(raw);
+      const recorded = parsed.works.filter(w => day.ids?.[w.kind] || day.picks?.[w.kind]);
+      if (parsed.date === date && parsed.works.length === 3 && !parsed.problems.length &&
+          rememberGuides(progress, date, recorded, { savedAt: file.createdTime, onlyMissing: true })) recovered++;
+    }
+    return recovered;
   }
   // Creates the folder and/or progress.json when needed, otherwise updates it.
   writeProgress(text) {
@@ -220,7 +258,10 @@ export function mergeProgress(local, remote) {
       if (d.ids) o.ids = d.ids;
     } else if (d.ids && !o.ids && JSON.stringify(d.picks) === JSON.stringify(o.picks)) o.ids = d.ids;
     if (d.missed && o.missed == null) o.missed = d.missed;
+    mergeDayGuides(o, d);
   }
+  // Also validate notes on days present only in the newer copy.
+  for (const day of Object.values(out.days || {})) mergeDayGuides(day, null);
   for (const [key, w] of Object.entries(older.weeks || {})) {
     const o = (out.weeks[key] ||= {});
     if (w.submitted && !("submitted" in o)) o.submitted = true;

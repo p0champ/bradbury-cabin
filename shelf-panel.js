@@ -2,7 +2,8 @@
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
-import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=31";
+import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=32";
+import { dayGuide } from "./guide-archive.js?v=32";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 export const DAYS_PER_PAGE = 6;
@@ -52,8 +53,9 @@ export function dayHeading(date) {
 
 // The same edition the day gave, under the id it had then, so a saved
 // reading place from that day still applies.
-export function pastWork(date, kind, work) {
-  return { ...JSON.parse(JSON.stringify(work)), catalogueId: work.id, id: `today-${date}-${kind}-${work.id}`, today: false, shelfDate: date };
+export function pastWork(date, kind, work, day = null) {
+  return { ...JSON.parse(JSON.stringify(work)), catalogueId: work.id, id: `today-${date}-${kind}-${work.id}`, today: false, shelfDate: date,
+    guide: dayGuide(day, kind, work) };
 }
 
 export function shelfButtons(days, page) {

@@ -1,3 +1,17 @@
+# Build 032 — add to the combined end-of-work check
+
+Bastian requested all real Claude/Drive and Quest testing at the end. Do not stop for these checks now.
+
+Later, alongside the earlier checklist:
+1. Sync a daily trio with notes; read part of one and leave it at a source paragraph.
+2. After the day changes, reopen it from Your shelf. Before/after notes should still belong to that same edition; your source place should resume correctly.
+3. Reload offline and confirm the work, notes and saved place remain.
+4. Sync older picks already present in Drive. Available historical notes should return without changing selections, read ticks or the open paragraph. Missing old notes must not be invented.
+5. Repeat lying down and after a same-day swap; a replacement work must never receive the previous work's notes.
+
+No photographs, transcription, reading-text imports or manual skill replacement are required.
+
+---
 # Build 031 — saved for later, as Bastian requested
 
 The real Claude/Google Drive flow and Quest checks are explicitly deferred. Do not treat them as a release gate or ask Bastian to run them now.

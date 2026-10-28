@@ -78,6 +78,8 @@ export function validProgress(p) {
       if (Object.entries(d.ids).some(([k, v]) => !KINDS.includes(k) || typeof v !== "string" || !/^[a-z0-9-]{1,120}$/.test(v)))
         return false;
     }
+    // Optional saved guides are validated against their edition when opened
+    // and merged. Bad notes must never invalidate otherwise sound ticks.
   }
   for (const [key, w] of Object.entries(p.weeks)) {
     if (!realDate(key) || !plain(w)) return false;
