@@ -24,3 +24,6 @@ Final:9/10 approved, no unresolved findings. Critic independently ran archive/Dr
 ## Deferred and preserved
 Real Claude/Drive and Quest checks remain saved for one combined user test at the end, as Bastian requested; no per-build user gate. No literary text, source verdict, gesture recognizer, handMapRevision9 or menu indices changed. All import/index queries v32; header BUILD032; diagnostic gestures-032. Saved notes cannot recover material Claude never wrote. Release status recorded after live verification.
 
+
+## Release
+Code commit e587dce pushed to build-032-saved-notes and phase-1-gestures. Live Build032 verified: index.html, style.css and all27 JavaScript modules match reviewed local files after normalising line endings. Staged and committed secret scans passed25 changed files. Actual Claude/Google Drive and Quest checks remain saved for the end, not claimed as passed.

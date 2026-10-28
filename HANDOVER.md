@@ -2,11 +2,11 @@
 
 **Built:** day.guides saves normalized notes with catalogueId, source bodySha256 and independent guide revision timestamp. Your shelf reopens exact day/work notes offline; archives travel with progress/Drive/export. Startup automatically archives valid current/previous cache. Existing Sync recovers newest old pick-file notes for recorded choices only, bounded12 downloads/24 listings with a rotating persisted cursor. Invalid/missing old notes never fabricate content, replace source editions or erase ticks. Swaps and merges cannot attach a different work's guide; later old-device ticks do not overwrite newer note revisions. Adding recovered notes to an open work preserves its section/word anchor. No new guide UI.
 
-**Verification:**149 unit and all source checks pass;four new upright/lying/offline/Drive recovery browser cases pass;9/9 isolated faults caught. Independent critic7→9/10 after oversize-starvation and offline-overlay fixes, no remaining findings. Full PC browser suite142/142 passed; release pending. See BUILD_032_REVIEW.md.
+**Verification:**149 unit and all source checks pass;four new upright/lying/offline/Drive recovery browser cases pass;9/9 isolated faults caught. Independent critic7→9/10 after oversize-starvation and offline-overlay fixes, no remaining findings. Full PC browser suite142/142 passed. See BUILD_032_REVIEW.md.
 
 **User instruction:** hands-on Claude/Drive and Quest tests only as one combined check at the end; do not ask for testing between builds or stop for that gate. Keep deferred test list. Source catalogue remains241 works/nine authors; no literary text or gesture/menu change. Branch build-032-saved-notes, preview18152, all queries/header/diagnostics32.
 
-**Release:** reviewed locally; commit/push/live verification pending. Optional personal opening/closing lines and broader guide redesign remain separate future work.
+**Release:** code committed as e587dce, pushed to build-032-saved-notes and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=32 verified: index.html, style.css and all27 JavaScript modules match reviewed source (line endings normalised). Optional personal opening/closing lines and broader guide redesign remain separate future work.
 
 ---
 # Build 031 — more authors (28 October 2026)
