@@ -28,3 +28,6 @@ Bastian explicitly deferred real Claude/Google Drive and Quest checks, and instr
 
 All import/index queries v31; header BUILD031, diagnostics gestures-031. No gesture recognizer, handMapRevision9, menu indices or visual flow changed. Release verification to be recorded after deployment.
 
+
+## Release
+Code commit190959c pushed to build-031-more-authors and phase-1-gestures. Live Build031 verified: index.html, style.css and all26 JavaScript modules match reviewed local source (line endings normalised). Staged/committed secret scans passed44 changed files. Scanner subprocess buffer was increased to64MB in parent scanner scripts to support the expanded source catalogue; detection rules were not changed. Real Claude/Drive and Quest checks remain deferred as requested.

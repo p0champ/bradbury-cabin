@@ -6,7 +6,7 @@
 
 **Deferred by Bastian:** keep Build030 real Claude/Drive and Builds027–031 Quest tests for later; do not stop work for a user test gate. Notes retained in QUEST_CHECK.md. Source diversity expansion is complete. Parked guide UI, optional lines and historical study-note persistence remain separate future work.
 
-**Release:** reviewed locally on build-031-more-authors; commit/push/live verification pending. Header BUILD031, diagnostic gestures-031, all queries v31. Existing static preview18151. No Sunnyvale or account automation touched.
+**Release:** code committed as190959c, pushed to build-031-more-authors and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=31 verified: index.html, style.css and all26 JavaScript modules match reviewed source after normalising line endings. Header BUILD031, diagnostic gestures-031, all queries v31. Existing static preview18151. No Sunnyvale or account automation touched.
 
 ---
 **Bastian, 28 October:** defer the real Build030 Claude/Drive/Quest test until later; do not block further work on it. Next authorised work: expand the independently checked author selection. This is a saved testing note, not a claim the test passed.
