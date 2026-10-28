@@ -102,7 +102,8 @@ export function toggleTick(p, key, kind, today) {
   if (!KINDS.includes(kind) || key < p.start || key > today) return false;
   const d = (p.days[key] ||= {});
   d[kind] = !d[kind];
-  if (!KINDS.some((k) => d[k]) && !d.picks) delete p.days[key];
+  // An untick is kept as an explicit false (not deleted), so merging with an
+  // older Drive copy can never bring the tick back.
   return true;
 }
 export function toggleWeekly(p, key, today) {

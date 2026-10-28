@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=18";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=19";
 import {
   GestureEngine,
   menuButtons,
@@ -10,15 +10,18 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=18";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=18";
-import { HandBadges } from "./hand-badges.js?v=18";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=18";
-import { LIBRARY } from "./library.js?v=18";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=18";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=18";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=18";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=18";
+} from "./gestures.js?v=19";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=19";
+import { HandBadges } from "./hand-badges.js?v=19";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=19";
+import { LIBRARY } from "./library.js?v=19";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=19";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=19";
+import { parsePicks, pickLabels } from "./picks.js?v=19";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=19";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=19";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=19";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=19";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -35,8 +38,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=18";
-import { EntrySound } from "./entry-sound.js?v=18";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=19";
+import { EntrySound } from "./entry-sound.js?v=19";
 import {
   readProgress,
   saveProgress,
@@ -45,13 +48,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=18";
+} from "./progress.js?v=19";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=18";
+} from "./calendar.js?v=19";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -112,6 +115,8 @@ let progress,
 // Saves, and tells the truth when it could not.
 function storeProgress() {
   progressVersion++;
+  progress.savedAt = new Date().toISOString();
+  scheduleDriveSave();
   const ok = progressPersistent && saveProgress(store, progress);
   if (!ok) {
     progressNotice = "Not saving on this headset · export before leaving.";
@@ -135,7 +140,34 @@ const SAMPLER = {
   title: "A first leaf",
   author: "Blake & O. Henry excerpts",
 };
-const WORKS = [SAMPLER, ...LIBRARY];
+// Today's three from Claude (via Google Drive), cached on the headset so they
+// stay readable offline. They sit at the top of the Library.
+const TODAY_KEY = "cabin-today";
+let todayWorks = [];
+let todayWorksFor = null;
+function loadTodayCache() {
+  todayWorksFor = dateKey(new Date());
+  try {
+    const r = parsePicks(localStorage.getItem(TODAY_KEY) || "");
+    todayWorks = r.date === todayWorksFor ? r.works : [];
+  } catch {
+    todayWorks = [];
+  }
+}
+loadTodayCache();
+const WORKS = [];
+// Works that stopped being "today" stay readable while open, so passing
+// midnight never pulls the page away mid-read.
+let carriedWorks = [];
+function rebuildWorks(openId = null) {
+  const open = [...WORKS, ...carriedWorks].find(
+    (w) => w.id === openId && !todayWorks.includes(w) && (w.today || carriedWorks.includes(w)),
+  );
+  carriedWorks = open ? [{ ...open, today: false }] : [];
+  WORKS.length = 0;
+  WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...LIBRARY);
+}
+rebuildWorks();
 const reading = loadReading(store);
 const workById = (id) => WORKS.find((w) => w.id === id) || SAMPLER;
 const $ = (id) => document.getElementById(id),
@@ -266,6 +298,11 @@ function paint() {
         ? "Gesture practice: Next, Back and Menu"
         : "Public domain poem and short story excerpt",
   );
+  // After midnight, yesterday's picks stop being "today".
+  if (todayWorksFor !== dateKey(new Date())) {
+    loadTodayCache();
+    rebuildWorks(state.workId);
+  }
   const work = workById(state.workId);
   pages =
     work === SAMPLER
@@ -320,9 +357,10 @@ function paint() {
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
   } else if (state.menuOpen && state.menuPage === "library") {
     const places = {};
-    for (const w of LIBRARY)
-      if (reading.places[w.id]?.page > 0) places[w.id] = "in progress";
+    for (const w of WORKS)
+      if (w !== SAMPLER && reading.places[w.id]?.page > 0) places[w.id] = "in progress";
     paintLibrary(ctx, {
+      note: driveNote(),
       works: WORKS,
       hover: state.hover,
       current: state.workId,
@@ -934,7 +972,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-018",
+    build: "gestures-019",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -967,7 +1005,8 @@ $("export").onclick = () => {
     attentionPaused: state.attentionPaused,
     handFeedbackError: state.handFeedbackError,
     reading: {
-      work: state.workId,
+      // The work actually shown (falls back to the sampler if unknown).
+      work: workById(state.workId).id,
       page: state.page + 1,
       pages: pages.length,
       anchor: pages[state.page]?.anchor || null,
@@ -1795,6 +1834,115 @@ function frame(time, xrFrame, generation) {
   }
   session.requestAnimationFrame((t, f) => frame(t, f, generation));
 }
+// ---------- Google Drive: today's three and progress backup ----------
+const clientId = (() => {
+  try {
+    return localStorage.getItem(CLIENT_ID_KEY) || GOOGLE_CLIENT_ID;
+  } catch {
+    return GOOGLE_CLIENT_ID;
+  }
+})();
+const drive = new DriveLink({ clientId });
+const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false };
+function driveNote() {
+  if (driveState.error)
+    return (
+      "Drive: " +
+      driveState.error.slice(0, 90) +
+      (driveState.pending ? ` (${driveState.pending} change${driveState.pending === 1 ? "" : "s"} not yet on Drive)` : "")
+    );
+  if (driveState.last) return "Synced with Google Drive at " + driveState.last;
+  return clientId ? "Not synced yet · use Sync with Drive on the browser page" : "";
+}
+function paintDriveButton() {
+  const b = $("drive-sync");
+  if (!b) return;
+  b.disabled = driveState.syncing || !clientId;
+  b.textContent = !clientId
+    ? "Drive: setup needed"
+    : driveState.syncing
+      ? "Syncing…"
+      : drive.connected
+        ? "Sync with Drive ✓"
+        : "Sync with Drive";
+}
+let driveTimer = null;
+function scheduleDriveSave() {
+  if (!clientId || !driveState.everSynced) return;
+  driveState.pending++;
+  if (!drive.connected) {
+    // Google's sign-in lasts about an hour. Ticks stay safe on the headset
+    // and go up with the next Sync; say so instead of failing silently.
+    driveState.error = "sign-in expired · ticks are kept on the headset; tap Sync with Drive again";
+    return;
+  }
+  clearTimeout(driveTimer);
+  driveTimer = setTimeout(() => {
+    drive.writeProgress(JSON.stringify(progress)).then(
+      () => {
+        driveState.error = null;
+        driveState.pending = 0;
+        driveState.last = new Date().toTimeString().slice(0, 5);
+      },
+      (e) => (driveState.error = e.message),
+    );
+  }, 1500);
+}
+// Pull today's three and merge progress; push the merged progress back.
+async function syncDrive() {
+  driveState.syncing = true;
+  paintDriveButton();
+  try {
+    if (!drive.connected) await drive.signIn();
+    const today = todayKey();
+    const found = await drive.readPicksFor(today, parsePicks);
+    let message = "No picks from Claude yet. Ask Claude for today's three.";
+    if (found) {
+      const { raw, parsed: r } = found;
+      if (r.date === today && r.works.length) {
+        try {
+          localStorage.setItem(TODAY_KEY, raw);
+        } catch {}
+        todayWorks = r.works;
+        rebuildWorks(state.workId);
+        const day = (progress.days[today] ||= {});
+        day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
+        message = `Today's three are in the Library: ${r.works.map((w) => w.title).join(", ")}.`;
+      } else if (r.date && r.date !== today) message = `Claude's last picks are from ${r.date}. Ask for today's three.`;
+      if (r.problems.length) message += " (" + r.problems.join("; ") + ")";
+    }
+    const remote = await drive.read("progress.json");
+    if (remote) {
+      try {
+        const parsed = JSON.parse(remote);
+        if (validProgress(parsed)) progress = mergeProgress(progress, parsed);
+      } catch {}
+    }
+    driveState.everSynced = true;
+    storeProgress();
+    // This direct write replaces any queued save (no duplicate creation).
+    clearTimeout(driveTimer);
+    await drive.writeProgress(JSON.stringify(progress));
+    driveState.pending = 0;
+    driveState.error = null;
+    driveState.last = new Date().toTimeString().slice(0, 5);
+    report(message);
+  } catch (e) {
+    driveState.error = e.message;
+    report("Drive sync failed: " + e.message);
+  } finally {
+    driveState.syncing = false;
+    paintDriveButton();
+    paint();
+  }
+}
+$("drive-sync").onclick = () => syncDrive();
+paintDriveButton();
+// After a reload within the hour, Google's sign-in is still valid: sync
+// straight away (no popup), so ticks keep going to Drive.
+if (clientId && drive.connected) syncDrive();
+// Load Google sign-in early, so the popup opens directly from the tap.
+if (clientId) preloadGoogle();
 await document.fonts.load("54px Literata");
 $("enter").onclick = enter;
 paint();

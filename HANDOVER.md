@@ -1,3 +1,38 @@
+# Build 019: Claude's daily three through Google Drive (28 October 2026, early morning)
+
+**Bastian's decisions**
+- Claude only on request, from his phone or PC, with no windows or voice in the headset.
+- The Google Drive route, so his PC can stay off.
+- He went to bed at 06:24.
+- **Note for tomorrow (Bastian): "we also need a study guide".** Design this with him. Right now the reply to "give me the daily three" includes study-guide links.
+
+**Live (?v=19).** The **Sync with Drive** button on the start page:
+1. signs in with Google (a browser-only token client; scopes drive.readonly and drive.file);
+2. reads today's best `picks-YYYY-MM-DD[-n].json` from the Drive folder "Bradbury Cabin";
+3. shows the picks at the top of the Library;
+4. records "Title — Author" for the calendar and wrist card;
+5. merges and writes `progress.json`.
+
+Ticks save back to Drive about 1.5 s later. When Google's roughly one-hour sign-in expires, the app says so and keeps ticks on the headset until the next Sync. A work open at midnight stays open.
+
+**Not active yet:** `config.js` `GOOGLE_CLIENT_ID` is empty, so the button reads "setup needed".
+
+**Waiting on Bastian: Google Cloud setup, one step at a time**
+1. Create the project "Bradbury Cabin" at console.cloud.google.com. (Step 1 has been given.)
+2. Enable the Google Drive API.
+3. Set up the OAuth consent screen (Google Auth Platform): External, publishing status Testing, add his Gmail as a test user. drive.readonly is a restricted scope, so expect the "Google hasn't verified this app" screen; he continues past it.
+4. Create an OAuth client: type Web application, authorised JavaScript origin `https://p0champ.github.io`.
+5. Put the client ID (public, not a secret) in config.js, bump the version, and push.
+
+Then propose the skill in `CLAUDE_SKILL_DAILY_THREE.md` with `propose_skills`, test it end to end with a real request, and give him Quest steps.
+
+**Drive state**
+- The folder "Bradbury Cabin" exists in his Drive.
+- A harmless `picks-test.json` (dated 2000) sits in it and can be deleted.
+
+**Review:** critic round 1 scored 7/10; round 2 scored 8/10 for both the code and the skill (BUILD_019_REVIEW.md).
+
+---
 # Build 018 — background sound audible (28 October 2026)
 
 **What Bastian reported.**

@@ -2,8 +2,9 @@
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.
 const KIND = { sampler: "Sampler", poem: "Poem", story: "Story", essay: "Essay" };
-export const LIBRARY_ROWS = 8;
-const ROW = (i) => ({ x: 274, y: 760 + i * 150, w: 1500, h: 132 });
+// Room for today's three (from Claude, via Drive), the sampler and the shelf.
+export const LIBRARY_ROWS = 11;
+const ROW = (i) => ({ x: 274, y: 700 + i * 124, w: 1500, h: 112 });
 
 export function libraryButtons(works) {
   return [
@@ -24,15 +25,21 @@ function card(ctx, b, fill) {
   ctx.fill();
 }
 // places: { [workId]: "in progress" } labels for works with a saved place.
-export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
+export function paintLibrary(ctx, { works, hover, current, places = {}, c, note = "" }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
   ctx.font = `84px ${c.serif || "Literata"}`;
   ctx.fillText("Library", 274, 470);
   ctx.fillStyle = c.muted;
   ctx.font = "36px Arial";
-  ctx.fillText("Out-of-copyright works on this headset. Pick one to read.", 274, 540);
-  ctx.fillText("Coming later: Claude's daily picks will be added here.", 274, 600);
+  ctx.fillText(
+    works.some((w) => w.today)
+      ? "Today's three from Claude are at the top. Pick one to read."
+      : "Ask Claude for today's three; they appear here. Pick any work to read.",
+    274,
+    540,
+  );
+  if (note) ctx.fillText(note, 274, 600);
   for (const b of libraryButtons(works)) {
     const hot = hover === b.id;
     card(ctx, b, hot ? c.accent : c.card);
@@ -48,15 +55,31 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
     }
     const w = works.find((x) => "work:" + x.id === b.id);
     ctx.fillStyle = sub;
-    ctx.font = "30px Arial";
-    ctx.fillText(KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""), b.x + 60, b.y + 44);
+    ctx.font = "28px Arial";
+    ctx.fillText(
+      (w.today ? "TODAY  ·  " : "") + KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""),
+      b.x + 60,
+      b.y + 38,
+    );
     ctx.fillStyle = fg;
-    ctx.font = `${c.italic ?? "italic "}48px ${c.serif || "Literata"}`;
-    ctx.fillText(w.title, b.x + 60, b.y + 100);
+    ctx.font = `${c.italic ?? "italic "}44px ${c.serif || "Literata"}`;
+    // Long titles are shortened so they never run into the author.
+    let title = w.title;
+    ctx.save();
+    ctx.font = "32px Arial";
+    let author = w.author;
+    while (author.length > 4 && ctx.measureText(author).width > b.w * 0.4) author = author.slice(0, -2);
+    if (author !== w.author) author = author.trimEnd() + "…";
+    const authorWidth = ctx.measureText(author + (places[w.id] ? "  ·  " + places[w.id] : "")).width;
+    ctx.restore();
+    const room = b.w - 120 - authorWidth - 60;
+    while (title.length > 4 && ctx.measureText(title).width > room) title = title.slice(0, -2);
+    if (title !== w.title) title = title.trimEnd() + "…";
+    ctx.fillText(title, b.x + 60, b.y + 88);
     ctx.textAlign = "right";
     ctx.fillStyle = sub;
     ctx.font = "32px Arial";
-    ctx.fillText(w.author + (places[w.id] ? "  ·  " + places[w.id] : ""), b.x + b.w - 60, b.y + 100);
+    ctx.fillText(author + (places[w.id] ? "  ·  " + places[w.id] : ""), b.x + b.w - 60, b.y + 88);
     ctx.textAlign = "left";
   }
 }

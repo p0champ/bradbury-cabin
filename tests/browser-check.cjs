@@ -435,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=18");
+        const { menuButtons } = await import("./gestures.js?v=19");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1100,7 +1100,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-018");
+        assert.equal(details.build, "gestures-019");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2047,7 +2047,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=18");
+        const { paintHandBadge } = await import("./hand-badges.js?v=19");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2368,7 +2368,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=18");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=19");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2433,7 +2433,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=18");
+        const { MENU_PAGES } = await import("./gestures.js?v=19");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit"]);
@@ -2486,8 +2486,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=18");
-            const { loadProgress } = await import("./progress.js?v=18");
+            const { calendarButtons } = await import("./calendar.js?v=19");
+            const { loadProgress } = await import("./progress.js?v=19");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2828,7 +2828,7 @@ async function mock(
       await p.goto("http://127.0.0.1:18140");
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
-      const row = (i) => ({ x: 274, y: 760 + i * 150, w: 1500, h: 132 });
+      const row = (i) => ({ x: 274, y: 700 + i * 124, w: 1500, h: 112 });
       const details = async (name) => {
         const dl = p.waitForEvent("download");
         await p.locator("#export").click();
@@ -3085,6 +3085,122 @@ async function mock(
       await p.goto("http://127.0.0.1:18140");
       await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
       await p.locator("#page").screenshot({ path: path.join(out, "reading-modern-story.png") });
+      await p.close();
+    }
+    // Build 019: today's three and progress through Google Drive (faked).
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
+        errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await mock(p, "layer", false);
+      await p.addInitScript(() => localStorage.setItem("cabin-google-client", "test-client.apps.googleusercontent.com"));
+      const today = {
+        version: 1,
+        date: "2026-10-28",
+        picks: {
+          poem: { title: "Ozymandias", author: "Percy Bysshe Shelley", year: 1818, place: "England", source: "Test", text: "I met a traveller from an antique land,\nWho said—\"Two vast and trunkless legs of stone\n\nStand in the desert....\"" },
+          story: { title: "The Necklace", author: "Guy de Maupassant", year: 1884, text: "She was one of those pretty and charming girls.\n\nShe had no dresses, no jewels, nothing." },
+          essay: { title: "Of Love", author: "Francis Bacon", year: 1625, text: "The stage is more beholding to love, than the life of man." },
+        },
+      };
+      const writes = [];
+      let consent = 0;
+      await p.route("https://accounts.google.com/gsi/client", (r) =>
+        r.fulfill({
+          contentType: "text/javascript",
+          body: `window.google = { accounts: { oauth2: { initTokenClient: (o) => ({ requestAccessToken: () => { window.__consent = (window.__consent || 0) + 1; setTimeout(() => o.callback({ access_token: "fake-token", expires_in: 3600 }), 10); } }) } } };`,
+        }),
+      );
+      await p.route("https://www.googleapis.com/**", async (r) => {
+        const url = decodeURIComponent(r.request().url()),
+          method = r.request().method();
+        assert.equal(r.request().headers().authorization, "Bearer fake-token");
+        const json = (b) => r.fulfill({ contentType: "application/json", body: JSON.stringify(b) });
+        if (url.includes("files?q=") && url.includes("Bradbury Cabin")) return json({ files: [{ id: "F" }] });
+        if (url.includes("files?q=") && url.includes("progress.json")) return json({ files: writes.length ? [{ id: "P" }] : [] });
+        if (url.includes("files?q=") && url.includes("in parents"))
+          return json({ files: [{ id: "T", name: "picks-2026-10-28.json", size: "900" }] });
+        if (url.includes("/files/T?alt=media")) return r.fulfill({ contentType: "application/json", body: JSON.stringify(today) });
+        if (method !== "GET") {
+          writes.push({ method, url, body: r.request().postData() });
+          return json({ id: "P" });
+        }
+        return r.fulfill({ status: 404, body: "" });
+      });
+      await p.goto("http://127.0.0.1:18140");
+      await p.locator("#drive-sync:not([disabled])").click();
+      await p.waitForFunction(() => /Today's three are in the Library/.test(document.querySelector("#status").textContent));
+      assert.match(await p.locator("#status").textContent(), /Ozymandias, The Necklace, Of Love/);
+      assert.equal(writes.filter((w) => w.method === "POST").length, 1, "progress.json created once");
+      const created = writes.find((w) => w.method === "POST").body;
+      assert.match(created, /"2026-10-28"/);
+      assert.match(created, /Ozymandias — Percy Bysshe Shelley/, "today's picks recorded in progress");
+      // In the cabin: Library top row is today's poem; open it, then tick it.
+      await p.locator("#enter:not([disabled])").click();
+      await p.evaluate(() => __center());
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("library"));
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "library-today.png") });
+      await p.evaluate(async () => await __aim({ x: 274, y: 700, w: 1500, h: 112 }));
+      assert.match(await p.locator("#page").getAttribute("data-target"), /^work:today-2026-10-28-poem-/);
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "reading-today-poem.png") });
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __aim("calendar"));
+      await p.evaluate(() => __pinch());
+      const cell = await p.evaluate(async () => {
+        const { calendarButtons } = await import("./calendar.js?v=19");
+        const { loadProgress } = await import("./progress.js?v=19");
+        return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
+      });
+      await p.evaluate(async (b) => await __aim(b), cell);
+      await p.evaluate(() => __pinch());
+      await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-with-picks.png") });
+      await p.evaluate(async () => await __aim({ x: 274, y: 640, w: 1500, h: 186 }));
+      await p.evaluate(() => __pinch());
+      // The tick is pushed to Drive shortly after.
+      await p.evaluate(() => {
+        __mock.clock = Math.max(__mock.clock, performance.now());
+      });
+      await p.waitForTimeout(2200);
+      const patch = writes.filter((w) => w.method === "PATCH").at(-1);
+      assert.ok(patch, "tick saved back to Drive");
+      assert.equal(JSON.parse(patch.body).days["2026-10-28"].poem, true);
+      assert.equal(await p.evaluate(() => window.__consent), 1, "one Google sign-in for the session");
+      // Reading one of today's works when midnight passes: it stays open.
+      const exportReading = async (name) => {
+        const dl = p.waitForEvent("download");
+        await p.locator("#export").click();
+        const f = path.join(out, name);
+        await (await dl).saveAs(f);
+        return JSON.parse(await fs.readFile(f, "utf8")).reading;
+      };
+      if ((await p.locator("#page").getAttribute("data-view")) === "menu") await p.evaluate(() => __hold());
+      const before = await exportReading("before-midnight.json");
+      assert.match(before.work, /^today-2026-10-28-/);
+      await p.clock.setFixedTime(new Date(2026, 9, 29, 0, 0, 5));
+      // Any repaint after midnight (here: opening and closing the menu).
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __hold());
+      const after = await exportReading("after-midnight.json");
+      assert.equal(after.work, before.work, "the same work stays open after midnight");
+      assert.equal(after.page, before.page);
+      assert.deepEqual(errors, []);
+      passed("Drive: today's three appear in the Library, calendar and wrist; ticks sync back");
+      await p.close();
+    }
+    {
+      // Without Google setup the button says so, and nothing breaks.
+      const p = await browser.newPage();
+      const errors = [];
+      p.on("pageerror", (e) => errors.push(e.message));
+      await p.goto("http://127.0.0.1:18140");
+      await p.waitForFunction(() => document.querySelector("#place").textContent.includes("Page"));
+      assert.match(await p.locator("#drive-sync").textContent(), /setup needed/);
+      assert.deepEqual(errors, []);
+      passed("Drive button is safely disabled before Google setup");
       await p.close();
     }
     await fs.writeFile(
