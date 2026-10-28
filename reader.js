@@ -4,7 +4,7 @@
 // and flows across pages with at least two lines kept together at a split.
 // Every page records an anchor (block, word) so a saved place survives a
 // change of text size.
-import { SIZES } from "./core.js?v=29";
+import { SIZES } from "./core.js?v=30";
 
 export const AREA = { left: 194, right: 1854, top: 380, bottom: 2120 };
 const WIDTH = AREA.right - AREA.left;

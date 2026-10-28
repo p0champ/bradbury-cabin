@@ -1,5 +1,6 @@
 const volumeChecks = require("./volume-browser.cjs");
 const guideChecks = require("./study-guide-browser.cjs");
+const pickerChecks = require("./picker-browser.cjs");
 const { chromium } = require(process.env.CABIN_PLAYWRIGHT_PATH || "playwright");
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
@@ -438,7 +439,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=29");
+        const { menuButtons } = await import("./gestures.js?v=30");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -719,6 +720,10 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_PICKER_ONLY) {
+      await pickerChecks(browser, { mock, BASE_URL, out, passed });
+      return;
+    }
     if (process.env.CABIN_VOLUME_ONLY) {
       await volumeChecks(browser, { mock, BASE_URL, out, passed });
       console.log(`${checks} volume browser checks passed.`);
@@ -1113,7 +1118,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-029");
+        assert.equal(details.build, "gestures-030");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2060,7 +2065,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=29");
+        const { paintHandBadge } = await import("./hand-badges.js?v=30");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2381,7 +2386,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=29");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=30");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2446,7 +2451,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=29");
+        const { MENU_PAGES } = await import("./gestures.js?v=30");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2499,8 +2504,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=29");
-            const { loadProgress } = await import("./progress.js?v=29");
+            const { calendarButtons } = await import("./calendar.js?v=30");
+            const { loadProgress } = await import("./progress.js?v=30");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2832,6 +2837,7 @@ async function mock(
       passed("wrist calendar appears only on the right wrist, settles, blocks that hand, and hides" + (night ? " night" : ""));
       await p.close();
     }
+    await pickerChecks(browser, { mock, BASE_URL, out, passed });
     await guideChecks(browser, { mock, BASE_URL, out, passed });
     await volumeChecks(browser, { mock, BASE_URL, out, passed });
     // Build 016: Library, full-work pagination and saved place.
@@ -3171,8 +3177,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=29");
-        const { loadProgress } = await import("./progress.js?v=29");
+        const { calendarButtons } = await import("./calendar.js?v=30");
+        const { loadProgress } = await import("./progress.js?v=30");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

@@ -1,6 +1,6 @@
-import { layoutWork } from "./reader.js?v=29";
-import { studyGuide, normalizeGuide } from "./study-guide.js?v=29";
-import { BUILTIN_GUIDES } from "./guide-data.js?v=29";
+import { layoutWork } from "./reader.js?v=30";
+import { studyGuide, normalizeGuide } from "./study-guide.js?v=30";
+import { BUILTIN_GUIDES } from "./guide-data.js?v=30";
 
 // One work, one sequence of pages. Keep source blocks/word anchors intact so
 // adding notes never moves an existing saved place into a different text.

@@ -1,3 +1,16 @@
+# Build 030 — current instructions reach Claude automatically
+
+Open https://p0champ.github.io/bradbury-cabin/?v=30 and check BUILD 030.
+
+1. Tap Sync with Drive once. This sends the complete current workflow through the progress file Claude already reads.
+2. Ask Claude for today's three as usual. No skill paste or reading-text import is needed.
+3. Sync again. Confirm that Today's three are ready; if rejected, keep the exact message for investigation.
+4. Enter the cabin. Open a work from Today; confirm its before notes, original text and after notes appear.
+5. Check the same flow lying down and confirm your existing progress/shelf remain available.
+
+PC tests used mocked Drive and a synthetic picker, not your Claude account. Real Claude compliance and Quest need this check. Earlier Builds027–029 headset checks below are still outstanding.
+
+---
 # Build 029 — the entrance and the bookmark
 
 Open [Build 029](https://p0champ.github.io/bradbury-cabin/?v=29) in a fresh Quest Browser tab. Check **BUILD 029**.

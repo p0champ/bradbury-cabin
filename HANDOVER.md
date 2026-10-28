@@ -1,3 +1,12 @@
+# Build 030 — automatic current picker workflow (28 October 2026)
+
+**Built:** progress.json now begins with the complete maintained Claude daily-three workflow, source catalogue and current rejection reasons. Both initial Drive creation and updates include it. The existing Claude skill reads this file, so no manual replacement-skill paste is required to make current instructions available. A generated picker-workflow.js is checked against CLAUDE_SKILL_DAILY_THREE.md during npm test; stale instructions fail verification. No reading text or source verdict changed. No saved Claude account skill was edited and no daily critic/backend was added.
+
+**Verification:**139 unit + all source checks pass;134 full PC browser checks; two new upright/lying Drive transport checks;6/6 isolated mutations caught with passing baseline/restoration. Independent critic9/10; minor newest-file wording corrected and regenerated, then final critic sign-off9/10 with no remaining findings. See BUILD_030_REVIEW.md. Actual Claude connector and Quest not tested.
+
+**Release:** reviewed and ready on build-030-picker-workflow; release progress recorded below after live verification. Header BUILD030, diagnostic gestures-030, queries v30. Preview18151. After release, sync once to deliver current workflow, ask Claude for today's three normally, then sync to check results. If actual Claude ignores delivered instructions, investigate the real response; do not claim guaranteed obedience. Next substantial improvement: broaden independently checked authors. Preserve parked study-guide/UI work.
+
+---
 # Build 029 — entrance and bookmark (28 October 2026)
 
 **Built:** Today's first showing builds in five 300 ms beats (heading, poem, story, essay, rest), one repaint each; a pinch completes it and chooses nothing. Reading bookmark: ◆/◇ marks for today's three in the running head. See BUILD_029_REVIEW.md.

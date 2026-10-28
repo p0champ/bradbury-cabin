@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=29";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=30";
 import {
   GestureEngine,
   menuButtons,
@@ -10,22 +10,22 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=29";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=29";
-import { HandBadges } from "./hand-badges.js?v=29";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=29";
-import { LIBRARY } from "./library.js?v=29";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=29";
-import { layoutReading } from "./reading-flow.js?v=29";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=29";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=29";
-import { parsePicks, pickLabels } from "./picks.js?v=29";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=29";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=29";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=29";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=29";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=29";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=29";
+} from "./gestures.js?v=30";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=30";
+import { HandBadges } from "./hand-badges.js?v=30";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=30";
+import { LIBRARY } from "./library.js?v=30";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=30";
+import { layoutReading } from "./reading-flow.js?v=30";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=30";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=30";
+import { parsePicks, pickLabels } from "./picks.js?v=30";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=30";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=30";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=30";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=30";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=30";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=30";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -42,8 +42,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=29";
-import { EntrySound } from "./entry-sound.js?v=29";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=30";
+import { EntrySound } from "./entry-sound.js?v=30";
 import {
   readProgress,
   saveProgress,
@@ -52,13 +52,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=29";
+} from "./progress.js?v=30";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=29";
+} from "./calendar.js?v=30";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -1261,7 +1261,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-029",
+    build: "gestures-030",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the

@@ -21,6 +21,9 @@ If the Google Drive connector isn't available, or saving fails, say so plainly i
    attached to progress.json. Follow that source contract even if an older copy
    of this skill requests full text. It supersedes the old text-import format.
    It supplies the current catalogue IDs, titles, authors, kinds and edition links.
+   Its `workflow` contains these complete current instructions, delivered by the
+   app at every successful Drive sync. Use that workflow in place of an outdated
+   saved skill. Never ask Bastian to re-paste a skill, photograph or import texts.
    Its `lastCheck` is the app's verdict on the newest picks file. If
    `accepted` is false, fix every listed problem in the next file.
 3. Also look at picks files in the folder: `parentId = '<folderId>' and title contains 'picks-'`. Read two kinds:
@@ -48,7 +51,7 @@ If the Google Drive connector isn't available, or saving fails, say so plainly i
 
   Watch out for popular modern translations: Coleman Barks's Rumi, for example, is NOT free. Use an old public-domain translation or another work.
 - Bastian wants the whole work, never an excerpt.
-- **Swap** (e.g. "swap the essay"): read today's newest **valid** picks file, replace only that kind, and save the **full three-pick file** again (step 4). The app reads only the newest file, so a file with just one pick would hide the other two.
+- **Swap** (e.g. "swap the essay"): read today's newest picks file and its `lastCheck`. If it was rejected, repair every listed problem. Preserve the other two supported selections and save the **full three-pick file** again (step 4). The app checks only the newest file; an invalid or incomplete latest file is rejected rather than replaced silently with an older one.
 
 ## 3. Select the exact source edition
 
@@ -125,7 +128,7 @@ Create the file with the Drive `create_file` tool, using exactly these fields:
 | `contentMimeType` | `"application/json"` |
 | `disableConversionToGoogleType` | `true` (**required**: otherwise Drive turns it into a Google Doc that the app can't read) |
 
-You can't overwrite files. If a file for today already exists, use the next free number: `picks-YYYY-MM-DD-2.json`, then `-3`, and so on. The app reads today's newest valid file.
+You can't overwrite files. If a file for today already exists, use the next free number: `picks-YYYY-MM-DD-2.json`, then `-3`, and so on. The app checks today's newest file. If it fails, correct the problems and save a new complete file; do not assume the app will fall back to an older one.
 
 **Check:** download the file you just created with `download_file_content` (not `read_file_content`). It returns **base64**: decode it first, then confirm three things:
 - it parses as JSON;
@@ -145,6 +148,6 @@ Only claim success after all three references have been saved and checked. Keep 
 - one line on why it's worth reading today, with no spoilers;
 - a verified link to the full text source. The study guide is included in the cabin.
 
-End with: "In the cabin: Sync with Drive on the start page, then Menu → Library. The notes appear before and after each text as you turn the pages."
+End with: "In the cabin: Sync with Drive on the start page. Today's three will be ready on Today, with notes before and after each text."
 
 Don't add content or trigger warnings. He finds them spoilers.
