@@ -137,8 +137,10 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     const cached = {version:2,date:'2026-10-28',picks:{poem:{...ref('poem'),text:'FORGED CACHED TEXT',guide:{context:'Intro notes.',themes:'After notes.'}},story:ref('story'),essay:ref('essay')}};
     await p.addInitScript(c=>localStorage.setItem('cabin-today',c),JSON.stringify(cached));
     await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
-    await p.evaluate(()=>__hold());await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
-    await p.evaluate(async()=>__aim({x:274,y:700,w:1500,h:112}));await p.evaluate(()=>__pinch());
+    // Today appears by itself on the first entry of the day.
+    assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:274,y:660,w:1500,h:260}));await p.evaluate(()=>__pinch());
     const id=await p.locator('#page').getAttribute('data-work');assert.equal(id,`today-2026-10-28-poem-${shortPoem.id}`);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'before');
     await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
@@ -155,5 +157,102 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-reading')).last),id);
     assert.deepEqual(errors,[]);await p.close();
     passed('cached catalogue trio flows through all sections offline across midnight; forged cached text ignored');
+  }
+  for (const night of [false, true]) {
+    const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
+    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false);await observe(p);
+    const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
+    const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
+    const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
+    const poem = SOURCE_CATALOGUE.filter(w=>w.kind==='poem').sort((a,b)=>lines(a)-lines(b))[0];
+    const story = SOURCE_CATALOGUE.find(w=>w.kind==='story'&&!shelf.includes(w.id));
+    const essay = SOURCE_CATALOGUE.find(w=>w.kind==='essay'&&!shelf.includes(w.id));
+    const cached = {version:2,date:'2026-10-28',picks:{poem:{catalogueId:poem.id},story:{catalogueId:story.id},essay:{catalogueId:essay.id}}};
+    await p.addInitScript(([c,n])=>{localStorage.setItem('cabin-today',c);if(n&&!sessionStorage.getItem('night-fixture')){const c=JSON.parse(localStorage.getItem('cabin-controls')||'{}');localStorage.setItem('cabin-controls',JSON.stringify({...c,night:true}));sessionStorage.setItem('night-fixture','1');}},[JSON.stringify(cached),night]);
+    const view = async () => [await p.locator('#page').getAttribute('data-view'), await p.locator('#page').getAttribute('data-menu-page')];
+    const text = async () => (await p.evaluate(()=>__pageText)).join(' ');
+    await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    assert.deepEqual(await view(),['menu','today'],'Today appears by itself once the cabin settles');
+    const t=await text();
+    assert.ok(t.includes('Today') && t.includes('Wednesday evening · Day 11'), 'dateline from the real date');
+    for (const w of [poem,story,essay]) assert.ok(t.includes(w.author), w.id);
+    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-controls')).todayShown),'2026-10-28');
+    await p.locator('#page').screenshot({path:path.join(out,`today${night?'-night':''}.png`)});
+    await p.evaluate(async()=>__aim({x:274,y:660,w:1500,h:260}));await p.evaluate(()=>__pinch());
+    assert.equal(await p.locator('#page').getAttribute('data-work'),`today-2026-10-28-poem-${poem.id}`);
+    // Read to the end: the closing page follows the last page.
+    for (let i=0;i<20&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','closing'],
+      `stuck at ${await p.locator('#page').getAttribute('data-work')} ${await p.locator('#page').getAttribute('data-section')} · ${await p.locator('#place').textContent()} · ${await p.locator('#status').textContent()} · ${(await p.evaluate(()=>__pageText)).slice(-4).join(' | ')}`);
+    assert.ok((await text()).includes('Mark as read today'));
+    assert.ok((await text()).includes('Next: '+story.title));
+    await p.locator('#page').screenshot({path:path.join(out,`today-closing${night?'-night':''}.png`)});
+    // Nothing is ticked automatically, and the turning pinch cannot tick it.
+    // A quick repeat of the turning pinch (about 560 ms: the recognizer's 400 ms
+    // steadiness plus a short pinch, still under the app's 600 ms
+    // guard) must not mark the work; the same quick pinch later does.
+    await p.evaluate(()=>{window.__quick=()=>{__hand(0.05,'right');__step(420);__hand(0.012,'right');__native('selectstart','right');__step(120);__hand(0.05,'right');__native('select','right');__native('selectend','right');__step(16);};});
+    // The closing page opens in front of the reader, so aim at it first.
+    await p.evaluate(async()=>__aim({x:274,y:700,w:1500,h:164}));
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'end-mark');
+    await p.evaluate(()=>__quick());
+    const ticks=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress'))?.days['2026-10-28']||{});
+    assert.notEqual((await ticks()).poem,true,'a quick repeated pinch cannot mark the work');
+    await p.evaluate(()=>{__step(700);__quick();});
+    assert.equal((await ticks()).poem,true,'Mark as read ticks today\'s poem');
+    assert.ok((await text()).includes('Read today'));
+    // A quick second pinch on the same target does not untick it again.
+    await p.evaluate(()=>__quick());
+    assert.equal((await ticks()).poem,true,'a double pinch keeps the tick');
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:274,y:890,w:1500,h:164}));await p.evaluate(()=>__pinch());
+    assert.equal(await p.locator('#page').getAttribute('data-work'),`today-2026-10-28-story-${story.id}`);
+    assert.equal((await view())[0],'reading');
+    // The main menu names Today, with how the day stands; More stays at index 6.
+    await p.evaluate(()=>__hold());
+    assert.deepEqual(await view(),['menu','main']);
+    assert.ok((await text()).includes('1 of 3 read'));
+    // Re-entering later the same day resumes reading; Today does not reappear.
+    await p.reload();await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    assert.equal((await view())[0],'reading');
+    assert.deepEqual(errors,[]);await p.close();
+    passed(`Today appears once a day, opens a work, and the closing page marks it read and leads on${night?' (night)':''}`);
+  }
+  {
+    const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
+    await p.clock.setFixedTime(new Date(2026,9,28,23,59,50));await mock(p,'layer',false);await observe(p);
+    const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
+    const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
+    const pickOf = k => SOURCE_CATALOGUE.find(w=>w.kind===k&&!shelf.includes(w.id));
+    const cached = {version:2,date:'2026-10-28',picks:{poem:{catalogueId:pickOf('poem').id},story:{catalogueId:pickOf('story').id},essay:{catalogueId:pickOf('essay').id}}};
+    await p.addInitScript(c=>localStorage.setItem('cabin-today',c),JSON.stringify(cached));
+    const view = async () => [await p.locator('#page').getAttribute('data-view'), await p.locator('#page').getAttribute('data-menu-page')];
+    const text = async () => (await p.evaluate(()=>__pageText)).join(' ');
+    await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    assert.deepEqual(await view(),['menu','today']);
+    // "‹ Menu" leads to the main menu, whose row 1 now reads Today.
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim({x:1394,y:380,w:380,h:120}));await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','main']);
+    assert.ok((await text()).includes('Today') && (await text()).includes('0 of 3 read'));
+    await p.evaluate(()=>__step(700));
+    await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','today'],'the Today row opens Today');
+    // Midnight with Today open: no crash, the session continues on the Library.
+    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.evaluate(async()=>{__step(100);await __aim({x:274,y:950,w:1500,h:260});__step(100);});
+    assert.deepEqual(await view(),['menu','library'],'yesterday\'s Today gives way to the Library');
+    assert.ok(!/stopped/.test(await p.locator('#status').textContent()),'the VR session keeps running');
+    await p.locator('#page').screenshot({path:path.join(out,'today-midnight.png')});
+    // A starter-shelf work has no closing page; its last page stays put.
+    await p.evaluate(()=>__step(700));
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=27');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
+    await p.evaluate(async(i)=>__aim({x:274,y:700+(i+1)*124,w:1500,h:112}),row);
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'work:blake-sick-rose');
+    await p.evaluate(()=>__pinch());
+    for (let i=0;i<12;i++) await p.evaluate(()=>__pinch());
+    assert.equal((await view())[0],'reading','no closing page after a shelf work');
+    assert.deepEqual(errors,[]);await p.close();
+    passed('Today row and Menu button lead where they say; Today survives midnight; shelf works have no closing page');
   }
 };

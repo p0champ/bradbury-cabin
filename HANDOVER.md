@@ -1,3 +1,14 @@
+# Build 027 — Today, phase 1 (28 October 2026)
+
+**Request:** a more personal Library; Claude's daily three should feel special, not just menu rows. Three designer agents proposed and critiqued each other; a judge chose an editorial "Today" page with a closing page and real-data facts. Bastian approved phase 1 with the judge's defaults: title card first (not built yet), no Claude dedication yet, Today appears by itself once a day.
+
+**Built:** today-panel.js (Today page and closing page), menu row 1 labelled Today, once-a-day appearance, closing page with Mark as read today / Next / Today's three. See BUILD_027_REVIEW.md. Picks format and Claude skill unchanged.
+
+**Verification:** 125 unit + check:sources, 128 PC browser checks, 5/5 new browser mutations, critic 6/10 → 8.5/10 (its last polish points fixed afterwards, author-checked). No Quest check yet.
+
+**Next phases (not started):** 2 "Your shelf" (needs work IDs saved per day), 3 Claude's optional dedication/thread lines (skill re-paste), 4 title-card animation. Branch build-027-today; preview port 18145.
+
+---
 # Build 026 — source fidelity, independent critic loop (28 October 2026)
 
 **Requirement:** complete original texts, exact to a named edition; a real independent second-agent critic with source comparisons and enforced rejection. Bastian will not photograph, transcribe or import texts.

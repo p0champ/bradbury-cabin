@@ -1,3 +1,15 @@
+# Build 027 — Today
+
+Open [Build 027](https://p0champ.github.io/bradbury-cabin/?v=27) in a fresh Quest Browser tab. Check **BUILD 027**.
+
+1. Sync with Drive and make sure Claude's three for today are in.
+2. Enter the cabin. After the page settles, **Today** should appear by itself: date, day number and your three.
+3. Pinch one to open it. Read to the end (notes included). One more page turn should show **Finished**.
+4. Pinch **Mark as read today**. The box should fill. Then try **Next**.
+5. Hold for the menu: the second row should say **Today · 1 of 3 read**.
+6. Leave and re-enter: Today should not appear again today. Try it lying down too, and report anything small, slow or awkward.
+
+---
 # Build 026 — exact source texts
 
 Open [Build 026](https://p0champ.github.io/bradbury-cabin/?v=26) in a fresh Quest Browser tab. Check **BUILD 026**.
