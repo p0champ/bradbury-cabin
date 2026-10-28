@@ -14,7 +14,13 @@
 ## Validation
 - npm test: 155/155 unit tests, workflow parity and all exact-source checks; catalogue unchanged at 241 works. Test canvas stand-ins gained moveTo/lineTo/stroke (finite-geometry checked).
 - One intentional browser expectation changed: night paper first pixel is now [19,23,21] (new night tone #131715) instead of [26,33,30].
-- Full PC browser suite: see release section.
+- Full PC browser suite: 148/148 passed after the critic fixes (../build-034-browser.log, evidence ../build-034-evidence, upright and lying, paper/night, literary/modern). All modules pass node --check.
+
+## Independent review
+A separate critic agent that wrote none of the code reviewed the diff, screenshots and constraints.
+- Round 1: 7.5/10, no P1. P2: hover tint ignored the modern style; hover too faint for headset pinch-selection. P3: invalid lineJoin leak, old 3 px shelf bars, dead arrival code, centring diamonds, start-page wording (swap hands, sync), night page background, indentation.
+- Fixes: per-palette hover tints (paper #ddd4bf), ring 8 px, shared hairline rule on the shelf, lineJoin reset, diamonds hidden while centring, copy fixes, night root background. Full suite rerun 148/148.
+- Round 2: 8.5/10, no P1 or P2 in code. Remaining P3s: shelf imports rule from today-panel (tidier in theme.js); muted label contrast on the hover tint about 3.2:1; leaf wash not night-tinted; reading footer repeats the title and margins differ slightly (160/180/194). Last indentation point fixed. The critic's remaining caution: check hover visibility on the Quest in bright and dim rooms.
 - No literary text, source verdict, picks parsing, sync or progress logic changed.
 
 ## Not done / deferred

@@ -1,3 +1,12 @@
+# Build 034 — design pass: add to the combined end-of-work check
+
+1. Open https://p0champ.github.io/bradbury-cabin/?v=34 and confirm BUILD 034 on the new start page ("A quiet room for three readings.").
+2. Enter: the page should arrive with a short, soft settle (no big glide, no bobbing); the cover leaves fade away smoothly.
+3. Menu, Today, closing page, shelf: point at choices. The highlight is a soft deeper tint with a green ring; text no longer flips colour. Is it easy enough to see in your room's light, bright and dim?
+4. Reading page: a small BRADBURY CABIN running head and hairline instead of the big tagline. Try Night paper and the Clean modern style too.
+5. Repeat lying down.
+
+---
 # Build 033 — add to the combined end-of-work check
 
 1. Open https://p0champ.github.io/bradbury-cabin/?v=33 and confirm BUILD 033. Sync once, ask Claude for today's three normally, then sync again.

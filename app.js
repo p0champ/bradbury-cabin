@@ -545,7 +545,7 @@ function paint() {
         serif: mood.body,
         italic: state.mood === "literary" ? "italic " : "",
         hover: palette.hover,
-      accent: accentFor(state.night),
+        accent: accentFor(state.night),
       },
     });
   } else if (state.menuOpen && CALENDAR_PAGES.includes(state.menuPage)) {

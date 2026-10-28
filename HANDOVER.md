@@ -1,3 +1,12 @@
+# Build 034 — Apple-standard design pass (29 October 2026)
+
+**Built:** Bastian asked for Apple style: clean, elegant, seamless, including the opening animation and usability. Apple's HIG (visionOS, materials, type, motion, eyes) was read and applied where it fits. New theme.js: system sans replaces Arial; refined paper/night palettes; quiet running head (no repeated tagline); hairlines instead of bars; hover is a soft per-palette tint plus 8 px ring and text never inverts; calmer arrival (6 cm settle instead of 18 cm, smooth fade, no idle bob); new start page ("A quiet room for three readings." + three-gesture guide), rounded controls, gentle reduced-motion-aware entrance. Visual/motion only: no hit geometry, gestures, menu indices, text or sync logic changed. See BUILD_034_REVIEW.md.
+
+**Verification:** 155 unit + all source checks; 148/148 full PC browser checks; independent critic 7.5 -> 8.5/10, no P1/P2 remaining. No Quest check: hover visibility in real room light is the main thing to look at (QUEST_CHECK.md). Remaining P3 polish listed in the review. ChatGPT's earlier standalone concept/motion studies (work/cabin-*-preview.html) informed the direction; their Bukowski opening poem stays parked.
+
+**Release:** pending below. Branch build-034-design; queries v34, header BUILD 034, diagnostic gestures-034; 29 JS modules (theme.js new).
+
+---
 # Build 033 — Claude's personal lines and Library shortcut (28 October 2026)
 
 **Built:** optional `dedication` (<=70 code points, shown on Today while the day is incomplete) and `thread` (<=160, shown on Today and the final closing page only after all three are read). Invalid copy is dropped alone, never truncated; quoted fragments must match a selected source. New daily-lines.js binds copy to catalogue IDs/body hashes with its own revision time and null tombstones; swaps clear only the changed work's tick. Direct "Library ›" beside "Your shelf ›" on Today. Skill/contract/workflow carry the new fields via existing sync. See BUILD_033_REVIEW.md.
