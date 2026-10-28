@@ -1,3 +1,12 @@
+# Build 035 — rounded window, greeting intro, Today first (29 October 2026)
+
+**Built:** after Bastian said 034 still felt "more Android than Apple": the page is a rounded floating window; the book-cover leaf intro is replaced by a fade-in with a short greeting; every entry opens on Today when the three exist (hold a pinch to continue reading); hover is a visionOS-style lift instead of a green ring. See BUILD_035_REVIEW.md.
+
+**Verification:** 155 unit, 148/148 PC browser checks incl. new window-shape check; critic 8/10, its P2 and main P3s fixed. No Quest check yet.
+
+**Release:** see BUILD_035_REVIEW.md release section. Branch build-035-window; v35 / BUILD 035 / gestures-035.
+
+---
 # Build 034 — Apple-standard design pass (29 October 2026)
 
 **Built:** Bastian asked for Apple style: clean, elegant, seamless, including the opening animation and usability. Apple's HIG (visionOS, materials, type, motion, eyes) was read and applied where it fits. New theme.js: system sans replaces Arial; refined paper/night palettes; quiet running head (no repeated tagline); hairlines instead of bars; hover is a soft per-palette tint plus 8 px ring and text never inverts; calmer arrival (6 cm settle instead of 18 cm, smooth fade, no idle bob); new start page ("A quiet room for three readings." + three-gesture guide), rounded controls, gentle reduced-motion-aware entrance. Visual/motion only: no hit geometry, gestures, menu indices, text or sync logic changed. See BUILD_034_REVIEW.md.

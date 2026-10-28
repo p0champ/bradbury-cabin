@@ -448,10 +448,7 @@ function paint() {
     // waits. Painted once, so the page stays still while it appears.
     const h = new Date().getHours();
     const hello = h < 5 ? "Good evening." : h < 12 ? "Good morning." : h < 18 ? "Good afternoon." : "Good evening.";
-    const w = workById(state.workId);
-    const next = hasToday()
-      ? "Today’s three are ready."
-      : `Continuing ${w === SAMPLER ? "the first leaf" : w.title}`;
+    const next = state.greeting || "";
     ctx.textAlign = "center";
     ctx.fillStyle = ink;
     ctx.font = `120px ${mood.body}`;
@@ -896,6 +893,13 @@ function gestureEvent(event) {
     menuPlacement = null;
     nativeQueue = [];
     state.arriving = true;
+    // Chosen once, so a sync landing mid-fade cannot change the words.
+    {
+      const w = workById(state.workId);
+      state.greeting = hasToday()
+        ? "Today’s three are ready."
+        : `Continuing ${w === SAMPLER ? "the first leaf" : w.title}`;
+    }
     entrySound?.play(state.entrySound);
     arrivalElapsed = 0;
     lastArrivalTick = lastFrameTime;

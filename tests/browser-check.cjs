@@ -1407,15 +1407,11 @@ async function mock(
           .map((d) => d.matrix),
         version: __mock.versions.get(__mock.texture),
       }));
-      // The cover leaves are retired: nothing decorative is shown while the
-      // window fades in.
+      // The cover leaves are retired: no decoration layer exists at all
+      // while the window fades in.
       assert.equal(
-        await p.evaluate(
-          () =>
-            [...__mock.layerData].filter(([l, d]) => d.arrival && l.opacity > 0)
-              .length,
-        ),
-        0,
+        await p.evaluate(() => [...__mock.layerData.values()].some((d) => d.arrival)),
+        false,
       );
       await p.evaluate(() => {
         __mock.offsetX = 0.12;
@@ -1950,6 +1946,14 @@ async function mock(
       });
       const first = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(first.differences, 0);
+      // The page is a rounded window: corners upload transparent, the inside
+      // opaque, and the layer blends with source alpha.
+      const windowShape = await p.evaluate(() => {
+        const m = __mock, w = m.quadWidth, alpha = (x, y) => m.latestPixels[(y * w + x) * 4 + 3];
+        const main = [...m.layerData].find(([, d]) => !d.badge && !d.arrival && !d.watch && !d.gazeRing);
+        return { corner: alpha(0, 0), inside: alpha(Math.floor(w / 2), 40), blend: main?.[0].blendTextureSourceAlpha };
+      });
+      assert.deepEqual(windowShape, { corner: 0, inside: 255, blend: true });
       await p.evaluate(() => {
         // Reads every visible badge texture: lit-arrow and orange end-bar pixels.
         window.badgeStates = () => {

@@ -1,3 +1,10 @@
+# Build 035 — add to the combined end check
+
+1. ?v=35, BUILD 035. Enter: the page should appear as a rounded window, fading in with "Good evening." and a line about today. No book leaves.
+2. With today's three ready, every entry opens on Today; holding a pinch continues reading.
+3. Point at menu choices: the card should lift (lighter, soft shadow). Check paper and night, bright and dim room.
+
+---
 # Build 034 — design pass: add to the combined end-of-work check
 
 1. Open https://p0champ.github.io/bradbury-cabin/?v=34 and confirm BUILD 034 on the new start page ("A quiet room for three readings.").
