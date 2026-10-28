@@ -26,17 +26,28 @@ export class GazeDwell {
     this.since = null;
     this.armed = true;
   }
+  // Something else just acted (a pinch, menu, select): the current look must
+  // not also turn the page. The user has to look away first.
+  consume() {
+    this.since = null;
+    this.armed = false;
+  }
   // Returns { fire: "next" | "prev" | null, zone, progress 0..1 }.
   update(zone, time, enabled = true) {
     if (!enabled) {
-      this.reset();
+      // Pausing never re-arms by itself: after a pause the user must look
+      // away from the corner before it can turn again.
+      this.zone = null;
+      this.since = null;
+      this.armed = false;
       return { fire: null, zone: null, progress: 0 };
     }
     if (zone !== this.zone) {
       this.zone = zone;
       this.since = zone ? time : null;
-      if (!zone) this.armed = true;
     }
+    // Looking anywhere but a corner re-arms, whatever ended the last look.
+    if (!zone) this.armed = true;
     if (!zone || !this.armed) return { fire: null, zone, progress: 0 };
     const progress = Math.min(1, (time - this.since) / DWELL_MS);
     if (progress >= 1) {

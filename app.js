@@ -269,8 +269,11 @@ function paint() {
   const work = workById(state.workId);
   pages =
     work === SAMPLER
-      ? layout(ctx, state.size)
-      : layoutWork(ctx, work, state.size, { serif: MOODS[state.mood].body });
+      ? layout(ctx, state.size, MOODS[state.mood].body)
+      : layoutWork(ctx, work, state.size, {
+          serif: MOODS[state.mood].body,
+          titleStyle: MOODS[state.mood].title,
+        });
   if (state.pendingAnchor) {
     state.page = pageForAnchor(pages, state.pendingAnchor);
     state.pendingAnchor = null;
@@ -330,6 +333,7 @@ function paint() {
         muted,
         card: palette.card,
         serif: mood.body,
+        italic: state.mood === "literary" ? "italic " : "",
         accent: state.night ? "#c9b98f" : "#3f5f4e",
       },
     });
@@ -348,6 +352,7 @@ function paint() {
         muted,
         card: palette.card,
         serif: mood.body,
+        italic: state.mood === "literary" ? "italic " : "",
         accent: state.night ? "#c9b98f" : "#3f5f4e",
         done: state.night ? "#7f9a83" : "#6d8a74",
         faint: state.night ? "#4d5c52" : "#c4c2b0",
@@ -487,6 +492,7 @@ function paint() {
       2175,
     );
   ctx.font = "36px Arial";
+  if (state.gazeTurn && !state.menuOpen) ctx.textAlign = "center";
   ctx.fillText(
     (state.arriving
       ? "Welcome in. Make yourself comfortable."
@@ -497,12 +503,22 @@ function paint() {
           : state.feedback) ||
       (state.menuOpen
         ? "Hold a pinch to close the menu."
-        : state.swapped
-          ? "Left: next   ·   Right: back   ·   Hold: menu"
-          : "Right: next   ·   Left: back   ·   Hold: menu"),
-    state.menuOpen ? (state.menuPage === "calendar" ? 194 : 274) : 160,
+        : (state.swapped
+            ? "Left: next   ·   Right: back   ·   Hold: menu"
+            : "Right: next   ·   Left: back   ·   Hold: menu") +
+          (state.gazeTurn ? "   ·   Or look at a bottom corner" : "")),
+    // With look-to-turn on, keep this text in the centre, away from the
+    // two bottom corners that turn the page.
+    state.gazeTurn && !state.menuOpen
+      ? 1024
+      : state.menuOpen
+        ? state.menuPage === "calendar"
+          ? 194
+          : 274
+        : 160,
     2320,
   );
+  ctx.textAlign = "left";
   $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
   $("prev").disabled = state.page === 0;
   $("next").disabled = state.page === pages.length - 1;
@@ -562,6 +578,7 @@ function feedback(text) {
   state.feedbackUntil = performance.now() + 1800;
 }
 function toggleMenu(open = !state.menuOpen) {
+  gazeDwell.consume();
   state.menuOpen = open;
   state.menuPage = "main";
   if (open) state.feedback = "";
@@ -1087,6 +1104,8 @@ function cleanSession() {
   state.centering = false;
   state.arriving = false;
   state.entryAudioLast = entrySound?.status() || state.entryAudioLast;
+  ambience.stop(entrySound?.context);
+  ambience.kind = "off";
   entrySound?.dispose();
   entrySound = null;
   arrivalAnchor = null;
@@ -1101,8 +1120,6 @@ function cleanSession() {
   gazeRing?.dispose();
   gazeRing = null;
   gazeDwell.reset();
-  ambience.stop(entrySound?.context);
-  ambience.kind = "off";
   quad?.destroy();
   quad = null;
   if (projectionRoute) base?.destroy();
@@ -1303,6 +1320,8 @@ async function enter() {
       }
     });
     session.addEventListener("visibilitychange", () => {
+      gazeDwell.consume();
+      if (gazeRing?.clearVisible()) applyLayers();
       nativeQueue = [];
       gestures.reset("visibility-change");
       if (handBadges?.clearVisible() | !!wristWatch?.clearVisible()) applyLayers();
@@ -1318,6 +1337,8 @@ async function enter() {
       await session.end();
     } else {
       state.entryAudioLast = entrySound?.status();
+      ambience.stop(entrySound?.context);
+      ambience.kind = "off";
       entrySound?.dispose();
       entrySound = null;
       state.session = null;
@@ -1337,6 +1358,8 @@ function frame(time, xrFrame, generation) {
   try {
     const pose = xrFrame.getViewerPose(ref);
     if (!pose) {
+      gazeDwell.consume();
+      if (gazeRing?.clearVisible()) applyLayers();
       lastArrivalTick = time;
       nativeQueue = [];
       gestures.reset("viewer-pose-lost");
@@ -1486,6 +1509,8 @@ function frame(time, xrFrame, generation) {
       }
       const deliver = (event) => {
         if (!event) return;
+        // Any hand action ends the current look-to-turn attempt.
+        gazeDwell.consume();
         pointerSource = gestures.owner || pointerSource;
         const entry = gestures.lastEntry;
         gestures.lastEntry = null;
@@ -1617,7 +1642,7 @@ function frame(time, xrFrame, generation) {
         if (gazeRing?.update(presentPose(), g.zone, g.progress, state.night)) applyLayers();
         if (g.fire) {
           const outcome = gestureEvent({ type: "page", direction: g.fire, hand: "gaze" });
-          gestures.record({ result: "page", eventSource: "gaze", hand: "gaze", outcome, page: state.page + 1, time });
+          gestures.record({ result: "page", eventSource: "gaze", hand: "gaze", direction: g.fire, outcome, page: state.page + 1, time });
         }
       }
       if (

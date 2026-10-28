@@ -45,3 +45,29 @@ test("a brief glance never turns, and disabled never turns", () => {
   const off = new GazeDwell();
   for (let t = 0; t < 5000; t += 50) assert.equal(off.update("next", t, false).fire, null);
 });
+
+test("a hand action or a pause ends the current look; looking away re-arms", () => {
+  const g = new GazeDwell();
+  for (let t = 0; t < 1000; t += 50) g.update("next", t);
+  g.consume(); // a pinch turned the page at 1.0 s
+  for (let t = 1000; t < 4000; t += 50) assert.equal(g.update("next", t).fire, null, "no second turn");
+  g.update(null, 4000);
+  let fired = 0;
+  for (let t = 4050; t < 4050 + DWELL_MS + 100; t += 50) if (g.update("next", t).fire) fired++;
+  assert.equal(fired, 1);
+  // Pausing (menu, attention) while looking never re-arms by itself.
+  const h = new GazeDwell();
+  h.update("next", 0);
+  h.update("next", 500, false);
+  for (let t = 550; t < 3000; t += 50) assert.equal(h.update("next", t).fire, null);
+});
+
+test("after a hand action, looking at the middle of the page re-arms", () => {
+  const g = new GazeDwell();
+  g.update(null, 0);
+  g.consume();
+  g.update(null, 50);
+  let fired = 0;
+  for (let t = 100; t < 100 + DWELL_MS + 100; t += 50) if (g.update("next", t).fire) fired++;
+  assert.equal(fired, 1);
+});

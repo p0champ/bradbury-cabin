@@ -35,10 +35,10 @@ export function wrap(ctx, text, width) {
   return lines;
 }
 // An intentionally small test corpus; Phase 1 owns general document pagination.
-export function layout(ctx, size) {
+export function layout(ctx, size, family = "Literata, Georgia, serif") {
   const font = SIZES[size],
     leading = font * 1.43;
-  ctx.font = `${font}px Literata, Georgia, serif`;
+  ctx.font = `${font}px ${family}`;
   const blocks = [
     { text: "The Sick Rose", kind: "title" },
     { text: "William Blake · 1794 · England", kind: "meta" },

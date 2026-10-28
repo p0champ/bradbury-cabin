@@ -283,7 +283,7 @@ function paintDay(ctx, buttons, key, progress, today, hot, c) {
       ctx.fillText(KIND_LABEL[k], b.x + 160, b.y + (pick ? 82 : 112));
       if (pick) {
         ctx.fillStyle = sub;
-        ctx.font = `italic 36px ${c.serif || "Literata"}`;
+        ctx.font = `${c.italic ?? "italic "}36px ${c.serif || "Literata"}`;
         ctx.fillText(pick, b.x + 160, b.y + 140);
       }
       ctx.fillStyle = sub;

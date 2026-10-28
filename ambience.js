@@ -3,6 +3,7 @@
 // 8-second loop baked from a seeded noise source, played very quietly.
 export const AMBIENCE_KINDS = ["off", "rain", "fire", "room"];
 export const AMBIENCE_LABEL = { off: "Off", rain: "Soft rain", fire: "Fireplace", room: "Quiet room" };
+const BAKE_RATE = 22050;
 const SECONDS = 8,
   LEVEL = { rain: 0.05, fire: 0.06, room: 0.04 };
 
@@ -46,11 +47,12 @@ export function bakeAmbience(kind, rate = 48000) {
     }
     out[i] += v;
   }
-  // Seamless loop: crossfade the last 0.5 s into the start.
+  // Seamless loop: equal-power crossfade of the last 0.5 s into the start
+  // (no level dip, since the two halves are uncorrelated noise).
   const fade = Math.floor(rate * 0.5);
   for (let k = 0; k < fade; k++) {
     const t = k / fade;
-    out[k] = out[k] * t + out[n - fade + k] * (1 - t);
+    out[k] = out[k] * Math.sqrt(t) + out[n - fade + k] * Math.sqrt(1 - t);
   }
   const looped = out.subarray(0, n - fade);
   // Normalise to a fixed peak so every kind sits at a predictable level.
@@ -71,15 +73,26 @@ export class Ambience {
   // context: a running or resumable AudioContext (the entry sound's).
   set(context, kind) {
     if (!AMBIENCE_KINDS.includes(kind)) kind = "off";
-    if (kind === this.kind && (kind === "off" || this.source)) return;
+    if (kind === this.kind && (kind === "off" || this.source || this.pending)) return;
     this.stop(context);
     this.kind = kind;
     if (kind === "off" || !context) return;
+    // Bake outside the XR frame callback, at a modest rate (the browser
+    // resamples), so choosing a sound never hitches the view.
+    const token = (this.pending = {});
+    setTimeout(() => {
+      if (this.pending !== token || this.kind !== kind) return;
+      this.pending = null;
+      this.start(context, kind);
+    }, 0);
+  }
+  start(context, kind) {
     try {
       let buffer = this.cache.get(kind);
       if (!buffer) {
-        const samples = bakeAmbience(kind, context.sampleRate);
-        buffer = context.createBuffer(1, samples.length, context.sampleRate);
+        const rate = BAKE_RATE;
+        const samples = bakeAmbience(kind, rate);
+        buffer = context.createBuffer(1, samples.length, rate);
         buffer.copyToChannel(samples, 0);
         this.cache.set(kind, buffer);
       }
@@ -101,6 +114,7 @@ export class Ambience {
     }
   }
   stop(context) {
+    this.pending = null;
     const { source, gain } = this;
     this.source = null;
     this.gain = null;

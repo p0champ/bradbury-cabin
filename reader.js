@@ -34,12 +34,12 @@ function wrapWords(ctx, text, width) {
 const countWords = (t) => t.split(/\s+/).filter(Boolean).length;
 
 // Turns a work into a flat list of typeset lines, then paginates them.
-export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, serif", sans = "Arial" } = {}) {
+export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, serif", titleStyle = "italic" } = {}) {
   const font = SIZES[size],
     leading = Math.round(font * 1.43);
   const items = [];
   // Title block on the first page.
-  ctx.font = `italic 66px ${serif}`;
+  ctx.font = `${titleStyle} 66px ${serif}`;
   for (const t of wrapWords(ctx, work.title, WIDTH))
     items.push({ kind: "title", text: t, h: 92, font: 66, anchor: { block: -1, word: 0 } });
   items.push({

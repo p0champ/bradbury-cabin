@@ -51,7 +51,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c }) {
     ctx.font = "30px Arial";
     ctx.fillText(KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""), b.x + 60, b.y + 44);
     ctx.fillStyle = fg;
-    ctx.font = `italic 48px ${c.serif || "Literata"}`;
+    ctx.font = `${c.italic ?? "italic "}48px ${c.serif || "Literata"}`;
     ctx.fillText(w.title, b.x + 60, b.y + 100);
     ctx.textAlign = "right";
     ctx.fillStyle = sub;

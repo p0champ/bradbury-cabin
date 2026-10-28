@@ -2992,7 +2992,12 @@ async function mock(
       assert.equal(d.ambience.kind, "rain");
       assert.equal(d.ambience.error, null);
       await p.locator("#page").screenshot({ path: path.join(out, "reading-modern.png") });
-      // Look at the bottom-right corner: the ring fills, then one page turn.
+      // After closing the menu, look at the page (which re-arms), then at the
+      // bottom-right corner: the ring fills, then one page turn.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __step(100);
+      });
       await p.evaluate(async (b) => await __aim(b), corner("next"));
       await p.evaluate(() => __step(600));
       const ring = await p.evaluate(() => {
@@ -3017,6 +3022,47 @@ async function mock(
       d = await details("gaze-017.json");
       const gazeTurns = d.gestureLog.filter((e) => e.eventSource === "gaze");
       assert.deepEqual(gazeTurns.map((e) => e.outcome), ["turned", "turned"]);
+      assert.deepEqual(gazeTurns.map((e) => e.direction), ["next", "prev"]);
+      const gazeCount = async (name) =>
+        (await details(name)).gestureLog.filter((e) => e.eventSource === "gaze").length;
+      // Guard 1: with the menu open, and right after closing it while still
+      // looking at the corner, nothing turns.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __step(300);
+        __hold();
+      });
+      await p.evaluate(async (b) => await __aim(b), corner("next"));
+      await p.evaluate(() => __step(2000));
+      await p.evaluate(() => __hold());
+      await p.evaluate(() => __step(2000));
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/, "menu pauses gaze");
+      assert.equal(await gazeCount("gaze-guard-1.json"), 2);
+      // Guard 2: headset not visible (system UI over the view): no turn.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __step(300);
+      });
+      await p.evaluate(async (b) => await __aim(b), corner("next"));
+      await p.evaluate(() => {
+        __mock.session.visibilityState = "visible-blurred";
+        __step(2000);
+        __mock.session.visibilityState = "visible";
+        __step(16);
+      });
+      assert.match(await p.locator("#place").textContent(), /Page 1 of 2/, "blurred pauses gaze");
+      assert.equal(await gazeCount("gaze-guard-2.json"), 2);
+      // Guard 3: a hand pinch while looking at the corner ends that look, so
+      // the page can never turn twice.
+      await p.evaluate(() => {
+        __mock.look = null;
+        __step(300);
+      });
+      await p.evaluate(async (b) => await __aim(b), corner("next"));
+      await p.evaluate(() => __step(300));
+      await p.evaluate(() => __pinch("right"));
+      await p.evaluate(() => __step(2500));
+      assert.equal(await gazeCount("gaze-guard-3.json"), 2, "no gaze turn after a hand action");
       // Preferences persist.
       const prefs = await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-controls")));
       assert.equal(prefs.mood, "modern");
