@@ -438,7 +438,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=27");
+        const { menuButtons } = await import("./gestures.js?v=28");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1113,7 +1113,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-027");
+        assert.equal(details.build, "gestures-028");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2060,7 +2060,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=27");
+        const { paintHandBadge } = await import("./hand-badges.js?v=28");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2381,7 +2381,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=27");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=28");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2446,7 +2446,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=27");
+        const { MENU_PAGES } = await import("./gestures.js?v=28");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2499,8 +2499,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=27");
-            const { loadProgress } = await import("./progress.js?v=27");
+            const { calendarButtons } = await import("./calendar.js?v=28");
+            const { loadProgress } = await import("./progress.js?v=28");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2854,6 +2854,11 @@ async function mock(
       await p.evaluate(() => __hold());
       await p.evaluate(() => __aim("library"));
       await p.evaluate(() => __pinch());
+      // With no picks for today the row is Your shelf; the whole Library is one step on.
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "shelf");
+      await p.locator("#page").screenshot({ path: path.join(out, "shelf-empty.png") });
+      await p.evaluate(async () => await __aim({ x: 274, y: 1880, w: 760, h: 120 }));
+      await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "library");
       await p.locator("#page").screenshot({ path: path.join(out, "library.png") });
       // Open Désirée's Baby (row 5).
@@ -3150,6 +3155,7 @@ async function mock(
       const created = writes.find((w) => w.method === "POST").body;
       assert.match(created, /"2026-10-28"/);
       assert.ok(created.includes(originals[0].title + " — " + originals[0].author), "today's picks recorded in progress");
+      assert.ok(created.includes(`"ids":{"poem":"${originals[0].id}"`), "catalogue IDs saved for Your shelf");
       assert.ok(created.includes('cabinPickerInstructions'), "source instructions travel to Claude automatically");
       assert.ok(created.includes('catalogueId'), "Claude gets selectable source references without a manual import");
       // In the cabin: Today appears by itself with today's poem first; open it, then tick it.
@@ -3165,8 +3171,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=27");
-        const { loadProgress } = await import("./progress.js?v=27");
+        const { calendarButtons } = await import("./calendar.js?v=28");
+        const { loadProgress } = await import("./progress.js?v=28");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

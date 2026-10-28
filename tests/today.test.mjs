@@ -77,7 +77,7 @@ test("Today paints safely with three, two or no works (e.g. just after midnight)
   for (const list of [works, works.slice(0, 2), []]) {
     const ctx = fakeCtx();
     paintToday(ctx, { works: list, hover: null, facts, statuses: {}, note: "A note that is long enough to need a second line on the page because it keeps going and going for a while yet.", c: colours });
-    assert.ok(ctx.drawn.some((d) => d.t === "The whole Library  ›"), "the Library button is always there");
+    assert.ok(ctx.drawn.some((d) => d.t === "Your shelf  ›"), "the Library button is always there");
   }
 });
 test("long titles shrink before they are cut, so Blake's book label survives", async () => {

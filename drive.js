@@ -8,7 +8,7 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=27";
+import { withPickerContract } from "./picker-contract.js?v=28";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -214,7 +214,11 @@ export function mergeProgress(local, remote) {
   for (const [key, d] of Object.entries(older.days || {})) {
     const o = (out.days[key] ||= {});
     for (const k of ["poem", "story", "essay"]) if (d[k] && !(k in o)) o[k] = true;
-    if (d.picks && !o.picks) o.picks = d.picks;
+    // Labels and catalogue IDs describe the same picks: take them as a pair.
+    if (d.picks && !o.picks) {
+      o.picks = d.picks;
+      if (d.ids) o.ids = d.ids;
+    } else if (d.ids && !o.ids && JSON.stringify(d.picks) === JSON.stringify(o.picks)) o.ids = d.ids;
     if (d.missed && o.missed == null) o.missed = d.missed;
   }
   for (const [key, w] of Object.entries(older.weeks || {})) {

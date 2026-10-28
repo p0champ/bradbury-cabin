@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=27";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=28";
 import {
   GestureEngine,
   menuButtons,
@@ -10,20 +10,22 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=27";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=27";
-import { HandBadges } from "./hand-badges.js?v=27";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=27";
-import { LIBRARY } from "./library.js?v=27";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=27";
-import { layoutReading } from "./reading-flow.js?v=27";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=27";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=27";
-import { parsePicks, pickLabels } from "./picks.js?v=27";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=27";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=27";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=27";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=27";
+} from "./gestures.js?v=28";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=28";
+import { HandBadges } from "./hand-badges.js?v=28";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=28";
+import { LIBRARY } from "./library.js?v=28";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=28";
+import { layoutReading } from "./reading-flow.js?v=28";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=28";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=28";
+import { parsePicks, pickLabels } from "./picks.js?v=28";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=28";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=28";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=28";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=28";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=28";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=28";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -40,8 +42,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=27";
-import { EntrySound } from "./entry-sound.js?v=27";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=28";
+import { EntrySound } from "./entry-sound.js?v=28";
 import {
   readProgress,
   saveProgress,
@@ -50,13 +52,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=27";
+} from "./progress.js?v=28";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=27";
+} from "./calendar.js?v=28";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -165,13 +167,32 @@ const WORKS = [];
 // Works that stopped being "today" stay readable while open, so passing
 // midnight never pulls the page away mid-read.
 let carriedWorks = [];
+// Earlier days' works opened from Your shelf (exact catalogue editions).
+const shelfWorks = [];
+let shelfTop;
 function rebuildWorks(openId = null) {
   const open = [...WORKS, ...carriedWorks].find(
     (w) => w.id === openId && !todayWorks.includes(w) && (w.today || carriedWorks.includes(w)),
   );
   carriedWorks = open ? [{ ...open, today: false }] : [];
   WORKS.length = 0;
-  WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...LIBRARY);
+  WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...shelfWorks.filter((w) => !todayWorks.some((t) => t.id === w.id)), ...LIBRARY);
+}
+// The Library lists the sampler, today's three and the starter shelf; earlier
+// days live on Your shelf instead.
+const libraryWorks = () => WORKS.filter((w) => !w.shelfDate && !carriedWorks.includes(w));
+// Adds an earlier day's work, by the id it had that day, if the catalogue
+// holds it. Returns the work or null.
+function addShelfWork(id) {
+  const m = /^today-(\d{4}-\d{2}-\d{2})-(poem|story|essay)-(.+)$/.exec(id);
+  if (!m) return null;
+  const known = WORKS.find((w) => w.id === id);
+  if (known) return known;
+  const work = SOURCE_CATALOGUE.find((w) => w.id === m[3] && w.kind === m[2]);
+  if (!work) return null;
+  shelfWorks.push(pastWork(m[1], m[2], work));
+  rebuildWorks(state?.workId);
+  return WORKS.find((w) => w.id === id) || null;
 }
 rebuildWorks();
 const reading = loadReading(store);
@@ -202,6 +223,8 @@ if (preferences.handMapRevision !== 9) {
 }
 const state = {
   menuPage: "main",
+  shelfPage: 0,
+  shelfDay: null,
   workId: "sampler",
   pendingAnchor: null,
   centering: false,
@@ -240,7 +263,9 @@ const state = {
   blend: null,
   turns: 0,
 };
-// Resume the last work opened, at its saved place.
+// Resume the last work opened, at its saved place (an earlier day's work is
+// rebuilt from the catalogue first).
+if (reading.last && !WORKS.some((w) => w.id === reading.last)) addShelfWork(reading.last);
 if (reading.last && WORKS.some((w) => w.id === reading.last)) {
   state.workId = reading.last;
   state.pendingAnchor = reading.places[reading.last]?.anchor || null;
@@ -310,6 +335,21 @@ function setAmbienceVolume(value) {
 $("ambience-volume").oninput = e => setAmbienceVolume(Number(e.target.value) / 100);
 function paint() {
   updateVolumeControl();
+  // After midnight, yesterday's picks stop being "today".
+  if (todayWorksFor !== dateKey(new Date())) {
+    loadTodayCache();
+    rebuildWorks(state.workId);
+  }
+  // At midnight yesterday's three stop being Today: fall back to Your shelf.
+  if (state.menuOpen && ((state.menuPage === "today" && !hasToday()) ||
+      (state.menuPage === "closing" && !todayWorks.some((w) => w.id === state.workId)))) {
+    // Yesterday's three now belong on the shelf. A pinch already under way
+    // must not choose a shelf row instead.
+    state.menuPage = "shelf";
+    state.shelfPage = 0;
+    state.hover = null;
+    dayOpenedAt = lastFrameTime;
+  }
   canvas.dataset.view = state.arriving
     ? "arrival"
     : state.centering
@@ -329,19 +369,6 @@ function paint() {
         ? "Gesture practice: Next, Back and Menu"
         : "Public domain poem and short story excerpt",
   );
-  // After midnight, yesterday's picks stop being "today".
-  if (todayWorksFor !== dateKey(new Date())) {
-    loadTodayCache();
-    rebuildWorks(state.workId);
-  }
-  // At midnight yesterday's three stop being Today: fall back to the Library.
-  if (state.menuOpen && ((state.menuPage === "today" && !hasToday()) ||
-      (state.menuPage === "closing" && !todayWorks.some((w) => w.id === state.workId)))) {
-    // A pinch already under way must not choose a Library row instead.
-    state.menuPage = "library";
-    state.hover = null;
-    dayOpenedAt = lastFrameTime;
-  }
   const work = workById(state.workId);
   canvas.dataset.work = work.id;
   if (!state.menuOpen && !state.practice && !state.centering)
@@ -432,13 +459,44 @@ function paint() {
         c,
       });
     }
+  } else if (state.menuOpen && (state.menuPage === "shelf" || state.menuPage === "shelfday")) {
+    const c = {
+      bg,
+      ink,
+      muted,
+      card: palette.card,
+      serif: mood.body,
+      italic: state.mood === "literary" ? "italic " : "",
+      accent: state.night ? "#c9b98f" : "#3f5f4e",
+      gold: state.night ? "#b49a5e" : "#b08d3c",
+    };
+    if (state.menuPage === "shelf") {
+      const days = shelfDays(progress, todayKey());
+      state.shelfPage = Math.max(0, Math.min(state.shelfPage, Math.ceil(days.length / DAYS_PER_PAGE) - 1));
+      // A new day at midnight shifts every row: a pinch under way must not
+      // land on the neighbouring day.
+      if (days[0] !== shelfTop) {
+        if (shelfTop !== undefined) {
+          dayOpenedAt = lastFrameTime;
+          state.hover = null;
+        }
+        shelfTop = days[0];
+      }
+      paintShelf(ctx, { days, page: state.shelfPage, entriesFor: (d) => resolveDay(progress, d, SOURCE_CATALOGUE), hover: state.hover, note: picksNotice || driveNote(), c });
+    } else {
+      const entries = resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE);
+      const statuses = {};
+      for (const e of entries)
+        if (e.work && reading.places[`today-${state.shelfDay}-${e.kind}-${e.work.id}`]?.page > 0) statuses[e.kind] = "In progress";
+      paintShelfDay(ctx, { date: state.shelfDay, entries, statuses, hover: state.hover, c });
+    }
   } else if (state.menuOpen && state.menuPage === "library") {
     const places = {};
-    for (const w of WORKS)
+    for (const w of libraryWorks())
       if (w !== SAMPLER && reading.places[w.id]?.page > 0) places[w.id] = "in progress";
     paintLibrary(ctx, {
       note: driveNote(),
-      works: WORKS,
+      works: libraryWorks(),
       hover: state.hover,
       current: state.workId,
       places,
@@ -523,7 +581,7 @@ function paint() {
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
-        (["back", "volume-back"].includes(b.id) ? "‹  " : "") + (b.id === "library" && hasToday() ? "Today" : b.label),
+        (["back", "volume-back"].includes(b.id) ? "‹  " : "") + (b.id === "library" ? (hasToday() ? "Today" : "Your shelf") : b.label),
         b.x + 70,
         b.y + b.h / 2 + 20,
       );
@@ -980,9 +1038,41 @@ function action(id) {
     return;
   }
   if (id === "today-menu" || id === "today-library" || id === "end-today") {
-    state.menuPage = id === "today-menu" ? "main" : id === "today-library" ? "library" : "today";
+    state.menuPage = id === "today-menu" ? "main" : id === "today-library" ? "shelf" : "today";
+    state.shelfPage = 0;
     state.hover = null;
     dayOpenedAt = lastFrameTime;
+    paint();
+    return;
+  }
+  if (["shelf-menu", "shelf-library", "shelf-later", "shelf-earlier", "day-back"].includes(id)) {
+    // "‹ Shelf" and "‹ Menu" share a place: a double pinch stops on the shelf.
+    if (id !== "shelf-library" && !dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    if (id === "shelf-later" || id === "shelf-earlier") {
+      state.shelfPage += id === "shelf-earlier" ? 1 : -1;
+    } else state.menuPage = id === "shelf-menu" ? "main" : id === "shelf-library" ? "library" : "shelf";
+    state.hover = null;
+    dayOpenedAt = lastFrameTime;
+    paint();
+    return;
+  }
+  if (typeof id === "string" && id.startsWith("shelfday:")) {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    state.shelfDay = id.slice(9);
+    state.menuPage = "shelfday";
+    state.hover = null;
+    dayOpenedAt = lastFrameTime;
+    paint();
+    return;
+  }
+  if (typeof id === "string" && id.startsWith("pastwork:")) {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    const entry = resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE).find((e) => e.kind === id.slice(9));
+    const work = entry?.work && addShelfWork(`today-${state.shelfDay}-${entry.kind}-${entry.work.id}`);
+    if (!work) return;
+    openWork(work.id);
+    toggleMenu(false);
+    feedback(work.title);
     paint();
     return;
   }
@@ -1021,7 +1111,8 @@ function action(id) {
     return;
   }
   if (id === "library") {
-    state.menuPage = hasToday() ? "today" : "library";
+    state.menuPage = hasToday() ? "today" : "shelf";
+    state.shelfPage = 0;
     if (hasToday()) markTodayShown();
     state.hover = null;
     dayOpenedAt = lastFrameTime;
@@ -1138,7 +1229,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-027",
+    build: "gestures-028",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1299,7 +1390,9 @@ function hit(transform) {
 }
 // Hit-test the current menu panel: fixed menu pages or the live calendar.
 function panelHit(x, y) {
-  if (state.menuPage === "library") return libraryHit(x, y, WORKS);
+  if (state.menuPage === "library") return libraryHit(x, y, libraryWorks());
+  if (state.menuPage === "shelf") return shelfHit(x, y, shelfDays(progress, todayKey()), state.shelfPage);
+  if (state.menuPage === "shelfday") return dayHit(x, y, resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE));
   if (state.menuPage === "today") return todayHit(x, y, todayWorks);
   if (state.menuPage === "closing")
     return closingHit(x, y, nextUnread(todayWorks, workById(state.workId), progress, todayKey()));
@@ -2102,6 +2195,7 @@ async function syncDrive() {
         rebuildWorks(state.workId);
         const day = (progress.days[today] ||= {});
         day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
+        day.ids = { ...(day.ids || {}), ...Object.fromEntries(r.works.map((w) => [w.kind, w.catalogueId])) };
         message = `Today's three are ready: ${r.works.map((w) => w.title).join(", ")}.`;
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&
             readingPlace() === placeAtArrival && preferences.todayShown !== today)

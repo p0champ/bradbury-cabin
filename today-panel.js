@@ -2,7 +2,7 @@
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=27";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=28";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
@@ -145,7 +145,7 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", c })
     ctx.font = `${c.italic}48px ${c.serif}`;
     ctx.fillText(facts.closing, 274, 1660);
   }
-  smallButton(ctx, byId(buttons, "today-library"), "The whole Library  ›", hover === "today-library", c, "left");
+  smallButton(ctx, byId(buttons, "today-library"), "Your shelf  ›", hover === "today-library", c, "left");
   if (note) {
     ctx.fillStyle = c.muted;
     ctx.font = "34px Arial";

@@ -1,3 +1,12 @@
+# Build 028 — Your shelf (28 October 2026)
+
+**Built:** shelf-panel.js. Earlier days newest first; a day opens its three; works reopen as the exact catalogue edition under that day's id; works outside the catalogue are listed as Not in the cabin. Synced days now save catalogue IDs (`days[d].ids`), merged and checked together with labels. Menu row 1: Today with a trio, otherwise Your shelf. See BUILD_028_REVIEW.md.
+
+**Verification:** 136 unit + check:sources, 129 PC browser checks, 8/8 shelf mutations; critic 7.5 → 8.5/10 (last point fixed afterwards, author-checked). No Quest check yet.
+
+**Next (not started):** title card / entrance moment (phase 4, approved in principle: Today's three fade in, a small ◆◇◇ bookmark while reading), then Claude's optional lines (phase 3, needs the skill re-paste). More authors for the catalogue also still open. Branch build-028-shelf; preview port 18147.
+
+---
 # Build 027 — Today, phase 1 (28 October 2026)
 
 **Request:** a more personal Library; Claude's daily three should feel special, not just menu rows. Three designer agents proposed and critiqued each other; a judge chose an editorial "Today" page with a closing page and real-data facts. Bastian approved phase 1 with the judge's defaults: title card first (not built yet), no Claude dedication yet, Today appears by itself once a day.

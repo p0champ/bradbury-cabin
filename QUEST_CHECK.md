@@ -1,3 +1,14 @@
+# Build 028 — Your shelf
+
+Open [Build 028](https://p0champ.github.io/bradbury-cabin/?v=28) in a fresh Quest Browser tab. Check **BUILD 028**.
+
+1. Sync with Drive. Hold for the menu: the second row says **Today** (or **Your shelf** if there are no picks for today).
+2. From Today, pinch **Your shelf** at the bottom. Earlier days should be listed, newest first.
+3. Pinch a day. Its three appear; works the cabin doesn't hold say **Not in the cabin**.
+4. Open one. It should open as the full text; turn a few pages, leave and re-enter: it should still be open at your place.
+5. Report anything small, slow, or confusing, standing and lying down.
+
+---
 # Build 027 — Today
 
 Open [Build 027](https://p0champ.github.io/bradbury-cabin/?v=27) in a fresh Quest Browser tab. Check **BUILD 027**.

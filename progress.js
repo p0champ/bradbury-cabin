@@ -71,6 +71,13 @@ export function validProgress(p) {
       if (!plain(d.picks)) return false;
       if (Object.values(d.picks).some((v) => typeof v !== "string")) return false;
     }
+    // Catalogue IDs of the day's picks (Build 028), so the shelf reopens
+    // exactly the edition that was given.
+    if ("ids" in d) {
+      if (!plain(d.ids)) return false;
+      if (Object.entries(d.ids).some(([k, v]) => !KINDS.includes(k) || typeof v !== "string" || !/^[a-z0-9-]{1,120}$/.test(v)))
+        return false;
+    }
   }
   for (const [key, w] of Object.entries(p.weeks)) {
     if (!realDate(key) || !plain(w)) return false;
