@@ -6,22 +6,22 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=33" />
+    <link rel="stylesheet" href="style.css?v=34" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">GESTURE TRIAL / BUILD 033</span>
+        ><span class="edition">BUILD 034</span>
       </header>
       <section class="intro">
         <div>
-          <p class="eyebrow">A ROOM FOR WORDS</p>
-          <h1>The words are clear.<br />Find your rhythm.</h1>
+          <p class="eyebrow">TODAY’S READING ROOM</p>
+          <h1>A quiet room<br />for three readings.</h1>
           <p class="lede">
-            The words are crisp. Now find a comfortable rhythm for Next, Back
-            and Menu.
+            One poem, one story and one essay, chosen for today. Sync once,
+            then step inside.
           </p>
           <div class="start-row">
             <button id="drive-sync" class="primary secondary">
@@ -39,19 +39,17 @@
           <p id="status" role="status">Preparing the reading page.</p>
         </div>
         <aside>
-          <span class="seal">00</span>
-          <p>THE GESTURE TRIAL</p>
-          <h2>Settle in.<br />Look up.<br />Open a page.</h2>
-          <p>
-            One pinch and release turns one page. A ring on your hand fills
-            during a 1.4 second menu hold.
-          </p>
-          <small>A small vocabulary. A calmer reading rhythm.</small>
+          <p class="eyebrow">THREE GESTURES</p>
+          <ol class="gestures">
+            <li><b>Pinch and release</b><span>Turn the page. Right goes forward, left goes back.</span></li>
+            <li><b>Hold a pinch</b><span>Open or close the menu. A ring fills as you hold.</span></li>
+            <li><b>Point, then pinch</b><span>Choose anything in the menu: point at it, pinch and release.</span></li>
+          </ol>
         </aside>
       </section>
       <section class="reader-section">
         <div class="reader-top">
-          <p class="eyebrow">THE FIRST LEAF</p>
+          <p class="eyebrow">PREVIEW AND TOOLS</p>
           <span id="mode-label">PC preview · no headset quality claim</span>
         </div>
         <div class="toolbar" aria-label="Reading settings">
@@ -99,6 +97,6 @@
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=33"></script>
+    <script type="module" src="app.js?v=34"></script>
   </body>
 </html>

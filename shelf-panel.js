@@ -1,10 +1,10 @@
-import { UI } from "./theme.js?v=33";
+import { UI, ring } from "./theme.js?v=34";
 // Your shelf: every earlier day's three, newest first, and the works of one
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
-import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=33";
-import { dayGuide } from "./guide-archive.js?v=33";
+import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=34";
+import { dayGuide } from "./guide-archive.js?v=34";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 export const DAYS_PER_PAGE = 6;
@@ -105,17 +105,18 @@ function wrap2(ctx, text, width) {
     first = (first + " " + words.shift()).trim();
   return words.length ? [first, fit(ctx, words.join(" "), width)] : [first];
 }
-function card(ctx, b, fill) {
+function card(ctx, b, fill, edge) {
   ctx.fillStyle = fill;
   ctx.beginPath();
   if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
+  if (edge) ring(ctx, b, edge, 36);
 }
 function button(ctx, b, label, hot, c, align = "center") {
   if (!b) return;
-  card(ctx, b, hot ? c.accent : c.card);
-  ctx.fillStyle = hot ? c.bg : c.ink;
+  card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+  ctx.fillStyle = c.ink;
   ctx.font = `44px ${UI}`;
   ctx.textAlign = align;
   ctx.fillText(label, align === "center" ? b.x + b.w / 2 : b.x + 60, b.y + b.h / 2 + 15);
@@ -145,9 +146,9 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   ctx.fillRect(274, 600, 1500, 3);
   for (const b of buttons.filter((x) => x.id.startsWith("shelfday:"))) {
     const date = b.id.slice(9), hot = hover === b.id, entries = entriesFor(date);
-    card(ctx, b, hot ? c.accent : c.card);
+    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
     const read = entries.filter((e) => e.read).length;
-    ctx.fillStyle = hot ? c.bg : c.muted;
+    ctx.fillStyle = c.muted;
     ctx.font = `34px ${UI}`;
     ctx.fillText(dayHeading(date), b.x + 60, b.y + 58);
     ctx.textAlign = "right";
@@ -161,11 +162,11 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
     let x = b.x + 60;
     for (const [i, e] of entries.entries()) {
       const t = shrunk ? fit(ctx, titles[i], (b.w - 120) / entries.length - 50) : titles[i];
-      ctx.fillStyle = hot ? c.bg : e.read ? c.ink : c.muted;
+      ctx.fillStyle = e.read ? c.ink : c.muted;
       ctx.fillText(t, x, b.y + 132);
       x += ctx.measureText(t).width;
       if (i < entries.length - 1) {
-        ctx.fillStyle = hot ? c.bg : c.muted;
+        ctx.fillStyle = c.muted;
         ctx.fillText("  ·  ", x, b.y + 132);
         x += ctx.measureText("  ·  ").width;
       }
@@ -196,22 +197,22 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
   ctx.fillRect(274, 610, 1500, 3);
   for (const [i, e] of entries.entries()) {
     const b = { id: `pastwork:${e.kind}`, ...ENTRY(i) }, hot = e.work && hover === b.id;
-    card(ctx, b, hot ? c.accent : c.card);
-    ctx.fillStyle = hot ? c.bg : c.muted;
+    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    ctx.fillStyle = c.muted;
     ctx.font = `32px ${UI}`;
     ctx.fillText(KIND[e.kind], b.x + 60, b.y + 62);
     const status = e.read ? "✓  Read" : e.work ? statuses[e.kind] || "" : "Not in the cabin";
     if (status) {
-      ctx.fillStyle = hot ? c.bg : e.read ? c.ink : c.muted;
+      ctx.fillStyle = e.read ? c.ink : c.muted;
       ctx.font = `38px ${UI}`;
       ctx.textAlign = "right";
       ctx.fillText(status, b.x + b.w - 60, b.y + 64);
       ctx.textAlign = "left";
     }
     const [title, author] = e.label.split(" — ");
-    ctx.fillStyle = hot ? c.bg : e.work && !e.read ? c.ink : c.muted;
+    ctx.fillStyle = e.work && !e.read ? c.ink : c.muted;
     ctx.fillText(fitted(ctx, title, b.w - 120, 64, 44, (s) => `${c.italic}${s}px ${c.serif}`), b.x + 60, b.y + 150);
-    ctx.fillStyle = hot ? c.bg : c.muted;
+    ctx.fillStyle = c.muted;
     ctx.font = `34px ${UI}`;
     const meta = e.work ? [e.work.author, e.work.year, e.work.place] : [author];
     ctx.fillText(fit(ctx, meta.filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);

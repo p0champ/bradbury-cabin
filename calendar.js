@@ -1,4 +1,4 @@
-import { UI } from "./theme.js?v=33";
+import { UI } from "./theme.js?v=34";
 // Challenge calendar panels drawn on the same crisp page canvas as the menu.
 // Buttons are plain rectangles in canvas pixels, hit-tested like the menu.
 import {
@@ -9,7 +9,7 @@ import {
   parseKey,
   weekSunday,
   ticks,
-} from "./progress.js?v=33";
+} from "./progress.js?v=34";
 
 const MONTHS = "January February March April May June July August September October November December".split(" ");
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];

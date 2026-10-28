@@ -3,9 +3,9 @@
 // folder "Bradbury Cabin" (a new file per request; the newest one wins).
 // Version 2 contains catalogue references and separate original guide notes.
 // Literary text and edition metadata always come from the reviewed catalogue.
-import { normalizeGuide } from "./study-guide.js?v=33";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=33";
-import { LIBRARY } from "./library.js?v=33";
+import { normalizeGuide } from "./study-guide.js?v=34";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=34";
+import { LIBRARY } from "./library.js?v=34";
 export const KINDS = ["poem", "story", "essay"];
 const MAX_TEXT = 150000; // characters per text: a long story, not a novel
 

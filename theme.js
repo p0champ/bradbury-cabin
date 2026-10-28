@@ -21,6 +21,17 @@ export const MOODS = {
 };
 
 export const accentFor = (night) => (night ? "#d6c9a4" : "#2f4b3e");
+// Hover is a soft tint plus a thin ring; the label never changes colour,
+// so what you are reading stays put while the choice lights up.
+export const hoverFor = (night) => (night ? "#2a312d" : "#e2dccc");
+export function ring(ctx, b, color, radius) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(b.x + 3, b.y + 3, b.w - 6, b.h - 6, Math.max(0, radius - 3));
+  else ctx.rect(b.x + 3, b.y + 3, b.w - 6, b.h - 6);
+  ctx.stroke();
+}
 export const goldFor = (night) => (night ? "#b8a06a" : "#a8873e");
 
 // Small capitals for labels and running heads, spaced like a book's folio.

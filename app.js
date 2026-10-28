@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=33";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=34";
 import {
   GestureEngine,
   menuButtons,
@@ -10,27 +10,27 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=33";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=33";
-import { HandBadges } from "./hand-badges.js?v=33";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=33";
-import { LIBRARY } from "./library.js?v=33";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=33";
-import { layoutReading } from "./reading-flow.js?v=33";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=33";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=33";
-import { parsePicks, pickLabels } from "./picks.js?v=33";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=33";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=33";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=33";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=33";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=33";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=33";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=33";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=33";
-import { MOODS, UI, accentFor, goldFor, spaced, unspaced } from "./theme.js?v=33";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=33";
-import { EntrySound } from "./entry-sound.js?v=33";
+} from "./gestures.js?v=34";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=34";
+import { HandBadges } from "./hand-badges.js?v=34";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=34";
+import { LIBRARY } from "./library.js?v=34";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=34";
+import { layoutReading } from "./reading-flow.js?v=34";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=34";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=34";
+import { parsePicks, pickLabels } from "./picks.js?v=34";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=34";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=34";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=34";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=34";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=34";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=34";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=34";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=34";
+import { MOODS, UI, accentFor, goldFor, hoverFor, ring, spaced, unspaced } from "./theme.js?v=34";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=34";
+import { EntrySound } from "./entry-sound.js?v=34";
 import {
   readProgress,
   saveProgress,
@@ -39,13 +39,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=33";
+} from "./progress.js?v=34";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=33";
+} from "./calendar.js?v=34";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -466,7 +466,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      accent: accentFor(state.night),
+      hover: hoverFor(state.night),
+        accent: accentFor(state.night),
       gold: goldFor(state.night),
     };
     if (state.menuPage === "today") {
@@ -502,7 +503,8 @@ function paint() {
       card: palette.card,
       serif: mood.body,
       italic: state.mood === "literary" ? "italic " : "",
-      accent: accentFor(state.night),
+      hover: hoverFor(state.night),
+        accent: accentFor(state.night),
       gold: goldFor(state.night),
     };
     if (state.menuPage === "shelf") {
@@ -542,6 +544,7 @@ function paint() {
         card: palette.card,
         serif: mood.body,
         italic: state.mood === "literary" ? "italic " : "",
+        hover: hoverFor(state.night),
         accent: accentFor(state.night),
       },
     });
@@ -607,12 +610,13 @@ function paint() {
     for (const b of menuButtons) {
       if (b.page !== state.menuPage) continue;
       const hot = state.hover === b.id;
-      ctx.fillStyle = hot ? accent : card;
+      ctx.fillStyle = hot ? hoverFor(state.night) : card;
       ctx.beginPath();
       if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
-      ctx.fillStyle = hot ? bg : ink;
+      if (hot) ring(ctx, b, accent, 40);
+      ctx.fillStyle = ink;
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
@@ -621,7 +625,7 @@ function paint() {
         b.y + b.h / 2 + 20,
       );
       if (values[b.id]) {
-        ctx.fillStyle = hot ? bg : muted;
+        ctx.fillStyle = muted;
         ctx.font = `42px ${UI}`;
         ctx.textAlign = "right";
         ctx.fillText(values[b.id], b.x + b.w - 70, b.y + b.h / 2 + 15);
@@ -1278,7 +1282,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-033",
+    build: "gestures-034",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the

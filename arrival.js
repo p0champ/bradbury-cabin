@@ -3,8 +3,14 @@
 export const ARRIVAL_MS = 1200;
 export function easeArrival(p) {
   p = Math.max(0, Math.min(1, p));
-  return 1 - (1 - p) ** 3;
+  // A long, soft settle: quick to start, unhurried to land.
+  return 1 - (1 - p) ** 4;
 }
+// Smooth in and out, for fades that should never visibly step.
+export const smooth = (p) => {
+  p = Math.max(0, Math.min(1, p));
+  return p * p * (3 - 2 * p);
+};
 export function localPose(anchor, x, y, z, yaw = 0) {
   const m = anchor.matrix,
     q = anchor.orientation,
@@ -26,7 +32,8 @@ export function localPose(anchor, x, y, z, yaw = 0) {
 }
 export function pageArrivalPose(anchor, p) {
   const e = easeArrival(p);
-  return localPose(anchor, 0, 0, -1.1 - 0.18 * (1 - e), -0.045 * (1 - e));
+  // A short approach, a few centimetres: the page settles rather than travels.
+  return localPose(anchor, 0, 0, -1.1 - 0.06 * (1 - e), -0.03 * (1 - e));
 }
 export function paintLeaf(canvas, side) {
   const c = canvas.getContext("2d"),
@@ -38,20 +45,20 @@ export function paintLeaf(canvas, side) {
     c.scale(-1, 1);
   }
   const wash = c.createLinearGradient(0, 0, w, 0);
-  wash.addColorStop(0, "rgba(247,240,223,.78)");
-  wash.addColorStop(0.5, "rgba(247,240,223,.14)");
-  wash.addColorStop(1, "rgba(247,240,223,0)");
+  wash.addColorStop(0, "rgba(246,242,233,.72)");
+  wash.addColorStop(0.5, "rgba(246,242,233,.12)");
+  wash.addColorStop(1, "rgba(246,242,233,0)");
   c.fillStyle = wash;
   c.fillRect(34, 65, w - 34, h - 130);
-  c.strokeStyle = "#c7a666";
-  c.lineWidth = 3;
+  c.strokeStyle = "#bfae86";
+  c.lineWidth = 2.5;
   c.beginPath();
   c.moveTo(w - 6, 30);
   c.bezierCurveTo(55, 30, 35, 100, 35, 240);
   c.lineTo(35, h - 100);
   c.quadraticCurveTo(35, h - 45, w - 6, h - 45);
   c.stroke();
-  c.strokeStyle = "rgba(199,166,102,.4)";
+  c.strokeStyle = "rgba(191,174,134,.35)";
   c.lineWidth = 1.5;
   c.beginPath();
   c.moveTo(w - 8, 49);
@@ -62,13 +69,13 @@ export function paintLeaf(canvas, side) {
   // Sparse letterpress rules and a diamond make a page-like invitation.
   for (let i = 0; i < 9; i++) {
     const y = 260 + i * 48;
-    c.strokeStyle = `rgba(99,117,105,${0.26 - i * 0.018})`;
+    c.strokeStyle = `rgba(106,116,108,${0.22 - i * 0.016})`;
     c.beginPath();
     c.moveTo(76, y);
     c.lineTo(w - 44 - (i % 3) * 26, y);
     c.stroke();
   }
-  c.fillStyle = "#c7a666";
+  c.fillStyle = "#bfae86";
   c.beginPath();
   c.moveTo(35, 168);
   c.lineTo(42, 180);
@@ -117,7 +124,7 @@ export class Arrival {
           this.entries.push({ side, canvas, layer, dirty: true });
         }
       const e = progress == null ? 0 : easeArrival(progress),
-        breath = progress == null ? Math.sin(time / 1500) * 0.008 : 0;
+        breath = 0; // no idle bobbing: still things feel calm in a headset
       for (const entry of this.entries) {
         entry.layer.transform = localPose(
           anchor,
@@ -129,7 +136,7 @@ export class Arrival {
         entry.layer.opacity =
           progress == null
             ? 0.82
-            : Math.max(0, 1 - Math.max(0, (progress - 0.4) / 0.6));
+            : 1 - smooth((progress - 0.35) / 0.65);
       }
       const changed = this.visible.length !== this.entries.length;
       this.visible = this.entries.map((e) => e.layer);

@@ -1,9 +1,9 @@
-import { UI, spaced, unspaced } from "./theme.js?v=33";
+import { UI, spaced, unspaced, ring } from "./theme.js?v=34";
 // Today: Claude's three for the day on a page of their own, and a quiet
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=33";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=34";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
@@ -86,12 +86,13 @@ function wrap2(ctx, text, width) {
     first = (first + " " + words.shift()).trim();
   return words.length ? [first, fit(ctx, words.join(" "), width)] : [first];
 }
-function card(ctx, b, fill) {
+function card(ctx, b, fill, edge) {
   ctx.fillStyle = fill;
   ctx.beginPath();
   if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
+  if (edge) ring(ctx, b, edge, 36);
 }
 // A hairline, not a bar: separation without weight.
 function rule(ctx, y, color) {
@@ -102,8 +103,8 @@ function rule(ctx, y, color) {
 }
 function smallButton(ctx, b, label, hot, c, align = "center") {
   if (!b) return;
-  card(ctx, b, hot ? c.accent : c.card);
-  ctx.fillStyle = hot ? c.bg : c.ink;
+  card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+  ctx.fillStyle = c.ink;
   ctx.font = `44px ${UI}`;
   ctx.textAlign = align;
   ctx.fillText(label, align === "center" ? b.x + b.w / 2 : b.x + 60, b.y + b.h / 2 + 15);
@@ -142,23 +143,23 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", pers
   for (const w of works.slice(0, Math.min(3, reveal))) {
     const b = byId(buttons, "today:" + w.id), hot = hover === b.id;
     const status = statuses[w.id] || "";
-    card(ctx, b, hot ? c.accent : c.card);
-    ctx.fillStyle = hot ? c.bg : c.muted;
+    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    ctx.fillStyle = c.muted;
     ctx.font = `600 28px ${UI}`;
     spaced(ctx, 5);
     ctx.fillText(KIND[w.kind], b.x + 60, b.y + 62);
     unspaced(ctx);
     if (status) {
-      ctx.fillStyle = hot ? c.bg : status === "Read" ? c.ink : c.muted;
+      ctx.fillStyle = status === "Read" ? c.ink : c.muted;
       ctx.font = `34px ${UI}`;
       ctx.textAlign = "right";
       ctx.fillText(status === "Read" ? "✓  Read" : status, b.x + b.w - 60, b.y + 62);
       ctx.textAlign = "left";
     }
-    ctx.fillStyle = hot ? c.bg : status === "Read" ? c.muted : c.ink;
+    ctx.fillStyle = status === "Read" ? c.muted : c.ink;
     const title = fitted(ctx, w.title, b.w - 120, 64, 44, (s) => `${c.italic}${s}px ${c.serif}`);
     ctx.fillText(title, b.x + 60, b.y + 150);
-    ctx.fillStyle = hot ? c.bg : c.muted;
+    ctx.fillStyle = c.muted;
     ctx.font = `34px ${UI}`;
     ctx.fillText(fit(ctx, [w.author, w.year, w.place].filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);
   }
@@ -209,8 +210,8 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
   };
   for (const b of buttons.slice(1)) {
     const hot = hover === b.id;
-    card(ctx, b, hot ? c.accent : c.card);
-    ctx.fillStyle = hot ? c.bg : c.ink;
+    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    ctx.fillStyle = c.ink;
     const label = fitted(ctx, labels[b.id], b.w - 260, 58, 40, (s) => `${s}px ${c.serif}`);
     ctx.fillText(label, b.x + 70, b.y + b.h / 2 + 20);
     if (b.id === "end-mark") {
@@ -220,9 +221,9 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
       if (ctx.roundRect) ctx.roundRect(cx - r, cy - r, r * 2, r * 2, r);
       else ctx.rect(cx - r, cy - r, r * 2, r * 2);
       if (read) {
-        ctx.fillStyle = hot ? c.bg : c.ink;
+        ctx.fillStyle = c.ink;
         ctx.fill();
-        ctx.strokeStyle = hot ? c.ink : c.bg;
+        ctx.strokeStyle = c.bg;
         ctx.lineWidth = 6;
         ctx.lineCap = ctx.lineJoin = "round";
         ctx.beginPath();
@@ -232,7 +233,7 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
         ctx.stroke();
         ctx.lineCap = ctx.lineJoin = "butt";
       } else {
-        ctx.strokeStyle = hot ? c.bg : c.muted;
+        ctx.strokeStyle = c.muted;
         ctx.lineWidth = 3;
         ctx.stroke();
       }

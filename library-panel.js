@@ -1,4 +1,4 @@
-import { UI } from "./theme.js?v=33";
+import { UI, ring } from "./theme.js?v=34";
 // Library page inside the menu: "‹ Menu" at the top, then one row per work.
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.
@@ -18,12 +18,13 @@ export function libraryHit(x, y, works) {
     libraryButtons(works).find((b) => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h)?.id || null
   );
 }
-function card(ctx, b, fill) {
+function card(ctx, b, fill, edge) {
   ctx.fillStyle = fill;
   ctx.beginPath();
   if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 36);
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
+  if (edge) ring(ctx, b, edge, 36);
 }
 // places: { [workId]: "in progress" } labels for works with a saved place.
 export function paintLibrary(ctx, { works, hover, current, places = {}, c, note = "" }) {
@@ -43,9 +44,9 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
   if (note) ctx.fillText(note, 274, 600);
   for (const b of libraryButtons(works)) {
     const hot = hover === b.id;
-    card(ctx, b, hot ? c.accent : c.card);
-    const fg = hot ? c.bg : c.ink,
-      sub = hot ? c.bg : c.muted;
+    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    const fg = c.ink,
+      sub = c.muted;
     if (b.id === "lib-menu") {
       ctx.fillStyle = fg;
       ctx.font = `50px ${c.serif || "Literata"}`;
