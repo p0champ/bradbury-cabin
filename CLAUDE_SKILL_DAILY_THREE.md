@@ -92,8 +92,8 @@ Each field accepts a string or an array of strings; use the shape above.
 Limit each string to 1,200 characters and each array to 8 entries. A missing
 guide still loads the text, but include all four fields for new picks.
 When swapping a pick, preserve the other two picks and their guides.
-The cabin displays Before reading first, then After reading — spoilers on a
-separate page, using Menu → Study guide for the work currently being read.
+The cabin attaches the notes to each work: Before reading, then the full text,
+then After reading — spoilers, using ordinary page turns. No guide menu is needed.
 
 Create the file with the Drive `create_file` tool, using exactly these fields:
 
@@ -125,6 +125,6 @@ Keep it short. For each of the three:
 - one line on why it's worth reading today, with no spoilers;
 - a verified link to the full text source. The study guide is included in the cabin.
 
-End with: "In the cabin: Sync with Drive on the start page, then Menu → Library. While reading, Menu → Study guide opens the notes."
+End with: "In the cabin: Sync with Drive on the start page, then Menu → Library. The notes appear before and after each text as you turn the pages."
 
 Don't add content or trigger warnings. He finds them spoilers.

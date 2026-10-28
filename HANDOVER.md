@@ -1,3 +1,18 @@
+# Build 024 — automatic notes attached to each work (28 October 2026)
+
+**User verdict:** Build 023 works but is too clunky. He wants the before notes when opening a text and after notes when finishing it, without choosing a guide from a menu. This supersedes the previous detour design. Volume and wider UI changes remain pending.
+
+**Behavior:** normal page turns follow **Before reading → original full text → After reading — spoilers**. Back works across the same boundaries. The guide menu row and return-to-text action are removed. Fresh works start Before; an existing saved work resumes its saved section/place. Missing guides add no filler pages. Partial guides add only the available sections. Source reading layout remains unchanged, including poetry. Section page labels and turn feedback agree.
+
+**Implementation:** reading-flow.js composes independent before/text/after layouts, so source block indices and word positions stay intact. Page anchors carry section before/text/after; reader.js preserves it on storage load and restricts anchor lookup to that section. Legacy anchors without section always refer to text, preserving Build 023 places. Removed notes fall back to text start. reading.last always stays the real work ID, including while reading notes. Midnight keeps the open work intact.
+
+**Verification:** 102 unit + 121 full PC browser checks pass. The final counter adjustment also passed all eight targeted browser checks. Five safety mutations were caught in an isolated copy. Independent critic round 1: 8.5/10; P3 inconsistent counters fixed. Round 2: **9/10**, no remaining actionable findings. Critic independently ran 102 unit + eight targeted browser checks and inspected before/text/after, night/modern, front/side/lying images. See BUILD_024_REVIEW.md.
+
+**Release:** built, PC-tested, independently reviewed; commit/deployment being prepared. Needs Bastian's Quest verdict. All module import queries and index assets use v24; header BUILD 024, diagnostic gestures-024. Gesture recognizer, handMapRevision 9, rendering and generated library texts are unchanged. No Sunnyvale service touched. Branch build-024-reading-flow; local preview 18141.
+
+Claude guide JSON format is unchanged. CLAUDE_SKILL_DAILY_THREE.md only changes the navigation explanation: notes now appear automatically. The Build 023 skill already supplies compatible guides.
+
+---
 # Build 023 — study guide detour (28 October 2026)
 
 Bastian approved the study-guide plan and asked that it feel seamless. Menu → **Study guide** opens the current work's notes using the existing reader. The same row becomes **Back to the text**. Returning restores the exact page when size/style are unchanged, or the page containing its saved word anchor after reflow. Guides always open at their safe beginning. They never overwrite the real text's saved place or reading.last; reloading resumes the real work.

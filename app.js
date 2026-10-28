@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=23";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=24";
 import {
   GestureEngine,
   menuButtons,
@@ -10,19 +10,19 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=23";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=23";
-import { HandBadges } from "./hand-badges.js?v=23";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=23";
-import { LIBRARY } from "./library.js?v=23";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=23";
-import { studyGuide } from "./study-guide.js?v=23";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=23";
-import { parsePicks, pickLabels } from "./picks.js?v=23";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=23";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=23";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=23";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=23";
+} from "./gestures.js?v=24";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=24";
+import { HandBadges } from "./hand-badges.js?v=24";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=24";
+import { LIBRARY } from "./library.js?v=24";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=24";
+import { layoutReading } from "./reading-flow.js?v=24";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=24";
+import { parsePicks, pickLabels } from "./picks.js?v=24";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=24";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=24";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=24";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=24";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -39,8 +39,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=23";
-import { EntrySound } from "./entry-sound.js?v=23";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=24";
+import { EntrySound } from "./entry-sound.js?v=24";
 import {
   readProgress,
   saveProgress,
@@ -49,13 +49,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=23";
+} from "./progress.js?v=24";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=23";
+} from "./calendar.js?v=24";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -171,13 +171,7 @@ function rebuildWorks(openId = null) {
 rebuildWorks();
 const reading = loadReading(store);
 const workById = (id) => WORKS.find((w) => w.id === id) || SAMPLER;
-// The source work stays current even across midnight or a Drive refresh.
-// A guide is a temporary reader view, never the last real work opened.
-let guideWork = null, textReturn = null;
-const displayedWork = () => guideWork || workById(state.workId);
-const currentAnchor = () => guideWork
-  ? pages[state.page]?.anchor || null
-  : reading.places[state.workId]?.anchor || pages[state.page]?.anchor || null;
+const currentAnchor = () => pages[state.page]?.anchor || null;
 const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
@@ -286,6 +280,12 @@ let menuPlacement = null,
 const report = (message) => {
   $("status").textContent = message;
 };
+function readingPosition() {
+  const page = pages[state.page];
+  const label = page?.section === "before" ? "Before reading · "
+    : page?.section === "after" ? "After reading · " : "";
+  return `${label}Page ${page?.sectionPage || state.page + 1} of ${page?.sectionPages || pages.length}`;
+}
 function paint() {
   canvas.dataset.view = state.arriving
     ? "arrival"
@@ -311,14 +311,14 @@ function paint() {
     loadTodayCache();
     rebuildWorks(state.workId);
   }
-  const work = displayedWork();
+  const work = workById(state.workId);
   canvas.dataset.work = work.id;
   if (!state.menuOpen && !state.practice && !state.centering)
-    canvas.setAttribute("aria-label", `${guideWork ? "Study guide: " : "Reading: "}${work.title}`);
+    canvas.setAttribute("aria-label", `Reading: ${work.title}`);
   pages =
     work === SAMPLER
       ? layout(ctx, state.size, MOODS[state.mood].body)
-      : layoutWork(ctx, work, state.size, {
+      : layoutReading(ctx, work, state.size, {
           serif: MOODS[state.mood].body,
           titleStyle: MOODS[state.mood].title,
         });
@@ -327,6 +327,8 @@ function paint() {
     state.pendingAnchor = null;
   }
   state.page = Math.max(0, Math.min(state.page, pages.length - 1));
+  const section = pages[state.page]?.section || "text";
+  canvas.dataset.section = section;
   const mood = MOODS[state.mood],
     palette = state.night ? mood.night : mood.paper;
   const bg = palette.bg,
@@ -450,7 +452,7 @@ function paint() {
       ctx.font = `${b.id === "resume" && state.mood === "literary" ? "italic " : ""}58px ${mood.body}`;
       ctx.textAlign = "left";
       ctx.fillText(
-        (b.id === "back" ? "‹  " : "") + (b.id === "guide" && guideWork ? "Back to the text" : b.label),
+        (b.id === "back" ? "‹  " : "") + b.label,
         b.x + 70,
         b.y + b.h / 2 + 20,
       );
@@ -535,7 +537,7 @@ function paint() {
   ctx.textAlign = "left";
   if (!state.menuOpen && !state.centering)
     ctx.fillText(
-      `${state.page + 1} / ${pages.length}` +
+      readingPosition() +
         (state.mode === "layer" ? "" : "  ·  sharpness test B"),
       160,
       2175,
@@ -568,7 +570,7 @@ function paint() {
     2320,
   );
   ctx.textAlign = "left";
-  $("place").textContent = `Page ${state.page + 1} of ${pages.length}`;
+  $("place").textContent = readingPosition();
   $("prev").disabled = state.page === 0;
   $("next").disabled = state.page === pages.length - 1;
   $("night").setAttribute("aria-pressed", String(state.night));
@@ -606,8 +608,6 @@ function inFront() {
 // Open a work at its saved place (or the start), and remember it as last.
 function openWork(id) {
   rememberPlace();
-  guideWork = null;
-  textReturn = null;
   state.workId = workById(id).id;
   const saved = reading.places[state.workId];
   state.page = 0;
@@ -618,7 +618,6 @@ function openWork(id) {
 // Saved place: the first line on the current page, so a text-size change or
 // a later visit lands on the same words.
 function rememberPlace() {
-  if (guideWork) return;
   const anchor = pages[state.page]?.anchor;
   if (!anchor) return;
   reading.places[state.workId] = { anchor, page: state.page };
@@ -696,7 +695,7 @@ function gestureEvent(event) {
             : "first-page";
       feedback(
         outcome === "turned"
-          ? `Page ${state.page + 1} of ${pages.length}`
+          ? readingPosition()
           : outcome === "last-page"
             ? "Last page · use BACK on your hand"
             : "First page · use NEXT on your hand",
@@ -726,7 +725,7 @@ function gestureEvent(event) {
   const before = state.page;
   action(id);
   if (state.page !== before) {
-    feedback(`Page ${state.page + 1} of ${pages.length}`);
+    feedback(readingPosition());
     paint();
     return "turned";
   }
@@ -749,28 +748,6 @@ function action(id) {
     return;
   }
   if (id === "resume") {
-    toggleMenu(false);
-    return;
-  }
-  if (id === "guide") {
-    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
-    if (guideWork) {
-      guideWork = null;
-      state.page = textReturn.page;
-      state.pendingAnchor = state.size === textReturn.size && state.mood === textReturn.mood
-        ? null : textReturn.anchor;
-      textReturn = null;
-    } else {
-      rememberPlace();
-      textReturn = { page: state.page, anchor: pages[state.page]?.anchor || null,
-        size: state.size, mood: state.mood };
-      guideWork = studyGuide(workById(state.workId));
-      state.page = 0;
-      state.pendingAnchor = null;
-    }
-    gazeDwell.consume();
-    dayOpenedAt = lastFrameTime;
-    state.feedback = "";
     toggleMenu(false);
     return;
   }
@@ -1007,7 +984,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-023",
+    build: "gestures-024",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1041,7 +1018,8 @@ $("export").onclick = () => {
     handFeedbackError: state.handFeedbackError,
     reading: {
       // The work actually shown (falls back to the sampler if unknown).
-      work: displayedWork().id,
+      work: workById(state.workId).id,
+      section: pages[state.page]?.section || "text",
       page: state.page + 1,
       pages: pages.length,
       anchor: pages[state.page]?.anchor || null,

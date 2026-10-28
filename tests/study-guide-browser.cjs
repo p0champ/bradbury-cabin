@@ -1,151 +1,150 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
 module.exports = async function guideChecks(browser, { mock, BASE_URL, out, passed }) {
-    // Build 023: guides are a detour, never a replacement for the saved text.
-    for (const lying of [false, true]) {
-      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
-      const errors = [];
-      p.on("pageerror", e => errors.push(e.message));
-      await mock(p, "layer", lying);
-      await p.addInitScript(() => {
-        window.__pageText = [];
-        const fillRect = CanvasRenderingContext2D.prototype.fillRect;
-        const fillText = CanvasRenderingContext2D.prototype.fillText;
-        CanvasRenderingContext2D.prototype.fillRect = function(x,y,w,h) {
-          if (this.canvas.id === "page" && w === 2048 && h === 2560) __pageText = [];
-          return fillRect.call(this,x,y,w,h);
-        };
-        CanvasRenderingContext2D.prototype.fillText = function(t,...args) {
-          if (this.canvas.id === "page") __pageText.push(t);
-          return fillText.call(this,t,...args);
-        };
-      });
-      await p.goto(BASE_URL);
-      await p.locator("#enter:not([disabled])").click();
-      await p.evaluate(() => __center());
-      const choose = async (id) => {
-        await p.evaluate(async id => __aim(id), id);
-        if (typeof id === "string") assert.equal(await p.locator("#page").getAttribute("data-target"), id);
-        await p.evaluate(() => __pinch());
-      };
-      const menu = async () => {
-        // Look back toward the world-still reading page before holding.
-        if (await p.locator("#page").getAttribute("data-view") === "reading")
-          await p.evaluate(() => { __mock.look = null; __step(600); });
-        await p.evaluate(() => __hold());
-      };
-      const saved = () => p.evaluate(() => JSON.parse(localStorage.getItem("cabin-reading")));
-      const workId = () => p.locator("#page").getAttribute("data-work");
-      await menu(); await choose("library");
-      await choose({ x: 1394, y: 380, w: 380, h: 120 });
-      await p.evaluate(async () => {
-        await __aim("guide");
-        __native("selectstart"); __step(40);
-        __native("select"); __native("selectend"); __step(16);
-      });
-      assert.equal(await workId(), "sampler");
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu", "repeat pinch within 600ms must not open guide");
-      await menu();
-      await menu();
-      await choose("library");
-      await choose({ x: 274, y: 700 + 5 * 124, w: 1500, h: 112 });
-      for (let i = 0; i < 3; i++) await p.locator("#next").click();
-      const original = await saved(), place = await p.locator("#place").textContent();
-      await menu(); await choose("guide");
-      assert.equal(await workId(), "guide:chopin-desiree");
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
-      assert.ok((await p.evaluate(() => __pageText)).includes("Before reading"));
-      assert.ok(!(await p.evaluate(() => __pageText)).includes("After reading — spoilers"));
-      await p.locator("#page").screenshot({ path: path.join(out, `guide-before${lying ? "-lying" : ""}.png`) });
-      await p.evaluate(() => { __step(); __welcomeScene(); });
-      await p.locator("#welcome-scene").screenshot({ path: path.join(out, `guide-native-${lying ? "lying" : "front"}.png`) });
-      await p.evaluate(() => { __mock.offsetX = 0.25; __step(); __welcomeScene(); });
-      await p.locator("#welcome-scene").screenshot({ path: path.join(out, `guide-native-${lying ? "lying" : "front"}-side.png`) });
-      await p.evaluate(() => { __mock.offsetX = 0; __step(); });
-      while (!(await p.evaluate(() => __pageText)).includes("After reading — spoilers")) {
-        assert.equal(await p.locator("#next").isEnabled(), true, "spoiler heading must exist");
-        await p.locator("#next").click();
-      }
-      await p.locator("#page").screenshot({ path: path.join(out, `guide-after${lying ? "-lying" : ""}.png`) });
-      assert.deepEqual(await saved(), original, "paging a guide never writes the source place or reading.last");
-      await menu();
-      assert.ok((await p.evaluate(() => __pageText)).includes("Back to the text"));
-      await choose("guide");
-      assert.equal(await workId(), "chopin-desiree");
-      assert.equal(await p.locator("#place").textContent(), place, "exact source page restored");
-      passed("study guide separates spoilers, toggles its label and returns to the exact text page" + (lying ? " lying" : ""));
-
-      await menu(); await choose("guide");
-      await menu(); await choose("mood"); await choose("night"); await choose("size");
-      await p.locator("#page").screenshot({ path: path.join(out, `guide-menu-modern-night${lying ? "-lying" : ""}.png`) });
-      await menu();
-      await p.locator("#page").screenshot({ path: path.join(out, `guide-modern-night${lying ? "-lying" : ""}.png`) });
-      assert.equal((await saved()).last, "chopin-desiree");
-      await menu(); await choose("guide");
-      const expectedPlace = await p.evaluate(async anchor => {
-        const { layoutWork, pageForAnchor } = await import("./reader.js?v=23");
-        const { LIBRARY } = await import("./library.js?v=23");
-        const pages = layoutWork(document.querySelector("#page").getContext("2d"), LIBRARY.find(w=>w.id === "chopin-desiree"), 2,
-          { serif: "Helvetica Neue, Helvetica, Arial, sans-serif", titleStyle: "bold" });
-        return `Page ${pageForAnchor(pages, anchor) + 1} of ${pages.length}`;
-      }, original.places["chopin-desiree"].anchor);
-      assert.equal(await p.locator("#place").textContent(), expectedPlace);
-      await menu(); await choose("guide");
-      await p.reload();
-      await p.waitForFunction(() => document.querySelector("#page").dataset.work === "chopin-desiree");
-      assert.equal(await p.locator("#place").textContent(), expectedPlace);
-      passed("guide size/style changes preserve source words; reload resumes the real text" + (lying ? " lying" : ""));
-
-      await p.locator("#enter:not([disabled])").click(); await p.evaluate(() => __center());
-      await menu(); await choose("guide");
-      await menu(); await choose("library");
-      await choose({ x: 274, y: 700 + 1 * 124, w: 1500, h: 112 });
-      assert.equal(await workId(), "blake-sick-rose");
-      assert.equal((await saved()).last, "blake-sick-rose");
-      await menu(); await choose("guide");
-      assert.equal(await workId(), "guide:blake-sick-rose");
-      await menu(); await choose("library");
-      await choose({ x: 274, y: 700, w: 1500, h: 112 });
-      await p.locator("#next").click();
-      await menu(); await choose("guide");
-      assert.ok((await p.evaluate(() => __pageText)).includes("No study guide for this text."));
-      await menu(); await choose("guide");
-      assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
-      assert.deepEqual(errors, []);
-      passed("choosing another work leaves its old guide behind; sampler fallback preserves its page" + (lying ? " lying" : ""));
-      await p.close();
-    }
-    {
-      const p = await browser.newPage(), errors = [];
-      p.on("pageerror", e => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20));
-      await mock(p, "layer", false);
-      await p.addInitScript(() => {
-        localStorage.setItem("cabin-today", JSON.stringify({ date: "2026-10-28", picks: {
-          story: { title: "A cached story", author: "Test author", text: "The source text.",
-            guide: { context: "Before the story.", notice: ["Watch the words."], themes: "After the story.", questions: ["Why?"] } }
-        } }));
-      });
-      await p.goto(BASE_URL);
-      await p.locator("#enter:not([disabled])").click(); await p.evaluate(() => __center());
+  const observe = async p => p.addInitScript(() => {
+    window.__pageText = [];
+    const rect = CanvasRenderingContext2D.prototype.fillRect;
+    const text = CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.fillRect = function(x,y,w,h) {
+      if (this.canvas.id === 'page' && w === 2048 && h === 2560) __pageText = [];
+      return rect.call(this,x,y,w,h);
+    };
+    CanvasRenderingContext2D.prototype.fillText = function(t,...args) {
+      if (this.canvas.id === 'page') __pageText.push(t);
+      return text.call(this,t,...args);
+    };
+  });
+  for (const lying of [false, true]) {
+    const p = await browser.newPage({ viewport: { width:1440, height:1100 } }), errors=[];
+    p.on('pageerror', e => errors.push(e.message));
+    await mock(p,'layer',lying); await observe(p);
+    await p.goto(BASE_URL);
+    await p.locator('#enter:not([disabled])').click(); await p.evaluate(() => __center());
+    const section = () => p.locator('#page').getAttribute('data-section');
+    const work = () => p.locator('#page').getAttribute('data-work');
+    const saved = () => p.evaluate(() => JSON.parse(localStorage.getItem('cabin-reading')));
+    const choose = async id => {
+      await p.evaluate(async id => __aim(id),id);
+      await p.evaluate(() => __pinch());
+    };
+    const menu = async () => {
+      if (await p.locator('#page').getAttribute('data-view') === 'reading')
+        await p.evaluate(() => { __mock.look=null; __step(600); });
       await p.evaluate(() => __hold());
-      await p.evaluate(async () => __aim("library")); await p.evaluate(() => __pinch());
-      await p.evaluate(async () => __aim({ x:274, y:700, w:1500, h:112 })); await p.evaluate(() => __pinch());
-      const sourceId = await p.locator("#page").getAttribute("data-work");
-      assert.match(sourceId, /^today-2026-10-28-story-/);
-      await p.evaluate(() => { __mock.look = null; __step(600); __hold(); });
-      await p.evaluate(async () => __aim("guide")); await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-work"), `guide:${sourceId}`);
-      await p.clock.setFixedTime(new Date(2026, 9, 29, 0, 0, 5));
-      await p.locator("#next").click();
-      assert.equal(await p.locator("#page").getAttribute("data-work"), `guide:${sourceId}`);
-      await p.evaluate(() => { __mock.look = null; __step(600); __hold(); });
-      await p.evaluate(async () => __aim("guide")); await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-work"), sourceId);
-      assert.equal(await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-reading")).last), sourceId);
-      assert.deepEqual(errors, []);
-      passed("cached Claude guide loads offline and returns to its source across midnight");
-      await p.close();
-    }
+    };
+    const turn = async (hand='right') => p.evaluate(hand => {
+      __mock.look=null; __step(600); __pinch(hand);
+    }, hand);
+    const until = async target => {
+      for (let i=0; await section()!==target; i++) {
+        assert.ok(i<40,'section reachable: '+target);
+        await turn();
+      }
+    };
+    await menu(); await choose('library');
+    await choose({x:274,y:824,w:1500,h:112});
+    assert.equal(await work(),'blake-sick-rose');
+    assert.equal(await section(),'before','new work opens with introduction');
+    assert.ok((await p.evaluate(()=>__pageText)).includes('Before reading'));
+    assert.ok(!(await p.evaluate(()=>__pageText)).includes('After reading — spoilers'));
+    const suffix=lying?'-lying':'';
+    await p.locator('#page').screenshot({path:path.join(out,`flow-before${suffix}.png`)});
+    await menu();
+    assert.ok(!(await p.evaluate(()=>__pageText)).includes('Study guide'),'no guide menu task remains');
+    await menu();
+    await until('text');
+    assert.ok((await p.evaluate(()=>__pageText)).includes('O Rose thou art sick.'));
+    assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
+    assert.ok((await p.evaluate(()=>__pageText)).includes(await p.locator('#place').textContent()), 'turn feedback and page label agree');
+    const textPlace=await saved();
+    assert.equal(textPlace.last,'blake-sick-rose');
+    assert.equal(textPlace.places['blake-sick-rose'].anchor.section,'text');
+    await p.locator('#page').screenshot({path:path.join(out,`flow-text${suffix}.png`)});
+    await p.evaluate(()=>{__mock.look=null;__step();__welcomeScene();});
+    await p.locator('#welcome-scene').screenshot({path:path.join(out,`flow-native-${lying?'lying':'front'}.png`)});
+    await p.evaluate(()=>{__mock.offsetX=.25;__step();__welcomeScene();});
+    await p.locator('#welcome-scene').screenshot({path:path.join(out,`flow-native-${lying?'lying':'front'}-side.png`)});
+    await p.evaluate(()=>{__mock.offsetX=0;__step();});
+    await until('after');
+    assert.ok((await p.evaluate(()=>__pageText)).includes('After reading — spoilers'),JSON.stringify(await p.evaluate(()=>__pageText)));
+    assert.equal(await work(),'blake-sick-rose');
+    assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
+    await p.locator('#page').screenshot({path:path.join(out,`flow-after${suffix}.png`)});
+    await turn('left');
+    assert.equal(await section(),'text','back from after returns to the last text page');
+    await turn('left');
+    assert.equal(await section(),'before','back from text returns to the introduction');
+    await until('after');
+    passed('normal page turns flow before → full text → after and back, without opening a menu'+suffix);
 
+    await menu(); await choose('mood'); await choose('night'); await choose('size'); await menu();
+    assert.equal(await section(),'after','reflow stays in after notes, not source block 0');
+    await p.locator('#page').screenshot({path:path.join(out,`flow-after-modern-night${suffix}.png`)});
+    if (await p.locator('#next').isEnabled()) await p.locator('#next').click();
+    const afterPlace=await saved();
+    assert.equal(afterPlace.last,'blake-sick-rose');
+    assert.equal(afterPlace.places['blake-sick-rose'].anchor.section,'after');
+    await p.reload();
+    await p.waitForFunction(()=>document.querySelector('#page').dataset.work==='blake-sick-rose');
+    assert.equal(await section(),'after','reload resumes same section under the real work id');
+    assert.equal((await saved()).last,'blake-sick-rose');
+    passed('notes retain their own anchors on size/style change and reload; last work remains real'+suffix);
+
+    await p.locator('#enter:not([disabled])').click(); await p.evaluate(()=>__center());
+    await menu(); await choose('library');
+    await choose({x:274,y:1320,w:1500,h:112});
+    assert.equal(await work(),'chopin-desiree'); assert.equal(await section(),'before');
+    await until('text');
+    for(let i=0;i<3;i++)await turn();
+    const sourcePlace=await saved();
+    assert.equal(sourcePlace.places['chopin-desiree'].anchor.section,'text');
+    await p.reload();
+    await p.waitForFunction(()=>document.querySelector('#page').dataset.work==='chopin-desiree');
+    assert.equal(await section(),'text');
+    assert.deepEqual((await saved()).places['chopin-desiree'], sourcePlace.places['chopin-desiree']);
+    await p.locator('#enter:not([disabled])').click(); await p.evaluate(()=>__center());
+    await menu(); await choose('library');
+    await choose({x:274,y:700,w:1500,h:112});
+    assert.equal(await work(),'sampler'); assert.equal(await section(),'text');
+    assert.ok(!(await p.evaluate(()=>__pageText)).includes('No study guide for this text.'));
+    await turn(); assert.match(await p.locator('#place').textContent(),/Page 2 of 2/);
+    assert.deepEqual(errors,[]);
+    passed('long-story resume and sampler reading stay direct without empty guide pages'+suffix);
+    await p.close();
+  }
+  {
+    const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+    await p.addInitScript(()=>{
+      if(!sessionStorage.getItem('legacy-seeded')){
+        localStorage.setItem('cabin-reading',JSON.stringify({last:'chopin-desiree',places:{'chopin-desiree':{anchor:{block:5,word:0},page:2}}}));
+        sessionStorage.setItem('legacy-seeded','yes');
+      }
+    });
+    await p.goto(BASE_URL);
+    await p.waitForFunction(()=>document.querySelector('#page').dataset.work==='chopin-desiree');
+    assert.equal(await p.locator('#page').getAttribute('data-section'),'text','Build 023 anchors refer to the original text');
+    assert.deepEqual(errors,[]);await p.close();
+    passed('existing saved source anchors migrate into the text without becoming guide anchors');
+  }
+  {
+    const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false);await observe(p);
+    await p.addInitScript(()=>localStorage.setItem('cabin-today',JSON.stringify({date:'2026-10-28',picks:{story:{title:'Cached story',author:'Test author',text:'The original source text.',guide:{context:'Intro notes.',themes:'After notes.'}}}})));
+    await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+    await p.evaluate(()=>__hold());await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
+    await p.evaluate(async()=>__aim({x:274,y:700,w:1500,h:112}));await p.evaluate(()=>__pinch());
+    const id=await p.locator('#page').getAttribute('data-work');assert.match(id,/^today-2026-10-28-story-/);
+    assert.equal(await p.locator('#page').getAttribute('data-section'),'before');
+    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.evaluate(()=>{__mock.look=null;__step(600);__pinch();});
+    assert.equal(await p.locator('#page').getAttribute('data-work'),id);
+    assert.equal(await p.locator('#page').getAttribute('data-section'),'text');
+    assert.ok((await p.evaluate(()=>__pageText)).includes('The original source text.'));
+    await p.evaluate(()=>__pinch());
+    assert.equal(await p.locator('#page').getAttribute('data-section'),'after');
+    assert.ok((await p.evaluate(()=>__pageText)).includes('After notes.'));
+    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-reading')).last),id);
+    assert.deepEqual(errors,[]);await p.close();
+    passed('cached Claude pick flows automatically through all sections offline across midnight');
+  }
 };

@@ -4,7 +4,7 @@
 // and flows across pages with at least two lines kept together at a split.
 // Every page records an anchor (block, word) so a saved place survives a
 // change of text size.
-import { SIZES } from "./core.js?v=23";
+import { SIZES } from "./core.js?v=24";
 
 export const AREA = { left: 194, right: 1854, top: 380, bottom: 2120 };
 const WIDTH = AREA.right - AREA.left;
@@ -186,6 +186,19 @@ export function validAnchor(a) {
 }
 export function pageForAnchor(pages, anchor) {
   if (!validAnchor(anchor)) return 0;
+  // Old places refer to the original text. Section-scoped anchors prevent a
+  // guide's block 0 from colliding with the source text's block 0 on reflow.
+  if (pages.some(p => p.section)) {
+    const section = anchor.section || "text";
+    let matching = pages.map((page, index) => ({ page, index })).filter(p => p.page.section === section);
+    // Notes may disappear when an optional guide is removed on the next sync.
+    if (!matching.length) return Math.max(0, pages.findIndex(p => p.section === "text"));
+    if (!matching.length) return 0;
+    let best = matching[0].index;
+    for (const { page, index } of matching)
+      if (validAnchor(page.anchor) && before(page.anchor, anchor)) best = index;
+    return best;
+  }
   let best = 0;
   pages.forEach((p, i) => {
     if (validAnchor(p.anchor) && before(p.anchor, anchor)) best = i;
@@ -203,7 +216,9 @@ export function loadReading(storage) {
       const places = {};
       for (const [id, p] of Object.entries(r.places))
         if (p && typeof p === "object" && validAnchor(p.anchor))
-          places[id] = { anchor: { block: p.anchor.block, word: p.anchor.word ?? 0 }, page: Number.isInteger(p.page) ? p.page : 0 };
+          places[id] = { anchor: { block: p.anchor.block, word: p.anchor.word ?? 0,
+            ...(["before", "text", "after"].includes(p.anchor.section) ? { section: p.anchor.section } : {}) },
+            page: Number.isInteger(p.page) ? p.page : 0 };
       return { last: typeof r.last === "string" ? r.last : null, places };
     }
   } catch {}

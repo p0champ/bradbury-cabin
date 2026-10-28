@@ -1,4 +1,18 @@
-# Build 023 — study guide detour
+# Build 024 — read straight through
+
+Open [Build 024](https://p0champ.github.io/bradbury-cabin/?v=24) in a fresh Quest Browser tab. Check **BUILD 024**.
+
+1. Open a new/unstarted work from the Library. It should begin with **Before reading**. Existing saved works resume where you stopped.
+2. Turn pages normally. The introduction should lead straight into the full text with the same page placement and no menu choice.
+3. Finish the text and turn one more page. **After reading — spoilers** should follow automatically, on its own page.
+4. Turn back: you should return to the end of the text, then back through the earlier pages. The guide menu choice should be gone.
+5. Change text size/style, or reload while reading. Your section and words should be preserved. Try this once in the text and once in the notes.
+6. Try the same flow lying down. Report any extra step, lost place, premature spoiler or awkward transition.
+
+All seven shelf works have notes. Claude picks use the same flow when notes are included; works without notes read directly. Wait for Bastian's verdict before moving to volume/UI.
+
+---
+# Build 023 — study guide detour (historical)
 
 Open [Build 023](https://p0champ.github.io/bradbury-cabin/?v=23) in a fresh Quest Browser tab. Check **BUILD 023**. PC checks are not a Quest approval.
 

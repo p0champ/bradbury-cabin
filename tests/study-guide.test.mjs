@@ -5,6 +5,8 @@ import { parsePicks } from "../picks.js";
 import { LIBRARY } from "../library.js";
 import { AREA, layoutWork, pageForAnchor } from "../reader.js";
 import { MENU_PAGES, menuButtons } from "../gestures.js";
+import { layoutReading } from "../reading-flow.js";
+import { loadReading, saveReading } from "../reader.js";
 
 function context() {
   let size = 54;
@@ -69,11 +71,56 @@ test("guides preserve every word, stay flush left and put spoilers on a fresh pa
       }
     }
 });
-test("guide row fits and More/Back retain identical targets", () => {
-  assert.ok(MENU_PAGES.main.includes("guide"));
-  const guide = menuButtons.find(b => b.id === "guide");
-  assert.ok(guide.y + guide.h < 2320);
+test("guide requires no menu row and More/Back retain identical targets", () => {
+  assert.ok(!MENU_PAGES.main.includes("guide"));
   assert.equal(menuButtons.find(b => b.id === "more").y, menuButtons.find(b => b.id === "back").y);
+});
+test("each shelf work flows from before to the complete unchanged text to after", () => {
+  for (const w of LIBRARY) for (const size of [0, 1, 2]) {
+    const pages = layoutReading(context(), w, size);
+    assert.equal(pages[0].section, "before");
+    assert.equal(pages.at(-1).section, "after");
+    const order = [...new Set(pages.map(p => p.section))];
+    assert.deepEqual(order, ["before", "text", "after"]);
+    const source = layoutWork(context(), w, size);
+    const textPages = pages.filter(p => p.section === "text");
+    assert.equal(textPages.length, source.length);
+    for (let i = 0; i < source.length; i++) assert.deepEqual([...textPages[i]], [...source[i]], "source typesetting is unchanged");
+    for (const p of pages) {
+      assert.ok(p.some(item => item.kind === "line"), "each page contains actual reading content");
+      assert.equal(pageForAnchor(pages, p.anchor), pages.indexOf(p));
+      assert.ok(p.every(item => !item.text?.includes("After reading") || p.section === "after"));
+    }
+  }
+});
+test("legacy source anchors resume in the text; section places survive storage and reflow", () => {
+  const w = LIBRARY.find(w => w.id === "chopin-desiree");
+  const source = layoutWork(context(), w, 1), combined = layoutReading(context(), w, 1);
+  for (const p of source) {
+    const target = combined[pageForAnchor(combined, p.anchor)];
+    assert.equal(target.section, "text");
+    assert.deepEqual([...target], [...p]);
+  }
+  for (const size of [0, 1, 2]) for (const p of combined) {
+    let raw;
+    const storage = { getItem: () => raw, setItem: (_k, v) => raw = v };
+    saveReading(storage, { last: w.id, places: { [w.id]: { anchor: p.anchor, page: combined.indexOf(p) } } });
+    const loaded = loadReading(storage);
+    assert.equal(loaded.last, w.id);
+    assert.deepEqual(loaded.places[w.id].anchor, p.anchor);
+    const reflow = layoutReading(context(), w, size);
+    assert.equal(reflow[pageForAnchor(reflow, loaded.places[w.id].anchor)].section, p.section);
+  }
+});
+test("missing and partial notes add only the available sections without empty interruption pages", () => {
+  const w = { id: "custom", title: "T", author: "A", kind: "story", blocks: [{type:"para",text:"Text"}] };
+  assert.deepEqual([...new Set(layoutReading(context(), w, 1).map(p => p.section))], ["text"]);
+  const afterOnly = { ...w, guide: { themes: "Ending" } };
+  assert.deepEqual([...new Set(layoutReading(context(), afterOnly, 1).map(p => p.section))], ["text", "after"]);
+  const beforeOnly = { ...w, guide: { context: "Context" } };
+  assert.deepEqual([...new Set(layoutReading(context(), beforeOnly, 1).map(p => p.section))], ["before", "text"]);
+  const pages = layoutReading(context(), w, 1);
+  assert.equal(pageForAnchor(pages, { block: 80, word: 12, section: "after" }), 0, "removed notes fall back to text start");
 });
 test("headings stay with the following paragraph including its spacing at page boundaries", () => {
   for (let count = 1; count < 400; count++) for (const size of [0, 1, 2]) {
