@@ -10,11 +10,11 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=14";
+} from "./progress.js?v=15";
 
 export const WATCH_HAND = "right";
-export const WATCH_PIXELS = [512, 352];
-export const WATCH_METRES = [0.088, 0.0605];
+export const WATCH_PIXELS = [512, 448];
+export const WATCH_METRES = [0.088, 0.077];
 const SHOW_MS = 200,
   HIDE_MS = 350;
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
@@ -108,6 +108,8 @@ export function watchSummary(progress, today) {
     title: `${WEEKDAYS[t.getDay()]} ${t.getDate()} ${MONTHS[t.getMonth()]}`,
     streak: o.streak,
     ticks: KINDS.map((k) => !!d[k]),
+    // Titles of the day's readings when they are known (stored picks).
+    picks: KINDS.map((k) => (typeof d.picks?.[k] === "string" ? d.picks[k] : null)),
     week: DAYS.map((label, i) => {
       const key = addDays(monday, i);
       return { label, today: key === today, status: dayStatus(progress, key, today) };
@@ -122,6 +124,9 @@ function rounded(c, x, y, w, h, r) {
   else c.rect(x, y, w, h);
 }
 
+export function titleOnly(pick) {
+  return typeof pick === "string" ? pick.split(/\s+[—–-]\s+/)[0].trim() : "";
+}
 export function paintWatch(canvas, s, night = false) {
   const c = canvas.getContext("2d");
   const [W, H] = WATCH_PIXELS;
@@ -143,36 +148,46 @@ export function paintWatch(canvas, s, night = false) {
   c.fillStyle = muted;
   c.font = "28px Arial";
   c.fillText(`Streak ${s.streak}`, W - 40, 68);
-  // Today's three readings
+  // Today's three readings, each with its tick and title.
+  const fit = (text, max) => {
+    if (c.measureText(text).width <= max) return text;
+    while (text.length > 1 && c.measureText(text + "…").width > max) text = text.slice(0, -1);
+    return text.trimEnd() + "…";
+  };
   ["Poem", "Story", "Essay"].forEach((label, i) => {
-    const cx = 92 + i * 164,
-      cy = 140;
+    const cx = 64,
+      cy = 124 + i * 72;
     c.beginPath();
-    c.arc(cx, cy, 32, 0, Math.PI * 2);
+    c.arc(cx, cy, 22, 0, Math.PI * 2);
     if (s.ticks[i]) {
       c.fillStyle = done;
       c.fill();
       c.strokeStyle = bg;
-      c.lineWidth = 7;
+      c.lineWidth = 6;
       c.beginPath();
-      c.moveTo(cx - 14, cy + 1);
-      c.lineTo(cx - 3, cy + 12);
-      c.lineTo(cx + 16, cy - 11);
+      c.moveTo(cx - 10, cy + 1);
+      c.lineTo(cx - 2, cy + 9);
+      c.lineTo(cx + 11, cy - 8);
       c.stroke();
     } else {
       c.strokeStyle = muted;
       c.lineWidth = 4;
       c.stroke();
     }
-    c.textAlign = "center";
-    c.fillStyle = ink;
-    c.font = "24px Arial";
-    c.fillText(label, cx, cy + 62);
+    c.textAlign = "left";
+    c.fillStyle = muted;
+    c.font = "22px Arial";
+    c.fillText(label.toUpperCase(), 102, cy - 10);
+    // Title only on the wrist; the author is on the calendar day page.
+    const title = titleOnly(s.picks?.[i]);
+    c.fillStyle = title ? ink : faint;
+    c.font = title ? "italic 28px Literata, Georgia, serif" : "26px Arial";
+    c.fillText(fit(title || "not picked yet", W - 140), 102, cy + 22);
   });
   // This week, Monday to Sunday
   s.week.forEach((d, i) => {
     const x = 40 + i * 64,
-      y = 238;
+      y = 334;
     if (d.status === "complete") {
       c.fillStyle = done;
       rounded(c, x, y, 48, 48, 10);
@@ -188,7 +203,7 @@ export function paintWatch(canvas, s, night = false) {
       if (d.status === "partial") {
         c.fillStyle = muted;
         c.beginPath();
-        c.arc(x + 24, y + 24, 7, 0, Math.PI * 2);
+        c.arc(x + 39, y + 39, 5, 0, Math.PI * 2);
         c.fill();
       }
     }

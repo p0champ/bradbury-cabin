@@ -1,3 +1,26 @@
+# Build 015 — wrist card shows today's titles (28 October 2026)
+
+Feedback: Bastian on Build 014: "wrists looks great, again UI placeholder, however the text of the poem and so on isnt displayed". When asked, he clarified he meant the wrist card should show the names of today's poem, story and essay.
+
+Change: the card has three rows, each with a tick, the kind (Poem, Story or Essay) and the title. The author is shown only on the calendar day page.
+- Titles come only from stored `days[today].picks`.
+- If a day has no picks, its rows say "not picked yet". Today, only 21 Oct has stated picks.
+- Real daily picks arrive with the Phase 3 Claude literature picker.
+- The texture is now 512×448 and the card 8.8×7.7 cm.
+
+Status:
+- PC-tested: 59 pure tests + 106 browser checks pass.
+- Independent critic: 8.5/10, no blockers. Its nice-to-haves 3 and 4 (empty title, separator variants) are applied.
+- Committed and pushed; live at ?v=15.
+
+Next: Bastian said "Keep working and lets finish this software". Remaining work, in order:
+- Phase 1 reading features: real full-work pagination preserving poetry, saved place, moods, ambience.
+- Phase 3: Claude picker, tutor and Drive, via Sunnyvale's bridge.
+- Phase 4: polish.
+
+The UI is explicitly a placeholder that he will restyle.
+
+---
 # Build 014 — wrist calendar, right wrist only (28 October 2026)
 
 **What Bastian asked for:**

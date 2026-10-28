@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { watchPose, watchPosition, watchSummary, WATCH_HAND, WristWatch } from "../watch.js";
+import { watchPose, watchPosition, watchSummary, WATCH_HAND, WristWatch, titleOnly } from "../watch.js";
 import { seedProgress, toggleTick } from "../progress.js";
 // Viewer at the origin looking down -z; +x is the viewer's right.
 const viewer = { x: 0, y: 0, z: 0 },
@@ -60,7 +60,7 @@ test("the face floats toward the eyes and up the forearm", () => {
 });
 test("a dropped wrist joint hides the face but never disables the feature", () => {
   globalThis.XRRigidTransform ??= class { constructor(p, q) { this.position = p; this.orientation = q; } };
-  globalThis.document ??= { createElement: () => ({ getContext: () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : () => {}), set: (t, k, v) => ((t[k] = v), true) }) }) };
+  globalThis.document ??= { createElement: () => ({ getContext: () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : k === "measureText" ? (x) => ({ width: x.length * 12 }) : () => {}), set: (t, k, v) => ((t[k] = v), true) }) }) };
   const layer = { opacity: 0, destroy() {} };
   const w = new WristWatch({ createQuadLayer: () => layer }, {});
   const viewerT = { position: viewer, orientation: { x: 0, y: 0, z: 0, w: 1 }, matrix: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1] };
@@ -80,6 +80,16 @@ test("summary shows today's ticks, this week and the streak", () => {
   const s = watchSummary(p, "2026-10-28");
   assert.equal(s.title, "Wed 28 Oct");
   assert.deepEqual(s.ticks, [false, true, false]);
+  assert.deepEqual(s.picks, [null, null, null], "no invented titles");
+  const missed = watchSummary(p, "2026-10-21");
+  assert.match(missed.picks[0], /Guest House/);
   assert.deepEqual(s.week.map((d) => d.status), ["unrecorded", "unrecorded", "partial", "future", "future", "future", "future"]);
   assert.match(s.weekly, /due in 4d/);
+});
+
+test("wrist titles drop the author and never invent one", () => {
+  assert.equal(titleOnly("The Guest House — Rumi"), "The Guest House");
+  assert.equal(titleOnly("The Guest House - Rumi"), "The Guest House");
+  assert.equal(titleOnly(" — Rumi"), "");
+  assert.equal(titleOnly(null), "");
 });

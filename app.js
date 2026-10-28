@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=14";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=15";
 import {
   GestureEngine,
   menuButtons,
@@ -10,12 +10,12 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=14";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=14";
-import { HandBadges } from "./hand-badges.js?v=14";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=14";
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=14";
-import { EntrySound } from "./entry-sound.js?v=14";
+} from "./gestures.js?v=15";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=15";
+import { HandBadges } from "./hand-badges.js?v=15";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=15";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=15";
+import { EntrySound } from "./entry-sound.js?v=15";
 import {
   readProgress,
   saveProgress,
@@ -24,13 +24,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=14";
+} from "./progress.js?v=15";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=14";
+} from "./calendar.js?v=15";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -750,7 +750,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-014",
+    build: "gestures-015",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the

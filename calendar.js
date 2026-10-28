@@ -8,7 +8,7 @@ import {
   parseKey,
   weekSunday,
   ticks,
-} from "./progress.js?v=14";
+} from "./progress.js?v=15";
 
 const MONTHS = "January February March April May June July August September October November December".split(" ");
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];

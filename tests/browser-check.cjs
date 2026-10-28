@@ -435,7 +435,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=14");
+        const { menuButtons } = await import("./gestures.js?v=15");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -614,7 +614,7 @@ async function mock(
             throw Error("Deliberate unsupported layer fixture");
           const badge = init.viewPixelWidth === 256;
           const arrival = init.viewPixelWidth === 384;
-          const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 352;
+          const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 448;
           const width = watch
               ? 512
               : arrival
@@ -625,7 +625,7 @@ async function mock(
                   ? 1024
                   : 2048,
             height = watch
-              ? 352
+              ? 448
               : arrival
               ? 960
               : badge
@@ -1094,7 +1094,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-014");
+        assert.equal(details.build, "gestures-015");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2041,7 +2041,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=14");
+        const { paintHandBadge } = await import("./hand-badges.js?v=15");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2362,7 +2362,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=14");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=15");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2426,7 +2426,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=14");
+        const { MENU_PAGES } = await import("./gestures.js?v=15");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "calendar", "night", "size", "more", "recenter", "exit"]);
@@ -2479,8 +2479,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=14");
-            const { loadProgress } = await import("./progress.js?v=14");
+            const { calendarButtons } = await import("./calendar.js?v=15");
+            const { loadProgress } = await import("./progress.js?v=15");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2617,6 +2617,30 @@ async function mock(
       p.on("pageerror", (e) => errors.push(e.message));
       await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
       await mock(p, "layer", false, night ? { practised: true, headPointer: true } : undefined);
+      if (!night)
+        // Test data only: a day with stored picks, to show titles on the card.
+        await p.addInitScript(() =>
+          localStorage.setItem(
+            "cabin-progress",
+            JSON.stringify({
+              version: 1,
+              start: "2026-10-18",
+              trackingSince: "2026-10-28",
+              days: {
+                "2026-10-18": { poem: true, story: true, essay: true },
+                "2026-10-28": {
+                  story: true,
+                  picks: {
+                    poem: "Ozymandias — Percy Bysshe Shelley",
+                    story: "The Story of an Hour — Kate Chopin",
+                    essay: "The Death of the Moth — Virginia Woolf",
+                  },
+                },
+              },
+              weeks: {},
+            }),
+          ),
+        );
       await p.goto("http://127.0.0.1:18140");
       if (night) await p.locator("#night").click();
       await p.locator("#enter:not([disabled])").click();
@@ -2689,25 +2713,25 @@ async function mock(
         const fb = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, d.tex, 0);
-        const px = new Uint8Array(512 * 352 * 4);
-        gl.readPixels(0, 0, 512, 352, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        const px = new Uint8Array(512 * 448 * 4);
+        gl.readPixels(0, 0, 512, 448, gl.RGBA, gl.UNSIGNED_BYTE, px);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         gl.deleteFramebuffer(fb);
         let opaque = 0;
         for (let i = 3; i < px.length; i += 4) if (px[i] > 200) opaque++;
         const c = document.createElement("canvas");
         c.width = 512;
-        c.height = 352;
+        c.height = 448;
         const g = c.getContext("2d");
         g.fillStyle = "#7d8a80";
-        g.fillRect(0, 0, 512, 352);
+        g.fillRect(0, 0, 512, 448);
         const tmp = document.createElement("canvas");
         tmp.width = 512;
-        tmp.height = 352;
-        tmp.getContext("2d").putImageData(new ImageData(new Uint8ClampedArray(px), 512, 352), 0, 0);
+        tmp.height = 448;
+        tmp.getContext("2d").putImageData(new ImageData(new Uint8ClampedArray(px), 512, 448), 0, 0);
         g.save();
         g.scale(1, -1);
-        g.drawImage(tmp, 0, -352);
+        g.drawImage(tmp, 0, -448);
         g.restore();
         return { opaque, corner: px[3], image: c.toDataURL("image/png") };
       });
