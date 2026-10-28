@@ -27,3 +27,6 @@ build030_critic wrote none of the production code. Score9/10, no blocking findin
 ## Remaining real-world check
 No actual Claude connector/Google Drive account request or Quest hardware test was run. Open Build030, sync once to send current instructions, ask Claude for the daily three normally, sync again, and confirm all three appear with notes. If Claude ignores the delivered workflow, report its actual response or the app's rejection; do not claim changing prompt wording guarantees obedience. Source diversity (five authors), historical study-note persistence and optional lines remain separate work.
 
+
+## Release
+Code commit e3f4cc9 pushed to build-030-picker-workflow and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=30 verified: index.html, style.css and all26 JavaScript modules match reviewed source after normalising line endings. Staged and committed secret scans passed. Real Claude/Drive and Quest checks remain outstanding.

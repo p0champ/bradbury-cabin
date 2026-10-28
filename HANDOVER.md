@@ -4,7 +4,7 @@
 
 **Verification:**139 unit + all source checks pass;134 full PC browser checks; two new upright/lying Drive transport checks;6/6 isolated mutations caught with passing baseline/restoration. Independent critic9/10; minor newest-file wording corrected and regenerated, then final critic sign-off9/10 with no remaining findings. See BUILD_030_REVIEW.md. Actual Claude connector and Quest not tested.
 
-**Release:** reviewed and ready on build-030-picker-workflow; release progress recorded below after live verification. Header BUILD030, diagnostic gestures-030, queries v30. Preview18151. After release, sync once to deliver current workflow, ask Claude for today's three normally, then sync to check results. If actual Claude ignores delivered instructions, investigate the real response; do not claim guaranteed obedience. Next substantial improvement: broaden independently checked authors. Preserve parked study-guide/UI work.
+**Release:** code committed as e3f4cc9, pushed to build-030-picker-workflow and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=30; index.html, style.css and all26 JavaScript modules verified identical to reviewed source (line endings normalised). Header BUILD030, diagnostic gestures-030, queries v30. Preview18151. After release, sync once to deliver current workflow, ask Claude for today's three normally, then sync to check results. If actual Claude ignores delivered instructions, investigate the real response; do not claim guaranteed obedience. Next substantial improvement: broaden independently checked authors. Preserve parked study-guide/UI work.
 
 ---
 # Build 029 — entrance and bookmark (28 October 2026)
