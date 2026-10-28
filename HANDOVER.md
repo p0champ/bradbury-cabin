@@ -8,7 +8,7 @@
 
 **Verification:** 102 unit + 121 full PC browser checks pass. The final counter adjustment also passed all eight targeted browser checks. Five safety mutations were caught in an isolated copy. Independent critic round 1: 8.5/10; P3 inconsistent counters fixed. Round 2: **9/10**, no remaining actionable findings. Critic independently ran 102 unit + eight targeted browser checks and inspected before/text/after, night/modern, front/side/lying images. See BUILD_024_REVIEW.md.
 
-**Release:** built, PC-tested, independently reviewed; commit/deployment being prepared. Needs Bastian's Quest verdict. All module import queries and index assets use v24; header BUILD 024, diagnostic gestures-024. Gesture recognizer, handMapRevision 9, rendering and generated library texts are unchanged. No Sunnyvale service touched. Branch build-024-reading-flow; local preview 18141.
+**Release:** built, PC-tested, independently reviewed, committed as d029fcd and pushed to build-024-reading-flow and phase-1-gestures. GitHub Pages verified: index.html and all 21 JavaScript modules match the reviewed source (normalising line endings). Live at https://p0champ.github.io/bradbury-cabin/?v=24. Needs Bastian's Quest verdict. All module import queries and index assets use v24; header BUILD 024, diagnostic gestures-024. Gesture recognizer, handMapRevision 9, rendering and generated library texts are unchanged. No Sunnyvale service touched. Branch build-024-reading-flow; local preview 18141.
 
 Claude guide JSON format is unchanged. CLAUDE_SKILL_DAILY_THREE.md only changes the navigation explanation: notes now appear automatically. The Build 023 skill already supplies compatible guides.
 
