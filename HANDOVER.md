@@ -4,6 +4,8 @@
 
 **Verification:** 136 unit + check:sources, 129 PC browser checks, 8/8 shelf mutations; critic 7.5 → 8.5/10 (last point fixed afterwards, author-checked). No Quest check yet.
 
+**Release:** committed as 431a4d9, pushed to build-028-shelf and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=28; index.html, style.css and all 25 JavaScript modules verified against the reviewed source. Needs Bastian's Quest check (QUEST_CHECK.md).
+
 **Next (not started):** title card / entrance moment (phase 4, approved in principle: Today's three fade in, a small ◆◇◇ bookmark while reading), then Claude's optional lines (phase 3, needs the skill re-paste). More authors for the catalogue also still open. Branch build-028-shelf; preview port 18147.
 
 ---
