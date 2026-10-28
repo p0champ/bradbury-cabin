@@ -88,6 +88,21 @@ h1 {
   justify-content: space-between;
   padding: 18px 22px;
 }
+.start-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
+}
+.primary.secondary {
+  background: transparent;
+  color: #314a3e;
+  justify-content: center;
+}
+body.night .primary.secondary {
+  color: #e4dfd0;
+  border-color: #e4dfd0;
+}
 button {
   font:
     12px Arial,
