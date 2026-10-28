@@ -10,7 +10,7 @@ Bastian approved the study-guide plan and asked that it feel seamless. Menu → 
 
 **Verification:** baseline 92 unit + 113 browser checks. Build 99 unit tests pass; final browser rerun 120/120 passes. Four mutation checks caught removed safeguards and code was restored. Critic round 1: 7.5/10, orphan-heading issue fixed with 1–399-length/all-size regression. Round 2: **9/10**, no remaining actionable code issues; critic independently passed 99 unit, seven targeted browser checks and 16,218 pagination combinations. See BUILD_023_REVIEW.md.
 
-**Release:** built, PC-tested (99 + 120) and independently reviewed (9/10). Commit/push/deployment is being prepared; verify the chat release report before claiming it is live. Needs Bastian's Quest check in QUEST_CHECK.md. All module queries and index assets use v23; header BUILD 023 and diagnostic gestures-023.
+**Release:** built, PC-tested (99 + 120), independently reviewed (9/10), committed as 5ce1c06 and pushed to build-023-study-guide and phase-1-gestures. GitHub Pages deployment verified: index.html and all 20 JavaScript modules match the reviewed local source (normalising line endings). Live at https://p0champ.github.io/bradbury-cabin/?v=23. Needs Bastian's Quest check in QUEST_CHECK.md. All module queries and index assets use v23; header BUILD 023 and diagnostic gestures-023.
 
 Work is in this chat's `work/bradbury-cabin`, branch `build-023-study-guide`, freshly cloned from phase-1-gestures. The old Build 011 checkout in the previous chat's outputs was left untouched. Static preview uses 18141 because 18140 was already occupied; browser tests now accept CABIN_BASE_URL. No bridge was started or restarted. Next after Bastian's verdict: propose volume control, then discuss UI one question at a time.
 
