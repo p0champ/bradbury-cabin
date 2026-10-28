@@ -8,7 +8,7 @@ preferences.ambienceVolume stores 0–1; missing/invalid values default to 1 to 
 
 **Verification:** 106 unit + 125 full PC browser checks pass. Independent critic: **9/10**, no actionable issues, independently ran 106 unit + four volume browser checks and reviewed menu/front/side/lying/mobile images. Five mutation checks caught disabled safeguards in isolated copies; production code was not mutated. The repeat-pinch fixture was strengthened and all four volume browser checks rerun. See BUILD_025_REVIEW.md.
 
-**Release:** built, PC-tested, independently reviewed; preparing commit/deployment. Needs Quest listening check in QUEST_CHECK.md. Header BUILD 025; diagnostic gestures-025; all source import queries and index assets use v25. Gesture recognizer, handMapRevision 9, generated texts and existing study-guide behavior are unchanged.
+**Release:** built, PC-tested, independently reviewed, committed as 92adf5a and pushed to build-025-volume and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=25; deployed index.html, style.css and all 21 JavaScript modules verified against the reviewed source (normalising line endings). Needs Quest listening check in QUEST_CHECK.md. Header BUILD 025; diagnostic gestures-025; all source import queries and index assets use v25. Gesture recognizer, handMapRevision 9, generated texts and existing study-guide behavior are unchanged.
 
 Current checkout: this chat's work/bradbury-volume, branch build-025-volume, a clean clone of Build 024 to keep the parked work separate. Preview port 18142. No Sunnyvale service touched. Next after Quest verdict: discuss the broader UI, one question at a time; guide redesign remains parked until Bastian returns to it.
 
