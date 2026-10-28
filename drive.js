@@ -17,6 +17,8 @@ const SCOPES = [
 const API = "https://www.googleapis.com/drive/v3";
 const UPLOAD = "https://www.googleapis.com/upload/drive/v3";
 const TOKEN_KEY = "cabin-google-token";
+export const READ_SCOPE_MISSING =
+  "Google didn't allow reading Claude's file. Tap Sync with Drive again and tick \"See and download all your Google Drive files\"";
 const MAX_FILE = 1_500_000; // bytes; a day's three texts are far smaller
 
 function loadScript(src) {
@@ -43,12 +45,16 @@ export class DriveLink {
     this.expires = 0;
     this.folderId = null;
     this.progressId = null;
+    this.needsReadScope = false;
     // Writes run one at a time, so two saves can never both create the
     // folder or progress.json.
     this.queue = Promise.resolve();
     try {
       const t = JSON.parse(storage.getItem(TOKEN_KEY) || "null");
-      if (t && t.expires > Date.now() + 60000) Object.assign(this, { token: t.token, expires: t.expires });
+      // Older saved tokens carry no scope list: drop them so the next tap
+      // checks the permissions properly.
+      if (t && t.expires > Date.now() + 60000 && t.read === true)
+        Object.assign(this, { token: t.token, expires: t.expires });
     } catch {}
   }
   get connected() {
@@ -65,12 +71,18 @@ export class DriveLink {
         callback: (r) => (r.error ? reject(Error(r.error_description || r.error)) : resolve(r)),
         error_callback: (e) => reject(Error(e?.message || e?.type || "Sign-in was closed")),
       });
-      client.requestAccessToken({ prompt: "" });
+      // After a partial grant, ask with the full consent screen again.
+      client.requestAccessToken({ prompt: this.needsReadScope ? "consent" : "" });
     });
+    // Google lets people untick permissions. Without drive.readonly the
+    // cabin only sees its own files, never the picks Claude wrote.
+    const granted = String(response.scope || SCOPES).split(" ");
+    this.needsReadScope = !granted.includes("https://www.googleapis.com/auth/drive.readonly");
+    if (this.needsReadScope) throw Error(READ_SCOPE_MISSING);
     this.token = response.access_token;
     this.expires = Date.now() + (Number(response.expires_in) || 3600) * 1000;
     try {
-      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires }));
+      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires, read: true }));
     } catch {}
   }
   signOut() {

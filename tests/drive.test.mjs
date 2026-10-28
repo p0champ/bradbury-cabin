@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parsePicks, textToBlocks, pickLabels } from "../picks.js";
-import { mergeProgress, DriveLink } from "../drive.js";
+import { mergeProgress, DriveLink, READ_SCOPE_MISSING } from "../drive.js";
 const poem = "I wandered lonely as a cloud\n  That floats on high o'er vales and hills,\n\nContinuous as the stars that shine";
 test("poem text keeps lines, stanzas and indents", () => {
   const b = textToBlocks("poem", poem);
@@ -183,4 +183,38 @@ test("among today's files the most complete wins; older files are not all downlo
   const old = await d.readPicksFor("2026-10-29", parsePicks);
   assert.equal(old.parsed.date, "2026-10-28");
   assert.ok(opened.length <= 2, "stops once it has the newest older picks: " + opened);
+});
+
+// Google's consent screen lets people untick drive.readonly. Then the cabin
+// only sees its own files and Claude's picks are invisible: say so, and ask
+// again with the full consent screen.
+test("a partial Google grant is refused and the next sign-in asks for consent", async () => {
+  const prompts = [];
+  let scope = "https://www.googleapis.com/auth/drive.file";
+  globalThis.document = { querySelector: () => true };
+  globalThis.google = {
+    accounts: { oauth2: { initTokenClient: (cfg) => ({ requestAccessToken: (o) => {
+      prompts.push(o.prompt);
+      cfg.callback({ access_token: "t", expires_in: 3600, scope });
+    } }) } },
+  };
+  const mem = new Map();
+  const storage = { getItem: (k) => mem.get(k) ?? null, setItem: (k, v) => mem.set(k, v), removeItem: (k) => mem.delete(k) };
+  const d = new DriveLink({ clientId: "x", storage });
+  await assert.rejects(d.signIn(), (e) => e.message === READ_SCOPE_MISSING);
+  assert.equal(d.connected, false);
+  assert.equal(mem.size, 0);
+  scope = "https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.file";
+  await d.signIn();
+  assert.deepEqual(prompts, ["", "consent"]);
+  assert.equal(d.connected, true);
+  assert.equal(new DriveLink({ clientId: "x", storage }).connected, true);
+  delete globalThis.google;
+  delete globalThis.document;
+});
+
+test("a token saved by an older build (no read flag) is not reused", () => {
+  const saved = JSON.stringify({ token: "old", expires: Date.now() + 3e6 });
+  const d = new DriveLink({ clientId: "x", storage: { getItem: () => saved, setItem() {}, removeItem() {} } });
+  assert.equal(d.connected, false);
 });

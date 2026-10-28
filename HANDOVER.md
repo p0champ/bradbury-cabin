@@ -1,3 +1,21 @@
+# Build 022 — Drive permission check (28 October 2026, afternoon)
+
+First real request: Claude saved `picks-2026-10-28.json` correctly (valid JSON, today's date, all three works), but the picks did not reach the Library.
+
+Likely cause: Google's consent screen lets people untick permissions. Without drive.readonly, the cabin sees only its own files (progress.json), never Claude's picks.
+
+The fix:
+- the cabin checks the scopes Google actually granted;
+- after a partial grant, it says what to tick and asks again with the full consent screen;
+- a token saved by Build 021 carries no scope record, so it is dropped once.
+
+Status:
+- unit tests 92/92, including a mutation check of the scope test;
+- PC browser checks 113/113;
+- small fix; no separate critic round;
+- **Quest/phone check pending.**
+
+---
 # Build 020 — Google Drive activated (28 October 2026, 13:42)
 
 Bastian completed the Google Cloud setup step by step:

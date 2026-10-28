@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=21";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=22";
 import {
   GestureEngine,
   menuButtons,
@@ -10,18 +10,18 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=21";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=21";
-import { HandBadges } from "./hand-badges.js?v=21";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=21";
-import { LIBRARY } from "./library.js?v=21";
-import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=21";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=21";
-import { parsePicks, pickLabels } from "./picks.js?v=21";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=21";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=21";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=21";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=21";
+} from "./gestures.js?v=22";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=22";
+import { HandBadges } from "./hand-badges.js?v=22";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=22";
+import { LIBRARY } from "./library.js?v=22";
+import { layoutWork, pageForAnchor, loadReading, saveReading } from "./reader.js?v=22";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=22";
+import { parsePicks, pickLabels } from "./picks.js?v=22";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=22";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=22";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL } from "./ambience.js?v=22";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=22";
 const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {
@@ -38,8 +38,8 @@ const MOODS = {
     title: "bold",
   },
 };
-import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=21";
-import { EntrySound } from "./entry-sound.js?v=21";
+import { Arrival, ARRIVAL_MS, pageArrivalPose } from "./arrival.js?v=22";
+import { EntrySound } from "./entry-sound.js?v=22";
 import {
   readProgress,
   saveProgress,
@@ -48,13 +48,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=21";
+} from "./progress.js?v=22";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=21";
+} from "./calendar.js?v=22";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
