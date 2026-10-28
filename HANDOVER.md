@@ -6,6 +6,8 @@
 
 **Verification:** 118 unit tests + `check:sources`, 10/10 mutations, 125 PC browser checks. Build critic 6/10 → 8/10; its round-2 findings were then fixed and rechecked by the author only. See BUILD_026_REVIEW.md and SOURCE_CATALOGUE.md. No Quest or real Drive check yet.
 
+**Release:** committed as a778400, pushed to build-026-source-fidelity and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=26; index.html, style.css and all 23 JavaScript modules verified against the reviewed source (line endings normalised). Needs Bastian's Quest check (QUEST_CHECK.md).
+
 **Not done:** claude.ai skill must be replaced by hand from CLAUDE_SKILL_DAILY_THREE.md; no daily independent agent (capability gap: no backend); narrow catalogue (5 authors, 33 stories); opening-poem bookmark UI and Bukowski source still parked. Old GITenberg copies archived in work/build-026-old-gitenberg-sources. Header BUILD 026; diagnostic gestures-026; all queries v26. Preview for this checkout ran on port 18144.
 
 ---
