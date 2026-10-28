@@ -4,6 +4,8 @@
 
 **Verification:** 137 unit + check:sources, 132 PC browser checks, all 32 mutations caught; critic 6 → 7.5/10, its last finding fixed afterwards and author-checked. No Quest check yet; try whether the heading-only first beat feels like a stall.
 
+**Release:** committed as ac7eaf8, pushed to build-029-entrance and phase-1-gestures. Live at https://p0champ.github.io/bradbury-cabin/?v=29; index.html, style.css and all 25 JavaScript modules verified against the reviewed source. Needs Bastian's Quest check (QUEST_CHECK.md).
+
 **Next (not started):** Claude's optional lines (phase 3, needs the skill re-paste); more catalogue authors. Branch build-029-entrance; preview port 18150.
 
 ---
