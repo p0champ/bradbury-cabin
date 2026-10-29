@@ -1,9 +1,9 @@
 // A brief, transparent book gateway. It never moves the viewer or replaces
 // passthrough. Original procedural artwork; no external assets.
-export const ARRIVAL_MS = 1200;
+export const ARRIVAL_MS = 200;
 export function easeArrival(p) {
   p = Math.max(0, Math.min(1, p));
-  // A long, soft settle: quick to start, unhurried to land.
+  // Retained for the optional leaf artwork.
   return 1 - (1 - p) ** 4;
 }
 // Smooth in and out, for fades that should never visibly step.
@@ -31,9 +31,8 @@ export function localPose(anchor, x, y, z, yaw = 0) {
   );
 }
 export function pageArrivalPose(anchor, p) {
-  const e = easeArrival(p);
-  // A short approach, a few centimetres: the page settles rather than travels.
-  return localPose(anchor, 0, 0, -1.1 - 0.03 * (1 - e), 0);
+  // Placement stays fixed; arrival changes opacity only.
+  return localPose(anchor, 0, 0, -1.1, 0);
 }
 export function paintLeaf(canvas, side) {
   const c = canvas.getContext("2d"),

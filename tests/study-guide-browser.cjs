@@ -187,7 +187,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.deepEqual(await view(),['menu','closing'],
       `stuck at ${await p.locator('#page').getAttribute('data-work')} ${await p.locator('#page').getAttribute('data-section')} · ${await p.locator('#place').textContent()} · ${await p.locator('#status').textContent()} · ${(await p.evaluate(()=>__pageText)).slice(-4).join(' | ')}`);
     assert.ok((await text()).includes('Mark as read today'));
-    assert.ok((await text()).includes('Next: '+story.title));
+    assert.ok((await text()).replace(/\s+/g,' ').includes('Next: '+story.title));
     await p.locator('#page').screenshot({path:path.join(out,`today-closing${night?'-night':''}.png`)});
     // Nothing is ticked automatically, and the turning pinch cannot tick it.
     // A quick repeat of the turning pinch (about 560 ms: the recognizer's 400 ms
@@ -255,7 +255,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=38');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=39');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+1)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:blake-sick-rose');
     await p.evaluate(()=>__pinch());
@@ -325,7 +325,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     passed('Your shelf lists earlier days, opens their exact editions, keeps them after reload and never opens unchecked works');
   }
   for (const skip of [false, 'essay', 'shelf']) {
-    // Build 029: Today's first showing builds in steps; a pinch completes it.
+    // Build 039: Today is complete immediately; a fresh pinch chooses directly.
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
     await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false);await observe(p);
     await p.addInitScript(()=>{window.__paints=0;const r=CanvasRenderingContext2D.prototype.fillRect;CanvasRenderingContext2D.prototype.fillRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)window.__paints++;return r.call(this,x,y,w,h);};});
@@ -345,26 +345,32 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     for (let i=0;i<120&&!opened;i++){await p.evaluate(()=>__step(40));const v=(await view())[1];if(v==='welcome')await p.evaluate(()=>__welcomeChoose(false));else if(v==='today')opened=await p.evaluate(()=>window.__paints);}
     assert.ok(opened,'Today opened after the arrival');
     let t=await text();
-    assert.ok(t.includes('Wednesday evening · Day 11') && !t.includes(poem.title) && !t.includes('Your shelf'),'first the heading and date only');
-    // A work not yet shown is not a target.
+    assert.ok(t.includes('Wednesday evening · Day 11') && [poem,story,essay].every(w=>t.includes(w.title)) && t.includes('Your shelf'),'complete choices on the first Today frame');
     await p.evaluate(async()=>__aim({x:274,y:1240,w:1500,h:260}));
-    assert.equal(await p.locator('#page').getAttribute('data-target'),'','the hidden essay cannot be aimed at');
+    assert.equal(await p.locator('#page').getAttribute('data-target'),`today:today-2026-10-28-essay-${essay.id}`,'the visible essay is immediately targetable');
     await p.evaluate(async()=>__aim({x:274,y:1700,w:760,h:120}));
-    assert.equal(await p.locator('#page').getAttribute('data-target'),'','the hidden Your shelf button cannot be aimed at');
+    assert.equal(await p.locator('#page').getAttribute('data-target'),'today-library','visible archive target is ready');
     if (skip) {
-      // Aimed where the essay will appear, press mid-build and release late
-      // enough (~700 ms after Today opened) to pass the usual 600 ms guard.
+      // Choose directly on the first eligible fresh press, retaining the
+      // existing short guard against a release leaking between screens.
       await p.evaluate(async(r)=>__aim(r),skip==='shelf'?{x:274,y:1700,w:760,h:120}:{x:274,y:1240,w:1500,h:260});
       await p.evaluate(()=>{__hand(0.05,'right');__step(420);__hand(0.012,'right');__native('selectstart','right');__step(240);__hand(0.05,'right');__native('select','right');__native('selectend','right');__step(16);});
-      t=await text();
-      assert.ok([poem,story,essay].every(w=>t.includes(w.title)) && t.includes('Your shelf'),'a pinch completes it at once');
-      assert.deepEqual(await view(),['menu','today'],'and that pinch chooses nothing it did not show');
+      if(skip==='essay'){
+        assert.equal((await view())[0],'reading','first eligible pinch opens the essay');
+        assert.equal(await p.locator('#page').getAttribute('data-work'),`today-2026-10-28-essay-${essay.id}`);
+        await p.evaluate(()=>__hold());
+      }else{
+        assert.deepEqual(await view(),['menu','shelf'],'first eligible pinch opens the shelf');
+        await p.evaluate(async()=>__aim({x:1394,y:380,w:380,h:120}));await p.evaluate(()=>__pinch());
+      }
+      await p.evaluate(async()=>__aim('library'));await p.evaluate(()=>__pinch());
+      assert.deepEqual(await view(),['menu','today']);
     } else {
-      // Sample the page every frame: works appear in order, then all is still.
+      // Every frame has the complete choices, with no reveal repaints.
       const seen=[];
       for (let i=0;i<30;i++){await p.evaluate(()=>__step(40));const s=await text();seen.push([poem,story,essay].map(w=>s.includes(w.title)).join(''));}
       const order=seen.filter((s,i)=>s!==seen[i-1]).filter(s=>s!=='falsefalsefalse');
-      assert.deepEqual(order,['truefalsefalse','truetruefalse','truetruetrue'],'poem, then story, then essay');
+      assert.deepEqual(order,['truetruetrue'],'all three throughout');
       assert.ok((await text()).includes('Your shelf'));
       const paints=await p.evaluate(()=>window.__paints)-opened;
       assert.ok(paints<=6,`only a few repaints while building (${paints})`);
@@ -395,13 +401,13 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=38');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=39');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+4)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:bacon-truth');
     await p.evaluate(()=>__pinch());
     assert.deepEqual(await marks(),[],'no marks on a starter work');
     assert.deepEqual(errors,[]);await p.close();
-    passed(skip?`a pinch mid-build completes Today at once and chooses nothing unseen (${skip}); the bookmark follows today's reading`
-      :'Today\'s first showing builds poem, story, essay in a few repaints, then stays still; starter works have no bookmark');
+    passed(skip?`first eligible Today pinch chooses ${skip} directly; bookmark follows today's reading`
+      :'Today is complete from its first frame and stays still; starter works have no bookmark');
   }
 };

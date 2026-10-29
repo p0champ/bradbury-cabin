@@ -6,14 +6,14 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=38" />
+    <link rel="stylesheet" href="style.css?v=39" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">BUILD 038</span>
+        ><span class="edition">BUILD 039</span>
       </header>
       <section class="intro">
         <div>
@@ -24,30 +24,34 @@
             to bring them in, then step inside.
           </p>
           <div class="start-row">
-            <button id="drive-sync" class="primary secondary">
-              Sync with Drive
-            </button>
             <button id="enter" class="primary" disabled>
               Checking headset… <span>↗</span>
             </button>
+            <button id="drive-sync" class="primary secondary">
+              Sync with Drive
+            </button>
           </div>
-          <div class="volume-control">
-            <label for="ambience-volume">Background volume</label>
-            <input id="ambience-volume" type="range" min="0" max="100" step="1" value="100" />
-            <output id="ambience-volume-value" for="ambience-volume">100%</output>
-          </div>
-          <p id="status" role="status">Preparing the reading page.</p>
+          <p id="status" role="status" aria-live="polite">Preparing the reading page.</p>
+          <details id="browser-settings" class="disclosure settings-disclosure">
+            <summary>Sound settings</summary>
+            <div class="volume-control">
+              <label for="ambience-volume">Background volume</label>
+              <input id="ambience-volume" type="range" min="0" max="100" step="1" value="100" />
+              <output id="ambience-volume-value" for="ambience-volume">100%</output>
+            </div>
+          </details>
         </div>
-        <aside>
-          <p class="eyebrow">THREE GESTURES</p>
+        <details id="reading-help" class="disclosure help-disclosure">
+          <summary>How to read · three gestures</summary>
           <ol class="gestures">
             <li><b>Pinch and release</b><span>Turn the page. Right goes forward, left goes back; you can swap hands in More settings.</span></li>
             <li><b>Hold a pinch</b><span>Open or close the menu. A ring fills as you hold.</span></li>
             <li><b>Point, then pinch</b><span>Choose anything in the menu: point at it, pinch and release.</span></li>
           </ol>
-        </aside>
+        </details>
       </section>
-      <section class="reader-section">
+      <details id="preview-tools" class="disclosure reader-section">
+        <summary>Preview and advanced tools</summary>
         <div class="reader-top">
           <p class="eyebrow">PREVIEW AND TOOLS</p>
           <span id="mode-label">PC preview · no headset quality claim</span>
@@ -85,18 +89,18 @@
           <button id="prev">← Previous</button><span id="place"></span
           ><button id="next">Next →</button>
         </nav>
-      </section>
+      </details>
       <footer>
         <p>
-          Challenge progress is saved in the browser you read in. Export it from
-          this page in your Quest browser now and then; syncing to your PC
-          arrives with Claude.
+          Challenge progress is kept in this browser when storage is available.
+          Sync with Drive to share progress between devices, or use Export progress
+          in Preview and advanced tools for a backup.
         </p>
         <a href="CREDITS.md">Texts & credits</a
         ><a href="QUEST_CHECK.md">Headset checklist</a>
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=38"></script>
+    <script type="module" src="app.js?v=39"></script>
   </body>
 </html>

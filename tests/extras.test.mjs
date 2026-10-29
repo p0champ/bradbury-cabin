@@ -3,6 +3,19 @@ import assert from "node:assert/strict";
 import { bakeAmbience, AMBIENCE_KINDS, AMBIENCE_LEVEL } from "../ambience.js";
 import { gazeZone, GazeDwell, DWELL_MS } from "../gaze.js";
 import { Ambience, ambienceVolume } from "../ambience.js";
+import { NAV } from "../theme.js";
+
+test("navigation secondary labels retain normal-text contrast on idle and hovered surfaces", () => {
+  const luminance = hex => {
+    const v = hex.slice(1).match(/../g).map(s=>parseInt(s,16)/255)
+      .map(n=>n<=.04045?n/12.92:((n+.055)/1.055)**2.4);
+    return v[0]*.2126+v[1]*.7152+v[2]*.0722;
+  };
+  for(const bg of [NAV.bg,NAV.card,NAV.hover]) {
+    const a=luminance(NAV.muted),b=luminance(bg);
+    assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5, `secondary text on ${bg}`);
+  }
+});
 
 function audioContext() {
   const calls = [];

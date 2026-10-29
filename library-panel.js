@@ -1,4 +1,4 @@
-import { UI, lift, unlift } from "./theme.js?v=38";
+import { UI, lift, unlift } from "./theme.js?v=39";
 // Library page inside the menu: "‹ Menu" at the top, then one row per work.
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.
@@ -31,10 +31,10 @@ function card(ctx, b, fill, edge) {
 export function paintLibrary(ctx, { works, hover, current, places = {}, c, note = "" }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
-  ctx.font = `84px ${c.serif || "Literata"}`;
+  ctx.font = `500 84px ${c.ui || UI}`;
   ctx.fillText("Library", 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = `36px ${UI}`;
+  ctx.font = `500 36px ${c.ui || UI}`;
   ctx.fillText(
     works.some((w) => w.today)
       ? "Today's three from Claude are at the top. Pick one to read."
@@ -45,12 +45,12 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
   if (note) ctx.fillText(note, 274, 600);
   for (const b of libraryButtons(works)) {
     const hot = hover === b.id;
-    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    card(ctx, b, hot ? c.hover : c.card, hot);
     const fg = c.ink,
       sub = c.muted;
     if (b.id === "lib-menu") {
       ctx.fillStyle = fg;
-      ctx.font = `50px ${c.serif || "Literata"}`;
+      ctx.font = `500 50px ${c.ui || UI}`;
       ctx.textAlign = "center";
       ctx.fillText("‹  Menu", b.x + b.w / 2, b.y + 78);
       ctx.textAlign = "left";
@@ -58,7 +58,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     }
     const w = works.find((x) => "work:" + x.id === b.id);
     ctx.fillStyle = sub;
-    ctx.font = `28px ${UI}`;
+    ctx.font = `500 28px ${c.ui || UI}`;
     ctx.fillText(
       (w.today ? "TODAY  ·  " : "") + KIND[w.kind].toUpperCase() + (w.id === current ? "  ·  READING NOW" : ""),
       b.x + 60,
@@ -69,7 +69,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     // Long titles are shortened so they never run into the author.
     let title = w.title;
     ctx.save();
-    ctx.font = `32px ${UI}`;
+    ctx.font = `500 32px ${c.ui || UI}`;
     let author = w.author;
     while (author.length > 4 && ctx.measureText(author).width > b.w * 0.4) author = author.slice(0, -2);
     if (author !== w.author) author = author.trimEnd() + "…";
@@ -81,7 +81,7 @@ export function paintLibrary(ctx, { works, hover, current, places = {}, c, note 
     ctx.fillText(title, b.x + 60, b.y + 88);
     ctx.textAlign = "right";
     ctx.fillStyle = sub;
-    ctx.font = `32px ${UI}`;
+    ctx.font = `500 32px ${c.ui || UI}`;
     ctx.fillText(author + (places[w.id] ? "  ·  " + places[w.id] : ""), b.x + b.w - 60, b.y + 88);
     ctx.textAlign = "left";
   }

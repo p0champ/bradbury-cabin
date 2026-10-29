@@ -1,9 +1,8 @@
-import { UI, lift, unlift } from "./theme.js?v=38";
-// The welcome screen every entry lands on. It builds in quiet steps after the
-// window has faded in: the greeting (already shown during the fade), a
-// hairline, one line about the day, then the choices. One repaint per step.
+import { UI, lift, unlift } from "./theme.js?v=39";
+// Entry always paints the complete welcome. Partial paint steps remain a
+// compatibility option for previews, with no timed reveal in the application.
 export const WELCOME_STEPS = 3;
-export const WELCOME_MS = 600;
+export const WELCOME_MS = 0;
 
 const PRIMARY = { x: 274, y: 1250, w: 1500, h: 170 };
 const SECONDARY = { x: 274, y: 1440, w: 1500, h: 150 };
@@ -34,7 +33,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
   const step = reveal ?? WELCOME_STEPS;
   ctx.textAlign = "center";
   ctx.fillStyle = c.ink;
-  ctx.font = `104px ${c.serif}`;
+  ctx.font = `500 104px ${c.ui || UI}`;
   ctx.fillText(hello, 1024, 860);
   if (step >= 1) {
     ctx.fillStyle = c.muted;
@@ -44,7 +43,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
   }
   if (step >= 2) {
     ctx.fillStyle = c.muted;
-    ctx.font = `${c.italic}48px ${c.serif}`;
+    ctx.font = `500 48px ${c.ui || UI}`;
     ctx.fillText(line, 1024, 1060);
   }
   ctx.textAlign = "left";
@@ -78,18 +77,26 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
     const primary = b === rows[0];
     if (b.id === "welcome-menu") {
       ctx.fillStyle = c.muted;
-      ctx.font = `40px ${UI}`;
+      ctx.font = `500 40px ${c.ui || UI}`;
       ctx.fillText("Menu  ›", b.x + 40, b.y + b.h / 2 + 14);
       continue;
     }
-    const label = b.id === "welcome-begin" ? "Begin today’s reading" : `Continue ${resume.title}`;
     ctx.fillStyle = c.ink;
-    ctx.font = primary ? `${c.italic}60px ${c.serif}` : `46px ${c.serif}`;
+    const size = primary ? 60 : 46;
+    ctx.font = `500 ${size}px ${c.ui || UI}`;
     const room = b.w - 140 - (resume.place ? 200 : 0);
-    ctx.fillText(fit(ctx, label, room), b.x + 70, b.y + b.h / 2 + (primary ? 20 : 16));
+    const y = b.y + b.h / 2 + (primary ? 20 : 16);
+    if (b.id === "welcome-begin") ctx.fillText("Today’s three", b.x + 70, y);
+    else {
+      const command = "Continue ";
+      const commandWidth = ctx.measureText(command).width;
+      ctx.fillText(command, b.x + 70, y);
+      ctx.font = `${c.italic}${size}px ${c.serif}`;
+      ctx.fillText(fit(ctx, resume.title, room - commandWidth), b.x + 70 + commandWidth, y);
+    }
     if (b.id === "welcome-continue" && resume.place) {
       ctx.fillStyle = c.muted;
-      ctx.font = `38px ${UI}`;
+      ctx.font = `500 38px ${c.ui || UI}`;
       ctx.textAlign = "right";
       ctx.fillText(resume.place, b.x + b.w - 70, b.y + b.h / 2 + 14);
       ctx.textAlign = "left";

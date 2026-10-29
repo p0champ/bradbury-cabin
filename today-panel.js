@@ -1,9 +1,9 @@
-import { UI, spaced, unspaced, lift, unlift } from "./theme.js?v=38";
+import { UI, spaced, unspaced, lift, unlift } from "./theme.js?v=39";
 // Today: Claude's three for the day on a page of their own, and a quiet
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=38";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=39";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
@@ -104,55 +104,54 @@ export function rule(ctx, y, color) {
 }
 function smallButton(ctx, b, label, hot, c, align = "center") {
   if (!b) return;
-  card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+  card(ctx, b, hot ? c.hover : c.card, hot);
   ctx.fillStyle = c.ink;
-  ctx.font = `44px ${UI}`;
+  ctx.font = `500 44px ${c.ui || UI}`;
   ctx.textAlign = align;
   ctx.fillText(label, align === "center" ? b.x + b.w / 2 : b.x + 60, b.y + b.h / 2 + 15);
   ctx.textAlign = "left";
 }
 const byId = (buttons, id) => buttons.find((b) => b.id === id);
 
-// The day's first showing builds in steps: heading and date, then each
-// work, then the rules and the rest. Each step is one repaint of the page.
-// Four even beats: each work in turn, then the rules and the rest.
+// The application paints the complete day immediately. Partial preview paint
+// remains supported without any timed reveal or input-consuming decoration.
 export const REVEAL_STEPS = 4;
-export const REVEAL_MS = 300;
+export const REVEAL_MS = 0;
 
 // c: { bg, ink, muted, card, accent, gold, serif, italic }
 // reveal: how many works are shown yet; REVEAL_STEPS also shows the rest.
 export function paintToday(ctx, { works, hover, facts, statuses, note = "", personal = {}, reveal = REVEAL_STEPS, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
-  ctx.font = `84px ${c.serif}`;
+  ctx.font = `500 84px ${c.ui || UI}`;
   ctx.fillText("Today", 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = `36px ${UI}`;
+  ctx.font = `500 36px ${c.ui || UI}`;
   ctx.fillText(facts.dateline + (facts.read && !facts.allRead ? ` · ${facts.read} of 3 read` : ""), 274, 540);
   const buttons = todayButtons(works);
   smallButton(ctx, byId(buttons, "today-menu"), "‹  Menu", hover === "today-menu", c);
   const complete = reveal >= REVEAL_STEPS;
-  // Gold while the day is open; ink once all three are read.
+  // The same quiet divider in every navigation panel.
   let openingLines = [];
   if (!facts.allRead && personal.dedication) {
-    ctx.font = `${c.italic}32px ${c.serif}`;
+    ctx.font = `500 32px ${c.ui || UI}`;
     openingLines = wrapPersonal(ctx, personal.dedication, 1500);
     ctx.fillStyle = c.muted;
     openingLines.forEach((line, i) => ctx.fillText(line, 274, 585 + i * 36));
   }
-  if (complete) rule(ctx, openingLines.length > 1 ? 637 : 610, facts.allRead ? c.muted : c.gold);
+  if (complete) rule(ctx, openingLines.length > 1 ? 637 : 610, c.muted);
   for (const w of works.slice(0, Math.min(3, reveal))) {
     const b = byId(buttons, "today:" + w.id), hot = hover === b.id;
     const status = statuses[w.id] || "";
-    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    card(ctx, b, hot ? c.hover : c.card, hot);
     ctx.fillStyle = c.muted;
-    ctx.font = `600 28px ${UI}`;
+    ctx.font = `600 28px ${c.ui || UI}`;
     spaced(ctx, 5);
     ctx.fillText(KIND[w.kind], b.x + 60, b.y + 62);
     unspaced(ctx);
     if (status) {
       ctx.fillStyle = status === "Read" ? c.ink : c.muted;
-      ctx.font = `34px ${UI}`;
+      ctx.font = `500 34px ${c.ui || UI}`;
       ctx.textAlign = "right";
       ctx.fillText(status === "Read" ? "✓  Read" : status, b.x + b.w - 60, b.y + 62);
       ctx.textAlign = "left";
@@ -161,21 +160,21 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", pers
     const title = fitted(ctx, w.title, b.w - 120, 64, 44, (s) => `${c.italic}${s}px ${c.serif}`);
     ctx.fillText(title, b.x + 60, b.y + 150);
     ctx.fillStyle = c.muted;
-    ctx.font = `34px ${UI}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     ctx.fillText(fit(ctx, [w.author, w.year, w.place].filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);
   }
   if (!complete) return;
-  rule(ctx, 1590, facts.allRead ? c.muted : c.gold);
+  rule(ctx, 1590, c.muted);
   if (facts.closing) {
     ctx.fillStyle = c.ink;
-    ctx.font = `${c.italic}48px ${c.serif}`;
+    ctx.font = `500 48px ${c.ui || UI}`;
     ctx.fillText(facts.closing, 274, 1660);
   }
   smallButton(ctx, byId(buttons, "today-library"), "Your shelf  ›", hover === "today-library", c, "left");
   smallButton(ctx, byId(buttons, "today-full-library"), "Library  ›", hover === "today-full-library", c, "left");
   let noteY = 1920;
   if (facts.allRead && personal.thread) {
-    ctx.font = `${c.italic}34px ${c.serif}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     ctx.fillStyle = c.ink;
     const lines = wrapPersonal(ctx, personal.thread, 1500);
     lines.forEach((line, i) => ctx.fillText(line, 274, 1885 + i * 44));
@@ -183,7 +182,7 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", pers
   }
   if (note) {
     ctx.fillStyle = c.muted;
-    ctx.font = `34px ${UI}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     for (const [i, line] of wrap2(ctx, note, 1500).entries()) ctx.fillText(line, 274, noteY + i * 50);
   }
 }
@@ -192,18 +191,18 @@ export function paintToday(ctx, { works, hover, facts, statuses, note = "", pers
 export function paintClosing(ctx, { work, next, read, hover, allRead = false, thread = null, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.muted;
-  ctx.font = `600 28px ${UI}`;
+  ctx.font = `600 28px ${c.ui || UI}`;
   spaced(ctx, 5);
   ctx.fillText(`FINISHED · ${KIND[work.kind] || ""}`, 274, 440);
   unspaced(ctx);
   ctx.fillStyle = c.ink;
   ctx.fillText(fitted(ctx, work.title, 1080, 72, 40, (s) => `${c.italic}${s}px ${c.serif}`), 274, 545);
   ctx.fillStyle = c.muted;
-  ctx.font = `34px ${UI}`;
+  ctx.font = `500 34px ${c.ui || UI}`;
   ctx.fillText(fit(ctx, [work.author, work.year].filter(Boolean).join(" · "), 1080), 274, 615);
   const buttons = closingButtons(next);
   smallButton(ctx, byId(buttons, "end-back"), "‹  Text", hover === "end-back", c);
-  rule(ctx, 662, c.gold);
+  rule(ctx, 662, c.muted);
   const labels = {
     "end-mark": read ? "Read today" : "Mark as read today",
     "end-next": next ? `Next: ${next.title}` : "",
@@ -211,10 +210,18 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
   };
   for (const b of buttons.slice(1)) {
     const hot = hover === b.id;
-    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    card(ctx, b, hot ? c.hover : c.card, hot);
     ctx.fillStyle = c.ink;
-    const label = fitted(ctx, labels[b.id], b.w - 260, 58, 40, (s) => `${s}px ${c.serif}`);
-    ctx.fillText(label, b.x + 70, b.y + b.h / 2 + 20);
+    if (b.id === "end-next") {
+      ctx.font = `500 58px ${c.ui || UI}`;
+      const prefix = "Next: ", prefixWidth = ctx.measureText(prefix).width;
+      ctx.fillText(prefix, b.x + 70, b.y + b.h / 2 + 20);
+      const title = fitted(ctx, next.title, b.w - 260 - prefixWidth, 58, 40, (s) => `${c.italic}${s}px ${c.serif}`);
+      ctx.fillText(title, b.x + 70 + prefixWidth, b.y + b.h / 2 + 20);
+    } else {
+      const label = fitted(ctx, labels[b.id], b.w - 260, 58, 40, (s) => `500 ${s}px ${c.ui || UI}`);
+      ctx.fillText(label, b.x + 70, b.y + b.h / 2 + 20);
+    }
     if (b.id === "end-mark") {
       // A circle to tick, filled with a check once read.
       const cx = b.x + b.w - 100, cy = b.y + b.h / 2, r = 32;
@@ -243,7 +250,7 @@ export function paintClosing(ctx, { work, next, read, hover, allRead = false, th
   }
   if (allRead && thread) {
     ctx.fillStyle = c.ink;
-    ctx.font = `${c.italic}42px ${c.serif}`;
+    ctx.font = `500 42px ${c.ui || UI}`;
     wrapPersonal(ctx, thread, 1500).forEach((line, i) => ctx.fillText(line, 274, 1350 + i * 54));
   }
 }

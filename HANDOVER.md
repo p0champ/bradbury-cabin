@@ -1,3 +1,29 @@
+## 29 October 2026 — Build 039 approved, reviewed and tested; release pending
+
+Final168unit+source checks and183/183synthetic browser checks pass. Independent critic rounds7.8→7.9→8.5/10 after hover contrast and practice backing fixes; no remaining P1/P2. Reviewed final screenshots. See BUILD_039_REVIEW.md. Need scans, commit/push and live comparison; then work in the approved scope is complete. No extra design gate or intermediate Quest test requested.
+
+---
+## 29 October 2026 — Build 039 approved and implemented; verification in progress (historical)
+
+Bastian approved the Apple agents' agreed three-part direction: "Whatever the apple agetns agree on and well take it from threre". New branch build-039-coherent-cabin. Implemented complete welcome/Today, stationary200ms arrival with reduced-motion support, stable menu anchor within a visit; neutral navigation palette and functional sans; browser Enter first, native disclosures for sound/help/advanced tools, corrected sync copy. Existing button areas/menu indices/gesture recognizer/handmap9/literary texts/audio/wrist/pointer tuning/page-turn treatment preserved. Separate behavior, navigation and front-door authors; independent critic reviewing.167unit+source checks and4coherent+4frontdoor focused browser checks pass; full suite in progress. Need finish visual QA, independent critic>=8/10, final tests, scans, release and live-file check. Currentlive remains verified038 until039release. No Quest claim; deferred combined check stays in QUEST_CHECK.md.
+
+---
+## 29 October 2026 — resumed; Apple proposal ready for presentation and approval (historical)
+
+Bastian resumed with "go" after the usage pause. This resumes finishing/presenting the proposal, not approval to implement an unseen broader design. The two judge-requested wording corrections are complete in APPLE_FEEL_PLAN.md and APPLE_FEEL_SKETCH.svg; the PNG has been refreshed. Present the three-ranked-part plan and schematic, then wait for explicit approval before any broader app changes. Pointer037.1 and Build038 remain complete/live verified; do not redo those releases or research. No new app implementation in this resumed turn. Original pause checkpoint follows for history.
+
+---
+## 29 October 2026 — PAUSED at Bastian's request (usage running low; historical)
+
+STOP work until Bastian resumes. Pointer correction 037.1 and approved Build038 are complete, independently reviewed8.5/10, released and live-file verified. Current live https://p0champ.github.io/bradbury-cabin/?v=38 ; code243878d, release recordaea8154, branchbuild-038-wrist-glass. Build038:167unit+sourcechecks,175/175syntheticbrowserchecks. No Quest/realDrive/Claude testing claimed.
+
+Full Apple design round is also complete: three independent designers (strictvisionOS, AppleBooks/editorial, motion/response), mutual cross-critiques, separatejudge. Judge ranks:1 complete promptly usable welcome/Today plus stablemenu pose per browsing visit (keep placement/fullwelcome/inputrelease safety/useful initialin-front placement);2 distinct neutral navigation identity/sanscommands vs opaque literarypaper within currenthitrects/indices;3 clean browserfrontdoor with honeststatus and collapsedhelp/tools. No newwrist/audio/pointer/pagecrossfade work. Compactmenu/mergedhome/directresume need separate explicit geometry/navigation exception. Broaderdesign is NOT approved or implemented.
+
+Reports under C:/Users/Bruger/Documents/Codex/2026-10-29/files-mentioned-by-the-user-gpt/work/: apple-vision-designer.md, apple-reading-designer.md, apple-motion-designer.md, apple-judge-plan.md. User-facing draft outputs in that chat's outputs/: APPLE_FEEL_PLAN.md, APPLE_FEEL_SKETCH.svg, APPLE_FEEL_SKETCH.png. Sketch visually inspected; schematic only.
+
+Two judge-requested editorial corrections remain BEFORE presenting final proposal: (1) SVG label must replace misleading "current target layout retained" with "Schematic, not to scale · copy and titles illustrative · implementation preserves existing targets and approved content." Re-render PNG after editingSVG. (2) Plan Sound principle must remove "Align the chime with the usable welcome" and retain existing audio unchanged in this round. Then present short ranked plan + sketch and wait for approval before ANY broaderdesign implementation. Do not restart research/retest/release completedbuilds. HANDOVER checkpoint is local/uncommitted; app/release code was clean before this checkpoint.
+
+---
 ## 29 October 2026 — Build 038 released and live verified; Apple design round next
 
 After verified 037.1 release, implemented approved wrist glance / idle hand glass discs / smoother following. 167 unit/source checks and full 175/175 synthetic browser checks pass; independent critic 8.5/10 after fixes. Code243878d pushed to build-038-wrist-glass and phase-1-gestures after secret scans; live ?v=38 index/style/all32JS modules match reviewed source. See BUILD_038_REVIEW.md. Three distinct designer agents are now studying Apple principles and auditing the whole cabin before cross-critiques and a separate judge. Modules prepared by separate wrist and hand/follow authors; critic independent. No Quest claim. Do not implement the broader design without Bastian's next approval.

@@ -1,11 +1,11 @@
-import { UI, lift, unlift } from "./theme.js?v=38";
+import { UI, lift, unlift } from "./theme.js?v=39";
 // Your shelf: every earlier day's three, newest first, and the works of one
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
-import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=38";
-import { rule } from "./today-panel.js?v=38";
-import { dayGuide } from "./guide-archive.js?v=38";
+import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=39";
+import { rule } from "./today-panel.js?v=39";
+import { dayGuide } from "./guide-archive.js?v=39";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 export const DAYS_PER_PAGE = 6;
@@ -117,9 +117,9 @@ function card(ctx, b, fill, edge) {
 }
 function button(ctx, b, label, hot, c, align = "center") {
   if (!b) return;
-  card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+  card(ctx, b, hot ? c.hover : c.card, hot);
   ctx.fillStyle = c.ink;
-  ctx.font = `44px ${UI}`;
+  ctx.font = `500 44px ${c.ui || UI}`;
   ctx.textAlign = align;
   ctx.fillText(label, align === "center" ? b.x + b.w / 2 : b.x + 60, b.y + b.h / 2 + 15);
   ctx.textAlign = "left";
@@ -130,10 +130,10 @@ const byId = (buttons, id) => buttons.find((b) => b.id === id);
 export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
-  ctx.font = `84px ${c.serif}`;
+  ctx.font = `500 84px ${c.ui || UI}`;
   ctx.fillText("Your shelf", 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = `36px ${UI}`;
+  ctx.font = `500 36px ${c.ui || UI}`;
   const pages = Math.max(1, Math.ceil(days.length / DAYS_PER_PAGE));
   ctx.fillText(
     days.length
@@ -144,13 +144,13 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   );
   const buttons = shelfButtons(days, page);
   button(ctx, byId(buttons, "shelf-menu"), "‹  Menu", hover === "shelf-menu", c);
-  rule(ctx, 600, c.gold);
+  rule(ctx, 600, c.muted);
   for (const b of buttons.filter((x) => x.id.startsWith("shelfday:"))) {
     const date = b.id.slice(9), hot = hover === b.id, entries = entriesFor(date);
-    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    card(ctx, b, hot ? c.hover : c.card, hot);
     const read = entries.filter((e) => e.read).length;
     ctx.fillStyle = c.muted;
-    ctx.font = `34px ${UI}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     ctx.fillText(dayHeading(date), b.x + 60, b.y + 58);
     ctx.textAlign = "right";
     ctx.fillText(read === 3 ? "✓  All three read" : `${read} of ${entries.length} read`, b.x + b.w - 60, b.y + 58);
@@ -176,7 +176,7 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
   button(ctx, byId(buttons, "shelf-library"), "The whole Library  ›", hover === "shelf-library", c, "left");
   if (note) {
     ctx.fillStyle = c.muted;
-    ctx.font = `34px ${UI}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     for (const [i, line] of wrap2(ctx, note, 1500).entries()) ctx.fillText(line, 274, 2060 + i * 50);
   }
   button(ctx, byId(buttons, "shelf-later"), "‹  Later", hover === "shelf-later", c);
@@ -186,25 +186,25 @@ export function paintShelf(ctx, { days, page, entriesFor, hover, note = "", c })
 export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
   ctx.textAlign = "left";
   ctx.fillStyle = c.ink;
-  ctx.font = `72px ${c.serif}`;
+  ctx.font = `500 72px ${c.ui || UI}`;
   ctx.fillText(fit(ctx, dayHeading(date).split(" · ")[0], 1050), 274, 470);
   ctx.fillStyle = c.muted;
-  ctx.font = `36px ${UI}`;
+  ctx.font = `500 36px ${c.ui || UI}`;
   const read = entries.filter((e) => e.read).length;
   ctx.fillText(`${dayHeading(date).split(" · ")[1]} · ${read} of ${entries.length} read`, 274, 540);
   const buttons = dayButtons(entries);
   button(ctx, byId(buttons, "day-back"), "‹  Shelf", hover === "day-back", c);
-  rule(ctx, 610, read === entries.length && entries.length ? c.muted : c.gold);
+  rule(ctx, 610, c.muted);
   for (const [i, e] of entries.entries()) {
     const b = { id: `pastwork:${e.kind}`, ...ENTRY(i) }, hot = e.work && hover === b.id;
-    card(ctx, b, hot ? c.hover : c.card, hot && c.accent);
+    card(ctx, b, hot ? c.hover : c.card, hot);
     ctx.fillStyle = c.muted;
-    ctx.font = `32px ${UI}`;
+    ctx.font = `500 32px ${c.ui || UI}`;
     ctx.fillText(KIND[e.kind], b.x + 60, b.y + 62);
     const status = e.read ? "✓  Read" : e.work ? statuses[e.kind] || "" : "Not in the cabin";
     if (status) {
       ctx.fillStyle = e.read ? c.ink : c.muted;
-      ctx.font = `38px ${UI}`;
+      ctx.font = `500 38px ${c.ui || UI}`;
       ctx.textAlign = "right";
       ctx.fillText(status, b.x + b.w - 60, b.y + 64);
       ctx.textAlign = "left";
@@ -213,7 +213,7 @@ export function paintShelfDay(ctx, { date, entries, statuses = {}, hover, c }) {
     ctx.fillStyle = e.work && !e.read ? c.ink : c.muted;
     ctx.fillText(fitted(ctx, title, b.w - 120, 64, 44, (s) => `${c.italic}${s}px ${c.serif}`), b.x + 60, b.y + 150);
     ctx.fillStyle = c.muted;
-    ctx.font = `34px ${UI}`;
+    ctx.font = `500 34px ${c.ui || UI}`;
     const meta = e.work ? [e.work.author, e.work.year, e.work.place] : [author];
     ctx.fillText(fit(ctx, meta.filter(Boolean).join(" · "), b.w - 120), b.x + 60, b.y + 212);
   }

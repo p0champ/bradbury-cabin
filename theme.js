@@ -1,7 +1,16 @@
-// One visual system for every panel: a quiet system sans for interface text,
-// the reading serif for literature, soft paper tones and one deep accent.
+// A quiet system sans and neutral navigation distinguish the interface from
+// literature. Reading keeps its own paper, night and mood choices below.
 // Visual only: no geometry lives here, so gesture targets never move.
 export const UI = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+
+// Navigation has one opaque backing in every reading mood. The reading page
+// still uses MOODS below; these colours belong to commands and browsing only.
+export const NAV = Object.freeze({
+  bg: "#333e3d", ink: "#f3f5f2", muted: "#d3ddd5",
+  card: "#414e4a", hover: "#52635a", accent: "#d3ddd5",
+  gold: "#b7c0bd", faint: "#8f9e98", done: "#c4d6c7", warn: "#efbcac",
+  ui: UI,
+});
 
 export const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.

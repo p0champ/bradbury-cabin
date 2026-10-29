@@ -1,3 +1,13 @@
+# Build 039 — add to the single combined end check after release
+
+1. Enter/placement: one short stationary reveal; welcome choices appear together. The placing pinch must not also choose. A fresh eligible pinch chooses directly. Today shows all three at once.
+2. Move your head while browsing welcome/Today/shelf/settings: menus should keep their place within the visit; closing restores the reading anchor. Explicit recenter and opening a fresh menu remain useful upright and lying down.
+3. Neutral functional screens and warm paper reading feel distinct and readable. Check title/author/status, menu values, calendar semantics and hover in bright/dim rooms. No actual system glass or passthrough blur is claimed.
+4. Browser Enter is primary; Sound settings, How to read and Preview/advanced tools open on demand, including after exit. Sync/error/saved-state wording must stay honest. Reduced-motion preference should avoid spatial arrival motion.
+
+No real Quest/Drive/Claude check was performed here. Keep this with all previous checks for the combined end test.
+
+---
 # Build 038 — add to the single combined end check after release
 
 1. ?v=38 / BUILD 038. Raise the right wrist: after a short steady glance the weekday, large date and three reading dots fade in. Left wrist never shows it. Pinch opens Your shelf; reading place stays saved. A palm-facing system gesture must not open the shelf.
