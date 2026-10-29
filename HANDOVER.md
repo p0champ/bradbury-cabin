@@ -5,7 +5,7 @@ Bastian on 045: "not very responsive" and most buttons can't be selected. He ask
 046 changes:
 - A pinch now selects the button the dot spent most time on in the last 0.2 s. Time while the fingers are already closing counts for less, because that is when drift happens. A pinch never selects empty space if a button was there.
 - Points just beside a button (within 12 mm) count as that button.
-- The dot follows faster.
+- The dot filter is unchanged. A faster filter failed the hand-tremor stillness check, and the existing filter already settles in about 60 ms.
 
 Branch build-046-reliable-select. Not tried on a Quest.
 

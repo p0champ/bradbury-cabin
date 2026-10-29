@@ -2,7 +2,6 @@
 
 Open ?v=46 and check that it shows BUILD 046. Do the Build 045 checks below with this build, plus:
 - Point and pinch at every menu button, including while your hand is still moving. Each one should select what the dot is on.
-- The dot should feel quick, and steady when your hand is still.
 
 ---
 # Build 045 — pointer and Exit repair, headset check pending

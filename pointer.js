@@ -92,7 +92,7 @@ export function rayOnPage(ray, display, metresWide, metresHigh) {
 // Filter the place the reader aims at, in millimetres on the page. Ray origin
 // and direction have different units; filtering them together hid excess drag.
 export class PageAimFilter {
-  constructor() { this.filter = new OneEuro(1, 0.25); }
+  constructor() { this.filter = new OneEuro(1, 0.08); }
   reset() { this.filter.x = null; }
   update(ray, display, width, height, time) {
     const raw = rayOnPage(ray, display, width, height);
