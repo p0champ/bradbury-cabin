@@ -442,7 +442,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=35");
+        const { menuButtons } = await import("./gestures.js?v=36");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -623,7 +623,10 @@ async function mock(
           const arrival = init.viewPixelWidth === 384;
           const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 448;
           const gazeRing = init.viewPixelWidth === 192;
-          const width = gazeRing
+          const pointer = init.viewPixelWidth === 48 || init.viewPixelWidth === 160;
+          const width = pointer
+              ? init.viewPixelWidth
+              : gazeRing
               ? 192
               : watch
               ? 512
@@ -634,7 +637,9 @@ async function mock(
                 : scenario === "clamped-layer"
                   ? 1024
                   : 2048,
-            height = gazeRing
+            height = pointer
+              ? init.viewPixelHeight
+              : gazeRing
               ? 192
               : watch
               ? 448
@@ -654,6 +659,7 @@ async function mock(
               arrival,
               watch,
               gazeRing,
+              pointer,
               metresWide: init.width,
               metresHigh: init.height,
               matrix: null,
@@ -664,7 +670,7 @@ async function mock(
             set transform(v) {
               data.matrix = Array.from(v.matrix);
               data.history.push(data.matrix);
-              if (!badge && !arrival && !watch && !gazeRing) window.__mock.placed.push(data.matrix);
+              if (!badge && !arrival && !watch && !gazeRing && !pointer) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
@@ -672,7 +678,7 @@ async function mock(
             },
           };
           window.__mock.layerData.set(layer, data);
-          if (!badge && !arrival && !watch && !gazeRing) {
+          if (!badge && !arrival && !watch && !gazeRing && !pointer) {
             window.__mock.quadWidth = width;
             window.__mock.quadHeight = height;
             window.__mock.texture = tex;
@@ -685,9 +691,9 @@ async function mock(
           if (!session.renderState.layers?.includes(layer))
             throw Error("getSubImage used before active layers changed");
           if (!data || data.destroyed) throw Error("Invalid layer texture");
-          if (!data.badge && !data.arrival && scenario === "draw-failure")
+          if (!data.badge && !data.arrival && !data.pointer && scenario === "draw-failure")
             throw Error("Deliberate layer draw failure");
-          if (!data.badge && !data.arrival) window.__mock.draws++;
+          if (!data.badge && !data.arrival && !data.pointer) window.__mock.draws++;
           return {
             colorTexture: data.tex,
             viewport: { x: 0, y: 0, width: data.width, height: data.height },
@@ -1137,7 +1143,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-035");
+        assert.equal(details.build, "gestures-036");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1950,7 +1956,7 @@ async function mock(
       // opaque, and the layer blends with source alpha.
       const windowShape = await p.evaluate(() => {
         const m = __mock, w = m.quadWidth, alpha = (x, y) => m.latestPixels[(y * w + x) * 4 + 3];
-        const main = [...m.layerData].find(([, d]) => !d.badge && !d.arrival && !d.watch && !d.gazeRing);
+        const main = [...m.layerData].find(([, d]) => !d.badge && !d.arrival && !d.watch && !d.gazeRing && !d.pointer);
         return { corner: alpha(0, 0), inside: alpha(Math.floor(w / 2), 40), blend: main?.[0].blendTextureSourceAlpha };
       });
       assert.deepEqual(windowShape, { corner: 0, inside: 255, blend: true });
@@ -2095,7 +2101,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=35");
+        const { paintHandBadge } = await import("./hand-badges.js?v=36");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2416,7 +2422,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=35");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=36");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2481,7 +2487,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=35");
+        const { MENU_PAGES } = await import("./gestures.js?v=36");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2534,8 +2540,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=35");
-            const { loadProgress } = await import("./progress.js?v=35");
+            const { calendarButtons } = await import("./calendar.js?v=36");
+            const { loadProgress } = await import("./progress.js?v=36");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -3210,8 +3216,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=35");
-        const { loadProgress } = await import("./progress.js?v=35");
+        const { calendarButtons } = await import("./calendar.js?v=36");
+        const { loadProgress } = await import("./progress.js?v=36");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

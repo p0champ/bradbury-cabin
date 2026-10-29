@@ -1,4 +1,3 @@
-import { UI } from "./theme.js?v=35";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,
@@ -13,85 +12,72 @@ export function paintHandBadge(
     welcome = null,
   } = {},
 ) {
+  // A small disc of frosted glass with one thin symbol, as on visionOS: no
+  // words, no colour except a warm hint for the hold ring and the end stop.
   const c = canvas.getContext("2d");
   c.clearRect(0, 0, 256, 256);
-  c.fillStyle = "#243c32";
+  c.fillStyle = "rgba(236, 238, 234, 0.28)";
   c.beginPath();
-  c.arc(128, 128, 112, 0, Math.PI * 2);
+  c.arc(128, 128, 108, 0, Math.PI * 2);
   c.fill();
-  c.strokeStyle = ready ? "#829c8a" : "#4a6356";
-  c.lineWidth = 9;
+  c.strokeStyle = `rgba(240, 242, 238, ${ready ? 0.6 : 0.4})`;
+  c.lineWidth = 3;
   c.beginPath();
-  c.arc(128, 128, 102, 0, Math.PI * 2);
+  c.arc(128, 128, 106, 0, Math.PI * 2);
   c.stroke();
   if (progress > 0) {
-    c.strokeStyle = flash ? "#fff4ca" : "#e8c980";
-    c.lineWidth = 11;
+    c.strokeStyle = flash ? "#fff3d0" : "#f5e6c4";
+    c.lineWidth = 9;
     c.lineCap = "round";
     c.beginPath();
-    c.arc(
-      128,
-      128,
-      102,
-      -Math.PI / 2,
-      -Math.PI / 2 + Math.PI * 2 * Math.min(1, progress),
-    );
+    c.arc(128, 128, 101, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, progress));
     c.stroke();
   }
-  // Arrows are dimmed when that direction has no page left; a blocked attempt
-  // flashes the end bar instead of the arrows, so it never looks like a turn.
+  // The symbol is dimmed when that direction has no page left; a blocked
+  // attempt shows a short warm end stop instead, so it never looks like a turn.
   // A successful turn always flashes, even if it just reached the last page.
-  const arrowColour = blocked
-    ? "#4f6357"
+  // Only a real turn is pure white; resting and dimmed states are soft greys.
+  const ink = blocked || (!available && !flash)
+    ? "rgba(170, 174, 170, 0.55)"
     : flash
-      ? "#faf0d4"
-      : !available
-        ? "#4f6357"
-        : ready
-          ? "#faf0d4"
-          : "#829486";
-  const barColour = blocked
-    ? "#f2b48a"
-    : !available && !flash
-      ? "#c9b98f"
-      : arrowColour;
-  c.fillStyle = arrowColour;
+      ? "#ffffff"
+      : ready
+        ? "rgba(236, 238, 234, 0.95)"
+        : "rgba(225, 228, 224, 0.8)";
+  c.strokeStyle = ink;
+  c.fillStyle = ink;
+  c.lineWidth = 14;
+  c.lineCap = "round";
+  c.lineJoin = "round";
   if (menu) {
-    for (const y of [102, 124, 146]) c.fillRect(91, y, 74, 8);
+    for (const y of [104, 128, 152]) {
+      c.beginPath();
+      c.moveTo(96, y);
+      c.lineTo(160, y);
+      c.stroke();
+    }
   } else {
     c.save();
     if (!forward) {
       c.translate(256, 0);
       c.scale(-1, 1);
     }
-    for (const x of [78, 116]) {
+    c.beginPath();
+    c.moveTo(96, 84);
+    c.lineTo(140, 128);
+    c.lineTo(96, 172);
+    c.stroke();
+    if (blocked || (!available && !flash)) {
+      c.fillStyle = blocked ? "#f2b48a" : "rgba(242, 180, 138, 0.5)";
       c.beginPath();
-      c.moveTo(x, 94);
-      c.lineTo(x + 35, 128);
-      c.lineTo(x, 162);
-      c.closePath();
+      if (c.roundRect) c.roundRect(164, 94, 12, 68, 6);
+      else c.rect(164, 94, 12, 68);
       c.fill();
     }
-    c.fillStyle = barColour;
-    c.fillRect(166, 94, blocked ? 12 : 8, 68);
     c.restore();
   }
-  c.textAlign = "center";
-  c.font = `bold 23px ${UI}`;
-  c.fillStyle = blocked ? "#f2b48a" : arrowColour;
-  c.fillText(
-    blocked
-      ? forward
-        ? "END"
-        : "START"
-      : menu
-        ? "MENU"
-        : forward
-          ? "NEXT"
-          : "BACK",
-    128,
-    199,
-  );
+  c.lineCap = "butt";
+  c.lineJoin = "miter";
   if (welcome != null) {
     c.save();
     c.globalAlpha = Math.sin(Math.PI * welcome) * 0.8;

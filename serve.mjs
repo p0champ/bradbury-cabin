@@ -29,6 +29,7 @@ const allowed = new Set([
   "today-panel.js",
   "daily-lines.js",
   "theme.js",
+  "pointer.js",
   "shelf-panel.js",
   "SOURCE_CATALOGUE.md",
   "drive.js",

@@ -1,8 +1,8 @@
 // Optional notes travel with the day's exact source edition. They never
 // supply literary text, choose another edition, or erase reading ticks.
-import { normalizeGuide } from "./study-guide.js?v=35";
-import { misquote } from "./picks.js?v=35";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=35";
+import { normalizeGuide } from "./study-guide.js?v=36";
+import { misquote } from "./picks.js?v=36";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=36";
 
 const KINDS = ["poem", "story", "essay"];
 const labelKey = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
