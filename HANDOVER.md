@@ -1,3 +1,8 @@
+## 29 October 2026, 19:17 — PAUSED at Bastian's request (usage low)
+
+Build 046 is built, committed and pushed on build-046-reliable-select (ad12555). It is NOT released: live is still Build 045. Bastian chose "Ship 046 anyway" below the 8/10 bar. Remaining steps: confirm the full browser suite passes, fast-forward phase-1-gestures (no force), verify the live files, then update these notes. Don't restart design work.
+
+---
 ## 29 October 2026 — Build 046 selection fix (release in progress)
 
 Bastian on 045: "not very responsive" and most buttons can't be selected. He asked for a fix without another test round, so the cause is still unmeasured.
