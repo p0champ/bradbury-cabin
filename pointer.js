@@ -1,56 +1,76 @@
-// A quiet pointer for menus: a hairline beam from the hand that fades out
-// towards the hand, ending in a soft dot on the page. Compositor layers only;
-// the page itself never repaints for it. Hidden while reading.
-const BEAM_PX = [48, 512], DOT_PX = 160;
-const BEAM_WIDTH = 0.004, DOT_SIZE = 0.022;
+// A quiet pointer for menus, as on visionOS: no beam, only a small soft dot
+// where the hand points on the page. Over a choice it opens into a ring,
+// which closes as you pinch. Compositor layers only; never shown while reading.
+const DOT_PX = 160, DOT_SIZE = 0.014;
+const LOOKS = ["dot", "ring", "press"];
 
-function paintBeam(canvas) {
-  const c = canvas.getContext("2d"), [w, h] = BEAM_PX;
-  c.clearRect(0, 0, w, h);
-  const along = c.createLinearGradient(0, 0, 0, h);
-  along.addColorStop(0, "rgba(255,255,255,0.55)");
-  along.addColorStop(0.55, "rgba(255,255,255,0.22)");
-  along.addColorStop(1, "rgba(255,255,255,0)");
-  c.fillStyle = along;
-  c.fillRect(w * 0.3, 0, w * 0.4, h);
-}
-function paintDot(canvas) {
+function paintLook(canvas, look) {
   const c = canvas.getContext("2d"), r = DOT_PX / 2;
   c.clearRect(0, 0, DOT_PX, DOT_PX);
-  const halo = c.createRadialGradient(r, r, 0, r, r, r);
-  halo.addColorStop(0, "rgba(255,255,255,0.95)");
-  halo.addColorStop(0.32, "rgba(255,255,255,0.9)");
-  halo.addColorStop(0.42, "rgba(255,255,255,0.28)");
-  halo.addColorStop(1, "rgba(255,255,255,0)");
-  c.fillStyle = halo;
+  if (look === "dot") {
+    // 6 mm: a white dot with a faint ink edge, readable on paper and night.
+    c.fillStyle = "rgba(255,255,255,0.92)";
+    c.beginPath();
+    c.arc(r, r, r * 0.43, 0, Math.PI * 2);
+    c.fill();
+    c.strokeStyle = "rgba(31,42,36,0.28)";
+    c.lineWidth = 4;
+    c.stroke();
+    return;
+  }
+  // 12 mm ring over a choice; 8 mm while pinching.
+  const radius = look === "ring" ? r * 0.82 : r * 0.55;
+  c.strokeStyle = "rgba(31,42,36,0.22)";
+  c.lineWidth = 12;
   c.beginPath();
-  c.arc(r, r, r, 0, Math.PI * 2);
-  c.fill();
-}
-const sub = (a, b) => ({ x: a.x - b.x, y: a.y - b.y, z: a.z - b.z });
-const add = (a, b, k = 1) => ({ x: a.x + b.x * k, y: a.y + b.y * k, z: a.z + b.z * k });
-const dot = (a, b) => a.x * b.x + a.y * b.y + a.z * b.z;
-const cross = (a, b) => ({ x: a.y * b.z - a.z * b.y, y: a.z * b.x - a.x * b.z, z: a.x * b.y - a.y * b.x });
-const norm = (a) => { const l = Math.hypot(a.x, a.y, a.z) || 1; return { x: a.x / l, y: a.y / l, z: a.z / l }; };
-// Rotation whose columns are the given unit axes, as a quaternion.
-function quat(x, y, z) {
-  const t = x.x + y.y + z.z;
-  if (t > 0) {
-    const s = Math.sqrt(t + 1) * 2;
-    return { w: s / 4, x: (y.z - z.y) / s, y: (z.x - x.z) / s, z: (x.y - y.x) / s };
-  }
-  if (x.x > y.y && x.x > z.z) {
-    const s = Math.sqrt(1 + x.x - y.y - z.z) * 2;
-    return { w: (y.z - z.y) / s, x: s / 4, y: (y.x + x.y) / s, z: (z.x + x.z) / s };
-  }
-  if (y.y > z.z) {
-    const s = Math.sqrt(1 + y.y - x.x - z.z) * 2;
-    return { w: (z.x - x.z) / s, x: (y.x + x.y) / s, y: s / 4, z: (z.y + y.z) / s };
-  }
-  const s = Math.sqrt(1 + z.z - x.x - y.y) * 2;
-  return { w: (x.y - y.x) / s, x: (z.x + x.z) / s, y: (z.y + y.z) / s, z: s / 4 };
+  c.arc(r, r, radius, 0, Math.PI * 2);
+  c.stroke();
+  c.strokeStyle = "rgba(255,255,255,0.95)";
+  c.lineWidth = 7;
+  c.stroke();
 }
 
+// One-Euro filter (Casiez et al.): steady when the hand is still, no lag when
+// it moves. Large jumps (tracking returning) reset it instead of sliding.
+export class OneEuro {
+  constructor(minCutoff = 1.0, beta = 0.03, dCutoff = 1.0) {
+    Object.assign(this, { minCutoff, beta, dCutoff, x: null, dx: null, t: null });
+  }
+  static alpha(cutoff, dt) {
+    const tau = 1 / (2 * Math.PI * cutoff);
+    return 1 / (1 + tau / dt);
+  }
+  filter(v, t, jump = Infinity) {
+    if (this.x == null || t <= this.t || v.some((n, i) => Math.abs(n - this.x[i]) > jump)) {
+      this.x = v.slice();
+      this.dx = v.map(() => 0);
+      this.t = t;
+      return this.x;
+    }
+    const dt = Math.min(0.1, (t - this.t) / 1000);
+    this.t = t;
+    const ad = OneEuro.alpha(this.dCutoff, dt);
+    this.dx = v.map((n, i) => this.dx[i] + ad * ((n - this.x[i]) / dt - this.dx[i]));
+    const speed = Math.hypot(...this.dx);
+    const a = OneEuro.alpha(this.minCutoff + this.beta * speed, dt);
+    this.x = v.map((n, i) => this.x[i] + a * (n - this.x[i]));
+    return this.x;
+  }
+}
+// A ray as a minimal transform (only the parts hit-testing reads).
+export function smoothRay(filter, ray, time) {
+  if (!ray) return ray;
+  const m = ray.matrix;
+  const [ox, oy, oz, dx, dy, dz] = filter.filter([m[12], m[13], m[14], -m[8], -m[9], -m[10]], time, 0.15);
+  const l = Math.hypot(dx, dy, dz) || 1;
+  const out = new Float32Array(16);
+  out[0] = out[5] = out[10] = out[15] = 1;
+  out[8] = -dx / l; out[9] = -dy / l; out[10] = -dz / l;
+  out[12] = ox; out[13] = oy; out[14] = oz;
+  return { matrix: out };
+}
+const add = (a, b, k = 1) => ({ x: a.x + b.x * k, y: a.y + b.y * k, z: a.z + b.z * k });
+const norm = (a) => { const l = Math.hypot(a.x, a.y, a.z) || 1; return { x: a.x / l, y: a.y / l, z: a.z / l }; };
 // Where a ray meets the page plane, in world space; null when it misses.
 export function rayOnPage(ray, display, metresWide, metresHigh) {
   if (!ray || !display) return null;
@@ -77,64 +97,50 @@ export class Pointer {
   }
   entry(hand) {
     if (this.entries.has(hand)) return this.entries.get(hand);
-    const beamCanvas = document.createElement("canvas");
-    [beamCanvas.width, beamCanvas.height] = BEAM_PX;
-    paintBeam(beamCanvas);
-    const dotCanvas = document.createElement("canvas");
-    dotCanvas.width = dotCanvas.height = DOT_PX;
-    paintDot(dotCanvas);
-    const make = (w, h, mw, mh) => {
-      const layer = this.binding.createQuadLayer({
-        space: this.space, layout: "mono", textureType: "texture",
-        viewPixelWidth: w, viewPixelHeight: h, width: mw, height: mh,
-        isStatic: false, clearOnAccess: false,
-      });
-      layer.blendTextureSourceAlpha = true;
-      return layer;
-    };
-    const e = {
-      beam: { canvas: beamCanvas, layer: make(...BEAM_PX, BEAM_WIDTH, 0.3), dirty: true },
-      dot: { canvas: dotCanvas, layer: make(DOT_PX, DOT_PX, DOT_SIZE, DOT_SIZE), dirty: true },
-    };
+    const canvases = {};
+    for (const look of LOOKS) {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = DOT_PX;
+      paintLook(canvas, look);
+      canvases[look] = canvas;
+    }
+    const layer = this.binding.createQuadLayer({
+      space: this.space, layout: "mono", textureType: "texture",
+      viewPixelWidth: DOT_PX, viewPixelHeight: DOT_PX, width: DOT_SIZE, height: DOT_SIZE,
+      isStatic: false, clearOnAccess: false,
+    });
+    layer.blendTextureSourceAlpha = true;
+    const e = { canvases, look: "dot", layer, dirty: true };
     this.entries.set(hand, e);
     return e;
   }
   clearVisible() {
-    for (const e of this.entries.values()) e.beam.layer.opacity = e.dot.layer.opacity = 0;
+    for (const e of this.entries.values()) e.layer.opacity = 0;
     const changed = this.visible.length > 0;
     this.visible = [];
     return changed;
   }
-  // rays: [{ hand, hit: rayOnPage(...) }]; viewer: the head position.
-  update(rays, display, viewer) {
+  // rays: [{ hand, hit: rayOnPage(...), look: "dot" | "ring" | "press" }].
+  update(rays, display) {
     if (this.failed) return this.clearVisible();
     try {
-      // While pointing is possible the layers stay in the list and only their
+      // While pointing is possible the layers stay listed and only their
       // opacity changes, so crossing the page edge never re-submits layers.
       if (!rays.length) return this.clearVisible();
       const lit = [];
-      for (const { hand, hit } of rays) {
+      for (const { hand, hit, look = "dot" } of rays) {
         const e = this.entry(hand);
         if (!hit || hit.distance < 0.08) continue;
-        const start = add(hit.origin, hit.direction, 0.06),
-          end = add(hit.point, hit.direction, -0.006);
-        const length = Math.max(0.02, Math.hypot(...Object.values(sub(end, start))));
-        const mid = add(start, sub(end, start), 0.5);
-        const y = hit.direction;
-        const toViewer = norm(sub(viewer, mid));
-        const z = norm(add(toViewer, y, -dot(toViewer, y)));
-        const x = cross(y, z);
-        const q = quat(x, y, z);
-        if (![q.x, q.y, q.z, q.w, mid.x, mid.y, mid.z].every(Number.isFinite)) continue;
-        e.beam.layer.height = length;
-        e.beam.layer.transform = new XRRigidTransform(mid, q);
-        e.dot.layer.transform = new XRRigidTransform(add(hit.point, hit.direction, -0.004), display.orientation);
+        const at = add(hit.point, hit.direction, -0.003);
+        if (![at.x, at.y, at.z].every(Number.isFinite)) continue;
+        e.layer.transform = new XRRigidTransform(at, display.orientation);
+        if (look !== e.look) { e.look = look; e.dirty = true; }
         lit.push(e);
       }
       const shown = [];
       for (const e of this.entries.values()) {
-        e.beam.layer.opacity = e.dot.layer.opacity = lit.includes(e) ? 1 : 0;
-        shown.push(e.beam.layer, e.dot.layer);
+        e.layer.opacity = lit.includes(e) ? 1 : 0;
+        shown.push(e.layer);
       }
       const changed = shown.length !== this.visible.length || shown.some((l, i) => l !== this.visible[i]);
       this.visible = shown;
@@ -148,22 +154,21 @@ export class Pointer {
   }
   draw(frame, gpu, active) {
     for (const e of this.entries.values())
-      for (const part of [e.beam, e.dot])
-        if (this.visible.includes(part.layer) && active.includes(part.layer) && (part.dirty || part.layer.needsRedraw)) {
-          try {
-            gpu.copyPage(this.binding.getSubImage(part.layer, frame), part.canvas, { premultiplied: true });
-            part.dirty = false;
-          } catch (error) {
-            this.failed = true;
-            this.clearVisible();
-            this.onError(error);
-            return true;
-          }
+      if (this.visible.includes(e.layer) && active.includes(e.layer) && (e.dirty || e.layer.needsRedraw)) {
+        try {
+          gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvases[e.look], { premultiplied: true });
+          e.dirty = false;
+        } catch (error) {
+          this.failed = true;
+          this.clearVisible();
+          this.onError(error);
+          return true;
         }
+      }
     return false;
   }
   dispose() {
-    for (const e of this.entries.values()) { e.beam.layer.destroy(); e.dot.layer.destroy(); }
+    for (const e of this.entries.values()) e.layer.destroy();
     this.entries.clear();
     this.visible = [];
   }

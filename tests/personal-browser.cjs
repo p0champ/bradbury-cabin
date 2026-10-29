@@ -28,7 +28,7 @@ module.exports=async function personalChecks(browser,{mock,BASE_URL,out,passed})
   await p.locator('#page').screenshot({path:path.join(out,`personal-${read}-${lying?'lying':'front'}.png`)});
   await p.evaluate(()=>{__mock.offsetX=.25;__step();__welcomeScene()});
   await p.locator('#welcome-scene').screenshot({path:path.join(out,`personal-${read}-${lying?'lying':'front'}-side.png`)});
-  await p.evaluate(async()=>{__mock.offsetX=0;__step();const {todayButtons}=await import('./today-panel.js?v=36');await __aim(todayButtons([]).find(b=>b.id==='today-full-library'));__pinch()});
+  await p.evaluate(async()=>{__mock.offsetX=0;__step();const {todayButtons}=await import('./today-panel.js?v=37');await __aim(todayButtons([]).find(b=>b.id==='today-full-library'));__pinch()});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'library');
   await p.reload();await p.waitForFunction(()=>document.querySelector('#place').textContent.includes('Page'));
   const restored=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).days['2026-10-28'].personal);

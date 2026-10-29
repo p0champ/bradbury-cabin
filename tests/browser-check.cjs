@@ -361,6 +361,37 @@ async function mock(
         __pinch();
         __step(1240);
         __step(1000);
+        // Every entry lands on the welcome screen: finish its build-up and
+        // take the first choice, as a reader would (Today's three when they
+        // are ready, otherwise continue reading).
+        if (document.querySelector("#page").dataset.menuPage === "welcome") window.__welcomeChoose();
+      };
+      window.__welcomeChoose = (settle = true) => {
+        __step(2000);
+        // Aim at the first choice the same way __aim does, synchronously.
+        const rect = { x: 274, y: 1250, w: 1500, h: 170 };
+        const target = new DOMPoint(((rect.x + rect.w / 2) / 2048 - 0.5) * 0.72, (0.5 - (rect.y + rect.h / 2) / 2560) * 0.9, 0).matrixTransform(new DOMMatrix(__mock.placed.at(-1)));
+        const p = head().position;
+        let x = target.x - p.x, y = target.y - p.y, z = target.z - p.z;
+        const length = Math.hypot(x, y, z);
+        x /= length; y /= length; z /= length;
+        const norm = Math.hypot(y, -x, 1 - z);
+        const before = { look: __mock.look, rayLook: __mock.rayLook, rayByHand: __mock.rayByHand };
+        __mock.look = { x: y / norm, y: -x / norm, z: 0, w: (1 - z) / norm };
+        __mock.rayLook = __mock.look;
+        __mock.rayByHand = null;
+        __step();
+        // "Continue" closes the menu, which the preview's own Close menu
+        // button also does for any input device; Today's three need a pinch.
+        if (document.querySelector("#page").dataset.welcomePrimary === "continue") {
+          document.querySelector("#menu").click();
+          __step(16);
+        } else {
+          __pinch();
+          if (settle) __step(1400); // Today builds in four short steps
+        }
+        Object.assign(__mock, before);
+        __step(16);
       };
       window.__welcomeScene = () => {
         document.querySelector("#welcome-scene")?.remove();
@@ -442,7 +473,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=36");
+        const { menuButtons } = await import("./gestures.js?v=37");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -1143,7 +1174,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-036");
+        assert.equal(details.build, "gestures-037");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1262,6 +1293,9 @@ async function mock(
         "arrival",
       );
       await p.evaluate(() => __step(1240));
+      // Every entry lands on the welcome screen first.
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "welcome");
+      await p.evaluate(() => __welcomeChoose());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
         "reading",
@@ -1453,6 +1487,11 @@ async function mock(
         ),
         0,
       );
+      // The arrival ends on the welcome screen; continuing reads on.
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "welcome");
+      await p.evaluate(() => __step(2000));
+      await p.locator("#page").screenshot({ path: path.join(out, `welcome-screen${lying ? "-lying" : ""}.png`) });
+      await p.evaluate(() => __welcomeChoose());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
         "reading",
@@ -2101,7 +2140,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=36");
+        const { paintHandBadge } = await import("./hand-badges.js?v=37");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2252,6 +2291,7 @@ async function mock(
         __step();
         __pinch();
         __step(1240);
+        if (document.querySelector("#page").dataset.menuPage === "welcome") __welcomeChoose();
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
         __mock.session.inputSources = [l, r];
@@ -2422,7 +2462,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=36");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=37");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2487,7 +2527,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=36");
+        const { MENU_PAGES } = await import("./gestures.js?v=37");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2540,8 +2580,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=36");
-            const { loadProgress } = await import("./progress.js?v=36");
+            const { calendarButtons } = await import("./calendar.js?v=37");
+            const { loadProgress } = await import("./progress.js?v=37");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -3216,8 +3256,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=36");
-        const { loadProgress } = await import("./progress.js?v=36");
+        const { calendarButtons } = await import("./calendar.js?v=37");
+        const { loadProgress } = await import("./progress.js?v=37");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);

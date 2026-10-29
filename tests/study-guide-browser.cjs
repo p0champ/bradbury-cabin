@@ -255,7 +255,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=36');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=37');return LIBRARY.findIndex(w=>w.id==='blake-sick-rose');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+1)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:blake-sick-rose');
     await p.evaluate(()=>__pinch());
@@ -342,7 +342,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     // Centre and let the arrival settle, stepping frame by frame.
     await p.evaluate(()=>{__mock.clock=Math.max(__mock.clock,performance.now());__step();__pinch();});
     let opened=null;
-    for (let i=0;i<60&&!opened;i++){await p.evaluate(()=>__step(40));if((await view())[1]==='today')opened=await p.evaluate(()=>window.__paints);}
+    for (let i=0;i<120&&!opened;i++){await p.evaluate(()=>__step(40));const v=(await view())[1];if(v==='welcome')await p.evaluate(()=>__welcomeChoose(false));else if(v==='today')opened=await p.evaluate(()=>window.__paints);}
     assert.ok(opened,'Today opened after the arrival');
     let t=await text();
     assert.ok(t.includes('Wednesday evening · Day 11') && !t.includes(poem.title) && !t.includes('Your shelf'),'first the heading and date only');
@@ -395,7 +395,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>__aim({x:274,y:1880,w:760,h:120}));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
     await p.evaluate(()=>__step(700));
-    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=36');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
+    const row = await p.evaluate(async()=>{const { LIBRARY } = await import('./library.js?v=37');return LIBRARY.findIndex(w=>w.id==='bacon-truth');});
     await p.evaluate(async(i)=>__aim({x:274,y:700+(i+4)*124,w:1500,h:112}),row);
     assert.equal(await p.locator('#page').getAttribute('data-target'),'work:bacon-truth');
     await p.evaluate(()=>__pinch());

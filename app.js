@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=36";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=37";
 import {
   GestureEngine,
   menuButtons,
@@ -10,28 +10,29 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=36";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=36";
-import { HandBadges } from "./hand-badges.js?v=36";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=36";
-import { LIBRARY } from "./library.js?v=36";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=36";
-import { layoutReading } from "./reading-flow.js?v=36";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=36";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=36";
-import { parsePicks, pickLabels } from "./picks.js?v=36";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=36";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=36";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=36";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=36";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=36";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=36";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=36";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=36";
-import { Pointer, rayOnPage } from "./pointer.js?v=36";
-import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=36";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=36";
-import { EntrySound } from "./entry-sound.js?v=36";
+} from "./gestures.js?v=37";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=37";
+import { HandBadges } from "./hand-badges.js?v=37";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=37";
+import { LIBRARY } from "./library.js?v=37";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=37";
+import { layoutReading } from "./reading-flow.js?v=37";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=37";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=37";
+import { parsePicks, pickLabels } from "./picks.js?v=37";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=37";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=37";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=37";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=37";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=37";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=37";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=37";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=37";
+import { Pointer, rayOnPage, OneEuro, smoothRay } from "./pointer.js?v=37";
+import { paintWelcome, welcomeHit, greeting, WELCOME_STEPS, WELCOME_MS } from "./welcome-panel.js?v=37";
+import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=37";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=37";
+import { EntrySound } from "./entry-sound.js?v=37";
 import {
   readProgress,
   saveProgress,
@@ -40,13 +41,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=36";
+} from "./progress.js?v=37";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=36";
+} from "./calendar.js?v=37";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -310,6 +311,8 @@ let nativeQueue = [],
   lastFrameTime = 0;
 let gazeRing = null;
 let pointer = null;
+// Per hand: a steadied ray, and the choice held from the moment a pinch closes.
+const rayFilters = new Map(), heldTargets = new Map();
 const gazeDwell = new GazeDwell(),
   ambience = new Ambience(state.ambienceVolume);
 let handBadges = null,
@@ -450,22 +453,25 @@ function paint() {
   ctx.globalAlpha = 0.35;
   ctx.fillRect(180, 222, 1688, 2);
   ctx.globalAlpha = 1;
+  const welcomeColours = () => ({
+    ink, muted, card: palette.card, hover: palette.hover, serif: mood.body,
+    italic: state.mood === "literary" ? "italic " : "",
+  });
+  const welcomeInfo = () => {
+    const w = workById(state.workId);
+    return {
+      hello: greeting(),
+      line: hasToday()
+        ? todayFacts(new Date(), progress, todayKey()).allRead ? "Today’s three are read." : "Three pieces are waiting."
+        : "Today2019s three haven2019t arrived yet.",
+      today: hasToday(),
+      resume: { title: w === SAMPLER ? "the first leaf" : w.title, place: state.page > 0 ? `p. ${state.page + 1}` : "" },
+    };
+  };
   if (state.arriving) {
-    // A short greeting while the window fades in: the time of day, then what
-    // waits. Painted once, so the page stays still while it appears.
-    const h = new Date().getHours();
-    const hello = h < 5 ? "Good evening." : h < 12 ? "Good morning." : h < 18 ? "Good afternoon." : "Good evening.";
-    const next = state.greeting || "";
-    ctx.textAlign = "center";
-    ctx.fillStyle = ink;
-    ctx.font = `120px ${mood.body}`;
-    ctx.fillText(hello, 1024, 1180);
-    ctx.fillStyle = muted;
-    ctx.font = `44px ${UI}`;
-    let line = next;
-    while (line.length > 12 && ctx.measureText(line).width > 1500) line = line.slice(0, -2).trimEnd() + "…";
-    ctx.fillText(line, 1024, 1290);
-    ctx.textAlign = "left";
+    // While the window fades in it shows only the greeting; the welcome
+    // screen then builds from exactly this picture, so nothing jumps.
+    paintWelcome(ctx, { ...welcomeInfo(), reveal: 0, c: welcomeColours() });
   } else if (state.centering) {
     ctx.fillStyle = ink;
     ctx.font = `82px ${mood.body}`;
@@ -480,6 +486,9 @@ function paint() {
       ctx.fillText(line, 180, 830 + i * 110);
     ctx.font = `32px ${UI}`;
     ctx.fillText("CENTRE HERE  ·  PINCH AND RELEASE", 180, 1500);
+  } else if (state.menuOpen && state.menuPage === "welcome") {
+    canvas.dataset.welcomePrimary = hasToday() ? "begin" : "continue";
+    paintWelcome(ctx, { ...welcomeInfo(), reveal: state.welcomeReveal, hover: state.hover, c: welcomeColours() });
   } else if (state.menuOpen && (state.menuPage === "today" || state.menuPage === "closing")) {
     const today = todayKey();
     const c = {
@@ -769,7 +778,9 @@ function paint() {
       (learned() && !state.practice
         ? ""
         : state.menuOpen
-        ? state.menuPage === "today"
+        ? state.menuPage === "welcome"
+          ? ""
+          : state.menuPage === "today"
           ? "Hold a pinch to continue reading."
           : "Hold a pinch to close the menu."
         : (state.swapped
@@ -850,6 +861,16 @@ const hasToday = () => todayWorks.length === 3;
 function markTodayShown() {
   preferences.todayShown = todayKey();
   savePreferences();
+}
+// The welcome screen: every entry lands here and it builds in quiet steps.
+let welcomeAt = 0;
+function openWelcome() {
+  toggleMenu(true);
+  state.menuPage = "welcome";
+  state.welcomeReveal = 0;
+  welcomeAt = lastFrameTime;
+  dayOpenedAt = lastFrameTime;
+  paint();
 }
 // The Today page, as a menu panel in front of the reader.
 let todayRevealAt = 0;
@@ -1018,6 +1039,23 @@ function gestureEvent(event) {
   return id === "next" ? "last-page" : "first-page";
 }
 function action(id) {
+  if (state.welcomeReveal != null && state.menuOpen && state.menuPage === "welcome") {
+    state.welcomeReveal = null;
+    paint();
+    return;
+  }
+  if (id === "welcome-begin" || id === "welcome-continue" || id === "welcome-menu") {
+    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
+    if (id === "welcome-begin") openToday(preferences.todayShown !== todayKey());
+    else if (id === "welcome-continue") toggleMenu(false);
+    else {
+      state.menuPage = "main";
+      state.hover = null;
+      dayOpenedAt = lastFrameTime;
+      paint();
+    }
+    return;
+  }
   if (state.todayReveal != null && state.menuOpen && state.menuPage === "today") {
     state.todayReveal = null;
     paint();
@@ -1359,7 +1397,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-036",
+    build: "gestures-037",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1521,6 +1559,7 @@ function hit(transform) {
 }
 // Hit-test the current menu panel: fixed menu pages or the live calendar.
 function panelHit(x, y) {
+  if (state.menuPage === "welcome") return state.welcomeReveal != null ? null : welcomeHit(x, y, hasToday());
   if (state.menuPage === "library") return libraryHit(x, y, libraryWorks());
   if (state.menuPage === "shelf") return shelfHit(x, y, shelfDays(progress, todayKey()), state.shelfPage);
   if (state.menuPage === "shelfday") return dayHit(x, y, resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE));
@@ -1737,6 +1776,11 @@ async function enter() {
         }
         // Any pinch while Today is building completes it at once. Menu
         // selections need a target, so this happens at the press itself.
+        if (kind === "selectstart" && state.welcomeReveal != null && state.menuOpen && state.menuPage === "welcome") {
+          state.welcomeReveal = null;
+          dayOpenedAt = lastFrameTime;
+          paint();
+        }
         if (kind === "selectstart" && state.todayReveal != null && state.menuOpen && state.menuPage === "today") {
           state.todayReveal = null;
           // This press only completes the page; its release cannot choose.
@@ -1855,9 +1899,13 @@ function frame(time, xrFrame, generation) {
         // build plays only on the first entry of the day.
         // The window has just faded in: opening Today must not dip again.
         quietView = true;
-        if (hasToday()) openToday(preferences.todayShown !== todayKey());
-        paint();
+        openWelcome();
         quietView = false;
+      }
+      if (state.welcomeReveal != null && (!state.menuOpen || state.menuPage !== "welcome")) state.welcomeReveal = null;
+      if (state.welcomeReveal != null && time - welcomeAt >= WELCOME_MS * (state.welcomeReveal + 1)) {
+        state.welcomeReveal = state.welcomeReveal + 1 >= WELCOME_STEPS ? null : state.welcomeReveal + 1;
+        paint();
       }
       if (state.todayReveal != null && (!state.menuOpen || state.menuPage !== "today")) state.todayReveal = null;
       if (state.todayReveal != null && time - todayRevealAt >= REVEAL_MS * (state.todayReveal + 1)) {
@@ -1894,13 +1942,27 @@ function frame(time, xrFrame, generation) {
         };
         const a = joint("index-finger-tip"),
           b = joint("thumb-tip");
+        if (!rayFilters.has(source)) rayFilters.set(source, new OneEuro(1.0, 0.03));
         const point = state.headPointer
           ? pose.transform
-          : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
-        const target = state.menuOpen ? hit(point) : null;
+          : smoothRay(rayFilters.get(source), xrFrame.getPose(source.targetRaySpace, ref)?.transform, time);
+        const pinching = a && b && Math.hypot(
+          a.transform.position.x - b.transform.position.x,
+          a.transform.position.y - b.transform.position.y,
+          a.transform.position.z - b.transform.position.z) < 0.03;
+        // A hand drifts while it pinches: keep the choice it had as the pinch
+        // closed until it opens again.
+        let target = state.menuOpen ? hit(point) : null;
+        if (pinching && heldTargets.has(source)) target = heldTargets.get(source);
+        else if (!pinching) heldTargets.set(source, target);
+        else heldTargets.set(source, target);
         targets.set(source, target);
         if (state.menuOpen && !state.headPointer)
-          pointerRays.push({ hand: source.handedness, hit: rayOnPage(point, presentPose(), PAGE.metresWide, PAGE.metresHigh) });
+          pointerRays.push({
+            hand: source.handedness,
+            hit: rayOnPage(point, presentPose(), PAGE.metresWide, PAGE.metresHigh),
+            look: target ? (pinching ? "press" : "ring") : "dot",
+          });
         const distance =
           a && b
             ? Math.hypot(
@@ -1979,7 +2041,7 @@ function frame(time, xrFrame, generation) {
           systemGesture,
         });
       }
-      if (pointer?.update(pointerRays, presentPose(), pose.transform.position)) applyLayers();
+      if (pointer?.update(pointerRays, presentPose())) applyLayers();
       const deliver = (event) => {
         if (!event) return;
         // Any hand action ends the current look-to-turn attempt.
