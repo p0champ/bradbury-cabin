@@ -1,6 +1,6 @@
 # Build 048 — a quiet arrival
 
-Implemented locally on build-048-arrival. Not published or tried on a Quest.
+Released from build-048-arrival to phase-1-gestures at Bastian's explicit request. Live BUILD 048 and all 38 root code files verified against tested code 8c224f3 with normalized SHA-256 hashes. Not tried on a Quest.
 
 ## Directions considered
 
@@ -31,6 +31,6 @@ The headset placement card now has a quiet brand, “Settle in,” one look inst
 
 ## Limits
 
-The real Quest pointer outcome is still unknown. This pass changes the intro, not selection timing, gesture recognition, reading geometry, source text or storage semantics. Publishing is still pending explicit authorization after the prior automatic review rejection; live remains 045.
+The real Quest pointer outcome is still unknown. This pass changes the intro, not selection timing, gesture recognition, reading geometry, source text or storage semantics. Live is now Build 048; the earlier deployment block was resolved by explicit publishing authorization.
 
 Reference: [Apple — Launching](https://developer.apple.com/design/human-interface-guidelines/launching?changes=latest_min_6) supports a restrained launch and restoring prior context. This design is an interpretation, not an Apple endorsement or native visionOS implementation.

@@ -1,6 +1,6 @@
-# Build 048 — intro rebuilt locally, device check pending
+# Build 048 — RELEASED, device check pending
 
-Not live. Browser shows the actual saved reading page and a quieter invitation. Headset: Settle in, look where you want to read, then pinch to place the window. Confirm readable instructions, exact retained pose, one pinch placing only, and Home appearing without an extra step. Check sitting/lying, paper/night and reduced motion. Desktop: 206 unit tests and 246 browser checks pass; no Quest result. Keep the pointer and all prior checks below together.
+Live: https://p0champ.github.io/bradbury-cabin/?v=48 — check BUILD 048. Browser shows the actual saved reading page and a quieter invitation. Headset: Settle in, look where you want to read, then pinch to place the window. Confirm readable instructions, exact retained pose, one pinch placing only, and Home appearing without an extra step. Check sitting/lying, paper/night and reduced motion. Desktop: 206 unit tests and 246 browser checks pass; all 38 live root code files verified. No Quest result. Keep the pointer and all prior checks below together.
 
 ---
 # Build 047 — local only, headset check pending

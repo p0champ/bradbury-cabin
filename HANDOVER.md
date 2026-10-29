@@ -1,3 +1,10 @@
+## 29 October 2026 — Build 048 RELEASED; live files verified
+
+Bastian explicitly requested “publish it.” Released tested code 8c224f3 by fast-forwarding phase-1-gestures; build-048-arrival saved remotely. Live: https://p0champ.github.io/bradbury-cabin/?v=48. Confirmed BUILD 048 and normalized SHA-256 equality for index.html, style.css and all 36 root JavaScript modules (38 files). No force push or changes to main/phase-0-crispness.
+
+Includes 046 pointer semantics, 047 UI consistency and 048 browser/headset intro. Previously passed 206 unit tests, source checks and 246 full synthetic browser checks. Actual Quest selection and feel remain unverified. Real-device checks stay together in QUEST_CHECK.md; no new implementation in the release step.
+
+---
 ## 29 October 2026 — Build 048 intro rebuilt and tested locally
 
 Bastian asked to brainstorm and improve the intro. Considered book-opening, quiet arrival and immediate return; built quiet arrival across browser and headset. Actual saved-page preview, clearer invitation, compact utility row, short ready-triggered reveal with reduced-motion support; centred Settle in → look → pinch placement card. Same manual confirmation, exact pose and 200 ms Home arrival; no new gesture, target or navigation behavior.
