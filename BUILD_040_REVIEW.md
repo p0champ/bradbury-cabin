@@ -22,4 +22,4 @@ Independent critic final8.4/10, approved for release with no blocking defects af
 
 ## Release
 
-Pending final review, scans, commit, push and live file comparison. Current live039 until verified.
+Code2b0694a pushed to build-040-visible-hands and phase-1-gestures after staged/committed scans. Live https://p0champ.github.io/bradbury-cabin/?v=40 verified: index, style and all32root JavaScript modules match reviewed source (normalized line endings). No Quest repair validation claimed.

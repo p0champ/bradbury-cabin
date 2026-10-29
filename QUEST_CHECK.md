@@ -1,8 +1,8 @@
-# Build 040 — repair in progress; user feedback on039
+# Build 040 — released/live verified; headset repair check pending
 
 Bastian’s real-device feedback: markers barely visible; wrist does not work; UI better but still not Apple. Visibility and wrist reliability are now priority repairs. This overrides the historical038 five-second total idle fade below.
 
-After040 release: tracked resting hand markers must remain clearly visible for10seconds against bright/dark room areas and paper, including unavailable/hold/turn states. Right-wrist card should appear during a natural slight tremor and pinch open shelf; no left-hand/palm/system activation. Check upright/lying. Desktop checks cannot establish Quest readability or perceived motion. Keep all outstanding checks together.
+On ?v=40 / BUILD040: tracked resting hand markers must remain clearly visible for10seconds against bright/dark room areas and paper, including unavailable/hold/turn states. Right-wrist card should appear during a natural slight tremor and pinch open shelf; no left-hand/palm/system activation. Check upright/lying. Desktop checks cannot establish Quest readability or perceived motion. Keep all outstanding checks together.
 
 ---
 # Build 039 — released/live verified; single combined Quest check still pending
