@@ -1,3 +1,6 @@
+**Bastian, 29 October, on Build 037:** "The dot is not as accurate as it should be." Stop here; handover written for a new ChatGPT chat (GPT_HANDOVER_BUILD_038.md). He prefers separate agents (designers + judge for design, independent critic per build). Build 038 approved, not built.
+
+---
 # Build 037 — welcome screen and precise dot pointer (29 October 2026)
 
 **Built:** after a designer/judge round approved by Bastian: every entry lands on a welcome screen (greeting, a line about the day, Begin today's reading / Continue <title>); the beam is gone — a 6 mm dot becomes a ring over a choice; rays smoothed (One-Euro) and the choice held through the pinch, and selection uses exactly what the dot shows. See BUILD_037_REVIEW.md.
