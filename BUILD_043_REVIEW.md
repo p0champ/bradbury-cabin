@@ -32,4 +32,4 @@ After the usage pause, Bastian clarified the placement/grounding instructions ar
 
 ## Release
 
-Pending staged/committed scans, code commit/push, and live index/style/allrootJS comparison. Currentlive042 until verified.
+Code39ef637 pushed to build-043-content-home and phase-1-gestures after staged/committed scans. Live https://p0champ.github.io/bradbury-cabin/?v=43 verified: index/style/all36root JavaScript modules match reviewed source (line endings normalized). Final independent critic confirmed8.4/10 release acceptance after192unit+source checks and196/196browser checks passed. Actual Quest feel/placement remains unverified.

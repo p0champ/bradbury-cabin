@@ -1,4 +1,4 @@
-# Build 043 — approved structural UI; release pending, combined headset check
+# Build 043 — released/live verified; combined headset check pending
 
 Home now Today/Shelf, no Main/separatewelcome. Entry keepsbriefstationaryfade. Checkthreebroadreadabletitles, namedResume(exactpage), Settings, Librarypages, archiveddays, Calendar/ticks, Notesfullopening/reflection, sound/volume/wrist/controls, practice/recenter/leave. Holdreturnsrememberedtabwithinvisit, newentrystartsToday. Homevisiblylandscape.72×.50m/settings.58×.40m; transparentoldportraitmarginsmustnotshowdot oractivateanything. Actualdot/hover/chosenrowmustagree bothhands upright/lying, includingrelaxedfingers27–29mm. Keep040markerlegibility/wristchecks. DesktoppassesdonotproveQuestfeel/comfort/Applequality.
 
