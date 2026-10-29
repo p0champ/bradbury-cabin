@@ -1,5 +1,5 @@
-import { PoseFollower } from "./follow-pose.js?v=49";
-import { UI } from "./theme.js?v=49";
+import { PoseFollower } from "./follow-pose.js?v=50";
+import { UI } from "./theme.js?v=50";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
 // It is locked to the right hand: only an input source whose handedness is
@@ -12,7 +12,7 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=49";
+} from "./progress.js?v=50";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];

@@ -6,14 +6,14 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=49" />
+    <link rel="stylesheet" href="style.css?v=50" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">BUILD 049</span>
+        ><span class="edition">BUILD 050</span>
       </header>
       <section class="intro">
         <div class="intro-copy">
@@ -32,6 +32,10 @@
             </button>
           </div>
           <p id="status" role="status" aria-live="polite">Preparing the reading page.</p>
+          <div id="session-details" class="session-details" hidden>
+            <button id="session-export" type="button">Save test details ↓</button>
+            <p>After leaving the cabin, save a file to help check the pointer and controls.</p>
+          </div>
         </div>
         <figure class="intro-reading" aria-hidden="true">
           <div class="reading-spread">
@@ -109,6 +113,6 @@
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=49"></script>
+    <script type="module" src="app.js?v=50"></script>
   </body>
 </html>

@@ -1,8 +1,8 @@
 // Sent to Claude in the progress file it already reads. No user-managed
 // uploads or a new account are needed to discover the reference-only format.
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=49";
-import { LIBRARY } from "./library.js?v=49";
-import { PICKER_WORKFLOW } from "./picker-workflow.js?v=49";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=50";
+import { LIBRARY } from "./library.js?v=50";
+import { PICKER_WORKFLOW } from "./picker-workflow.js?v=50";
 
 // lastCheck: the app's verdict on Claude's newest picks file, so a rejected
 // selection reaches Claude with its reasons on the next request.

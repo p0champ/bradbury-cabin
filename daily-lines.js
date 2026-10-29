@@ -1,5 +1,5 @@
-import { personalLine } from "./picks.js?v=49";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=49";
+import { personalLine } from "./picks.js?v=50";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=50";
 const KINDS = ["poem", "story", "essay"];
 const catalogueId = w => w.catalogueId || w.id;
 const time = s => typeof s === "string" && Number.isFinite(Date.parse(s)) ? Date.parse(s) : 0;

@@ -1,3 +1,8 @@
+# Build 050 — menu pointer repair, device check pending
+
+Local only until release verification is recorded. With the same hand, move the dot from the middle to Today, Settings and Browse the library near the window edges. It should remain visible while pointing at the window; pinch each choice and check that exact action opens. Repeat lying down if convenient. After leaving, Save test details is visible near Enter without opening advanced tools; the file is bradbury-test-details-build-050.json. Use the diagnostics link from this chat to include detailed tracking/aim evidence. Reading controls and system-menu protections are retained. The software visibility failure is reproduced and repaired in desktop checks; actual headset outcome remains pending. Retain prior checks below.
+
+---
 # Build 049 — RELEASED, reading continuity device check pending
 
 Live https://p0champ.github.io/bradbury-cabin/?v=49 — check BUILD 049. All 38 live root code files verified against tested code a1b3dfc. When convenient, check fresh Begin versus saved Continue (including the first page), all three Today titles remaining visible, real saved section/page after returning, and a work resumed from another day. Finishing still takes NEXT beyond the final page, then a separate NEXT confirmation; BACK cancels. The Library should show the completed edition as Read, keep “Library” visible and offer an optional next unread piece at its saved place. No automatic next work. Check upright/lying and paper/night when possible. Desktop: 216 unit tests, source checks and 256 browser cases pass across full-run and affected-module runs; details and release verification are recorded in BUILD_049_REVIEW.md. The pointer issue is parked and unresolved; retain all prior device checks below.

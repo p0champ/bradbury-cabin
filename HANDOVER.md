@@ -1,3 +1,12 @@
+## 30 October 2026 — Build 050 menu visibility repair checked; publication pending
+
+Bastian resumed pointer work and can test now. Report: centre clicks work, but the cursor disappears and becomes inaccurate away from the middle. He could not find Save test details. Suggested recovering049’s trace from Preview and advanced tools after exit; no real export received yet.
+
+Reproduced a software issue: the fixed reading-hand cone hid a still-tracked hand cursor whose native ray was on a menu button. Bounded menu-only allowance now uses that tracked on-window ray while retaining forward-depth, attention, system ownership and watch checks. Reading/headpointer gates, gestures.js and captured-click selection remain unchanged. 23 new visibility cases pass, including both hands/all directions/upright/lying and invalid-input blocks. The assertion fails on prior behavior. Independent review found no blocker; hardware cause still unconfirmed.
+
+After exit, a visible Save test details shortcut scrolls into view, with actual native-window geometry preserved after cleanup and opt-in gate/target/dispatch traces. 2 new mobile download checks pass; 216 unit/source checks pass. Final full browser run passes all 281 cases. Branch build-050-menu-tracking; live remains verified049 until release record updates. See BUILD_050_REVIEW.md. Keep the next Quest check focused on centre→edges and exact opened choice; no additional blind timing heuristics.
+
+---
 ## 30 October 2026 — Build 049 RELEASED; live files verified
 
 Bastian approved the reading-desk preview (“I like it”) and asked to keep working after the usage interruption. Implemented the approved bounded reading journey on build-049-reading-continuity. Source-order Today rows, truthful Begin/Continue/Read again including page-zero anchors, real current section/page, foreign Resume detail, retained Library completion with Read and one optional next action, clearer closing summaries and destination labels. No pointer/gesture logic changes; pointer remains explicitly parked.

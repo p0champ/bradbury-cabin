@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=49";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=50";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=49";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=49";
-import { HandBadges } from "./hand-badges.js?v=49";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=49";
-import { LIBRARY } from "./library.js?v=49";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=49";
-import { layoutReading } from "./reading-flow.js?v=49";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=49";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=49";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=49";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=49";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=49";
-import { parsePicks, pickLabels } from "./picks.js?v=49";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=49";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=49";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=49";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=49";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=49";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=49";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=49";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=49";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=49";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=49";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=49";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=49";
-import { EntrySound } from "./entry-sound.js?v=49";
+} from "./gestures.js?v=50";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=50";
+import { HandBadges } from "./hand-badges.js?v=50";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=50";
+import { LIBRARY } from "./library.js?v=50";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=50";
+import { layoutReading } from "./reading-flow.js?v=50";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=50";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=50";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=50";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=50";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=50";
+import { parsePicks, pickLabels } from "./picks.js?v=50";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=50";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=50";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=50";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=50";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=50";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=50";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=50";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=50";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=50";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=50";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=50";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=50";
+import { EntrySound } from "./entry-sound.js?v=50";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=49";
+} from "./progress.js?v=50";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=49";
+} from "./calendar.js?v=50";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -387,6 +387,8 @@ let pointerRevision = 0, pointerScreen = null;
 // Explicit opt-in only; bounded local traces travel with the existing export.
 const pointerDiagnosticsEnabled = new URLSearchParams(location.search).get("pointerDiagnostics") === "1";
 const pointerDiagnostics = [];
+let lastNativeQuad = null;
+$("session-details").hidden = !pointerDiagnosticsEnabled;
 let nativeQuadUpload = null;
 function nativeQuadGeometry() {
   if (!quad) return null;
@@ -394,7 +396,7 @@ function nativeQuadGeometry() {
     transform: quad.transform?.matrix ? Array.from(quad.transform.matrix) : null,
     upload: nativeQuadUpload };
 }
-function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, shown = filtered) {
+function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, shown = filtered, gates = null) {
   if (!pointerDiagnosticsEnabled) return;
   const display = presentPose();
   const raw = rayOnPage(ray, display, PAGE.metresWide, PAGE.metresHigh);
@@ -423,7 +425,7 @@ function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, sho
   }
   pointerDiagnostics.push({ time, hand: source.handedness, revision: pointerRevision,
     nativeMm: mm(raw), filteredMm: mm(filtered), shownMm: mm(shown),
-    headThroughPinchMm: mm(pinch), actualQuadPoint, nativeQuad: nativeQuadGeometry() });
+    headThroughPinchMm: mm(pinch), actualQuadPoint, nativeQuad: nativeQuadGeometry(), gates });
   if (pointerDiagnostics.length > 600) pointerDiagnostics.shift();
 }
 function cancelPointerPresses(reason = "pointer-context-change") {
@@ -1504,9 +1506,10 @@ $("progress-file").onchange = async (e) => {
     report("Could not import progress: " + error.message);
   }
 };
+$("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-049",
+    build: "gestures-050",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1549,7 +1552,7 @@ $("export").onclick = () => {
     gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
     pointer: { error: state.pointerError || null,
       aim: "native-page-plane", diagnosticsEnabled: pointerDiagnosticsEnabled,
-      samples: pointerDiagnostics, nativeQuad: nativeQuadGeometry(),
+      samples: pointerDiagnostics, nativeQuad: nativeQuadGeometry() || lastNativeQuad,
       lookBack: { constants: LOOK_BACK, presses: pressChoices } },
     ambience: { setting: state.ambience, ...ambience.status() },
     mood: state.mood,
@@ -1591,7 +1594,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-phase-0.json";
+  a.download = "bradbury-test-details-build-050.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1678,6 +1681,9 @@ function insideNavigation(hit) {
 }
 
 function cleanSession() {
+  lastNativeQuad = nativeQuadGeometry() || lastNativeQuad;
+  $("session-details").hidden = false;
+  $("session-details").scrollIntoView({ block: "nearest", behavior: "auto" });
   completionContext = null;
   currentReadingOpened = false;
   sessionGeneration++;
@@ -1725,6 +1731,7 @@ function cleanSession() {
   ending = false;
   $("enter").disabled = false;
   $("enter").textContent = "Enter the cabin ↗";
+  if (!state.error) report("Back from the cabin. You can save test details below.");
   paint();
 }
 async function enter() {
@@ -1739,6 +1746,7 @@ async function enter() {
   state.graphicsError = null;
   state.actualPixels = null;
   state.layerStatus = "not tested";
+  lastNativeQuad = null;
   let session;
   try {
     session = await navigator.xr.requestSession("immersive-ar", {
@@ -1864,6 +1872,9 @@ async function enter() {
           ray = e.frame.getPose(e.inputSource.targetRaySpace, ref)?.transform;
         } catch {}
         const time = Math.max(lastFrameTime, performance.now());
+        const eventAim = heldTargets.get(e.inputSource);
+        const shown = eventAim?.press || eventAim;
+        const shownPoint = shown?.hit?.local;
         gestures.trace.push({
           stage: "received",
           kind,
@@ -1873,6 +1884,18 @@ async function enter() {
           visibility: session.visibilityState,
           context: gestures.context,
           profiles: Array.from(e.inputSource.profiles || []).slice(0, 4),
+          ...(pointerDiagnosticsEnabled ? {
+            hasHand: !!e.inputSource.hand, rayMode: e.inputSource.targetRayMode || null,
+            eventAt: e.timeStamp, frameAt: lastFrameTime, revision: pointerRevision,
+            menuOpen: state.menuOpen, menuPage: state.menuPage,
+            pointerMode: state.headPointer ? "head" : "hand", uiHover: state.hover,
+            shownTarget: shown?.target || null,
+            shownPx: shownPoint ? [(shownPoint.x / surfaceWidth() + .5) * PAGE.width,
+              (.5 - shownPoint.y / surfaceHeight()) * PAGE.height] : null,
+            eventPx: pagePoint(ray),
+            buttonPressed: e.inputSource.gamepad?.buttons?.[0]?.pressed ?? null,
+            pinchGapMm: aimHistory.get(e.inputSource)?.at(-1)?.gapMm ?? null,
+          } : {}),
         });
         if (gestures.trace.length > 120) gestures.trace.shift();
         if (state.arriving) {
@@ -2150,13 +2173,22 @@ function frame(time, xrFrame, generation) {
           !!a && !!b && !a.emulatedPosition && !b.emulatedPosition;
         const tracked = !!anchor.position;
         const handInView = tracked && inView(anchor.position, pose.transform);
+        // The reading cone is not the headset's hand-tracking boundary. A
+        // tracked wrist can cross it while its native ray still points into
+        // a visible menu. Accept that on-window menu aim without changing
+        // reading gates, system ownership, physical tracking or attention.
+        const menuHandInRange = tracked && inView(anchor.position, pose.transform, 90, 90);
+        const rawMenuHit = state.menuOpen && !state.headPointer && menuHandInRange && rawRay
+          ? rayOnPage(rawRay, surfacePose(), surfaceWidth(), surfaceHeight()) : null;
+        const menuRayInView = !!rawMenuHit && insideNavigation(rawMenuHit);
+        const interactionInView = handInView || menuRayInView;
         const button = source.gamepad?.buttons?.[0];
         const open = button ? !button.pressed : distance > 0.028;
-        samples[samples.length - 1].systemGesture ||= !attentive || (tracked && !handInView);
-        const physicallySafe = attentive && handInView && !systemGesture && !glancing;
+        samples[samples.length - 1].systemGesture ||= !attentive || (tracked && !interactionInView);
+        const physicallySafe = attentive && interactionInView && !systemGesture && !glancing;
         const eligible = state.centering ? sessionVisible && handInView && !systemGesture : physicallySafe;
         // One filtered page point per hand drives the dot, hover, Exit and press.
-        let freshHit = null, freshTarget = null;
+        let freshHit = null, freshTarget = null, shownHit = null;
         if (eligible && rawRay && !state.headPointer) {
           if (!rayFilters.has(source)) rayFilters.set(source, new PageAimFilter());
           const px = h => ({ x: (h.local.x / surfaceWidth() + 0.5) * PAGE.width, y: (0.5 - h.local.y / surfaceHeight()) * PAGE.height });
@@ -2203,17 +2235,21 @@ function frame(time, xrFrame, generation) {
           if (!aim.nativeHeld) aim.press = null;
           if (!aim.press) { aim.hit = freshHit; aim.target = freshTarget; }
           const shown = aim.press || aim;
-          recordPointerAim(source, rawRay, freshHit, pose.transform, a, b, time, shown.hit);
+          shownHit = shown.hit;
           target = shown.target;
           pointerRays.push({ source, hand: source.handedness, hit: shown.hit,
             look: target ? (aim.press ? "press" : "ring") : "dot" });
         } else if (state.menuOpen) target = hit(rawRay);
+        recordPointerAim(source, rawRay, freshHit, pose.transform, a, b, time, shownHit,
+          { tracked, handWithinReadingCone: handInView, menuHandInRange, menuRayOnWindow: menuRayInView,
+            interactionInView, attentive, systemGesture: !!systemGesture,
+            watchShowing: glancing, rayAvailable: !!rawRay });
         targets.set(source, target);
         gestures.update(source, {
           tracked: tracked && !wristWatch?.showingFor(source.handedness),
           anchorKind: anchor.kind,
           tipsTracked,
-          inView: handInView,
+          inView: interactionInView,
           attentive,
           open,
           time,
@@ -2355,7 +2391,15 @@ function frame(time, xrFrame, generation) {
               ? input.press.target
               : hit(input.ray);
         pointerSource = input.source;
-        deliver(gestures.handle(input.kind, input.source, input.time, target));
+        const event = gestures.handle(input.kind, input.source, input.time, target);
+        if (pointerDiagnosticsEnabled && (input.kind === "selectstart" || input.kind === "select")) {
+          gestures.trace.push({ stage: "pointer-selection", kind: input.kind,
+            time: input.time, hand: input.source.handedness, revision: pointerRevision,
+            menuPage: state.menuPage, target, event: event?.type || null,
+            selectedTarget: event?.target || null, uiHover: state.hover });
+          if (gestures.trace.length > 120) gestures.trace.shift();
+        }
+        deliver(event);
         const rejectedStart = input.kind === "selectstart" &&
           (gestures.owner !== input.source || !gestures.hands.get(input.source)?.closed);
         if (rejectedStart || input.kind === "select" || input.kind === "selectend") {
