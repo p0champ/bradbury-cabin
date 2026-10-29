@@ -16,3 +16,6 @@
 
 ## Independent review
 Critic round 1: 7/10 (P2: fade dip after arrival, every page turn dimming to half, layer churn at page edge, height setter unproven, faint markers, no pointer tests). Fixed all but the device check and tests. Round 2: 8.5/10, remaining: height setter on device, pointer tests, minor churn on tracking loss, visits counted on re-centre.
+
+## Release
+Code commit 381162c pushed to build-036-glass and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=36 verified: index.html, style.css and all 30 JavaScript modules match reviewed local files (line endings normalised). Secret scans passed. Not yet seen on a Quest.
