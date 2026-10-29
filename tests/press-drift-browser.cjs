@@ -52,7 +52,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     const x = 300, y = A.y + A.h - 25, dip = 82; // 29 mm: ends inside home-notes
     assert.ok(y + dip > B.y && y + dip < B.y + B.h, 'fixture dip must land on the lower button');
     const held = await p.evaluate(({ x, y, dip }) => __driftPress(x, y, dip, { release: false }), { x, y, dip });
-    assert.ok(held && Math.abs(held.y - y) < 8 && held.y < A.y + A.h, `press dot at y ${held?.y}, aimed ${y}`);
+    assert.ok(held && held.y >= A.y - 34 && held.y <= A.y + A.h + 34 && held.y < B.y, `press dot at y ${held?.y}, not on the aimed row`);
     assert.equal(held.look, 'press');
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     const after = await p.evaluate(() => ({ menuOpen: document.querySelector('#page').dataset.view, menu: document.querySelector('#page').dataset.menuPage }));
@@ -73,13 +73,44 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     await p.close();
   }
 
-  // 3. Large dip beyond the look-back bound falls back to the press-time aim.
+  // 3. Real-hand habits: still moving while pinching, and row-to-row.
+  {
+    // From empty space, sweep onto Resume while the fingers close.
+    const { p } = await open('home');
+    const bs = await buttons(p), R = bs.find(b => b.id === 'home-resume');
+    await p.evaluate(({ R }) => {
+      const x = R.x + 600, y0 = R.y - 260, y1 = R.y + R.h / 2;
+      __hand(.06); __aimPx(x, y0); for (let t = 0; t < 400; t += 15) __step(15);
+      for (let k = 1; k <= 8; k++) { __hand((60 - 45 * k / 8) / 1000); __aimPx(x, y0 + (y1 - y0) * k / 8); __step(15); }
+      __step(15); __native('selectstart'); for (let t = 0; t < 150; t += 15) __step(15);
+      __hand(.06); __native('select'); __native('selectend'); __step(16);
+    }, { R });
+    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.view), 'reading', 'pinching while arriving on Resume did not open it');
+    passed('press: pinching while still moving onto a button selects it');
+    await p.close();
+  }
+  for (const [from, to] of [['settings-appearance:paper', 'settings-type:literary'], ['settings-type:modern', 'settings-appearance:night']]) {
+    // Aim at one row, move to the adjacent row, settle ~100 ms, pinch.
+    const { p } = await open('settings');
+    const bs = await buttons(p), A = bs.find(b => b.id === from), B = bs.find(b => b.id === to);
+    const held = await p.evaluate(({ A, B }) => {
+      __hand(.06); __aimPx(A.x + A.w / 2, A.y + A.h / 2); for (let t = 0; t < 400; t += 15) __step(15);
+      __aimPx(B.x + B.w / 2, B.y + B.h / 2); for (let t = 0; t < 100; t += 15) __step(15);
+      for (let k = 1; k <= 4; k++) { __hand((60 - 45 * k / 4) / 1000); __step(15); }
+      __native('selectstart'); __step(15);
+      return JSON.parse(document.querySelector('#page').dataset.pointerMarks || '[]')[0] || null;
+    }, { A, B });
+    assert.ok(held && held.y >= B.y - 34 && held.y <= B.y + B.h + 34, `moved to ${to} but press held ${JSON.stringify(held)}`);
+    passed(`press: moving to the adjacent row and pinching selects it (${to})`);
+    await p.close();
+  }
+  // 3b. Forgiving targets: the gap just beside a button counts as that button.
   {
     const { p } = await open('home');
-    const bs = await buttons(p), A = bs.find(b => b.id === 'home-today');
-    const held = await p.evaluate(([x, y]) => __driftPress(x, y, 160, { release: false }), centre(A));
-    assert.ok(held && held.y > centre(A)[1] + 120, 'a 56 mm move was treated as drift');
-    passed('press: a move larger than the drift bound is not rolled back');
+    const bs = await buttons(p), R = bs.find(b => b.id === 'home-resume');
+    await p.evaluate(({ R }) => { __hand(.06); __aimPx(R.x + 400, R.y - 20); for (let t = 0; t < 400; t += 15) __step(15); }, { R });
+    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.target), 'home-resume', '7 mm above Resume did not hover it');
+    passed('press: a point just beside a button hovers and selects it');
     await p.close();
   }
 
@@ -117,7 +148,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   {
     const { p } = await open('reading');
     const held = await p.evaluate(() => __driftPress(1960, 132, 82, { release: false }));
-    assert.ok(held && held.look === 'press' && Math.abs(held.y - 132) < 8, `held Exit dot ${JSON.stringify(held)}`);
+    assert.ok(held && held.look === 'press' && held.y >= 88 - 200 && held.y <= 200, `held Exit dot ${JSON.stringify(held)}`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => __mock.session.ended), true);
     passed('exit: a held press shows the chosen point in the press look while reading');

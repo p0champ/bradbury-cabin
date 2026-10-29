@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=45";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=46";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=45";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=45";
-import { HandBadges } from "./hand-badges.js?v=45";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=45";
-import { LIBRARY } from "./library.js?v=45";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=45";
-import { layoutReading } from "./reading-flow.js?v=45";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=45";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=45";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=45";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=45";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=45";
-import { parsePicks, pickLabels } from "./picks.js?v=45";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=45";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=45";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=45";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=45";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=45";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=45";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=45";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=45";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=45";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=45";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=45";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=45";
-import { EntrySound } from "./entry-sound.js?v=45";
+} from "./gestures.js?v=46";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=46";
+import { HandBadges } from "./hand-badges.js?v=46";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=46";
+import { LIBRARY } from "./library.js?v=46";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=46";
+import { layoutReading } from "./reading-flow.js?v=46";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=46";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=46";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=46";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=46";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=46";
+import { parsePicks, pickLabels } from "./picks.js?v=46";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=46";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=46";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=46";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=46";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=46";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=46";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=46";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=46";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=46";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=46";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=46";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=46";
+import { EntrySound } from "./entry-sound.js?v=46";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=45";
+} from "./progress.js?v=46";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=45";
+} from "./calendar.js?v=46";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -346,6 +346,7 @@ const PLACE_FRAME = {x: (2048-600*2048/720)/2, y:(2560-240*2048/720)/2, w:600*20
 // cards (an ornament), inside the reading page's rounded corner. A fixed,
 // larger invisible zone around it absorbs pinch drift; any real button inside
 // that zone still wins. Hover never changes the zone.
+const TARGET_SLACK = 34; // 12 mm around each button
 const EXIT = Object.freeze({ radius: 48, inset: 88, left: 140, right: 190, up: 200, down: 140,
   releaseSlack: 57, readingBottom: 200 });
 function exitSurface() {
@@ -1470,7 +1471,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-045",
+    build: "gestures-046",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1620,7 +1621,15 @@ function hit(transform) {
 function panelHit(x, y) {
   const button = navigationModel().buttons.find(b => !b.disabled && x >= b.x && x <= b.x+b.w && y >= b.y && y <= b.y+b.h)?.id;
   if (button) return button;
-  return inExitZone(x, y) ? "global-exit" : null;
+  if (inExitZone(x, y)) return "global-exit";
+  // Forgiving targets: a point in the gap just beside a button counts as it.
+  let near = null, best = TARGET_SLACK;
+  for (const b of navigationModel().buttons) {
+    if (b.disabled) continue;
+    const d = Math.hypot(Math.max(b.x - x, 0, x - b.x - b.w), Math.max(b.y - y, 0, y - b.y - b.h));
+    if (d <= best) { best = d; near = b.id; }
+  }
+  return near;
 }
 function insideNavigation(hit) {
   if (!hit) return false;

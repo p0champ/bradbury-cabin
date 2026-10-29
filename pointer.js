@@ -92,7 +92,7 @@ export function rayOnPage(ray, display, metresWide, metresHigh) {
 // Filter the place the reader aims at, in millimetres on the page. Ray origin
 // and direction have different units; filtering them together hid excess drag.
 export class PageAimFilter {
-  constructor() { this.filter = new OneEuro(1, 0.08); }
+  constructor() { this.filter = new OneEuro(1, 0.25); }
   reset() { this.filter.x = null; }
   update(ray, display, width, height, time) {
     const raw = rayOnPage(ray, display, width, height);
@@ -236,30 +236,35 @@ export class Pointer {
   }
 }
 
-// Pinch drift: closing thumb and index moves the hand ray (usually down)
-// before the headset reports the pinch. At selectstart, take the aim from
-// just before the fingers began closing, within tight bounds. Nothing is
-// frozen beforehand, so a relaxed hand always aims live. Provisional
-// constants: tune only from real headset traces (pointer diagnostics).
-export const LOOK_BACK = Object.freeze({ bufferMs: 300, maxMs: 180, minClosureMm: 8, maxShiftPx: 100, slackMm: 2 });
+// Which button a pinch selects. Closing the fingers can drag the ray onto a
+// neighbour, and people often keep moving while pinching. So the press takes
+// the button the dot spent most time on during the last moment, counting
+// time while the fingers were already closing for less (that is when drift
+// happens), and never empty space when a button was there. Newest wins ties.
+// Nothing is frozen before the native press: relaxed hands always aim live.
+export const LOOK_BACK = Object.freeze({ bufferMs: 300, windowMs: 200, closedMm: 8, closingWeight: 0.3 });
 // history: oldest→newest { t, hit, target, px:{x,y}|null, gapMm|null, revision }
 export function chooseSnapshot(history, time, revision, k = LOOK_BACK) {
-  let i = history.length - 1;
-  while (i >= 0 && (history[i].t > time || history[i].revision !== revision)) i--;
-  if (i < 0) return { sample: null, reason: "no-history" };
-  const S = history[i];
-  if (S.gapMm == null) return { sample: S, reason: "no-gap" };
-  let o = i;
-  for (let j = i - 1; j >= 0; j--) {
-    const c = history[j], next = history[j + 1];
-    if (S.t - c.t > k.maxMs || c.revision !== revision || c.gapMm == null) break;
-    if (c.gapMm < next.gapMm - k.slackMm) break; // fingers were opening here
-    o = j;
-  }
-  if (history[o].gapMm - S.gapMm < k.minClosureMm) return { sample: S, reason: "no-closure" };
-  if (!history[o].target && S.target) while (o < i && !history[o].target) o++;
-  const O = history[o];
-  if (!O.px || !S.px) return { sample: S, reason: "no-point" };
-  if (Math.hypot(O.px.x - S.px.x, O.px.y - S.px.y) > k.maxShiftPx) return { sample: S, reason: "too-far" };
-  return { sample: O, reason: O === S ? "no-closure" : "lookback", shiftedMs: S.t - O.t };
+  const current = history.filter(s => s.revision === revision && s.t <= time);
+  if (!current.length) return { sample: null, reason: "no-history" };
+  const S = current.at(-1);
+  const recent = current.filter(s => time - s.t <= k.windowMs);
+  if (!recent.length) return { sample: S, reason: "current" };
+  const gaps = recent.map(s => s.gapMm).filter(g => g != null);
+  const open = gaps.length ? Math.max(...gaps) : null;
+  const dwell = new Map(), last = new Map();
+  recent.forEach((s, i) => {
+    if (!s.target) return;
+    const until = i + 1 < recent.length ? recent[i + 1].t : time;
+    const closing = open != null && s.gapMm != null && s.gapMm < open - k.closedMm;
+    const w = (closing ? k.closingWeight : 1) * Math.max(until - s.t, 1);
+    dwell.set(s.target, (dwell.get(s.target) || 0) + w);
+    last.set(s.target, i);
+  });
+  if (!dwell.size) return { sample: S, reason: "current" };
+  let target = null;
+  for (const [t, ms] of dwell)
+    if (target == null || ms > dwell.get(target) || (ms === dwell.get(target) && last.get(t) > last.get(target))) target = t;
+  const sample = recent[last.get(target)];
+  return { sample, reason: sample === S ? "current" : "dwell", shiftedMs: S.t - sample.t };
 }

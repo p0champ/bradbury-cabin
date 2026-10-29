@@ -1,3 +1,15 @@
+## 29 October 2026 — Build 046 selection fix (release in progress)
+
+Bastian on 045: "not very responsive" and most buttons can't be selected. He asked for a fix without another test round, so the cause is still unmeasured. 045's pinch look-back probably misfired when the hand kept moving while pinching.
+
+046 changes:
+- A pinch now selects the button the dot spent most time on in the last 0.2 s. Time while the fingers are already closing counts for less, because that is when drift happens. A pinch never selects empty space if a button was there.
+- Points just beside a button (within 12 mm) count as that button.
+- The dot follows faster.
+
+Branch build-046-reliable-select. Not tried on a Quest.
+
+---
 ## 29 October 2026 — Build 045 pointer + Exit repair RELEASED
 
 Bastian's Quest feedback on 044: the dot lags and leaves a trail, and the Exit tile looks clunky. Cause of the trail, found and reproduced: 044 drew the dot into the page image and only cleaned last frame's spot, but the headset rotates several images, so old dots stay. The old tests used a single image, so they could not see this. See POINTER_045_INVESTIGATION.md.
