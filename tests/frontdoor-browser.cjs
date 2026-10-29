@@ -105,4 +105,25 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
   await xr.evaluate(() => __mock.session.end());
   await xr.close();
   passed('front door: direct exit and re-entry preserve collapsed entrance with visible status');
+
+  // Instructions must describe the hand that actually turns forward, both
+  // for an existing preference and immediately after changing Controls.
+  for (const swapped of [false, true]) {
+    const hands = await browser.newPage();
+    await mock(hands, 'layer', false, {practised: true, headPointer: false, swapped});
+    await hands.goto(BASE_URL);
+    const expected = left => `Turn the page. ${left ? 'Left' : 'Right'} goes forward, ${left ? 'right' : 'left'} goes back.`;
+    assert.ok((await hands.locator('#page-turn-help').textContent()).startsWith(expected(swapped)));
+    await hands.locator('#enter:not([disabled])').click();
+    await hands.evaluate(() => { __step(); __pinch(); __step(1000); });
+    for (const id of ['home-settings', 'settings-more', 'settings-controls', `settings-next:${swapped ? 'right' : 'left'}`]) {
+      await hands.evaluate(async id => { await __aim(id, true); __pinch(); __step(500); }, id);
+    }
+    assert.ok((await hands.locator('#page-turn-help').textContent()).startsWith(expected(!swapped)));
+    await hands.evaluate(() => __mock.session.end());
+    await hands.reload();
+    assert.ok((await hands.locator('#page-turn-help').textContent()).startsWith(expected(!swapped)));
+    await hands.close();
+    passed(`front door: ${swapped ? 'left' : 'right'} forward-hand instructions follow Controls and survive reload`);
+  }
 };

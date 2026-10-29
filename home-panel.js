@@ -1,3 +1,4 @@
+import { navigationSurface, CONTROL } from './theme.js?v=47';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.
@@ -80,22 +81,22 @@ export function paintHome(ctx, options = {}) {
   ctx.save();
   ctx.translate(HOME_FRAME.x, HOME_FRAME.y);
   ctx.scale(HOME_SCALE, HOME_SCALE);
-  round(ctx, { x: .5, y: .5, w: 719, h: 499 }, 29);
-  const surface = ctx.createLinearGradient(0, 0, 220, 500);
-  surface.addColorStop(0, 'rgba(62,64,63,.985)');
-  surface.addColorStop(.65, 'rgba(35,37,36,.985)');
-  ctx.fillStyle = surface; ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,.20)'; ctx.lineWidth = 1; ctx.stroke();
-  ctx.clip();
+  navigationSurface(ctx, 720, 500);
   ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
   const font = (size, weight = 400) => { ctx.font = `${weight} ${size}px ${c.ui || UI}`; };
   const text = (value, x, y, color = c.ink) => { ctx.fillStyle = color; ctx.fillText(value, x, y); };
   const label = (b, value, size = 17) => { font(size, 500); ctx.textAlign = 'center'; text(value, b.x + b.w / 2, b.y + b.h / 2 + size * .34); ctx.textAlign = 'left'; };
   for (const b of l.buttons) {
     const selected = b.id === (l.shelf ? 'home-shelf' : 'home-today');
-    if (selected || o.hover === b.id) { ctx.fillStyle = selected ? 'rgba(255,255,255,.10)' : 'rgba(255,255,255,.075)'; round(ctx, b); ctx.fill(); }
-    if (b.id === 'home-today') label(b, 'Today', 19);
-    else if (b.id === 'home-shelf') label(b, 'Shelf', 19);
+    const current = b.id.startsWith('home-work:') && b.item?.id === o.currentId;
+    if (selected || o.hover === b.id || current) {
+      ctx.fillStyle = selected ? CONTROL.selected : o.hover === b.id ? CONTROL.hover : CONTROL.quiet;
+      round(ctx, b); ctx.fill();
+    }
+    const tabInk = selected ? CONTROL.selectedInk : c.ink;
+    const tab = value => { font(19, 500); ctx.textAlign = 'center'; text(value, b.x + b.w / 2, b.y + b.h / 2 + 19 * .34, tabInk); ctx.textAlign = 'left'; };
+    if (b.id === 'home-today') tab('Today');
+    else if (b.id === 'home-shelf') tab('Shelf');
     else if (b.id === 'home-settings') label(b, 'Settings', 19);
     else if (b.id === 'home-library') label(b, 'Browse the library →', 16);
     else if (b.id === 'home-calendar') label(b, 'Calendar', 16);
@@ -104,7 +105,7 @@ export function paintHome(ctx, options = {}) {
     else if (b.id === 'home-later') label(b, '← Later', 15);
     else if (b.id === 'home-back-shelf') label(b, o.library?'← Shelf':'← All days', 16);
   }
-  font(14);
+  font(16);
   if (o.library) text(o.dateline || 'Library', 40, 96, c.muted);
   else if (l.shelf && !l.archive) { ctx.textAlign = 'right'; text(fit(ctx, o.dayLabel || '', 492), 680, 96, c.muted); ctx.textAlign = 'left'; }
   else text(fit(ctx, l.archive ? 'Your earlier days' : (o.dateline || 'Three pieces for today'), 640), 40, 96, c.muted);
@@ -122,7 +123,7 @@ export function paintHome(ctx, options = {}) {
     const lines = homeTitleLines(ctx, title, 624);
     const titleTop = y + (l.rowHeight < 100 ? 25 : 32);
     lines.forEach((line, n) => text(line, 40, titleTop + n * 27, item.available ? c.ink : c.muted));
-    font(15);
+    font(16);
     const completed = item.read || /^Read/.test(o.statuses?.[item.id] || '');
     const status = completed ? 'Read ✓' : item.id === o.currentId ? 'Continue →' : (o.statuses?.[item.id] || '');
     const meta = item.available ? [item.author, KIND[item.kind] || item.kind].filter(Boolean).join(' · ') : 'Not in the cabin';

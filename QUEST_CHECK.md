@@ -1,4 +1,11 @@
+# Build 047 — local only, headset check pending
+
+Not live. Desktop: 206 unit tests, source checks and 245 browser checks pass. Publication still needs authorization. Check that pointing, highlighting and pinching agree; selected settings stay visibly different from hover; text and controls are readable in bright/dim rooms. Help must name your saved forward hand. The confirmed placement, literary text and page completion behavior are preserved. Keep all device checks below together. No Quest result claimed.
+
+---
 # Build 046 — selection fix, headset check pending
+
+Not live yet: 206 unit tests and 243 browser checks passed again. Publishing awaits explicit approval after the automatic review blocked deployment. Real headset alignment remains unverified.
 
 Open ?v=46 and check that it shows BUILD 046. Do the Build 045 checks below with this build, plus:
 - Point and pinch at every menu button, including while your hand is still moving. Each one should select what the dot is on.

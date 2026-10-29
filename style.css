@@ -131,7 +131,7 @@ button:hover {
 }
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid #b26d42;
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
 button:disabled {
@@ -323,11 +323,11 @@ aside h2 {
    soft rounded controls, generous air and a single quiet entrance. */
 :root {
   --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --paper: #f6f2e9;
-  --ink: #1f2a24;
-  --muted: #6a746c;
-  --hair: rgba(31, 42, 36, 0.12);
-  --accent: #2f4b3e;
+  --paper: #f5f5f3;
+  --ink: #252a27;
+  --muted: #626a65;
+  --hair: rgba(37, 42, 39, 0.12);
+  --accent: #34483c;
   font-family: var(--ui);
   color: var(--ink);
   background: var(--paper);
@@ -337,11 +337,11 @@ body { background: var(--paper); }
 header { border-bottom-color: var(--hair); font-weight: 500; color: var(--muted); }
 .brand { font-family: Literata, Georgia, serif; color: var(--ink); }
 .eyebrow { font-weight: 600; letter-spacing: 0.24em; color: var(--muted); }
-h1 { font-family: Literata, Georgia, serif; font-weight: 400; letter-spacing: -0.03em; }
+h1 { font-family: Literata, Georgia, serif; font-size: clamp(40px, 5vw, 64px); font-weight: 400; letter-spacing: -0.035em; line-height: 1.12; }
 .lede { font-size: 17px; line-height: 1.6; max-width: 420px; color: var(--muted); }
-button { font-family: var(--ui); font-size: 13px; border-radius: 999px; transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease; }
+button { font-family: var(--ui); font-size: 14px; border-radius: 999px; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .16s ease; }
 button:active:not(:disabled) { transform: scale(.98); }
-.primary { border-radius: 14px; font-size: 15px; font-weight: 500; background: var(--accent); border-color: var(--accent); }
+.primary { border-radius: 18px; font-size: 16px; font-weight: 500; background: var(--accent); border-color: var(--accent); }
 .primary:disabled { opacity: .55; }
 .primary.secondary { color: var(--accent); border-color: var(--hair); background: rgba(255, 255, 255, .45); }
 .toolbar button { border-color: var(--hair); background: transparent; color: var(--muted); }
@@ -377,7 +377,9 @@ body.night .primary.secondary { border-color: var(--hair); color: var(--ink); }
   font-size: 14px;
   font-weight: 400;
   background: transparent;
+  border-color: transparent;
 }
+.start-row .primary.secondary:hover:not(:disabled) { background: var(--hair); }
 .primary:hover:not(:disabled):not(.secondary) { background: #3e5d4b; color: #fff; }
 #status { max-width: 600px; margin: 14px 0 20px; min-height: 42px; }
 .disclosure { border-top: 1px solid var(--hair); }
@@ -390,8 +392,9 @@ body.night .primary.secondary { border-color: var(--hair); color: var(--ink); }
   cursor: pointer;
 }
 .disclosure > summary::marker { color: var(--muted); }
+.disclosure > summary:hover { color: var(--accent); }
 summary:focus-visible, input:focus-visible {
-  outline: 3px solid #b26d42;
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
   border-radius: 3px;
 }

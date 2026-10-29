@@ -12,6 +12,24 @@ export const NAV = Object.freeze({
   ui: UI,
 });
 
+// One material for every navigation surface. Solid backing preserves contrast
+// in passthrough; this does not simulate the system's adaptive glass or blur.
+export function navigationSurface(ctx, width, height, radius = 28) {
+  const fill = ctx.createLinearGradient(0, 0, width * .35, height);
+  fill.addColorStop(0, '#454746');
+  fill.addColorStop(1, '#303332');
+  ctx.beginPath(); ctx.roundRect(.5, .5, width - 1, height - 1, radius);
+  ctx.fillStyle = fill; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.clip();
+}
+
+export const CONTROL = Object.freeze({
+  hover: 'rgba(255,255,255,.14)',
+  quiet: 'rgba(255,255,255,.055)',
+  selected: '#eceeec', selectedInk: '#252a27',
+});
+
 export const MOODS = {
   // Literary: warm paper, a bookish serif with italic titles.
   literary: {

@@ -1,4 +1,5 @@
-import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=46';
+import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=47';
+import { navigationSurface, CONTROL } from './theme.js?v=47';
 const SCALE = 2048 / 720, Y = (2560 - 500 * SCALE) / 2;
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 const MONTHS = 'January February March April May June July August September October November December'.split(' ');
@@ -57,7 +58,7 @@ function text(ctx, str, x, y, size = 19, colour = '#f5f5f2', weight = 400, align
   ctx.font = `${weight} ${size}px ${FONT}`; ctx.fillStyle = colour; ctx.textAlign = align; ctx.fillText(str, x, y);
 }
 function button(ctx, r, hover, { selected = false, label = r.label } = {}) {
-  ctx.fillStyle = hover === r.id ? '#555957' : selected ? '#515b55' : 'rgba(255,255,255,.04)';
+  ctx.fillStyle = hover === r.id ? CONTROL.hover : selected ? '#515b55' : CONTROL.quiet;
   rounded(ctx, r); ctx.fill();
   text(ctx, label, r.x + 18, r.y + r.h / 2, 19);
 }
@@ -71,10 +72,7 @@ export function paintCompact(ctx, options) {
   if (!['calendar', 'day', 'closing'].includes(o.page)) o.notesCount = notePages.length;
   const rows = localButtons(o), byId = id => rows.find(r => r.id === id);
   ctx.save(); ctx.translate(0, Y); ctx.scale(SCALE, SCALE); ctx.textBaseline = 'middle';
-  const gradient = ctx.createLinearGradient(0, 0, 360, 500);
-  gradient.addColorStop(0, '#3e403f'); gradient.addColorStop(1, '#232524');
-  ctx.fillStyle = gradient; rounded(ctx, { x: 0, y: 0, w: 720, h: 500 }, 29); ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,.20)'; ctx.lineWidth = 1; rounded(ctx, { x: .5, y: .5, w: 719, h: 499 }, 28.5); ctx.stroke(); ctx.clip();
+  navigationSurface(ctx, 720, 500);
   if (o.page === 'calendar') {
     const { view, progress, today } = o, facts = overview(progress, today);
     button(ctx, byId('cal-menu'), o.hover);

@@ -1,3 +1,21 @@
+## 29 October 2026 — Build 047 UI refinement built and tested locally
+
+Bastian clarified the dot looks correct but pinching selects elsewhere, then asked to keep testing and make the UI more Apple-like. Built on the unreleased 046 on branch build-047-pointer-polish. Shared navigation material including placement, distinct light selected states, clearer hover, larger Home metadata, cleaner browser entrance and correct saved-hand instructions. No new pointer heuristic, gesture or geometry changes.
+
+206 unit tests + source checks and 245 full browser checks pass. Final material/copy/focus follow-up: 15 repair + six entrance checks pass. Fixed-hand-advice mutation rejected; final code restored. Rendered paper/night/modern/lying/hover/long-title/mobile views inspected. See BUILD_047_REVIEW.md. These are desktop results, not Quest proof or independent design approval.
+
+Live still 045. Do not retry publication without explicit authorization: automatic approval review rejected the earlier live deployment. Local previews are in this chat's outputs. Broader placement choreography, Calendar density and empty Home still need design work; no claim the whole Apple-like experience is finished.
+
+---
+## 29 October 2026 — Build 046 rechecked; publishing approval needed
+
+Fresh Windows check of 820d9cf: all 206 unit tests, source checks, 9 diagnostic look-back tests and 243 browser checks pass. No real Quest check. Live remains 045.
+
+Automatic approval review rejected the fast-forward push to phase-1-gestures because this chat has not explicitly authorized publishing to that live destination. Ask Bastian for approval; do not work around the rejection. No remote changes were made. Live-file verification is prepared in the current chat work folder for after an approved release.
+
+Current request: fix the off pointer, then make the whole experience seamless and coherent. A question distinguishing misplaced dot, wrong selection and rejected pinch is pending. Do not infer a measured headset cause from desktop tests. Broader visual changes have not been implemented in this chat.
+
+---
 ## 29 October 2026, 19:17 — PAUSED at Bastian's request (usage low)
 
 Build 046 is built, committed and pushed on build-046-reliable-select (ad12555). It is NOT released: live is still Build 045. Bastian chose "Ship 046 anyway" below the 8/10 bar. Remaining steps: confirm the full browser suite passes, fast-forward phase-1-gestures (no force), verify the live files, then update these notes. Don't restart design work.

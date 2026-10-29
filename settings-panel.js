@@ -1,3 +1,4 @@
+import { navigationSurface, CONTROL, NAV } from './theme.js?v=47';
 // Settings uses the same canvas and ray plane as Home. Geometry is expressed
 // here once, in millimetre-like logical units, then shared with the hit tester.
 const SCALE = 2048 / 720;
@@ -63,20 +64,11 @@ export function paintSettings(ctx, { page = 'settings', values = {}, hover = nul
   ctx.save();
   ctx.translate(X, Y);
   ctx.scale(SCALE, SCALE);
-  const gradient = ctx.createLinearGradient(0, 0, WIDTH * .45, HEIGHT);
-  gradient.addColorStop(0, '#3e403f');
-  gradient.addColorStop(1, '#232524');
-  ctx.fillStyle = gradient;
-  rounded(ctx, 0, 0, WIDTH, HEIGHT, 26);
-  ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,.20)';
-  ctx.lineWidth = 1;
-  rounded(ctx, .5, .5, WIDTH - 1, HEIGHT - 1, 25.5);
-  ctx.stroke();
+  navigationSurface(ctx, WIDTH, HEIGHT);
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#f5f5f2';
-  ctx.font = `550 21px ${FONT}`;
+  ctx.font = `550 24px ${FONT}`;
   ctx.fillText({ settings: 'Settings', more: 'More settings', sound: 'Sound', volume: 'Volume', wrist: 'Wrist calendar', controls: 'Controls' }[page], 29, 42);
   const group = y => {
     ctx.fillStyle = 'rgba(0,0,0,.14)';
@@ -106,11 +98,11 @@ export function paintSettings(ctx, { page = 'settings', values = {}, hover = nul
     const header = ['settings-done', 'settings-back'].includes(b.id);
     const route = page === 'more' || b.id === 'settings-volume';
     if (hover === b.id || b.selected || route) {
-      ctx.fillStyle = hover === b.id ? 'rgba(255,255,255,.20)' : b.selected ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.035)';
+      ctx.fillStyle = b.selected ? CONTROL.selected : hover === b.id ? CONTROL.hover : CONTROL.quiet;
       rounded(ctx, b.x, b.y, b.w, b.h);
       ctx.fill();
     }
-    ctx.fillStyle = '#f5f5f2';
+    ctx.fillStyle = b.selected ? CONTROL.selectedInk : NAV.ink;
     ctx.font = `${b.selected || header ? 550 : 400} ${header ? 18 : route ? 19 : 17}px ${FONT}`;
     ctx.textAlign = route ? 'left' : 'center';
     ctx.fillText(b.label, route ? b.x + 18 : b.x + b.w / 2, b.y + b.h / 2);
