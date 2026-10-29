@@ -2335,7 +2335,7 @@ function frame(time, xrFrame, generation) {
         targets.set(source, shown.target);
         validatedRays.push({hand, hit: shown.hit, look: shown.target ? (aim.press ? "press" : "ring") : "dot"});
       }
-      if (pointer?.update(validatedRays, { transform: surfacePose(), width: surfaceWidth(), height: surfaceHeight() })) applyLayers();
+      if (pointer?.update(validatedRays, { transform: surfacePose(), width: surfaceWidth(), height: surfaceHeight() }, time)) applyLayers();
       // A selection can replace the panel in this same frame. Hide every old
       // dot/highlight immediately rather than leaving it over a new row.
       if (framePointerRevision !== pointerRevision) {

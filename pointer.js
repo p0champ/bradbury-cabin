@@ -3,6 +3,7 @@
 // which closes as you pinch. Compositor layers only; never shown while reading.
 const DOT_PX = 160, DOT_SIZE = 0.014;
 const LOOKS = ["dot", "ring", "press"];
+const LIST_HOLD_MS = 1500;
 
 function paintLook(canvas, look) {
   const c = canvas.getContext("2d"), r = DOT_PX / 2;
@@ -139,12 +140,20 @@ export class Pointer {
     this.entries.set(hand, e);
     return e;
   }
-  // Hide by opacity only: once created, dot layers stay listed so pointing
-  // never re-submits the compositor layer list.
+  // Hide by opacity first. Dot layers leave the compositor list only after
+  // staying hidden for a while, so brief gaps never re-submit the layer list,
+  // yet reading keeps its small layer budget.
   clearVisible() {
     for (const e of this.entries.values()) if (e.layer) e.layer.opacity = 0;
     this.marks = []; this.onMarks?.(this.marks);
     return false;
+  }
+  retire(time) {
+    if (!this.visible.length) return false;
+    this.hiddenSince ??= time;
+    if (time - this.hiddenSince < LIST_HOLD_MS) return false;
+    this.visible = [];
+    return true;
   }
   fail(error) {
     this.failed = true; this.clearVisible();
@@ -154,10 +163,10 @@ export class Pointer {
   }
   // rays: [{ hand, hit, look }], hit.local in metres on the surface.
   // surface: { transform, width, height } of the page as actually displayed.
-  update(rays, surface) {
+  update(rays, surface, time = performance.now()) {
     if (this.failed) return this.clearVisible();
     try {
-      if (!rays.length || !surface?.transform) return this.clearVisible();
+      if (!rays.length || !surface?.transform) { this.clearVisible(); return this.retire(time); }
       const m = new DOMMatrix(surface.transform.matrix), lit = [], marks = [];
       for (const { hand, hit, look = "dot" } of rays) {
         const e = this.entry(hand);
@@ -172,6 +181,11 @@ export class Pointer {
         lit.push(e);
       }
       if (!this.layers) { this.marks = marks; this.onMarks?.(marks); return false; }
+      if (!lit.length) {
+        for (const e of this.entries.values()) if (e.layer) e.layer.opacity = 0;
+        this.marks = marks; this.onMarks?.(marks); return this.retire(time);
+      }
+      this.hiddenSince = null;
       const shown = [];
       for (const e of this.entries.values()) {
         e.layer.opacity = lit.includes(e) ? 1 : 0;
