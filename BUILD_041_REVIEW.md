@@ -24,4 +24,4 @@ Cuts: no new successring, pressedrowlogic, sounds, contentcrossfade, geometry ex
 
 ## Release
 
-All tests/review complete; scans/commit/push/livecomparison pending. Currentlive040.
+Final independentcritic8.4/10 approved release after187/187fullbrowserpassed; noblockingfindings. Code6741d1e pushed to build-041-steady-hierarchy and phase-1-gestures after staged/committed scans. Live https://p0champ.github.io/bradbury-cabin/?v=41 verified: index/style/all33root JavaScript modules match reviewed source (line endings normalized). No Questtest claimed. This iteration advances the broader goal; it does not declare Apple feel achieved.

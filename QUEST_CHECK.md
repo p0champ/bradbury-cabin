@@ -1,4 +1,4 @@
-# Build 041 — in progress; add to combined headset check
+# Build 041 — released/live verified; add to combined headset check
 
 Normal page turns and browsing should keep paper/functionalbacking solid, without room showing through on each action. Entrance retainsbriefstationaryfade. Continue is clearlyprimary; Today/calendar,appearance,utilities are separatevisualgroups in thesameplaces. Welcomemainchoice is stronger. Navigationlosesrepeatedbranding; learnedusers lose repeatedaimingtutorials. Readingtitles/folios andnewuserhelp stay. Check readability againstbright/dimroom, upright/lying, and allprior040wrist/markerschecks. No headsetresult claimed.
 

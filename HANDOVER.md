@@ -1,3 +1,10 @@
+## 29 October 2026 — Build 041 released/live verified; broader Apple feel still the goal
+
+Live https://p0champ.github.io/bradbury-cabin/?v=41 ; code6741d1e on build-041-steady-hierarchy and phase-1-gestures. Index/style/all33root JS modules match reviewed source.178unit+sourcechecks,187/187fullsyntheticbrowserchecks,5/5finalfocusedcoherentchecks; independentcritic final8.4/10 approvedrelease, noP1/P2. Fulltests preserve040wrist/markerrepairs, input, sourcefidelity, sourceanchors, mockedDrive, closing/onboarding/Today flows. See BUILD_041_REVIEW.md.
+
+After Bastian correctedprematurestopping, completed a substantive three-designer/crosscritique/separatejudge round and implemented stableopaquepaper/navigation onactions, foursemanticmenugroups/primaryContinue, strongerwelcomefirstaction, lessnavigationbranding, learnedaimhintconsistency. No newapprovalgate for his previouslyapproved agents’ direction. Samehitrects/menuindices/gestures/hitmap9/texts/rightwrist/pointer/audio. No actualQuestrepairorfeelverification claimed. User clarified wrist NEVERappeared;040fixedreproducedmotionstarvation, realdeviceoutcomeunknown. WholeApplefeelgoal remains; do not equate a release/criticthreshold with theexperiencebeingfinished. Biggest knownremaininglimit: fixedtallportraitnavigation prevents nativecompactvisionOScomposition; geometryexceptions needexplicitdiscussion, notsilentrearrangement. User does not want tobeasked repeatedlyforalready-authorized refinement. Keepnotes andrealworldcheckshonest/current.
+
+---
 ## 29 October 2026 — Build 041 tested/reviewed; release pending
 
 178unit+source checks and187/187full syntheticbrowser checks pass. Final5/5focusedcoherent tests include welcomeprimarybacking/type, truegroupbreaks, learned/newuserhelp, actualpageupdates withconstantquadalpha upright/lying normal/reducedmotion. Independentcritic8.4/10, noP1/P2; soleP3stalecomment removed. Final screenshots reviewed. Need staged/committedscans,commit,push,livefilecomparison. Newrootmenu-panel.js onserveallowlist; versions41 consistent. Live remains040 until verification. NoQuestclaim; allhardconstraints/040wristmarkers preserved. See BUILD_041_REVIEW.md.
