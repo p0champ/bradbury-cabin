@@ -14,3 +14,6 @@
 
 ## Independent review
 Round 1: 6/10 — P1: selection still used the raw native ray, not the steadied/held target the dot showed. P2: slow build-completing pinch could choose; picks arriving mid-welcome; stale evidence; test gaps. All fixed. Round 2: 8/10 — a swallowed release could leak to the next pinch (fixed: cleared on selectend) and the hold could drop before Quest's own release (fixed: also hold while the native press is down). Full suite rerun 148/148 after both.
+
+## Release
+Code commit a37469f pushed to build-037-welcome and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=37 verified: index.html, style.css and all 31 JavaScript modules match reviewed local files (line endings normalised). Secret scans passed. Not yet seen on a Quest.
