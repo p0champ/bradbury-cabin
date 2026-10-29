@@ -20,4 +20,4 @@ Pointer and gesture behavior are parked. The only pointer-file change is the dia
 
 ## Release
 
-Local build 049; publication not yet verified. Published build 048 remains the last verified release until this section is updated.
+Released code a1b3dfc by fast-forwarding phase-1-gestures; build-049-reading-continuity is saved remotely. Live: https://p0champ.github.io/bradbury-cabin/?v=49. Verified BUILD 049 and normalized SHA-256 equality for index.html, style.css and all 36 root JavaScript modules (38 files). No force push; main and phase-0-crispness were untouched.
