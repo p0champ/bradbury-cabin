@@ -22,4 +22,4 @@ Separate agent authored none of the code. Round 1 P2s: wrist press failed to inv
 
 ## Release
 
-Pending full checks, scans, commit/push, live comparison. Branch build-038-wrist-glass. v38 / BUILD 038 / gestures-038.
+Code 243878d pushed to build-038-wrist-glass and phase-1-gestures after staged/committed secret scans passed (32 files). Live https://p0champ.github.io/bradbury-cabin/?v=38 verified: index/style/all 32 JavaScript modules match reviewed source (line endings normalised). Branch build-038-wrist-glass. v38 / BUILD 038 / gestures-038. Independent critic confirmed final 8.5/10 and release recommendation after all 175 browser checks passed. No Quest test.
