@@ -16,7 +16,10 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
       window.__aimPx = (x, y, hand = 'right') => {
         const pose = new DOMMatrix(JSON.parse(page.dataset.panelPose));
         const t = new DOMPoint((x / 2048 - .5) * .72, (.5 - y / 2560) * .9, 0).matrixTransform(pose);
-        const h = new DOMMatrix(__headMatrix()); let dx = t.x - h.m41, dy = t.y - h.m42, dz = t.z - h.m43;
+        const h = new DOMMatrix(__headMatrix());
+        const o = new DOMPoint(hand === 'left' ? -0.22 : 0.22, -0.25, -0.45).matrixTransform(h);
+        __mock.rayOrigin ||= {}; __mock.rayOrigin[hand] = { x: o.x, y: o.y, z: o.z };
+        let dx = t.x - o.x, dy = t.y - o.y, dz = t.z - o.z;
         const l = Math.hypot(dx, dy, dz); dx /= l; dy /= l; dz /= l; const n = Math.hypot(dy, -dx, 1 - dz);
         __mock.rayByHand ||= {}; __mock.rayByHand[hand] = { x: dy / n, y: -dx / n, z: 0, w: (1 - dz) / n };
       };
@@ -81,14 +84,43 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   }
 
   // 4. Exit with drift on every surface, plus the far top-right corner.
-  for (const screen of ['placement', 'reading', 'home', 'settings']) {
+  // Spec geometry, computed here from the surfaces, not read from the app.
+  const PLACE = { x: (2048 - 600 * 2048 / 720) / 2, y: (2560 - 240 * 2048 / 720) / 2, w: 600 * 2048 / 720 };
+  const expectDisc = async (p, screen) => {
+    if (screen === 'reading') return { cx: 1960, cy: 88, bottom: 200 };
+    if (screen === 'placement') return { cx: PLACE.x + PLACE.w - 88, cy: PLACE.y - 88, bottom: PLACE.y };
+    const bs = (await buttons(p)).filter(b => b.id !== 'global-exit');
+    const top = Math.min(...bs.map(b => b.y)); // card top lies above its first control
+    return { cardTopAbove: top };
+  };
+  for (const screen of ['placement', 'reading', 'home', 'settings']) for (const part of ['upper', 'lower']) {
     const { p } = await open(screen);
     const before = await p.locator('#place').textContent();
     const d = await p.evaluate(() => JSON.parse(document.querySelector('#page').dataset.exitDisc));
-    await p.evaluate(d => __driftPress(d.cx, d.cy - 40, 90), d);
-    assert.equal(await p.evaluate(() => __mock.session.ended), true, `${screen}: drifting press on Exit did not leave`);
+    const e = await p.evaluate(() => JSON.parse(document.querySelector('#page').dataset.exitRect));
+    const want = await expectDisc(p, screen);
+    if (want.cx != null) {
+      assert.ok(Math.abs(d.cx - want.cx) < .5 && Math.abs(d.cy - want.cy) < .5, `${screen}: Exit circle at ${d.cx},${d.cy}, spec ${want.cx},${want.cy}`);
+      assert.deepEqual([e.x, e.y, e.x + e.w, e.y + e.h].map(Math.round), [want.cx - 140, want.cy - 200, want.cx + 190, Math.min(want.cy + 140, want.bottom)].map(Math.round), `${screen}: Exit zone differs from spec`);
+    } else {
+      assert.ok(d.cy + 88 <= want.cardTopAbove && Math.abs(d.r - 48) < .01, `${screen}: Exit circle not above its card`);
+      assert.deepEqual([e.x, e.y, e.x + e.w].map(Math.round), [d.cx - 140, d.cy - 200, d.cx + 190].map(Math.round));
+    }
+    // Aim at the circle's upper or lower half, then the 29 mm drift.
+    await p.evaluate(({ d, part }) => __driftPress(d.cx, part === 'upper' ? d.cy - 30 : d.cy + 44, 82), { d, part });
+    assert.equal(await p.evaluate(() => __mock.session.ended), true, `${screen}: drifting press from the ${part} half of Exit did not leave`);
     assert.equal(await p.locator('#place').textContent(), before);
-    passed(`exit: drifting pinch on the circle leaves from ${screen}`);
+    passed(`exit: drifting pinch from the ${part} half of the circle leaves from ${screen}`);
+    await p.close();
+  }
+  // While an Exit press is held outside menus, the dot shows the chosen point.
+  {
+    const { p } = await open('reading');
+    const held = await p.evaluate(() => __driftPress(1960, 132, 82, { release: false }));
+    assert.ok(held && held.look === 'press' && Math.abs(held.y - 132) < 8, `held Exit dot ${JSON.stringify(held)}`);
+    await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
+    assert.equal(await p.evaluate(() => __mock.session.ended), true);
+    passed('exit: a held press shows the chosen point in the press look while reading');
     await p.close();
   }
   {

@@ -82,14 +82,8 @@ export async function renderer(canvas) {
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.bindTexture(gl.TEXTURE_2D, null);
-  const sprite = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, sprite);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.bindTexture(gl.TEXTURE_2D, null);
-  let spriteSource = null;
+  // Projection-mode pointer images, one texture per look, uploaded once.
+  const sprites = new Map();
   const fbo = gl.createFramebuffer(),
     loc = gl.getUniformLocation(program, "m");
   const resized = document.createElement("canvas");
@@ -132,14 +126,21 @@ export async function renderer(canvas) {
     // A small separate image (the projection-mode pointer), blended on top.
     drawSprite(source, matrix) {
       gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, sprite);
-      if (spriteSource !== source) {
+      let sprite = sprites.get(source);
+      if (!sprite) {
+        sprite = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, sprite);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-        spriteSource = source;
-      }
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        sprites.set(source, sprite);
+      } else gl.bindTexture(gl.TEXTURE_2D, sprite);
       gl.useProgram(program);
       gl.bindVertexArray(vao);
       gl.uniformMatrix4fv(loc, false, matrix);
@@ -177,7 +178,8 @@ export async function renderer(canvas) {
     },
     dispose() {
       gl.deleteTexture(texture);
-      gl.deleteTexture(sprite);
+      for (const t of sprites.values()) gl.deleteTexture(t);
+      sprites.clear();
       gl.deleteFramebuffer(fbo);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);

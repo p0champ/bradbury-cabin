@@ -6,9 +6,9 @@
 const assert = require('node:assert/strict');
 
 module.exports = async function pointerTruthChecks(browser, { mock, BASE_URL, passed }) {
-  const setup = async (lying, hand) => {
+  const setup = async (lying, hand, scenario = 'layer') => {
     const p = await browser.newPage(); const errors = []; p.on('pageerror', e => errors.push(e.message));
-    await mock(p, 'layer', lying, { practised: true, headPointer: false });
+    await mock(p, scenario, lying, { practised: true, headPointer: false });
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => __center());
     await p.evaluate(h => { __hold(h); __hand(.05, h); __step(600); }, hand);
@@ -22,7 +22,9 @@ module.exports = async function pointerTruthChecks(browser, { mock, BASE_URL, pa
     // Page pixel → world, and a ray quaternion aimed at a page pixel.
     window.__truthAimAt = (x, y, hand) => {
       const t = new DOMPoint((x / 2048 - .5) * .72, (.5 - y / 2560) * .9, 0).matrixTransform(pose());
-      const h = new DOMMatrix(__headMatrix()); const o = { x: h.m41, y: h.m42, z: h.m43 };
+const h = new DOMMatrix(__headMatrix());
+      const o = new DOMPoint(hand === 'left' ? -0.22 : 0.22, -0.25, -0.45).matrixTransform(h);
+      __mock.rayOrigin ||= {}; __mock.rayOrigin[hand] = { x: o.x, y: o.y, z: o.z };
       let dx = t.x - o.x, dy = t.y - o.y, dz = t.z - o.z; const l = Math.hypot(dx, dy, dz); dx /= l; dy /= l; dz /= l;
       const n = Math.hypot(dy, -dx, 1 - dz);
       __mock.rayByHand ||= {}; __mock.rayByHand[hand] = { x: dy / n, y: -dx / n, z: 0, w: (1 - dz) / n };
@@ -39,11 +41,14 @@ module.exports = async function pointerTruthChecks(browser, { mock, BASE_URL, pa
         const px = new Uint8Array(W * H * 4); gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, px);
         P.framebufferTexture2D.call(gl, gl.READ_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, null, 0);
         P.bindFramebuffer.call(gl, gl.READ_FRAMEBUFFER, prevRead); gl.deleteFramebuffer(fbo);
-        const src = page.getContext('2d').getImageData(0, 0, 2048, 2560).data;
+        // Compare with the page scaled to the image size, as an upload would.
+        const scaled = document.createElement('canvas'); scaled.width = W; scaled.height = H;
+        scaled.getContext('2d').drawImage(page, 0, 0, W, H);
+        const src = scaled.getContext('2d').getImageData(0, 0, W, H).data;
         let stale = 0, compared = 0; const cells = new Map();
         for (let y = 2; y < H; y += 4) for (let x = 2; x < W; x += 4) {
           const sx = Math.floor(x * 2048 / W), sy = Math.floor(y * 2560 / H);
-          const k = ((H - 1 - y) * W + x) * 4, s = (sy * 2048 + sx) * 4, a = src[s + 3] / 255;
+          const k = ((H - 1 - y) * W + x) * 4, s = (y * W + x) * 4, a = src[s + 3] / 255;
           const diff = Math.max(Math.abs(px[k] - src[s] * a), Math.abs(px[k + 1] - src[s + 1] * a),
             Math.abs(px[k + 2] - src[s + 2] * a), Math.abs(px[k + 3] - src[s + 3]));
           compared++;
@@ -74,8 +79,8 @@ module.exports = async function pointerTruthChecks(browser, { mock, BASE_URL, pa
   }
 
   // 1. Sweep: exactly one cursor, no trail, page never stale, follows promptly.
-  for (const lying of [false, true]) {
-    const { p, errors } = await setup(lying, 'right');
+  for (const [lying, scenario] of [[false, 'layer'], [true, 'layer'], [false, 'clamped-layer']]) {
+    const { p, errors } = await setup(lying, 'right', scenario);
     const r = await p.evaluate(() => {
       const frames = [], hand = 'right';
       const y = 1400;
@@ -99,7 +104,7 @@ module.exports = async function pointerTruthChecks(browser, { mock, BASE_URL, pa
     const end = r.settle.at(-1).inks[0], final = r.frames.at(-1).want;
     assert.ok(Math.hypot(end.x - final, end.y - 1400) / 2.844 < 2, `still cursor ${(Math.hypot(end.x - final, end.y - 1400) / 2.844).toFixed(1)} mm from the pointed spot`);
     assert.deepEqual(errors, []);
-    passed(`pointer truth: one clean cursor follows a sweep across rotating swapchain images ${lying ? 'lying' : 'upright'}`);
+    passed(`pointer truth: one clean cursor follows a sweep across rotating swapchain images ${lying ? 'lying' : 'upright'}${scenario === 'layer' ? '' : ' (runtime-resized page image)'}`);
     await p.close();
   }
 

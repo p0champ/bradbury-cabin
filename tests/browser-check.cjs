@@ -197,7 +197,7 @@ async function mock(
               : null,
           getPose: (space) => window.__mock.rayLost ? null : ({
             transform: new Transform(
-              head().position,
+              window.__mock.rayOrigin?.[space?.handedness] || head().position,
               window.__mock.rayByHand?.[space?.handedness] ||
                 window.__mock.rayLook ||
                 head().orientation,
@@ -360,7 +360,7 @@ async function mock(
         e.frame = {
           getPose: () => ({
             transform: new Transform(
-              head().position,
+              __mock.rayOrigin?.[hand] || head().position,
               __mock.rayByHand?.[hand] || __mock.rayLook || head().orientation,
             ),
           }),
@@ -802,9 +802,15 @@ async function mock(
               matrix: null,
               history: [],
             };
+          let shownTransform = null;
           const layer = {
             opacity: 1,
+            // Real quad layers expose their size and pose.
+            width: init.width,
+            height: init.height,
+            get transform() { return shownTransform; },
             set transform(v) {
+              shownTransform = v;
               data.matrix = Array.from(v.matrix);
               data.history.push(data.matrix);
               if (!badge && !arrival && !watch && !gazeRing && !pointer) window.__mock.placed.push(data.matrix);

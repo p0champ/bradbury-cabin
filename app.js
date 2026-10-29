@@ -338,7 +338,7 @@ let pointer = null;
 const rayFilters = new Map(), heldTargets = new Map();
 const exitAims = new Map(), exitPresses = new Map();
 // Recent filtered aim per hand, for the press look-back (pointer.js).
-const aimHistory = new Map();
+const aimHistory = new Map(), livePoints = new Map();
 const pressChoices = [];
 let exitHover = false;
 const PLACE_FRAME = {x: (2048-600*2048/720)/2, y:(2560-240*2048/720)/2, w:600*2048/720, h:240*2048/720};
@@ -423,7 +423,7 @@ function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, sho
   if (pointerDiagnostics.length > 600) pointerDiagnostics.shift();
 }
 function cancelPointerPresses(reason = "pointer-context-change") {
-  exitAims.clear(); exitPresses.clear(); aimHistory.clear();
+  exitAims.clear(); exitPresses.clear(); aimHistory.clear(); livePoints.clear();
   pointerRevision++;
   headPresses.clear();
   wristPresses.clear();
@@ -898,11 +898,17 @@ function paintExit(ctx, { cx, cy, r }, paper, hover) {
   ctx.moveTo(cx + 16, cy - 16); ctx.lineTo(cx - 16, cy + 16);
   ctx.stroke();
   if (hover) {
-    ctx.fillStyle = paper ? paper.muted : NAV.ink;
-    // Over the room (no backing), keep the label legible in bright light.
-    if (!paper) { ctx.shadowColor = "rgba(0,0,0,.55)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 1; }
-    ctx.font = `500 30px ${UI}`; ctx.textAlign = "right"; ctx.textBaseline = "middle";
-    ctx.fillText("Leave cabin", cx - r - 16, cy);
+    ctx.font = `500 30px ${UI}`;
+    if (!paper) {
+      // Over the room it sits on the same quiet material as the disc.
+      const w = ctx.measureText("Leave cabin").width + 44, right = cx - r - 12;
+      ctx.shadowColor = "rgba(0,0,0,.28)"; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
+      ctx.fillStyle = "rgba(48,54,55,.94)";
+      ctx.beginPath(); ctx.roundRect(right - w, cy - 30, w, 60, 30); ctx.fill();
+      ctx.shadowColor = "transparent";
+    }
+    ctx.fillStyle = paper ? paper.muted : NAV.ink; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText("Leave cabin", paper ? cx - r - 16 : cx - r - 34, cy);
   }
   ctx.restore();
 }
@@ -1836,7 +1842,9 @@ async function enter() {
         if (choice) {
           pressChoices.push({ time, hand: e.inputSource.handedness, reason: choice.reason, shiftedMs: choice.shiftedMs || 0,
             target: choice.sample?.target || null, liveTarget: aim?.target || null,
-            gaps: (aimHistory.get(e.inputSource) || []).slice(-24).map(h => [Math.round(time - h.t), h.gapMm == null ? null : Math.round(h.gapMm), h.target]) });
+            chosen: choice.sample?.px ? [Math.round(choice.sample.px.x), Math.round(choice.sample.px.y)] : null,
+            gaps: (aimHistory.get(e.inputSource) || []).slice(-24).map(h => [Math.round(time - h.t), h.gapMm == null ? null : Math.round(h.gapMm),
+              h.px ? Math.round(h.px.x) : null, h.px ? Math.round(h.px.y) : null, h.target]) });
           if (pressChoices.length > 40) pressChoices.shift();
         }
         const exitChosen = choice?.sample ? choice.sample.target === "global-exit" : exitAims.get(e.inputSource);
@@ -1844,7 +1852,7 @@ async function enter() {
           exitPresses.set(e.inputSource,{revision:pointerRevision,time,placement:lastDisplay});
         if (kind === "selectstart" && state.menuOpen && state.headPointer)
           headPresses.set(e.inputSource, { target: state.hover, revision: pointerRevision });
-        if (kind === "selectstart" && state.menuOpen && !state.headPointer && aim) {
+        if (kind === "selectstart" && (state.menuOpen || exitChosen) && !state.headPointer && aim) {
           aim.press ||= choice?.sample
             ? { hit: choice.sample.hit, target: choice.sample.target, revision: pointerRevision }
             : { hit: aim.hit, target: aim.target, revision: pointerRevision };
@@ -2104,24 +2112,31 @@ function frame(time, xrFrame, generation) {
           const px = h => ({ x: (h.local.x / surfaceWidth() + 0.5) * PAGE.width, y: (0.5 - h.local.y / surfaceHeight()) * PAGE.height });
           const region = h => !!h && (state.menuOpen ? insideNavigation(h) : inExitZone(px(h).x, px(h).y));
           const rawHit = rayOnPage(rawRay, surfacePose(), surfaceWidth(), surfaceHeight());
-          freshHit = region(rawHit)
+          // Menus filter inside their card; elsewhere every on-page point is
+          // filtered and remembered, so a pinch that drifts off Exit can still
+          // be traced back to it. Only points inside the zone are shown.
+          const filtered = (state.menuOpen ? region(rawHit) : !!rawHit)
             ? rayFilters.get(source).update(rawRay, surfacePose(), surfaceWidth(), surfaceHeight(), time)
             : (rayFilters.get(source).reset(), null);
+          freshHit = region(filtered) ? filtered : null;
           if (freshHit) {
             const p = px(freshHit);
             freshTarget = state.menuOpen ? panelHit(p.x, p.y) : inExitZone(p.x, p.y) ? "global-exit" : null;
           }
+          livePoints.set(source, filtered ? px(filtered) : null);
           const history = aimHistory.get(source) || [];
-          history.push({ t: time, hit: freshHit, target: freshTarget, px: freshHit ? px(freshHit) : null,
+          history.push({ t: time, hit: filtered, target: freshTarget, px: filtered ? px(filtered) : null,
             gapMm: tipsTracked && distance != null ? distance * 1000 : null, revision: pointerRevision });
           while (history.length && time - history[0].t > LOOK_BACK.bufferMs) history.shift();
           aimHistory.set(source, history);
           exitAims.set(source, freshTarget === "global-exit");
         } else {
-          aimHistory.delete(source);
+          aimHistory.delete(source); livePoints.delete(source);
           exitAims.set(source, eligible && state.headPointer && overExit(rawRay));
         }
-        const handMenuAim = (state.menuOpen || exitAims.get(source)) && !state.headPointer;
+        // A held Exit press keeps its dot, even if the hand drifts off the zone.
+        const exitHeld = exitPresses.get(source)?.revision === pointerRevision;
+        const handMenuAim = (state.menuOpen || exitAims.get(source) || exitHeld) && !state.headPointer;
         let target = null;
         if (!physicallySafe || (handMenuAim && !rawRay)) {
           heldTargets.delete(source);
@@ -2206,9 +2221,15 @@ function frame(time, xrFrame, generation) {
           gestures.cancel(input.source,"exit-control",time);
           const valid=input.revision===pointerRevision && input.exitPress.revision===pointerRevision &&
             input.visible && sessionVisible && !pose.emulatedPosition && !input.source.skipRendering &&
-            (state.headPointer ? overExit(pose.transform) : overExit(input.ray, EXIT.releaseSlack));
+            (state.headPointer ? overExit(pose.transform)
+              : !input.source.hand ? overExit(input.ray, EXIT.releaseSlack)
+              : !!livePoints.get(input.source) && inExitZone(livePoints.get(input.source).x, livePoints.get(input.source).y, EXIT.releaseSlack));
           if(input.kind==="select" && valid && input.time-input.exitPress.time<HOLD_MS)leaveExperience();
-          if(input.kind==="select"||input.kind==="selectend")exitPresses.delete(input.source);
+          if(input.kind==="select"||input.kind==="selectend") {
+            exitPresses.delete(input.source);
+            const held = heldTargets.get(input.source);
+            if (held) { held.press = null; held.nativeHeld = false; }
+          }
           continue;
         }
         if (input.wrist || wristPresses.has(input.source)) {
@@ -2306,7 +2327,7 @@ function frame(time, xrFrame, generation) {
       for (const { source, hand } of pointerRays) {
         const aim = heldTargets.get(source);
         if (!aim) continue;
-        if (aim.press && (gestures.owner !== source || !gestures.hands.get(source)?.closed)) {
+        if (aim.press && !exitPresses.has(source) && (gestures.owner !== source || !gestures.hands.get(source)?.closed)) {
           aim.press = null; aim.nativeHeld = false;
           aim.hit = aim.liveHit; aim.target = aim.liveTarget;
         }

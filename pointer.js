@@ -139,11 +139,17 @@ export class Pointer {
     this.entries.set(hand, e);
     return e;
   }
+  // Hide by opacity only: once created, dot layers stay listed so pointing
+  // never re-submits the compositor layer list.
   clearVisible() {
     for (const e of this.entries.values()) if (e.layer) e.layer.opacity = 0;
     this.marks = []; this.onMarks?.(this.marks);
+    return false;
+  }
+  fail(error) {
+    this.failed = true; this.clearVisible();
     const changed = this.visible.length > 0;
-    this.visible = [];
+    this.visible = []; this.onError(error);
     return changed;
   }
   // rays: [{ hand, hit, look }], hit.local in metres on the surface.
@@ -176,14 +182,14 @@ export class Pointer {
       this.visible = shown;
       return changed;
     } catch (error) {
-      this.failed = true; this.clearVisible(); this.onError(error);
-      return true;
+      return this.fail(error) || true;
     }
   }
   // Without compositor layers the dot is a separate textured square drawn
   // over the page in the projection pass, never painted into the page.
   drawProjection(gpu, viewProjection, surfaceMatrix) {
-    if (this.failed) return;
+    if (this.failed || this.layers) return; // with layers the dot quads show
+    
     try {
       for (const mark of this.marks) {
         const e = this.entries.get(mark.hand);
@@ -191,7 +197,7 @@ export class Pointer {
           .scale(DOT_SIZE / 2, DOT_SIZE / 2, 1);
         gpu.drawSprite(e.canvases[mark.look], new DOMMatrix(viewProjection).multiply(model).toFloat32Array());
       }
-    } catch (error) { this.failed = true; this.clearVisible(); this.onError(error); }
+    } catch (error) { this.fail(error); }
   }
   draw(frame, gpu, active) {
     if (!this.layers) return false;
@@ -201,7 +207,7 @@ export class Pointer {
           gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvases[e.look], { premultiplied: true });
           e.dirty = false;
         } catch (error) {
-          this.failed = true; this.clearVisible(); this.onError(error);
+          this.fail(error);
           return true;
         }
       }
