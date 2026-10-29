@@ -1622,14 +1622,15 @@ function panelHit(x, y) {
   const button = navigationModel().buttons.find(b => !b.disabled && x >= b.x && x <= b.x+b.w && y >= b.y && y <= b.y+b.h)?.id;
   if (button) return button;
   if (inExitZone(x, y)) return "global-exit";
-  // Forgiving targets: a point in the gap just beside a button counts as it.
-  let near = null, best = TARGET_SLACK;
-  for (const b of navigationModel().buttons) {
-    if (b.disabled) continue;
-    const d = Math.hypot(Math.max(b.x - x, 0, x - b.x - b.w), Math.max(b.y - y, 0, y - b.y - b.h));
-    if (d <= best) { best = d; near = b.id; }
-  }
-  return near;
+  // Forgiving targets on Home and Settings: a point in open space just beside
+  // a button counts as it, but only when no other button is that close
+  // (never at a seam between two options, never on calendar cells).
+  const model = navigationModel();
+  if (!["home", "settings"].includes(model.kind)) return null;
+  const near = model.buttons.filter(b => !b.disabled)
+    .map(b => ({ id: b.id, d: Math.hypot(Math.max(b.x - x, 0, x - b.x - b.w), Math.max(b.y - y, 0, y - b.y - b.h)) }))
+    .filter(n => n.d <= TARGET_SLACK);
+  return near.length === 1 ? near[0].id : null;
 }
 function insideNavigation(hit) {
   if (!hit) return false;
@@ -1858,15 +1859,15 @@ async function enter() {
               h.px ? Math.round(h.px.x) : null, h.px ? Math.round(h.px.y) : null, h.target]) });
           if (pressChoices.length > 40) pressChoices.shift();
         }
-        const exitChosen = choice?.sample ? choice.sample.target === "global-exit" : exitAims.get(e.inputSource);
+        // What you see is what you get: the press takes what is highlighted
+        // now. (The look-back above is recorded for diagnostics only.)
+        const exitChosen = exitAims.get(e.inputSource);
         if(kind==="selectstart" && exitChosen)
           exitPresses.set(e.inputSource,{revision:pointerRevision,time,placement:lastDisplay});
         if (kind === "selectstart" && state.menuOpen && state.headPointer)
           headPresses.set(e.inputSource, { target: state.hover, revision: pointerRevision });
         if (kind === "selectstart" && (state.menuOpen || exitChosen) && !state.headPointer && aim) {
-          aim.press ||= choice?.sample
-            ? { hit: choice.sample.hit, target: choice.sample.target, revision: pointerRevision }
-            : { hit: aim.hit, target: aim.target, revision: pointerRevision };
+          aim.press ||= { hit: aim.hit, target: aim.target, revision: pointerRevision };
           aim.nativeHeld = true;
         }
         nativeQueue.push({

@@ -1,13 +1,16 @@
 ## 29 October 2026 — Build 046 selection fix (release in progress)
 
-Bastian on 045: "not very responsive" and most buttons can't be selected. He asked for a fix without another test round, so the cause is still unmeasured. 045's pinch look-back probably misfired when the hand kept moving while pinching.
+Bastian on 045: "not very responsive" and most buttons can't be selected. He asked for a fix without another test round, so the cause is still unmeasured.
 
-046 changes:
-- A pinch now selects the button the dot spent most time on in the last 0.2 s. Time while the fingers are already closing counts for less, because that is when drift happens. A pinch never selects empty space if a button was there.
-- Points just beside a button (within 12 mm) count as that button.
-- The dot filter is unchanged. A faster filter failed the hand-tremor stillness check, and the existing filter already settles in about 60 ms.
+Lesson: both timing tricks (045's look-back, then a dwell rule tried during 046) guessed how real hands close. They made selection worse than 043, which simply selected what was highlighted. An independent critic scored the dwell version 5/10: quick pinches picked the button just left.
 
-Branch build-046-reliable-select. Not tried on a Quest.
+046 is therefore deliberately simple:
+- A pinch selects exactly what is highlighted when the headset reports it.
+- On Home and Settings, open space just beside a button counts as that button, but only when no other button is that close. Never at seams, never in the calendar.
+- Exit keeps its large invisible zone. The dot is unchanged from 045.
+- The look-back choice is still recorded in diagnostics for later tuning.
+
+Not tried on a Quest. Branch build-046-reliable-select.
 
 ---
 ## 29 October 2026 — Build 045 pointer + Exit repair RELEASED

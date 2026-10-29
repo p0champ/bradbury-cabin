@@ -45,21 +45,20 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   const buttons = p => p.evaluate(() => JSON.parse(document.querySelector('#page').dataset.buttons));
   const centre = b => [b.x + b.w / 2, b.y + b.h / 2];
 
-  // 1. Drift into the button below: the aimed button opens, the dot shows it.
+  // 1. What you see is what you get: the pinch selects what is highlighted
+  // when the headset reports it, and the held dot stays on that button.
   for (const lying of [false, true]) {
     const { p, errors } = await open('home', lying);
     const bs = await buttons(p), A = bs.find(b => b.id === 'home-resume'), B = bs.find(b => b.id === 'home-notes');
-    const x = 300, y = A.y + A.h - 25, dip = 82; // 29 mm: ends inside home-notes
-    assert.ok(y + dip > B.y && y + dip < B.y + B.h, 'fixture dip must land on the lower button');
+    const x = 300, y = A.y + A.h - 25, dip = 82; // ends inside home-notes
     const held = await p.evaluate(({ x, y, dip }) => __driftPress(x, y, dip, { release: false }), { x, y, dip });
-    assert.ok(held && held.y >= A.y - 34 && held.y <= A.y + A.h + 34 && held.y < B.y, `press dot at y ${held?.y}, not on the aimed row`);
-    assert.equal(held.look, 'press');
+    const shown = await p.evaluate(() => document.querySelector('#page').dataset.target);
+    assert.equal(shown, 'home-notes', 'fixture: Notes should be highlighted at the press');
+    assert.ok(held && held.look === 'press' && held.y >= B.y && held.y <= B.y + B.h, `held dot ${JSON.stringify(held)} not on the highlighted button`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
-    const after = await p.evaluate(() => ({ menuOpen: document.querySelector('#page').dataset.view, menu: document.querySelector('#page').dataset.menuPage }));
-    assert.notEqual(after.menu, 'notes', 'pinch drift opened the button below the aimed one');
-    assert.ok(!['home'].includes(after.menu), `aimed Resume did not open (${JSON.stringify(after)})`);
+    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.menuPage), 'notes', 'the pinch did not select the highlighted button');
     assert.deepEqual(errors, []);
-    passed(`press: pinch drift into the row below still opens the aimed row ${lying ? 'lying' : 'upright'}`);
+    passed(`press: the pinch selects exactly the highlighted button ${lying ? 'lying' : 'upright'}`);
     await p.close();
   }
 
@@ -114,6 +113,18 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     await p.close();
   }
 
+  // 3c. Never guess between two options: a seam point selects neither.
+  {
+    const { p } = await open('settings');
+    const bs = await buttons(p), A = bs.find(b => b.id === 'settings-appearance:paper'), B = bs.find(b => b.id === 'settings-appearance:night');
+    const seamX = (A.x + A.w + B.x) / 2, y = A.y + A.h / 2;
+    const seen = await p.evaluate(({ seamX, y }) => { __hand(.06); const out = new Set();
+      for (let i = 0; i < 40; i++) { __aimPx(seamX + (i % 2 ? 2 : -2), y); __step(15); out.add(document.querySelector('#page').dataset.target || ''); }
+      return [...out]; }, { seamX, y });
+    assert.ok(!(seen.includes(A.id) && seen.includes(B.id)), `seam flickered between both options: ${seen}`);
+    passed('press: the seam between two options never flips between them');
+    await p.close();
+  }
   // 4. Exit with drift on every surface, plus the far top-right corner.
   // Spec geometry, computed here from the surfaces, not read from the app.
   const PLACE = { x: (2048 - 600 * 2048 / 720) / 2, y: (2560 - 240 * 2048 / 720) / 2, w: 600 * 2048 / 720 };
@@ -138,7 +149,9 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
       assert.deepEqual([e.x, e.y, e.x + e.w].map(Math.round), [d.cx - 140, d.cy - 200, d.cx + 190].map(Math.round));
     }
     // Aim at the circle's upper or lower half, then the 29 mm drift.
-    await p.evaluate(({ d, part }) => __driftPress(d.cx, part === 'upper' ? d.cy - 30 : d.cy + 44, 82), { d, part });
+    // Upper half with a 29 mm drift, or lower half with a 21 mm drift: both
+    // stay inside the generous zone, so Exit is still highlighted at the press.
+    await p.evaluate(({ d, part }) => __driftPress(d.cx, part === 'upper' ? d.cy - 30 : d.cy + 20, part === 'upper' ? 82 : 60), { d, part });
     assert.equal(await p.evaluate(() => __mock.session.ended), true, `${screen}: drifting press from the ${part} half of Exit did not leave`);
     assert.equal(await p.locator('#place').textContent(), before);
     passed(`exit: drifting pinch from the ${part} half of the circle leaves from ${screen}`);
@@ -147,7 +160,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   // While an Exit press is held outside menus, the dot shows the chosen point.
   {
     const { p } = await open('reading');
-    const held = await p.evaluate(() => __driftPress(1960, 132, 82, { release: false }));
+    const held = await p.evaluate(() => __driftPress(1960, 100, 60, { release: false }));
     assert.ok(held && held.look === 'press' && held.y >= 88 - 200 && held.y <= 200, `held Exit dot ${JSON.stringify(held)}`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => __mock.session.ended), true);
@@ -174,6 +187,22 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     await p.close();
   }
 
+  // 5b. Leaving Exit just before a reading pinch turns the page (no dead pinch).
+  {
+    const { p } = await open('reading');
+    const before = await p.locator('#place').textContent();
+    await p.evaluate(() => {
+      __hand(.06); __aimPx(1960, 88); for (let t = 0; t < 900; t += 15) __step(15);
+      __aimPx(1200, 900); for (let t = 0; t < 45; t += 15) __step(15);
+      for (let k = 1; k <= 6; k++) { __hand((60 - 45 * k / 6) / 1000); __step(15); }
+      __native('selectstart'); for (let t = 0; t < 150; t += 15) __step(15);
+      __hand(.06); __native('select'); __native('selectend'); __step(16);
+    });
+    assert.notEqual(await p.evaluate(() => __mock.session.ended), true, 'left the cabin after aiming away from Exit');
+    assert.notEqual(await p.locator('#place').textContent(), before, 'pinch after leaving Exit did nothing');
+    passed('exit: leaving the circle just before a pinch turns the page');
+    await p.close();
+  }
   // 6. Reading pinches just below the zone turn pages; zone never covers a button.
   {
     const { p } = await open('reading');

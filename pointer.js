@@ -236,7 +236,9 @@ export class Pointer {
   }
 }
 
-// Which button a pinch selects. Closing the fingers can drag the ray onto a
+// Diagnostics only (Build 046): the press itself takes what is highlighted.
+// This records which button a dwell rule would have chosen, for tuning from
+// real headset traces. Closing the fingers can drag the ray onto a
 // neighbour, and people often keep moving while pinching. So the press takes
 // the button the dot spent most time on during the last moment, counting
 // time while the fingers were already closing for less (that is when drift
