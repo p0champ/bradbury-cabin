@@ -30,3 +30,7 @@ Before publishing: the final full browser suite and unit/source checks must pass
 ## Final validation record (parent)
 
 197/197 unit tests and source checks passed. Final full synthetic desktop suite: 212/212 passed. Focused pointer28/repair15/guide15/personal6 passed. Review conditions met; scans, publication and exact live-file verification follow. No Quest/real Drive test claimed.
+
+## Publication record (parent)
+
+Code8f7577c published to build-044-selection-finish and phase-1-gestures after staged/committed scans. Live Build044 index/style/all36 root JS modules verified identical to reviewed files. Notes record follows separately. No Quest/real Drive test claimed.

@@ -1,4 +1,6 @@
-# Build 044 — repair in progress, NOT released/device verified
+# Build 044 — RELEASED/live verified, device outcome pending
+
+Live ?v=44 / BUILD044 code8f7577c. Desktop197 unit+source/212 browser checks passed, critic8.3; no Quest result.
 
 Reported: dot responsive but selections effectively lower; top controls unreachable. Check pointer position vs opened item at top/middle/bottom, both hands/upright/lying after same-texture repair. Check centered readable manual placement, chosen pose retained, Exit from placement/reading/menu without page action. Exact THE TIGER: last page alone does not finish; NEXT then fresh NEXT records Read immediately in visible Library and after restart. BACK cancels; hold remains menu. Keep prior combined checks. No Quest result claimed.
 
