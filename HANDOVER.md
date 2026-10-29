@@ -1,3 +1,12 @@
+# Build 037 — welcome screen and precise dot pointer (29 October 2026)
+
+**Built:** after a designer/judge round approved by Bastian: every entry lands on a welcome screen (greeting, a line about the day, Begin today's reading / Continue <title>); the beam is gone — a 6 mm dot becomes a ring over a choice; rays smoothed (One-Euro) and the choice held through the pinch, and selection uses exactly what the dot shows. See BUILD_037_REVIEW.md.
+
+**Verification:** 155 unit, 148/148 browser with real pinches on the welcome; critic 6 -> 8/10, all findings fixed. Not on Quest yet.
+
+**Next (approved):** Build 038 — Apple-glass wrist glance (weekday, big day number, three dots for today's reading; pinch opens shelf), cleaner hand discs (3.6 cm, fade after 5 s idle), smoothing of hand-following layers.
+
+---
 # Build 036 — pointer, glass markers, smoother, quieter (29 October 2026)
 
 **Built:** faint-beam + soft-dot pointer in menus; frosted glass hand markers with one chevron; 160 ms view fades (page turns barely breathe); instruction lines vanish after three visits; Apple-style grouped-list menus. Design agreed with Bastian before building. See BUILD_036_REVIEW.md.

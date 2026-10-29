@@ -1954,7 +1954,7 @@ function frame(time, xrFrame, generation) {
         const rawRay = state.headPointer ? null : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
         if (!state.headPointer && !rawRay) rayFilters.get(source).x = null; // restart after tracking loss
         const point = state.headPointer ? pose.transform : smoothRay(rayFilters.get(source), rawRay, time);
-        const pinching = a && b && Math.hypot(
+        const pinching = gestures.hands.get(source)?.nativeDown || a && b && Math.hypot(
           a.transform.position.x - b.transform.position.x,
           a.transform.position.y - b.transform.position.y,
           a.transform.position.z - b.transform.position.z) < 0.03;
@@ -2116,6 +2116,8 @@ function frame(time, xrFrame, generation) {
           gestures.cancel(input.source, "build-completed", time);
           continue;
         }
+        // A press that ended without a select must not swallow the next one.
+        if (input.kind === "selectend") swallowRelease.delete(input.source);
         const target = !state.menuOpen
           ? null
           : state.headPointer

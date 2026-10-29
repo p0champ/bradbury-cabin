@@ -1,3 +1,10 @@
+# Build 037 — add to the combined end check
+
+1. ?v=37, BUILD 037. Entering: a calm fade with "Good evening, Bastian.", then the welcome builds; choose Begin (with today's three) or Continue.
+2. In menus: a small dot where you point, a ring over a choice that closes as you pinch. Does it feel accurate and steady? No beam.
+3. A pinch while the welcome is still building only completes it.
+
+---
 # Build 036 — add to the combined end check
 
 1. ?v=36, BUILD 036. Open the menu: a faint beam from your hand ending in a soft dot. Does the beam reach exactly to the page (not short, not through it)? Is the bright end at the page?
