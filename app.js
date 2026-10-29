@@ -463,7 +463,7 @@ function paint() {
       hello: greeting(),
       line: hasToday()
         ? todayFacts(new Date(), progress, todayKey()).allRead ? "Today’s three are read." : "Three pieces are waiting."
-        : "Today2019s three haven2019t arrived yet.",
+        : "Today’s three haven’t arrived yet.",
       today: hasToday(),
       resume: { title: w === SAMPLER ? "the first leaf" : w.title, place: state.page > 0 ? `p. ${state.page + 1}` : "" },
     };
