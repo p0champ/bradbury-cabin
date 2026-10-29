@@ -25,4 +25,4 @@ Separate critic authored none of the code. Round1:7.8/10; P2 secondary text cont
 
 ## Release
 
-Pending final browser result, scans, commit/push and live comparison. Branch build-039-coherent-cabin; v39 / BUILD039 / gestures-039. Preserve main and phase-0-crispness.
+Code7630c32 committed after staged/committed secret scans passed (32 files), pushed to build-039-coherent-cabin and phase-1-gestures. Live https://p0champ.github.io/bradbury-cabin/?v=39 verified: index/style/all32 JavaScript modules match reviewed local source after line-ending normalization. All183 browser checks passed, satisfying critic's final release condition. Branch build-039-coherent-cabin; v39 / BUILD039 / gestures-039. Main and phase-0-crispness untouched. No real Quest test.

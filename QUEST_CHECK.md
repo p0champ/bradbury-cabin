@@ -1,4 +1,4 @@
-# Build 039 — add to the single combined end check after release
+# Build 039 — released/live verified; single combined Quest check still pending
 
 1. Enter/placement: one short stationary reveal; welcome choices appear together. The placing pinch must not also choose. A fresh eligible pinch chooses directly. Today shows all three at once.
 2. Move your head while browsing welcome/Today/shelf/settings: menus should keep their place within the visit; closing restores the reading anchor. Explicit recenter and opening a fresh menu remain useful upright and lying down.

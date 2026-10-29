@@ -1,4 +1,9 @@
-## 29 October 2026 — Build 039 approved, reviewed and tested; release pending
+## 29 October 2026 — Build 039 released and live verified; approved work complete
+
+Live https://p0champ.github.io/bradbury-cabin/?v=39 ; code7630c32 on build-039-coherent-cabin and phase-1-gestures. Index/style/all32JS modules match reviewed source.168unit+source checks,183/183synthetic browser checks, final critic8.5/10 after two contrast fixes. Separate behavior/navigation/front-door authors and independent critic. See BUILD_039_REVIEW.md. All three approved Apple-consensus scopes delivered: complete prompt welcome/Today, stationary arrival/stable browsing, coherent functional navigation and clean browser entrance. Existing source texts/gestures/hitrects/indices/pointer/wrist/audio/page-turn treatment preserved. No Quest/realDrive/Claude test claimed. Notes/checklist current; all real-world checks remain one combined test at Bastian's discretion. No further implementation is authorized or pending from this request; compact menus/merged home/new navigation require separately described approval.
+
+---
+## 29 October 2026 — Build 039 approved, reviewed and tested; release pending (historical)
 
 Final168unit+source checks and183/183synthetic browser checks pass. Independent critic rounds7.8→7.9→8.5/10 after hover contrast and practice backing fixes; no remaining P1/P2. Reviewed final screenshots. See BUILD_039_REVIEW.md. Need scans, commit/push and live comparison; then work in the approved scope is complete. No extra design gate or intermediate Quest test requested.
 
