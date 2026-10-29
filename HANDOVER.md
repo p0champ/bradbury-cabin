@@ -1,3 +1,10 @@
+## 29 October 2026 — Build 045 pointer + Exit repair (in progress)
+
+Bastian's Quest feedback on 044: dot lags and leaves a trail; Exit tile looks clunky. Cause of the trail found and reproduced: 044 drew the dot into the page image and only cleaned last frame's spot, but the headset rotates several images, so old dots stay. Old tests used one image, so they could not see it. See POINTER_045_INVESTIGATION.md.
+
+Agreed by separate interaction and visual designers plus a judge: the dot is its own small layer again (as in 043, which felt responsive). A pinch now uses where you aimed just before your fingers started closing, which targets 043's "acts below the dot" problem. Exit is a small circle with an × and a "Leave cabin" label on hover, with a larger invisible area around it. Branch build-045-pointer-exit. Not yet released.
+
+---
 ## 29 October 2026 — Build 044 RELEASED / live files verified
 
 Live https://p0champ.github.io/bradbury-cabin/?v=44 ; code8f7577c on build-044-selection-finish + phase-1-gestures. Index/style/all36 root JS modules exactly match reviewed source. 197 unit tests + source checks, 212/212 full synthetic desktop browser checks PASS; focused pointer28/repair15/guide15/personal6 PASS. Independent implementation critic 7.7 reject -> 8.3 accept after aimed closing button priority fixed, no P1/P2. Staged/committed scans passed. See BUILD_044_REVIEW.md and POINTER_044_INVESTIGATION.md.

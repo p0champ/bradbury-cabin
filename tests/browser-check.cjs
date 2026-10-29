@@ -2,6 +2,8 @@ const entryExitChecks = require("./entry-exit-browser.cjs");
 const selectionChecks = require("./selection-browser.cjs");
 const finishChecks = require("./finish-browser.cjs");
 const pointerChecks = require("./pointer-browser.cjs");
+const pointerTruthChecks = require("./pointer-truth-browser.cjs");
+const pressDriftChecks = require("./press-drift-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
 const coherentChecks = require("./coherent-browser.cjs");
@@ -83,6 +85,12 @@ async function mock(
         draws: 0,
         projectionDraws: 0,
         uploads: 0,
+        frameId: 0,
+        // Quest-like non-static layers: several swapchain images rotate behind
+        // one texture object; each keeps its own old contents. Opt out only
+        // with ?swapchain=1 style override for diagnostics, never by default.
+        swapchain: Number(preferences.__swapchain || 3),
+        acquisitions: 0,
       };
       const head = () => {
         const angle = Math.atan((window.__mock.offsetX || 0) / 1.1) / 2,
@@ -150,6 +158,7 @@ async function mock(
           return;
         }
         window.__mock.clock += advance;
+        window.__mock.frameId++;
         if (session.pendingState) {
           session.renderState = session.pendingState;
           session.pendingState = null;
@@ -618,6 +627,68 @@ async function mock(
           return draw(...args);
         };
       }
+      // On the first acquisition in a frame the texture object shows the next
+      // swapchain image: its pixels are whatever that image last held.
+      function rotateSwapchain(data) {
+        const n = window.__mock.swapchain;
+        if (n <= 1 || data.acquiredFrame === window.__mock.frameId) return;
+        data.acquiredFrame = window.__mock.frameId;
+        window.__mock.acquisitions++;
+        const P = WebGL2RenderingContext.prototype;
+        const boundTexture = gl.getParameter(gl.TEXTURE_BINDING_2D);
+        try { rotateImages(data, n, P); }
+        finally { P.bindTexture.call(gl, gl.TEXTURE_2D, boundTexture); }
+      }
+      function rotateImages(data, n, P) {
+        if (!data.images) {
+          data.images = [...Array(n)].map(() => {
+            const t = gl.createTexture();
+            P.bindTexture.call(gl, gl.TEXTURE_2D, t);
+            P.texStorage2D.call(gl, gl.TEXTURE_2D, 1, gl.RGBA8, data.width, data.height);
+            return t;
+          });
+          data.image = 0;
+          data.seen = new Set([0]);
+          P.bindTexture.call(gl, gl.TEXTURE_2D, null);
+          return; // first access: the cleared first image
+        }
+        const copy = (from, to) => {
+          const fbo = gl.createFramebuffer(), prevRead = gl.getParameter(gl.READ_FRAMEBUFFER_BINDING);
+          P.bindFramebuffer.call(gl, gl.READ_FRAMEBUFFER, fbo);
+          P.framebufferTexture2D.call(gl, gl.READ_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, from, 0);
+          P.bindTexture.call(gl, gl.TEXTURE_2D, to);
+          P.copyTexSubImage2D.call(gl, gl.TEXTURE_2D, 0, 0, 0, 0, 0, data.width, data.height);
+          P.bindTexture.call(gl, gl.TEXTURE_2D, null);
+          P.framebufferTexture2D.call(gl, gl.READ_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, null, 0);
+          P.bindFramebuffer.call(gl, gl.READ_FRAMEBUFFER, prevRead);
+          gl.deleteFramebuffer(fbo);
+        };
+        copy(data.tex, data.images[data.image]);
+        // Irregular order: never assume the next image is the oldest one.
+        window.__mock.swapSeed = ((window.__mock.swapSeed || 7) * 1103515245 + 12345) >>> 0;
+        data.image = (data.image + 1 + (window.__mock.swapSeed >>> 16) % (n - 1)) % n;
+        if (data.seen.has(data.image)) copy(data.images[data.image], data.tex);
+        else if (data.width * data.height <= 4096 * 4096) { // never-used image: arbitrary old pixels
+          data.seen.add(data.image);
+          const noise = new Uint8Array(data.width * data.height * 4);
+          for (let i = 0; i < noise.length; i += 4) { const v = (i * 2654435761) >>> 24; noise[i] = v; noise[i + 1] = 255 - v; noise[i + 2] = v ^ 0x5a; noise[i + 3] = 255; }
+          P.bindTexture.call(gl, gl.TEXTURE_2D, data.tex);
+          P.texSubImage2D.call(gl, gl.TEXTURE_2D, 0, 0, 0, data.width, data.height, gl.RGBA, gl.UNSIGNED_BYTE, noise);
+        }
+        else { // never-used image: cleared to transparent on first access
+          data.seen.add(data.image);
+          const fbo = gl.createFramebuffer(), prev = gl.getParameter(gl.DRAW_FRAMEBUFFER_BINDING);
+          P.bindFramebuffer.call(gl, gl.DRAW_FRAMEBUFFER, fbo);
+          P.framebufferTexture2D.call(gl, gl.DRAW_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, data.tex, 0);
+          const cc = gl.getParameter(gl.COLOR_CLEAR_VALUE), scissor = gl.isEnabled(gl.SCISSOR_TEST);
+          gl.disable(gl.SCISSOR_TEST); gl.clearColor(0, 0, 0, 0); P.clear.call(gl, gl.COLOR_BUFFER_BIT);
+          gl.clearColor(...cc); if (scissor) gl.enable(gl.SCISSOR_TEST);
+          P.framebufferTexture2D.call(gl, gl.DRAW_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, null, 0);
+          P.bindFramebuffer.call(gl, gl.DRAW_FRAMEBUFFER, prev);
+          gl.deleteFramebuffer(fbo);
+        }
+        window.__mock.versions.set(data.tex, (window.__mock.versions.get(data.tex) || 0) + 1);
+      }
       function colorTexture(width, height) {
         const tex = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -760,6 +831,7 @@ async function mock(
           if (!data.badge && !data.arrival && !data.pointer && scenario === "draw-failure")
             throw Error("Deliberate layer draw failure");
           if (!data.badge && !data.arrival && !data.pointer) window.__mock.draws++;
+          rotateSwapchain(data);
           return {
             colorTexture: data.tex,
             viewport: { x: 0, y: 0, width: data.width, height: data.height },
@@ -828,8 +900,15 @@ async function mock(
       console.log(`${checks} repair checks passed.`);return;
     }
     if (process.env.CABIN_POINTER_ONLY) {
+      await pointerTruthChecks(browser, { mock, BASE_URL, out, passed });
       await pointerChecks(browser, { mock, BASE_URL, out, passed });
       console.log(`${checks} pointer browser checks passed.`);
+      return;
+    }
+    if (process.env.CABIN_TRUTH_ONLY) {
+      await pointerTruthChecks(browser, { mock, BASE_URL, out, passed });
+      await pressDriftChecks(browser, { mock, BASE_URL, out, passed });
+      console.log(`${checks} truth checks passed.`);
       return;
     }
     if (process.env.CABIN_PERSONAL_ONLY) {
@@ -1246,7 +1325,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-044");
+        assert.equal(details.build, "gestures-045");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2217,7 +2296,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=44");
+        const { paintHandBadge } = await import("./hand-badges.js?v=45");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2537,7 +2616,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=44");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=45");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3293,8 +3372,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=44");
-        const { loadProgress } = await import("./progress.js?v=44");
+        const { calendarButtons } = await import("./calendar.js?v=45");
+        const { loadProgress } = await import("./progress.js?v=45");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3350,6 +3429,8 @@ async function mock(
     await entryExitChecks(browser,{mock,BASE_URL,out,passed});
     await selectionChecks(browser,{mock,BASE_URL,out,passed});
     await finishChecks(browser,{mock,BASE_URL,out,passed});
+    await pointerTruthChecks(browser, { mock, BASE_URL, out, passed });
+    await pressDriftChecks(browser, { mock, BASE_URL, out, passed });
     await pointerChecks(browser, { mock, BASE_URL, out, passed });
     await feelChecks(browser, { mock, BASE_URL, out, passed });
     await frontdoorChecks(browser, { mock, BASE_URL, out, passed });

@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=44";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=45";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=44";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=44";
-import { HandBadges } from "./hand-badges.js?v=44";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=44";
-import { LIBRARY } from "./library.js?v=44";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=44";
-import { layoutReading } from "./reading-flow.js?v=44";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=44";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=44";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=44";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=44";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=44";
-import { parsePicks, pickLabels } from "./picks.js?v=44";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=44";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=44";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=44";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=44";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=44";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=44";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=44";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=44";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=44";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=44";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=44";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=44";
-import { EntrySound } from "./entry-sound.js?v=44";
+} from "./gestures.js?v=45";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=45";
+import { HandBadges } from "./hand-badges.js?v=45";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=45";
+import { LIBRARY } from "./library.js?v=45";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=45";
+import { layoutReading } from "./reading-flow.js?v=45";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=45";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=45";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=45";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=45";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=45";
+import { parsePicks, pickLabels } from "./picks.js?v=45";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=45";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=45";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=45";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=45";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=45";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=45";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=45";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=45";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=45";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=45";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=45";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=45";
+import { EntrySound } from "./entry-sound.js?v=45";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=44";
+} from "./progress.js?v=45";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=44";
+} from "./calendar.js?v=45";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -337,15 +337,40 @@ let pointer = null;
 // Each hand owns a single displayed hit and a press snapshot (including misses).
 const rayFilters = new Map(), heldTargets = new Map();
 const exitAims = new Map(), exitPresses = new Map();
+// Recent filtered aim per hand, for the press look-back (pointer.js).
+const aimHistory = new Map();
+const pressChoices = [];
 let exitHover = false;
 const PLACE_FRAME = {x: (2048-600*2048/720)/2, y:(2560-240*2048/720)/2, w:600*2048/720, h:240*2048/720};
-function exitRect() {
-  const b = state.centering ? PLACE_FRAME : state.menuOpen || state.arriving ? navigationModel().bounds : {x:0,y:200,w:2048,h:2360};
-  return {id:"global-exit",x:b.x+b.w-160,y:b.y-180,w:160,h:160};
+// Exit is a quiet 96 px circle at the surface's top right: outside floating
+// cards (an ornament), inside the reading page's rounded corner. A fixed,
+// larger invisible zone around it absorbs pinch drift; any real button inside
+// that zone still wins. Hover never changes the zone.
+const EXIT = Object.freeze({ radius: 48, inset: 88, left: 140, right: 190, up: 200, down: 140,
+  releaseSlack: 57, readingBottom: 200 });
+function exitSurface() {
+  return state.centering ? PLACE_FRAME : state.menuOpen || state.arriving ? navigationModel().bounds : null;
 }
-function overExit(ray) {
-  const p=pagePoint(ray), b=exitRect();
-  return !!p && p.x>=b.x && p.x<=b.x+b.w && p.y>=b.y && p.y<=b.y+b.h;
+function exitDisc() {
+  const b = exitSurface();
+  return b ? { cx: b.x + b.w - EXIT.inset, cy: b.y - EXIT.inset, r: EXIT.radius, floating: true }
+    : { cx: PAGE.width - EXIT.inset, cy: EXIT.inset, r: EXIT.radius, floating: false };
+}
+function exitRect() {
+  const d = exitDisc(), b = exitSurface();
+  const top = d.cy - EXIT.up, bottom = Math.min(d.cy + EXIT.down, b ? b.y : EXIT.readingBottom);
+  return { id: "global-exit", x: d.cx - EXIT.left, y: top, w: EXIT.left + EXIT.right, h: bottom - top };
+}
+function inExitZone(x, y, slack = 0) {
+  const e = exitRect();
+  if (!(x >= e.x - slack && x <= e.x + e.w + slack && y >= e.y - slack && y <= e.y + e.h + slack)) return false;
+  // Real buttons win over the invisible zone.
+  if (state.menuOpen && navigationModel().buttons.some(b => !b.disabled && x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h)) return false;
+  return true;
+}
+function overExit(ray, slack = 0) {
+  const p = pagePoint(ray);
+  return !!p && inExitZone(p.x, p.y, slack);
 }
 function leaveExperience() {
   rememberPlace();
@@ -398,7 +423,7 @@ function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, sho
   if (pointerDiagnostics.length > 600) pointerDiagnostics.shift();
 }
 function cancelPointerPresses(reason = "pointer-context-change") {
-  exitAims.clear(); exitPresses.clear();
+  exitAims.clear(); exitPresses.clear(); aimHistory.clear();
   pointerRevision++;
   headPresses.clear();
   wristPresses.clear();
@@ -808,15 +833,9 @@ function paint() {
   const exit=exitRect();
   canvas.dataset.buttons=JSON.stringify([...navigation.buttons,exit]);
   canvas.dataset.exitRect=JSON.stringify(exit);
-  ctx.save();
-  ctx.fillStyle=exitHover?"#555957":"#303432";
-  ctx.beginPath();ctx.roundRect(exit.x,exit.y,exit.w,exit.h,40);ctx.fill();
-  ctx.strokeStyle="#f5f5f2";ctx.lineWidth=7;ctx.lineCap="round";
-  ctx.beginPath();ctx.arc(exit.x+80,exit.y+65,28,-Math.PI*.34,Math.PI*1.34);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(exit.x+80,exit.y+27);ctx.lineTo(exit.x+80,exit.y+62);ctx.stroke();
-  ctx.fillStyle="#f5f5f2";ctx.font=`500 32px ${UI}`;ctx.textAlign="center";
-  ctx.fillText("Exit",exit.x+80,exit.y+132);
-  ctx.restore();
+  const disc=exitDisc();
+  canvas.dataset.exitDisc=JSON.stringify(disc);
+  paintExit(ctx, disc, palette === NAV ? null : palette, exitHover);
   // A window, not a sheet: soft rounded corners, transparent beyond them.
   if (state.mode !== "texture") {
     ctx.globalCompositeOperation = "destination-in";
@@ -856,6 +875,37 @@ function presentPose() {
 function surfaceWidth(){return state.mode==="layer" && quad?.width>0 ? quad.width : PAGE.metresWide;}
 function surfaceHeight(){return state.mode==="layer" && quad?.height>0 ? quad.height : PAGE.metresHigh;}
 function surfacePose(){return state.mode==="layer" && quad?.transform ? quad.transform : presentPose();}
+// Restrained close control: a circle and an xmark; a static label on hover.
+function paintExit(ctx, { cx, cy, r }, paper, hover) {
+  ctx.save();
+  if (paper) {
+    const dark = paper === MOODS[state.mood].night;
+    ctx.fillStyle = dark ? `rgba(235,230,218,${hover ? .16 : .09})` : `rgba(31,42,36,${hover ? .13 : .07})`;
+  } else {
+    ctx.shadowColor = "rgba(0,0,0,.28)"; ctx.shadowBlur = 18; ctx.shadowOffsetY = 4;
+    ctx.fillStyle = hover ? "#454c4d" : "rgba(48,54,55,.94)";
+  }
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+  ctx.shadowColor = "transparent";
+  if (!paper) {
+    ctx.strokeStyle = "rgba(255,255,255,.10)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(cx, cy, r - 1, 0, Math.PI * 2); ctx.stroke();
+  }
+  const glyph = paper ? (hover ? paper.ink : paper.muted) : hover ? NAV.ink : NAV.muted;
+  ctx.strokeStyle = glyph; ctx.lineWidth = 6; ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(cx - 16, cy - 16); ctx.lineTo(cx + 16, cy + 16);
+  ctx.moveTo(cx + 16, cy - 16); ctx.lineTo(cx - 16, cy + 16);
+  ctx.stroke();
+  if (hover) {
+    ctx.fillStyle = paper ? paper.muted : NAV.ink;
+    // Over the room (no backing), keep the label legible in bright light.
+    if (!paper) { ctx.shadowColor = "rgba(0,0,0,.55)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 1; }
+    ctx.font = `500 30px ${UI}`; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText("Leave cabin", cx - r - 16, cy);
+  }
+  ctx.restore();
+}
 function inFront() {
   return state.session && lastViewer
     ? new XRRigidTransform(
@@ -1412,7 +1462,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-044",
+    build: "gestures-045",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1455,7 +1505,8 @@ $("export").onclick = () => {
     gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
     pointer: { error: state.pointerError || null,
       aim: "native-page-plane", diagnosticsEnabled: pointerDiagnosticsEnabled,
-      samples: pointerDiagnostics, nativeQuad: nativeQuadGeometry() },
+      samples: pointerDiagnostics, nativeQuad: nativeQuadGeometry(),
+      lookBack: { constants: LOOK_BACK, presses: pressChoices } },
     ambience: { setting: state.ambience, ...ambience.status() },
     mood: state.mood,
     wristCalendar: {
@@ -1559,9 +1610,9 @@ function hit(transform) {
 }
 // Hit-test the current menu panel: fixed menu pages or the live calendar.
 function panelHit(x, y) {
-  const e=exitRect();
-  if(x>=e.x&&x<=e.x+e.w&&y>=e.y&&y<=e.y+e.h)return "global-exit";
-  return navigationModel().buttons.find(b => !b.disabled && x >= b.x && x <= b.x+b.w && y >= b.y && y <= b.y+b.h)?.id || null;
+  const button = navigationModel().buttons.find(b => !b.disabled && x >= b.x && x <= b.x+b.w && y >= b.y && y <= b.y+b.h)?.id;
+  if (button) return button;
+  return inExitZone(x, y) ? "global-exit" : null;
 }
 function insideNavigation(hit) {
   if (!hit) return false;
@@ -1726,11 +1777,11 @@ async function enter() {
       gazeRing = new GazeRing(binding, ref, (error) => {
         state.gazeError = error.message;
       });
-      pointer = new Pointer(binding, ref, (error) => {
-        state.pointerError = error.message;
-        layerDirty=true;dirty=true;
-      });
-    pointer.setSurface(quad,canvas);
+    pointer = new Pointer(binding, ref, (error) => {
+      state.pointerError = error.message;
+    }, { layers: !!quad });
+    if (pointer) pointer.onMarks = marks => { canvas.dataset.pointerMarks = JSON.stringify(marks.map(m => ({ hand: m.hand, look: m.look,
+      x: (m.local.x / surfaceWidth() + .5) * PAGE.width, y: (.5 - m.local.y / surfaceHeight()) * PAGE.height }))); };
     if (quad)
       wristWatch = new WristWatch(binding, ref, (error) => {
         state.watchError = error.message;
@@ -1779,12 +1830,24 @@ async function enter() {
           return;
         }
         const aim = heldTargets.get(e.inputSource);
-        if(kind==="selectstart" && exitAims.get(e.inputSource))
+        // Hands: press what was aimed at before the fingers began closing.
+        const choice = kind === "selectstart" && e.inputSource.hand && !state.headPointer
+          ? chooseSnapshot(aimHistory.get(e.inputSource) || [], time, pointerRevision) : null;
+        if (choice) {
+          pressChoices.push({ time, hand: e.inputSource.handedness, reason: choice.reason, shiftedMs: choice.shiftedMs || 0,
+            target: choice.sample?.target || null, liveTarget: aim?.target || null,
+            gaps: (aimHistory.get(e.inputSource) || []).slice(-24).map(h => [Math.round(time - h.t), h.gapMm == null ? null : Math.round(h.gapMm), h.target]) });
+          if (pressChoices.length > 40) pressChoices.shift();
+        }
+        const exitChosen = choice?.sample ? choice.sample.target === "global-exit" : exitAims.get(e.inputSource);
+        if(kind==="selectstart" && exitChosen)
           exitPresses.set(e.inputSource,{revision:pointerRevision,time,placement:lastDisplay});
         if (kind === "selectstart" && state.menuOpen && state.headPointer)
           headPresses.set(e.inputSource, { target: state.hover, revision: pointerRevision });
         if (kind === "selectstart" && state.menuOpen && !state.headPointer && aim) {
-          aim.press ||= { hit: aim.hit, target: aim.target, revision: pointerRevision };
+          aim.press ||= choice?.sample
+            ? { hit: choice.sample.hit, target: choice.sample.target, revision: pointerRevision }
+            : { hit: aim.hit, target: aim.target, revision: pointerRevision };
           aim.nativeHeld = true;
         }
         nativeQueue.push({
@@ -1812,6 +1875,7 @@ async function enter() {
         rayFilters.delete(source);
         heldTargets.delete(source);
         headPresses.delete(source);
+        aimHistory.delete(source);
         wristPresses.delete(source);
         nativeQueue = nativeQueue.filter((e) => e.source !== source);
       }
@@ -1930,7 +1994,6 @@ function frame(time, xrFrame, generation) {
         lastDisplay=presentPose();
         canvas.dataset.panelPose=JSON.stringify(Array.from(lastDisplay.matrix));
       }
-      pointer?.setSurface(quad,canvas,{metresWide:surfaceWidth(),metresHigh:surfaceHeight()});
       syncPointerScreen();
       const framePointerRevision = pointerRevision;
       const activeSources = new Set(session.inputSources);
@@ -2033,7 +2096,31 @@ function frame(time, xrFrame, generation) {
         const open = button ? !button.pressed : distance > 0.028;
         samples[samples.length - 1].systemGesture ||= !attentive || (tracked && !handInView);
         const physicallySafe = attentive && handInView && !systemGesture && !glancing;
-        exitAims.set(source, (state.centering ? sessionVisible && handInView && !systemGesture : physicallySafe) && overExit(rawRay));
+        const eligible = state.centering ? sessionVisible && handInView && !systemGesture : physicallySafe;
+        // One filtered page point per hand drives the dot, hover, Exit and press.
+        let freshHit = null, freshTarget = null;
+        if (eligible && rawRay && !state.headPointer) {
+          if (!rayFilters.has(source)) rayFilters.set(source, new PageAimFilter());
+          const px = h => ({ x: (h.local.x / surfaceWidth() + 0.5) * PAGE.width, y: (0.5 - h.local.y / surfaceHeight()) * PAGE.height });
+          const region = h => !!h && (state.menuOpen ? insideNavigation(h) : inExitZone(px(h).x, px(h).y));
+          const rawHit = rayOnPage(rawRay, surfacePose(), surfaceWidth(), surfaceHeight());
+          freshHit = region(rawHit)
+            ? rayFilters.get(source).update(rawRay, surfacePose(), surfaceWidth(), surfaceHeight(), time)
+            : (rayFilters.get(source).reset(), null);
+          if (freshHit) {
+            const p = px(freshHit);
+            freshTarget = state.menuOpen ? panelHit(p.x, p.y) : inExitZone(p.x, p.y) ? "global-exit" : null;
+          }
+          const history = aimHistory.get(source) || [];
+          history.push({ t: time, hit: freshHit, target: freshTarget, px: freshHit ? px(freshHit) : null,
+            gapMm: tipsTracked && distance != null ? distance * 1000 : null, revision: pointerRevision });
+          while (history.length && time - history[0].t > LOOK_BACK.bufferMs) history.shift();
+          aimHistory.set(source, history);
+          exitAims.set(source, freshTarget === "global-exit");
+        } else {
+          aimHistory.delete(source);
+          exitAims.set(source, eligible && state.headPointer && overExit(rawRay));
+        }
         const handMenuAim = (state.menuOpen || exitAims.get(source)) && !state.headPointer;
         let target = null;
         if (!physicallySafe || (handMenuAim && !rawRay)) {
@@ -2043,14 +2130,6 @@ function frame(time, xrFrame, generation) {
           // the physical hand gates established by GestureEngine.update.
           if (handMenuAim) gestures.cancel(source, "pointer-tracking-or-attention-lost", time);
         } else if (handMenuAim) {
-          if (!rayFilters.has(source)) rayFilters.set(source, new PageAimFilter());
-          const rawHit = rayOnPage(rawRay, surfacePose(), surfaceWidth(), surfaceHeight());
-          const freshHit = insideNavigation(rawHit)
-            ? rayFilters.get(source).update(rawRay, surfacePose(), surfaceWidth(), surfaceHeight(), time)
-            : (rayFilters.get(source).reset(), null);
-          const freshTarget = freshHit ? panelHit(
-            (freshHit.local.x / surfaceWidth() + 0.5) * PAGE.width,
-            (0.5 - freshHit.local.y / surfaceHeight()) * PAGE.height) : null;
           let aim = heldTargets.get(source);
           if (!aim) { aim = { hit: freshHit, target: freshTarget, press: null, nativeHeld: false }; heldTargets.set(source, aim); }
           // Finger spacing is not a press: Quest calibrates its own pinch.
@@ -2127,7 +2206,7 @@ function frame(time, xrFrame, generation) {
           gestures.cancel(input.source,"exit-control",time);
           const valid=input.revision===pointerRevision && input.exitPress.revision===pointerRevision &&
             input.visible && sessionVisible && !pose.emulatedPosition && !input.source.skipRendering &&
-            (state.headPointer ? overExit(pose.transform) : overExit(input.ray));
+            (state.headPointer ? overExit(pose.transform) : overExit(input.ray, EXIT.releaseSlack));
           if(input.kind==="select" && valid && input.time-input.exitPress.time<HOLD_MS)leaveExperience();
           if(input.kind==="select"||input.kind==="selectend")exitPresses.delete(input.source);
           continue;
@@ -2235,7 +2314,7 @@ function frame(time, xrFrame, generation) {
         targets.set(source, shown.target);
         validatedRays.push({hand, hit: shown.hit, look: shown.target ? (aim.press ? "press" : "ring") : "dot"});
       }
-      if (pointer?.update(validatedRays, presentPose())) applyLayers();
+      if (pointer?.update(validatedRays, { transform: surfacePose(), width: surfaceWidth(), height: surfaceHeight() })) applyLayers();
       // A selection can replace the panel in this same frame. Hide every old
       // dot/highlight immediately rather than leaving it over a new row.
       if (framePointerRevision !== pointerRevision) {
@@ -2355,14 +2434,12 @@ function frame(time, xrFrame, generation) {
       // never needs its texImage2D/mipmap path; retain dirty until B uses it.
       if (drawMode === "texture" && dirty) {
         gpu.upload(canvas);
-        pointer?.invalidate();
         checkGl(gl, "comparison source upload");
         dirty = false;
       }
       gl.disable(gl.DEPTH_TEST);
       gl.disable(gl.BLEND);
       if (drawMode === "texture") {
-        pointer?.drawProjection(gpu);
         const scale = new Float32Array(identity);
         scale[0] = PAGE.metresWide / 2;
         scale[5] = PAGE.metresHigh / 2;
@@ -2408,6 +2485,7 @@ function frame(time, xrFrame, generation) {
               ),
             );
             checkGl(gl, "comparison projection draw");
+            pointer?.drawProjection(gpu, multiply(view.projectionMatrix, view.transform.inverse.matrix), display.matrix);
           } finally {
             gl.disable(gl.SCISSOR_TEST);
             if (projectionRoute) {
@@ -2440,7 +2518,6 @@ function frame(time, xrFrame, generation) {
           imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
         gpu.copyPage(sub, canvas, { premultiplied: true });
-        pointer?.invalidate();
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";

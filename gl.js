@@ -82,6 +82,14 @@ export async function renderer(canvas) {
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.bindTexture(gl.TEXTURE_2D, null);
+  const sprite = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, sprite);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.bindTexture(gl.TEXTURE_2D, null);
+  let spriteSource = null;
   const fbo = gl.createFramebuffer(),
     loc = gl.getUniformLocation(program, "m");
   const resized = document.createElement("canvas");
@@ -121,48 +129,27 @@ export async function renderer(canvas) {
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
       }
     },
-    copyPagePatch(sub, source, rect, fullWidth, fullHeight) {
-      const v = sub.viewport;
-      const left = Math.round(rect.x * v.width / fullWidth);
-      const right = Math.round((rect.x + rect.w) * v.width / fullWidth);
-      const top = Math.round(rect.y * v.height / fullHeight);
-      const bottom = Math.round((rect.y + rect.h) * v.height / fullHeight);
-      if (right <= left || bottom <= top) return;
-      let pixels = source;
-      if (source.width !== right - left || source.height !== bottom - top) {
-        resized.width = right - left; resized.height = bottom - top;
-        resized.getContext("2d").drawImage(source, 0, 0, resized.width, resized.height);
-        pixels = resized;
-      }
+    // A small separate image (the projection-mode pointer), blended on top.
+    drawSprite(source, matrix) {
       gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, sub.colorTexture);
-      try {
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.bindTexture(gl.TEXTURE_2D, sprite);
+      if (spriteSource !== source) {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-        gl.texSubImage2D(gl.TEXTURE_2D, 0, v.x + left, v.y + v.height - bottom,
-          gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-        checkGl(gl, "page pointer patch");
-      } finally {
-        gl.bindTexture(gl.TEXTURE_2D, null);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        spriteSource = source;
       }
-    },
-    uploadPatch(source, rect) {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      try {
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-        gl.texSubImage2D(gl.TEXTURE_2D, 0, rect.x, rect.y, gl.RGBA, gl.UNSIGNED_BYTE, source);
-        checkGl(gl, "projection pointer patch");
-      } finally { gl.bindTexture(gl.TEXTURE_2D, null); }
-    },
-    finishPatches() {
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.useProgram(program);
+      gl.bindVertexArray(vao);
+      gl.uniformMatrix4fv(loc, false, matrix);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      gl.disable(gl.BLEND);
+      gl.bindVertexArray(null);
       gl.bindTexture(gl.TEXTURE_2D, null);
-      checkGl(gl, "projection pointer mipmaps");
+      checkGl(gl, "projection pointer draw");
     },
     upload(source) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -190,6 +177,7 @@ export async function renderer(canvas) {
     },
     dispose() {
       gl.deleteTexture(texture);
+      gl.deleteTexture(sprite);
       gl.deleteFramebuffer(fbo);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);

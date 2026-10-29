@@ -6,47 +6,33 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  {
   const p=await browser.newPage(); await p.goto(BASE_URL);
   const result=await p.evaluate(async()=>{
-   const {Pointer}=await import('./pointer.js?v=44');
-   const {renderer}=await import('./gl.js?v=44');
-   const target=document.createElement('canvas'); target.width=768;target.height=1024;
-   const gl=target.getContext('webgl2',{alpha:true});
-   gl.makeXRCompatible=async()=>{};
-   const gpu=await renderer(target),texture=gl.createTexture();
-   gl.bindTexture(gl.TEXTURE_2D,texture);gl.texStorage2D(gl.TEXTURE_2D,1,gl.RGBA8,768,1024);
-   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
-   let sub={colorTexture:texture,viewport:{x:20,y:40,width:720,height:900}};
-   const base=document.createElement('canvas');base.width=720;base.height=900;
-   const c=base.getContext('2d');c.fillStyle='rgb(20,30,40)';c.fillRect(0,0,720,900);
-   gpu.copyPage(sub,base,{premultiplied:true});
-   let allocations=0;const layer={};
-   const pointer=new Pointer({getSubImage:()=>sub,createQuadLayer:()=>{allocations++;throw Error('Cursor must not allocate layers');}},null);
-   pointer.setSurface(layer,base);
-   const patches=[];const original=gpu.copyPagePatch;
-   gpu.copyPagePatch=(...args)=>{patches.push({...args[2]});original(...args);};
-   const sample=(x,y)=>{const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,sub.colorTexture,0);const out=new Uint8Array(4);gl.readPixels(sub.viewport.x+Math.floor(x*sub.viewport.width/720),sub.viewport.y+sub.viewport.height-Math.floor(y*sub.viewport.height/900)-1,1,1,gl.RGBA,gl.UNSIGNED_BYTE,out);gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.deleteFramebuffer(f);return [...out];};
-   const aim=(x,y)=>{pointer.update([{hand:'right',look:'dot',hit:{distance:1.1,local:{x:(x/720-.5)*.72,y:(.5-y/900)*.9}}}]);pointer.draw({},gpu,[layer]);};
-   aim(200,150);const first=sample(200,150),wrongVertical=sample(200,750),n=patches.length;
-   aim(200,150);const stationaryUploads=patches.length-n;
-   aim(450,700);const restored=sample(200,150),moved=sample(450,700);
-   pointer.clearVisible();pointer.draw({},gpu,[layer]);const cleared=sample(450,700);
-   const texture2=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture2);gl.texStorage2D(gl.TEXTURE_2D,1,gl.RGBA8,512,512);
-   sub={colorTexture:texture2,viewport:{x:7,y:13,width:360,height:450}};
-   gpu.copyPage(sub,base,{premultiplied:true});pointer.invalidate();
-   aim(200,150);const resizedTop=sample(200,150),resizedWrong=sample(200,750);
-   pointer.clearVisible();pointer.draw({},gpu,[layer]);const resizedClear=sample(200,150);
-   pointer.setSurface(null,base);gpu.upload(base);pointer.invalidate();
-   const projectionSample=(x,y)=>{gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,720,900);gpu.draw(new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]));const out=new Uint8Array(4);gl.readPixels(x,900-y-1,1,1,gl.RGBA,gl.UNSIGNED_BYTE,out);return [...out];};
-   pointer.update([{hand:'right',look:'dot',hit:{distance:1.1,local:{x:(200/720-.5)*.72,y:(.5-150/900)*.9}}}]);pointer.drawProjection(gpu);
-   const projectionTop=projectionSample(200,150),projectionWrong=projectionSample(200,750);
-   pointer.clearVisible();pointer.drawProjection(gpu);const projectionClear=projectionSample(200,150);
-   const error=gl.getError();gpu.dispose();gl.deleteTexture(texture);gl.deleteTexture(texture2);
-   return {first,wrongVertical,restored,moved,cleared,allocations,stationaryUploads,patches,error,resizedTop,resizedWrong,resizedClear,projectionTop,projectionWrong,projectionClear};
+   const {Pointer}=await import('./pointer.js?v=45');
+   window.XRRigidTransform ||= class { constructor(position, orientation) { Object.assign(this, { position, orientation }); } };
+   let acquisitions=0;const layers=[];
+   const binding={createQuadLayer:init=>{const l={init,opacity:0,destroy(){}};layers.push(l);return l;},getSubImage:()=>{acquisitions++;return {};}};
+   const copies=[];const gpu={copyPage:(sub,canvas)=>copies.push([canvas.width,canvas.height])};
+   const pointer=new Pointer(binding,null);
+   // A displaced, yawed and rolled (lying) page surface of a resized native quad.
+   const pose=new DOMMatrix().translate(.3,1.2,-1.05).rotate(0,25,0).rotate(0,0,90);
+   const q=(()=>{const m=pose;const w=Math.sqrt(Math.max(0,1+m.m11+m.m22+m.m33))/2;return {x:(m.m23-m.m32)/(4*w),y:(m.m31-m.m13)/(4*w),z:(m.m12-m.m21)/(4*w),w};})();
+   const surface={transform:{matrix:pose.toFloat32Array(),orientation:q},width:.7,height:.88};
+   const ray=(lx,ly,look='dot')=>[{hand:'right',look,hit:{distance:1.1,local:{x:lx,y:ly}}}];
+   pointer.update(ray(0,0),surface);pointer.draw({},gpu,pointer.visible);
+   const first=acquisitions;
+   let parity=0;
+   for(let i=0;i<40;i++){const lx=-.3+i*.015,ly=.35-i*.017;pointer.update(ray(lx,ly),surface);pointer.draw({},gpu,pointer.visible);
+    const t=layers[0].transform.position,back=new DOMPoint(t.x,t.y,t.z).matrixTransform(pose.inverse());
+    parity=Math.max(parity,Math.abs(back.x/.7-lx/.7)*2048,Math.abs(back.y/.88-ly/.88)*2560,Math.abs(back.z-.001)*1000);}
+   const moving=acquisitions-first;
+   pointer.update(ray(0,0,'ring'),surface);pointer.draw({},gpu,pointer.visible);const lookChange=acquisitions-first-moving;
+   return {first,moving,lookChange,parity,copies,layers:layers.length,sizes:layers.map(l=>[l.init.viewPixelWidth,l.init.width])};
   });
-  assert.ok(result.first[0]>200 && result.moved[0]>200 && result.resizedTop[0]>200 && result.projectionTop[0]>200,'cursor ink missing at shared page coordinates');
-  for(const key of ['wrongVertical','restored','cleared','resizedWrong','resizedClear','projectionWrong','projectionClear'])assert.deepEqual(result[key],[20,30,40,255],key+' has misplaced or stale cursor ink');
-  assert.equal(result.allocations,0);assert.equal(result.stationaryUploads,0);assert.equal(result.error,0);
-  assert.ok(result.patches.every(r=>r.w<32&&r.h<32),'cursor movement uploaded an entire page');
-  passed('pointer: actual WebGL page pixels share hit coordinates, restore old ink and upload small patches');
+  assert.equal(result.moving,0,'moving the dot acquired a layer image');
+  assert.equal(result.first,1);assert.equal(result.lookChange,1);
+  assert.ok(result.copies.every(([w,h])=>w===160&&h===160),'a dot image was only partly overwritten');
+  assert.ok(result.parity<.5,`dot pose differs from its hit pixel by ${result.parity}`);
+  assert.equal(result.layers,1);
+  passed('pointer: dot moves by pose only, overwrites whole images, and sits on its hit pixel on a rotated resized surface');
   await p.close();
  }
 
@@ -165,7 +151,7 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  }
  const p=await browser.newPage();await p.goto(BASE_URL);
  const filters=await p.evaluate(async()=>{
-  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=44');
+  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=45');
   const display=new DOMMatrix().translate(0,0,-1.1);
   const plane={matrix:display.toFloat32Array(),inverse:{matrix:display.inverse().toFloat32Array()}};
   const ray=x=>{const m=new DOMMatrix(),l=Math.hypot(x,1.1);m.m31=-x/l;m.m33=1.1/l;return {matrix:m.toFloat32Array()};};
