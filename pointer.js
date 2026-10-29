@@ -193,6 +193,8 @@ export class Pointer {
       }
       this.marks = marks; this.onMarks?.(marks);
       const changed = shown.length !== this.visible.length || shown.some((l, i) => l !== this.visible[i]);
+      // A layer that rejoins the list is rewritten in full on its next draw.
+      if (changed) for (const e of this.entries.values()) e.dirty = true;
       this.visible = shown;
       return changed;
     } catch (error) {

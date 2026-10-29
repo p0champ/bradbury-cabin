@@ -1,3 +1,15 @@
+# Build 045 — pointer and Exit repair, headset check pending
+
+Open ?v=45 and check that it shows BUILD 045. Nothing below has been tried on a Quest.
+
+1. **Pointer.** In a menu, move your hand slowly, then quickly. The dot should follow at once and leave no trail.
+2. **Pinching.** Aim at a top-row choice and pinch normally. The choice you aimed at should open, not the one below it. Repeat with both hands, upright and lying down. During the pinch the dot may jump back up slightly: it shows what is being chosen.
+3. **Exit.** It is a small circle with an × at the top right: above the card in menus and during placement, inside the page corner while reading. Pointing at it shows "Leave cabin". Pinch it from placement, reading and a menu: it should be easy to hit and leave at once.
+4. **No accidental Exit.** Read for about five minutes with normal page turns. The cabin must never close by itself.
+
+Keep all earlier checks below for the combined test.
+
+---
 # Build 044 — RELEASED/live verified, device outcome pending
 
 Live ?v=44 / BUILD044 code8f7577c. Desktop197 unit+source/212 browser checks passed, critic8.3; no Quest result.

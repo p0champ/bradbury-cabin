@@ -906,6 +906,8 @@ function paintExit(ctx, { cx, cy, r }, paper, hover) {
       ctx.fillStyle = "rgba(48,54,55,.94)";
       ctx.beginPath(); ctx.roundRect(right - w, cy - 30, w, 60, 30); ctx.fill();
       ctx.shadowColor = "transparent";
+      ctx.strokeStyle = "rgba(255,255,255,.10)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.roundRect(right - w + 1, cy - 29, w - 2, 58, 29); ctx.stroke();
     }
     ctx.fillStyle = paper ? paper.muted : NAV.ink; ctx.textAlign = "right"; ctx.textBaseline = "middle";
     ctx.fillText("Leave cabin", paper ? cx - r - 16 : cx - r - 34, cy);
@@ -2343,7 +2345,8 @@ function frame(time, xrFrame, generation) {
         if (pointer?.clearVisible()) applyLayers();
       }
       if (ending || state.session !== session || !gpu) return;
-      const nextExitHover=[...exitAims.values()].some(Boolean);
+      const nextExitHover=[...exitAims.values()].some(Boolean) ||
+        [...exitPresses.values()].some(press => press.revision === pointerRevision);
       if(nextExitHover!==exitHover){exitHover=nextExitHover;paint();}
       let hover = null;
       if (state.menuOpen && attentive) {
