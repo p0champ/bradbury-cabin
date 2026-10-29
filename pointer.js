@@ -109,10 +109,13 @@ export class Pointer {
   update(rays, display, viewer) {
     if (this.failed) return this.clearVisible();
     try {
-      const shown = [];
+      // While pointing is possible the layers stay in the list and only their
+      // opacity changes, so crossing the page edge never re-submits layers.
+      if (!rays.length) return this.clearVisible();
+      const lit = [];
       for (const { hand, hit } of rays) {
-        if (!hit) continue;
         const e = this.entry(hand);
+        if (!hit || hit.distance < 0.08) continue;
         const start = add(hit.origin, hit.direction, 0.06),
           end = add(hit.point, hit.direction, -0.006);
         const length = Math.max(0.02, Math.hypot(...Object.values(sub(end, start))));
@@ -121,14 +124,18 @@ export class Pointer {
         const toViewer = norm(sub(viewer, mid));
         const z = norm(add(toViewer, y, -dot(toViewer, y)));
         const x = cross(y, z);
+        const q = quat(x, y, z);
+        if (![q.x, q.y, q.z, q.w, mid.x, mid.y, mid.z].every(Number.isFinite)) continue;
         e.beam.layer.height = length;
-        e.beam.layer.transform = new XRRigidTransform(mid, quat(x, y, z));
+        e.beam.layer.transform = new XRRigidTransform(mid, q);
         e.dot.layer.transform = new XRRigidTransform(add(hit.point, hit.direction, -0.004), display.orientation);
-        e.beam.layer.opacity = e.dot.layer.opacity = 1;
+        lit.push(e);
+      }
+      const shown = [];
+      for (const e of this.entries.values()) {
+        e.beam.layer.opacity = e.dot.layer.opacity = lit.includes(e) ? 1 : 0;
         shown.push(e.beam.layer, e.dot.layer);
       }
-      for (const e of this.entries.values())
-        if (!shown.includes(e.beam.layer)) e.beam.layer.opacity = e.dot.layer.opacity = 0;
       const changed = shown.length !== this.visible.length || shown.some((l, i) => l !== this.visible[i]);
       this.visible = shown;
       return changed;

@@ -16,7 +16,7 @@ export function paintHandBadge(
   // words, no colour except a warm hint for the hold ring and the end stop.
   const c = canvas.getContext("2d");
   c.clearRect(0, 0, 256, 256);
-  c.fillStyle = "rgba(236, 238, 234, 0.28)";
+  c.fillStyle = "rgba(60, 64, 60, 0.35)";
   c.beginPath();
   c.arc(128, 128, 108, 0, Math.PI * 2);
   c.fill();

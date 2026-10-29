@@ -238,7 +238,7 @@ if (preferences.handMapRevision !== 9) {
   savePreferences();
 }
 // Changing what the window shows fades the new content in over 160 ms.
-let lastView = null, viewFadeAt = -1e9;
+let lastView = null, viewFadeAt = -1e9, viewFadeFrom = 0.5, quietView = false;
 const VIEW_FADE_MS = 160;
 // After a few visits the gestures are known: the instruction lines go quiet.
 const learned = () => (preferences.visits || 0) > 3;
@@ -648,7 +648,7 @@ function paint() {
       ctx.fill();
       ctx.fillStyle = muted;
       ctx.globalAlpha = 0.25;
-      for (const b of g.slice(0, -1)) ctx.fillRect(b.x + 70, b.y + b.h + (g[g.indexOf(b) + 1].y - b.y - b.h) / 2 - 1, b.w - 140, 2);
+      for (const b of g.slice(0, -1)) if (state.hover !== b.id && state.hover !== g[g.indexOf(b) + 1].id) ctx.fillRect(b.x + 70, b.y + b.h + (g[g.indexOf(b) + 1].y - b.y - b.h) / 2 - 1, b.w - 140, 2);
       ctx.globalAlpha = 1;
     }
     for (const b of rows) {
@@ -798,8 +798,12 @@ function paint() {
     ctx.globalCompositeOperation = "source-over";
   }
   {
+    // A new view fades in from half; a page turn only breathes (from 0.85).
     const view = `${state.menuOpen}|${state.menuPage}|${state.workId}|${state.page}`;
-    if (view !== lastView && !state.arriving && lastView !== null) viewFadeAt = lastFrameTime;
+    if (view !== lastView && !state.arriving && !quietView && lastView !== null) {
+      viewFadeFrom = view.split("|").slice(0, 3).join() === lastView.split("|").slice(0, 3).join() ? 0.85 : 0.5;
+      viewFadeAt = lastFrameTime;
+    }
     lastView = view;
   }
   $("place").textContent = readingPosition();
@@ -1396,6 +1400,7 @@ $("export").onclick = () => {
       anchor: pages[state.page]?.anchor || null,
     },
     gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
+    pointer: { error: state.pointerError || null },
     ambience: { setting: state.ambience, ...ambience.status() },
     mood: state.mood,
     wristCalendar: {
@@ -1848,8 +1853,11 @@ function frame(time, xrFrame, generation) {
         placeAtArrival = readingPlace();
         // Every entry opens on Today when the three are ready; the gentle
         // build plays only on the first entry of the day.
+        // The window has just faded in: opening Today must not dip again.
+        quietView = true;
         if (hasToday()) openToday(preferences.todayShown !== todayKey());
         paint();
+        quietView = false;
       }
       if (state.todayReveal != null && (!state.menuOpen || state.menuPage !== "today")) state.todayReveal = null;
       if (state.todayReveal != null && time - todayRevealAt >= REVEAL_MS * (state.todayReveal + 1)) {
@@ -2134,7 +2142,7 @@ function frame(time, xrFrame, generation) {
       if (quad)
         quad.opacity = state.arriving
           ? smooth(progress)
-          : 0.5 + 0.5 * smooth((time - viewFadeAt) / VIEW_FADE_MS);
+          : viewFadeFrom + (1 - viewFadeFrom) * smooth((time - viewFadeAt) / VIEW_FADE_MS);
       if (quad && display !== lastDisplay) {
         quad.transform = display;
         lastDisplay = display;
