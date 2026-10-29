@@ -29,6 +29,8 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
         sessionStorage.setItem('authors-seeded', 'yes');
       }
       window.__pageText = [];
+    const clear = CanvasRenderingContext2D.prototype.clearRect;
+    CanvasRenderingContext2D.prototype.clearRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)__pageText=[];return clear.call(this,x,y,w,h);};
       const fill = CanvasRenderingContext2D.prototype.fillRect, draw = CanvasRenderingContext2D.prototype.fillText;
       CanvasRenderingContext2D.prototype.fillRect = function(x,y,w,h) {
         if (this.canvas.id === 'page' && w === 2048 && h === 2560) __pageText = [];
@@ -43,8 +45,8 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     await p.waitForFunction(id => document.querySelector('#page').dataset.work === id, todayId);
     const expected = await p.evaluate(async id => {
       await document.fonts.ready;
-      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=42');
-      const { layoutWork } = await import('./reader.js?v=42');
+      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=43');
+      const { layoutWork } = await import('./reader.js?v=43');
       const ctx = document.querySelector('#page').getContext('2d');
       const work = SOURCE_CATALOGUE.find(w => w.id === id);
       return layoutWork(ctx, work, 2).map(p => p.filter(x => x.kind === 'line').map(x => x.text));

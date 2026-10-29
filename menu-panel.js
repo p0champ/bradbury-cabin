@@ -1,4 +1,4 @@
-import { UI, lift, unlift, innerEdge } from "./theme.js?v=42";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=43";
 
 const MAIN_GROUPS = [
   ["resume"],

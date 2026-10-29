@@ -1,4 +1,4 @@
-import { UI, lift, unlift, innerEdge } from "./theme.js?v=42";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=43";
 // Entry always paints the complete welcome. Partial paint steps remain a
 // compatibility option for previews, with no timed reveal in the application.
 export const WELCOME_STEPS = 3;

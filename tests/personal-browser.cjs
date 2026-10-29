@@ -15,20 +15,23 @@ module.exports=async function personalChecks(browser,{mock,BASE_URL,out,passed})
     sessionStorage.setItem('personal-seed','yes');
    }
    window.__pageText=[];
+    const clear = CanvasRenderingContext2D.prototype.clearRect;
+    CanvasRenderingContext2D.prototype.clearRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)__pageText=[];return clear.call(this,x,y,w,h);};
    const fill=CanvasRenderingContext2D.prototype.fillRect,draw=CanvasRenderingContext2D.prototype.fillText;
    CanvasRenderingContext2D.prototype.fillRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)__pageText=[];return fill.call(this,x,y,w,h)};
    CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page')__pageText.push(String(t));return draw.call(this,t,...a)};
   },{ids,read,dedication,thread});
   await p.goto(BASE_URL);await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>{__center();__step(1600)});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
+  await p.evaluate(async()=>{await __aim('home-notes');__pinch();});
   const text=await p.evaluate(()=>__pageText.join(' '));
-  assert.equal(text.includes(dedication),read<3);assert.equal(text.includes(thread),read===3);
+  assert.ok(text.includes(dedication),'full opening remains reachable in notes');assert.ok(text.includes(thread),'full reflection remains reachable in notes');
   const saved=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).days['2026-10-28']);
   assert.equal(saved.personal.dedication,dedication);assert.equal(saved.personal.thread,thread);assert.equal(saved.essay,read===3);
   await p.locator('#page').screenshot({path:path.join(out,`personal-${read}-${lying?'lying':'front'}.png`)});
   await p.evaluate(()=>{__mock.offsetX=.25;__step();__welcomeScene()});
   await p.locator('#welcome-scene').screenshot({path:path.join(out,`personal-${read}-${lying?'lying':'front'}-side.png`)});
-  await p.evaluate(async()=>{__mock.offsetX=0;__step();const {todayButtons}=await import('./today-panel.js?v=42');await __aim(todayButtons([]).find(b=>b.id==='today-full-library'));__pinch()});
+  await p.evaluate(async()=>{__mock.offsetX=0;__step();await __aim('notes-home');__pinch();await __navigate('home-library');__pinch()});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'library');
   await p.reload();await p.waitForFunction(()=>document.querySelector('#place').textContent.includes('Page'));
   const restored=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).days['2026-10-28'].personal);

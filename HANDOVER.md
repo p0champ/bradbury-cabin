@@ -1,3 +1,22 @@
+## 29 October 2026 — 043 final tests/review pass; release pending
+
+192unit+sourcechecks PASS;196/196finalfullsyntheticbrowserchecks PASS;7/7focusedcontenthomechecks,27pointerregressions retained. Independentcriticround1 7.8(rejectResume-longtitle/Librarytab/longlabels)→round2 8.4(accept, allfindingsfixed); actualcompositeslight/dark/checkerboard andall241titles measured. See BUILD_043_REVIEW.md. NoQuest/realDrive/Claudetestclaim orApplequalitycertificate. Needscans/commit/push/livefilecheck. Currentlive042. All043sourcechangeslocalbranchbuild-043-content-home.
+
+Userdeferredwelcome/placementwork: unreadabletop-leftinstructionswhenpositioningwindowonentry. Brief200msentrancefadeunchanged; separatewelcomedestinationremovedbyapproved043. Do placement redesign AFTERthispass byquestions/preferences, notsilently. Prototype18165stillopen/reference; dev18166actualnewUI. Latesttests/coherent-browser.cjs7casesexplicitlycoversproductiongeometry/nativeprojectionfallback/longResume/longimportednotes. Agentsusagefailuresrecoveredrootcompletedverification.
+
+---
+## 29 October 2026 — resumed after usage limit; welcome/placement issue captured for AFTER043
+
+Bastian sayscontinueafterusageexpired. Askedaboutwelcomeanimation: explainedlive042stillbriefentrancefade, approved043retainsfadebutreplacesseparatewelcome withToday/Shelfhome. He clarifiedunreadabletop-leftinstructionswhilegrounding/placingimage, notmerelylatergreeting. Welcome/placementneedsworkandmoreApplefeel, but explicitlylookaftercurrentUIpass; gatherpreferenceswithhimthen. Currentasyncanswerrecorded, noauthorizationinferredtonewplacementchoreography. Do notsilentlyfoldanewwelcome redesigninto043.
+
+043WIP:191unit+sourcechecks pass;4coherentactualjourneypass;27pointerpasses. Allfocusedfeaturetests pass(latestGuide15/15), priorfullrunfailedusingoldGuidearrivalwaitfixture; needfreshfinalfullsuite. Independentcriticround1 rejected7.8 forResume-longtitleellipsis andLibrarywrongselectedtab; parentfixed2lineResumeandShelfgroupLibrary; newactualrenderregressionsbeingrun. P3longimportedCalendarlabeloverflow remainsrobustnessconsideration. Needfinalcritic>=8,fulltests,scans/release/livecheck. Dev18166; live042. Agentshitusagebeforecompletion, rootresumingverification. Alloriginalcodechangesremainlocal/uncommittedonbuild-043-content-home.
+
+---
+## 29 October 2026 — Build 043 structural UI APPROVED and being built
+
+Bastian explicitly "Go for it" after reviewedprototype and specificnavigationgeometryexception. Approval replacesoldMain/welcome/oldbuttonrects/menuindices fornavigationONLY; nofurtherapprovalneededforthisdesign. Branchbuild-043-content-home. Separateauthors Home,Settings,compactcalendar/closing/notes; testauthorssharedharness/pointer +focusedfeaturemigrations; parentownsappintegration/geometryQA. NewHome.72x.50m/settings.58x.40m paintedonexisting.72x.90quadwithtransparentmargins, avoidingunverifiedperframelayerresizing. Sharedcanvasrectsmapactualworldvisiblegeometry andhit targets, pointerclippedactiveframe, unchangedportraitreading. Needsemanticroutes/capabilities,savedanchors,personalnotes,library/archivepagination remain reachable. Allgestures/hitmap9/literarytexts/rightwrist/visiblemarkers/042pointerrepairpreserved. Tests/visualcritic/release/livecheckpending; live042. Prototype18165leftforreference, devapp18166planned. NoQuestclaim. NeverequatetestscorewithApplequality.
+
+---
 ## 29 October 2026 — pointer042 complete; structural UI proposal reviewed and ready for user layout approval
 
 042liveverified ?v=42 code9681d65,178unit+sourcechecks/194browser/27pointerchecks, finalindependentcritic8.5. Confirmedpremature29mmfinger-gaplock removed; no actualQuestalignmentclaim. See BUILD_042_REVIEW.md andPOINTER_042_INVESTIGATION.md. PointertaskdeliveredbeforeUIimplementation.

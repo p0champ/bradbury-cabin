@@ -1,3 +1,10 @@
+# Build 043 — approved structural UI; release pending, combined headset check
+
+Home now Today/Shelf, no Main/separatewelcome. Entry keepsbriefstationaryfade. Checkthreebroadreadabletitles, namedResume(exactpage), Settings, Librarypages, archiveddays, Calendar/ticks, Notesfullopening/reflection, sound/volume/wrist/controls, practice/recenter/leave. Holdreturnsrememberedtabwithinvisit, newentrystartsToday. Homevisiblylandscape.72×.50m/settings.58×.40m; transparentoldportraitmarginsmustnotshowdot oractivateanything. Actualdot/hover/chosenrowmustagree bothhands upright/lying, includingrelaxedfingers27–29mm. Keep040markerlegibility/wristchecks. DesktoppassesdonotproveQuestfeel/comfort/Applequality.
+
+Bastianreportsinitialplacementinstructionsunreadabletop-left. That setup/welcomeredesignisdeferreduntilafter043andwillbeagreedwithquestions. Do notmarkitfixedbythenavigationrelease. Allpriorcombinedchecksremainbelow.
+
+---
 # Build 042 — pointer repair released/live verified; headset outcome unverified
 
 Bastian reports dotawayfromhandpoints. Reproducedappfreezingat29mmrelaxedfingerseparationevennativebuttonOPEN.042removesthisearlylock: relaxedhandmustfreelyaim; a realpinchholdstheexactdot/choiceuntilrelease. Bothhands/upright/lying, relaxfingersclosetogetherwithoutpinching andmovebetweenthreechoices; noleftbehinddot. Actualdot-to-intendedphysicaldirection stillneedsQuestfeedback; nosyntheticclaimofcalibration. Priorchecksremaincombined. UIredesignnotreleased; newcompacthomewillneedgeometry/routingmigrationandreview.

@@ -365,45 +365,30 @@ async function mock(
         __pinch();
         __step(1240);
         __step(1000);
-        // Every entry lands on the welcome screen: finish its build-up and
-        // take the first choice, as a reader would (Today's three when they
-        // are ready, otherwise continue reading).
-        if (document.querySelector("#page").dataset.menuPage === "welcome") window.__welcomeChoose();
+        if(session.ended || !document.querySelector("#enter").disabled)return;
+        // Feature fixtures keep seeded Today open; otherwise resume through
+        // the real Home target, preserving their existing reading setup.
+        const buttons = JSON.parse(document.querySelector('#page').dataset.buttons || '[]');
+        if (!buttons.some(b => b.id.startsWith('home-work:'))) __welcomeChoose();
       };
-      window.__welcomeChoose = (settle = true) => {
-        __step(2000);
-        // Aim at the first choice the same way __aim does, synchronously.
-        const rect = { x: 274, y: 1250, w: 1500, h: 170 };
-        const target = new DOMPoint(((rect.x + rect.w / 2) / 2048 - 0.5) * 0.72, (0.5 - (rect.y + rect.h / 2) / 2560) * 0.9, 0).matrixTransform(new DOMMatrix(__mock.placed.at(-1)));
-        const p = head().position;
-        let x = target.x - p.x, y = target.y - p.y, z = target.z - p.z;
-        const length = Math.hypot(x, y, z);
-        x /= length; y /= length; z /= length;
-        const norm = Math.hypot(y, -x, 1 - z);
-        const before = { look: __mock.look, rayLook: __mock.rayLook, rayByHand: __mock.rayByHand };
-        __mock.look = { x: y / norm, y: -x / norm, z: 0, w: (1 - z) / norm };
-        __mock.rayLook = __mock.look;
-        __mock.rayByHand = null;
-        __step();
-        // A real pinch on the first choice wherever the fixture has hand
-        // joints; controller-only fixtures use the preview's Close menu
-        // button, which is what "Continue" does.
-        const primary = document.querySelector("#page").dataset.welcomePrimary;
-        const src = __mock.sources?.right;
-        const hasJoints = !!(src?.hand && src.testJoints?.get("thumb-tip") && src.testJoints?.get("index-finger-tip"));
-        const aimed = document.querySelector("#page").dataset.target === "welcome-" + primary;
-        if (hasJoints && aimed) {
+      window.__welcomeChoose = () => {
+        __step(800);
+        const page = document.querySelector('#page');
+        const button = JSON.parse(page.dataset.buttons || '[]').find(b => b.id === 'home-resume');
+        if (!button) throw Error('Home has no current reading to resume');
+        const target = new DOMPoint(((button.x+button.w/2)/2048-.5)*.72,(.5-(button.y+button.h/2)/2560)*.9,0).matrixTransform(new DOMMatrix(JSON.parse(page.dataset.panelPose || 'null') || __mock.placed.at(-1)));
+        const p=head().position;let x=target.x-p.x,y=target.y-p.y,z=target.z-p.z;
+        const length=Math.hypot(x,y,z);x/=length;y/=length;z/=length;
+        const norm=Math.hypot(y,-x,1-z),before={look:__mock.look,rayLook:__mock.rayLook,rayByHand:__mock.rayByHand};
+        __mock.look={x:y/norm,y:-x/norm,z:0,w:(1-z)/norm};__mock.rayLook=__mock.look;__mock.rayByHand=null;__step(800);
+        const src=__mock.sources?.right;
+        if(src?.hand && src.testJoints?.get('thumb-tip')) {
+          if(page.dataset.target!=='home-resume')throw Error('Resume native aim did not reach target: '+scenario);
           __pinch();
-          if (document.querySelector("#page").dataset.menuPage === "welcome")
-            throw Error("pinching " + primary + " did not leave the welcome screen");
-          if (primary === "begin" && settle) __step(1400); // Today builds in four short steps
-        } else if (primary === "continue") {
-          // Fixtures without a placed layer or hand joints cannot aim.
-          document.querySelector("#menu").click();
-          __step(16);
-        } else throw Error("Begin needs a hand fixture");
-        Object.assign(__mock, before);
-        __step(16);
+        }
+        else {document.querySelector('#menu').click();__step(16);}
+        Object.assign(__mock,before);__step(16);
+        if(page.dataset.view!=='reading')throw Error('Resume did not open reading: '+JSON.stringify({scenario,lying,view:page.dataset.view,target:page.dataset.target,route:page.dataset.menuPage}));
       };
       window.__welcomeScene = () => {
         document.querySelector("#welcome-scene")?.remove();
@@ -485,11 +470,11 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=42");
-        // A rectangle may be passed directly (calendar cells are dynamic).
-        const button =
-          typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
-        const matrix = __mock.placed.at(-1);
+        const buttons = JSON.parse(document.querySelector('#page').dataset.buttons || '[]');
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2'};
+        const button = typeof id==='object' ? id : buttons.find(b=>b.id===id||b.id===aliases[id]);
+        if(!button) throw Error('Target '+id+' unavailable on '+document.querySelector('#page').dataset.menuPage+': '+buttons.map(b=>b.id).join(', '));
+        const matrix = JSON.parse(document.querySelector('#page').dataset.panelPose || 'null') || __mock.placed.at(-1);
         const target = new DOMPoint(
           ((button.x + button.w / 2) / 2048 - 0.5) * 0.72,
           (0.5 - (button.y + button.h / 2) / 2560) * 0.9,
@@ -511,6 +496,41 @@ async function mock(
         } else if (rayOnly) __mock.rayLook = q;
         else __mock.look = q;
         __step();
+      };
+      // Walk actual visible UI routes. This helper only aims the final
+      // choice; each caller still completes its own native pinch.
+      window.__navigate = async (name, rayOnly=false) => {
+        const page=document.querySelector('#page');
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2',sound:'settings-sound',volume:'settings-volume',gaze:'settings-look:on',ambience:'settings-ambience:rain',recenter:'settings-move'};
+        const id=aliases[name]||name;
+        for(let tries=0;tries<8;tries++){
+          const buttons=JSON.parse(page.dataset.buttons||'[]');
+          if(buttons.some(b=>b.id===id)){await __aim(id,rayOnly);return;}
+          let via;
+          if(id==='home-calendar')via=['home-shelf','settings-calendar','settings-more','settings-back'].find(key=>buttons.some(b=>b.id===key));
+          else if(id.startsWith('home-'))via=buttons.some(b=>b.id==='home-today')?'home-today':buttons.some(b=>b.id==='settings-done')?'settings-done':'settings-back';
+          else if(buttons.some(b=>b.id==='home-settings'))via='home-settings';
+          else if(['settings','more','sound','volume','controls','wrist'].includes(page.dataset.menuPage)){
+            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-more','settings-exit'],more:['settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:']};
+            const desired=Object.keys(routes).find(route=>routes[route].some(prefix=>id===prefix||id.startsWith(prefix)));
+            if(page.dataset.menuPage==='settings')via='settings-more';
+            else if(page.dataset.menuPage==='more')via=desired==='settings'?'settings-back':'settings-'+desired;
+            else via='settings-back';
+          }
+          if(!via||!buttons.some(b=>b.id===via))throw Error('No visible route to '+id+' from '+page.dataset.menuPage);
+          await __aim(via,rayOnly);__pinch();__step(800);
+        }
+        throw Error('Navigation did not reach '+id);
+      };
+      window.__findWork = async id => {
+        for(let n=0;n<100;n++) {
+          const buttons=JSON.parse(document.querySelector('#page').dataset.buttons||'[]');
+          if(buttons.some(b=>b.id==='home-work:'+id)){await __aim('home-work:'+id);__step(800);return;}
+          const next=buttons.find(b=>['home-library-next','home-next','home-library-earlier','home-earlier'].includes(b.id));
+          if(!next)throw Error('Requested work '+id+' not on Library page; targets '+buttons.map(b=>b.id));
+          await __aim(next);__pinch();__step(800);
+        }
+        throw Error('Library work was not reachable: '+id);
       };
       window.__select = () => {
         const e = new Event("select");
@@ -1217,7 +1237,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-042");
+        assert.equal(details.build, "gestures-043");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1336,8 +1356,8 @@ async function mock(
         "arrival",
       );
       await p.evaluate(() => __step(1240));
-      // Every entry lands on the welcome screen first.
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "welcome");
+      // Placement lands directly on Home, without an intermediate welcome.
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       await p.evaluate(() => __welcomeChoose());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
@@ -1530,8 +1550,8 @@ async function mock(
         ),
         0,
       );
-      // The arrival ends on the welcome screen; continuing reads on.
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "welcome");
+      // The arrival ends on Home; Resume returns to the saved reading.
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       await p.evaluate(() => __step(2000));
       await p.locator("#page").screenshot({ path: path.join(out, `welcome-screen${lying ? "-lying" : ""}.png`) });
       await p.evaluate(() => __welcomeChoose());
@@ -1549,7 +1569,7 @@ async function mock(
           (lying ? " lying" : ""),
       );
       passed(
-        "native 3D welcome opens in depth, ignores clicks during arrival, leaves page pixels fixed and clears decoration" +
+        "Home arrives without decoration, ignores placement clicks, leaves page pixels fixed and resumes reading" +
           (lying ? " lying" : ""),
       );
       await p.evaluate(() => {
@@ -1724,7 +1744,7 @@ async function mock(
       assert.match(await p.locator("#place").textContent(), /Page 1/);
       await p.evaluate(() => __hold());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
-      await p.evaluate(() => __aim("night", true));
+      await p.evaluate(() => __navigate("night", true));
       await p.evaluate(() => __pinch());
       assert.equal(
         await p.locator("#night").getAttribute("aria-pressed"),
@@ -1755,14 +1775,14 @@ async function mock(
         "removed input cannot complete; native hold opens a world-still menu and native click selects" +
           (lying ? " lying" : ""),
       );
-      await p.evaluate(() => __aim("night", true));
+      await p.evaluate(() => __navigate("night", true));
       await p.evaluate(() => {
         __hand(0.05);
         __step(600);
         __native("selectstart");
         __step(120);
       });
-      await p.evaluate(() => __aim("exit", true));
+      await p.evaluate(() => __aim("settings-exit", true));
       await p.evaluate(() => {
         __native("select");
         __native("selectend");
@@ -1774,7 +1794,7 @@ async function mock(
         "a held menu press cannot drift from Night onto Exit across frames" +
           (lying ? " lying" : ""),
       );
-      await p.evaluate(() => __aim("resume", true));
+      await p.evaluate(() => __navigate("resume", true));
       await p.evaluate(() => __pinch());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
@@ -1802,7 +1822,7 @@ async function mock(
           (lying ? " lying" : ""),
       );
       await p.evaluate(() => __hold());
-      await p.evaluate(() => __aim("exit", true));
+      await p.evaluate(() => __navigate("exit", true));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#enter").isEnabled(), true);
       assert.equal(
@@ -2156,9 +2176,9 @@ async function mock(
       );
       await p.evaluate(() => __hold());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
-      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __navigate("more"));
       await p.evaluate(() => __pinch());
-      await p.evaluate(() => __aim("practice"));
+      await p.evaluate(() => __navigate("practice"));
       await p.evaluate(() => __pinch());
       assert.equal(
         await p.locator("#page").getAttribute("data-view"),
@@ -2187,7 +2207,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=42");
+        const { paintHandBadge } = await import("./hand-badges.js?v=43");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2338,7 +2358,7 @@ async function mock(
         __step();
         __pinch();
         __step(1240);
-        if (document.querySelector("#page").dataset.menuPage === "welcome") __welcomeChoose();
+        if (document.querySelector("#page").dataset.menuPage === "today") __welcomeChoose();
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
         __mock.session.inputSources = [l, r];
@@ -2392,6 +2412,9 @@ async function mock(
           };
         };
       });
+      // Resume aiming and the fresh two-hand fixture change the follower
+      // pose. Let that real movement settle before testing decorative drift.
+      await p.evaluate(() => __step(1600));
       const a = await p.evaluate(() => handWelcome());
       assert.equal(a.layers, 3);
       assert.equal(a.versions.length, 2);
@@ -2445,7 +2468,7 @@ async function mock(
         const l = __hand(0.05, "left"),
           r = __mock.sources.right;
         __mock.session.inputSources = [l, r];
-        __step(640);
+        __step(2240);
       });
       const a = await p.evaluate(() =>
         [...__mock.layerData.values()]
@@ -2504,7 +2527,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=42");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=43");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2550,59 +2573,29 @@ async function mock(
       );
       await p.close();
     }
-    // Build 012: a short main menu, rarely used settings one level down.
-    for (const night of [false, true]) {
-      const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
-        errors = [];
-      p.on("pageerror", (e) => errors.push(e.message));
-      await mock(p, "layer", false);
-      await p.goto(BASE_URL);
-      await p.locator("#enter:not([disabled])").click();
-      await p.evaluate(() => __center());
-      if (night) {
-        await p.evaluate(() => __hold());
-        await p.evaluate(() => __aim("night"));
-        await p.evaluate(() => __pinch());
-        await p.evaluate(() => __hold());
-      }
-      await p.evaluate(() => __hold());
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
-      const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=42");
-        return MENU_PAGES;
-      });
-      assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
-      await p.evaluate(() => __aim("night"));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "night");
-      await p.locator("#page").screenshot({
-        path: path.join(out, `menu-main-${night ? "night" : "paper"}.png`),
-      });
-      await p.evaluate(() => __aim("more"));
-      await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "more");
-      // The same spot on the second page is a different, page-specific button.
-      await p.evaluate(() => __aim("sound"));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "sound");
-      // Where Exit sits on the main page, this page has its own button.
-      await p.evaluate(() => __aim("exit"));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "recenter");
-      await p.locator("#page").screenshot({
-        path: path.join(out, `menu-more-${night ? "night" : "paper"}.png`),
-      });
-      await p.evaluate(() => __aim("back"));
-      await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
-      await p.evaluate(() => __aim("more"));
-      await p.evaluate(() => __pinch());
-      await p.evaluate(() => __hold());
-      assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
-      await p.evaluate(() => __hold());
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main", "menu reopens on its main page");
-      await p.locator("#page").screenshot({ path: path.join(out, `menu-reopened-${night ? "night" : "paper"}.png`) }).catch(() => {});
-      assert.deepEqual(errors, []);
-      passed("two-page menu: main essentials, More settings and Back, page-specific targets" + (night ? " night" : ""));
-      await p.close();
+    // Home and explicit Settings choices replace the old two-page menu.
+    for (const night of [false,true]) {
+      const p=await browser.newPage({viewport:{width:1440,height:1100}}), errors=[];
+      p.on('pageerror',e=>errors.push(e.message));await mock(p,'layer',false);await p.goto(BASE_URL);
+      await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
+      await p.evaluate(()=>__hold());
+      assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
+      const homeIds=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
+      for(const id of ['home-today','home-shelf','home-settings','home-library']) assert.ok(homeIds.includes(id));
+      await p.evaluate(async night=>{await __navigate(night?'settings-appearance:night':'settings-appearance:paper');__pinch();},night);
+      assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'settings');
+      assert.equal(await p.locator('#night').getAttribute('aria-pressed'),String(night));
+      await p.locator('#page').screenshot({path:path.join(out,`settings-${night?'night':'paper'}.png`)});
+      await p.evaluate(async()=>{await __navigate('settings-sound');__pinch();});
+      assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'sound');
+      const soundIds=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
+      assert.ok(soundIds.includes('settings-entry:off'));assert.ok(soundIds.includes('settings-ambience:rain'));
+      assert.ok(!soundIds.includes('settings-exit'),'screen-specific targets leak');
+      await p.evaluate(async()=>{await __aim('settings-back');__pinch();});
+      assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'more');
+      await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
+      await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
+      assert.deepEqual(errors,[]);await p.close();passed('Home and explicit Settings choices, nested Back and reopen'+(night?' night':''));
     }
     // Build 013: the Bradbury Challenge calendar.
     {
@@ -2615,40 +2608,27 @@ async function mock(
       await p.locator("#enter:not([disabled])").click();
       await p.evaluate(() => __center());
       await p.evaluate(() => __hold());
-      await p.evaluate(() => __aim("calendar"));
+      await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "calendar");
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-october.png") });
-      const cell = (page, id) =>
-        p.evaluate(
-          async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=42");
-            const { loadProgress } = await import("./progress.js?v=42");
-            const prog = loadProgress(localStorage, "2026-10-28");
-            return (
-              calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
-                (b) => b.id === id,
-              ) || null
-            );
-          },
-          { page, id },
-        );
+      const cell = (route, id) => p.evaluate(id => JSON.parse(document.querySelector('#page').dataset.buttons || '[]').find(b => b.id===id) || null,id);
       // Future days have no target.
       assert.equal(await cell("calendar", "day:2026-10-29"), null);
       // Open the missed day: its stated picks are shown.
-      await p.evaluate(async (b) => await __aim(b), await cell("calendar", "day:2026-10-21"));
+      await p.evaluate(async () => {await __aim("day:2026-10-21");__step(800);});
       assert.equal(await p.locator("#page").getAttribute("data-target"), "day:2026-10-21");
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "day");
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-missed.png") });
-      await p.evaluate(async (b) => await __aim(b), await cell("day", "cal-back"));
+      await p.evaluate(async () => await __aim("cal-back"));
       await p.evaluate(() => __pinch());
       // Tick today's poem, story and essay.
-      await p.evaluate(async (b) => await __aim(b), await cell("calendar", "day:2026-10-28"));
+      await p.evaluate(async () => await __aim("day:2026-10-28"));
       await p.evaluate(() => __pinch());
       // An immediate repeat pinch right after opening the day ticks nothing,
       // even though a tick row now sits under the pointer.
-      await p.evaluate(async (b) => await __aim(b), await cell("day", "tick:story"));
+      await p.evaluate(async () => await __aim("tick:story"));
       await p.evaluate(() => {
         // Open just long enough to re-arm (180 ms settle), then click: the
         // whole repeat lands well inside the 600 ms guard.
@@ -2669,10 +2649,10 @@ async function mock(
         "repeat pinch must not tick",
       );
       for (const k of ["poem", "story", "essay"]) {
-        await p.evaluate(async (b) => await __aim(b), await cell("day", "tick:" + k));
+        await p.evaluate(async id => await __aim("tick:"+id), k);
         await p.evaluate(() => __pinch());
       }
-      await p.evaluate(async (b) => await __aim(b), await cell("day", "weekly"));
+      await p.evaluate(async () => await __aim("weekly"));
       await p.evaluate(() => __pinch());
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-today.png") });
       const saved = await p.evaluate(() => JSON.parse(localStorage.getItem("cabin-progress")));
@@ -2680,7 +2660,7 @@ async function mock(
       assert.equal(saved.weeks["2026-11-01"].submitted, true);
       assert.equal(saved.days["2026-10-18"].essay, true);
       assert.equal(saved.trackingSince, "2026-10-28");
-      await p.evaluate(async (b) => await __aim(b), await cell("day", "cal-back"));
+      await p.evaluate(async () => await __aim("cal-back"));
       await p.evaluate(() => __pinch());
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-after-ticks.png") });
       // Page turns were never triggered by calendar pinches.
@@ -2988,13 +2968,13 @@ async function mock(
       // With no picks for today the row is Your shelf; the whole Library is one step on.
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "shelf");
       await p.locator("#page").screenshot({ path: path.join(out, "shelf-empty.png") });
-      await p.evaluate(async () => await __aim({ x: 274, y: 1880, w: 760, h: 120 }));
+      await p.evaluate(async () => await __aim("home-library"));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "library");
       await p.locator("#page").screenshot({ path: path.join(out, "library.png") });
       // Open Désirée's Baby (row 5).
-      await p.evaluate(async (b) => await __aim(b), row(5));
-      assert.equal(await p.locator("#page").getAttribute("data-target"), "work:chopin-desiree");
+      await p.evaluate(async () => { await __findWork("chopin-desiree"); });
+      assert.equal(await p.locator("#page").getAttribute("data-target"), "home-work:chopin-desiree");
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-view"), "reading");
       let r = await details("reading-1.json");
@@ -3010,7 +2990,7 @@ async function mock(
       await p.locator("#page").screenshot({ path: path.join(out, "reading-story-p4.png") });
       // Larger text: the place is kept (same first line or the page holding it).
       await p.evaluate(() => __hold());
-      await p.evaluate(() => __aim("size"));
+      await p.evaluate(() => __navigate("size"));
       await p.evaluate(() => __pinch());
       await p.evaluate(() => __hold());
       r = await details("reading-3.json");
@@ -3064,11 +3044,12 @@ async function mock(
       await p.evaluate(() => __hold());
       await p.evaluate(() => __aim("library"));
       await p.evaluate(() => __pinch());
-      await p.evaluate(async () => await __aim({ x: 1394, y: 380, w: 380, h: 120 }));
+      await p.evaluate(async () => await __aim("home-today"));
       await p.evaluate(() => __pinch());
-      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
-      // Now aim at Exit and pinch at once: ignored for 600 ms.
-      await p.evaluate(() => __aim("exit"));
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
+      // Open Settings, then immediately attempt Leave: screen guard rejects
+      // the repeat instead of letting the opening pinch leave the cabin.
+      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('settings-exit');});
       await p.evaluate(() => {
         __hand(0.05);
         __step(200);
@@ -3122,14 +3103,14 @@ async function mock(
         __mock.look = null;
         __hold();
       });
-      await p.evaluate(() => __aim("mood"));
+      await p.evaluate(() => __navigate("mood"));
       await p.evaluate(() => __pinch());
       // More settings: turn on look-to-turn and background sound.
-      await p.evaluate(() => __aim("more"));
+      await p.evaluate(() => __navigate("more"));
       await p.evaluate(() => __pinch());
-      await p.evaluate(() => __aim("gaze"));
+      await p.evaluate(() => __navigate("gaze"));
       await p.evaluate(() => __pinch());
-      await p.evaluate(() => __aim("ambience"));
+      await p.evaluate(() => __navigate("ambience"));
       await p.evaluate(() => __pinch());
       await p.locator("#page").screenshot({ path: path.join(out, "menu-more-017.png") });
       await p.evaluate(() => {
@@ -3294,22 +3275,22 @@ async function mock(
       await p.evaluate(() => __center());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       await p.locator("#page").screenshot({ path: path.join(out, "library-today.png") });
-      await p.evaluate(async () => await __aim({ x: 274, y: 660, w: 1500, h: 260 }));
-      assert.match(await p.locator("#page").getAttribute("data-target"), /^today:today-2026-10-28-poem-/);
+      await p.evaluate(async () => await __aim(JSON.parse(document.querySelector("#page").dataset.buttons).find(b=>b.id.startsWith("home-work:"))));
+      assert.match(await p.locator("#page").getAttribute("data-target"), /^home-work:today-2026-10-28-poem-/);
       await p.evaluate(() => __pinch());
       await p.locator("#page").screenshot({ path: path.join(out, "reading-today-poem.png") });
       await p.evaluate(() => __hold());
-      await p.evaluate(() => __aim("calendar"));
+      await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=42");
-        const { loadProgress } = await import("./progress.js?v=42");
+        const { calendarButtons } = await import("./calendar.js?v=43");
+        const { loadProgress } = await import("./progress.js?v=43");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
-      await p.evaluate(async (b) => await __aim(b), cell);
+      await p.evaluate(async () => await __aim("day:2026-10-28"));
       await p.evaluate(() => __pinch());
       await p.locator("#page").screenshot({ path: path.join(out, "calendar-day-with-picks.png") });
-      await p.evaluate(async () => await __aim({ x: 274, y: 640, w: 1500, h: 186 }));
+      await p.evaluate(async () => await __aim("tick:poem"));
       await p.evaluate(() => __pinch());
       // The tick is pushed to Drive shortly after.
       await p.evaluate(() => {

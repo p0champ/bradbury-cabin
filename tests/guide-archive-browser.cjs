@@ -16,6 +16,8 @@ module.exports = async function archiveChecks(browser, { mock, BASE_URL, out, pa
       sessionStorage.setItem('archive-seeded', 'yes');
     }
     window.__pageText = [];
+    const clear = CanvasRenderingContext2D.prototype.clearRect;
+    CanvasRenderingContext2D.prototype.clearRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)__pageText=[];return clear.call(this,x,y,w,h);};
     const fill = CanvasRenderingContext2D.prototype.fillRect, draw = CanvasRenderingContext2D.prototype.fillText;
     CanvasRenderingContext2D.prototype.fillRect = function(x,y,w,h) {
       if (this.canvas.id === 'page' && w === 2048 && h === 2560) __pageText = [];
