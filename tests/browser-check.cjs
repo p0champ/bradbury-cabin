@@ -1,4 +1,5 @@
 const pointerChecks = require("./pointer-browser.cjs");
+const feelChecks = require("./feel-browser.cjs");
 const volumeChecks = require("./volume-browser.cjs");
 const guideChecks = require("./study-guide-browser.cjs");
 const pickerChecks = require("./picker-browser.cjs");
@@ -482,7 +483,7 @@ async function mock(
       };
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
-        const { menuButtons } = await import("./gestures.js?v=37.1");
+        const { menuButtons } = await import("./gestures.js?v=38");
         // A rectangle may be passed directly (calendar cells are dynamic).
         const button =
           typeof id === "object" ? id : menuButtons.find((b) => b.id === id);
@@ -769,6 +770,11 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_FEEL_ONLY) {
+      await feelChecks(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} feel browser checks passed.`);
+      return;
+    }
     if (process.env.CABIN_POINTER_ONLY) {
       await pointerChecks(browser, { mock, BASE_URL, out, passed });
       console.log(`${checks} pointer browser checks passed.`);
@@ -1188,7 +1194,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-037.1");
+        assert.equal(details.build, "gestures-038");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1916,7 +1922,7 @@ async function mock(
         __step(720);
       });
       const half = await p.evaluate(() => badgeSnapshot());
-      assert.ok(half.counts[1] > 2000);
+      assert.ok(half.counts[1] > 150, 'thin hold ring is visible');
       assert.ok(half.counts[0] < 20);
       assert.equal(half.pageVersion, idle.pageVersion);
       assert.equal(
@@ -1944,7 +1950,7 @@ async function mock(
       );
       await p.evaluate(() => {
         __mock.session.inputSources = [];
-        __step(80);
+        __step(520);
       });
       assert.equal(
         await p.evaluate(() => __mock.session.renderState.layers.length),
@@ -2054,6 +2060,7 @@ async function mock(
       });
       await p.evaluate(() => __pinch("left"));
       assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      await p.evaluate(() => __step(220)); // feedback texture waits for hand pose to settle
       const blockedBadge = await p.evaluate(() => badgeStates());
       assert.equal(blockedBadge.length, 1);
       assert.equal(
@@ -2064,9 +2071,10 @@ async function mock(
       assert.ok(blockedBadge[0].bar > 300, "a blocked Back shows the end bar");
       await p.evaluate(() => __pinch("right"));
       assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
+      await p.evaluate(() => __step(220));
       const turnBadge = await p.evaluate(() => badgeStates());
       assert.ok(
-        turnBadge[0].lit > 300 && turnBadge[0].bar === 0,
+        turnBadge[0].lit > 60 && turnBadge[0].bar === 0,
         "a real turn flashes the arrows",
       );
       const turned = await p.evaluate(() => uploadedMatchesCanvas());
@@ -2154,7 +2162,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=37.1");
+        const { paintHandBadge } = await import("./hand-badges.js?v=38");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2162,7 +2170,7 @@ async function mock(
           const d = c.getContext("2d").getImageData(70, 90, 50, 76).data;
           let n = 0;
           for (let i = 0; i < d.length; i += 4)
-            if (d[i] > 240 && d[i + 1] > 225) n++;
+            if (d[i] > 240 && d[i + 1] > 225 && d[i + 3] > 220) n++;
           return n;
         };
         return {
@@ -2171,7 +2179,7 @@ async function mock(
           unavailable: bright({ ready: true, available: false }),
         };
       });
-      assert.ok(icons.turn > 500, "turn flash lights the arrows");
+      assert.ok(icons.turn > 60, "turn flash lights the thin arrows");
       assert.equal(
         icons.blocked,
         0,
@@ -2309,7 +2317,7 @@ async function mock(
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
         __mock.session.inputSources = [l, r];
-        __step(160);
+        __step(640);
         window.handWelcome = () => {
           const entries = [...__mock.layerData]
             .filter(([layer, d]) => d.badge && layer.opacity > 0)
@@ -2368,8 +2376,8 @@ async function mock(
       );
       await p.evaluate(() => __step(300));
       const b = await p.evaluate(() => handWelcome());
-      assert.ok(b.versions.every((v, i) => v > a.versions[i]));
-      assert.notDeepEqual(b.matrices, a.matrices);
+      assert.deepEqual(b.versions, a.versions, 'stationary glass has no decorative texture animation');
+      assert.ok(b.matrices.every((m,i)=>m.every((v,k)=>Math.abs(v-a.matrices[i][k])<.0001)), 'stationary glass does not bob');
       assert.equal(b.page, a.page);
       await fs.writeFile(
         path.join(out, `hand-entry-${lying ? "lying" : "front"}-glow.png`),
@@ -2394,12 +2402,10 @@ async function mock(
         __mock.session.inputSources = [l, r];
         __step(700);
       });
-      assert.deepEqual(
-        (await p.evaluate(() => handWelcome())).matrices,
-        c.matrices,
-      );
+      const recovered = await p.evaluate(() => handWelcome());
+      assert.ok(recovered.matrices.every((m,i)=>m.every((v,k)=>Math.abs(v-c.matrices[i][k])<.0001)));
       passed(
-        "labelled hand-entry orbit animates native textures and transforms once without repainting the page or exceeding three layers" +
+        "quiet hand glass stays still without repainting the page or exceeding three layers" +
           (lying ? " lying" : ""),
       );
       await p.close();
@@ -2414,7 +2420,7 @@ async function mock(
         const l = __hand(0.05, "left"),
           r = __mock.sources.right;
         __mock.session.inputSources = [l, r];
-        __step(160);
+        __step(640);
       });
       const a = await p.evaluate(() =>
         [...__mock.layerData.values()]
@@ -2429,8 +2435,7 @@ async function mock(
           .sort((a, b) => a.matrix[12] - b.matrix[12])
           .map((d) => d.matrix),
       );
-      assert.notDeepEqual(b[0], a[0]);
-      assert.deepEqual(b[1], a[1]);
+      assert.ok(b.every((m,i)=>m.every((v,k)=>Math.abs(v-a[i][k])<.0001)), 'late-visible hands have no decorative motion');
       await p.evaluate(() => __step(1200));
       const settled = await p.evaluate(() =>
         [...__mock.layerData.values()]
@@ -2447,17 +2452,15 @@ async function mock(
         ];
         __step(180);
       });
-      assert.deepEqual(
-        await p.evaluate(() =>
+      const afterLoss = await p.evaluate(() =>
           [...__mock.layerData.values()]
             .filter((d) => d.badge)
             .sort((a, b) => a.matrix[12] - b.matrix[12])
             .map((d) => d.matrix),
-        ),
-        settled,
       );
+      assert.ok(afterLoss.every((m,i)=>m.every((v,k)=>Math.abs(v-settled[i][k])<.0001)));
       passed(
-        "a late-visible second hand gets its welcome once, and reacquiring hands does not replay it",
+        "a late-visible second hand and reacquired hands stay quiet",
       );
       await p.close();
     }
@@ -2476,7 +2479,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=37.1");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=38");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2541,7 +2544,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "main");
       const ids = await p.evaluate(async () => {
-        const { MENU_PAGES } = await import("./gestures.js?v=37.1");
+        const { MENU_PAGES } = await import("./gestures.js?v=38");
         return MENU_PAGES;
       });
       assert.deepEqual(ids.main, ["resume", "library", "calendar", "night", "mood", "size", "more", "exit", "volume"]);
@@ -2594,8 +2597,8 @@ async function mock(
       const cell = (page, id) =>
         p.evaluate(
           async ({ page, id }) => {
-            const { calendarButtons } = await import("./calendar.js?v=37.1");
-            const { loadProgress } = await import("./progress.js?v=37.1");
+            const { calendarButtons } = await import("./calendar.js?v=38");
+            const { loadProgress } = await import("./progress.js?v=38");
             const prog = loadProgress(localStorage, "2026-10-28");
             return (
               calendarButtons(page, { year: 2026, month: 9 }, prog, "2026-10-28").find(
@@ -2819,7 +2822,7 @@ async function mock(
       });
       const early = await p.evaluate(() => __watchLayer());
       assert.ok(!early || !early.listed, "brief turns do not flash it");
-      await p.evaluate(() => __step(300));
+      await p.evaluate(() => __step(380));
       const shown = await p.evaluate(() => __watchLayer());
       assert.ok(shown && shown.listed && shown.opacity === 1, "right wrist shows it");
       const pixels = await p.evaluate(() => {
@@ -2848,15 +2851,17 @@ async function mock(
         g.scale(1, -1);
         g.drawImage(tmp, 0, -448);
         g.restore();
-        return { opaque, corner: px[3], image: c.toDataURL("image/png") };
+        let glass=0;for(let i=3;i<px.length;i+=4)if(px[i]>20&&px[i]<240)glass++;
+        return { opaque, glass, corner: px[3], image: c.toDataURL("image/png") };
       });
-      assert.ok(pixels.opaque > 100000, "watch face uploaded");
+      assert.ok(pixels.glass > 100000 && pixels.opaque > 3000, "glass and date uploaded");
       assert.equal(pixels.corner, 0, "rounded transparent corners");
       await fs.writeFile(
         path.join(out, `wrist-calendar-${night ? "night" : "paper"}.png`),
         Buffer.from(pixels.image.split(",")[1], "base64"),
       );
-      // While glancing, a right-hand click never acts.
+      // A completed right-wrist pinch opens the shelf without turning a page.
+      const beforeWristPinch = await p.locator('#place').textContent();
       await p.evaluate(() => {
         __mock.clock = Math.max(__mock.clock, performance.now());
         __native("selectstart", "right");
@@ -2865,6 +2870,9 @@ async function mock(
         __native("selectend", "right");
         __step(40);
       });
+      assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'shelf');
+      assert.equal(await p.locator('#place').textContent(),beforeWristPinch);
+      await p.locator('#menu').click();await p.evaluate(()=>__step(40));
       // Turning the palm back hides it again.
       await p.evaluate(() => {
         __wrist("right", "palm");
@@ -2891,8 +2899,7 @@ async function mock(
       assert.ok((await p.evaluate(() => __watchLayer())).listed, "two hands: right shows");
       await p.evaluate(() => {
         __mock.session.inputSources = [__mock.sources.left];
-        __step(16); // layer list changes apply at the next frame boundary
-        __step(16);
+        __step(320); // hold final pose briefly, then fade after right tracking loss
       });
       assert.ok(!(await p.evaluate(() => __watchLayer())).listed, "right removed: hidden at once");
       // After glancing, the right hand turns pages again.
@@ -3270,8 +3277,8 @@ async function mock(
       await p.evaluate(() => __aim("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=37.1");
-        const { loadProgress } = await import("./progress.js?v=37.1");
+        const { calendarButtons } = await import("./calendar.js?v=38");
+        const { loadProgress } = await import("./progress.js?v=38");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async (b) => await __aim(b), cell);
@@ -3325,6 +3332,7 @@ async function mock(
       await p.close();
     }
     await pointerChecks(browser, { mock, BASE_URL, out, passed });
+    await feelChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

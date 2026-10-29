@@ -1,3 +1,8 @@
+## 29 October 2026 — Build 038 implemented; tests pass, release pending
+
+After verified 037.1 release, implemented approved wrist glance / idle hand glass discs / smoother following. 167 unit/source checks and full 175/175 synthetic browser checks pass; independent critic 8.5/10 after fixes. See BUILD_038_REVIEW.md. Need scans, commit/push and live file check before broader Apple research/design round. Modules prepared by separate wrist and hand/follow authors; critic independent. No Quest claim. Do not implement the broader design without Bastian's next approval.
+
+---
 ## 29 October 2026 — Build 037.1 released and live verified
 
 Bastian said "go" to the pointer proposal. Shared page point/held press, page-mm adaptive filter, native ray default, optional comparison diagnostics implemented. 155 unit/source checks, broader 163/163 browser run and final 20 focused synthetic browser checks pass. Independent critic 8.5/10, release recommended after fixes. Code b577211 pushed to build-037-pointer-fix and phase-1-gestures; live ?v=37.1 index/style/all 31 JS modules match reviewed source. See BUILD_037_1_REVIEW.md. Next remains approved Build 038 wrist/hand scope, then full Apple design round. No Quest testing claimed.

@@ -1,3 +1,4 @@
+import { PoseFollower } from "./follow-pose.js?v=38";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,
@@ -16,18 +17,18 @@ export function paintHandBadge(
   // words, no colour except a warm hint for the hold ring and the end stop.
   const c = canvas.getContext("2d");
   c.clearRect(0, 0, 256, 256);
-  c.fillStyle = "rgba(60, 64, 60, 0.35)";
+  c.fillStyle = "rgba(255, 255, 255, 0.12)";
   c.beginPath();
   c.arc(128, 128, 108, 0, Math.PI * 2);
   c.fill();
   c.strokeStyle = `rgba(240, 242, 238, ${ready ? 0.6 : 0.4})`;
-  c.lineWidth = 3;
+  c.lineWidth = 1;
   c.beginPath();
-  c.arc(128, 128, 106, 0, Math.PI * 2);
+  c.arc(128, 128, 106, -Math.PI * .88, -Math.PI * .12);
   c.stroke();
   if (progress > 0) {
     c.strokeStyle = flash ? "#fff3d0" : "#f5e6c4";
-    c.lineWidth = 9;
+    c.lineWidth = 2;
     c.lineCap = "round";
     c.beginPath();
     c.arc(128, 128, 101, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, progress));
@@ -46,7 +47,7 @@ export function paintHandBadge(
         : "rgba(225, 228, 224, 0.8)";
   c.strokeStyle = ink;
   c.fillStyle = ink;
-  c.lineWidth = 14;
+  c.lineWidth = 2;
   c.lineCap = "round";
   c.lineJoin = "round";
   if (menu) {
@@ -78,26 +79,7 @@ export function paintHandBadge(
   }
   c.lineCap = "butt";
   c.lineJoin = "miter";
-  if (welcome != null) {
-    c.save();
-    c.globalAlpha = Math.sin(Math.PI * welcome) * 0.8;
-    c.strokeStyle = "#ecd79b";
-    c.lineWidth = 3;
-    const radius = 48 + 62 * welcome,
-      angle = welcome * Math.PI * 2;
-    for (const offset of [0, Math.PI]) {
-      c.beginPath();
-      c.arc(128, 128, radius, angle + offset, angle + offset + 1.4);
-      c.stroke();
-      const x = 128 + Math.cos(angle + offset) * radius,
-        y = 128 + Math.sin(angle + offset) * radius;
-      c.fillStyle = "#fff3ce";
-      c.beginPath();
-      c.arc(x, y, 3, 0, Math.PI * 2);
-      c.fill();
-    }
-    c.restore();
-  }
+
 }
 
 export class HandBadges {
@@ -108,6 +90,37 @@ export class HandBadges {
     this.entries = new Map();
     this.visible = [];
     this.failed = false;
+  }
+  createEntry(hand) {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 256;
+    const layer = this.binding.createQuadLayer({
+      space: this.space, layout: "mono", textureType: "texture",
+      viewPixelWidth: 256, viewPixelHeight: 256,
+      width: 0.036, height: 0.036, isStatic: false, clearOnAccess: false,
+    });
+    layer.blendTextureSourceAlpha = true;
+    layer.opacity = 0;
+    paintHandBadge(canvas, { forward: hand === "right" });
+    const e = {canvas, layer, key: "", dirty: true, initialUpload: true,
+      pulseUntil: 0, follower: new PoseFollower(), moving: false, lastActivity: null,
+      lastInput: null, opacity: 0};
+    this.entries.set(hand, e);
+    return e;
+  }
+  prepare() {
+    if (this.failed) return [];
+    try {
+      for (const hand of ["left", "right"])
+        if (!this.entries.has(hand)) this.createEntry(hand);
+      return [...this.entries.values()].map(e => e.layer);
+    } catch (error) {
+      this.failed = true; this.clearVisible(); this.onError(error); return [];
+    }
+  }
+  pendingPreloads() {
+    return this.failed ? [] : [...this.entries.values()]
+      .filter(e => e.initialUpload).map(e => e.layer);
   }
   clearVisible() {
     for (const e of this.entries.values()) e.layer.opacity = 0;
@@ -120,6 +133,7 @@ export class HandBadges {
   pulse(hand, time, outcome) {
     const e = this.entries.get(hand);
     if (!e) return;
+    e.lastActivity = time;
     e.blocked = outcome === "first-page" || outcome === "last-page";
     e.pulseUntil = time + (e.blocked ? 600 : 220);
     e.fullHold = outcome === "menu";
@@ -136,90 +150,53 @@ export class HandBadges {
       canBack = true,
       time = 0,
       entryTime = null,
+      nearPage = false,
     } = {},
   ) {
-    const next = [];
+    const next = [], seen = new Set();
     if (!this.failed)
       for (const sample of samples) {
-        if (
-          !sample.position ||
-          sample.systemGesture ||
-          !["left", "right"].includes(sample.hand)
-        )
+        if (!["left", "right"].includes(sample.hand)) continue;
+        if (sample.systemGesture) {
+          seen.add(sample.hand);
+          const hidden = this.entries.get(sample.hand);
+          if (hidden) hidden.layer.opacity = 0;
           continue;
+        }
         try {
-          let e = this.entries.get(sample.hand);
-          if (!e) {
-            const canvas = document.createElement("canvas");
-            canvas.width = canvas.height = 256;
-            const layer = this.binding.createQuadLayer({
-              space: this.space,
-              layout: "mono",
-              textureType: "texture",
-              viewPixelWidth: 256,
-              viewPixelHeight: 256,
-              width: 0.06,
-              height: 0.06,
-              isStatic: false,
-              clearOnAccess: false,
-            });
-            layer.blendTextureSourceAlpha = true;
-            e = { canvas, layer, key: "", dirty: true, pulseUntil: 0 };
-            this.entries.set(sample.hand, e);
-          }
+          const e = this.entries.get(sample.hand) || this.createEntry(sample.hand);
+          seen.add(sample.hand);
+          const p = sample.position, v = viewer.position;
+          const d = p ? Math.hypot(v.x-p.x,v.y-p.y,v.z-p.z)||1 : 1;
+          const target = p ? {x:p.x+(v.x-p.x)/d*.035,y:p.y+(v.y-p.y)/d*.035,z:p.z+(v.z-p.z)/d*.035} : null;
+          const pose = e.follower.update(target, p ? viewer.orientation : null, time);
+          if (!pose) continue;
+          e.moving = pose.moving;
+          // Keep an action acknowledgement pending while its transform moves.
+          if (e.moving && time < e.pulseUntil)
+            e.pulseUntil = time + (e.blocked ? 600 : 220);
+          e.layer.transform = new XRRigidTransform(pose.position, pose.orientation);
+          if (e.lastActivity == null) e.lastActivity = time;
+          if (p && e.lastInput && Math.hypot(p.x-e.lastInput.x,p.y-e.lastInput.y,p.z-e.lastInput.z) > .003) {
+            e.lastActivity = time; e.lastInput = {...p};
+          } else if (p && !e.lastInput) e.lastInput = {...p};
           const h = engine.hands.get(sample.source),
             ready = !!h?.armed && time >= engine.cooldownUntil,
             progress = engine.progress(time, sample.source),
             flash = time < e.pulseUntil;
           const forward = (sample.hand === "right") !== swapped;
-          const available =
-            menu || practice || (forward ? canForward : canBack);
+          const available = menu || practice || (forward ? canForward : canBack);
           const blocked = flash && !!e.blocked;
-          if (entryTime != null && e.welcomeStart == null)
-            e.welcomeStart = time;
-          const welcome =
-            e.welcomeStart != null && time - e.welcomeStart < 1000
-              ? (time - e.welcomeStart) / 1000
-              : null;
+          if (progress > 0 || flash || h?.closed) e.lastActivity = time;
           const shownProgress = flash && e.fullHold ? 1 : progress;
-          const key = [
-            forward,
-            Math.round(shownProgress * 48),
-            ready,
-            flash,
-            menu,
-            available,
-            blocked,
-            welcome == null ? "" : Math.round(welcome * 48),
-          ].join(":");
-          if (key !== e.key) {
-            paintHandBadge(e.canvas, {
-              forward,
-              progress: shownProgress,
-              ready,
-              flash: flash && !blocked,
-              menu,
-              available,
-              blocked,
-              welcome,
-            });
-            e.key = key;
-            e.dirty = true;
+          const key = [forward,Math.round(shownProgress*48),ready,flash,menu,available,blocked].join(":");
+          if (key !== e.key && !e.moving) {
+            paintHandBadge(e.canvas, {forward,progress:shownProgress,ready,flash:flash&&!blocked,menu,available,blocked});
+            e.key = key; e.dirty = true;
           }
-          const p = sample.position,
-            v = viewer.position,
-            d = Math.hypot(v.x - p.x, v.y - p.y, v.z - p.z) || 1;
-          const toward =
-            0.035 + (welcome == null ? 0 : Math.sin(Math.PI * welcome) * 0.012);
-          e.layer.transform = new XRRigidTransform(
-            {
-              x: p.x + ((v.x - p.x) / d) * toward,
-              y: p.y + ((v.y - p.y) / d) * toward,
-              z: p.z + ((v.z - p.z) / d) * toward,
-            },
-            viewer.orientation,
-          );
-          e.layer.opacity = 1;
+          const idleFade = Math.max(0, 1 - Math.max(0,time-e.lastActivity-5000)/200);
+          const opacity = (sample.nearPage ?? nearPage) ? .9 : .55;
+          e.layer.opacity = opacity * idleFade * pose.lossOpacity;
           next.push(e.layer);
         } catch (error) {
           this.failed = true;
@@ -228,8 +205,15 @@ export class HandBadges {
           return true;
         }
       }
-    for (const e of this.entries.values())
-      if (!next.includes(e.layer)) e.layer.opacity = 0;
+    for (const [hand,e] of this.entries) {
+      if (seen.has(hand)) continue;
+      const pose = e.follower.update(null, null, time);
+      e.moving = false;
+      if (pose && pose.lossOpacity > 0 && e.layer.opacity > 0) {
+        e.layer.opacity = Math.min(e.layer.opacity, .55 * pose.lossOpacity);
+        next.push(e.layer);
+      } else e.layer.opacity = 0;
+    }
     const changed =
       next.length !== this.visible.length ||
       next.some((layer, i) => layer !== this.visible[i]);
@@ -239,8 +223,9 @@ export class HandBadges {
   draw(frame, gpu, activeLayers) {
     for (const e of this.entries.values())
       if (
-        this.visible.includes(e.layer) &&
         activeLayers.includes(e.layer) &&
+        !e.moving &&
+        (this.visible.includes(e.layer) || e.initialUpload) &&
         (e.dirty || e.layer.needsRedraw)
       ) {
         try {
@@ -248,6 +233,7 @@ export class HandBadges {
             premultiplied: true,
           });
           e.dirty = false;
+          e.initialUpload = false;
         } catch (error) {
           this.failed = true;
           this.clearVisible();

@@ -58,22 +58,110 @@ test("the face floats toward the eyes and up the forearm", () => {
   assert.ok(p.z > W.z, "toward the viewer");
   assert.ok(p.x > W.x, "toward the elbow, away from the fingers");
 });
-test("a dropped wrist joint hides the face but never disables the feature", () => {
+function fixture() {
   globalThis.XRRigidTransform ??= class { constructor(p, q) { this.position = p; this.orientation = q; } };
-  globalThis.document ??= { createElement: () => ({ getContext: () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : k === "measureText" ? (x) => ({ width: x.length * 12 }) : () => {}), set: (t, k, v) => ((t[k] = v), true) }) }) };
+  const paint = { count: 0, labels: [], uploads: 0 };
+  globalThis.document = { createElement: () => ({ getContext: () => new Proxy({}, {
+    get: (t, k) => k in t ? t[k]
+      : k === "clearRect" ? () => paint.count++
+      : k === "createLinearGradient" ? () => ({ addColorStop() {} })
+      : k === "fillText" ? (label) => paint.labels.push(label)
+      : () => {},
+    set: (t, k, v) => ((t[k] = v), true),
+  }) }) };
   const layer = { opacity: 0, destroy() {} };
-  const w = new WristWatch({ createQuadLayer: () => layer }, {});
+  const w = new WristWatch({ createQuadLayer: () => layer, getSubImage() {} }, {});
   const viewerT = { position: viewer, orientation: { x: 0, y: 0, z: 0, w: 1 }, matrix: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1] };
   const summary = watchSummary(seedProgress("2026-10-28"), "2026-10-28");
   const s = { hand: "right", ...watching };
-  for (let t = 0; t <= 300; t += 20) w.update(s, viewerT, { time: t, summary });
-  assert.equal(w.visible.length, 1, "shown");
-  w.update({ ...s, wrist: null }, viewerT, { time: 320, summary });
-  assert.equal(w.failed, false);
-  assert.equal(w.visible.length, 0, "hidden while the wrist is lost");
-  for (let t = 340; t <= 700; t += 20) w.update(s, viewerT, { time: t, summary });
-  assert.equal(w.visible.length, 1, "comes back");
+  const step = (time, sample = s, nextSummary = summary) => w.update(sample, viewerT, { time, summary: nextSummary });
+  const draw = () => w.draw({}, { copyPage() { paint.uploads++; } }, [layer]);
+  w.prepare(summary);
+  draw();
+  return { w, s, summary, layer, paint, step, draw };
+}
+
+test("glance preloads once, paints only date and dots, and ignores nonvisual summary changes", () => {
+  const { w, layer, summary, paint, step, draw } = fixture();
+  assert.deepEqual(paint.labels, ["Wednesday", "28"]);
+  assert.equal(layer.opacity, 0);
+  assert.deepEqual(w.pendingPreloads(), []);
+  w.prepare(summary);
+  step(0);
+  step(20, undefined, { ...summary, streak: 100, weekly: "unrelated" });
+  draw();
+  assert.equal(paint.count, 1);
+  assert.equal(paint.uploads, 1);
+  step(40, undefined, { ...summary, ticks: [true, false, false] });
+  draw();
+  assert.equal(paint.count, 2);
+  assert.equal(paint.uploads, 2);
 });
+
+test("glance requires 300ms steady, fades in, and locks only the right hand through departure", () => {
+  const { w, step, layer } = fixture();
+  for (let t = 0; t <= 280; t += 20) step(t);
+  assert.equal(w.visible.length, 0);
+  step(300);
+  assert.equal(w.shown, true);
+  assert.ok(layer.opacity > 0 && layer.opacity < 1);
+  for (let t = 320; t <= 440; t += 20) step(t);
+  assert.equal(layer.opacity, 1);
+  assert.equal(w.showingFor("right"), true);
+  assert.equal(w.showingFor("left"), false);
+  step(460, null);
+  step(560, null);
+  assert.equal(w.shown, true, "short posture loss has grace");
+  step(580, null);
+  assert.equal(w.shown, false);
+  assert.equal(w.showingFor("right"), true, "still locked while fading");
+  for (let t = 600; t <= 740; t += 20) step(t, null);
+  assert.equal(w.visible.length, 0);
+  assert.equal(w.showingFor("right"), false);
+});
+
+test("lost tracking holds the last pose, fades safely, and permits a later glance", () => {
+  const { w, s, step, layer } = fixture();
+  for (let t = 0; t <= 440; t += 20) step(t);
+  const last = JSON.parse(JSON.stringify(layer.transform));
+  step(460, { ...s, wrist: null });
+  assert.equal(w.failed, false);
+  assert.equal(w.visible.length, 1);
+  assert.deepEqual(layer.transform, Object.assign(new XRRigidTransform(), last));
+  for (let t = 480; t <= 760; t += 20) step(t, null);
+  assert.equal(w.visible.length, 0);
+  for (let t = 780; t <= 1240; t += 20) step(t);
+  assert.equal(layer.opacity, 1);
+});
+
+test("left geometry never reveals a glance and explicit disable hides immediately", () => {
+  const { w, s, step, summary } = fixture();
+  for (let t = 0; t <= 600; t += 20) step(t, { ...s, hand: "left" });
+  assert.equal(w.visible.length, 0);
+  for (let t = 620; t <= 1080; t += 20) step(t);
+  assert.equal(w.visible.length, 1);
+  w.update(s, { position: viewer }, { time: 1100, summary, enabled: false });
+  assert.equal(w.visible.length, 0);
+  assert.equal(w.showingFor("right"), false);
+});
+
+test("changed reading state waits until pose settles before paint and upload", () => {
+  const { w, s, step, summary, paint, draw } = fixture();
+  for (let t = 0; t <= 440; t += 20) step(t);
+  const shifted = Object.fromEntries(Object.entries(s).map(([k, p]) => [k, typeof p === "object" ? { ...p, x: p.x + .03 } : p]));
+  const updated = { ...summary, ticks: [true, false, false] };
+  step(460, shifted, updated);
+  assert.equal(w.moving, true);
+  draw();
+  assert.equal(paint.count, 1);
+  assert.equal(paint.uploads, 1);
+  for (let t = 480; t <= 2000; t += 20) step(t, shifted, updated);
+  draw();
+  assert.equal(w.moving, false);
+  assert.equal(paint.count, 2);
+  assert.equal(paint.uploads, 2);
+});
+
 test("summary shows today's ticks, this week and the streak", () => {
   const p = seedProgress("2026-10-28");
   toggleTick(p, "2026-10-28", "story", "2026-10-28");

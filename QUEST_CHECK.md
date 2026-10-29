@@ -1,3 +1,13 @@
+# Build 038 — add to the single combined end check after release
+
+1. ?v=38 / BUILD 038. Raise the right wrist: after a short steady glance the weekday, large date and three reading dots fade in. Left wrist never shows it. Pinch opens Your shelf; reading place stays saved. A palm-facing system gesture must not open the shelf.
+2. Hand discs are smaller, thin and quiet. After five seconds still they fade away; move or pinch to wake. Check visibility in bright/dim rooms and menu pointing.
+3. Move hands/wrist slowly and quickly. Following should feel calmer without dragging; briefly lose tracking and recover: no jump or accidental action. Repeat lying down. Per-frame pose caps have only desktop verification.
+4. Reading surfaces remain stationary and crisp. Check paper/night and three reading dots after marking one read.
+
+No real Quest, Claude or Drive test has been performed by this agent. Keep all previous combined checks below; no intermediate test gate.
+
+---
 # Build 037.1 — add to the combined end check after release
 
 Both hands, upright and lying: dot and highlighted choice stay together while pinching and drifting; release opens that same choice. Try small/large movements and adjacent rows. Look away or briefly lose hand tracking while pressed: no delayed activation on return. Smoothing is much faster in synthetic traces; perceived Quest accuracy and steadiness remain untested. Optional ?pointerDiagnostics=1 adds paired native/filtered/head-through-pinch traces to Save test details. No need for an intermediate headset check.

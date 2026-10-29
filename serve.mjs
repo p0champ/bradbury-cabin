@@ -8,6 +8,7 @@ const allowed = new Set([
   "core.js",
   "gestures.js",
   "hand-badges.js",
+  "follow-pose.js",
   "arrival.js",
   "entry-sound.js",
   "progress.js",

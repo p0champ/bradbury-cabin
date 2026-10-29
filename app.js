@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=37.1";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=38";
 import {
   GestureEngine,
   menuButtons,
@@ -10,29 +10,29 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=37.1";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=37.1";
-import { HandBadges } from "./hand-badges.js?v=37.1";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=37.1";
-import { LIBRARY } from "./library.js?v=37.1";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=37.1";
-import { layoutReading } from "./reading-flow.js?v=37.1";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=37.1";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=37.1";
-import { parsePicks, pickLabels } from "./picks.js?v=37.1";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=37.1";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=37.1";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=37.1";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=37.1";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=37.1";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=37.1";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=37.1";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=37.1";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=37.1";
-import { paintWelcome, welcomeHit, greeting, WELCOME_STEPS, WELCOME_MS } from "./welcome-panel.js?v=37.1";
-import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=37.1";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=37.1";
-import { EntrySound } from "./entry-sound.js?v=37.1";
+} from "./gestures.js?v=38";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=38";
+import { HandBadges } from "./hand-badges.js?v=38";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=38";
+import { LIBRARY } from "./library.js?v=38";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=38";
+import { layoutReading } from "./reading-flow.js?v=38";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=38";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=38";
+import { parsePicks, pickLabels } from "./picks.js?v=38";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=38";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=38";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=38";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=38";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=38";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=38";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=38";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=38";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=38";
+import { paintWelcome, welcomeHit, greeting, WELCOME_STEPS, WELCOME_MS } from "./welcome-panel.js?v=38";
+import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=38";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=38";
+import { EntrySound } from "./entry-sound.js?v=38";
 import {
   readProgress,
   saveProgress,
@@ -41,13 +41,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=37.1";
+} from "./progress.js?v=38";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=37.1";
+} from "./calendar.js?v=38";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -313,6 +313,7 @@ let gazeRing = null;
 let pointer = null;
 // Each hand owns a single displayed hit and a press snapshot (including misses).
 const rayFilters = new Map(), heldTargets = new Map();
+const wristPresses = new Map();
 let pointerRevision = 0, pointerScreen = null;
 // Explicit opt-in only; bounded local traces travel with the existing export.
 const pointerDiagnosticsEnabled = new URLSearchParams(location.search).get("pointerDiagnostics") === "1";
@@ -339,6 +340,7 @@ function recordPointerAim(source, ray, filtered, viewer, index, thumb, time) {
 }
 function cancelPointerPresses(reason = "pointer-context-change") {
   pointerRevision++;
+  wristPresses.clear();
   for (const source of heldTargets.keys()) gestures.cancel(source, reason, lastFrameTime);
   heldTargets.clear();
   rayFilters.clear();
@@ -1446,7 +1448,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-037.1",
+    build: "gestures-038",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1536,41 +1538,22 @@ function applyLayers() {
   const session = state.session;
   if (projectionRoute) {
     const primary = quad && state.mode === "layer" ? quad : base;
-    const optional = arrival?.visible.length ? arrival : handBadges;
-    const extra =
-      optional === arrival
-        ? []
-        : [...(gazeRing?.visible || []), ...(wristWatch?.visible || []), ...(pointer?.visible || [])];
+    const groups = [
+      [gazeRing, 'gazeError'], [pointer, 'pointerError'],
+      [wristWatch, 'watchError'], [handBadges, 'handFeedbackError'], [arrival, 'arrivalError'],
+    ];
+    const layersFor = o => o && !o.failed ? [...(o.visible || []), ...(o.pendingPreloads?.() || [])] : [];
+    const extras = [...new Set(groups.flatMap(([o]) => layersFor(o)))];
     try {
-      session.updateRenderState({
-        layers: [primary, ...(optional?.visible || []), ...extra],
-      });
+      session.updateRenderState({ layers: [primary, ...extras] });
     } catch (error) {
-      // The gaze ring, then the wrist calendar, give up first.
-      if (gazeRing?.visible.length) {
-        gazeRing.failed = true;
-        gazeRing.clearVisible();
-        state.gazeError = error.message;
-        return applyLayers();
-      }
-      if (extra.length) {
-        wristWatch.failed = true;
-        wristWatch.clearVisible();
-        state.watchError = error.message;
-        report("Wrist calendar unavailable: " + error.message);
-        return applyLayers();
-      }
-      if (!optional?.visible.length) throw error;
-      optional.failed = true;
-      optional.clearVisible();
-      if (optional === arrival) {
-        state.arrivalError = error.message;
-        report("Welcome decoration unavailable: " + error.message);
-      } else {
-        state.handFeedbackError = error.message;
-        report("Hand feedback unavailable: " + error.message);
-      }
-      session.updateRenderState({ layers: [primary] });
+      const rejected = groups.find(([o]) => layersFor(o).length);
+      if (!rejected) throw error;
+      const [o, key] = rejected;
+      o.failed = true;
+      o.clearVisible();
+      state[key] = error.message;
+      return applyLayers();
     }
   } else session.updateRenderState({ baseLayer: base });
 }
@@ -1792,6 +1775,9 @@ async function enter() {
         state.arrivalError = error.message;
         report("Welcome decoration unavailable: " + error.message);
       });
+    handBadges?.prepare();
+    wristWatch?.prepare(currentWatchSummary(), state.night);
+    applyLayers();
     wantRecenter = true;
     gestures.reset();
     paint();
@@ -1854,6 +1840,7 @@ async function enter() {
           visible: session.visibilityState === "visible",
           revision: pointerRevision,
           press: aim?.press || null,
+          wrist: !!wristWatch?.showingFor(e.inputSource.handedness),
         });
         if (nativeQueue.length > 60) {
           nativeQueue = [];
@@ -1867,6 +1854,7 @@ async function enter() {
         rayFilters.delete(source);
         heldTargets.delete(source);
         swallowRelease.delete(source);
+        wristPresses.delete(source);
         nativeQueue = nativeQueue.filter((e) => e.source !== source);
       }
     });
@@ -2004,7 +1992,7 @@ function frame(time, xrFrame, generation) {
         }
       const targets = new Map(),
         samples = [];
-      let watchSample = null;
+      let watchSample = null, watchSafe = false;
       const pointerRays = [];
       for (const source of session.inputSources) {
         if (!source.hand) continue;
@@ -2061,6 +2049,14 @@ function frame(time, xrFrame, generation) {
             pinky: p("pinky-finger-metacarpal"),
             middle: p("middle-finger-metacarpal"),
           };
+          // The legacy near-face heuristic uses the opposite anatomical
+          // normal and also flags a valid back-of-wrist glance. For this
+          // shortcut require its positively verified watch posture; explicit
+          // browser ownership still always blocks it. Reading gates stay as-is.
+          watchSafe = sessionVisible && !pose.emulatedPosition && !source.skipRendering &&
+            watchPose({ ...watchSample, viewer: pose.transform.position,
+              forward: { x: -pose.transform.matrix[8], y: -pose.transform.matrix[9], z: -pose.transform.matrix[10] },
+              right: { x: pose.transform.matrix[0], y: pose.transform.matrix[1], z: pose.transform.matrix[2] } });
         }
         // While the right wrist is being read like a watch, that hand cannot
         // turn pages or select, and its hand icon steps aside.
@@ -2077,7 +2073,7 @@ function frame(time, xrFrame, generation) {
         const handInView = tracked && inView(anchor.position, pose.transform);
         const button = source.gamepad?.buttons?.[0];
         const open = button ? !button.pressed : distance > 0.028;
-        samples[samples.length - 1].systemGesture ||= !attentive || !handInView;
+        samples[samples.length - 1].systemGesture ||= !attentive || (tracked && !handInView);
         const physicallySafe = attentive && handInView && !systemGesture && !glancing;
         const handMenuAim = state.menuOpen && !state.headPointer;
         let target = null;
@@ -2121,6 +2117,8 @@ function frame(time, xrFrame, generation) {
         });
       }
       if (pointer?.update(pointerRays, presentPose())) applyLayers();
+      for (const source of wristPresses.keys())
+        if (!activeSources.has(source) || !watchSafe || source.skipRendering) wristPresses.delete(source);
       const deliver = (event) => {
         if (!event) return;
         // Any hand action ends the current look-to-turn attempt.
@@ -2149,6 +2147,7 @@ function frame(time, xrFrame, generation) {
           heldTargets.delete(input.source);
           rayFilters.delete(input.source);
           targets.delete(input.source);
+          wristPresses.delete(input.source);
           // This frame's pointer was prepared before event validation.
           if (pointer?.clearVisible()) applyLayers();
           gestures.note({
@@ -2159,6 +2158,33 @@ function frame(time, xrFrame, generation) {
             time: input.time,
             eventSource: "native-select",
           });
+          continue;
+        }
+        if (input.wrist || wristPresses.has(input.source)) {
+          const valid = input.revision === pointerRevision && watchSafe && !input.source.skipRendering && input.source.handedness === WATCH_HAND && input.visible && sessionVisible &&
+            !pose.emulatedPosition && !state.centering && !state.arriving &&
+            wristWatch?.showingFor(WATCH_HAND) && watchSample?.wrist &&
+            watchPose({ ...watchSample, viewer: pose.transform.position,
+              forward: { x: -pose.transform.matrix[8], y: -pose.transform.matrix[9], z: -pose.transform.matrix[10] },
+              right: { x: pose.transform.matrix[0], y: pose.transform.matrix[1], z: pose.transform.matrix[2] } });
+          gestures.note({ result: 'wrist-check', reason: valid ? 'valid-wrist' : 'invalid-wrist',
+            kind: input.kind, time: input.time, hand: input.source.handedness,
+            revision: input.revision, currentRevision: pointerRevision, hasPress: wristPresses.has(input.source) });
+          if (input.kind === 'selectstart' && valid && !wristPresses.has(input.source))
+            wristPresses.set(input.source, { time: input.time, revision: pointerRevision });
+          if (input.kind === 'select') {
+            const press = wristPresses.get(input.source);
+            wristPresses.delete(input.source);
+            if (valid && press?.revision === pointerRevision && input.time - press.time < HOLD_MS) {
+              toggleMenu(true);
+              state.menuPage = 'shelf';
+              state.shelfPage = 0;
+              dayOpenedAt = time;
+              paint();
+            }
+          }
+          if (!valid || input.kind === 'selectend') wristPresses.delete(input.source);
+          gestures.cancel(input.source, 'wrist-glance', time);
           continue;
         }
         // Startup has one explicit action. A completed browser-recognised
@@ -2269,6 +2295,7 @@ function frame(time, xrFrame, generation) {
             canBack: state.page > 0,
             time,
             entryTime: state.handEntryStarted,
+            nearPage: state.menuOpen,
           },
         )
       )
@@ -2407,16 +2434,19 @@ function frame(time, xrFrame, generation) {
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
-          report(
+          if (state.handFeedbackError) report('Hand feedback unavailable: ' + state.handFeedbackError);
+          else report(
             `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 006: practise Next, Back and Menu.`,
           );
         }
       }
+      const hadPreloads = !!(handBadges?.pendingPreloads().length || wristWatch?.pendingPreloads().length);
       if (handBadges?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (wristWatch?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (gazeRing?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (pointer?.draw(xrFrame, gpu, activeLayers)) applyLayers();
       if (arrival?.draw(xrFrame, gpu, activeLayers)) applyLayers();
+      if (hadPreloads && !handBadges?.pendingPreloads().length && !wristWatch?.pendingPreloads().length) applyLayers();
     }
   } catch (e) {
     state.error = e.message;

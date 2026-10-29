@@ -1,23 +1,23 @@
-import { UI } from "./theme.js?v=37.1";
+import { PoseFollower } from "./follow-pose.js?v=38";
+import { UI } from "./theme.js?v=38";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
 // It is locked to the right hand: only an input source whose handedness is
 // "right" can ever show it. There is no fallback to the other or nearest hand
 // (an earlier wrist feature that switched wrists was a real problem).
-// Placeholder visual design; Bastian will restyle the whole UI later.
+// A quiet glass glance: the date and today's three readings.
 import {
   KINDS,
   addDays,
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=37.1";
+} from "./progress.js?v=38";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
 export const WATCH_METRES = [0.088, 0.077];
-const SHOW_MS = 200,
-  HIDE_MS = 350;
+export const WATCH_TIMING = { steady: 300, hysteresis: 120, fade: 120 };
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const WEEKDAYS = "Sun Mon Tue Wed Thu Fri Sat".split(" ");
@@ -107,6 +107,8 @@ export function watchSummary(progress, today) {
   const d = progress.days[today] || {};
   return {
     title: `${WEEKDAYS[t.getDay()]} ${t.getDate()} ${MONTHS[t.getMonth()]}`,
+    weekday: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][t.getDay()],
+    day: t.getDate(),
     streak: o.streak,
     ticks: KINDS.map((k) => !!d[k]),
     // Titles of the day's readings when they are known (stored picks).
@@ -128,207 +130,170 @@ function rounded(c, x, y, w, h, r) {
 export function titleOnly(pick) {
   return typeof pick === "string" ? pick.split(/\s+[—–-]\s+/)[0].trim() : "";
 }
+// Deliberately simulated frosting: no promise of live passthrough blur.
 export function paintWatch(canvas, s, night = false) {
   const c = canvas.getContext("2d");
   const [W, H] = WATCH_PIXELS;
-  const bg = night ? "#1d2621" : "#f4ecd8",
-    ink = night ? "#ece5d2" : "#243c32",
-    muted = night ? "#a8b9aa" : "#5f7265",
-    done = night ? "#7f9a83" : "#5f8068",
-    warn = night ? "#d39a77" : "#a5603d",
-    faint = night ? "#73857a" : "#9e9a86";
   c.clearRect(0, 0, W, H);
-  c.fillStyle = bg;
-  rounded(c, 8, 8, W - 16, H - 16, 44);
+  const glass = c.createLinearGradient(0, 0, W, H);
+  glass.addColorStop(0, night ? "rgba(45,51,57,.88)" : "rgba(249,250,251,.88)");
+  glass.addColorStop(1, night ? "rgba(25,31,38,.82)" : "rgba(224,230,234,.80)");
+  c.fillStyle = glass;
+  rounded(c, 8, 8, W - 16, H - 16, 58);
   c.fill();
-  c.textAlign = "left";
-  c.fillStyle = ink;
-  c.font = "38px Literata, Georgia, serif";
-  c.fillText(s.title, 40, 70);
-  c.textAlign = "right";
-  c.fillStyle = muted;
-  c.font = `28px ${UI}`;
-  c.fillText(`Streak ${s.streak}`, W - 40, 68);
-  // Today's three readings, each with its tick and title.
-  const fit = (text, max) => {
-    if (c.measureText(text).width <= max) return text;
-    while (text.length > 1 && c.measureText(text + "…").width > max) text = text.slice(0, -1);
-    return text.trimEnd() + "…";
-  };
-  ["Poem", "Story", "Essay"].forEach((label, i) => {
-    const cx = 64,
-      cy = 124 + i * 72;
+  const rim = c.createLinearGradient(0, 8, 0, H - 8);
+  rim.addColorStop(0, "rgba(255,255,255,.70)");
+  rim.addColorStop(1, "rgba(255,255,255,.10)");
+  c.strokeStyle = rim;
+  c.lineWidth = 2;
+  rounded(c, 10, 10, W - 20, H - 20, 56);
+  c.stroke();
+  c.textAlign = "center";
+  c.fillStyle = night ? "rgba(244,246,249,.74)" : "rgba(32,39,48,.70)";
+  c.font = `500 37px ${UI}`;
+  c.fillText(s.weekday || s.title?.split(" ")[0] || "", W / 2, 93);
+  c.fillStyle = night ? "#f4f6f9" : "#202730";
+  c.font = `400 184px ${UI}`;
+  c.fillText(String(s.day ?? s.title?.split(" ")[1] ?? ""), W / 2, 285);
+  for (let i = 0; i < 3; i++) {
     c.beginPath();
-    c.arc(cx, cy, 22, 0, Math.PI * 2);
-    if (s.ticks[i]) {
-      c.fillStyle = done;
-      c.fill();
-      c.strokeStyle = bg;
-      c.lineWidth = 6;
-      c.beginPath();
-      c.moveTo(cx - 10, cy + 1);
-      c.lineTo(cx - 2, cy + 9);
-      c.lineTo(cx + 11, cy - 8);
-      c.stroke();
-    } else {
-      c.strokeStyle = muted;
-      c.lineWidth = 4;
-      c.stroke();
-    }
-    c.textAlign = "left";
-    c.fillStyle = muted;
-    c.font = `22px ${UI}`;
-    c.fillText(label.toUpperCase(), 102, cy - 10);
-    // Title only on the wrist; the author is on the calendar day page.
-    const title = titleOnly(s.picks?.[i]);
-    c.fillStyle = title ? ink : faint;
-    c.font = title ? "italic 28px Literata, Georgia, serif" : `26px ${UI}`;
-    c.fillText(fit(title || "not picked yet", W - 140), 102, cy + 22);
-  });
-  // This week, Monday to Sunday
-  s.week.forEach((d, i) => {
-    const x = 40 + i * 64,
-      y = 334;
-    if (d.status === "complete") {
-      c.fillStyle = done;
-      rounded(c, x, y, 48, 48, 10);
+    c.arc(W / 2 + (i - 1) * 48, 359, 11, 0, Math.PI * 2);
+    if (s.ticks?.[i]) {
+      c.fillStyle = night ? "rgba(244,246,249,.90)" : "rgba(32,39,48,.88)";
       c.fill();
     } else {
-      c.strokeStyle =
-        d.status === "missed" ? warn : d.status === "partial" || d.status === "open" ? muted : faint;
-      c.lineWidth = d.status === "missed" ? 4 : 3;
-      c.setLineDash(d.status === "unrecorded" ? [5, 5] : []);
-      rounded(c, x + 2, y + 2, 44, 44, 10);
+      c.strokeStyle = night ? "rgba(244,246,249,.42)" : "rgba(32,39,48,.34)";
+      c.lineWidth = 3;
       c.stroke();
-      c.setLineDash([]);
-      if (d.status === "partial") {
-        c.fillStyle = muted;
-        c.beginPath();
-        c.arc(x + 39, y + 39, 5, 0, Math.PI * 2);
-        c.fill();
-      }
     }
-    c.textAlign = "center";
-    c.fillStyle = d.status === "complete" ? bg : d.status === "future" ? faint : muted;
-    c.font = `${d.today ? "bold " : ""}28px ${UI}`;
-    c.fillText(d.label, x + 24, y + 32);
-    if (d.today) {
-      c.fillStyle = ink;
-      c.fillRect(x + 12, y + 56, 24, 4);
-    }
-  });
-  c.textAlign = "left";
-  c.fillStyle = muted;
-  c.font = `24px ${UI}`;
-  c.fillText(s.weekly, 40, H - 28);
+  }
 }
+
+const visualKey = (s, night) => JSON.stringify([s.weekday, s.day, s.title, s.ticks, night]);
 
 export class WristWatch {
   constructor(binding, space, onError = () => {}) {
-    this.binding = binding;
-    this.space = space;
-    this.onError = onError;
-    this.entry = null;
-    this.visible = [];
-    this.failed = false;
-    this.shown = false;
-    this.since = null;
-    this.hand = null;
-    this.log = [];
+    Object.assign(this, { binding, space, onError, entry: null, visible: [], failed: false,
+      shown: false, since: null, hand: null, log: [], opacity: 0, lastTime: null,
+      moving: false, pending: null });
+    this.follower = new PoseFollower();
+  }
+  pendingPreloads() {
+    return this.entry && !this.entry.uploaded && !this.failed ? [this.entry.layer] : [];
   }
   showingFor(hand) {
-    return this.shown && this.hand === hand;
+    return hand === WATCH_HAND && (this.shown || this.opacity > 0);
   }
   clearVisible() {
     if (this.entry) this.entry.layer.opacity = 0;
     const changed = this.visible.length > 0;
     this.visible = [];
     this.shown = false;
+    this.opacity = 0;
     this.since = null;
+    this.lastTime = null;
+    this.follower.reset();
     return changed;
   }
-  // sample: {hand, wrist, index, pinky, middle} positions for the watch hand,
-  // or null when unavailable. Returns true when the layer list must change.
-  update(sample, viewer, { time, summary, night = false, enabled = true }) {
-    const before = this.visible.length;
-    if (this.failed || !enabled || !viewer) {
-      this.clearVisible();
-      return before !== 0;
-    }
-    const m = viewer.matrix;
-    const forward = { x: -m[8], y: -m[9], z: -m[10] },
-      right = { x: m[0], y: m[1], z: m[2] };
-    if (sample && sample.hand !== WATCH_HAND) sample = null;
-    const measured = sample
-      ? watchMeasure({ ...sample, viewer: viewer.position, forward, right })
-      : { ok: false, reason: "no-right-hand" };
-    const want = measured.ok;
-    if (want !== this.shown) {
-      this.since ??= time;
-      if (time - this.since >= (want ? SHOW_MS : HIDE_MS)) {
-        this.shown = want;
-        this.since = null;
-        this.log.push({ time: Math.round(time), shown: want, ...measured });
-        if (this.log.length > 20) this.log.shift();
-      }
-    } else this.since = null;
-    // A dropped or emulated wrist joint simply hides the face for now; it
-    // must never disable the feature for the rest of the session.
-    if (!this.shown || !sample?.wrist) {
-      if (this.entry) this.entry.layer.opacity = 0;
-      this.visible = [];
-      this.shown = this.shown && !!sample?.wrist;
-      return before !== 0;
-    }
+  // Call before welcome. The caller may list the returned, transparent layer
+  // to upload its first texture before the wrist is ever revealed.
+  prepare(summary, night = false) {
+    if (this.failed) return null;
     try {
       if (!this.entry) {
         const canvas = document.createElement("canvas");
         [canvas.width, canvas.height] = WATCH_PIXELS;
         const layer = this.binding.createQuadLayer({
-          space: this.space,
-          layout: "mono",
-          textureType: "texture",
-          viewPixelWidth: WATCH_PIXELS[0],
-          viewPixelHeight: WATCH_PIXELS[1],
-          width: WATCH_METRES[0],
-          height: WATCH_METRES[1],
-          isStatic: false,
-          clearOnAccess: false,
+          space: this.space, layout: "mono", textureType: "texture",
+          viewPixelWidth: WATCH_PIXELS[0], viewPixelHeight: WATCH_PIXELS[1],
+          width: WATCH_METRES[0], height: WATCH_METRES[1],
+          isStatic: false, clearOnAccess: false,
         });
         layer.blendTextureSourceAlpha = true;
+        layer.opacity = 0;
         this.entry = { canvas, layer, key: "", dirty: true };
       }
-      const e = this.entry;
-      const key = JSON.stringify([summary, night]);
-      if (key !== e.key) {
-        paintWatch(e.canvas, summary, night);
-        e.key = key;
-        e.dirty = true;
-      }
-      this.hand = WATCH_HAND;
-      e.layer.transform = new XRRigidTransform(
-        watchPosition({ ...sample, viewer: viewer.position }),
-        viewer.orientation,
-      );
-      e.layer.opacity = 1;
-      this.visible = [e.layer];
+      this.pending = { summary, night, key: visualKey(summary, night) };
+      this.paintPending();
+      return this.entry.layer;
     } catch (error) {
       this.failed = true;
       this.clearVisible();
       this.onError(error);
-      return true;
+      return null;
+    }
+  }
+  paintPending() {
+    if (!this.entry || !this.pending || this.moving) return;
+    const p = this.pending;
+    if (p.key !== this.entry.key) {
+      paintWatch(this.entry.canvas, p.summary, p.night);
+      this.entry.key = p.key;
+      this.entry.dirty = true;
+    }
+    this.pending = null;
+  }
+  // A transient lost joint holds the last safe pose through grace + fade.
+  update(sample, viewer, { time, summary, night = false, enabled = true }) {
+    const before = this.visible.length;
+    if (this.failed || !enabled || !viewer) return this.clearVisible();
+    const dt = this.lastTime === null ? 0 : Math.max(0, Math.min(50, time - this.lastTime));
+    this.lastTime = time;
+    const m = viewer.matrix;
+    const forward = { x: -m[8], y: -m[9], z: -m[10] },
+      right = { x: m[0], y: m[1], z: m[2] };
+    if (sample?.hand !== WATCH_HAND) sample = null;
+    const measured = sample ? watchMeasure({ ...sample, viewer: viewer.position, forward, right })
+      : { ok: false, reason: "no-right-hand" };
+    const position = sample?.wrist && sample?.middle
+      ? watchPosition({ ...sample, viewer: viewer.position }) : null;
+    // Follow valid poses only while glancing; turning away holds the final
+    // pose so the departing glass never chases an ordinary page-turn hand.
+    const pose = this.follower.update(measured.ok ? position : null,
+      measured.ok ? viewer.orientation : null, time);
+    this.moving = !!pose?.moving;
+    const want = measured.ok;
+    if (want !== this.shown) {
+      if (want && this.moving) this.since = null;
+      else {
+        this.since ??= time;
+        if (time - this.since >= (want ? WATCH_TIMING.steady : WATCH_TIMING.hysteresis)) {
+          this.shown = want;
+          this.since = null;
+          this.log.push({ time: Math.round(time), shown: want, ...measured });
+          if (this.log.length > 20) this.log.shift();
+        }
+      }
+    } else this.since = null;
+    const previousOpacity = this.opacity;
+    this.opacity = Math.max(0, Math.min(1, this.opacity + (this.shown ? 1 : -1) * dt / WATCH_TIMING.fade));
+    try {
+      if (!this.entry) this.prepare(summary, night);
+      if (this.failed) return before !== 0;
+      this.pending = { summary, night, key: visualKey(summary, night) };
+      this.paintPending();
+      const e = this.entry;
+      if (pose) e.layer.transform = new XRRigidTransform(pose.position, pose.orientation);
+      this.hand = WATCH_HAND;
+      // A newly created texture must be uploaded before its first reveal.
+      e.layer.opacity = e.uploaded ? this.opacity : 0;
+      this.visible = this.opacity > 0 && pose ? [e.layer] : [];
+      if (previousOpacity > 0 && !this.shown && this.opacity === 0) this.follower.reset();
+    } catch (error) {
+      this.failed = true;
+      this.clearVisible();
+      this.onError(error);
     }
     return before !== this.visible.length;
   }
   draw(frame, gpu, activeLayers) {
     const e = this.entry;
-    if (!e || !this.visible.length || !activeLayers.includes(e.layer)) return false;
+    if (!e || !activeLayers.includes(e.layer) || this.moving) return false;
     if (!e.dirty && !e.layer.needsRedraw) return false;
     try {
-      gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvas, {
-        premultiplied: true,
-      });
+      gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvas, { premultiplied: true });
       e.dirty = false;
+      e.uploaded = true;
     } catch (error) {
       this.failed = true;
       this.clearVisible();
@@ -340,6 +305,6 @@ export class WristWatch {
   dispose() {
     this.entry?.layer.destroy();
     this.entry = null;
-    this.visible = [];
+    this.clearVisible();
   }
 }
