@@ -6,8 +6,8 @@ export const UI = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue
 // Navigation has one opaque backing in every reading mood. The reading page
 // still uses MOODS below; these colours belong to commands and browsing only.
 export const NAV = Object.freeze({
-  bg: "#333e3d", ink: "#f3f5f2", muted: "#d3ddd5",
-  card: "#414e4a", hover: "#52635a", accent: "#d3ddd5",
+  bg: "#303637", ink: "#f5f6f4", muted: "#d2d8d7",
+  card: "#3d4546", hover: "#505b5d", accent: "#d2d8d7",
   gold: "#b7c0bd", faint: "#8f9e98", done: "#c4d6c7", warn: "#efbcac",
   ui: UI,
 });
@@ -52,4 +52,16 @@ export function spaced(ctx, px = 4) {
 }
 export function unspaced(ctx) {
   if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+}
+
+// One restrained inner edge on interactive cards, entirely inside the hit area.
+export function innerEdge(ctx, b, radius = 36) {
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,255,255,.10)";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(b.x+1,b.y+1,b.w-2,b.h-2,radius);
+  else ctx.rect(b.x+1,b.y+1,b.w-2,b.h-2);
+  ctx.stroke();
+  ctx.restore();
 }

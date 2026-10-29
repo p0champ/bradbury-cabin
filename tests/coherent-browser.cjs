@@ -30,7 +30,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   const text=await p.evaluate(()=>__coherentText.map(x=>x.text).join(' '));for(const w of works)assert.ok(text.includes(w.title),w.title+' missing on first Today frame');
   assert.deepEqual(await p.evaluate(()=>__mock.placed.at(-1)),anchor,'welcome to Today recentered the menu');
   const navPixel=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(100,1000,1,1).data));
-  assert.deepEqual(navPixel,[51,62,61,255]);
+  assert.deepEqual(navPixel,[48,54,55,255]);
   await p.evaluate(async()=>{await __aim({x:1394,y:380,w:380,h:120});__pinch();});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'main');
   const command=await p.evaluate(()=>__coherentText.find(x=>x.text==='More settings'));
@@ -48,7 +48,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   await p.locator('#practice').click();await p.evaluate(()=>__step(16));
   assert.equal(await p.locator('#page').getAttribute('data-view'),'practice');
   const practicePixel=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(180,710,1,1).data));
-  assert.deepEqual(practicePixel,[65,78,74,255],'practice must pair the navigation foreground with its dark card');
+  assert.deepEqual(practicePixel,[61,69,70,255],'practice must pair the navigation foreground with its dark card');
   if(!lying&&!reduce)await p.locator('#page').screenshot({path:path.join(out,'navigation-practice.png')});
   assert.deepEqual(errors,[]);await p.close();passed(`coherent: complete first choices, protected placement, fixed browsing and distinct reading ${lying?'lying':'upright'} ${reduce?'reduced motion':'normal motion'}`);
  }

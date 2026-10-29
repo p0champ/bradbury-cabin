@@ -47,18 +47,18 @@ test('prepared hand textures upload while hidden and only once',()=>{
  f.draw();assert.equal(f.badges.pendingPreloads().length,0); assert.equal(f.counts().uploads,2);
  f.draw();assert.equal(f.counts().uploads,2);
 });
-test('readiness does not prevent idle fade; real movement wakes disc',()=>{
+test('tracked hand stays readable while idle and near the page',()=>{
  const f=badgesFixture(); f.update(0); const layer=f.badges.entries.get('right').layer;
- assert.equal(layer.opacity,.55); f.update(5200);assert.equal(layer.opacity,0);
- f.sample.position.x=.01;f.update(5216);assert.equal(layer.opacity,.55);
- f.update(5232,[f.sample],{nearPage:true});assert.equal(layer.opacity,.9);
+ assert.equal(layer.opacity,.96); f.update(10000);assert.equal(layer.opacity,.96);
+ f.sample.position.x=.01;f.update(10016);assert.equal(layer.opacity,.96);
+ f.update(10032,[f.sample],{nearPage:true});assert.equal(layer.opacity,.96);
 });
-test('moving hand defers texture repaint and upload until settled',()=>{
+test('moving hand updates feedback without starving or extending acknowledgement',()=>{
  const f=badgesFixture();f.update(0);f.draw();const first=f.counts();
- f.sample.position.x=.2;f.badges.pulse('right',16,'turned');f.update(16);f.draw();
- assert.deepEqual(f.counts(),first);
- for(let t=32;t<2000;t+=16)f.update(t);f.draw();
+ f.badges.pulse('right',16,'turned');
+ for(let t=16;t<=500;t+=16){f.sample.position.x=.01*Math.sin(t/80);f.update(t);f.draw();}
  assert.ok(f.counts().paints>first.paints);assert.ok(f.counts().uploads>first.uploads);
+ assert.equal(f.badges.entries.get('right').key.split(':')[3],'false');
 });
 test('brief loss holds layer while sustained loss and system gestures hide it',()=>{
  const f=badgesFixture();f.update(0);f.update(100,[]);assert.equal(f.badges.visible.length,1);

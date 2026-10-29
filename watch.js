@@ -1,5 +1,5 @@
-import { PoseFollower } from "./follow-pose.js?v=39";
-import { UI } from "./theme.js?v=39";
+import { PoseFollower } from "./follow-pose.js?v=40";
+import { UI } from "./theme.js?v=40";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
 // It is locked to the right hand: only an input source whose handedness is
@@ -12,12 +12,12 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=39";
+} from "./progress.js?v=40";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
 export const WATCH_METRES = [0.088, 0.077];
-export const WATCH_TIMING = { steady: 300, hysteresis: 120, fade: 120 };
+export const WATCH_TIMING = { steady: 300, intentGrace: 80, maxGap: 100, hysteresis: 120, fade: 120 };
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const WEEKDAYS = "Sun Mon Tue Wed Thu Fri Sat".split(" ");
@@ -45,6 +45,8 @@ export function watchMeasure({ wrist, index, pinky, middle, viewer, forward, rig
   if (!wrist || !index || !pinky || !middle || !viewer || !forward || !right)
     return { ok: false, reason: "joints-missing" };
   if (hand !== WATCH_HAND) return { ok: false, reason: "not-right-hand" };
+  if (![wrist, index, pinky, middle, viewer, forward, right].every(p =>
+    [p.x, p.y, p.z].every(Number.isFinite))) return { ok: false, reason: "invalid-joints" };
   const palm = cross(sub(index, wrist), sub(pinky, wrist));
   const v = sub(viewer, wrist);
   const d = len(v),
@@ -175,7 +177,8 @@ export class WristWatch {
   constructor(binding, space, onError = () => {}) {
     Object.assign(this, { binding, space, onError, entry: null, visible: [], failed: false,
       shown: false, since: null, hand: null, log: [], opacity: 0, lastTime: null,
-      moving: false, pending: null });
+      moving: false, pending: null, intentMs: 0, intentSince: null,
+      intentValid: false, lastMeasure: null, lastRejectionTime: null });
     this.follower = new PoseFollower();
   }
   pendingPreloads() {
@@ -192,6 +195,10 @@ export class WristWatch {
     this.opacity = 0;
     this.since = null;
     this.lastTime = null;
+    this.intentMs = 0;
+    this.intentSince = null;
+    this.intentValid = false;
+    this.moving = false;
     this.follower.reset();
     return changed;
   }
@@ -224,7 +231,7 @@ export class WristWatch {
     }
   }
   paintPending() {
-    if (!this.entry || !this.pending || this.moving) return;
+    if (!this.entry || !this.pending) return;
     const p = this.pending;
     if (p.key !== this.entry.key) {
       paintWatch(this.entry.canvas, p.summary, p.night);
@@ -237,7 +244,10 @@ export class WristWatch {
   update(sample, viewer, { time, summary, night = false, enabled = true }) {
     const before = this.visible.length;
     if (this.failed || !enabled || !viewer) return this.clearVisible();
-    const dt = this.lastTime === null ? 0 : Math.max(0, Math.min(50, time - this.lastTime));
+    const elapsed = this.lastTime === null ? 0 : Math.max(0, time - this.lastTime);
+    // A suspended callback is not evidence of holding an intentional glance.
+    if (elapsed > WATCH_TIMING.maxGap) this.clearVisible();
+    const dt = Math.min(50, elapsed);
     this.lastTime = time;
     const m = viewer.matrix;
     const forward = { x: -m[8], y: -m[9], z: -m[10] },
@@ -245,6 +255,7 @@ export class WristWatch {
     if (sample?.hand !== WATCH_HAND) sample = null;
     const measured = sample ? watchMeasure({ ...sample, viewer: viewer.position, forward, right })
       : { ok: false, reason: "no-right-hand" };
+    this.lastMeasure = measured;
     const position = sample?.wrist && sample?.middle
       ? watchPosition({ ...sample, viewer: viewer.position }) : null;
     // Follow valid poses only while glancing; turning away holds the final
@@ -253,18 +264,39 @@ export class WristWatch {
       measured.ok ? viewer.orientation : null, time);
     this.moving = !!pose?.moving;
     const want = measured.ok;
-    if (want !== this.shown) {
-      if (want && this.moving) this.since = null;
-      else {
-        this.since ??= time;
-        if (time - this.since >= (want ? WATCH_TIMING.steady : WATCH_TIMING.hysteresis)) {
-          this.shown = want;
-          this.since = null;
-          this.log.push({ time: Math.round(time), shown: want, ...measured });
-          if (this.log.length > 20) this.log.shift();
-        }
+    const wasShown = this.shown;
+    if (!this.shown) {
+      // Accumulate valid posture time, independently of filtered pose motion.
+      // Brief boundary noise pauses acquisition; at most 80ms total can be
+      // tolerated in one attempt. Ordinary movement must not demand stillness.
+      if (want) {
+        if (this.intentSince === null) this.intentSince = time;
+        else if (this.intentValid) this.intentMs += elapsed > WATCH_TIMING.maxGap ? 0 : elapsed;
       }
-    } else this.since = null;
+      if (this.intentSince !== null && time - this.intentSince - this.intentMs > WATCH_TIMING.intentGrace) {
+        this.intentSince = want ? time : null;
+        this.intentMs = 0;
+      }
+      this.intentValid = want;
+      if (want && this.intentMs >= WATCH_TIMING.steady) this.shown = true;
+    } else {
+      if (!want) {
+        this.since ??= time;
+        if (time - this.since >= WATCH_TIMING.hysteresis) this.shown = false;
+      } else this.since = null;
+    }
+    if (this.shown !== wasShown) {
+      this.log.push({ time: Math.round(time), shown: this.shown, ...measured });
+      this.since = null;
+      this.intentSince = null;
+      this.intentMs = 0;
+      this.intentValid = false;
+    } else if (!want && !this.shown && (this.lastRejectionTime === null || time - this.lastRejectionTime >= 500)) {
+      // A watch that never appears still leaves useful, bounded diagnostics.
+      this.log.push({ time: Math.round(time), shown: false, ...measured });
+      this.lastRejectionTime = time;
+    }
+    if (this.log.length > 20) this.log.shift();
     const previousOpacity = this.opacity;
     this.opacity = Math.max(0, Math.min(1, this.opacity + (this.shown ? 1 : -1) * dt / WATCH_TIMING.fade));
     try {
@@ -288,7 +320,7 @@ export class WristWatch {
   }
   draw(frame, gpu, activeLayers) {
     const e = this.entry;
-    if (!e || !activeLayers.includes(e.layer) || this.moving) return false;
+    if (!e || !activeLayers.includes(e.layer)) return false;
     if (!e.dirty && !e.layer.needsRedraw) return false;
     try {
       gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvas, { premultiplied: true });

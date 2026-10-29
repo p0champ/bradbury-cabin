@@ -1,9 +1,9 @@
-import { UI, spaced, unspaced, lift, unlift } from "./theme.js?v=39";
+import { innerEdge, UI, spaced, unspaced, lift, unlift } from "./theme.js?v=40";
 // Today: Claude's three for the day on a page of their own, and a quiet
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=39";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=40";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });
@@ -94,6 +94,7 @@ function card(ctx, b, fill, edge) {
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
   if (edge) unlift(ctx);
+  innerEdge(ctx, b);
 }
 // A hairline, not a bar: separation without weight.
 export function rule(ctx, y, color) {

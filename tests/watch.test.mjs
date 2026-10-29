@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { watchPose, watchPosition, watchSummary, WATCH_HAND, WristWatch, titleOnly } from "../watch.js";
+import { watchPose, watchMeasure, watchPosition, watchSummary, WATCH_HAND, WristWatch, titleOnly } from "../watch.js";
 import { seedProgress, toggleTick } from "../progress.js";
 // Viewer at the origin looking down -z; +x is the viewer's right.
 const viewer = { x: 0, y: 0, z: 0 },
@@ -58,7 +58,7 @@ test("the face floats toward the eyes and up the forearm", () => {
   assert.ok(p.z > W.z, "toward the viewer");
   assert.ok(p.x > W.x, "toward the elbow, away from the fingers");
 });
-function fixture() {
+function fixture({ preload = true } = {}) {
   globalThis.XRRigidTransform ??= class { constructor(p, q) { this.position = p; this.orientation = q; } };
   const paint = { count: 0, labels: [], uploads: 0 };
   globalThis.document = { createElement: () => ({ getContext: () => new Proxy({}, {
@@ -77,8 +77,8 @@ function fixture() {
   const step = (time, sample = s, nextSummary = summary) => w.update(sample, viewerT, { time, summary: nextSummary });
   const draw = () => w.draw({}, { copyPage() { paint.uploads++; } }, [layer]);
   w.prepare(summary);
-  draw();
-  return { w, s, summary, layer, paint, step, draw };
+  if (preload) draw();
+  return { w, s, summary, layer, paint, step, draw, viewerT };
 }
 
 test("glance preloads once, paints only date and dots, and ignores nonvisual summary changes", () => {
@@ -98,7 +98,7 @@ test("glance preloads once, paints only date and dots, and ignores nonvisual sum
   assert.equal(paint.uploads, 2);
 });
 
-test("glance requires 300ms steady, fades in, and locks only the right hand through departure", () => {
+test("glance requires 300ms intentional posture, fades in, and locks only the right hand through departure", () => {
   const { w, step, layer } = fixture();
   for (let t = 0; t <= 280; t += 20) step(t);
   assert.equal(w.visible.length, 0);
@@ -145,7 +145,7 @@ test("left geometry never reveals a glance and explicit disable hides immediatel
   assert.equal(w.showingFor("right"), false);
 });
 
-test("changed reading state waits until pose settles before paint and upload", () => {
+test("changed reading state paints and uploads while the wrist follows movement", () => {
   const { w, s, step, summary, paint, draw } = fixture();
   for (let t = 0; t <= 440; t += 20) step(t);
   const shifted = Object.fromEntries(Object.entries(s).map(([k, p]) => [k, typeof p === "object" ? { ...p, x: p.x + .03 } : p]));
@@ -153,13 +153,117 @@ test("changed reading state waits until pose settles before paint and upload", (
   step(460, shifted, updated);
   assert.equal(w.moving, true);
   draw();
-  assert.equal(paint.count, 1);
-  assert.equal(paint.uploads, 1);
+  assert.equal(paint.count, 2);
+  assert.equal(paint.uploads, 2);
   for (let t = 480; t <= 2000; t += 20) step(t, shifted, updated);
   draw();
   assert.equal(w.moving, false);
   assert.equal(paint.count, 2);
   assert.equal(paint.uploads, 2);
+});
+
+// Parameterized synthetic traces, not measurements of Quest tracking. A hand
+// wandering 6–10 mm at 1.3–2 Hz remains anatomically in the watch posture.
+const translateHand = (s, x, y = 0) => Object.fromEntries(Object.entries(s).map(([k, p]) =>
+  [k, typeof p === "object" ? { ...p, x: p.x + x, y: p.y + y } : p]));
+for (const [hz, amplitude, frequency] of [[72, .006, 1.3], [90, .008, 1.7], [120, .010, 2]]) {
+  test(`intentional glance survives continuous synthetic ${amplitude * 1000}mm motion at ${hz}Hz`, () => {
+    const { w, s, step, draw, layer, summary, paint } = fixture();
+    let firstShown = null, movingFrames = 0;
+    for (let frame = 0; frame <= hz * 3; frame++) {
+      const time = frame * 1000 / hz, phase = time / 1000 * frequency * 2 * Math.PI;
+      const sample = translateHand(s, amplitude * Math.sin(phase), amplitude * Math.cos(phase));
+      step(time, sample, { ...summary, ticks: [time >= 800, false, false] });
+      movingFrames += Number(w.moving);
+      if (w.shown && firstShown === null) firstShown = time;
+      draw();
+    }
+    assert.ok(movingFrames > hz, "trace actually exercises follower motion");
+    assert.ok(firstShown !== null && firstShown <= 350, `glance appeared by 350ms (actual ${firstShown})`);
+    assert.equal(layer.opacity, 1);
+    assert.equal(paint.uploads, 2, "changed dots upload despite continuous movement");
+  });
+}
+
+test("head rotation during a deliberate glance cannot starve acquisition", () => {
+  const { w, s, summary, viewerT, draw, layer } = fixture();
+  let movingFrames = 0;
+  for (let frame = 0; frame <= 216; frame++) {
+    const time = frame * 1000 / 72, yaw = .06 * Math.sin(time / 1000 * 2 * Math.PI * 2);
+    const matrix = [Math.cos(yaw), 0, -Math.sin(yaw), 0, 0, 1, 0, 0,
+      Math.sin(yaw), 0, Math.cos(yaw), 0, 0, 0, 0, 1];
+    w.update(s, { ...viewerT, matrix,
+      orientation: { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) } }, { time, summary });
+    movingFrames += Number(w.moving);
+    draw();
+    if (time >= 450) assert.equal(layer.opacity, 1);
+  }
+  assert.ok(movingFrames > 40, "head motion actually trips follower movement");
+});
+
+test("one brief threshold miss pauses valid intent instead of restarting or counting the miss", () => {
+  const { w, s, step } = fixture();
+  const away = rightHand(W, { x: -1, y: 0, z: 0 }, { x: 0, y: 0, z: 1 });
+  for (let time = 0; time <= 320; time += 20) step(time, time === 220 ? { hand: "right", ...away } : s);
+  assert.equal(w.shown, false, "invalid interval must not count toward 300ms");
+  step(340);
+  assert.equal(w.shown, true, "short interruption retained earlier valid intent");
+});
+
+test("repeated invalid poses cannot accumulate enough stale intent to reveal", () => {
+  const { w, s, step } = fixture();
+  for (let time = 0; time <= 2000; time += 20) step(time, time % 60 === 40 ? null : s);
+  assert.equal(w.shown, false);
+  assert.equal(w.visible.length, 0);
+  for (let time = 2020; time <= 2460; time += 20) step(time);
+  assert.equal(w.shown, true, "fresh consistent intent recovers");
+});
+
+test("a long tracking interruption and a callback gap each require fresh intent", () => {
+  const { w, step } = fixture();
+  for (let time = 0; time <= 200; time += 20) step(time);
+  for (let time = 220; time <= 340; time += 20) step(time, null);
+  for (let time = 360; time <= 640; time += 20) step(time);
+  assert.equal(w.shown, false);
+  step(660);
+  assert.equal(w.shown, true);
+  step(1000);
+  assert.equal(w.shown, false, "unobserved time is not a held glance");
+  for (let time = 1020; time <= 1280; time += 20) step(time);
+  assert.equal(w.shown, false);
+  step(1300);
+  assert.equal(w.shown, true);
+});
+
+test("initial texture upload proceeds during follower movement and gates first reveal", () => {
+  const { w, s, step, layer, draw, paint } = fixture({ preload: false });
+  step(0);
+  step(20, translateHand(s, .03));
+  assert.equal(w.moving, true);
+  assert.equal(layer.opacity, 0);
+  draw();
+  assert.equal(paint.uploads, 1);
+  assert.deepEqual(w.pendingPreloads(), []);
+  for (let time = 40; time <= 460; time += 20) step(time, translateHand(s, .03));
+  assert.equal(layer.opacity, 1);
+});
+
+test("malformed joints reject instead of allowing NaN comparisons to pass", () => {
+  for (const value of [NaN, Infinity, -Infinity, undefined]) {
+    const measured = watchMeasure({ ...watching, wrist: { ...W, x: value }, viewer, forward, right, hand: "right" });
+    assert.equal(measured.ok, false);
+    assert.equal(measured.reason, "invalid-joints");
+  }
+});
+
+test("never-revealed posture exports bounded rejection measurements", () => {
+  const { w, step } = fixture();
+  const palmFacing = { hand: "right", ...rightHand(W, { x: -1, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }) };
+  for (let time = 0; time <= 20000; time += 20) step(time, palmFacing);
+  assert.equal(w.visible.length, 0);
+  assert.equal(w.lastMeasure.reason, "palm-not-away");
+  assert.ok(w.log.length > 0 && w.log.length <= 20);
+  assert.ok(w.log.every(d => d.reason === "palm-not-away" && d.palm > .9 && !d.shown));
 });
 
 test("summary shows today's ticks, this week and the streak", () => {

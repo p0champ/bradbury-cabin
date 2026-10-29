@@ -1,4 +1,4 @@
-import { PoseFollower } from "./follow-pose.js?v=39";
+import { PoseFollower } from "./follow-pose.js?v=40";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,
@@ -13,22 +13,27 @@ export function paintHandBadge(
     welcome = null,
   } = {},
 ) {
-  // A small disc of frosted glass with one thin symbol, as on visionOS: no
-  // words, no colour except a warm hint for the hold ring and the end stop.
+  // Strong neutral backing keeps the small symbol readable over passthrough.
+  // A quiet rim suggests glass without relying on transparency for legibility.
   const c = canvas.getContext("2d");
   c.clearRect(0, 0, 256, 256);
-  c.fillStyle = "rgba(255, 255, 255, 0.12)";
+  c.fillStyle = "rgba(35, 43, 42, 0.94)";
   c.beginPath();
   c.arc(128, 128, 108, 0, Math.PI * 2);
   c.fill();
-  c.strokeStyle = `rgba(240, 242, 238, ${ready ? 0.6 : 0.4})`;
-  c.lineWidth = 1;
+  c.strokeStyle = "rgba(240, 242, 238, 0.45)";
+  c.lineWidth = 2;
   c.beginPath();
-  c.arc(128, 128, 106, -Math.PI * .88, -Math.PI * .12);
+  c.arc(128, 128, 106, 0, Math.PI * 2);
+  c.stroke();
+  c.strokeStyle = "rgba(255, 255, 255, 0.18)";
+  c.lineWidth = 4;
+  c.beginPath();
+  c.arc(128, 128, 103, -Math.PI * .83, -Math.PI * .17);
   c.stroke();
   if (progress > 0) {
     c.strokeStyle = flash ? "#fff3d0" : "#f5e6c4";
-    c.lineWidth = 2;
+    c.lineWidth = 5;
     c.lineCap = "round";
     c.beginPath();
     c.arc(128, 128, 101, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, progress));
@@ -39,15 +44,15 @@ export function paintHandBadge(
   // A successful turn always flashes, even if it just reached the last page.
   // Only a real turn is pure white; resting and dimmed states are soft greys.
   const ink = blocked || (!available && !flash)
-    ? "rgba(170, 174, 170, 0.55)"
+    ? "rgba(196, 201, 198, 0.85)"
     : flash
       ? "#ffffff"
       : ready
-        ? "rgba(236, 238, 234, 0.95)"
-        : "rgba(225, 228, 224, 0.8)";
+        ? "rgba(243, 245, 242, 0.98)"
+        : "rgba(236, 239, 235, 0.98)";
   c.strokeStyle = ink;
   c.fillStyle = ink;
-  c.lineWidth = 2;
+  c.lineWidth = 6;
   c.lineCap = "round";
   c.lineJoin = "round";
   if (menu) {
@@ -172,9 +177,6 @@ export class HandBadges {
           const pose = e.follower.update(target, p ? viewer.orientation : null, time);
           if (!pose) continue;
           e.moving = pose.moving;
-          // Keep an action acknowledgement pending while its transform moves.
-          if (e.moving && time < e.pulseUntil)
-            e.pulseUntil = time + (e.blocked ? 600 : 220);
           e.layer.transform = new XRRigidTransform(pose.position, pose.orientation);
           if (e.lastActivity == null) e.lastActivity = time;
           if (p && e.lastInput && Math.hypot(p.x-e.lastInput.x,p.y-e.lastInput.y,p.z-e.lastInput.z) > .003) {
@@ -190,13 +192,12 @@ export class HandBadges {
           if (progress > 0 || flash || h?.closed) e.lastActivity = time;
           const shownProgress = flash && e.fullHold ? 1 : progress;
           const key = [forward,Math.round(shownProgress*48),ready,flash,menu,available,blocked].join(":");
-          if (key !== e.key && !e.moving) {
+          if (key !== e.key) {
             paintHandBadge(e.canvas, {forward,progress:shownProgress,ready,flash:flash&&!blocked,menu,available,blocked});
             e.key = key; e.dirty = true;
           }
-          const idleFade = Math.max(0, 1 - Math.max(0,time-e.lastActivity-5000)/200);
-          const opacity = (sample.nearPage ?? nearPage) ? .9 : .55;
-          e.layer.opacity = opacity * idleFade * pose.lossOpacity;
+          // Resting tracked controls stay visible; only tracking loss fades them.
+          e.layer.opacity = .96 * pose.lossOpacity;
           next.push(e.layer);
         } catch (error) {
           this.failed = true;
@@ -210,7 +211,7 @@ export class HandBadges {
       const pose = e.follower.update(null, null, time);
       e.moving = false;
       if (pose && pose.lossOpacity > 0 && e.layer.opacity > 0) {
-        e.layer.opacity = Math.min(e.layer.opacity, .55 * pose.lossOpacity);
+        e.layer.opacity = Math.min(e.layer.opacity, .96 * pose.lossOpacity);
         next.push(e.layer);
       } else e.layer.opacity = 0;
     }
@@ -224,7 +225,6 @@ export class HandBadges {
     for (const e of this.entries.values())
       if (
         activeLayers.includes(e.layer) &&
-        !e.moving &&
         (this.visible.includes(e.layer) || e.initialUpload) &&
         (e.dirty || e.layer.needsRedraw)
       ) {

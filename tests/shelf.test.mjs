@@ -93,7 +93,7 @@ function fakeCtx() {
     drawn, font: "40px Arial", textAlign: "left", fillStyle: "",
     measureText(t) { return { width: String(t).length * (parseFloat(/(\d+)px/.exec(this.font)[1]) * 0.55) }; },
     fillText(t, x, y) { check(x, y); drawn.push(t); },
-    fillRect(x, y, w, h) { check(x, y, w, h); }, beginPath() {}, rect() {}, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
+    fillRect(x, y, w, h) { check(x, y, w, h); }, save() {}, restore() {}, beginPath() {}, rect() {}, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
     moveTo(x, y) { check(x, y); }, lineTo(x, y) { check(x, y); }, stroke() {},
   };
 }

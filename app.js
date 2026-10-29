@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=39";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=40";
 import {
   GestureEngine,
   menuButtons,
@@ -10,29 +10,29 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=39";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=39";
-import { HandBadges } from "./hand-badges.js?v=39";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=39";
-import { LIBRARY } from "./library.js?v=39";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=39";
-import { layoutReading } from "./reading-flow.js?v=39";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=39";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=39";
-import { parsePicks, pickLabels } from "./picks.js?v=39";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=39";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=39";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=39";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=39";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=39";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=39";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=39";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=39";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=39";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=39";
-import { MOODS, NAV, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=39";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=39";
-import { EntrySound } from "./entry-sound.js?v=39";
+} from "./gestures.js?v=40";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=40";
+import { HandBadges } from "./hand-badges.js?v=40";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=40";
+import { LIBRARY } from "./library.js?v=40";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=40";
+import { layoutReading } from "./reading-flow.js?v=40";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=40";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=40";
+import { parsePicks, pickLabels } from "./picks.js?v=40";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=40";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=40";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=40";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=40";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=40";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=40";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=40";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=40";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=40";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=40";
+import { MOODS, NAV, UI, accentFor, goldFor, lift, unlift, innerEdge, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=40";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=40";
+import { EntrySound } from "./entry-sound.js?v=40";
 import {
   readProgress,
   saveProgress,
@@ -41,13 +41,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=39";
+} from "./progress.js?v=40";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=39";
+} from "./calendar.js?v=40";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -709,6 +709,7 @@ function paint() {
       if (ctx.roundRect) ctx.roundRect(top.x, top.y, top.w, bottom.y + bottom.h - top.y, 40);
       else ctx.rect(top.x, top.y, top.w, bottom.y + bottom.h - top.y);
       ctx.fill();
+      innerEdge(ctx,{x:top.x,y:top.y,w:top.w,h:bottom.y+bottom.h-top.y},40);
       ctx.fillStyle = muted;
       ctx.globalAlpha = 0.25;
       for (const b of g.slice(0, -1)) if (state.hover !== b.id && state.hover !== g[g.indexOf(b) + 1].id) ctx.fillRect(b.x + 70, b.y + b.h + (g[g.indexOf(b) + 1].y - b.y - b.h) / 2 - 1, b.w - 140, 2);
@@ -724,6 +725,7 @@ function paint() {
         else ctx.rect(b.x, b.y, b.w, b.h);
         ctx.fill();
         unlift(ctx);
+        innerEdge(ctx,b,40);
       }
       ctx.fillStyle = ink;
       ctx.font = `500 54px ${UI}`;
@@ -735,7 +737,7 @@ function paint() {
       );
       if (values[b.id]) {
         ctx.fillStyle = muted;
-        ctx.font = `42px ${UI}`;
+        ctx.font = `500 42px ${UI}`;
         ctx.textAlign = "right";
         ctx.fillText(values[b.id], b.x + b.w - 70, b.y + b.h / 2 + 15);
       }
@@ -1435,7 +1437,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-039",
+    build: "gestures-040",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1488,6 +1490,8 @@ $("export").onclick = () => {
       // Recent show/hide decisions with their measurements, for tuning the
       // pose limits from a real Quest trace.
       decisions: wristWatch?.log || [],
+      measurement: wristWatch?.lastMeasure || null,
+      intentMs: wristWatch?.intentMs || 0,
     },
     controls: {
       swapped: state.swapped,
@@ -1948,7 +1952,7 @@ function frame(time, xrFrame, generation) {
         }
       const targets = new Map(),
         samples = [];
-      let watchSample = null, watchSafe = false;
+      let watchSample = null, watchSafe = false, watchSuppressed = false;
       const pointerRays = [];
       for (const source of session.inputSources) {
         if (!source.hand) continue;
@@ -1992,7 +1996,8 @@ function frame(time, xrFrame, generation) {
         });
         // Only the source Quest reports as the RIGHT hand may feed the wrist
         // calendar. No fallback to the other or the nearest hand.
-        if (source.handedness === WATCH_HAND) {
+        if (source.handedness === WATCH_HAND && source.skipRendering) watchSuppressed = true;
+        if (source.handedness === WATCH_HAND && !source.skipRendering && !pose.emulatedPosition) {
           const p = (name) => {
             const j = joint(name);
             return j && !j.emulatedPosition ? j.transform.position : null;
@@ -2275,6 +2280,8 @@ function frame(time, xrFrame, generation) {
           night: state.night,
           enabled:
             state.wristCalendar &&
+            !watchSuppressed &&
+            !pose.emulatedPosition &&
             sessionVisible &&
             !state.centering &&
             !state.arriving,

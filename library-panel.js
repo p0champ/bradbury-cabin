@@ -1,4 +1,4 @@
-import { UI, lift, unlift } from "./theme.js?v=39";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=40";
 // Library page inside the menu: "‹ Menu" at the top, then one row per work.
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.
@@ -26,6 +26,7 @@ function card(ctx, b, fill, edge) {
   else ctx.rect(b.x, b.y, b.w, b.h);
   ctx.fill();
   if (edge) unlift(ctx);
+  innerEdge(ctx,b);
 }
 // places: { [workId]: "in progress" } labels for works with a saved place.
 export function paintLibrary(ctx, { works, hover, current, places = {}, c, note = "" }) {

@@ -1,3 +1,13 @@
+## 29 October 2026 — Build 040 repair tested/reviewed; release pending
+
+178 unit+source checks and184/184 full synthetic browser checks pass. Final10/10 focused feel checks add immediate browser ownership/emulated-viewer hide and composited symbol contrast over bright/dark/paper backgrounds. Wrist valid-jitter acquisition repaired; tracked hands persistent with strong backing/readable symbols; neutral charcoal navigation/minimal inner card edges. Two independent designers+separate judge; wrist separate author; independent critic final8.4/10 approved release. No blocking defects; modest success flash is P3 future note, do not dim markers again. Need scans/commit/push/live comparison. Live remains039; actual Quest repair unverified. See BUILD_040_REVIEW.md. All original hard constraints preserved.
+
+---
+## 29 October 2026 — Build 040 repair in progress after Bastian’s headset feedback
+
+Bastian reports Build039 is better but still not Apple: hand markers barely visible, wrist does not work. He explicitly says keep working. This supersedes the five-second total hand-marker fade and authorizes correcting visibility/reliability. Branch build-040-visible-hands. Separate optical-legibility/material designers and judge; separate wrist repair author; independent critic required before release. Confirmed wrist acquisition resets on follower motion, reproduced with continuous small synthetic hand movement. Wrist repair under test. Hand backing is only6.6% effective opacity at rest and fully disappears after5.2seconds; fixing. Live remains039 until tests/review/scans/release/live check. No claim of Quest repair verification. Keep right-only/anatomical safety, gesture recognizer/hitmap9/button geometry/texts unchanged.
+
+---
 ## 29 October 2026 — Build 039 released and live verified; approved work complete
 
 Live https://p0champ.github.io/bradbury-cabin/?v=39 ; code7630c32 on build-039-coherent-cabin and phase-1-gestures. Index/style/all32JS modules match reviewed source.168unit+source checks,183/183synthetic browser checks, final critic8.5/10 after two contrast fixes. Separate behavior/navigation/front-door authors and independent critic. See BUILD_039_REVIEW.md. All three approved Apple-consensus scopes delivered: complete prompt welcome/Today, stationary arrival/stable browsing, coherent functional navigation and clean browser entrance. Existing source texts/gestures/hitrects/indices/pointer/wrist/audio/page-turn treatment preserved. No Quest/realDrive/Claude test claimed. Notes/checklist current; all real-world checks remain one combined test at Bastian's discretion. No further implementation is authorized or pending from this request; compact menus/merged home/new navigation require separately described approval.

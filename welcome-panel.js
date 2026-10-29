@@ -1,4 +1,4 @@
-import { UI, lift, unlift } from "./theme.js?v=39";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=40";
 // Entry always paints the complete welcome. Partial paint steps remain a
 // compatibility option for previews, with no timed reveal in the application.
 export const WELCOME_STEPS = 3;
@@ -57,6 +57,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
   if (ctx.roundRect) ctx.roundRect(top.x, top.y, top.w, bottom.y + bottom.h - top.y, 40);
   else ctx.rect(top.x, top.y, top.w, bottom.y + bottom.h - top.y);
   ctx.fill();
+  innerEdge(ctx, {x:top.x,y:top.y,w:top.w,h:bottom.y+bottom.h-top.y},40);
   if (rows.length > 1 && !rows.some((b) => b.id === hover)) {
     ctx.fillStyle = c.muted;
     ctx.globalAlpha = 0.25;
@@ -73,6 +74,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
       unlift(ctx);
+      innerEdge(ctx,b,40);
     }
     const primary = b === rows[0];
     if (b.id === "welcome-menu") {

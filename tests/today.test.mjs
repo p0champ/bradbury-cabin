@@ -67,7 +67,7 @@ function fakeCtx() {
     measureText(t) { return { width: String(t).length * (parseFloat(/(\d+)px/.exec(this.font)[1]) * 0.55) }; },
     fillText(t, x, y) { check(x, y); drawn.push({ t, font: this.font }); },
     fillRect(x, y, w, h) { check(x, y, w, h); }, strokeRect(x, y, w, h) { check(x, y, w, h); },
-    beginPath() {}, rect(x, y, w, h) { check(x, y, w, h); }, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
+    save() {}, restore() {}, beginPath() {}, rect(x, y, w, h) { check(x, y, w, h); }, roundRect(x, y, w, h) { check(x, y, w, h); }, fill() {},
     moveTo(x, y) { check(x, y); }, lineTo(x, y) { check(x, y); }, stroke() {},
   };
 }
