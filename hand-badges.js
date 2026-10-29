@@ -1,4 +1,4 @@
-import { PoseFollower } from "./follow-pose.js?v=40";
+import { PoseFollower } from "./follow-pose.js?v=41";
 // Small compositor layers follow the hands; the reading layer stays fixed.
 export function paintHandBadge(
   canvas,

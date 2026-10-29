@@ -8,7 +8,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
  for(const lying of [false,true]) for(const reduce of [false,true]){
   const p=await browser.newPage();const errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});await p.clock.setFixedTime(new Date(2026,9,29,20));
-  await mock(p,'layer',lying,{practised:true,headPointer:true});
+  await mock(p,'layer',lying,{practised:true,headPointer:true,visits:4});
   await p.addInitScript(works=>{
    localStorage.setItem('cabin-today',JSON.stringify({version:2,date:'2026-10-29',picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id}]))}));
    window.__coherentText=[];const fill=CanvasRenderingContext2D.prototype.fillText,rect=CanvasRenderingContext2D.prototype.fillRect;
@@ -24,6 +24,10 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'welcome','placing/arrival input leaked');
   assert.deepEqual(await p.evaluate(()=>__mock.placed.at(-1)),anchor,'arrival moved the chosen window');
   assert.ok(await p.evaluate(()=>__coherentText.some(x=>x.text==='Today’s three')));
+  const welcomeHierarchy=await p.evaluate(()=>{const c=document.querySelector('#page').getContext('2d');return {primary:Array.from(c.getImageData(300,1300,1,1).data),secondary:Array.from(c.getImageData(300,1490,1,1).data),font:__coherentText.find(x=>x.text==='Today’s three')?.font};});
+  assert.deepEqual(welcomeHierarchy.primary,[80,91,93,255]);assert.deepEqual(welcomeHierarchy.secondary,[61,69,70,255]);
+  assert.ok(welcomeHierarchy.font.startsWith('600 60px'));
+  if(!lying&&!reduce)await p.locator('#page').screenshot({path:path.join(out,'navigation-welcome.png')});
   await p.evaluate(async()=>{await __aim({x:274,y:1250,w:1500,h:170});__pinch();});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today','fresh welcome choice dismissed decoration instead of choosing');
   assert.equal(await p.locator('#page').getAttribute('data-today-complete'),'true');
@@ -35,6 +39,12 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'main');
   const command=await p.evaluate(()=>__coherentText.find(x=>x.text==='More settings'));
   assert.ok(command&&!command.font.includes('Literata'),'functional command inherited reading font');
+  const hierarchy=await p.evaluate(()=>({text:__coherentText, gap:Array.from(document.querySelector('#page').getContext('2d').getImageData(300,757,1,1).data)}));
+  assert.ok(hierarchy.text.find(x=>x.text==='Continue reading').font.startsWith('600 54px'));
+  assert.ok(/^(?:400 )?54px/.test(hierarchy.text.find(x=>x.text==='Text size').font));
+  assert.ok(!hierarchy.text.some(x=>/BRADBURY CABIN|Look at a choice|Point at a choice|Exit VR/.test(x.text)));
+  assert.deepEqual(hierarchy.gap,[48,54,55,255],'separate primary has a real surface break');
+  assert.equal(await p.evaluate(()=>[...__mock.layerData].find(([,d])=>!d.badge&&!d.watch&&!d.arrival&&!d.pointer&&!d.gazeRing)?.[0].opacity),1,'navigation made the backing translucent');
   if(!lying&&!reduce){await p.locator('#page').screenshot({path:path.join(out,'navigation-main.png')});}
   await p.evaluate(()=>{__mock.offsetX=-.12;__step(40);});
   await p.evaluate(async()=>{await __aim('library');__pinch();});
@@ -45,6 +55,10 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   assert.deepEqual(await p.evaluate(()=>__mock.placed.at(-1)),anchor,'reader anchor changed');
   const paperPixel=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(100,1000,1,1).data));
   assert.deepEqual(paperPixel,[246,242,233,255]);
+  const beforePage=await p.locator('#place').textContent();
+  await p.evaluate(()=>__pinch());
+  assert.notEqual(await p.locator('#place').textContent(),beforePage,'ordinary turn did not update content');
+  assert.equal(await p.evaluate(()=>[...__mock.layerData].find(([,d])=>!d.badge&&!d.watch&&!d.arrival&&!d.pointer&&!d.gazeRing)?.[0].opacity),1,'page turn made the paper translucent');
   await p.locator('#practice').click();await p.evaluate(()=>__step(16));
   assert.equal(await p.locator('#page').getAttribute('data-view'),'practice');
   const practicePixel=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(180,710,1,1).data));
@@ -52,4 +66,9 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   if(!lying&&!reduce)await p.locator('#page').screenshot({path:path.join(out,'navigation-practice.png')});
   assert.deepEqual(errors,[]);await p.close();passed(`coherent: complete first choices, protected placement, fixed browsing and distinct reading ${lying?'lying':'upright'} ${reduce?'reduced motion':'normal motion'}`);
  }
+ const novice=await browser.newPage();await mock(novice,'layer',false,{practised:false,headPointer:true,visits:0});
+ await novice.addInitScript(()=>{window.__hints=[];const f=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page')__hints.push(String(t));return f.call(this,t,...a);};});
+ await novice.goto(BASE_URL);await novice.locator('#enter').click();await novice.evaluate(()=>{__center();__hold();});
+ assert.ok(await novice.evaluate(()=>__hints.some(t=>t==='Look at a choice, then pinch and release.')),'first-time aiming hint missing');
+ await novice.close();passed('hierarchy: first-time aiming help stays available');
 };

@@ -43,8 +43,8 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     await p.waitForFunction(id => document.querySelector('#page').dataset.work === id, todayId);
     const expected = await p.evaluate(async id => {
       await document.fonts.ready;
-      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=40');
-      const { layoutWork } = await import('./reader.js?v=40');
+      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=41');
+      const { layoutWork } = await import('./reader.js?v=41');
       const ctx = document.querySelector('#page').getContext('2d');
       const work = SOURCE_CATALOGUE.find(w => w.id === id);
       return layoutWork(ctx, work, 2).map(p => p.filter(x => x.kind === 'line').map(x => x.text));

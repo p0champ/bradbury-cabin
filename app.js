@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=40";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=41";
 import {
   GestureEngine,
   menuButtons,
@@ -10,29 +10,30 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=40";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=40";
-import { HandBadges } from "./hand-badges.js?v=40";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=40";
-import { LIBRARY } from "./library.js?v=40";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=40";
-import { layoutReading } from "./reading-flow.js?v=40";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=40";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=40";
-import { parsePicks, pickLabels } from "./picks.js?v=40";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=40";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=40";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=40";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=40";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=40";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=40";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=40";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=40";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=40";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=40";
-import { MOODS, NAV, UI, accentFor, goldFor, lift, unlift, innerEdge, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=40";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=40";
-import { EntrySound } from "./entry-sound.js?v=40";
+} from "./gestures.js?v=41";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=41";
+import { HandBadges } from "./hand-badges.js?v=41";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=41";
+import { LIBRARY } from "./library.js?v=41";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=41";
+import { layoutReading } from "./reading-flow.js?v=41";
+import { paintMenuRows } from "./menu-panel.js?v=41";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=41";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=41";
+import { parsePicks, pickLabels } from "./picks.js?v=41";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=41";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=41";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=41";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=41";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=41";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=41";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=41";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=41";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=41";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=41";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=41";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=41";
+import { EntrySound } from "./entry-sound.js?v=41";
 import {
   readProgress,
   saveProgress,
@@ -41,13 +42,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=40";
+} from "./progress.js?v=41";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=40";
+} from "./calendar.js?v=41";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -238,9 +239,7 @@ if (preferences.handMapRevision !== 9) {
   preferences.handMapRevision = 9;
   savePreferences();
 }
-// Changing what the window shows fades the new content in over 160 ms.
-let lastView = null, viewFadeAt = -1e9, viewFadeFrom = 0.5, quietView = false;
-const VIEW_FADE_MS = 160;
+// Ordinary page/menu changes keep their material opaque and position fixed.
 const motionPreference = window.matchMedia?.("(prefers-reduced-motion: reduce)");
 const reducedMotion = () => motionPreference?.matches === true;
 const arrivalDuration = () => reducedMotion() ? 1 : ARRIVAL_MS;
@@ -479,6 +478,8 @@ function paint() {
     muted = palette.muted;
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, PAGE.width, PAGE.height);
+  // Navigation owns its heading; the book retains its quiet running head.
+  if (!state.menuOpen && !state.centering && !state.arriving && !state.practice) {
   // A quiet running head, like a book's: the cabin on the left, the work on
   // the right, a hairline below. No slogan competing with the page.
   ctx.fillStyle = muted;
@@ -510,6 +511,7 @@ function paint() {
   ctx.globalAlpha = 0.35;
   ctx.fillRect(180, 222, 1688, 2);
   ctx.globalAlpha = 1;
+  }
   const welcomeColours = () => ({
     ...NAV, ink, muted, card: palette.card, hover: palette.hover, serif: mood.body,
     italic: state.mood === "literary" ? "italic " : "",
@@ -664,7 +666,7 @@ function paint() {
     ctx.fillText(state.menuPage === "volume" ? "Background volume" : more ? "More settings" : "Menu", 274, 470);
     ctx.fillStyle = muted;
     ctx.font = `36px ${UI}`;
-    ctx.fillText(
+    if (!learned() || state.menuPage === "volume") ctx.fillText(
       state.menuPage === "volume" ? `Current volume: ${volumeLabel()} · Choose a level.` : state.headPointer
         ? "Look at a choice, then pinch and release."
         : "Point at a choice, then pinch and release.",
@@ -675,7 +677,6 @@ function paint() {
       night: state.night ? "Night" : "Paper",
       size: ["Small", "Medium", "Large"][state.size],
       more: "›",
-      exit: "Exit VR",
       swap: state.swapped ? "Left hand" : "Right hand",
       pointer: state.headPointer ? "Head" : "Hand",
       sound: state.entrySound ? "On" : "Off",
@@ -691,58 +692,11 @@ function paint() {
     }
     for (const step of VOLUME_STEPS)
       values[`volume-${step * 100}`] = Math.abs(state.ambienceVolume - step) < 0.001 ? "✓" : "";
-    const card = palette.card;
-    // An inset grouped list, as on Apple platforms: neighbouring rows share
-    // one soft panel divided by hairlines; only the row you point at lifts.
-    // Drawing only: every row keeps its own hit rectangle.
-    const rows = menuButtons.filter((b) => b.page === state.menuPage);
-    const groups = [];
-    for (const b of rows) {
-      const g = groups.at(-1), last = g?.at(-1);
-      if (last && b.y - (last.y + last.h) < 40 && b.x === last.x && b.w === last.w) g.push(b);
-      else groups.push([b]);
-    }
-    for (const g of groups) {
-      const top = g[0], bottom = g.at(-1);
-      ctx.fillStyle = card;
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(top.x, top.y, top.w, bottom.y + bottom.h - top.y, 40);
-      else ctx.rect(top.x, top.y, top.w, bottom.y + bottom.h - top.y);
-      ctx.fill();
-      innerEdge(ctx,{x:top.x,y:top.y,w:top.w,h:bottom.y+bottom.h-top.y},40);
-      ctx.fillStyle = muted;
-      ctx.globalAlpha = 0.25;
-      for (const b of g.slice(0, -1)) if (state.hover !== b.id && state.hover !== g[g.indexOf(b) + 1].id) ctx.fillRect(b.x + 70, b.y + b.h + (g[g.indexOf(b) + 1].y - b.y - b.h) / 2 - 1, b.w - 140, 2);
-      ctx.globalAlpha = 1;
-    }
-    for (const b of rows) {
-      const hot = state.hover === b.id;
-      if (hot) {
-        ctx.fillStyle = palette.hover;
-        lift(ctx);
-        ctx.beginPath();
-        if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
-        else ctx.rect(b.x, b.y, b.w, b.h);
-        ctx.fill();
-        unlift(ctx);
-        innerEdge(ctx,b,40);
-      }
-      ctx.fillStyle = ink;
-      ctx.font = `500 54px ${UI}`;
-      ctx.textAlign = "left";
-      ctx.fillText(
-        (["back", "volume-back"].includes(b.id) ? "‹  " : "") + (b.id === "library" ? (hasToday() ? "Today" : "Your shelf") : b.label),
-        b.x + 70,
-        b.y + b.h / 2 + 20,
-      );
-      if (values[b.id]) {
-        ctx.fillStyle = muted;
-        ctx.font = `500 42px ${UI}`;
-        ctx.textAlign = "right";
-        ctx.fillText(values[b.id], b.x + b.w - 70, b.y + b.h / 2 + 15);
-      }
-    }
-    ctx.textAlign = "left";
+    paintMenuRows(ctx, {
+      rows: menuButtons.filter(b => b.page === state.menuPage),
+      page: state.menuPage, values, hover: state.hover,
+      c: palette, hasToday: hasToday(),
+    });
   } else if (state.practice) {
     ctx.fillStyle = ink;
     ctx.font = `500 76px ${UI}`;
@@ -863,15 +817,6 @@ function paint() {
     else ctx.rect(0, 0, PAGE.width, PAGE.height);
     ctx.fill();
     ctx.globalCompositeOperation = "source-over";
-  }
-  {
-    // A new view fades in from half; a page turn only breathes (from 0.85).
-    const view = `${state.menuOpen}|${state.menuPage}|${state.workId}|${state.page}`;
-    if (view !== lastView && !state.arriving && !quietView && lastView !== null) {
-      viewFadeFrom = view.split("|").slice(0, 3).join() === lastView.split("|").slice(0, 3).join() ? 0.85 : 0.5;
-      viewFadeAt = lastFrameTime;
-    }
-    lastView = view;
   }
   $("place").textContent = readingPosition();
   $("prev").disabled = state.page === 0;
@@ -1437,7 +1382,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-040",
+    build: "gestures-041",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1924,9 +1869,7 @@ function frame(time, xrFrame, generation) {
         placeAtArrival = readingPlace();
         // Keep the welcome at the chosen position, even if the head moved
         // during the fade. Its first usable frame must not dip again.
-        quietView = true;
         openWelcome(pageArrivalPose(arrivalAnchor, 1));
-        quietView = false;
       }
       const sessionVisible = session.visibilityState === "visible";
       const attentive =
@@ -2301,7 +2244,7 @@ function frame(time, xrFrame, generation) {
           ? 1
           : state.arriving
           ? smooth(progress)
-          : viewFadeFrom + (1 - viewFadeFrom) * smooth((time - viewFadeAt) / VIEW_FADE_MS);
+          : 1;
       if (quad && display !== lastDisplay) {
         quad.transform = display;
         lastDisplay = display;

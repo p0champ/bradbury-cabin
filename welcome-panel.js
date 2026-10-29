@@ -1,4 +1,4 @@
-import { UI, lift, unlift, innerEdge } from "./theme.js?v=40";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=41";
 // Entry always paints the complete welcome. Partial paint steps remain a
 // compatibility option for previews, with no timed reveal in the application.
 export const WELCOME_STEPS = 3;
@@ -50,33 +50,30 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
   if (step < 3) return;
   const buttons = welcomeButtons(today);
   const rows = buttons.filter((b) => b.id !== "welcome-menu");
-  // The choices share one soft panel, like a grouped list.
-  const top = rows[0], bottom = rows.at(-1);
-  ctx.fillStyle = c.card;
-  ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(top.x, top.y, top.w, bottom.y + bottom.h - top.y, 40);
-  else ctx.rect(top.x, top.y, top.w, bottom.y + bottom.h - top.y);
-  ctx.fill();
-  innerEdge(ctx, {x:top.x,y:top.y,w:top.w,h:bottom.y+bottom.h-top.y},40);
-  if (rows.length > 1 && !rows.some((b) => b.id === hover)) {
-    ctx.fillStyle = c.muted;
-    ctx.globalAlpha = 0.25;
-    ctx.fillRect(top.x + 70, top.y + top.h + (rows[1].y - top.y - top.h) / 2 - 1, top.w - 140, 2);
-    ctx.globalAlpha = 1;
-  }
   for (const b of buttons) {
     const hot = hover === b.id;
-    if (hot) {
-      ctx.fillStyle = c.hover;
-      lift(ctx);
+    const primary = b === rows[0];
+    if (b.id !== "welcome-menu" || hot) {
+      ctx.fillStyle = primary || hot ? c.hover : c.card;
+      if (hot) lift(ctx);
       ctx.beginPath();
       if (ctx.roundRect) ctx.roundRect(b.x, b.y, b.w, b.h, 40);
       else ctx.rect(b.x, b.y, b.w, b.h);
       ctx.fill();
       unlift(ctx);
       innerEdge(ctx,b,40);
+      if (primary && hot) {
+        ctx.save();
+        ctx.strokeStyle = c.ink;
+        ctx.globalAlpha = 0.55;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(b.x + 2, b.y + 2, b.w - 4, b.h - 4, 38);
+        else ctx.rect(b.x + 2, b.y + 2, b.w - 4, b.h - 4);
+        ctx.stroke();
+        ctx.restore();
+      }
     }
-    const primary = b === rows[0];
     if (b.id === "welcome-menu") {
       ctx.fillStyle = c.muted;
       ctx.font = `500 40px ${c.ui || UI}`;
@@ -85,7 +82,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
     }
     ctx.fillStyle = c.ink;
     const size = primary ? 60 : 46;
-    ctx.font = `500 ${size}px ${c.ui || UI}`;
+    ctx.font = `${primary ? 600 : 400} ${size}px ${c.ui || UI}`;
     const room = b.w - 140 - (resume.place ? 200 : 0);
     const y = b.y + b.h / 2 + (primary ? 20 : 16);
     if (b.id === "welcome-begin") ctx.fillText("Today’s three", b.x + 70, y);

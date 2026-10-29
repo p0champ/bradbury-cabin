@@ -1,3 +1,8 @@
+# Build 041 — in progress; add to combined headset check
+
+Normal page turns and browsing should keep paper/functionalbacking solid, without room showing through on each action. Entrance retainsbriefstationaryfade. Continue is clearlyprimary; Today/calendar,appearance,utilities are separatevisualgroups in thesameplaces. Welcomemainchoice is stronger. Navigationlosesrepeatedbranding; learnedusers lose repeatedaimingtutorials. Readingtitles/folios andnewuserhelp stay. Check readability againstbright/dimroom, upright/lying, and allprior040wrist/markerschecks. No headsetresult claimed.
+
+---
 # Build 040 — released/live verified; headset repair check pending
 
 Bastian’s real-device feedback: markers barely visible; wrist does not work; UI better but still not Apple. Visibility and wrist reliability are now priority repairs. This overrides the historical038 five-second total idle fade below.
