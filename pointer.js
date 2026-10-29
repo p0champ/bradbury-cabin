@@ -47,7 +47,7 @@ export class OneEuro {
       this.t = t;
       return this.x;
     }
-    const dt = Math.min(0.1, (t - this.t) / 1000);
+    const dt = Math.min(1, (t - this.t) / 1000);
     this.t = t;
     const ad = OneEuro.alpha(this.dCutoff, dt);
     this.dx = v.map((n, i) => this.dx[i] + ad * ((n - this.x[i]) / dt - this.dx[i]));

@@ -313,6 +313,8 @@ let gazeRing = null;
 let pointer = null;
 // Per hand: a steadied ray, and the choice held from the moment a pinch closes.
 const rayFilters = new Map(), heldTargets = new Map();
+// A pinch that only completed a build-up must not choose when it opens.
+const swallowRelease = new Set();
 const gazeDwell = new GazeDwell(),
   ambience = new Ambience(state.ambienceVolume);
 let handBadges = null,
@@ -919,6 +921,7 @@ function feedback(text) {
 }
 function toggleMenu(open = !state.menuOpen) {
   gazeDwell.consume();
+  heldTargets.clear();
   state.todayReveal = null;
   state.menuOpen = open;
   state.menuPage = "main";
@@ -1777,11 +1780,13 @@ async function enter() {
         // Any pinch while Today is building completes it at once. Menu
         // selections need a target, so this happens at the press itself.
         if (kind === "selectstart" && state.welcomeReveal != null && state.menuOpen && state.menuPage === "welcome") {
+          swallowRelease.add(e.inputSource);
           state.welcomeReveal = null;
           dayOpenedAt = lastFrameTime;
           paint();
         }
         if (kind === "selectstart" && state.todayReveal != null && state.menuOpen && state.menuPage === "today") {
+          swallowRelease.add(e.inputSource);
           state.todayReveal = null;
           // This press only completes the page; its release cannot choose.
           dayOpenedAt = lastFrameTime;
@@ -1802,6 +1807,9 @@ async function enter() {
     session.addEventListener("inputsourceschange", (e) => {
       for (const source of e.removed) {
         gestures.cancel(source, "source-removed");
+        rayFilters.delete(source);
+        heldTargets.delete(source);
+        swallowRelease.delete(source);
         nativeQueue = nativeQueue.filter((e) => e.source !== source);
       }
     });
@@ -1943,9 +1951,9 @@ function frame(time, xrFrame, generation) {
         const a = joint("index-finger-tip"),
           b = joint("thumb-tip");
         if (!rayFilters.has(source)) rayFilters.set(source, new OneEuro(1.0, 0.03));
-        const point = state.headPointer
-          ? pose.transform
-          : smoothRay(rayFilters.get(source), xrFrame.getPose(source.targetRaySpace, ref)?.transform, time);
+        const rawRay = state.headPointer ? null : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
+        if (!state.headPointer && !rawRay) rayFilters.get(source).x = null; // restart after tracking loss
+        const point = state.headPointer ? pose.transform : smoothRay(rayFilters.get(source), rawRay, time);
         const pinching = a && b && Math.hypot(
           a.transform.position.x - b.transform.position.x,
           a.transform.position.y - b.transform.position.y,
@@ -1954,7 +1962,6 @@ function frame(time, xrFrame, generation) {
         // closed until it opens again.
         let target = state.menuOpen ? hit(point) : null;
         if (pinching && heldTargets.has(source)) target = heldTargets.get(source);
-        else if (!pinching) heldTargets.set(source, target);
         else heldTargets.set(source, target);
         targets.set(source, target);
         if (state.menuOpen && !state.headPointer)
@@ -2103,9 +2110,19 @@ function frame(time, xrFrame, generation) {
           }
           continue;
         }
-        const target = state.menuOpen
-          ? hit(state.headPointer ? pose.transform : input.ray)
-          : null;
+        // What you see is what you pick: hands use the steadied, held target
+        // the dot shows; controllers and the head pointer keep their own ray.
+        if (input.kind === "select" && swallowRelease.delete(input.source)) {
+          gestures.cancel(input.source, "build-completed", time);
+          continue;
+        }
+        const target = !state.menuOpen
+          ? null
+          : state.headPointer
+            ? hit(pose.transform)
+            : targets.has(input.source)
+              ? targets.get(input.source)
+              : hit(input.ray);
         pointerSource = input.source;
         deliver(gestures.handle(input.kind, input.source, input.time, target));
       }
@@ -2423,6 +2440,13 @@ async function syncDrive() {
         rememberPersonal(progress, today, r, { savedAt: found.createdTime || new Date().toISOString() });
         rebuildWorks(state.workId);
         message = `Today's three are ready: ${r.works.map((w) => w.title).join(", ")}.`;
+        if (state.menuOpen && state.menuPage === "welcome") {
+          // The choices change under the pointer: repaint and guard first.
+          dayOpenedAt = lastFrameTime;
+          state.hover = null;
+          heldTargets.clear();
+          paint();
+        }
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&
             readingPlace() === placeAtArrival && preferences.todayShown !== today)
           openToday(true);

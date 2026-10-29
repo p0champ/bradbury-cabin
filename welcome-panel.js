@@ -83,7 +83,7 @@ export function paintWelcome(ctx, { hello, line, today, resume, reveal = WELCOME
       continue;
     }
     const label = b.id === "welcome-begin" ? "Begin today’s reading" : `Continue ${resume.title}`;
-    ctx.fillStyle = primary ? c.ink : c.ink;
+    ctx.fillStyle = c.ink;
     ctx.font = primary ? `${c.italic}60px ${c.serif}` : `46px ${c.serif}`;
     const room = b.w - 140 - (resume.place ? 200 : 0);
     ctx.fillText(fit(ctx, label, room), b.x + 70, b.y + b.h / 2 + (primary ? 20 : 16));

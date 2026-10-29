@@ -381,15 +381,23 @@ async function mock(
         __mock.rayLook = __mock.look;
         __mock.rayByHand = null;
         __step();
-        // "Continue" closes the menu, which the preview's own Close menu
-        // button also does for any input device; Today's three need a pinch.
-        if (document.querySelector("#page").dataset.welcomePrimary === "continue") {
+        // A real pinch on the first choice wherever the fixture has hand
+        // joints; controller-only fixtures use the preview's Close menu
+        // button, which is what "Continue" does.
+        const primary = document.querySelector("#page").dataset.welcomePrimary;
+        const src = __mock.sources?.right;
+        const hasJoints = !!(src?.hand && src.testJoints?.get("thumb-tip") && src.testJoints?.get("index-finger-tip"));
+        const aimed = document.querySelector("#page").dataset.target === "welcome-" + primary;
+        if (hasJoints && aimed) {
+          __pinch();
+          if (document.querySelector("#page").dataset.menuPage === "welcome")
+            throw Error("pinching " + primary + " did not leave the welcome screen");
+          if (primary === "begin" && settle) __step(1400); // Today builds in four short steps
+        } else if (primary === "continue") {
+          // Fixtures without a placed layer or hand joints cannot aim.
           document.querySelector("#menu").click();
           __step(16);
-        } else {
-          __pinch();
-          if (settle) __step(1400); // Today builds in four short steps
-        }
+        } else throw Error("Begin needs a hand fixture");
         Object.assign(__mock, before);
         __step(16);
       };
