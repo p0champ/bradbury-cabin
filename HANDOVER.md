@@ -1,3 +1,17 @@
+## 29 October 2026 — Build 042 tested/reviewed; structural UI prototype ready for review
+
+178unit+sourcechecks,194/194finalfullsyntheticbrowserchecks,27/27focusedpointerchecks pass. Independentcriticround1 7.7→round2 8.5/10 after staleeventresurrection/callbackgaplockfixes. Needscans/commit/push/livecheck. Pointerrepair removes raw30mmfingerprefreeze; finalrenderonlyvalidsources/acceptedpressowners. PhysicalintendedrayalignmentnotQuestconfirmed. See BUILD_042_REVIEW.md. Currentlive041.
+
+FreshAppleUIround COMPLETE:3designerscrosscritiqued, separatejudgerejectedcurrenttallSettingsslab. Today/Shelfcompacthome replacesMain+separatewelcome; threefullwidthrows, namedResumeinexistingrow/quietreturnregion; smallerSettings; solidportraitreading unchanged. Materialdesignerwithdrewtilehub, Bookswithdrewcolumns, judgecutfourthResumecard. Navigation-onlygeometry/routingexception mustbereviewedasconcretemockupbeforemigration; preservegestureengine/texts/readinggeometry. Reports currentchatwork/apple-rethink-*.md; outputs/APPLE_RETHINK_PLAN.md andAPPLE_HOME_PROTOTYPE.html. Prototypeauthorcompleted; parentrender/visualjudgepending. It is NOTappimplementation/release. Needpresentreviewedproposal andspecificgeometryexception, respectoriginalapprovalboundary, notanothercosmeticreleaseorApplequalitycertificate.
+
+---
+## 29 October 2026 — pointer FIRST, then fundamental Apple UI rethink (user feedback)
+
+Bastian: pointer/clicker wayoff; clarified dotawayfromwherehandpoints. UI mostimportantafterfix; stillbad/weird, requestedAppleagentsbattleagain/higherbar. Confirmed041 bug: rawtipdistance<30mm freezesdot BEFOREnativepress evenbrowserbuttonOPEN. Reproduced29mmgap and20cmoffset for1s; open50mmreleases. Twoindependentpointerdesigners+separatejudge: removeprefreeze, holdonlyactualacceptednativepress, release/rejectcancelstovisuallylivepoint. KeepnativeQuest ray/filter ratherthanunprovedheadpinchmodel. Branchbuild-042-native-pointer implementation underway; meaningfulrelaxedhandregressions added. Existing tests missedthiscase. NoQuestfixclaim.
+
+FreshUIround runsinparallelbutbuildorderpointerfirst. ThreeindependentAppleperspectives (spatial,Books,material/motion) auditingwhole041; architecture nowchallenged, notpaletteagain. Compactnavwouldrequireconcreteexceptiontooldbuttonrectangles/menuindices rule; prepare reviewableproposal/mockups beforeaskingapproval, do not silentlyrearrange. Codechecks/critic8+ doNOTcertify Appleworthiness/Questfeel. Currentlive041 until042review/tests/release/livecheck. Preserveliterarytexts/gestureengine/hitmap9/rightwrist/visiblemarkers.
+
+---
 ## 29 October 2026 — Build 041 released/live verified; broader Apple feel still the goal
 
 Live https://p0champ.github.io/bradbury-cabin/?v=41 ; code6741d1e on build-041-steady-hierarchy and phase-1-gestures. Index/style/all33root JS modules match reviewed source.178unit+sourcechecks,187/187fullsyntheticbrowserchecks,5/5finalfocusedcoherentchecks; independentcritic final8.4/10 approvedrelease, noP1/P2. Fulltests preserve040wrist/markerrepairs, input, sourcefidelity, sourceanchors, mockedDrive, closing/onboarding/Today flows. See BUILD_041_REVIEW.md.

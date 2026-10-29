@@ -15,6 +15,14 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
    return {target:document.querySelector('#page').dataset.target,menu:document.querySelector('#page').dataset.menuPage,point:ptr?.[1].matrix?.slice(12,15)};
   });
   const before=await capture();assert.equal(before.target,'library');assert.ok(before.point);
+  for(const gap of [.029,.027]) {
+   await p.evaluate(async ({hand,gap})=>{__hand(gap,hand);await __aim('mood',true);__step(1000);},{hand,gap});
+   assert.equal(await p.evaluate(hand=>__mock.sources[hand].gamepad.buttons[0].pressed,hand),false);
+   const relaxed=await capture();assert.equal(relaxed.target,'mood','relaxed fingers froze pointing before a native press');
+   assert.ok(1000*Math.hypot(...relaxed.point.map((v,i)=>v-before.point[i]))>150,'dot stayed behind the live hand ray');
+   await p.evaluate(async hand=>{__hand(.05,hand);await __aim('library',true);__step(800);},hand);
+  }
+  passed(`pointer: relaxed open hand tracks choices ${hand} ${lying?'lying':'upright'}`);
   await p.evaluate(hand=>{__hand(.012,hand);__native('selectstart',hand);__step(32);},hand);
   const pressed=await capture();
   await p.evaluate(async()=>{await __aim('mood',true);__step(350);});
@@ -63,10 +71,15 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
   for(const discard of ['stale','overflow']) {
    await p.evaluate(async()=>{await __aim('library',true);__hand(.05);__step(800);__hand(.012);__native('selectstart');__step(32);});
    await p.evaluate(discard=>{__hand(.05);if(discard==='stale'){__native('selectend');__mock.clock+=200;__step();}else{for(let i=0;i<62;i++)__native('selectend');__step();}},discard);
+   if(discard==='stale')assert.equal(await p.evaluate(()=>[...__mock.layerData].filter(([l,d])=>d.pointer&&l.opacity>0).length),0,'stale native event resurrected a dot in its cancellation frame');
    await p.evaluate(async()=>{await __aim('mood',true);__step(800);});
    assert.equal(await p.locator('#page').getAttribute('data-target'),'mood',`${discard} discard left pointer frozen`);
    passed(`pointer: ${discard} native events clear frozen aim`);
   }
+  await p.evaluate(async()=>{__hand(.05);await __aim('library',true);__step(800);__native('selectstart');__step(32);__mock.clock+=200;__step();await __aim('mood',true);__step(500);});
+  assert.equal(await p.locator('#page').getAttribute('data-target'),'mood','frame gap cancellation left a locked pointer');
+  await p.evaluate(()=>{__native('selectend');__hand(.05);__step(600);});
+  passed('pointer: callback gap cancels the press and restores live pointing');
   await p.evaluate(async()=>{__hand(.05);await __aim({x:80,y:1000,w:0,h:0},true);__step(800);});
   assert.equal(await p.locator('#page').getAttribute('data-target'),'');
   await p.evaluate(()=>{__hand(.012);__native('selectstart');__step(32);});
@@ -75,9 +88,36 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
   passed('pointer: pinch started on empty space cannot acquire a choice');
   await p.close();
  }
+ for(const reason of ['unarmed','other-hand']) {
+  const p=await browser.newPage();await mock(p,'layer',false,{practised:true,headPointer:false});await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__center();__hold();__hand(.05);__step(800);});
+  await p.evaluate(async reason=>{
+   await __aim('library','right');__step(800);
+   if(reason==='unarmed'){__mock.sources.right.skipRendering=true;__step(32);__mock.sources.right.skipRendering=false;__step(16);}
+   if(reason==='cooldown'){await __aim('night','right');__step(800);__native('selectstart');__step(80);__native('select');__native('selectend');__step(16);}
+   if(reason==='other-hand'){
+    const right=__mock.sources.right,left=__hand(.05,'left');__mock.session.inputSources=[right,left];await __aim('library','left');__step(800);__native('selectstart','left');__step(32);
+   }
+   __native('selectstart','right');__step(16);await __aim('mood','right');__step(500);
+  },reason);
+  const shown=await p.evaluate(()=>[...__mock.layerData].filter(([l,d])=>d.pointer&&l.opacity>0).map(([,d])=>d.matrix.slice(12,15)));
+  assert.ok(shown.length>0);
+  if(reason!=='other-hand')assert.equal(await p.locator('#page').getAttribute('data-target'),'mood',reason+' rejection froze the live pointer');
+  else {
+   const before=shown;
+   await p.evaluate(async()=>{await __aim('size','right');__step(500);});
+   const after=await p.evaluate(()=>[...__mock.layerData].filter(([l,d])=>d.pointer&&l.opacity>0).map(([,d])=>d.matrix.slice(12,15)));
+   assert.ok(after.some((point,i)=>Math.hypot(...point.map((v,j)=>v-before[i][j]))>.05),'rejected second-hand pointer stayed frozen');
+  }
+  const dl=p.waitForEvent('download');await p.locator('#export').click();const file=path.join(out,'pointer-rejected-'+reason+'.json');await(await dl).saveAs(file);
+  const details=JSON.parse(await fs.readFile(file,'utf8'));
+  const rejected=details.ignored||details.gestures?.ignored||[];
+  // The rendered motion assertion is primary; exported reason proves the fixture hit the intended rejection.
+  assert.ok(JSON.stringify(details).includes(reason==='unarmed'?'tracking-settling':reason==='other-hand'?'other-hand-owns-press':'cooldown'),reason+' fixture did not exercise rejection');
+  await p.close();passed('pointer: rejected '+reason+' press keeps aiming live');
+ }
  const p=await browser.newPage();await p.goto(BASE_URL);
  const filters=await p.evaluate(async()=>{
-  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=41');
+  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=42');
   const display=new DOMMatrix().translate(0,0,-1.1);
   const plane={matrix:display.toFloat32Array(),inverse:{matrix:display.inverse().toFloat32Array()}};
   const ray=x=>{const m=new DOMMatrix(),l=Math.hypot(x,1.1);m.m31=-x/l;m.m33=1.1/l;return {matrix:m.toFloat32Array()};};

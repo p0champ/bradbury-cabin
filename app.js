@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=41";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=42";
 import {
   GestureEngine,
   menuButtons,
@@ -10,30 +10,30 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=41";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=41";
-import { HandBadges } from "./hand-badges.js?v=41";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=41";
-import { LIBRARY } from "./library.js?v=41";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=41";
-import { layoutReading } from "./reading-flow.js?v=41";
-import { paintMenuRows } from "./menu-panel.js?v=41";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=41";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=41";
-import { parsePicks, pickLabels } from "./picks.js?v=41";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=41";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=41";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=41";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=41";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=41";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=41";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=41";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=41";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=41";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=41";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=41";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=41";
-import { EntrySound } from "./entry-sound.js?v=41";
+} from "./gestures.js?v=42";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=42";
+import { HandBadges } from "./hand-badges.js?v=42";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=42";
+import { LIBRARY } from "./library.js?v=42";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=42";
+import { layoutReading } from "./reading-flow.js?v=42";
+import { paintMenuRows } from "./menu-panel.js?v=42";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=42";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=42";
+import { parsePicks, pickLabels } from "./picks.js?v=42";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=42";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=42";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=42";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=42";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=42";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=42";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=42";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=42";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=42";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=42";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=42";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=42";
+import { EntrySound } from "./entry-sound.js?v=42";
 import {
   readProgress,
   saveProgress,
@@ -42,13 +42,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=41";
+} from "./progress.js?v=42";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=41";
+} from "./calendar.js?v=42";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -1382,7 +1382,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-041",
+    build: "gestures-042",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1996,14 +1996,14 @@ function frame(time, xrFrame, generation) {
             (0.5 - freshHit.local.y / PAGE.metresHigh) * PAGE.height) : null;
           let aim = heldTargets.get(source);
           if (!aim) { aim = { hit: freshHit, target: freshTarget, press: null, nativeHeld: false }; heldTargets.set(source, aim); }
-          const closing = tipsTracked && distance < 0.03;
-          if (closing && !aim.press) aim.press = { hit: aim.hit, target: aim.target, revision: pointerRevision };
-          // A native press survives joint-open frames until its queued release.
-          if (!closing && !aim.nativeHeld) aim.press = null;
+          // Finger spacing is not a press: Quest calibrates its own pinch.
+          // Keep aiming live until the native event captures the displayed point.
+          aim.liveHit = freshHit; aim.liveTarget = freshTarget;
+          if (!aim.nativeHeld) aim.press = null;
           if (!aim.press) { aim.hit = freshHit; aim.target = freshTarget; }
           const shown = aim.press || aim;
           target = shown.target;
-          pointerRays.push({ hand: source.handedness, hit: shown.hit,
+          pointerRays.push({ source, hand: source.handedness, hit: shown.hit,
             look: target ? (aim.press ? "press" : "ring") : "dot" });
         } else if (state.menuOpen) target = hit(rawRay);
         targets.set(source, target);
@@ -2020,7 +2020,6 @@ function frame(time, xrFrame, generation) {
           systemGesture,
         });
       }
-      if (pointer?.update(pointerRays, presentPose())) applyLayers();
       for (const source of wristPresses.keys())
         if (!activeSources.has(source) || !watchSafe || source.skipRendering) wristPresses.delete(source);
       const deliver = (event) => {
@@ -2133,12 +2132,35 @@ function frame(time, xrFrame, generation) {
               : hit(input.ray);
         pointerSource = input.source;
         deliver(gestures.handle(input.kind, input.source, input.time, target));
-        if (input.kind === "select" || input.kind === "selectend") {
+        const rejectedStart = input.kind === "selectstart" &&
+          (gestures.owner !== input.source || !gestures.hands.get(input.source)?.closed);
+        if (rejectedStart || input.kind === "select" || input.kind === "selectend") {
           const aim = heldTargets.get(input.source);
-          if (aim) { aim.nativeHeld = false; aim.press = null; }
+          if (aim) {
+            aim.nativeHeld = false; aim.press = null;
+            aim.hit = aim.liveHit; aim.target = aim.liveTarget;
+            targets.set(input.source, aim.target);
+            const visual = pointerRays.find(r => r.source === input.source);
+            if (visual) { visual.hit = aim.hit; visual.look = aim.target ? "ring" : "dot"; }
+          }
         }
       }
       if (!ending && !state.arriving) deliver(gestures.tick(time));
+      // Render only still-valid sources after event validation. A cancellation
+      // must not resurrect a pre-validation dot in this same frame.
+      const validatedRays = [];
+      for (const { source, hand } of pointerRays) {
+        const aim = heldTargets.get(source);
+        if (!aim) continue;
+        if (aim.press && (gestures.owner !== source || !gestures.hands.get(source)?.closed)) {
+          aim.press = null; aim.nativeHeld = false;
+          aim.hit = aim.liveHit; aim.target = aim.liveTarget;
+        }
+        const shown = aim.press || aim;
+        targets.set(source, shown.target);
+        validatedRays.push({hand, hit: shown.hit, look: shown.target ? (aim.press ? "press" : "ring") : "dot"});
+      }
+      if (pointer?.update(validatedRays, presentPose())) applyLayers();
       // A selection can replace the panel in this same frame. Hide every old
       // dot/highlight immediately rather than leaving it over a new row.
       if (framePointerRevision !== pointerRevision) {
