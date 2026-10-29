@@ -1,3 +1,10 @@
+## 30 October 2026 — Build 049 approved design implemented and checked; publication pending
+
+Bastian approved the reading-desk preview (“I like it”) and asked to keep working after the usage interruption. Implemented the approved bounded reading journey on build-049-reading-continuity. Source-order Today rows, truthful Begin/Continue/Read again including page-zero anchors, real current section/page, foreign Resume detail, retained Library completion with Read and one optional next action, clearer closing summaries and destination labels. No pointer/gesture logic changes; pointer remains explicitly parked.
+
+216 unit tests and maintained source checks pass. Focused Home/continuity checks pass, with actual long-title, paper/night/modern/lying renders inspected. Independent diff and rendered-screen reviews approve the bounded desktop implementation; no Quest claim. 256 browser cases pass across the194-case full-run prefix and62-case complete affected-module rerun after obsolete layout fixtures were corrected; not a clean single-process full invocation. See BUILD_049_REVIEW.md. Published Build 048 remains the last verified release until the latest release record is updated. Existing authorization and live destination were established by the earlier explicit “publish it” request.
+
+---
 ## 29 October 2026 — Build 048 RELEASED; live files verified
 
 Bastian explicitly requested “publish it.” Released tested code 8c224f3 by fast-forwarding phase-1-gestures; build-048-arrival saved remotely. Live: https://p0champ.github.io/bradbury-cabin/?v=48. Confirmed BUILD 048 and normalized SHA-256 equality for index.html, style.css and all 36 root JavaScript modules (38 files). No force push or changes to main/phase-0-crispness.

@@ -8,10 +8,10 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=48";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=48";
-import { mergePersonal } from "./daily-lines.js?v=48";
-import { validCompletion } from "./progress.js?v=48";
+import { withPickerContract } from "./picker-contract.js?v=49";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=49";
+import { mergePersonal } from "./daily-lines.js?v=49";
+import { validCompletion } from "./progress.js?v=49";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [

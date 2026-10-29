@@ -64,7 +64,7 @@ module.exports = async function finishChecks(browser, { mock, BASE_URL, passed }
     assert.ok(saved.completedWorks?.[canonical],`${origin}: completion saved immediately`);
     assert.equal(saved.days[today].poem,origin==='today'?true:undefined,'unrelated daily work tick changed');
     if(origin==='archive')assert.equal(saved.days[past].poem,true);
-    assert.ok(await p.evaluate(()=>__finishText.includes('Read ✓')),'Library must show Read even on the current work');
+    assert.ok(await p.evaluate(()=>__finishText.some(t=>/^Read\s*✓(?:\s|$)/.test(t))),'Library must show Read even on the current work');
     assert.ok(await p.evaluate(id=>JSON.parse(document.querySelector('#page').dataset.buttons).some(b=>b.id.includes(id)),canonical),'Library must show the completed edition on the selected page');
     await p.reload(); await p.locator('#enter').click(); await p.evaluate(()=>__center());
     assert.ok((await record()).completedWorks?.[canonical],'reload lost completion');

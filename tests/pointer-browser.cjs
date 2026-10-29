@@ -6,7 +6,7 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  {
   const p=await browser.newPage(); await p.goto(BASE_URL);
   const result=await p.evaluate(async()=>{
-   const {Pointer}=await import('./pointer.js?v=48');
+   const {Pointer}=await import('./pointer.js?v=49');
    window.XRRigidTransform ||= class { constructor(position, orientation) { Object.assign(this, { position, orientation }); } };
    let acquisitions=0;const layers=[];
    const binding={createQuadLayer:init=>{const l={init,opacity:0,destroy(){}};layers.push(l);return l;},getSubImage:()=>{acquisitions++;return {};}};
@@ -114,7 +114,11 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
   assert.equal(await p.locator('#page').getAttribute('data-target'),'home-settings','frame gap cancellation left a locked pointer');
   await p.evaluate(()=>{__native('selectend');__hand(.05);__step(600);});
   passed('pointer: callback gap cancels the press and restores live pointing');
-  await p.evaluate(async()=>{__hand(.05);await __aim({x:80,y:1000,w:0,h:0},true);__step(800);});
+  await p.evaluate(async()=>{
+   const buttons=JSON.parse(document.querySelector('#page').dataset.buttons),resume=buttons.find(b=>b.id==='home-resume'),notes=buttons.find(b=>b.id==='home-notes');
+   const gap={x:resume.x+resume.w/2,y:(resume.y+resume.h+notes.y)/2,w:0,h:0};
+   __hand(.05);await __aim(gap,true);__step(800);
+  });
   assert.equal(await p.locator('#page').getAttribute('data-target'),'');
   await p.evaluate(()=>{__hand(.012);__native('selectstart');__step(32);});
   await p.evaluate(async()=>{await __aim('home-shelf',true);__step(350);__hand(.05);__native('select');__native('selectend');__step(16);});
@@ -151,7 +155,7 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  }
  const p=await browser.newPage();await p.goto(BASE_URL);
  const filters=await p.evaluate(async()=>{
-  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=48');
+  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=49');
   const display=new DOMMatrix().translate(0,0,-1.1);
   const plane={matrix:display.toFloat32Array(),inverse:{matrix:display.inverse().toFloat32Array()}};
   const ray=x=>{const m=new DOMMatrix(),l=Math.hypot(x,1.1);m.m31=-x/l;m.m33=1.1/l;return {matrix:m.toFloat32Array()};};

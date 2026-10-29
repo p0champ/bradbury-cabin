@@ -54,13 +54,13 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   localStorage.setItem('cabin-today',JSON.stringify({version:2,date:'2026-10-29',picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id}]))}));
   window.__resumeText=[];const f=CanvasRenderingContext2D.prototype.fillText,r=CanvasRenderingContext2D.prototype.clearRect;
   CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.id==='page')__resumeText=[];return r.call(this,...a);};
-  CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page')__resumeText.push({text:String(t),font:this.font});return f.call(this,t,...a);};
+  CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page'){const point=this.getTransform().transformPoint({x:a[0],y:a[1]});__resumeText.push({text:String(t),font:this.font,y:point.y});}return f.call(this,t,...a);};
  },{seed,savedId,works:works.map(w=>({id:w.id,kind:w.kind}))});
  await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__step();__pinch();__step(1000);});
  const rendered=await p.evaluate(()=>__resumeText);
  const resume=rendered.filter(x=>x.font.startsWith('500 18px')).map(x=>x.text).join(' ');
  assert.ok(resume.includes(longest.title),'longest real Resume title was shortened: '+resume);
- assert.ok(!resume.includes('…'));assert.equal(rendered.filter(x=>x.text==='Continue →').length,0,'other-day reading falsely marks a Today row current');
+ assert.ok(!resume.includes('…'));const todayRows=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).filter(b=>b.id.startsWith('home-work:')));assert.equal(rendered.filter(x=>x.text==='Continue →'&&todayRows.some(b=>x.y>=b.y&&x.y<=b.y+b.h)).length,0,'other-day reading falsely marks a Today row current');
  await crop(p,'home-long-resume.png');
  await p.evaluate(async()=>{await __aim({x:900,y:140,w:0,h:0},true);__hand(.05);__step(500);});
  assert.equal(await p.evaluate(()=>[...__mock.layerData].filter(([l,d])=>d.pointer&&l.opacity>0).length),0,'transparent portrait margin still shows a pointer');

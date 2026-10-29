@@ -236,7 +236,7 @@ export class Pointer {
   }
 }
 
-// Diagnostics only (BUILD 048): the press itself takes exactly what is
+// Diagnostics only (BUILD 049): the press itself takes exactly what is
 // highlighted. This records, as a hypothesis for later tuning from real
 // headset traces, which button a dwell rule (time while the fingers were
 // already closing counts for less) would have chosen instead.

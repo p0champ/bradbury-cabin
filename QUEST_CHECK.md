@@ -1,3 +1,8 @@
+# Build 049 — reading continuity, device check pending
+
+Local build; live 049 has not yet been verified. When convenient, check fresh Begin versus saved Continue (including the first page), all three Today titles remaining visible, real saved section/page after returning, and a work resumed from another day. Finishing still takes NEXT beyond the final page, then a separate NEXT confirmation; BACK cancels. The Library should show the completed edition as Read, keep “Library” visible and offer an optional next unread piece at its saved place. No automatic next work. Check upright/lying and paper/night when possible. Desktop:216 unit tests, source checks and256 browser cases pass across full-run and affected-module runs; details and release verification are recorded in BUILD_049_REVIEW.md. The pointer issue is parked and unresolved; retain all prior device checks below.
+
+---
 # Build 048 — RELEASED, device check pending
 
 Live: https://p0champ.github.io/bradbury-cabin/?v=48 — check BUILD 048. Browser shows the actual saved reading page and a quieter invitation. Headset: Settle in, look where you want to read, then pinch to place the window. Confirm readable instructions, exact retained pose, one pinch placing only, and Home appearing without an extra step. Check sitting/lying, paper/night and reduced motion. Desktop: 206 unit tests and 246 browser checks pass; all 38 live root code files verified. No Quest result. Keep the pointer and all prior checks below together.

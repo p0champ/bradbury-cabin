@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=48";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=49";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=48";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=48";
-import { HandBadges } from "./hand-badges.js?v=48";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=48";
-import { LIBRARY } from "./library.js?v=48";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=48";
-import { layoutReading } from "./reading-flow.js?v=48";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=48";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=48";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=48";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=48";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=48";
-import { parsePicks, pickLabels } from "./picks.js?v=48";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=48";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=48";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=48";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=48";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=48";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=48";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=48";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=48";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=48";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=48";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=48";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=48";
-import { EntrySound } from "./entry-sound.js?v=48";
+} from "./gestures.js?v=49";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=49";
+import { HandBadges } from "./hand-badges.js?v=49";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=49";
+import { LIBRARY } from "./library.js?v=49";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=49";
+import { layoutReading } from "./reading-flow.js?v=49";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=49";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=49";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=49";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=49";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=49";
+import { parsePicks, pickLabels } from "./picks.js?v=49";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=49";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=49";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=49";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=49";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=49";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=49";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=49";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=49";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=49";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=49";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=49";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=49";
+import { EntrySound } from "./entry-sound.js?v=49";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=48";
+} from "./progress.js?v=49";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=48";
+} from "./calendar.js?v=49";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -317,6 +317,7 @@ if (reading.last && WORKS.some((w) => w.id === reading.last)) {
   state.workId = reading.last;
   state.pendingAnchor = reading.places[reading.last]?.anchor || null;
 }
+let completionContext = null, currentReadingOpened = false;
 let pages = [],
   gpu,
   ref,
@@ -497,12 +498,18 @@ function setAmbienceVolume(value) {
 }
 $("ambience-volume").oninput = e => setAmbienceVolume(Number(e.target.value) / 100);
 const HOME_ROUTES = ["today", "shelf", "shelfday", "library"];
+function nextReadingWork(work = workById(state.workId)) {
+  return todayWorks.find(w => canonicalWorkId(w) !== canonicalWorkId(work) && !workRead(progress, w)) || null;
+}
 function homeOptions(route = state.menuPage) {
   const today = todayKey(), facts = todayFacts(new Date(), progress, today);
   const personal = personalFor(progress.days[today], todayWorks);
-  const statuses = Object.fromEntries(WORKS.map(w => [w.id, workRead(progress,w) ? "Read ✓" : reading.places[w.id]?.page > 0 ? "In progress" : ""]));
+  const resumable = Object.fromEntries(WORKS.map(w => [w.id, validAnchor(reading.places[w.id]?.anchor) || (w.id === state.workId && currentReadingOpened && validAnchor(pages[state.page]?.anchor))]));
+  const statuses = Object.fromEntries(WORKS.map(w => [w.id, workRead(progress,w) ? "Read ✓" : resumable[w.id] ? "In progress" : ""]));
+  const currentPage = pages[state.page];
+  const currentPosition = currentPage ? `${currentPage.section === "before" ? "Before reading" : currentPage.section === "after" ? "After reading" : "Text"} · Page ${currentPage.sectionPage || state.page + 1}` : "";
   const options = { tab: route === "shelf" || route === "shelfday" || route === "library" ? "shelf" : "today",
-    works: todayWorks, currentId: state.workId, statuses, hover: state.hover,
+    works: todayWorks, currentId: state.workId, statuses, resumable, currentPosition, hover: state.hover,
     resume: workById(state.workId), dateline: facts.dateline + (facts.read ? ` · ${facts.read} of 3 read` : ""),
     notes: !!(personal.dedication || personal.thread || picksNotice || driveNote()),
     c: { ...NAV, serif: MOODS[state.mood].body, ui: UI } };
@@ -523,6 +530,10 @@ function homeOptions(route = state.menuPage) {
     options.works = works.slice(state.libraryPage*3,state.libraryPage*3+3);
     options.library = true; options.page=state.libraryPage; options.total=works.length;
     options.resume = null; options.notes = false;
+    if (completionContext) {
+      const completed = works.find(w => canonicalWorkId(w) === completionContext.canonical);
+      if (completed) options.completion = { id: completed.id, title: completed.title, saved: completionContext.saved, next: nextReadingWork(completed) };
+    }
     options.dateline = `Library · ${state.libraryPage+1} of ${Math.max(1,Math.ceil(works.length/3))}`;
   }
   return options;
@@ -538,10 +549,10 @@ function navigationModel() {
   }
   const work=workById(state.workId),today=todayKey(),personal=personalFor(progress.days[today],todayWorks);
   const options={page,view:calendarView,progress,today,hover:state.hover,notice:progressNotice,
-    work,next:nextUnread(todayWorks,work,progress,today),read:workRead(progress,work),
+    work,next:nextReadingWork(work),read:workRead(progress,work),
     allRead:todayFacts(new Date(),progress,today).allRead,thread:personal.thread,
     notes:[personal.dedication,personal.thread,picksNotice,driveNote()].filter(Boolean),notesPage:state.notesPage,
-    title:"Today’s notes"};
+    title:"Today’s notes",backLabel:state.notesContext === "day" ? "Day" : state.homeTab === "shelf" ? "Shelf" : "Today"};
   if(page === "day") {
     ctx.save();ctx.font=`400 17px system-ui, -apple-system, "Segoe UI", sans-serif`;
     options.longPicks=Object.values(progress.days[calendarView.selected]?.picks||{}).some(label=>compactWrap(ctx,label,630).length>2);ctx.restore();
@@ -554,6 +565,7 @@ function navigationModel() {
   return {kind:"compact",options,bounds:compactBounds(),buttons:compactButtons(options)};
 }
 function navigate(page) {
+  completionContext = null;
   cancelPointerPresses("navigation-route");
   state.menuOpen=true; state.menuPage=page; state.hover=null;
   if(page === "today" || page === "shelf") {
@@ -981,8 +993,9 @@ function finishReading() {
   if (!state.menuOpen || state.menuPage !== "closing" || !dayInputAllowed(lastFrameTime, dayOpenedAt)) return false;
   const work = workById(state.workId), canonical = canonicalWorkId(work);
   const assignedDay = /^today-(\d{4}-\d{2}-\d{2})-/.exec(work.id)?.[1] || todayKey();
-  const changed = markWorkRead(progress, work, assignedDay);
-  const saved = !changed || storeProgress();
+  markWorkRead(progress, work, assignedDay);
+  const saved = storeProgress();
+  completionContext = { canonical, saved };
   rememberPlace();
   rebuildWorks(state.workId);
   const works = libraryWorks(), index = works.findIndex(w => canonicalWorkId(w) === canonical);
@@ -997,6 +1010,8 @@ function finishReading() {
 }
 // Open a work at its saved place (or the start), and remember it as last.
 function openWork(id) {
+  completionContext = null;
+  currentReadingOpened = true;
   rememberPlace();
   state.workId = workById(id).id;
   const saved = reading.places[state.workId];
@@ -1020,6 +1035,8 @@ function feedback(text) {
 }
 function toggleMenu(open = !state.menuOpen, initialPlacement = null) {
   const wasOpen = state.menuOpen;
+  completionContext = null;
+  if (!open && wasOpen) currentReadingOpened = true;
   gazeDwell.consume();
   cancelPointerPresses();
   state.todayReveal = null;
@@ -1489,7 +1506,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-048",
+    build: "gestures-049",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1661,6 +1678,8 @@ function insideNavigation(hit) {
 }
 
 function cleanSession() {
+  completionContext = null;
+  currentReadingOpened = false;
   sessionGeneration++;
   state.todayReveal = null;
   state.session = null;

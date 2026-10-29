@@ -1,5 +1,5 @@
-import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=48';
-import { navigationSurface, CONTROL } from './theme.js?v=48';
+import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=49';
+import { navigationSurface, CONTROL } from './theme.js?v=49';
 const SCALE = 2048 / 720, Y = (2560 - 500 * SCALE) / 2;
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 const MONTHS = 'January February March April May June July August September October November December'.split(' ');
@@ -16,7 +16,7 @@ function localButtons(o) {
     return [b('cal-back', 24, 18, 120, 48, '‹ Calendar'), ...(o.longPicks ? [b('day-notes',548,18,148,48,'Full titles')] : []), ...(editable ? KINDS.map((kind, i) => b(`tick:${kind}`, 24, 126 + i * 90, 672, 82, KIND[kind])) : []), ...(editable ? [b('weekly', 24, 405, 672, 68, 'Weekly written story')] : [])];
   }
   if (page === 'closing') return [b('end-back', 24, 18, 150, 48, '‹ Back to text'), b('end-mark', 24, 300, 672, 72, o.read ? 'Read ✓ · Open Library' : 'Mark as read')];
-  return [b('notes-home', 24, 18, 110, 48, 'Back'), ...(notesPage > 0 ? [b('notes-prev', 24, 428, 160, 48, '‹ Previous')] : []), ...(notesPage + 1 < notesCount ? [b('notes-next', 536, 428, 160, 48, 'Next ›')] : [])];
+  return [b('notes-home', 24, 18, 110, 48, o.backLabel ? `‹ ${o.backLabel}` : 'Back'), ...(notesPage > 0 ? [b('notes-prev', 24, 428, 160, 48, '‹ Previous')] : []), ...(notesPage + 1 < notesCount ? [b('notes-next', 536, 428, 160, 48, 'Next ›')] : [])];
 }
 export function compactButtons(options) {
   return localButtons(options).map(r => ({ ...r, x: r.x * SCALE, y: Y + r.y * SCALE, w: r.w * SCALE, h: r.h * SCALE }));
@@ -65,6 +65,17 @@ function button(ctx, r, hover, { selected = false, label = r.label } = {}) {
 function dayTitle(key) {
   const d = parseKey(key);
   return `${DAYS[(d.getDay() + 6) % 7]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+}
+// Only compact summaries may be shortened. Full source titles and notes stay
+// available in the reader; fixed summary slots must not overrun the controls.
+function summaryLines(ctx, value, width, limit) {
+  const lines = compactWrap(ctx, value, width);
+  if (lines.length <= limit) return lines;
+  const visible = lines.slice(0, limit);
+  let tail = visible[limit - 1];
+  while (tail && ctx.measureText(tail + '…').width > width) tail = Array.from(tail).slice(0, -1).join('');
+  visible[limit - 1] = tail.trimEnd() + '…';
+  return visible;
 }
 export function paintCompact(ctx, options) {
   const o = { ...options };
@@ -129,23 +140,21 @@ export function paintCompact(ctx, options) {
   } else if (o.page === 'closing') {
     button(ctx, byId('end-back'), o.hover);
     text(ctx, o.read ? 'Already read' : 'Finished reading?', 24, 92, 22, '#f5f5f2', 500);
-    ctx.font = '400 24px Georgia, serif';
-    const title = compactWrap(ctx, o.work?.title || '', 656);
-    for (const [i, line] of title.entries()) { ctx.font = '400 24px Georgia, serif'; ctx.fillStyle = '#f5f5f2'; ctx.textAlign = 'left'; ctx.fillText(line, 24, 125 + i * 28); }
-    text(ctx, [o.work?.author, o.work?.year].filter(Boolean).join(' · '), 24, Math.max(179, 128 + title.length * 28), 17, '#cbd0cd');
-    text(ctx, 'Pinch NEXT again to mark as read.', 24, 238, 21, '#f5f5f2', 500);
-    text(ctx, 'BACK returns to the last page.', 24, 270, 17, '#cbd0cd');
-    for (const r of rows.filter(r => r.id !== 'end-back')) {
-      button(ctx, r, o.hover, { selected: r.id === 'end-mark' && o.read, label: r.id === 'end-next' ? '' : r.label });
-      if (r.id === 'end-next') {
-        text(ctx, 'Next reading', r.x + 18, r.y + 19, 17, '#cbd0cd');
-        ctx.font = `400 19px ${FONT}`;
-        compactWrap(ctx, o.next.title, 630).forEach((line, n) => text(ctx, line, r.x + 18, r.y + 47 + n * 21, 19));
-      }
-    }
+    ctx.font = '400 28px Georgia, serif';
+    const title = summaryLines(ctx, o.work?.title || '', 656, 3);
+    for (const [i, line] of title.entries()) { ctx.font = '400 28px Georgia, serif'; ctx.fillStyle = '#f5f5f2'; ctx.textAlign = 'left'; ctx.fillText(line, 24, 128 + i * 29); }
+    ctx.font = `400 17px ${FONT}`;
+    const metadata = summaryLines(ctx, [o.work?.author, o.work?.year].filter(Boolean).join(' · '), 656, 1)[0];
+    text(ctx, metadata, 24, 215, 17, '#cbd0cd');
+    text(ctx, o.read ? 'NEXT opens your Library.' : 'Pinch NEXT again to mark as read.', 24, 248, 20, '#f5f5f2', 500);
+    text(ctx, 'BACK returns to the last page.', 24, 277, 17, '#cbd0cd');
+    const mark = byId('end-mark');
+    ctx.fillStyle = o.hover === mark.id ? '#ffffff' : CONTROL.selected;
+    rounded(ctx, mark); ctx.fill();
+    text(ctx, mark.label, mark.x + 24, mark.y + mark.h / 2, 20, CONTROL.selectedInk, 500);
     if (o.allRead && o.thread && !o.next) {
       ctx.font = `400 17px ${FONT}`;
-      compactWrap(ctx, o.thread, 656).forEach((line, i) => text(ctx, line, 24, 410 + i * 23, 17, '#dce2dc'));
+      summaryLines(ctx, o.thread, 656, 3).forEach((line, i) => text(ctx, line, 24, 410 + i * 23, 17, '#dce2dc'));
     }
   } else {
     button(ctx, byId('notes-home'), o.hover);

@@ -7,6 +7,7 @@ const pressDriftChecks = require("./press-drift-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
 const coherentChecks = require("./coherent-browser.cjs");
+const continuityChecks = require("./reading-continuity-browser.cjs");
 const volumeChecks = require("./volume-browser.cjs");
 const guideChecks = require("./study-guide-browser.cjs");
 const pickerChecks = require("./picker-browser.cjs");
@@ -889,6 +890,11 @@ async function mock(
       console.log(`${checks} frontdoor browser checks passed.`);
       return;
     }
+    if (process.env.CABIN_CONTINUITY_ONLY) {
+      await continuityChecks(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} reading continuity browser checks passed.`);
+      return;
+    }
     if (process.env.CABIN_COHERENT_ONLY) {
       await coherentChecks(browser,{mock,BASE_URL,out,passed});
       console.log(`${checks} coherent browser checks passed.`);
@@ -1331,7 +1337,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-048");
+        assert.equal(details.build, "gestures-049");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2302,7 +2308,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=48");
+        const { paintHandBadge } = await import("./hand-badges.js?v=49");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2622,7 +2628,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=48");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=49");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3378,8 +3384,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=48");
-        const { loadProgress } = await import("./progress.js?v=48");
+        const { calendarButtons } = await import("./calendar.js?v=49");
+        const { loadProgress } = await import("./progress.js?v=49");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3441,6 +3447,7 @@ async function mock(
     await feelChecks(browser, { mock, BASE_URL, out, passed });
     await frontdoorChecks(browser, { mock, BASE_URL, out, passed });
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
+    await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

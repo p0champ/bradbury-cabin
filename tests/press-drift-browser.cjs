@@ -1,15 +1,31 @@
 // Pinch drift and Exit reach through the real frame loop and native events.
 // Expected outcomes come from page geometry, not from the app's helpers.
 const assert = require('node:assert/strict');
+const path = require('node:path');
+const { pathToFileURL } = require('node:url');
 
 module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, passed }) {
-  const open = async (screen, lying = false) => {
+  const { SOURCE_CATALOGUE } = await import(pathToFileURL(path.join(__dirname, '..', 'source-catalogue.js')).href);
+  const open = async (screen, lying = false, foreignResume = false) => {
     const p = await browser.newPage(); const errors = []; p.on('pageerror', e => errors.push(e.message));
     await mock(p, 'layer', lying, { practised: true, headPointer: false });
+    if (foreignResume) {
+      // Exercise the adjacent Resume/Notes rows using the real three-work Home.
+      // Empty Home now has a taller Begin card and a deliberate empty gap.
+      await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+      const excluded = new Set(['blake-sick-rose', 'whitman-astronomer', 'whitman-captain', 'ohenry-magi', 'chopin-desiree', 'bacon-studies', 'bacon-truth']);
+      const works = ['poem', 'story', 'essay'].map(kind => SOURCE_CATALOGUE.find(w => w.kind === kind && !excluded.has(w.id)));
+      const foreign = SOURCE_CATALOGUE.find(w => w.kind === 'poem' && w.id !== works[0].id && !excluded.has(w.id));
+      await p.addInitScript(({ works, foreign }) => {
+        const id = `today-2026-10-28-poem-${foreign.id}`;
+        localStorage.setItem('cabin-today', JSON.stringify({ version: 2, date: '2026-10-29', picks: Object.fromEntries(works.map(w => [w.kind, { catalogueId: w.id }])) }));
+        localStorage.setItem('cabin-reading', JSON.stringify({ last: id, places: { [id]: { anchor: { block: 0, word: 0, section: 'text' }, page: 0 } } }));
+      }, { works: works.map(({ id, kind }) => ({ id, kind })), foreign: { id: foreign.id } });
+    }
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => { __hand(.06); __step(600); });
     if (screen !== 'placement') await p.evaluate(() => __center());
-    if (screen === 'home' || screen === 'settings') await p.evaluate(() => { __hold(); __hand(.06); __step(800); });
+    if (!foreignResume && (screen === 'home' || screen === 'settings')) await p.evaluate(() => { __hold(); __hand(.06); __step(800); });
     if (screen === 'settings') await p.evaluate(async () => { await __aim('home-settings', true); __step(800); __pinch(); __step(800); });
     await p.evaluate(() => {
       const page = document.querySelector('#page');
@@ -48,17 +64,17 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   // 1. What you see is what you get: the pinch selects what is highlighted
   // when the headset reports it, and the held dot stays on that button.
   for (const lying of [false, true]) {
-    const { p, errors } = await open('home', lying);
+    const { p, errors } = await open('home', lying, true);
     const bs = await buttons(p), A = bs.find(b => b.id === 'home-resume'), B = bs.find(b => b.id === 'home-notes');
     const x = 300, y = A.y + A.h - 25, dip = 82; // ends inside home-notes
     const held = await p.evaluate(({ x, y, dip }) => __driftPress(x, y, dip, { release: false }), { x, y, dip });
     const shown = await p.evaluate(() => document.querySelector('#page').dataset.target);
-    assert.equal(shown, 'home-notes', 'fixture: Notes should be highlighted at the press');
+    assert.equal(shown, 'home-notes', `fixture: Notes should be highlighted at the press: ${JSON.stringify({A,B,held})}`);
     assert.ok(held && held.look === 'press' && held.y >= B.y && held.y <= B.y + B.h, `held dot ${JSON.stringify(held)} not on the highlighted button`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.menuPage), 'notes', 'the pinch did not select the highlighted button');
     assert.deepEqual(errors, []);
-    // Documented trade-off (BUILD 048): a 29 mm drift that ends on the row below selects that row,
+    // Documented trade-off (BUILD 049): a 29 mm drift that ends on the row below selects that row,
     // as in 043. The highlight shows it before release; 045's look-back guarded this.
     passed(`press: the pinch selects exactly the highlighted button, including after drift onto the row below ${lying ? 'lying' : 'upright'}`);
     await p.close();

@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL, NAV } from './theme.js?v=48';
+import { navigationSurface, CONTROL, NAV } from './theme.js?v=49';
 // Settings uses the same canvas and ray plane as Home. Geometry is expressed
 // here once, in millimetre-like logical units, then shared with the hit tester.
 const SCALE = 2048 / 720;

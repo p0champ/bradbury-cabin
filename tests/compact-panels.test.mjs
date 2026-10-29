@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { compactBounds, compactButtons, compactNotesPages, compactWrap } from '../compact-panels.js';
+import { compactBounds, compactButtons, compactNotesPages, compactWrap, paintCompact } from '../compact-panels.js';
 import { seedProgress } from '../progress.js';
 const today = '2026-10-29', progress = seedProgress(today);
 const view = { year: 2026, month: 9, selected: today };
@@ -43,4 +43,46 @@ test('oversized imported labels retain a separate full-title route without movin
  const long=compactButtons({page:'day',view,progress,today,longPicks:true});
  assert.ok(long.some(r=>r.id==='day-notes'));
  assert.deepEqual(long.filter(r=>r.id.startsWith('tick:')),normal.filter(r=>r.id.startsWith('tick:')));
+});
+
+function recordingCanvas() {
+  const drawn = [];
+  const ctx = {
+    font: '19px sans-serif',
+    save() {}, restore() {}, translate() {}, scale() {}, beginPath() {},
+    roundRect() {}, fill() {}, stroke() {}, clip() {},
+    createLinearGradient: () => ({ addColorStop() {} }),
+    measureText(value) { return { width: Array.from(String(value)).length * Number(/(\d+)px/.exec(this.font)?.[1] || 19) * .55 }; },
+    fillText(value, x, y) { drawn.push({ value, x, y, width: this.measureText(value).width, font: this.font }); },
+  };
+  return { ctx, drawn };
+}
+
+test('already-read confirmation describes opening Library rather than marking again', () => {
+  const { ctx, drawn } = recordingCanvas();
+  paintCompact(ctx, { page: 'closing', read: true, work: { title: 'A work', author: 'An author' } });
+  assert.ok(drawn.some(t => /NEXT.*Library/.test(t.value)));
+  assert.ok(!drawn.some(t => /mark as read/i.test(t.value)));
+  const unread = recordingCanvas();
+  paintCompact(unread.ctx, { page: 'closing', read: false, work: { title: 'A work' } });
+  assert.ok(unread.drawn.some(t => /NEXT again to mark as read/.test(t.value)));
+});
+
+test('long completion summaries leave instructions and action unobscured without shrinking type', () => {
+  const { ctx, drawn } = recordingCanvas();
+  paintCompact(ctx, { page: 'closing', work: { title: 'A remarkably long literary title '.repeat(35), author: 'A long author name '.repeat(25), year: 1794 }, allRead: true, thread: 'A long reflection '.repeat(80) });
+  const title = drawn.filter(t => t.font.includes('Georgia'));
+  assert.equal(title.length, 3);
+  assert.ok(title.every(t => t.font.includes('28px') && t.y <= 186));
+  assert.ok(title.at(-1).value.endsWith('…'));
+  assert.ok(drawn.every(t => t.x + t.width <= 696 && t.y < 480), 'all summaries stay within reserved panel slots');
+  assert.ok(drawn.some(t => t.value === 'Mark as read' && t.y === 336));
+});
+
+test('notes Back names its real destination without changing its target or pagination', () => {
+  const original = compactButtons({ page: 'notes', notesPage: 1, notesCount: 3 });
+  for (const backLabel of ['Today', 'Shelf', 'Calendar']) {
+    const rows = compactButtons({ page: 'notes', notesPage: 1, notesCount: 3, backLabel });
+    assert.deepEqual(rows, original.map(r => r.id === 'notes-home' ? { ...r, label: `‹ ${backLabel}` } : r));
+  }
 });
