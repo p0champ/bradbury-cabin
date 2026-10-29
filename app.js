@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=37";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=37.1";
 import {
   GestureEngine,
   menuButtons,
@@ -10,29 +10,29 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=37";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=37";
-import { HandBadges } from "./hand-badges.js?v=37";
-import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=37";
-import { LIBRARY } from "./library.js?v=37";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=37";
-import { layoutReading } from "./reading-flow.js?v=37";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=37";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=37";
-import { parsePicks, pickLabels } from "./picks.js?v=37";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=37";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=37";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=37";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=37";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=37";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=37";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=37";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=37";
-import { Pointer, rayOnPage, OneEuro, smoothRay } from "./pointer.js?v=37";
-import { paintWelcome, welcomeHit, greeting, WELCOME_STEPS, WELCOME_MS } from "./welcome-panel.js?v=37";
-import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=37";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=37";
-import { EntrySound } from "./entry-sound.js?v=37";
+} from "./gestures.js?v=37.1";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=37.1";
+import { HandBadges } from "./hand-badges.js?v=37.1";
+import { WristWatch, watchSummary, WATCH_HAND } from "./watch.js?v=37.1";
+import { LIBRARY } from "./library.js?v=37.1";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=37.1";
+import { layoutReading } from "./reading-flow.js?v=37.1";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=37.1";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing, REVEAL_STEPS, REVEAL_MS } from "./today-panel.js?v=37.1";
+import { parsePicks, pickLabels } from "./picks.js?v=37.1";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=37.1";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=37.1";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=37.1";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=37.1";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=37.1";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=37.1";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=37.1";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=37.1";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=37.1";
+import { paintWelcome, welcomeHit, greeting, WELCOME_STEPS, WELCOME_MS } from "./welcome-panel.js?v=37.1";
+import { MOODS, UI, accentFor, goldFor, lift, unlift, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=37.1";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=37.1";
+import { EntrySound } from "./entry-sound.js?v=37.1";
 import {
   readProgress,
   saveProgress,
@@ -41,13 +41,13 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=37";
+} from "./progress.js?v=37.1";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=37";
+} from "./calendar.js?v=37.1";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -311,8 +311,53 @@ let nativeQueue = [],
   lastFrameTime = 0;
 let gazeRing = null;
 let pointer = null;
-// Per hand: a steadied ray, and the choice held from the moment a pinch closes.
+// Each hand owns a single displayed hit and a press snapshot (including misses).
 const rayFilters = new Map(), heldTargets = new Map();
+let pointerRevision = 0, pointerScreen = null;
+// Explicit opt-in only; bounded local traces travel with the existing export.
+const pointerDiagnosticsEnabled = new URLSearchParams(location.search).get("pointerDiagnostics") === "1";
+const pointerDiagnostics = [];
+function recordPointerAim(source, ray, filtered, viewer, index, thumb, time) {
+  if (!pointerDiagnosticsEnabled) return;
+  const display = presentPose();
+  const raw = rayOnPage(ray, display, PAGE.metresWide, PAGE.metresHigh);
+  let pinch = null;
+  if (index && thumb && !index.emulatedPosition && !thumb.emulatedPosition) {
+    const a = index.transform.position, b = thumb.transform.position, o = viewer.position;
+    const matrix = new Float32Array(16);
+    matrix[15] = 1;
+    matrix[12] = o.x; matrix[13] = o.y; matrix[14] = o.z;
+    matrix[8] = o.x - (a.x + b.x) / 2;
+    matrix[9] = o.y - (a.y + b.y) / 2;
+    matrix[10] = o.z - (a.z + b.z) / 2;
+    pinch = rayOnPage({ matrix }, display, PAGE.metresWide, PAGE.metresHigh);
+  }
+  const mm = h => h ? [h.local.x * 1000, h.local.y * 1000] : null;
+  pointerDiagnostics.push({ time, hand: source.handedness, revision: pointerRevision,
+    nativeMm: mm(raw), filteredMm: mm(filtered), headThroughPinchMm: mm(pinch) });
+  if (pointerDiagnostics.length > 600) pointerDiagnostics.shift();
+}
+function cancelPointerPresses(reason = "pointer-context-change") {
+  pointerRevision++;
+  for (const source of heldTargets.keys()) gestures.cancel(source, reason, lastFrameTime);
+  heldTargets.clear();
+  rayFilters.clear();
+  if (pointer?.clearVisible() && state.session && !ending) applyLayers();
+}
+function pointerScreenKey() {
+  return JSON.stringify([state.menuOpen, state.menuPage, state.practice, state.centering,
+    state.arriving, state.headPointer, state.shelfPage, state.shelfDay, state.workId,
+    calendarView, todayKey(), todayWorks.map(w => [w.id, w.catalogueId]), libraryWorks().map(w => w.id),
+    state.welcomeReveal, state.todayReveal, progressVersion,
+    menuPlacement ? Array.from(menuPlacement.matrix) : null]);
+}
+function syncPointerScreen() {
+  const key = pointerScreenKey();
+  if (key !== pointerScreen) {
+    pointerScreen = key;
+    cancelPointerPresses();
+  }
+}
 // A pinch that only completed a build-up must not choose when it opens.
 const swallowRelease = new Set();
 const gazeDwell = new GazeDwell(),
@@ -380,6 +425,7 @@ function paint() {
     state.hover = null;
     dayOpenedAt = lastFrameTime;
   }
+  syncPointerScreen();
   canvas.dataset.view = state.arriving
     ? "arrival"
     : state.centering
@@ -921,7 +967,7 @@ function feedback(text) {
 }
 function toggleMenu(open = !state.menuOpen) {
   gazeDwell.consume();
-  heldTargets.clear();
+  cancelPointerPresses();
   state.todayReveal = null;
   state.menuOpen = open;
   state.menuPage = "main";
@@ -1400,7 +1446,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-037",
+    build: "gestures-037.1",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1441,7 +1487,9 @@ $("export").onclick = () => {
       anchor: pages[state.page]?.anchor || null,
     },
     gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
-    pointer: { error: state.pointerError || null },
+    pointer: { error: state.pointerError || null,
+      aim: "native-page-plane", diagnosticsEnabled: pointerDiagnosticsEnabled,
+      samples: pointerDiagnostics },
     ambience: { setting: state.ambience, ...ambience.status() },
     mood: state.mood,
     wristCalendar: {
@@ -1581,6 +1629,7 @@ function cleanSession() {
   sessionGeneration++;
   state.todayReveal = null;
   state.session = null;
+  cancelPointerPresses("session-ended");
   nativeQueue = [];
   state.centering = false;
   state.arriving = false;
@@ -1792,15 +1841,23 @@ async function enter() {
           dayOpenedAt = lastFrameTime;
           paint();
         }
+        const aim = heldTargets.get(e.inputSource);
+        if (kind === "selectstart" && state.menuOpen && !state.headPointer && aim) {
+          aim.press ||= { hit: aim.hit, target: aim.target, revision: pointerRevision };
+          aim.nativeHeld = true;
+        }
         nativeQueue.push({
           kind,
           source: e.inputSource,
           time,
           ray,
           visible: session.visibilityState === "visible",
+          revision: pointerRevision,
+          press: aim?.press || null,
         });
         if (nativeQueue.length > 60) {
           nativeQueue = [];
+          cancelPointerPresses("event-queue-overflow");
           gestures.reset("event-queue-overflow");
         }
       });
@@ -1816,6 +1873,7 @@ async function enter() {
     ref.addEventListener?.("reset", () => {
       wantRecenter = true;
       nativeQueue = [];
+      cancelPointerPresses("reference-reset");
       gestures.reset("reference-reset");
       if (state.arriving) {
         state.arriving = false;
@@ -1832,6 +1890,7 @@ async function enter() {
       gazeDwell.consume();
       if (gazeRing?.clearVisible() | pointer?.clearVisible()) applyLayers();
       nativeQueue = [];
+      cancelPointerPresses("visibility-change");
       gestures.reset("visibility-change");
       if (handBadges?.clearVisible() | !!wristWatch?.clearVisible()) applyLayers();
       if (arrival?.clearVisible()) applyLayers();
@@ -1871,6 +1930,7 @@ function frame(time, xrFrame, generation) {
       if (gazeRing?.clearVisible() | pointer?.clearVisible()) applyLayers();
       lastArrivalTick = time;
       nativeQueue = [];
+      cancelPointerPresses("viewer-pose-lost");
       gestures.reset("viewer-pose-lost");
       if (handBadges?.clearVisible() | !!wristWatch?.clearVisible()) applyLayers();
       if (arrival?.clearVisible()) applyLayers();
@@ -1932,11 +1992,15 @@ function frame(time, xrFrame, generation) {
       }
       if ((state.menuOpen || state.practice) && !menuPlacement)
         menuPlacement = inFront();
+      syncPointerScreen();
+      const framePointerRevision = pointerRevision;
       const activeSources = new Set(session.inputSources);
       for (const source of gestures.hands.keys())
         if (!activeSources.has(source)) {
           gestures.cancel(source, "source-removed");
           gestures.hands.delete(source);
+          heldTargets.delete(source);
+          rayFilters.delete(source);
         }
       const targets = new Map(),
         samples = [];
@@ -1950,26 +2014,7 @@ function frame(time, xrFrame, generation) {
         };
         const a = joint("index-finger-tip"),
           b = joint("thumb-tip");
-        if (!rayFilters.has(source)) rayFilters.set(source, new OneEuro(1.0, 0.03));
-        const rawRay = state.headPointer ? null : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
-        if (!state.headPointer && !rawRay) rayFilters.get(source).x = null; // restart after tracking loss
-        const point = state.headPointer ? pose.transform : smoothRay(rayFilters.get(source), rawRay, time);
-        const pinching = gestures.hands.get(source)?.nativeDown || a && b && Math.hypot(
-          a.transform.position.x - b.transform.position.x,
-          a.transform.position.y - b.transform.position.y,
-          a.transform.position.z - b.transform.position.z) < 0.03;
-        // A hand drifts while it pinches: keep the choice it had as the pinch
-        // closed until it opens again.
-        let target = state.menuOpen ? hit(point) : null;
-        if (pinching && heldTargets.has(source)) target = heldTargets.get(source);
-        else heldTargets.set(source, target);
-        targets.set(source, target);
-        if (state.menuOpen && !state.headPointer)
-          pointerRays.push({
-            hand: source.handedness,
-            hit: rayOnPage(point, presentPose(), PAGE.metresWide, PAGE.metresHigh),
-            look: target ? (pinching ? "press" : "ring") : "dot",
-          });
+        const rawRay = state.headPointer ? pose.transform : xrFrame.getPose(source.targetRaySpace, ref)?.transform;
         const distance =
           a && b
             ? Math.hypot(
@@ -2033,8 +2078,35 @@ function frame(time, xrFrame, generation) {
         const button = source.gamepad?.buttons?.[0];
         const open = button ? !button.pressed : distance > 0.028;
         samples[samples.length - 1].systemGesture ||= !attentive || !handInView;
-        if (!attentive || !handInView || systemGesture)
-          targets.set(source, null);
+        const physicallySafe = attentive && handInView && !systemGesture && !glancing;
+        const handMenuAim = state.menuOpen && !state.headPointer;
+        let target = null;
+        if (!physicallySafe || (handMenuAim && !rawRay)) {
+          heldTargets.delete(source);
+          rayFilters.delete(source);
+          // Ray loss invalidates a menu aim only. Reading gestures depend on
+          // the physical hand gates established by GestureEngine.update.
+          if (handMenuAim) gestures.cancel(source, "pointer-tracking-or-attention-lost", time);
+        } else if (handMenuAim) {
+          if (!rayFilters.has(source)) rayFilters.set(source, new PageAimFilter());
+          const freshHit = rayFilters.get(source).update(rawRay, presentPose(), PAGE.metresWide, PAGE.metresHigh, time);
+          recordPointerAim(source, rawRay, freshHit, pose.transform, a, b, time);
+          const freshTarget = freshHit ? panelHit(
+            (freshHit.local.x / PAGE.metresWide + 0.5) * PAGE.width,
+            (0.5 - freshHit.local.y / PAGE.metresHigh) * PAGE.height) : null;
+          let aim = heldTargets.get(source);
+          if (!aim) { aim = { hit: freshHit, target: freshTarget, press: null, nativeHeld: false }; heldTargets.set(source, aim); }
+          const closing = tipsTracked && distance < 0.03;
+          if (closing && !aim.press) aim.press = { hit: aim.hit, target: aim.target, revision: pointerRevision };
+          // A native press survives joint-open frames until its queued release.
+          if (!closing && !aim.nativeHeld) aim.press = null;
+          if (!aim.press) { aim.hit = freshHit; aim.target = freshTarget; }
+          const shown = aim.press || aim;
+          target = shown.target;
+          pointerRays.push({ hand: source.handedness, hit: shown.hit,
+            look: target ? (aim.press ? "press" : "ring") : "dot" });
+        } else if (state.menuOpen) target = hit(rawRay);
+        targets.set(source, target);
         gestures.update(source, {
           tracked: tracked && !wristWatch?.showingFor(source.handedness),
           anchorKind: anchor.kind,
@@ -2074,6 +2146,11 @@ function frame(time, xrFrame, generation) {
           time - input.time > maxEventAge
         ) {
           gestures.cancel(input.source, "stale-native-event", time);
+          heldTargets.delete(input.source);
+          rayFilters.delete(input.source);
+          targets.delete(input.source);
+          // This frame's pointer was prepared before event validation.
+          if (pointer?.clearVisible()) applyLayers();
           gestures.note({
             result: "ignored",
             reason: "stale-or-removed-event",
@@ -2118,17 +2195,32 @@ function frame(time, xrFrame, generation) {
         }
         // A press that ended without a select must not swallow the next one.
         if (input.kind === "selectend") swallowRelease.delete(input.source);
+        if (input.revision !== pointerRevision || (state.menuOpen && input.source.hand && !state.headPointer &&
+            (!heldTargets.has(input.source) || !input.press || input.press.revision !== pointerRevision))) {
+          gestures.cancel(input.source, "pointer-press-invalidated", time);
+          continue;
+        }
         const target = !state.menuOpen
           ? null
           : state.headPointer
             ? hit(pose.transform)
             : targets.has(input.source)
-              ? targets.get(input.source)
+              ? input.press.target
               : hit(input.ray);
         pointerSource = input.source;
         deliver(gestures.handle(input.kind, input.source, input.time, target));
+        if (input.kind === "select" || input.kind === "selectend") {
+          const aim = heldTargets.get(input.source);
+          if (aim) { aim.nativeHeld = false; aim.press = null; }
+        }
       }
       if (!ending && !state.arriving) deliver(gestures.tick(time));
+      // A selection can replace the panel in this same frame. Hide every old
+      // dot/highlight immediately rather than leaving it over a new row.
+      if (framePointerRevision !== pointerRevision) {
+        targets.clear();
+        if (pointer?.clearVisible()) applyLayers();
+      }
       if (ending || state.session !== session || !gpu) return;
       let hover = null;
       if (state.menuOpen && attentive) {
@@ -2446,7 +2538,7 @@ async function syncDrive() {
           // The choices change under the pointer: repaint and guard first.
           dayOpenedAt = lastFrameTime;
           state.hover = null;
-          heldTargets.clear();
+          cancelPointerPresses();
           paint();
         }
         if (state.session && !state.centering && !state.arriving && !state.menuOpen && !state.practice &&

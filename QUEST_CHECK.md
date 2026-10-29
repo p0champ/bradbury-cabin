@@ -1,3 +1,15 @@
+# Build 037.1 — add to the combined end check after release
+
+Both hands, upright and lying: dot and highlighted choice stay together while pinching and drifting; release opens that same choice. Try small/large movements and adjacent rows. Look away or briefly lose hand tracking while pressed: no delayed activation on return. Smoothing is much faster in synthetic traces; perceived Quest accuracy and steadiness remain untested. Optional ?pointerDiagnostics=1 adds paired native/filtered/head-through-pinch traces to Save test details. No need for an intermediate headset check.
+
+---
+# Pointer investigation, 29 October — pending fix, not a headset result (historical)
+
+Confirmed by Bastian: Build 037 dot is insufficiently accurate. Desktop investigation reproduced held choice versus moving dot disagreement, and measured filter settling. Proposed fix awaits his go; no new build released. See POINTER_ACCURACY_INVESTIGATION.md.
+
+After the fix, add these to the single combined end check: both hands, upright and lying; aim/pinch/drift/release shows and opens the same choice; small and large aiming moves feel responsive; tracking loss cannot activate a stale choice. Optional diagnostics should compare native/raw/filtered/head-through-pinch positions with matched timestamps. No alternative ray is proven superior on Quest. Do not request an intermediate device test or claim these passed.
+
+---
 # Build 037 — add to the combined end check
 
 1. ?v=37, BUILD 037. Entering: a calm fade with "Good evening, Bastian.", then the welcome builds; choose Begin (with today's three) or Continue.

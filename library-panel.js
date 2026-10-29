@@ -1,4 +1,4 @@
-import { UI, lift, unlift } from "./theme.js?v=37";
+import { UI, lift, unlift } from "./theme.js?v=37.1";
 // Library page inside the menu: "‹ Menu" at the top, then one row per work.
 // "‹ Menu" deliberately sits away from where "Leave the cabin" is on the main
 // page, so a repeated pinch can never exit by accident.

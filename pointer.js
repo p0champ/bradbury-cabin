@@ -30,8 +30,8 @@ function paintLook(canvas, look) {
   c.stroke();
 }
 
-// One-Euro filter (Casiez et al.): steady when the hand is still, no lag when
-// it moves. Large jumps (tracking returning) reset it instead of sliding.
+// One-Euro filter (Casiez et al.): reduces still-hand noise and adapts to
+// movement. Its response is measured, not a claim of zero latency. Large jumps (tracking returning) reset it instead of sliding.
 export class OneEuro {
   constructor(minCutoff = 1.0, beta = 0.03, dCutoff = 1.0) {
     Object.assign(this, { minCutoff, beta, dCutoff, x: null, dx: null, t: null });
@@ -80,10 +80,27 @@ export function rayOnPage(ray, display, metresWide, metresHigh) {
   const ld = new DOMPoint(d.x, d.y, d.z, 0).matrixTransform(inv);
   if (ld.z >= -0.0001) return null;
   const t = -lo.z / ld.z;
-  if (t < 0.05) return null;
+  if (t < 0.08) return null;
   const lx = lo.x + ld.x * t, ly = lo.y + ld.y * t;
   if (Math.abs(lx) > metresWide / 2 + 0.04 || Math.abs(ly) > metresHigh / 2 + 0.04) return null;
-  return { origin: o, direction: d, point: add(o, d, t), distance: t };
+  const normal = norm({ x: display.matrix[8], y: display.matrix[9], z: display.matrix[10] });
+  return { origin: o, direction: d, point: add(o, d, t), distance: t,
+    local: { x: lx, y: ly }, normal };
+}
+
+// Filter the place the reader aims at, in millimetres on the page. Ray origin
+// and direction have different units; filtering them together hid excess drag.
+export class PageAimFilter {
+  constructor() { this.filter = new OneEuro(1, 0.08); }
+  reset() { this.filter.x = null; }
+  update(ray, display, width, height, time) {
+    const raw = rayOnPage(ray, display, width, height);
+    if (!raw) { this.reset(); return null; }
+    const [x, y] = this.filter.filter([raw.local.x * 1000, raw.local.y * 1000], time, 150);
+    const local = { x: x / 1000, y: y / 1000 };
+    const world = new DOMPoint(local.x, local.y, 0).matrixTransform(new DOMMatrix(display.matrix));
+    return { ...raw, local, point: { x: world.x, y: world.y, z: world.z } };
+  }
 }
 
 export class Pointer {
@@ -131,7 +148,7 @@ export class Pointer {
       for (const { hand, hit, look = "dot" } of rays) {
         const e = this.entry(hand);
         if (!hit || hit.distance < 0.08) continue;
-        const at = add(hit.point, hit.direction, -0.003);
+        const at = add(hit.point, hit.normal, 0.001);
         if (![at.x, at.y, at.z].every(Number.isFinite)) continue;
         e.layer.transform = new XRRigidTransform(at, display.orientation);
         if (look !== e.look) { e.look = look; e.dirty = true; }

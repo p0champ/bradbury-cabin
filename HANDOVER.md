@@ -1,3 +1,15 @@
+## 29 October 2026 — Build 037.1 approved and implemented; verification in progress
+
+Bastian said "go" to the pointer proposal. Shared page point/held press, page-mm adaptive filter, native ray default, optional comparison diagnostics implemented. 155 unit/source checks and 20 focused synthetic browser checks pass. Independent critic's reading-ray and stale/overflow findings fixed; final regression/critic/release pending. See BUILD_037_1_REVIEW.md. Next remains approved Build 038 wrist/hand scope, then full Apple design round. No Quest testing claimed.
+
+---
+## 29 October 2026 — pointer investigated; awaiting design approval (historical)
+
+Bastian explicitly requested pointer investigation first, two independent designers plus a judge, then a proposal and wait for his go. Completed that round. Confirmed in four synthetic browser cases (both hands, upright/lying): target freezes during pinch but visible dot keeps moving; it moved 198.45 mm in the deliberate test while release chose the original row. Production plane maths agrees in 72 comparisons. Actual smoothing has 367–383 ms 90% settling for a synthetic 5 cm step. Native versus head/pinch geometry compared; no real-hand evidence supports replacing the supplied ray yet. Judge: one shared held point+choice, faster measured smoothing, keep native ray initially, optional comparison diagnostics, no magnetism. See POINTER_ACCURACY_INVESTIGATION.md for evidence, source links, boundaries and restart instructions. No app code changed; no release or Quest test. The whole Apple feel remains the governing goal.
+
+After explicit go: build pointer fix, tests, independent critic >=8/10, release/live comparison; THEN already approved Build 038 feature scope, same checks; THEN full Apple research/journey audit with three designers, cross-critiques and separate judge, one ranked plan awaiting approval. Release numbering must distinguish pointer correction from approved 038 features. Real Quest/Claude/Drive checks remain combined and deferred.
+
+---
 **Bastian, 29 October, on Build 037:** "The dot is not as accurate as it should be." Stop here; handover written for a new ChatGPT chat (GPT_HANDOVER_BUILD_038.md). He prefers separate agents (designers + judge for design, independent critic per build). Build 038 approved, not built.
 
 ---

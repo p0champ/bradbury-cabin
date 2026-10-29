@@ -1,4 +1,4 @@
-import { UI, lift, unlift } from "./theme.js?v=37";
+import { UI, lift, unlift } from "./theme.js?v=37.1";
 // The welcome screen every entry lands on. It builds in quiet steps after the
 // window has faded in: the greeting (already shown during the fade), a
 // hairline, one line about the day, then the choices. One repaint per step.
