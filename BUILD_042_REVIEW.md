@@ -22,4 +22,4 @@ Round1:7.7/10, staleeventdotresurrection andcallbackgaplock findings. Bothfixedw
 
 ## Release
 
-Alltests/reviewcomplete; scans/commit/push/livefilecomparison pending. Currentlive041. Branchbuild-042-native-pointer. Literarytexts/gestures/hitmap9/buttonrectangles/menuindices/readinggeometry/handmarkercontrast/rightwrist unchanged.
+Code9681d65 pushed tobuild-042-native-pointer andphase-1-gestures afterstaged/committedscans. Live https://p0champ.github.io/bradbury-cabin/?v=42 verified: index/style/all33rootJSmodules match reviewedsource. Finalindependentcritic8.5/10 releaseapproved after194/194fullbrowserchecks passed. No Questalignmentclaim. Branchbuild-042-native-pointer. Literarytexts/gestures/hitmap9/buttonrectangles/menuindices/readinggeometry/handmarkercontrast/rightwrist unchanged.

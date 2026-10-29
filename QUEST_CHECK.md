@@ -1,4 +1,4 @@
-# Build 042 — pointer repair in progress; confirmed app bug, headset outcome unverified
+# Build 042 — pointer repair released/live verified; headset outcome unverified
 
 Bastian reports dotawayfromhandpoints. Reproducedappfreezingat29mmrelaxedfingerseparationevennativebuttonOPEN.042removesthisearlylock: relaxedhandmustfreelyaim; a realpinchholdstheexactdot/choiceuntilrelease. Bothhands/upright/lying, relaxfingersclosetogetherwithoutpinching andmovebetweenthreechoices; noleftbehinddot. Actualdot-to-intendedphysicaldirection stillneedsQuestfeedback; nosyntheticclaimofcalibration. Priorchecksremaincombined. UIredesignnotreleased; newcompacthomewillneedgeometry/routingmigrationandreview.
 
