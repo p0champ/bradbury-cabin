@@ -1,3 +1,8 @@
+# Build 048 — intro rebuilt locally, device check pending
+
+Not live. Browser shows the actual saved reading page and a quieter invitation. Headset: Settle in, look where you want to read, then pinch to place the window. Confirm readable instructions, exact retained pose, one pinch placing only, and Home appearing without an extra step. Check sitting/lying, paper/night and reduced motion. Desktop: 206 unit tests and 246 browser checks pass; no Quest result. Keep the pointer and all prior checks below together.
+
+---
 # Build 047 — local only, headset check pending
 
 Not live. Desktop: 206 unit tests, source checks and 245 browser checks pass. Publication still needs authorization. Check that pointing, highlighting and pinching agree; selected settings stay visibly different from hover; text and controls are readable in bright/dim rooms. Help must name your saved forward hand. The confirmed placement, literary text and page completion behavior are preserved. Keep all device checks below together. No Quest result claimed.

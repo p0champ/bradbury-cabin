@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=47";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=48";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=47";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=47";
-import { HandBadges } from "./hand-badges.js?v=47";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=47";
-import { LIBRARY } from "./library.js?v=47";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=47";
-import { layoutReading } from "./reading-flow.js?v=47";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=47";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=47";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=47";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=47";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=47";
-import { parsePicks, pickLabels } from "./picks.js?v=47";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=47";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=47";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=47";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=47";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=47";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=47";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=47";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=47";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=47";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=47";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=47";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=47";
-import { EntrySound } from "./entry-sound.js?v=47";
+} from "./gestures.js?v=48";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=48";
+import { HandBadges } from "./hand-badges.js?v=48";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=48";
+import { LIBRARY } from "./library.js?v=48";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=48";
+import { layoutReading } from "./reading-flow.js?v=48";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=48";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=48";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=48";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=48";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=48";
+import { parsePicks, pickLabels } from "./picks.js?v=48";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=48";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=48";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=48";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=48";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=48";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=48";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=48";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=48";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=48";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=48";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=48";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=48";
+import { EntrySound } from "./entry-sound.js?v=48";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=47";
+} from "./progress.js?v=48";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=47";
+} from "./calendar.js?v=48";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -713,11 +713,17 @@ function paint() {
   } else if (state.centering) {
     const b=PLACE_FRAME;
     ctx.save(); ctx.translate(b.x,b.y); navigationSurface(ctx,b.w,b.h,70); ctx.restore();
-    ctx.fillStyle=ink; ctx.textAlign="center";
-    ctx.font=`500 82px ${UI}`;
-    ctx.fillText("Place your reading window",1024,1215);
-    ctx.font=`62px ${UI}`;
-    ctx.fillText("Look where you want it, then pinch.",1024,1360);
+    ctx.textAlign="center";
+    ctx.fillStyle=muted; ctx.font=`500 32px ${UI}`; spaced(ctx,5);
+    ctx.fillText("BRADBURY CABIN",1024,b.y+100); unspaced(ctx);
+    ctx.fillStyle=ink; ctx.font=`500 88px ${UI}`;
+    ctx.fillText("Settle in.",1024,b.y+260);
+    ctx.fillStyle=muted; ctx.font=`48px ${UI}`;
+    ctx.fillText("Look where you’d like to read.",1024,b.y+365);
+    ctx.beginPath(); ctx.roundRect(584,b.y+448,880,124,62);
+    ctx.fillStyle="#eceeec"; ctx.fill();
+    ctx.fillStyle="#252a27"; ctx.font=`500 43px ${UI}`;
+    ctx.fillText("Pinch to place your window",1024,b.y+525);
     ctx.textAlign="left";
   } else if (state.practice) {
     ctx.fillStyle = ink;
@@ -860,6 +866,15 @@ function paint() {
     );
   $("menu").textContent = state.menuOpen ? "Close menu" : "Open menu";
   $("page-turn-help").textContent = `Turn the page. ${state.swapped ? "Left" : "Right"} goes forward, ${state.swapped ? "right" : "left"} goes back. Change this in Settings → More settings → Controls.`;
+  // The browser invitation shows the real saved reading page. Keep its last
+  // reading image while the tools show a menu, and do no extra work in XR.
+  if (!state.session && !state.menuOpen && !state.practice && !state.centering) {
+    const preview = $("intro-page"), pctx = preview.getContext("2d");
+    pctx.clearRect(0,0,preview.width,preview.height);
+    pctx.drawImage(canvas,0,0,preview.width,preview.height);
+    preview.dataset.work = work.id;
+    preview.closest('.intro-reading').dataset.ready = 'true';
+  }
   $("pointer").textContent = state.headPointer
     ? "Menu pointer: head"
     : "Menu pointer: hand";
@@ -1474,7 +1489,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-047",
+    build: "gestures-048",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the

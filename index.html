@@ -6,22 +6,22 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=47" />
+    <link rel="stylesheet" href="style.css?v=48" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">BUILD 047</span>
+        ><span class="edition">BUILD 048</span>
       </header>
       <section class="intro">
-        <div>
-          <p class="eyebrow">TODAY’S READING ROOM</p>
-          <h1>A quiet room<br />for three readings.</h1>
+        <div class="intro-copy">
+          <p class="eyebrow">A DAILY READING RITUAL</p>
+          <h1>Step into<br />a good read.</h1>
           <p class="lede">
-            One poem, one story and one essay, chosen for today. Sync with Drive
-            to bring them in, then step inside.
+            A poem, a story and an essay.<br />
+            A little perspective, at your own pace.
           </p>
           <div class="start-row">
             <button id="enter" class="primary" disabled>
@@ -32,6 +32,14 @@
             </button>
           </div>
           <p id="status" role="status" aria-live="polite">Preparing the reading page.</p>
+        </div>
+        <figure class="intro-reading" aria-hidden="true">
+          <div class="reading-spread">
+            <canvas id="intro-page" width="640" height="800"></canvas>
+          </div>
+          <figcaption>A glimpse inside</figcaption>
+        </figure>
+        <div class="intro-options">
           <details id="browser-settings" class="disclosure settings-disclosure">
             <summary>Sound settings</summary>
             <div class="volume-control">
@@ -40,15 +48,15 @@
               <output id="ambience-volume-value" for="ambience-volume">100%</output>
             </div>
           </details>
-        </div>
         <details id="reading-help" class="disclosure help-disclosure">
-          <summary>How to read · three gestures</summary>
+          <summary>Reading controls</summary>
           <ol class="gestures">
             <li><b>Pinch and release</b><span id="page-turn-help">Turn the page. Your forward hand follows your saved Controls setting.</span></li>
             <li><b>Hold a pinch</b><span>Open or close the menu. A ring fills as you hold.</span></li>
             <li><b>Point, then pinch</b><span>Choose anything in the menu: point at it, pinch and release.</span></li>
           </ol>
         </details>
+        </div>
       </section>
       <details id="preview-tools" class="disclosure reader-section">
         <summary>Preview and advanced tools</summary>
@@ -101,6 +109,6 @@
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=47"></script>
+    <script type="module" src="app.js?v=48"></script>
   </body>
 </html>

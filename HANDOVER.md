@@ -1,3 +1,12 @@
+## 29 October 2026 — Build 048 intro rebuilt and tested locally
+
+Bastian asked to brainstorm and improve the intro. Considered book-opening, quiet arrival and immediate return; built quiet arrival across browser and headset. Actual saved-page preview, clearer invitation, compact utility row, short ready-triggered reveal with reduced-motion support; centred Settle in → look → pinch placement card. Same manual confirmation, exact pose and 200 ms Home arrival; no new gesture, target or navigation behavior.
+
+Branch build-048-arrival. 206 unit + source checks and 246 full browser checks pass. Latest seven entrance checks, 12 width/theme combinations, saved full-work preview and zero preview copies during XR pass. Blank-preview mutation fails; final restored code passes. Actual text bounds and exact placement tested; upright/lying/night/mobile stills inspected. See BUILD_048_REVIEW.md and this chat's outputs. No independent critic or Quest claim.
+
+Not published. Prior automatic approval review rejected deployment; do not retry without explicit authorization. Live remains 045. Pointer symptom remains: dot right, pinch selects elsewhere; 046 behavior is included in local 048 but unverified on device. Whole-app Apple quality is still a user goal, not a certified outcome.
+
+---
 ## 29 October 2026 — Build 047 UI refinement built and tested locally
 
 Bastian clarified the dot looks correct but pinching selects elsewhere, then asked to keep testing and make the UI more Apple-like. Built on the unreleased 046 on branch build-047-pointer-polish. Shared navigation material including placement, distinct light selected states, clearer hover, larger Home metadata, cleaner browser entrance and correct saved-hand instructions. No new pointer heuristic, gesture or geometry changes.

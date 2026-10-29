@@ -3,8 +3,20 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 module.exports = async function entryExitChecks(browser, { mock, BASE_URL, out, passed }) {
-  const open = async (screen = 'placement') => {
+  const open = async (screen = 'placement', measure = false) => {
     const p = await browser.newPage();
+    if(measure) await p.addInitScript(() => {
+      window.__entryText = [];
+      const original = CanvasRenderingContext2D.prototype.fillText;
+      CanvasRenderingContext2D.prototype.fillText = function(value,x,y,...rest) {
+        if(this.canvas.id==='page') {
+          const m=this.measureText(String(value));
+          __entryText.push({value:String(value),x,y,width:m.width,align:this.textAlign,
+            ascent:m.actualBoundingBoxAscent,descent:m.actualBoundingBoxDescent});
+        }
+        return original.call(this,value,x,y,...rest);
+      };
+    });
     await mock(p, 'layer', false, { practised: true, headPointer: false });
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => { __hand(.05); __step(600); });
@@ -16,17 +28,25 @@ module.exports = async function entryExitChecks(browser, { mock, BASE_URL, out, 
     return p;
   };
   {
-    const p = await open();
+    const p = await open('placement', true);
     const evidence = await p.evaluate(() => {
       const c = document.querySelector('#page'), ctx = c.getContext('2d');
       const alpha = (x,y) => ctx.getImageData(x,y,1,1).data[3];
       return { view:c.dataset.view, pose:JSON.parse(c.dataset.panelPose),
         corners:[alpha(0,0),alpha(2047,0),alpha(0,2559),alpha(2047,2559)],
-        centerAlpha:alpha(1024,1280), exit:JSON.parse(c.dataset.exitRect) };
+        centerAlpha:alpha(1024,1280), exit:JSON.parse(c.dataset.exitRect), text:__entryText };
     });
     assert.equal(evidence.view, 'centering');
     assert.deepEqual(evidence.corners, [0,0,0,0]);
     assert.equal(evidence.centerAlpha,255);
+    const scale=2048/720, left=(2048-600*scale)/2, top=(2560-240*scale)/2;
+    for(const value of ['Settle in.','Look where you’d like to read.','Pinch to place your window']) {
+      const line=evidence.text.findLast(t=>t.value===value);
+      assert.ok(line,'missing arrival instruction: '+value);
+      assert.equal(line.align,'center');
+      assert.ok(line.x-line.width/2 >= left+56 && line.x+line.width/2 <= left+600*scale-56,'arrival text crosses the window edge');
+      assert.ok(line.y-line.ascent >= top+32 && line.y+line.descent <= top+240*scale-32,'arrival text clips vertically');
+    }
     await fs.mkdir(out,{recursive:true});
     await p.locator('#page').screenshot({path:path.join(out,'entry-placement.png')});
     const displayed = evidence.pose;
@@ -39,7 +59,7 @@ module.exports = async function entryExitChecks(browser, { mock, BASE_URL, out, 
     confirmed.forEach((n,i)=>assert.ok(Math.abs(n-displayed[i])<1e-6,
       `confirmation moved displayed placement component ${i}`));
     await p.close();
-    passed('entry: centered opaque instruction card, transparent corners and exact displayed confirmation pose');
+    passed('entry: readable centered arrival instructions, transparent corners and exact displayed confirmation pose');
   }
   for (const screen of ['placement','reading','home','settings']) {
     const p = await open(screen);

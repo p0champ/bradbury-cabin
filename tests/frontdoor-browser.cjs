@@ -31,6 +31,20 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
   await p.screenshot({path: path.join(out, 'frontdoor-default.png'), fullPage: true});
   passed('front door: entry and live status visible; help/tools closed; unsynced Drive and storage wording truthful');
 
+  const glimpse = await p.evaluate(() => {
+    const c = document.querySelector('#intro-page'), ctx = c.getContext('2d');
+    const pixels = ctx.getImageData(60,60,c.width-120,c.height-120).data;
+    let ink = 0;
+    for(let i=0;i<pixels.length;i+=4) if(pixels[i+3] && pixels[i] < 130 && pixels[i+1] < 140) ink++;
+    return {work:c.dataset.work,actual:document.querySelector('#page').dataset.work,ink,
+      sample:Array.from(ctx.getImageData(31,312,1,1).data),
+      source:Array.from(document.querySelector('#page').getContext('2d').getImageData(100,1000,1,1).data)};
+  });
+  assert.equal(glimpse.work,glimpse.actual);
+  assert.ok(glimpse.ink > 500,'the invitation shows a blank prop instead of the reading page');
+  assert.deepEqual(glimpse.sample,glimpse.source,'preview paper does not match the actual reading');
+  passed('intro: the invitation shows ink and paper from the actual current reading page');
+
   // Native summaries must work without a mouse; closed controls must leave the tab order.
   for (const id of disclosures) {
     const summary = p.locator('#' + id + ' > summary');
@@ -69,6 +83,8 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
   assert.equal(await p.locator('#page').getAttribute('data-view'), 'reading');
   await p.locator('#night').click();
   assert.equal(await p.locator('#night').getAttribute('aria-pressed'), 'true');
+  const nightGlimpse = await p.locator('#intro-page').evaluate(c=>Array.from(c.getContext('2d').getImageData(31,312,1,1).data));
+  assert.notDeepEqual(nightGlimpse,glimpse.sample,'invitation kept stale paper after appearance changed');
   await p.locator('#night').click();
   const downloadPromise = p.waitForEvent('download');
   await p.locator('#progress-export').click();
@@ -85,7 +101,9 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
   await p.screenshot({path: path.join(out, 'frontdoor-default-mobile.png'), fullPage: true});
   await p.emulateMedia({reducedMotion: 'reduce'});
   assert.equal(await p.locator('#enter').evaluate(el => getComputedStyle(el).transitionDuration), '0s');
-  assert.equal(await p.locator('.intro > div').evaluate(el => getComputedStyle(el).animationName), 'none');
+  assert.equal(await p.locator('.intro-copy').evaluate(el => getComputedStyle(el).animationName), 'none');
+  assert.equal(await p.locator('.intro-reading').evaluate(el => getComputedStyle(el).transitionDuration), '0s');
+  assert.equal(await p.locator('.intro-reading').evaluate(el => getComputedStyle(el).transform), 'none');
   assert.deepEqual(errors, []);
   await p.close();
   passed('front door: all tools recoverable; menu/night/export functional; narrow layout fits; reduced motion respected');
