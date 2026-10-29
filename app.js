@@ -346,9 +346,11 @@ const PLACE_FRAME = {x: (2048-600*2048/720)/2, y:(2560-240*2048/720)/2, w:600*20
 // cards (an ornament), inside the reading page's rounded corner. A fixed,
 // larger invisible zone around it absorbs pinch drift; any real button inside
 // that zone still wins. Hover never changes the zone.
-const TARGET_SLACK = 34; // 12 mm around each button
+// Forgiving targets: 12 mm below a button (pinching drags the aim down),
+// 7 mm to the sides and above.
+const TARGET_SLACK = Object.freeze({ below: 34, other: 20 });
 const EXIT = Object.freeze({ radius: 48, inset: 88, left: 140, right: 190, up: 200, down: 140,
-  releaseSlack: 57, readingBottom: 200 });
+  releaseSlack: 57, readingBottom: 260 });
 function exitSurface() {
   return state.centering ? PLACE_FRAME : state.menuOpen || state.arriving ? navigationModel().bounds : null;
 }
@@ -1627,9 +1629,10 @@ function panelHit(x, y) {
   // (never at a seam between two options, never on calendar cells).
   const model = navigationModel();
   if (!["home", "settings"].includes(model.kind)) return null;
-  const near = model.buttons.filter(b => !b.disabled)
-    .map(b => ({ id: b.id, d: Math.hypot(Math.max(b.x - x, 0, x - b.x - b.w), Math.max(b.y - y, 0, y - b.y - b.h)) }))
-    .filter(n => n.d <= TARGET_SLACK);
+  const near = model.buttons.filter(b => !b.disabled).filter(b => {
+    const dx = Math.max(b.x - x, 0, x - b.x - b.w), above = Math.max(b.y - y, 0), below = Math.max(y - b.y - b.h, 0);
+    return dx <= TARGET_SLACK.other && above <= TARGET_SLACK.other && below <= (dx ? TARGET_SLACK.other : TARGET_SLACK.below);
+  });
   return near.length === 1 ? near[0].id : null;
 }
 function insideNavigation(hit) {

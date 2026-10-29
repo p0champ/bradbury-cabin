@@ -236,14 +236,10 @@ export class Pointer {
   }
 }
 
-// Diagnostics only (Build 046): the press itself takes what is highlighted.
-// This records which button a dwell rule would have chosen, for tuning from
-// real headset traces. Closing the fingers can drag the ray onto a
-// neighbour, and people often keep moving while pinching. So the press takes
-// the button the dot spent most time on during the last moment, counting
-// time while the fingers were already closing for less (that is when drift
-// happens), and never empty space when a button was there. Newest wins ties.
-// Nothing is frozen before the native press: relaxed hands always aim live.
+// Diagnostics only (Build 046): the press itself takes exactly what is
+// highlighted. This records, as a hypothesis for later tuning from real
+// headset traces, which button a dwell rule (time while the fingers were
+// already closing counts for less) would have chosen instead.
 export const LOOK_BACK = Object.freeze({ bufferMs: 300, windowMs: 200, closedMm: 8, closingWeight: 0.3 });
 // history: oldest→newest { t, hit, target, px:{x,y}|null, gapMm|null, revision }
 export function chooseSnapshot(history, time, revision, k = LOOK_BACK) {

@@ -7,7 +7,10 @@ Lesson: both timing tricks (045's look-back, then a dwell rule tried during 046)
 046 is therefore deliberately simple:
 - A pinch selects exactly what is highlighted when the headset reports it.
 - On Home and Settings, open space just beside a button counts as that button, but only when no other button is that close. Never at seams, never in the calendar.
-- Exit keeps its large invisible zone. The dot is unchanged from 045.
+- Exit keeps its large invisible zone. While reading it reaches a little lower (y 228), so a drifting pinch still exits. The dot is unchanged from 045.
+- Below a button the forgiving space is 12 mm, elsewhere 7 mm.
+- Critic: 5/10 twice. Released below the 8/10 bar because Bastian chose "Ship 046 anyway" rather than record diagnostics. See BUILD_046_REVIEW.md.
+- If buttons still fail, ask once for ?pointerDiagnostics=1 test details. Suspects: gesture readiness gates, the hand-in-view cone when lying down, and drift before the pinch registers.
 - The look-back choice is still recorded in diagnostics for later tuning.
 
 Not tried on a Quest. Branch build-046-reliable-select.

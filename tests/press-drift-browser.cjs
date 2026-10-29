@@ -58,7 +58,9 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.menuPage), 'notes', 'the pinch did not select the highlighted button');
     assert.deepEqual(errors, []);
-    passed(`press: the pinch selects exactly the highlighted button ${lying ? 'lying' : 'upright'}`);
+    // Documented trade-off (Build 046): a 29 mm drift that ends on the row below selects that row,
+    // as in 043. The highlight shows it before release; 045's look-back guarded this.
+    passed(`press: the pinch selects exactly the highlighted button, including after drift onto the row below ${lying ? 'lying' : 'upright'}`);
     await p.close();
   }
 
@@ -107,8 +109,11 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   {
     const { p } = await open('home');
     const bs = await buttons(p), R = bs.find(b => b.id === 'home-resume');
-    await p.evaluate(({ R }) => { __hand(.06); __aimPx(R.x + 400, R.y - 20); for (let t = 0; t < 400; t += 15) __step(15); }, { R });
-    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.target), 'home-resume', '7 mm above Resume did not hover it');
+    await p.evaluate(({ R }) => { __hand(.06); __aimPx(R.x + 400, R.y - 14); for (let t = 0; t < 400; t += 15) __step(15); }, { R });
+    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.target), 'home-resume', '5 mm above Resume did not hover it');
+    const T = bs.find(b => b.id === 'home-today');
+    await p.evaluate(({ T }) => { __aimPx(T.x + T.w / 2, T.y + T.h + 28); for (let t = 0; t < 400; t += 15) __step(15); }, { T });
+    assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.target), 'home-today', '10 mm below Today did not hover it');
     passed('press: a point just beside a button hovers and selects it');
     await p.close();
   }
@@ -129,7 +134,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   // Spec geometry, computed here from the surfaces, not read from the app.
   const PLACE = { x: (2048 - 600 * 2048 / 720) / 2, y: (2560 - 240 * 2048 / 720) / 2, w: 600 * 2048 / 720 };
   const expectDisc = async (p, screen) => {
-    if (screen === 'reading') return { cx: 1960, cy: 88, bottom: 200 };
+    if (screen === 'reading') return { cx: 1960, cy: 88, bottom: 260 };
     if (screen === 'placement') return { cx: PLACE.x + PLACE.w - 88, cy: PLACE.y - 88, bottom: PLACE.y };
     const bs = (await buttons(p)).filter(b => b.id !== 'global-exit');
     const top = Math.min(...bs.map(b => b.y)); // card top lies above its first control
@@ -151,7 +156,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     // Aim at the circle's upper or lower half, then the 29 mm drift.
     // Upper half with a 29 mm drift, or lower half with a 21 mm drift: both
     // stay inside the generous zone, so Exit is still highlighted at the press.
-    await p.evaluate(({ d, part }) => __driftPress(d.cx, part === 'upper' ? d.cy - 30 : d.cy + 20, part === 'upper' ? 82 : 60), { d, part });
+    await p.evaluate(({ d, part, screen }) => __driftPress(d.cx, part === 'upper' ? d.cy - 30 : d.cy + (screen === 'reading' ? 44 : 20), part === 'upper' ? 82 : screen === 'reading' ? 82 : 60), { d, part, screen });
     assert.equal(await p.evaluate(() => __mock.session.ended), true, `${screen}: drifting press from the ${part} half of Exit did not leave`);
     assert.equal(await p.locator('#place').textContent(), before);
     passed(`exit: drifting pinch from the ${part} half of the circle leaves from ${screen}`);
@@ -160,8 +165,8 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   // While an Exit press is held outside menus, the dot shows the chosen point.
   {
     const { p } = await open('reading');
-    const held = await p.evaluate(() => __driftPress(1960, 100, 60, { release: false }));
-    assert.ok(held && held.look === 'press' && held.y >= 88 - 200 && held.y <= 200, `held Exit dot ${JSON.stringify(held)}`);
+    const held = await p.evaluate(() => __driftPress(1960, 132, 82, { release: false }));
+    assert.ok(held && held.look === 'press' && held.y >= 88 - 200 && held.y <= 260, `held Exit dot ${JSON.stringify(held)}`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => __mock.session.ended), true);
     passed('exit: a held press shows the chosen point in the press look while reading');
@@ -207,7 +212,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
   {
     const { p } = await open('reading');
     const before = await p.locator('#place').textContent();
-    await p.evaluate(() => __driftPress(1900, 260, 0, { restMs: 900 }));
+    await p.evaluate(() => __driftPress(1900, 320, 0, { restMs: 900 }));
     assert.notEqual(await p.evaluate(() => __mock.session.ended), true, 'a reading pinch below the zone left the cabin');
     assert.notEqual(await p.locator('#place').textContent(), before, 'reading pinch below the zone did not turn the page');
     passed('exit: a reading pinch below the zone turns the page');
