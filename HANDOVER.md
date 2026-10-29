@@ -1,6 +1,6 @@
-## 29 October 2026 — Build 037.1 approved and implemented; verification in progress
+## 29 October 2026 — Build 037.1 released and live verified
 
-Bastian said "go" to the pointer proposal. Shared page point/held press, page-mm adaptive filter, native ray default, optional comparison diagnostics implemented. 155 unit/source checks and 20 focused synthetic browser checks pass. Independent critic's reading-ray and stale/overflow findings fixed; final regression/critic/release pending. See BUILD_037_1_REVIEW.md. Next remains approved Build 038 wrist/hand scope, then full Apple design round. No Quest testing claimed.
+Bastian said "go" to the pointer proposal. Shared page point/held press, page-mm adaptive filter, native ray default, optional comparison diagnostics implemented. 155 unit/source checks, broader 163/163 browser run and final 20 focused synthetic browser checks pass. Independent critic 8.5/10, release recommended after fixes. Code b577211 pushed to build-037-pointer-fix and phase-1-gestures; live ?v=37.1 index/style/all 31 JS modules match reviewed source. See BUILD_037_1_REVIEW.md. Next remains approved Build 038 wrist/hand scope, then full Apple design round. No Quest testing claimed.
 
 ---
 ## 29 October 2026 — pointer investigated; awaiting design approval (historical)

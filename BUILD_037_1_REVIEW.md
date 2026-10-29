@@ -21,4 +21,4 @@ Separate agent wrote none of the code. Round 1 found a P2: a missing aim ray inc
 
 ## Release
 
-Pending final tests, critic confirmation, secret scans, commit/push and live file comparison. v37.1 / BUILD 037.1 / gestures-037.1, branch build-037-pointer-fix. No main or phase-0 branch changes.
+Code commit b577211 pushed to build-037-pointer-fix and phase-1-gestures after staged/committed secret scans passed (27 files). Live https://p0champ.github.io/bradbury-cabin/?v=37.1 verified: index, style and all 31 JavaScript modules match reviewed local files (line endings normalised). v37.1 / BUILD 037.1 / gestures-037.1. No main or phase-0 branch changes. No Quest testing.
