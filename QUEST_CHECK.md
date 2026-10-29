@@ -1,3 +1,11 @@
+# Build 036 — add to the combined end check
+
+1. ?v=36, BUILD 036. Open the menu: a faint beam from your hand ending in a soft dot. Does the beam reach exactly to the page (not short, not through it)? Is the bright end at the page?
+2. While reading: no beam. Hand markers are small glass discs with one chevron; readable in your room?
+3. Page turns feel smooth (slight breath, no jump); menus open with a soft fade.
+4. After a few visits the instruction lines at the bottom are gone.
+
+---
 # Build 035 — add to the combined end check
 
 1. ?v=35, BUILD 035. Enter: the page should appear as a rounded window, fading in with "Good evening." and a line about today. No book leaves.

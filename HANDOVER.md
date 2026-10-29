@@ -1,3 +1,10 @@
+# Build 036 — pointer, glass markers, smoother, quieter (29 October 2026)
+
+**Built:** faint-beam + soft-dot pointer in menus; frosted glass hand markers with one chevron; 160 ms view fades (page turns barely breathe); instruction lines vanish after three visits; Apple-style grouped-list menus. Design agreed with Bastian before building. See BUILD_036_REVIEW.md.
+
+**Verification:** 155 unit, 148/148 browser; critic 7 -> 8.5/10. Not on Quest yet; check the beam length really follows the page (mutable layer height).
+
+---
 # Build 035 — rounded window, greeting intro, Today first (29 October 2026)
 
 **Built:** after Bastian said 034 still felt "more Android than Apple": the page is a rounded floating window; the book-cover leaf intro is replaced by a fade-in with a short greeting; every entry opens on Today when the three exist (hold a pinch to continue reading); hover is a visionOS-style lift instead of a green ring. See BUILD_035_REVIEW.md.
