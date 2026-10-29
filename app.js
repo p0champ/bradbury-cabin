@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=43";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=44";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=43";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=43";
-import { HandBadges } from "./hand-badges.js?v=43";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=43";
-import { LIBRARY } from "./library.js?v=43";
-import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=43";
-import { layoutReading } from "./reading-flow.js?v=43";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=43";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=43";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=43";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=43";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=43";
-import { parsePicks, pickLabels } from "./picks.js?v=43";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=43";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=43";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=43";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=43";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=43";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=43";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=43";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=43";
-import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=43";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=43";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=43";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=43";
-import { EntrySound } from "./entry-sound.js?v=43";
+} from "./gestures.js?v=44";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=44";
+import { HandBadges } from "./hand-badges.js?v=44";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=44";
+import { LIBRARY } from "./library.js?v=44";
+import { pageForAnchor, loadReading, saveReading } from "./reader.js?v=44";
+import { layoutReading } from "./reading-flow.js?v=44";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=44";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=44";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=44";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=44";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=44";
+import { parsePicks, pickLabels } from "./picks.js?v=44";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=44";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=44";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=44";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=44";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=44";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=44";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=44";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=44";
+import { Pointer, rayOnPage, PageAimFilter } from "./pointer.js?v=44";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=44";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced } from "./theme.js?v=44";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=44";
+import { EntrySound } from "./entry-sound.js?v=44";
 import {
   readProgress,
   saveProgress,
@@ -44,13 +44,16 @@ import {
   validProgress,
   dateKey,
   parseKey,
-} from "./progress.js?v=43";
+  canonicalWorkId,
+  markWorkRead,
+  workRead,
+} from "./progress.js?v=44";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=43";
+} from "./calendar.js?v=44";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -182,10 +185,22 @@ function rebuildWorks(openId = null) {
   carriedWorks = open ? [{ ...open, today: false }] : [];
   WORKS.length = 0;
   WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...shelfWorks.filter((w) => !todayWorks.some((t) => t.id === w.id)), ...LIBRARY);
+  for (const id of Object.keys(progress.completedWorks || {})) {
+    const completed = SOURCE_CATALOGUE.find(w => w.id === id);
+    if (completed && !WORKS.some(w => w.id === id)) WORKS.push(completed);
+  }
 }
 // The Library lists the sampler, today's three and the starter shelf; earlier
 // days live on Your shelf instead.
-const libraryWorks = () => WORKS.filter((w) => !w.shelfDate && !carriedWorks.includes(w));
+const libraryWorks = () => {
+  const seen = new Set();
+  return WORKS.filter(w => {
+    const id = canonicalWorkId(w);
+    if (w.shelfDate || carriedWorks.includes(w) || seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+};
 // Adds an earlier day's work, by the id it had that day, if the catalogue
 // holds it. Returns the work or null.
 function addShelfWork(id) {
@@ -321,12 +336,36 @@ let gazeRing = null;
 let pointer = null;
 // Each hand owns a single displayed hit and a press snapshot (including misses).
 const rayFilters = new Map(), heldTargets = new Map();
+const exitAims = new Map(), exitPresses = new Map();
+let exitHover = false;
+const PLACE_FRAME = {x: (2048-600*2048/720)/2, y:(2560-240*2048/720)/2, w:600*2048/720, h:240*2048/720};
+function exitRect() {
+  const b = state.centering ? PLACE_FRAME : state.menuOpen || state.arriving ? navigationModel().bounds : {x:0,y:200,w:2048,h:2360};
+  return {id:"global-exit",x:b.x+b.w-160,y:b.y-180,w:160,h:160};
+}
+function overExit(ray) {
+  const p=pagePoint(ray), b=exitRect();
+  return !!p && p.x>=b.x && p.x<=b.x+b.w && p.y>=b.y && p.y<=b.y+b.h;
+}
+function leaveExperience() {
+  rememberPlace();
+  ending=true;
+  state.session?.end();
+}
+const headPresses = new Map();
 const wristPresses = new Map();
 let pointerRevision = 0, pointerScreen = null;
 // Explicit opt-in only; bounded local traces travel with the existing export.
 const pointerDiagnosticsEnabled = new URLSearchParams(location.search).get("pointerDiagnostics") === "1";
 const pointerDiagnostics = [];
-function recordPointerAim(source, ray, filtered, viewer, index, thumb, time) {
+let nativeQuadUpload = null;
+function nativeQuadGeometry() {
+  if (!quad) return null;
+  return { width: quad.width, height: quad.height,
+    transform: quad.transform?.matrix ? Array.from(quad.transform.matrix) : null,
+    upload: nativeQuadUpload };
+}
+function recordPointerAim(source, ray, filtered, viewer, index, thumb, time, shown = filtered) {
   if (!pointerDiagnosticsEnabled) return;
   const display = presentPose();
   const raw = rayOnPage(ray, display, PAGE.metresWide, PAGE.metresHigh);
@@ -342,12 +381,26 @@ function recordPointerAim(source, ray, filtered, viewer, index, thumb, time) {
     pinch = rayOnPage({ matrix }, display, PAGE.metresWide, PAGE.metresHigh);
   }
   const mm = h => h ? [h.local.x * 1000, h.local.y * 1000] : null;
+  let actualQuadPoint = null;
+  if (shown && quad?.transform && quad.width > 0 && quad.height > 0) {
+    const p = new DOMPoint(shown.point.x, shown.point.y, shown.point.z)
+      .matrixTransform(new DOMMatrix(quad.transform.matrix).inverse());
+    const requestedPx = [(shown.local.x / PAGE.metresWide + .5) * PAGE.width,
+      (.5 - shown.local.y / PAGE.metresHigh) * PAGE.height];
+    const actualPx = [(p.x / quad.width + .5) * PAGE.width,
+      (.5 - p.y / quad.height) * PAGE.height];
+    actualQuadPoint = { requestedPx, actualPx,
+      deltaPx: actualPx.map((v, i) => v - requestedPx[i]), planeDepthMm: p.z * 1000 };
+  }
   pointerDiagnostics.push({ time, hand: source.handedness, revision: pointerRevision,
-    nativeMm: mm(raw), filteredMm: mm(filtered), headThroughPinchMm: mm(pinch) });
+    nativeMm: mm(raw), filteredMm: mm(filtered), shownMm: mm(shown),
+    headThroughPinchMm: mm(pinch), actualQuadPoint, nativeQuad: nativeQuadGeometry() });
   if (pointerDiagnostics.length > 600) pointerDiagnostics.shift();
 }
 function cancelPointerPresses(reason = "pointer-context-change") {
+  exitAims.clear(); exitPresses.clear();
   pointerRevision++;
+  headPresses.clear();
   wristPresses.clear();
   for (const source of heldTargets.keys()) gestures.cancel(source, reason, lastFrameTime);
   heldTargets.clear();
@@ -419,7 +472,7 @@ const HOME_ROUTES = ["today", "shelf", "shelfday", "library"];
 function homeOptions(route = state.menuPage) {
   const today = todayKey(), facts = todayFacts(new Date(), progress, today);
   const personal = personalFor(progress.days[today], todayWorks);
-  const statuses = Object.fromEntries(todayWorks.map(w => [w.id, workStatus(w, progress, today, reading.places)]));
+  const statuses = Object.fromEntries(WORKS.map(w => [w.id, workRead(progress,w) ? "Read ✓" : reading.places[w.id]?.page > 0 ? "In progress" : ""]));
   const options = { tab: route === "shelf" || route === "shelfday" || route === "library" ? "shelf" : "today",
     works: todayWorks, currentId: state.workId, statuses, hover: state.hover,
     resume: workById(state.workId), dateline: facts.dateline + (facts.read ? ` · ${facts.read} of 3 read` : ""),
@@ -433,7 +486,7 @@ function homeOptions(route = state.menuPage) {
     options.page = state.shelfPage;
     if (days[0] !== shelfTop) { if(shelfTop !== undefined) state.hover=null; shelfTop=days[0]; }
   } else if (route === "shelfday") {
-    options.entries = resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE).map(e => ({ ...e,
+    options.entries = resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE).map(e => ({ ...e, read: e.read || (e.work && workRead(progress,e.work)),
       work: e.work ? {...e.work,id:`today-${state.shelfDay}-${e.kind}-${e.work.id}`} : null }));
     options.dayLabel = new Date(`${state.shelfDay}T12:00:00`).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
   } else if (route === "library") {
@@ -457,7 +510,7 @@ function navigationModel() {
   }
   const work=workById(state.workId),today=todayKey(),personal=personalFor(progress.days[today],todayWorks);
   const options={page,view:calendarView,progress,today,hover:state.hover,notice:progressNotice,
-    work,next:nextUnread(todayWorks,work,progress,today),read:progress.days[today]?.[work.kind]===true,
+    work,next:nextUnread(todayWorks,work,progress,today),read:workRead(progress,work),
     allRead:todayFacts(new Date(),progress,today).allRead,thread:personal.thread,
     notes:[personal.dedication,personal.thread,picksNotice,driveNote()].filter(Boolean),notesPage:state.notesPage,
     title:"Today’s notes"};
@@ -528,16 +581,8 @@ function paint() {
     loadTodayCache();
     rebuildWorks(state.workId);
   }
-  // At midnight yesterday's three stop being Today: fall back to Your shelf.
-  if (state.menuOpen && state.menuPage === "closing" && !todayWorks.some((w) => w.id === state.workId)) {
-    // Yesterday's three now belong on the shelf. A pinch already under way
-    // must not choose a shelf row instead.
-    state.menuPage = "shelf";
-    state.shelfPage = 0;
-    state.todayReveal = null;
-    state.hover = null;
-    dayOpenedAt = lastFrameTime;
-  }
+  // Completion belongs to the actual open edition, including an archived
+  // work or yesterday's reading carried across midnight.
   syncPointerScreen();
   canvas.dataset.view = state.arriving
     ? "arrival"
@@ -587,7 +632,7 @@ function paint() {
     ink = palette.ink,
     muted = palette.muted;
   ctx.clearRect(0, 0, PAGE.width, PAGE.height);
-  if (!state.menuOpen && !state.arriving) { ctx.fillStyle = bg; ctx.fillRect(0, 0, PAGE.width, PAGE.height); }
+  if (!state.menuOpen && !state.arriving && !state.centering) { ctx.fillStyle = bg; ctx.fillRect(0, 0, PAGE.width, PAGE.height); }
   // Navigation owns its heading; the book retains its quiet running head.
   if (!state.menuOpen && !state.centering && !state.arriving && !state.practice) {
   // A quiet running head, like a book's: the cabin on the left, the work on
@@ -601,11 +646,11 @@ function paint() {
   {
     const w = workById(state.workId);
     let title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
-    while (title.length > 8 && ctx.measureText(title).width > 900) title = title.slice(0, -2).trimEnd() + "…";
-    if (!state.menuOpen && !state.centering && !state.arriving) ctx.fillText(title, 1868, 170);
+    while (title.length > 8 && ctx.measureText(title).width > 740) title = title.slice(0, -2).trimEnd() + "…";
+    if (!state.menuOpen && !state.centering && !state.arriving) ctx.fillText(title, 1690, 170);
     // Display only: which of today's three this is, and which are read.
     if (!state.menuOpen && !state.centering && !state.arriving && todayWorks.some((t) => t.id === w.id)) {
-      let x = 1868 - ctx.measureText(title).width - 56;
+      let x = 1690 - ctx.measureText(title).width - 56;
       for (const t of [...todayWorks].reverse()) {
         const current = t.id === w.id, read = progress.days[todayKey()]?.[t.kind] === true;
         ctx.font = `${current ? 44 : 34}px ${UI}`;
@@ -638,11 +683,14 @@ function paint() {
       ctx.textAlign = "left";
     }
   } else if (state.centering) {
-    ctx.fillStyle = ink; ctx.font = `500 82px ${UI}`;
-    ctx.fillText("Get comfortable.", 180, 650);
-    ctx.font = `45px ${UI}`;
-    ctx.fillText("Look where you want to read, then pinch and release.", 180, 830);
-    ctx.fillText("Or click your controller trigger once.", 180, 940);
+    const b=PLACE_FRAME;
+    ctx.fillStyle=NAV.bg; ctx.beginPath(); ctx.roundRect(b.x,b.y,b.w,b.h,70); ctx.fill();
+    ctx.fillStyle=ink; ctx.textAlign="center";
+    ctx.font=`500 82px ${UI}`;
+    ctx.fillText("Place your reading window",1024,1215);
+    ctx.font=`62px ${UI}`;
+    ctx.fillText("Look where you want it, then pinch.",1024,1360);
+    ctx.textAlign="left";
   } else if (state.practice) {
     ctx.fillStyle = ink;
     ctx.font = `500 76px ${UI}`;
@@ -711,7 +759,7 @@ function paint() {
       ctx.fillText(b.text, b.x ?? 194, b.y);
     }
   }
-  if (!state.menuOpen && !state.arriving) {
+  if (!state.menuOpen && !state.arriving && !state.centering) {
   ctx.fillStyle = muted;
   ctx.font = `32px ${UI}`;
   ctx.textAlign = "left";
@@ -757,6 +805,18 @@ function paint() {
   );
   ctx.textAlign = "left";
   }
+  const exit=exitRect();
+  canvas.dataset.buttons=JSON.stringify([...navigation.buttons,exit]);
+  canvas.dataset.exitRect=JSON.stringify(exit);
+  ctx.save();
+  ctx.fillStyle=exitHover?"#555957":"#303432";
+  ctx.beginPath();ctx.roundRect(exit.x,exit.y,exit.w,exit.h,40);ctx.fill();
+  ctx.strokeStyle="#f5f5f2";ctx.lineWidth=7;ctx.lineCap="round";
+  ctx.beginPath();ctx.arc(exit.x+80,exit.y+65,28,-Math.PI*.34,Math.PI*1.34);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(exit.x+80,exit.y+27);ctx.lineTo(exit.x+80,exit.y+62);ctx.stroke();
+  ctx.fillStyle="#f5f5f2";ctx.font=`500 32px ${UI}`;ctx.textAlign="center";
+  ctx.fillText("Exit",exit.x+80,exit.y+132);
+  ctx.restore();
   // A window, not a sheet: soft rounded corners, transparent beyond them.
   if (state.mode !== "texture") {
     ctx.globalCompositeOperation = "destination-in";
@@ -793,6 +853,9 @@ function presentPose() {
     ? menuPlacement || placement
     : placement;
 }
+function surfaceWidth(){return state.mode==="layer" && quad?.width>0 ? quad.width : PAGE.metresWide;}
+function surfaceHeight(){return state.mode==="layer" && quad?.height>0 ? quad.height : PAGE.metresHigh;}
+function surfacePose(){return state.mode==="layer" && quad?.transform ? quad.transform : presentPose();}
 function inFront() {
   return state.session && lastViewer
     ? new XRRigidTransform(
@@ -828,12 +891,30 @@ function openToday() {
   markTodayShown();
   paint();
 }
-// After the last page of one of today's works: a quiet closing page.
+// A deliberate NEXT beyond any work opens confirmation, never completion.
 function openClosing() {
-  if (!todayWorks.some((w) => w.id === state.workId)) return false;
+  if (!canonicalWorkId(workById(state.workId)) || !["poem","story","essay"].includes(workById(state.workId).kind)) return false;
   toggleMenu(true);
   state.menuPage = "closing";
   dayOpenedAt = lastFrameTime;
+  paint();
+  return true;
+}
+function finishReading() {
+  if (!state.menuOpen || state.menuPage !== "closing" || !dayInputAllowed(lastFrameTime, dayOpenedAt)) return false;
+  const work = workById(state.workId), canonical = canonicalWorkId(work);
+  const assignedDay = /^today-(\d{4}-\d{2}-\d{2})-/.exec(work.id)?.[1] || todayKey();
+  const changed = markWorkRead(progress, work, assignedDay);
+  const saved = !changed || storeProgress();
+  rememberPlace();
+  rebuildWorks(state.workId);
+  const works = libraryWorks(), index = works.findIndex(w => canonicalWorkId(w) === canonical);
+  state.menuPage = "library";
+  state.homeTab = "shelf";
+  state.libraryPage = Math.max(0,Math.floor(index / 3));
+  state.hover = null;
+  dayOpenedAt = lastFrameTime;
+  feedback(saved ? `${work.title} marked as read` : "Marked as read · could not save on this headset");
   paint();
   return true;
 }
@@ -890,10 +971,7 @@ function practiceDone() {
 // "menu" or "select".
 function gestureEvent(event) {
   if (event.type === "center") {
-    placement = new XRRigidTransform(
-      placedPose(lastViewer.matrix).position,
-      lastViewer.orientation,
-    );
+    placement = event.placement || lastDisplay || placement;
     state.centering = false;
     state.practice = false;
     state.menuOpen = false;
@@ -919,6 +997,12 @@ function gestureEvent(event) {
   }
   if (state.centering || state.arriving) return "blocked-before-reading";
   if (!event) return null;
+  if (state.menuOpen && state.menuPage === "closing" && event.type === "page") {
+    const direction = event.direction || ((event.hand === "right") !== state.swapped ? "next" : "prev");
+    if (direction === "next") return finishReading() ? "finished" : null;
+    action("end-back");
+    return "reading";
+  }
   if (event.type === "menu") {
     if (state.practice) {
       state.practiceMarks.menu = true;
@@ -985,6 +1069,7 @@ function gestureEvent(event) {
   return id === "next" ? "last-page" : "first-page";
 }
 function action(id) {
+  if(id==="global-exit"){leaveExperience();return;}
   if (navigationAction(id)) return;
   if (id === "welcome-begin" || id === "welcome-continue" || id === "welcome-menu") {
     if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
@@ -1189,13 +1274,7 @@ function action(id) {
     return;
   }
   if (id === "end-mark") {
-    // Never automatic, and guarded: the pinch that turned the last page
-    // must not also mark the work as read.
-    if (!dayInputAllowed(lastFrameTime, dayOpenedAt)) return;
-    const today = todayKey();
-    if (toggleTick(progress, today, workById(state.workId).kind, today)) storeProgress();
-    dayOpenedAt = lastFrameTime;
-    paint();
+    finishReading();
     return;
   }
   if (id === "end-next") {
@@ -1333,7 +1412,7 @@ $("progress-file").onchange = async (e) => {
 };
 $("export").onclick = () => {
   const data = {
-    build: "gestures-043",
+    build: "gestures-044",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1376,7 +1455,7 @@ $("export").onclick = () => {
     gazeTurn: { enabled: state.gazeTurn, error: state.gazeError || null },
     pointer: { error: state.pointerError || null,
       aim: "native-page-plane", diagnosticsEnabled: pointerDiagnosticsEnabled,
-      samples: pointerDiagnostics },
+      samples: pointerDiagnostics, nativeQuad: nativeQuadGeometry() },
     ambience: { setting: state.ambience, ...ambience.status() },
     mood: state.mood,
     wristCalendar: {
@@ -1445,7 +1524,7 @@ function applyLayers() {
   } else session.updateRenderState({ baseLayer: base });
 }
 // Where a head/ray transform meets the displayed page, in canvas pixels.
-function pagePoint(transform, display = presentPose()) {
+function pagePoint(transform, display = surfacePose()) {
   if (!display || !transform) return null;
   const inv = display.inverse.matrix,
     m = transform.matrix;
@@ -1455,12 +1534,12 @@ function pagePoint(transform, display = presentPose()) {
   const t = -origin.z / direction.z;
   if (t < 0) return null;
   return {
-    x: ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
-    y: (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
+    x: ((origin.x + direction.x * t) / surfaceWidth() + 0.5) * PAGE.width,
+    y: (0.5 - (origin.y + direction.y * t) / surfaceHeight()) * PAGE.height,
   };
 }
 function hit(transform) {
-  const display = presentPose();
+  const display = surfacePose();
   if (!state.menuOpen || !display || !transform) return null;
   const inv = display.inverse.matrix,
     m = transform.matrix;
@@ -1474,20 +1553,23 @@ function hit(transform) {
   const t = -origin.z / direction.z;
   if (t < 0) return null;
   return panelHit(
-    ((origin.x + direction.x * t) / PAGE.metresWide + 0.5) * PAGE.width,
-    (0.5 - (origin.y + direction.y * t) / PAGE.metresHigh) * PAGE.height,
+    ((origin.x + direction.x * t) / surfaceWidth() + 0.5) * PAGE.width,
+    (0.5 - (origin.y + direction.y * t) / surfaceHeight()) * PAGE.height,
   );
 }
 // Hit-test the current menu panel: fixed menu pages or the live calendar.
 function panelHit(x, y) {
+  const e=exitRect();
+  if(x>=e.x&&x<=e.x+e.w&&y>=e.y&&y<=e.y+e.h)return "global-exit";
   return navigationModel().buttons.find(b => !b.disabled && x >= b.x && x <= b.x+b.w && y >= b.y && y <= b.y+b.h)?.id || null;
 }
 function insideNavigation(hit) {
   if (!hit) return false;
   const b = navigationModel().bounds;
-  const x = (hit.local.x/PAGE.metresWide+.5)*PAGE.width;
-  const y = (.5-hit.local.y/PAGE.metresHigh)*PAGE.height;
-  return x>=b.x && x<=b.x+b.w && y>=b.y && y<=b.y+b.h;
+  const x = (hit.local.x/surfaceWidth()+.5)*PAGE.width;
+  const y = (.5-hit.local.y/surfaceHeight())*PAGE.height;
+  const e=exitRect();
+  return (x>=b.x && x<=b.x+b.w && y>=b.y && y<=b.y+b.h) || (x>=e.x&&x<=e.x+e.w&&y>=e.y&&y<=e.y+e.h);
 }
 
 function cleanSession() {
@@ -1519,6 +1601,7 @@ function cleanSession() {
   gazeDwell.reset();
   quad?.destroy();
   quad = null;
+  nativeQuadUpload = null;
   if (projectionRoute) base?.destroy();
   projectionRoute = false;
   gpu?.dispose();
@@ -1643,10 +1726,11 @@ async function enter() {
       gazeRing = new GazeRing(binding, ref, (error) => {
         state.gazeError = error.message;
       });
-    if (quad)
       pointer = new Pointer(binding, ref, (error) => {
         state.pointerError = error.message;
+        layerDirty=true;dirty=true;
       });
+    pointer.setSurface(quad,canvas);
     if (quad)
       wristWatch = new WristWatch(binding, ref, (error) => {
         state.watchError = error.message;
@@ -1695,6 +1779,10 @@ async function enter() {
           return;
         }
         const aim = heldTargets.get(e.inputSource);
+        if(kind==="selectstart" && exitAims.get(e.inputSource))
+          exitPresses.set(e.inputSource,{revision:pointerRevision,time,placement:lastDisplay});
+        if (kind === "selectstart" && state.menuOpen && state.headPointer)
+          headPresses.set(e.inputSource, { target: state.hover, revision: pointerRevision });
         if (kind === "selectstart" && state.menuOpen && !state.headPointer && aim) {
           aim.press ||= { hit: aim.hit, target: aim.target, revision: pointerRevision };
           aim.nativeHeld = true;
@@ -1707,6 +1795,9 @@ async function enter() {
           visible: session.visibilityState === "visible",
           revision: pointerRevision,
           press: aim?.press || null,
+          headPress: headPresses.get(e.inputSource) || null,
+          exitPress: exitPresses.get(e.inputSource) || null,
+          placement: state.centering ? lastDisplay : null,
           wrist: !!wristWatch?.showingFor(e.inputSource.handedness),
         });
         if (nativeQueue.length > 60) {
@@ -1720,6 +1811,7 @@ async function enter() {
         gestures.cancel(source, "source-removed");
         rayFilters.delete(source);
         heldTargets.delete(source);
+        headPresses.delete(source);
         wristPresses.delete(source);
         nativeQueue = nativeQueue.filter((e) => e.source !== source);
       }
@@ -1819,7 +1911,7 @@ function frame(time, xrFrame, generation) {
         placeAtArrival = readingPlace();
         // Keep the welcome at the chosen position, even if the head moved
         // during the fade. Its first usable frame must not dip again.
-        openWelcome(pageArrivalPose(arrivalAnchor, 1));
+        openWelcome(placement);
       }
       const sessionVisible = session.visibilityState === "visible";
       const attentive =
@@ -1833,6 +1925,12 @@ function frame(time, xrFrame, generation) {
       }
       if ((state.menuOpen || state.practice) && !menuPlacement)
         menuPlacement = inFront();
+      if(quad && lastDisplay!==presentPose()) {
+        quad.transform=presentPose();
+        lastDisplay=presentPose();
+        canvas.dataset.panelPose=JSON.stringify(Array.from(lastDisplay.matrix));
+      }
+      pointer?.setSurface(quad,canvas,{metresWide:surfaceWidth(),metresHigh:surfaceHeight()});
       syncPointerScreen();
       const framePointerRevision = pointerRevision;
       const activeSources = new Set(session.inputSources);
@@ -1841,14 +1939,20 @@ function frame(time, xrFrame, generation) {
           gestures.cancel(source, "source-removed");
           gestures.hands.delete(source);
           heldTargets.delete(source);
+          headPresses.delete(source);
           rayFilters.delete(source);
         }
       const targets = new Map(),
         samples = [];
+      exitAims.clear();
       let watchSample = null, watchSafe = false, watchSuppressed = false;
       const pointerRays = [];
       for (const source of session.inputSources) {
-        if (!source.hand) continue;
+        if (!source.hand) {
+          const ray=state.headPointer?pose.transform:xrFrame.getPose(source.targetRaySpace,ref)?.transform;
+          exitAims.set(source,sessionVisible&&!pose.emulatedPosition&&!source.skipRendering&&overExit(ray));
+          continue;
+        }
         const joint = (name) => {
           const space = source.hand.get(name);
           return space ? xrFrame.getJointPose(space, ref) : null;
@@ -1929,7 +2033,8 @@ function frame(time, xrFrame, generation) {
         const open = button ? !button.pressed : distance > 0.028;
         samples[samples.length - 1].systemGesture ||= !attentive || (tracked && !handInView);
         const physicallySafe = attentive && handInView && !systemGesture && !glancing;
-        const handMenuAim = state.menuOpen && !state.headPointer;
+        exitAims.set(source, (state.centering ? sessionVisible && handInView && !systemGesture : physicallySafe) && overExit(rawRay));
+        const handMenuAim = (state.menuOpen || exitAims.get(source)) && !state.headPointer;
         let target = null;
         if (!physicallySafe || (handMenuAim && !rawRay)) {
           heldTargets.delete(source);
@@ -1939,14 +2044,13 @@ function frame(time, xrFrame, generation) {
           if (handMenuAim) gestures.cancel(source, "pointer-tracking-or-attention-lost", time);
         } else if (handMenuAim) {
           if (!rayFilters.has(source)) rayFilters.set(source, new PageAimFilter());
-          const rawHit = rayOnPage(rawRay, presentPose(), PAGE.metresWide, PAGE.metresHigh);
+          const rawHit = rayOnPage(rawRay, surfacePose(), surfaceWidth(), surfaceHeight());
           const freshHit = insideNavigation(rawHit)
-            ? rayFilters.get(source).update(rawRay, presentPose(), PAGE.metresWide, PAGE.metresHigh, time)
+            ? rayFilters.get(source).update(rawRay, surfacePose(), surfaceWidth(), surfaceHeight(), time)
             : (rayFilters.get(source).reset(), null);
-          recordPointerAim(source, rawRay, freshHit, pose.transform, a, b, time);
           const freshTarget = freshHit ? panelHit(
-            (freshHit.local.x / PAGE.metresWide + 0.5) * PAGE.width,
-            (0.5 - freshHit.local.y / PAGE.metresHigh) * PAGE.height) : null;
+            (freshHit.local.x / surfaceWidth() + 0.5) * PAGE.width,
+            (0.5 - freshHit.local.y / surfaceHeight()) * PAGE.height) : null;
           let aim = heldTargets.get(source);
           if (!aim) { aim = { hit: freshHit, target: freshTarget, press: null, nativeHeld: false }; heldTargets.set(source, aim); }
           // Finger spacing is not a press: Quest calibrates its own pinch.
@@ -1955,6 +2059,7 @@ function frame(time, xrFrame, generation) {
           if (!aim.nativeHeld) aim.press = null;
           if (!aim.press) { aim.hit = freshHit; aim.target = freshTarget; }
           const shown = aim.press || aim;
+          recordPointerAim(source, rawRay, freshHit, pose.transform, a, b, time, shown.hit);
           target = shown.target;
           pointerRays.push({ source, hand: source.handedness, hit: shown.hit,
             look: target ? (aim.press ? "press" : "ring") : "dot" });
@@ -2004,6 +2109,8 @@ function frame(time, xrFrame, generation) {
           rayFilters.delete(input.source);
           targets.delete(input.source);
           wristPresses.delete(input.source);
+          headPresses.delete(input.source);
+          exitPresses.delete(input.source);
           // This frame's pointer was prepared before event validation.
           if (pointer?.clearVisible()) applyLayers();
           gestures.note({
@@ -2014,6 +2121,15 @@ function frame(time, xrFrame, generation) {
             time: input.time,
             eventSource: "native-select",
           });
+          continue;
+        }
+        if(input.exitPress) {
+          gestures.cancel(input.source,"exit-control",time);
+          const valid=input.revision===pointerRevision && input.exitPress.revision===pointerRevision &&
+            input.visible && sessionVisible && !pose.emulatedPosition && !input.source.skipRendering &&
+            (state.headPointer ? overExit(pose.transform) : overExit(input.ray));
+          if(input.kind==="select" && valid && input.time-input.exitPress.time<HOLD_MS)leaveExperience();
+          if(input.kind==="select"||input.kind==="selectend")exitPresses.delete(input.source);
           continue;
         }
         if (input.wrist || wristPresses.has(input.source)) {
@@ -2064,22 +2180,27 @@ function frame(time, xrFrame, generation) {
             };
             if (allowed) {
               gestures.record(entry);
-              entry.outcome = gestureEvent({ type: "center" });
+              entry.outcome = gestureEvent({ type: "center", placement:input.placement });
             } else gestures.note(entry);
           }
           continue;
         }
         // What you see is what you pick: hands use the steadied, held target
-        // the dot shows; controllers and the head pointer keep their own ray.
-        if (input.revision !== pointerRevision || (state.menuOpen && input.source.hand && !state.headPointer &&
+        // the dot shows; head input holds the last displayed highlight too.
+        const finishing=state.menuOpen && state.menuPage==="closing";
+        if (input.revision !== pointerRevision || (state.menuOpen && !finishing && input.source.hand && !state.headPointer &&
             (!heldTargets.has(input.source) || !input.press || input.press.revision !== pointerRevision))) {
           gestures.cancel(input.source, "pointer-press-invalidated", time);
           continue;
         }
-        const target = !state.menuOpen
+        const closingPointed=input.press?.target || input.headPress?.target;
+        const target = finishing
+          ? (["end-mark","end-back"].includes(closingPointed) ? closingPointed :
+            ((input.source.handedness==="right")!==state.swapped ? "end-mark" : "end-back"))
+          : !state.menuOpen
           ? null
           : state.headPointer
-            ? hit(pose.transform)
+            ? input.headPress?.revision === pointerRevision ? input.headPress.target : null
             : targets.has(input.source)
               ? input.press.target
               : hit(input.ray);
@@ -2088,6 +2209,7 @@ function frame(time, xrFrame, generation) {
         const rejectedStart = input.kind === "selectstart" &&
           (gestures.owner !== input.source || !gestures.hands.get(input.source)?.closed);
         if (rejectedStart || input.kind === "select" || input.kind === "selectend") {
+          headPresses.delete(input.source);
           const aim = heldTargets.get(input.source);
           if (aim) {
             aim.nativeHeld = false; aim.press = null;
@@ -2121,9 +2243,12 @@ function frame(time, xrFrame, generation) {
         if (pointer?.clearVisible()) applyLayers();
       }
       if (ending || state.session !== session || !gpu) return;
+      const nextExitHover=[...exitAims.values()].some(Boolean);
+      if(nextExitHover!==exitHover){exitHover=nextExitHover;paint();}
       let hover = null;
       if (state.menuOpen && attentive) {
-        if (state.headPointer) hover = hit(pose.transform);
+        if (state.headPointer) hover = gestures.owner && headPresses.has(gestures.owner)
+          ? headPresses.get(gestures.owner).target : hit(pose.transform);
         else if (gestures.owner) hover = targets.get(gestures.owner) || null;
         else
           hover =
@@ -2212,7 +2337,7 @@ function frame(time, xrFrame, generation) {
       // The old cover leaves are retired: the window simply fades in.
       if (arrival?.clearVisible()) applyLayers();
       const display = state.arriving
-        ? pageArrivalPose(arrivalAnchor, progress)
+        ? placement
         : presentPose();
       if (quad)
         quad.opacity = reducedMotion()
@@ -2230,12 +2355,14 @@ function frame(time, xrFrame, generation) {
       // never needs its texImage2D/mipmap path; retain dirty until B uses it.
       if (drawMode === "texture" && dirty) {
         gpu.upload(canvas);
+        pointer?.invalidate();
         checkGl(gl, "comparison source upload");
         dirty = false;
       }
       gl.disable(gl.DEPTH_TEST);
       gl.disable(gl.BLEND);
       if (drawMode === "texture") {
+        pointer?.drawProjection(gpu);
         const scale = new Float32Array(identity);
         scale[0] = PAGE.metresWide / 2;
         scale[5] = PAGE.metresHigh / 2;
@@ -2307,8 +2434,13 @@ function frame(time, xrFrame, generation) {
       if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
+        nativeQuadUpload = { viewport: { x: sub.viewport.x, y: sub.viewport.y,
+          width: sub.viewport.width, height: sub.viewport.height },
+          textureWidth: sub.textureWidth, textureHeight: sub.textureHeight,
+          imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
         gpu.copyPage(sub, canvas, { premultiplied: true });
+        pointer?.invalidate();
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";

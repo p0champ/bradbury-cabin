@@ -11,6 +11,17 @@ const originals = Object.fromEntries(["poem", "story", "essay"].map(k => [k, SOU
 const ref = k => ({ catalogueId: originals[k].id });
 const daily = (kinds = ["poem", "story", "essay"], date = "2026-10-28") => ({ version: 2, date, picks: Object.fromEntries(kinds.map(k => [k, ref(k)])) });
 const poem = "I wandered lonely as a cloud\n  That floats on high o'er vales and hills,\n\nContinuous as the stars that shine";
+test("Drive unions completed editions from older and newer copies without losing offline finishes", () => {
+  const tiger="william-blake-experience-the-tiger";
+  const local=base("2026-10-29T20:00:00Z",{}),remote=base("2026-10-28T20:00:00Z",{});
+  local.completedWorks={ [tiger]:"2026-10-28T19:00:00Z" };
+  remote.completedWorks={ [tiger]:"2026-10-27T19:00:00Z", "blake-sick-rose":"2026-10-28T19:00:00Z" };
+  const expected={ [tiger]:"2026-10-27T19:00:00Z", "blake-sick-rose":"2026-10-28T19:00:00Z" };
+  assert.deepEqual(mergeProgress(local,remote).completedWorks,expected);
+  assert.deepEqual(mergeProgress(remote,local).completedWorks,expected);
+  assert.deepEqual(local.completedWorks,{[tiger]:"2026-10-28T19:00:00Z"});
+  assert.deepEqual(mergeProgress(base("2026-10-29T20:00:00Z",{}),remote).completedWorks,remote.completedWorks);
+});
 test("Drive carries the complete maintained workflow first, replacing stale instructions without losing progress", () => {
   const progress = base("2026-10-28T20:00:00Z", { "2026-10-28": { poem: true } });
   progress.cabinPickerInstructions = { version: 1, workflow: "OLD TEXT IMPORT FORMAT" };

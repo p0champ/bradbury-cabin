@@ -204,28 +204,22 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     for (let i=0;i<20&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','closing'],
       `stuck at ${await p.locator('#page').getAttribute('data-work')} ${await p.locator('#page').getAttribute('data-section')} · ${await p.locator('#place').textContent()} · ${await p.locator('#status').textContent()} · ${(await p.evaluate(()=>__pageText)).slice(-4).join(' | ')}`);
-    assert.ok((await text()).includes('Mark as read today'));
-    assert.ok((await text()).includes('Next reading') && (await text()).replace(/\s+/g,' ').includes(story.title),'closing offers the actual next work');
+    assert.ok((await text()).includes('Mark as read'));
+    assert.ok((await text()).includes('Pinch NEXT again'),'completion clearly explains the second NEXT');
     await p.locator('#page').screenshot({path:path.join(out,`today-closing${night?'-night':''}.png`)});
-    // Nothing is ticked automatically, and the turning pinch cannot tick it.
-    // A quick repeat of the turning pinch (about 560 ms: the recognizer's 400 ms
-    // steadiness plus a short pinch, still under the app's 600 ms
-    // guard) must not mark the work; the same quick pinch later does.
-    await p.evaluate(()=>{window.__quick=()=>{__hand(0.05,'right');__step(420);__hand(0.012,'right');__native('selectstart','right');__step(120);__hand(0.05,'right');__native('select','right');__native('selectend','right');__step(16);};});
-    // The closing page opens in front of the reader, so aim at it first.
-    await p.evaluate(async()=>__aim('end-mark'));
-    assert.equal(await p.locator('#page').getAttribute('data-target'),'end-mark');
-    await p.evaluate(()=>__quick());
+    // Reaching the end is not completion. A queued release cannot confirm it;
+    // a separate, freshly started NEXT does so without pointing at a button.
     const ticks=()=>p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress'))?.days['2026-10-28']||{});
-    assert.notEqual((await ticks()).poem,true,'a quick repeated pinch cannot mark the work');
-    await p.evaluate(()=>{__step(700);__quick();});
-    assert.equal((await ticks()).poem,true,'Mark as read ticks today\'s poem');
-    assert.ok((await text()).includes('Read today'));
-    // A quick second pinch on the same target does not untick it again.
-    await p.evaluate(()=>__quick());
-    assert.equal((await ticks()).poem,true,'a double pinch keeps the tick');
-    await p.evaluate(()=>__step(700));
-    await p.evaluate(async()=>__aim('end-next'));await p.evaluate(()=>__pinch());
+    assert.notEqual((await ticks()).poem,true,'opening confirmation must not mark the work');
+    await p.evaluate(()=>{__native('select');__native('selectend');__step(16);});
+    assert.notEqual((await ticks()).poem,true,'an unpaired release cannot mark the work');
+    await p.evaluate(()=>{__step(700);__pinch();__step(700);});
+    assert.equal((await ticks()).poem,true,'fresh NEXT ticks today\'s exact poem');
+    assert.deepEqual(await view(),['menu','library']);
+    assert.ok((await text()).includes('Read ✓'),'Library shows immediate completion instead of Continue');
+    assert.ok(await p.evaluate(id=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks[id],poem.id),'canonical edition completion is saved');
+    await p.evaluate(async()=>{await __aim('home-today');__pinch();__step(700);});
+    await p.evaluate(async id=>{await __aim('home-work:'+id);__pinch();},`today-2026-10-28-story-${story.id}`);
     assert.equal(await p.locator('#page').getAttribute('data-work'),`today-2026-10-28-story-${story.id}`);
     assert.equal((await view())[0],'reading');
     // The main menu names Today, with how the day stands; More stays at index 6.
@@ -240,7 +234,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(()=>__hold());
     assert.equal((await view())[0],'reading');
     assert.deepEqual(errors,[]);await p.close();
-    passed(`Today appears once a day, opens a work, and the closing page marks it read and leads on${night?' (night)':''}`);
+    passed(`Today opens a work; a separate NEXT marks its exact edition and immediately shows it Read in Library${night?' (night)':''}`);
   }
   {
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
@@ -269,7 +263,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.ok(midnightButtons.includes('home-library'),'an empty new day still reaches the Library');
     assert.ok(!/stopped/.test(await p.locator('#status').textContent()),'the VR session keeps running');
     await p.locator('#page').screenshot({path:path.join(out,'today-midnight.png')});
-    // A starter-shelf work has no closing page; its last page stays put.
+    // Starter Library works use the same explicit completion as Today.
     await p.evaluate(()=>__step(700));
     await p.evaluate(async()=>__navigate('home-library'));await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','library']);
@@ -277,10 +271,13 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await aimLibrary(p,'blake-sick-rose');
     assert.equal(await p.locator('#page').getAttribute('data-target'),'home-work:blake-sick-rose');
     await p.evaluate(()=>__pinch());
-    for (let i=0;i<12;i++) await p.evaluate(()=>__pinch());
-    assert.equal((await view())[0],'reading','no closing page after a shelf work');
+    for (let i=0;i<12&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','closing'],'Library works also offer completion');
+    await p.evaluate(()=>{__step(700);__pinch();__step(700);});
+    assert.deepEqual(await view(),['menu','library']);
+    assert.ok(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']));
     assert.deepEqual(errors,[]);await p.close();
-    passed('Today row and Menu button lead where they say; Today survives midnight; shelf works have no closing page');
+    passed('Today tabs lead where they say; Today survives midnight; Library works finish explicitly');
   }
   {
     // Your shelf: earlier days from progress, by saved ID or exact label.
@@ -334,7 +331,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.deepEqual(await view(),['menu','shelfday']);
     assert.ok((await text()).includes('Not in the cabin'));
     await p.evaluate(()=>__step(700));
-    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=43');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
+    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=44');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
     assert.equal(await p.locator('#page').getAttribute('data-target'),'','an unchecked work is not a target');
     await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','shelfday']);

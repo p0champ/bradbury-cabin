@@ -1,3 +1,18 @@
+## 29 October 2026 — Build 044 tested/reviewed; release pending
+
+197 unit + source checks and 212/212 full synthetic desktop browser checks PASS. Independent critic round1 7.7 reject -> round2 8.3 accept after pointed closing-button priority fixed; no remaining P1/P2. Focused pointer28/repair15/guide15/personal6 also pass, actual WebGL native/projection pixel alignment/patch restoration/resampling covered. Actual placement/reading/Home/Settings captures reviewed. Branch build-044-selection-finish; need scans/commit/push and live verification. See BUILD_044_REVIEW.md and POINTER_044_INVESTIGATION.md. Same-texture pointer removes independent cursor quad; actual runtime geometry used when available. Proven head event race fixed, user's Quest vertical offset NOT physically verified. Centered manual placement freezes displayed pose, top-right Exit everyview, canonical idempotent synced Read via two fresh NEXT after finalpage (aimed button wins), immediate completed work visible in Library. No source texts/gesture recognizer/hitmap9/visible hand marker changes. Live remains043 until verified.
+
+---
+## 29 October 2026 — 044 implementation/review complete; final full tests in progress
+
+197 unit tests + source checks PASS. Focused pointer 28, repair 15, guide 15, personal 6 PASS. Independent critic rejected round1 7.7 for closing buttons overridden by hand direction; fixed with actual pointed button priority, independently verified, final round2 8.3 accepted bounded implementation subject to full suite. Actual placement/reading/Home/Settings captures reviewed. See BUILD_044_REVIEW.md and POINTER_044_INVESTIGATION.md. Current full run ../build-044-browser.log, app18168. Full GPU texture version can change during live cursor motion by design; stationary-base arrival assertion now checks immutable canvas pixels, separate readPixels test proves patch correctness/size/no idle uploads. No Quest claim. Need full suite completion, scans, commit/push build-044-selection-finish + phase-1-gestures, live verification ../verify-build-044.cjs, released record. Live remains043.
+
+---
+## 29 October 2026 — Build 044 repair in progress
+
+User reports responsive dot but selection below it/top controls unreachable; manual placement confirmed, short instruction must be in field of view. Separate designers and judge approved bounded repair: same-texture pointer with small pixel patches; proven head-mode event timing repair; permanent top-right Exit; centered manual placement retaining exact displayed pose; two distinct NEXT pinches beyond last page confirm canonical synced Read and reveal in Library. No guessed vertical offset and no claim of Quest verification. Branch build-044-selection-finish; live remains043. Storage helpers/tests implemented; app integration/browser tests/independent critic/release/live check pending. Preserve texts, gesture recognizer/hitmap9, right wrist and readable hand discs.
+
+---
 ## 29 October 2026 — Build 043 RELEASED/live verified; placement/welcome next with user questions
 
 Live https://p0champ.github.io/bradbury-cabin/?v=43 ; code39ef637 onbuild-043-content-home andphase-1-gestures. Index/style/all36rootJSmodules match reviewedsource.192unit+sourcechecks/196fullsyntheticbrowserchecks/7focusedHomegeometryjourneychecks/27pointerregressions PASS. Independentcritic7.8reject→8.4acceptfinalafterallfindingsfixed; actuallongestResume/all241cataloguetitles measured, light/dark/checkercompositesreviewed. Staged/committedscanspassed. See BUILD_043_REVIEW.md. No Quest/realDrive/Claude orApplequalitycertificateclaim.

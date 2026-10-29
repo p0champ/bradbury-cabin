@@ -123,7 +123,8 @@ export function paintHome(ctx, options = {}) {
     const titleTop = y + (l.rowHeight < 100 ? 25 : 32);
     lines.forEach((line, n) => text(line, 40, titleTop + n * 27, item.available ? c.ink : c.muted));
     font(15);
-    const status = item.id === o.currentId ? 'Continue →' : item.read ? 'Read' : (o.statuses?.[item.id] || '');
+    const completed = item.read || /^Read/.test(o.statuses?.[item.id] || '');
+    const status = completed ? 'Read ✓' : item.id === o.currentId ? 'Continue →' : (o.statuses?.[item.id] || '');
     const meta = item.available ? [item.author, KIND[item.kind] || item.kind].filter(Boolean).join(' · ') : 'Not in the cabin';
     const metaY = y + l.rowHeight - 13;
     text(fit(ctx, meta, status ? 470 : 600), 40, metaY, c.muted);

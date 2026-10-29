@@ -103,90 +103,87 @@ export class PageAimFilter {
   }
 }
 
+// The cursor is painted into the page texture, never a second spatial layer.
+// Its page-pixel coordinates are the same coordinates used by hit testing.
 export class Pointer {
   constructor(binding, space, onError = () => {}) {
-    this.binding = binding;
-    this.space = space;
-    this.onError = onError;
+    Object.assign(this, { binding, space, onError, visible: [], marks: [], failed: false });
     this.entries = new Map();
-    this.visible = [];
-    this.failed = false;
-  }
-  entry(hand) {
-    if (this.entries.has(hand)) return this.entries.get(hand);
-    const canvases = {};
+    this.looks = {};
     for (const look of LOOKS) {
       const canvas = document.createElement("canvas");
       canvas.width = canvas.height = DOT_PX;
-      paintLook(canvas, look);
-      canvases[look] = canvas;
+      paintLook(canvas, look); this.looks[look] = canvas;
     }
-    const layer = this.binding.createQuadLayer({
-      space: this.space, layout: "mono", textureType: "texture",
-      viewPixelWidth: DOT_PX, viewPixelHeight: DOT_PX, width: DOT_SIZE, height: DOT_SIZE,
-      isStatic: false, clearOnAccess: false,
-    });
-    layer.blendTextureSourceAlpha = true;
-    const e = { canvases, look: "dot", layer, dirty: true };
-    this.entries.set(hand, e);
-    return e;
+    this.patch = document.createElement("canvas");
+    this.previous = []; this.invalidated = true; this.lastKey = null;
   }
+  setSurface(layer, canvas, { metresWide = .72, metresHigh = .9 } = {}) {
+    if (this.layer !== layer || this.canvas !== canvas) this.invalidate();
+    Object.assign(this, { layer, canvas, metresWide, metresHigh });
+  }
+  invalidate() { this.invalidated = true; }
   clearVisible() {
-    for (const e of this.entries.values()) e.layer.opacity = 0;
-    const changed = this.visible.length > 0;
-    this.visible = [];
-    return changed;
-  }
-  // rays: [{ hand, hit: rayOnPage(...), look: "dot" | "ring" | "press" }].
-  update(rays, display) {
-    if (this.failed) return this.clearVisible();
-    try {
-      // While pointing is possible the layers stay listed and only their
-      // opacity changes, so crossing the page edge never re-submits layers.
-      if (!rays.length) return this.clearVisible();
-      const lit = [];
-      for (const { hand, hit, look = "dot" } of rays) {
-        const e = this.entry(hand);
-        if (!hit || hit.distance < 0.08) continue;
-        const at = add(hit.point, hit.normal, 0.001);
-        if (![at.x, at.y, at.z].every(Number.isFinite)) continue;
-        e.layer.transform = new XRRigidTransform(at, display.orientation);
-        if (look !== e.look) { e.look = look; e.dirty = true; }
-        lit.push(e);
-      }
-      const shown = [];
-      for (const e of this.entries.values()) {
-        e.layer.opacity = lit.includes(e) ? 1 : 0;
-        shown.push(e.layer);
-      }
-      const changed = shown.length !== this.visible.length || shown.some((l, i) => l !== this.visible[i]);
-      this.visible = shown;
-      return changed;
-    } catch (error) {
-      this.failed = true;
-      this.clearVisible();
-      this.onError(error);
-      return true;
-    }
-  }
-  draw(frame, gpu, active) {
-    for (const e of this.entries.values())
-      if (this.visible.includes(e.layer) && active.includes(e.layer) && (e.dirty || e.layer.needsRedraw)) {
-        try {
-          gpu.copyPage(this.binding.getSubImage(e.layer, frame), e.canvases[e.look], { premultiplied: true });
-          e.dirty = false;
-        } catch (error) {
-          this.failed = true;
-          this.clearVisible();
-          this.onError(error);
-          return true;
-        }
-      }
+    this.marks = [];
+    if (this.canvas) this.canvas.dataset.pointerMarks = "[]";
     return false;
   }
-  dispose() {
-    for (const e of this.entries.values()) e.layer.destroy();
-    this.entries.clear();
-    this.visible = [];
+  update(rays) {
+    if (this.failed || !this.canvas) return this.clearVisible();
+    this.marks = rays.flatMap(({ hand, hit, look = "dot" }) => {
+      if (!hit || hit.distance < .08 || !Number.isFinite(hit.local?.x) || !Number.isFinite(hit.local?.y)) return [];
+      const x = (hit.local.x / this.metresWide + .5) * this.canvas.width;
+      const y = (.5 - hit.local.y / this.metresHigh) * this.canvas.height;
+      if (x < 0 || x > this.canvas.width || y < 0 || y > this.canvas.height) return [];
+      return [{ hand, x, y, look: LOOKS.includes(look) ? look : "dot", size: DOT_SIZE / this.metresWide * this.canvas.width }];
+    });
+    this.canvas.dataset.pointerMarks = JSON.stringify(this.marks);
+    return false;
   }
+  patches(upload) {
+    if (!this.canvas || this.failed) return false;
+    const key = JSON.stringify(this.marks);
+    if (!this.invalidated && key === this.lastKey) return false;
+    const old = this.invalidated ? [] : this.previous;
+    try {
+      for (const mark of [...old, ...this.marks]) {
+        const x = Math.max(0, Math.floor(mark.x - mark.size / 2 - 2));
+        const y = Math.max(0, Math.floor(mark.y - mark.size / 2 - 2));
+        const right = Math.min(this.canvas.width, Math.ceil(mark.x + mark.size / 2 + 2));
+        const bottom = Math.min(this.canvas.height, Math.ceil(mark.y + mark.size / 2 + 2));
+        const rect = { x, y, w: right - x, h: bottom - y };
+        if (rect.w <= 0 || rect.h <= 0) continue;
+        this.patch.width = rect.w; this.patch.height = rect.h;
+        const ctx = this.patch.getContext("2d");
+        ctx.drawImage(this.canvas, x, y, rect.w, rect.h, 0, 0, rect.w, rect.h);
+        for (const current of this.marks)
+          ctx.drawImage(this.looks[current.look], current.x - current.size / 2 - x,
+            current.y - current.size / 2 - y, current.size, current.size);
+        upload(this.patch, rect);
+      }
+      this.previous = this.marks.map(m => ({ ...m }));
+      this.invalidated = false; this.lastKey = key;
+    } catch (error) {
+      this.failed = true; this.clearVisible(); this.onError(error);
+    }
+    return false;
+  }
+  draw(frame, gpu, active) {
+    if (!this.layer || !active.includes(this.layer)) return false;
+    let sub;
+    return this.patches((patch, rect) => {
+      sub ||= this.binding.getSubImage(this.layer, frame);
+      gpu.copyPagePatch(sub, patch, rect, this.canvas.width, this.canvas.height);
+    });
+  }
+  drawProjection(gpu) {
+    let uploaded = false;
+    this.patches((patch, rect) => { gpu.uploadPatch(patch, rect); uploaded = true; });
+    if (uploaded) {
+      try { gpu.finishPatches(); }
+      catch (error) { this.failed = true; this.clearVisible(); this.onError(error); }
+    }
+    return false;
+  }
+  dispose() { this.clearVisible(); this.previous = []; this.layer = null; this.canvas = null; }
 }

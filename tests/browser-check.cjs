@@ -1,3 +1,6 @@
+const entryExitChecks = require("./entry-exit-browser.cjs");
+const selectionChecks = require("./selection-browser.cjs");
+const finishChecks = require("./finish-browser.cjs");
 const pointerChecks = require("./pointer-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
@@ -818,6 +821,12 @@ async function mock(
       console.log(`${checks} feel browser checks passed.`);
       return;
     }
+    if (process.env.CABIN_REPAIR_ONLY) {
+      await entryExitChecks(browser,{mock,BASE_URL,out,passed});
+      await selectionChecks(browser,{mock,BASE_URL,out,passed});
+      await finishChecks(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} repair checks passed.`);return;
+    }
     if (process.env.CABIN_POINTER_ONLY) {
       await pointerChecks(browser, { mock, BASE_URL, out, passed });
       console.log(`${checks} pointer browser checks passed.`);
@@ -1237,7 +1246,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-043");
+        assert.equal(details.build, "gestures-044");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1509,6 +1518,7 @@ async function mock(
           .filter((d) => d.arrival)
           .map((d) => d.matrix),
         version: __mock.versions.get(__mock.texture),
+        basePage: document.querySelector('#page').toDataURL(),
       }));
       // The cover leaves are retired: no decoration layer exists at all
       // while the window fades in.
@@ -1522,8 +1532,8 @@ async function mock(
         __welcomeScene();
       });
       assert.equal(
-        await p.evaluate(() => __mock.versions.get(__mock.texture)),
-        mid.version,
+        await p.evaluate(() => document.querySelector('#page').toDataURL()),
+        mid.basePage,
       );
       await p.locator("#welcome-scene").screenshot({
         path: path.join(
@@ -2207,7 +2217,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=43");
+        const { paintHandBadge } = await import("./hand-badges.js?v=44");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2527,7 +2537,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=43");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=44");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3283,8 +3293,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=43");
-        const { loadProgress } = await import("./progress.js?v=43");
+        const { calendarButtons } = await import("./calendar.js?v=44");
+        const { loadProgress } = await import("./progress.js?v=44");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3337,6 +3347,9 @@ async function mock(
       passed("Drive button is ready with the configured Google client");
       await p.close();
     }
+    await entryExitChecks(browser,{mock,BASE_URL,out,passed});
+    await selectionChecks(browser,{mock,BASE_URL,out,passed});
+    await finishChecks(browser,{mock,BASE_URL,out,passed});
     await pointerChecks(browser, { mock, BASE_URL, out, passed });
     await feelChecks(browser, { mock, BASE_URL, out, passed });
     await frontdoorChecks(browser, { mock, BASE_URL, out, passed });

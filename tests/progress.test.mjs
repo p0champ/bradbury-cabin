@@ -4,8 +4,59 @@ import {
   seedProgress, dayStatus, toggleTick, toggleWeekly, streak, overview,
   monthGrid, weekSunday, loadProgress, saveProgress, PROGRESS_KEY,
   readProgress, validProgress,
+  markWorkRead, workRead, canonicalWorkId,
 } from "../progress.js";
 const TODAY = "2026-10-28";
+const TIGER = { id: "william-blake-experience-the-tiger", kind: "poem" };
+test("Tiger completion is explicit, idempotent and shared by catalogue and daily wrappers", () => {
+  const p = seedProgress(TODAY);
+  p.days[TODAY] = { ids: { poem: TIGER.id } };
+  assert.equal(workRead(p, TIGER), false);
+  const wrapper = { ...TIGER, id: `today-${TODAY}-poem-${TIGER.id}`, catalogueId: TIGER.id };
+  assert.equal(markWorkRead(p, wrapper, TODAY, "2026-10-28T20:00:00Z"), true);
+  assert.equal(workRead(p, TIGER), true);
+  assert.equal(workRead(p, { ...wrapper, catalogueId: undefined }), true);
+  assert.equal(canonicalWorkId(wrapper), TIGER.id);
+  assert.equal(p.days[TODAY].poem, true);
+  assert.equal(markWorkRead(p, TIGER, TODAY, "2026-10-28T21:00:00Z"), false);
+  assert.equal(p.completedWorks[TIGER.id], "2026-10-28T20:00:00.000Z");
+  const data = new Map();
+  const storage = { setItem: (k,v) => data.set(k,v), getItem: k => data.get(k) ?? null };
+  assert.equal(saveProgress(storage,p), true);
+  assert.equal(workRead(loadProgress(storage,TODAY),TIGER), true);
+});
+test("finishing a Library poem never ticks a different assigned poem", () => {
+  const p = seedProgress(TODAY);
+  p.days[TODAY] = { ids: { poem: "blake-sick-rose" }, poem: false };
+  assert.equal(markWorkRead(p,TIGER,TODAY,"2026-10-28T20:00:00Z"),true);
+  assert.equal(p.days[TODAY].poem,false);
+  assert.equal(workRead(p,{ id: "blake-sick-rose",kind:"poem" }),false);
+  const legacy = seedProgress(TODAY);
+  legacy.days[TODAY] = { ids: { poem: TIGER.id }, poem:true };
+  assert.equal(workRead(legacy,TIGER),true);
+  assert.equal(workRead(legacy,{id:"blake-sick-rose",kind:"poem"}),false);
+});
+test("completion validation rejects unsafe IDs and impossible timestamps", () => {
+  for (const completedWorks of [[], { "../bad":"2026-10-28T20:00:00Z" }, { safe:"2026-02-30T20:00:00Z" }, {safe:"tomorrow"}, {safe:"2026-10-28T25:00:00Z"}])
+    assert.equal(validProgress({...seedProgress(TODAY),completedWorks}),false);
+  assert.equal(validProgress({...seedProgress(TODAY),completedWorks:{[TIGER.id]:"2026-10-28T20:00:00Z"}}),true);
+  const p=seedProgress(TODAY);
+  assert.equal(markWorkRead(p,{id:"../bad",kind:"poem"},TODAY),false);
+  assert.equal(markWorkRead(p,TIGER,TODAY,"bad clock"),false);
+  assert.equal(p.completedWorks,undefined);
+});
+test("archived completion ticks its exact assigned day without changing today or future days", () => {
+  const p=seedProgress(TODAY),past="2026-10-27",future="2026-10-30";
+  p.days[past]={ids:{poem:TIGER.id}};
+  p.days[TODAY]={ids:{poem:"blake-sick-rose"}};
+  p.days[future]={ids:{poem:TIGER.id}};
+  const work={...TIGER,id:`today-${past}-poem-${TIGER.id}`};
+  assert.equal(markWorkRead(p,work,past,"2026-10-28T20:00:00Z"),true);
+  assert.equal(p.days[past].poem,true);
+  assert.equal(p.days[TODAY].poem,undefined);
+  assert.equal(markWorkRead(p,TIGER,future,"2026-10-28T20:00:00Z"),false);
+  assert.equal(p.days[future].poem,undefined);
+});
 test("seed holds only the stated facts", () => {
   const p = seedProgress(TODAY);
   assert.equal(dayStatus(p, "2026-10-18", TODAY), "complete");

@@ -58,11 +58,55 @@ const realDate = (k) =>
   k <= "2100-12-31" &&
   dateKey(parseKey(k)) === k;
 const plain = (v) => !!v && typeof v === "object" && !Array.isArray(v);
+const WORK_ID = /^[a-z0-9-]{1,120}$/;
+export function validCompletion(id, timestamp) {
+  if (typeof id !== "string" || !WORK_ID.test(id) || typeof timestamp !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(timestamp) || !realDate(timestamp.slice(0, 10))) return false;
+  const parsed = new Date(timestamp);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString() === timestamp.replace(/Z$/, timestamp.includes(".") ? "Z" : ".000Z");
+}
+// Today and archived editions use wrapper IDs; completion belongs to the
+// catalogue edition, regardless of which shelf opened it.
+export function canonicalWorkId(work) {
+  const raw = work?.catalogueId || work?.id;
+  if (typeof raw !== "string") return null;
+  const id = /^today-\d{4}-\d{2}-\d{2}-(?:poem|story|essay)-(.+)$/.exec(raw)?.[1] || raw;
+  return WORK_ID.test(id) ? id : null;
+}
+export function workRead(progress, work) {
+  const id = canonicalWorkId(work);
+  if (!id) return false;
+  if (Object.hasOwn(progress.completedWorks || {}, id) && validCompletion(id, progress.completedWorks[id])) return true;
+  // Earlier builds recorded only daily ticks. Only an exact saved edition
+  // may inherit one; a tick for another poem says nothing about this poem.
+  return KINDS.includes(work?.kind) && Object.values(progress.days || {}).some(day =>
+    day?.[work.kind] === true && day.ids?.[work.kind] === id);
+}
+export function markWorkRead(progress, work, day, clock = new Date()) {
+  const id = canonicalWorkId(work);
+  const date = clock instanceof Date ? clock : new Date(clock);
+  if (!id || !KINDS.includes(work?.kind) || !Number.isFinite(date.getTime())) return false;
+  const timestamp = date.toISOString();
+  if (!validCompletion(id, timestamp)) return false;
+  const ledger = (progress.completedWorks ||= {});
+  let changed = false;
+  if (!Object.hasOwn(ledger, id) || !validCompletion(id, ledger[id])) {
+    Object.defineProperty(ledger, id, { value: timestamp, enumerable: true, writable: true, configurable: true });
+    changed = true;
+  }
+  const assigned = realDate(day) && day >= progress.start && day <= dateKey(date) ? progress.days[day] : null;
+  if (assigned?.ids?.[work.kind] === id && assigned[work.kind] !== true) {
+    assigned[work.kind] = true;
+    changed = true;
+  }
+  return changed;
+}
 // Checks every entry, so an imported file can never crash ticking later.
 export function validProgress(p) {
   if (!plain(p) || p.version !== 1) return false;
   if (!realDate(p.start) || !realDate(p.trackingSince)) return false;
   if (!plain(p.days) || !plain(p.weeks)) return false;
+  if ("completedWorks" in p && (!plain(p.completedWorks) || Object.entries(p.completedWorks).some(([id, stamp]) => !validCompletion(id, stamp)))) return false;
   for (const [key, d] of Object.entries(p.days)) {
     if (!realDate(key) || !plain(d)) return false;
     for (const k of [...KINDS, "missed"])

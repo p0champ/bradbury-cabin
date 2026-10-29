@@ -22,9 +22,10 @@ test('calendar prevents future and pre-challenge selection, including direct day
   assert.ok(!rows.some(r => r.id === 'day:2026-10-30' || r.id === 'day:2026-10-17'));
   assert.deepEqual(compactButtons({ page: 'day', view: { ...view, selected: '2026-10-30' }, progress, today }).map(r => r.id), ['cal-back']);
 });
-test('closing preserves mark, next and home semantics without inventing an unavailable next work', () => {
-  assert.deepEqual(compactButtons({ page: 'closing' }).map(r => r.id), ['end-back', 'end-mark', 'end-today']);
-  assert.ok(compactButtons({ page: 'closing', next: {} }).some(r => r.id === 'end-next'));
+test('completion offers one explicit mark action and a safe return to the text', () => {
+  assert.deepEqual(compactButtons({ page: 'closing' }).map(r => r.id), ['end-back', 'end-mark']);
+  assert.deepEqual(compactButtons({ page: 'closing', next: {} }).map(r => r.id), ['end-back', 'end-mark']);
+  assert.equal(compactButtons({page:'closing',read:true}).find(r=>r.id==='end-mark').label,'Read ✓ · Open Library');
 });
 test('long notes paginate every line and preserve words and grapheme sequences', () => {
   const ctx = { save() {}, restore() {}, measureText: s => ({ width: Array.from(s).length * 10 }) };

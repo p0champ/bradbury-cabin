@@ -1,4 +1,4 @@
-import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=43';
+import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=44';
 const SCALE = 2048 / 720, Y = (2560 - 500 * SCALE) / 2;
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 const MONTHS = 'January February March April May June July August September October November December'.split(' ');
@@ -14,7 +14,7 @@ function localButtons(o) {
     const editable = !['future', 'before'].includes(dayStatus(progress, view.selected, today));
     return [b('cal-back', 24, 18, 120, 48, '‹ Calendar'), ...(o.longPicks ? [b('day-notes',548,18,148,48,'Full titles')] : []), ...(editable ? KINDS.map((kind, i) => b(`tick:${kind}`, 24, 126 + i * 90, 672, 82, KIND[kind])) : []), ...(editable ? [b('weekly', 24, 405, 672, 68, 'Weekly written story')] : [])];
   }
-  if (page === 'closing') return [b('end-back', 24, 18, 104, 48, '‹ Text'), b('end-mark', 24, 250, 672, 60, o.read ? 'Read today ✓' : 'Mark as read today'), ...(next ? [b('end-next', 24, 322, 672, 100, 'Next reading')] : []), b('end-today', 24, next ? 434 : 322, 672, 48, "Today's three")];
+  if (page === 'closing') return [b('end-back', 24, 18, 150, 48, '‹ Back to text'), b('end-mark', 24, 300, 672, 72, o.read ? 'Read ✓ · Open Library' : 'Mark as read')];
   return [b('notes-home', 24, 18, 110, 48, 'Back'), ...(notesPage > 0 ? [b('notes-prev', 24, 428, 160, 48, '‹ Previous')] : []), ...(notesPage + 1 < notesCount ? [b('notes-next', 536, 428, 160, 48, 'Next ›')] : [])];
 }
 export function compactButtons(options) {
@@ -130,11 +130,13 @@ export function paintCompact(ctx, options) {
     }
   } else if (o.page === 'closing') {
     button(ctx, byId('end-back'), o.hover);
-    text(ctx, 'Finished reading', 24, 92, 17, '#cbd0cd');
+    text(ctx, o.read ? 'Already read' : 'Finished reading?', 24, 92, 22, '#f5f5f2', 500);
     ctx.font = '400 24px Georgia, serif';
     const title = compactWrap(ctx, o.work?.title || '', 656);
     for (const [i, line] of title.entries()) { ctx.font = '400 24px Georgia, serif'; ctx.fillStyle = '#f5f5f2'; ctx.textAlign = 'left'; ctx.fillText(line, 24, 125 + i * 28); }
     text(ctx, [o.work?.author, o.work?.year].filter(Boolean).join(' · '), 24, Math.max(179, 128 + title.length * 28), 17, '#cbd0cd');
+    text(ctx, 'Pinch NEXT again to mark as read.', 24, 238, 21, '#f5f5f2', 500);
+    text(ctx, 'BACK returns to the last page.', 24, 270, 17, '#cbd0cd');
     for (const r of rows.filter(r => r.id !== 'end-back')) {
       button(ctx, r, o.hover, { selected: r.id === 'end-mark' && o.read, label: r.id === 'end-next' ? '' : r.label });
       if (r.id === 'end-next') {

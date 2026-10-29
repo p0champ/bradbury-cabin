@@ -8,9 +8,10 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=43";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=43";
-import { mergePersonal } from "./daily-lines.js?v=43";
+import { withPickerContract } from "./picker-contract.js?v=44";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=44";
+import { mergePersonal } from "./daily-lines.js?v=44";
+import { validCompletion } from "./progress.js?v=44";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -250,6 +251,19 @@ export function mergeProgress(local, remote) {
   out.start = [local.start, remote.start].filter(Boolean).sort()[0];
   out.trackingSince = [local.trackingSince, remote.trackingSince].filter(Boolean).sort()[0];
   const older = newer === remote ? local : remote;
+  // An explicit completion survives either side being saved later offline.
+  // Preserve the first completion time if the same edition was finished twice.
+  if (local.completedWorks || remote.completedWorks) {
+    out.completedWorks = {};
+    for (const record of [local.completedWorks, remote.completedWorks]) {
+      for (const [id, stamp] of Object.entries(record || {})) {
+        if (!validCompletion(id, stamp)) continue;
+        const previous = Object.hasOwn(out.completedWorks, id) ? out.completedWorks[id] : null;
+        if (!previous || Date.parse(stamp) < Date.parse(previous))
+          Object.defineProperty(out.completedWorks, id, { value: stamp, enumerable: true, writable: true, configurable: true });
+      }
+    }
+  }
   for (const [key, d] of Object.entries(older.days || {})) {
     const o = (out.days[key] ||= {});
     for (const k of ["poem", "story", "essay"]) if (d[k] && !(k in o)) o[k] = true;

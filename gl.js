@@ -121,6 +121,49 @@ export async function renderer(canvas) {
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
       }
     },
+    copyPagePatch(sub, source, rect, fullWidth, fullHeight) {
+      const v = sub.viewport;
+      const left = Math.round(rect.x * v.width / fullWidth);
+      const right = Math.round((rect.x + rect.w) * v.width / fullWidth);
+      const top = Math.round(rect.y * v.height / fullHeight);
+      const bottom = Math.round((rect.y + rect.h) * v.height / fullHeight);
+      if (right <= left || bottom <= top) return;
+      let pixels = source;
+      if (source.width !== right - left || source.height !== bottom - top) {
+        resized.width = right - left; resized.height = bottom - top;
+        resized.getContext("2d").drawImage(source, 0, 0, resized.width, resized.height);
+        pixels = resized;
+      }
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, sub.colorTexture);
+      try {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, v.x + left, v.y + v.height - bottom,
+          gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+        checkGl(gl, "page pointer patch");
+      } finally {
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+      }
+    },
+    uploadPatch(source, rect) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      try {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, rect.x, rect.y, gl.RGBA, gl.UNSIGNED_BYTE, source);
+        checkGl(gl, "projection pointer patch");
+      } finally { gl.bindTexture(gl.TEXTURE_2D, null); }
+    },
+    finishPatches() {
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      checkGl(gl, "projection pointer mipmaps");
+    },
     upload(source) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
