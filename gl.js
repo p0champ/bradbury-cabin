@@ -87,10 +87,131 @@ export async function renderer(canvas) {
   const fbo = gl.createFramebuffer(),
     loc = gl.getUniformLocation(program, "m");
   const resized = document.createElement("canvas");
+  const compositionFbo = gl.createFramebuffer();
+  const compositionPages = new Map(), compositionSprites = new Map();
+  // These textures are application-owned. Runtime textures are only ever
+  // attached as output, never sampled, resized, or assigned mipmaps.
+  function compositionTexture(cache, source, revision) {
+    let entry = cache.get(source);
+    if (!entry) {
+      entry = { texture: gl.createTexture(), width: 0, height: 0 };
+      cache.set(source, entry);
+      gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    } else gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+    const resized = entry.width !== source.width || entry.height !== source.height;
+    if (resized || !Object.is(entry.revision, revision)) {
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      if (resized) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+      else gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, source);
+      checkGl(gl, "composition source upload");
+      entry.width = source.width; entry.height = source.height; entry.revision = revision;
+    }
+    return entry.texture;
+  }
   checkGl(gl, "renderer initialization");
   return {
     gl,
     fbo,
+    // Call only with the subimage acquired for this XR animation frame.
+    // Sprite canvases are immutable looks, cached until their size changes.
+    composePage(sub, source, { revision = 0, sprites: overlays = [] } = {}) {
+      const v = sub.viewport;
+      if (!source?.width || !source?.height || !v || v.width <= 0 || v.height <= 0)
+        throw new Error("Composition needs a nonempty source and viewport.");
+      const caps = [gl.BLEND, gl.DEPTH_TEST, gl.STENCIL_TEST, gl.CULL_FACE,
+        gl.SCISSOR_TEST, gl.DITHER, gl.RASTERIZER_DISCARD, gl.SAMPLE_ALPHA_TO_COVERAGE, gl.SAMPLE_COVERAGE];
+      const enabled = caps.map(cap => gl.isEnabled(cap));
+      const unpackLayout = [gl.UNPACK_ROW_LENGTH, gl.UNPACK_IMAGE_HEIGHT,
+        gl.UNPACK_SKIP_PIXELS, gl.UNPACK_SKIP_ROWS, gl.UNPACK_SKIP_IMAGES];
+      const unpackValues = unpackLayout.map(parameter => gl.getParameter(parameter));
+      const saved = {
+        drawFbo: gl.getParameter(gl.DRAW_FRAMEBUFFER_BINDING),
+        readFbo: gl.getParameter(gl.READ_FRAMEBUFFER_BINDING),
+        viewport: gl.getParameter(gl.VIEWPORT), scissor: gl.getParameter(gl.SCISSOR_BOX),
+        program: gl.getParameter(gl.CURRENT_PROGRAM), vao: gl.getParameter(gl.VERTEX_ARRAY_BINDING),
+        active: gl.getParameter(gl.ACTIVE_TEXTURE), colorMask: gl.getParameter(gl.COLOR_WRITEMASK),
+        rgbSrc: gl.getParameter(gl.BLEND_SRC_RGB), rgbDst: gl.getParameter(gl.BLEND_DST_RGB),
+        alphaSrc: gl.getParameter(gl.BLEND_SRC_ALPHA), alphaDst: gl.getParameter(gl.BLEND_DST_ALPHA),
+        rgbEquation: gl.getParameter(gl.BLEND_EQUATION_RGB), alphaEquation: gl.getParameter(gl.BLEND_EQUATION_ALPHA),
+        flip: gl.getParameter(gl.UNPACK_FLIP_Y_WEBGL), premultiply: gl.getParameter(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL),
+        unpackBuffer: gl.getParameter(gl.PIXEL_UNPACK_BUFFER_BINDING),
+        matrix: gl.getUniform(program, loc),
+      };
+      gl.activeTexture(gl.TEXTURE0);
+      saved.texture = gl.getParameter(gl.TEXTURE_BINDING_2D);
+      saved.sampler = gl.getParameter(gl.SAMPLER_BINDING);
+      try {
+        checkGl(gl, "before page composition");
+        gl.bindSampler(0, null);
+        gl.bindBuffer(gl.PIXEL_UNPACK_BUFFER, null);
+        unpackLayout.forEach(parameter => gl.pixelStorei(parameter, 0));
+        const pageTexture = compositionTexture(compositionPages, source, revision);
+        const prepared = overlays.map(sprite => {
+          if (!sprite.source?.width || !sprite.source?.height ||
+              ![sprite.x, sprite.y, sprite.width, sprite.height].every(Number.isFinite) ||
+              sprite.width <= 0 || sprite.height <= 0) throw new Error("Invalid composition sprite.");
+          return { ...sprite, texture: compositionTexture(compositionSprites, sprite.source, 0) };
+        });
+        // Opaque XR texture attachment is valid only in the current frame.
+        gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, compositionFbo);
+        gl.framebufferTexture2D(gl.DRAW_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, sub.colorTexture, 0);
+        if (gl.checkFramebufferStatus(gl.DRAW_FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE)
+          throw new Error("XR page composition framebuffer is incomplete.");
+        for (const cap of caps) gl.disable(cap);
+        gl.enable(gl.SCISSOR_TEST);
+        gl.viewport(v.x, v.y, v.width, v.height);
+        gl.scissor(v.x, v.y, v.width, v.height);
+        gl.colorMask(true, true, true, true);
+        gl.useProgram(program); gl.bindVertexArray(vao);
+        gl.bindTexture(gl.TEXTURE_2D, pageTexture);
+        gl.uniformMatrix4fv(loc, false, identity);
+        // Full replacement also erases cursors from older swapchain frames.
+        // The shader's inverted v maps canvas top to native texture top,
+        // matching copyPage's UNPACK_FLIP_Y_WEBGL=true upload.
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        gl.enable(gl.BLEND);
+        gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
+        gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        for (const sprite of prepared) {
+          const matrix = new Float32Array(identity);
+          matrix[0] = sprite.width / source.width;
+          matrix[5] = sprite.height / source.height;
+          matrix[12] = 2 * (sprite.x + sprite.width / 2) / source.width - 1;
+          matrix[13] = 1 - 2 * (sprite.y + sprite.height / 2) / source.height;
+          gl.bindTexture(gl.TEXTURE_2D, sprite.texture);
+          gl.uniformMatrix4fv(loc, false, matrix);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+        checkGl(gl, "XR page composition");
+      } finally {
+        // Detach even on incomplete-FBO/error paths: no runtime texture is
+        // retained by an application framebuffer after the frame's work.
+        gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, compositionFbo);
+        gl.framebufferTexture2D(gl.DRAW_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, null, 0);
+        gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, saved.drawFbo);
+        gl.bindFramebuffer(gl.READ_FRAMEBUFFER, saved.readFbo);
+        gl.viewport(...saved.viewport); gl.scissor(...saved.scissor);
+        gl.colorMask(...saved.colorMask);
+        gl.blendEquationSeparate(saved.rgbEquation, saved.alphaEquation);
+        gl.blendFuncSeparate(saved.rgbSrc, saved.rgbDst, saved.alphaSrc, saved.alphaDst);
+        caps.forEach((cap, i) => savedEnable(cap, enabled[i]));
+        gl.useProgram(program); gl.uniformMatrix4fv(loc, false, saved.matrix);
+        gl.useProgram(saved.program); gl.bindVertexArray(saved.vao);
+        gl.bindTexture(gl.TEXTURE_2D, saved.texture); gl.bindSampler(0, saved.sampler);
+        gl.activeTexture(saved.active);
+        gl.bindBuffer(gl.PIXEL_UNPACK_BUFFER, saved.unpackBuffer);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, saved.flip);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, saved.premultiply);
+        unpackLayout.forEach((parameter, i) => gl.pixelStorei(parameter, unpackValues[i]));
+      }
+      checkGl(gl, "page composition state restoration");
+      function savedEnable(cap, enabled) { if (enabled) gl.enable(cap); else gl.disable(cap); }
+    },
     copyPage(sub, source, { premultiplied = false } = {}) {
       let pixels = source;
       const v = sub.viewport;
@@ -180,6 +301,11 @@ export async function renderer(canvas) {
       gl.deleteTexture(texture);
       for (const t of sprites.values()) gl.deleteTexture(t);
       sprites.clear();
+      for (const cache of [compositionPages, compositionSprites]) {
+        for (const entry of cache.values()) gl.deleteTexture(entry.texture);
+        cache.clear();
+      }
+      gl.deleteFramebuffer(compositionFbo);
       gl.deleteFramebuffer(fbo);
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);

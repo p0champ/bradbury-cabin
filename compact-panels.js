@@ -1,5 +1,5 @@
-import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=50';
-import { navigationSurface, CONTROL } from './theme.js?v=50';
+import { KINDS, dayStatus, monthGrid, overview, parseKey, weekSunday, ticks } from './progress.js?v=51';
+import { navigationSurface, CONTROL } from './theme.js?v=51';
 const SCALE = 2048 / 720, Y = (2560 - 500 * SCALE) / 2;
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 const MONTHS = 'January February March April May June July August September October November December'.split(' ');

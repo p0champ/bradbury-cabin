@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL } from './theme.js?v=50';
+import { navigationSurface, CONTROL } from './theme.js?v=51';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.

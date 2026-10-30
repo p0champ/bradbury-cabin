@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=50";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=51";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=50";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=50";
-import { HandBadges } from "./hand-badges.js?v=50";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=50";
-import { LIBRARY } from "./library.js?v=50";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=50";
-import { layoutReading } from "./reading-flow.js?v=50";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=50";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=50";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=50";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=50";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=50";
-import { parsePicks, pickLabels } from "./picks.js?v=50";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=50";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=50";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=50";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=50";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=50";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=50";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=50";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=50";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=50";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=50";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=50";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=50";
-import { EntrySound } from "./entry-sound.js?v=50";
+} from "./gestures.js?v=51";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=51";
+import { HandBadges } from "./hand-badges.js?v=51";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=51";
+import { LIBRARY } from "./library.js?v=51";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=51";
+import { layoutReading } from "./reading-flow.js?v=51";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=51";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=51";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=51";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=51";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=51";
+import { parsePicks, pickLabels } from "./picks.js?v=51";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=51";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=51";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=51";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=51";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=51";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=51";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=51";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=51";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=51";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=51";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=51";
+import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=51";
+import { EntrySound } from "./entry-sound.js?v=51";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=50";
+} from "./progress.js?v=51";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=50";
+} from "./calendar.js?v=51";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -330,6 +330,7 @@ let pages = [],
   sessionGeneration = 0;
 let projectionRoute = false,
   layerDirty = true;
+let pagePaintRevision = 0, nativePointerComposed = false;
 const gestures = new GestureEngine();
 let nativeQueue = [],
   lastFrameTime = 0;
@@ -899,6 +900,7 @@ function paint() {
     : "PC preview · no headset quality claim";
   dirty = true;
   layerDirty = true;
+  pagePaintRevision++;
 }
 function presentPose() {
   return state.menuOpen || state.practice
@@ -1509,7 +1511,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-050",
+    build: "gestures-051",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1594,7 +1596,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-050.json";
+  a.download = "bradbury-test-details-build-051.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1715,6 +1717,7 @@ function cleanSession() {
   quad?.destroy();
   quad = null;
   nativeQuadUpload = null;
+  nativePointerComposed = false;
   if (projectionRoute) base?.destroy();
   projectionRoute = false;
   gpu?.dispose();
@@ -2028,6 +2031,14 @@ function frame(time, xrFrame, generation) {
       if (state.hover) {
         state.hover = null;
         paint();
+      }
+      // The menu cursor shares the page texture. Erase it even when head
+      // tracking is unavailable and the normal drawing branch cannot run.
+      if (nativePointerComposed && drawMode === "layer" && quad && binding) {
+        const sub = binding.getSubImage(quad, xrFrame);
+        gpu.copyPage(sub, canvas, { premultiplied: true });
+        nativePointerComposed = false;
+        layerDirty = false;
       }
     }
     if (pose) {
@@ -2429,6 +2440,9 @@ function frame(time, xrFrame, generation) {
         targets.set(source, shown.target);
         validatedRays.push({hand, hit: shown.hit, look: shown.target ? (aim.press ? "press" : "ring") : "dot"});
       }
+      const pagePointer = drawMode === "layer" && state.menuOpen && !state.headPointer;
+      canvas.dataset.pointerSurface = pagePointer ? "page" : "quad";
+      if (pointer?.setSurfaceMode(pagePointer)) applyLayers();
       if (pointer?.update(validatedRays, { transform: surfacePose(), width: surfaceWidth(), height: surfaceHeight() }, time)) applyLayers();
       // A selection can replace the panel in this same frame. Hide every old
       // dot/highlight immediately rather than leaving it over a new row.
@@ -2625,7 +2639,7 @@ function frame(time, xrFrame, generation) {
           checkGl(gl, "projection cleanup");
         }
       }
-      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw)) {
+      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
         nativeQuadUpload = { viewport: { x: sub.viewport.x, y: sub.viewport.y,
@@ -2633,7 +2647,11 @@ function frame(time, xrFrame, generation) {
           textureWidth: sub.textureWidth, textureHeight: sub.textureHeight,
           imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
-        gpu.copyPage(sub, canvas, { premultiplied: true });
+        if (pagePointer) {
+          gpu.composePage(sub, canvas, { revision: pagePaintRevision,
+            sprites: pointer?.surfaceSprites(PAGE.width, PAGE.height, surfaceWidth(), surfaceHeight()) || [] });
+        } else gpu.copyPage(sub, canvas, { premultiplied: true });
+        nativePointerComposed = pagePointer;
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";

@@ -1,9 +1,9 @@
-import { innerEdge, UI, spaced, unspaced, lift, unlift } from "./theme.js?v=50";
+import { innerEdge, UI, spaced, unspaced, lift, unlift } from "./theme.js?v=51";
 // Today: Claude's three for the day on a page of their own, and a quiet
 // closing page after each of them. Everything shown comes from real data:
 // the date, the challenge day, ticks, saved places and catalogue metadata.
 // Canvas-drawn on the reading page, hit-tested like the other menu panels.
-import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=50";
+import { CHALLENGE_START, KINDS, parseKey, streak } from "./progress.js?v=51";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 const ENTRY = (i) => ({ x: 274, y: 660 + i * 290, w: 1500, h: 260 });

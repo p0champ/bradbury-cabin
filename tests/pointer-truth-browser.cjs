@@ -46,7 +46,10 @@ const h = new DOMMatrix(__headMatrix());
         scaled.getContext('2d').drawImage(page, 0, 0, W, H);
         const src = scaled.getContext('2d').getImageData(0, 0, W, H).data;
         let stale = 0, compared = 0; const cells = new Map();
-        for (let y = 2; y < H; y += 4) for (let x = 2; x < W; x += 4) {
+        // Sample every 4 page pixels whatever the image size, so a runtime-
+        // resized image does not leave only a couple of samples on the dot.
+        const stride = Math.max(1, Math.round(4 * W / 2048)), start = stride >> 1;
+        for (let y = start; y < H; y += stride) for (let x = start; x < W; x += stride) {
           const sx = Math.floor(x * 2048 / W), sy = Math.floor(y * 2560 / H);
           const k = ((H - 1 - y) * W + x) * 4, s = (y * W + x) * 4, a = src[s + 3] / 255;
           const diff = Math.max(Math.abs(px[k] - src[s] * a), Math.abs(px[k + 1] - src[s + 1] * a),
@@ -86,14 +89,18 @@ const h = new DOMMatrix(__headMatrix());
       const y = 1400;
       __truthAimAt(500, y, hand); for (let i = 0; i < 10; i++) __step(14);
       const drawsBefore = __mock.draws, acqBefore = __mock.acquisitions;
+      const cpuBefore = __mock.ownedCanvasUploads, pageUploadsBefore = __mock.uploads, gpuBefore = __mock.pageSurfaceDraws;
       for (let i = 0; i <= 30; i++) { __truthAimAt(500 + i * 35, y, hand); __step(14); frames.push({ want: 500 + i * 35, inks: __truthInk(), frac: __truthInk().pageDifferentFraction }); }
       // Stop; let swapchain images cycle and the filter settle.
       const settle = [];
       for (let i = 0; i < 24; i++) { __step(14); const inks = __truthInk(); settle.push({ inks, frac: inks.pageDifferentFraction }); }
-      return { frames, settle, pageDraws: __mock.draws - drawsBefore, acquisitions: __mock.acquisitions - acqBefore };
+      return { frames, settle, pageDraws: __mock.draws - drawsBefore, acquisitions: __mock.acquisitions - acqBefore,
+        cpuUploads: __mock.ownedCanvasUploads - cpuBefore, directUploads: __mock.uploads - pageUploadsBefore,
+        gpuDraws: __mock.pageSurfaceDraws - gpuBefore };
     });
-    assert.equal(r.pageDraws, 0, `moving the cursor rewrote the page image ${r.pageDraws} times`);
-    assert.ok(r.acquisitions <= 2, `moving the cursor acquired ${r.acquisitions} layer images`);
+    assert.ok(r.pageDraws > 0 && r.acquisitions > 0 && r.gpuDraws > 0, 'native same-surface cursor must redraw each acquired swapchain image');
+    assert.equal(r.cpuUploads, 0, `cursor-only motion uploaded owned canvas pixels ${r.cpuUploads} times`);
+    assert.equal(r.directUploads, 0, `cursor-only motion directly uploaded native page pixels ${r.directUploads} times`);
     const bad = r.frames.concat(r.settle).filter(f => f.inks.length !== 1);
     assert.equal(bad.length, 0, `cursor shown ${bad[0]?.inks.length} times (trail or missing): ${JSON.stringify(bad[0]?.inks)}`);
     for (const f of r.frames.concat(r.settle)) assert.ok(f.frac < .01, `presented page differs from its content by ${(f.frac * 100).toFixed(1)}% (stale swapchain image)`);

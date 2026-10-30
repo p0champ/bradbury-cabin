@@ -74,7 +74,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });
     assert.equal(await p.evaluate(() => document.querySelector('#page').dataset.menuPage), 'notes', 'the pinch did not select the highlighted button');
     assert.deepEqual(errors, []);
-    // Documented trade-off (BUILD 050): a 29 mm drift that ends on the row below selects that row,
+    // Documented trade-off (BUILD 051): a 29 mm drift that ends on the row below selects that row,
     // as in 043. The highlight shows it before release; 045's look-back guarded this.
     passed(`press: the pinch selects exactly the highlighted button, including after drift onto the row below ${lying ? 'lying' : 'upright'}`);
     await p.close();

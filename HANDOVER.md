@@ -1,3 +1,10 @@
+## 30 October 2026 — Build 051 tested; release pending verification
+
+Bastian resumed and asked to finish, publish and verify overnight without another headset test. Hand menus now draw the cursor into the same native page image as the buttons (GPU composition from a pristine cached page), so the dot and the buttons cannot disagree on scale, clipping or depth. Reading keeps its direct copy and tiny Exit cursor; gestures.js and literary content unchanged.
+
+216 unit/source checks pass. 290/290 full browser checks pass in one clean run. The first runs exposed two test-harness problems, fixed in tests only: the pointer-truth ink detector undersampled half-size images (cursor was exactly on target; still 2 mm limit, mutation-checked), and the mock frame clock was overtaken by wall time because 051's per-frame composition is slow in software rendering, staling pinches. The harness page's performance.now() now reads the mock frame clock, as on a headset. The coherent check passed on committed 050 code, isolating frame cost rather than selection logic. See BUILD_051_REVIEW.md. Quest alignment and menu-frame performance remain unverified; no headset result.
+
+---
 ## 30 October 2026 — Build 050 RELEASED; live files verified, headset check pending
 
 Bastian resumed pointer work and can test now. Report: centre clicks work, but the cursor disappears and becomes inaccurate away from the middle. He could not find Save test details. Suggested recovering049’s trace from Preview and advanced tools after exit; no real export received yet.

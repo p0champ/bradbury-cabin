@@ -115,30 +115,46 @@ export class Pointer {
     this.entries = new Map();
   }
   static get size() { return DOT_SIZE; }
+  setSurfaceMode(enabled) {
+    if (this.surfaceMode === enabled) return false;
+    this.surfaceMode = enabled;
+    if (!enabled) return false;
+    const changed = this.visible.length > 0;
+    for (const e of this.entries.values()) if (e.layer) e.layer.opacity = 0;
+    this.visible = [];
+    return changed;
+  }
   entry(hand) {
-    if (this.entries.has(hand)) return this.entries.get(hand);
-    const canvases = {};
-    for (const look of LOOKS) {
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = DOT_PX;
-      paintLook(canvas, look);
-      canvases[look] = canvas;
-    }
-    if (!this.layers) {
-      const e = { canvases, look: "dot", layer: null };
+    let e = this.entries.get(hand);
+    if (!e) {
+      const canvases = {};
+      for (const look of LOOKS) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = DOT_PX;
+        paintLook(canvas, look);
+        canvases[look] = canvas;
+      }
+      e = { canvases, look: "dot", layer: null, dirty: true };
       this.entries.set(hand, e);
-      return e;
     }
-    const layer = this.binding.createQuadLayer({
-      space: this.space, layout: "mono", textureType: "texture",
-      viewPixelWidth: DOT_PX, viewPixelHeight: DOT_PX, width: DOT_SIZE, height: DOT_SIZE,
-      isStatic: false, clearOnAccess: false,
-    });
-    layer.blendTextureSourceAlpha = true;
-    layer.opacity = 0;
-    const e = { canvases, look: "dot", layer, dirty: true };
-    this.entries.set(hand, e);
+    if (this.layers && !this.surfaceMode && !e.layer) {
+      e.layer = this.binding.createQuadLayer({
+        space: this.space, layout: "mono", textureType: "texture",
+        viewPixelWidth: DOT_PX, viewPixelHeight: DOT_PX, width: DOT_SIZE, height: DOT_SIZE,
+        isStatic: false, clearOnAccess: false,
+      });
+      e.layer.blendTextureSourceAlpha = true;
+      e.layer.opacity = 0;
+      e.dirty = true;
+    }
     return e;
+  }
+  surfaceSprites(width, height, metresWide, metresHigh) {
+    const w = DOT_SIZE / metresWide * width, h = DOT_SIZE / metresHigh * height;
+    return this.marks.map(mark => ({ source: this.entry(mark.hand).canvases[mark.look],
+      x: (mark.local.x / metresWide + .5) * width - w / 2,
+      y: (.5 - mark.local.y / metresHigh) * height - h / 2,
+      width: w, height: h }));
   }
   // Hide by opacity first. Dot layers leave the compositor list only after
   // staying hidden for a while, so brief gaps never re-submit the layer list,
@@ -176,11 +192,11 @@ export class Pointer {
         const want = LOOKS.includes(look) ? look : "dot";
         if (want !== e.look) { e.look = want; e.dirty = true; }
         marks.push({ hand, look: want, local: { x: hit.local.x, y: hit.local.y } });
-        if (!e.layer) continue;
+        if (!e.layer || this.surfaceMode) continue;
         e.layer.transform = new XRRigidTransform({ x: at.x, y: at.y, z: at.z }, surface.transform.orientation);
         lit.push(e);
       }
-      if (!this.layers) { this.marks = marks; this.onMarks?.(marks); return false; }
+      if (!this.layers || this.surfaceMode) { this.marks = marks; this.onMarks?.(marks); return false; }
       if (!lit.length) {
         for (const e of this.entries.values()) if (e.layer) e.layer.opacity = 0;
         this.marks = marks; this.onMarks?.(marks); return this.retire(time);
@@ -188,6 +204,7 @@ export class Pointer {
       this.hiddenSince = null;
       const shown = [];
       for (const e of this.entries.values()) {
+        if (!e.layer) continue;
         e.layer.opacity = lit.includes(e) ? 1 : 0;
         shown.push(e.layer);
       }
@@ -216,7 +233,7 @@ export class Pointer {
     } catch (error) { this.fail(error); }
   }
   draw(frame, gpu, active) {
-    if (!this.layers) return false;
+    if (!this.layers || this.surfaceMode) return false;
     for (const e of this.entries.values())
       if (this.visible.includes(e.layer) && active.includes(e.layer) && (e.dirty || e.layer.needsRedraw)) {
         try {
@@ -236,7 +253,7 @@ export class Pointer {
   }
 }
 
-// Diagnostics only (BUILD 050): the press itself takes exactly what is
+// Diagnostics only (BUILD 051): the press itself takes exactly what is
 // highlighted. This records, as a hypothesis for later tuning from real
 // headset traces, which button a dwell rule (time while the fingers were
 // already closing counts for less) would have chosen instead.

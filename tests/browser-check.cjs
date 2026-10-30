@@ -3,6 +3,8 @@ const selectionChecks = require("./selection-browser.cjs");
 const finishChecks = require("./finish-browser.cjs");
 const pointerChecks = require("./pointer-browser.cjs");
 const pointerTruthChecks = require("./pointer-truth-browser.cjs");
+const surfacePointerChecks = require("./surface-pointer-browser.cjs");
+const glComposeChecks = require("./gl-compose-browser.cjs");
 const pressDriftChecks = require("./press-drift-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
@@ -87,6 +89,8 @@ async function mock(
         versions: new Map(),
         draws: 0,
         projectionDraws: 0,
+        pageSurfaceDraws: 0,
+        ownedCanvasUploads: 0,
         uploads: 0,
         frameId: 0,
         // Quest-like non-static layers: several swapchain images rotate behind
@@ -151,6 +155,11 @@ async function mock(
         1.1, 0, 0, 0, 0, 1.32, 0, 0, 0, 0, -1.002, -1, 0, 0, -0.2, 0,
       ]);
       window.__mock.clock = performance.now();
+      // On a headset, frames and native events share one clock; the app
+      // stamps events max(frame time, performance.now()). Slow software-GPU
+      // frames must not let wall time overtake the mock frame clock and turn
+      // every press stale, so the session page reads the frame clock.
+      performance.now = () => window.__mock.clock;
       window.__step = (advance = 16) => {
         if (advance > 40) {
           while (advance > 0) {
@@ -577,11 +586,13 @@ async function mock(
         g.texImage2D = (...args) => {
           if (opaque.has(g.getParameter(g.TEXTURE_BINDING_2D)))
             throw Error("Opaque texture was reallocated");
+          if (args.at(-1) instanceof HTMLCanvasElement) window.__mock.ownedCanvasUploads++;
           return texImage(...args);
         };
         const subImage = g.texSubImage2D.bind(g);
         g.texSubImage2D = (...args) => {
           const destination = g.getParameter(g.TEXTURE_BINDING_2D);
+          if (!opaque.has(destination) && args.at(-1) instanceof HTMLCanvasElement) window.__mock.ownedCanvasUploads++;
           window.__mock.versions.set(
             destination,
             (window.__mock.versions.get(destination) || 0) + 1,
@@ -615,14 +626,22 @@ async function mock(
           if (
             window.__mock.inFrame &&
             args[3] &&
-            args[3] === window.__mock.texture
+            args[3] === window.__mock.texture &&
+            !(document.querySelector('#page')?.dataset.pointerSurface === 'page' &&
+              document.querySelector('#page')?.dataset.view === 'menu' &&
+              args[1] === g.COLOR_ATTACHMENT0 && [g.FRAMEBUFFER, g.DRAW_FRAMEBUFFER].includes(args[0]))
           )
             throw Error("A attached its quad texture instead of direct upload");
           return attach(...args);
         };
         const draw = g.drawArrays.bind(g);
         g.drawArrays = (...args) => {
-          if (window.__mock.inFrame) window.__mock.projectionDraws++;
+          if (window.__mock.inFrame) {
+            if (window.__mock.attachments?.[0] === window.__mock.texture) {
+              window.__mock.pageSurfaceDraws++;
+              window.__mock.versions.set(window.__mock.texture, (window.__mock.versions.get(window.__mock.texture) || 0) + 1);
+            } else window.__mock.projectionDraws++;
+          }
           if (scenario === "projection-gl-error") {
             injected = g.INVALID_FRAMEBUFFER_OPERATION;
             return;
@@ -774,7 +793,7 @@ async function mock(
               ? 384
               : badge
                 ? 256
-                : scenario === "clamped-layer"
+                : ["clamped-layer", "clamped-offset-layer"].includes(scenario)
                   ? 1024
                   : 2048,
             height = pointer
@@ -787,14 +806,17 @@ async function mock(
               ? 960
               : badge
                 ? 256
-                : scenario === "clamped-layer"
+                : ["clamped-layer", "clamped-offset-layer"].includes(scenario)
                   ? 1280
                   : 2560;
-          const tex = colorTexture(width, height),
+          const offsetPage = ["offset-layer", "clamped-offset-layer"].includes(scenario) && !badge && !arrival && !watch && !gazeRing && !pointer;
+          const textureWidth = width + (offsetPage ? 64 : 0), textureHeight = height + (offsetPage ? 96 : 0);
+          const tex = colorTexture(textureWidth, textureHeight),
             data = {
               tex,
-              width,
-              height,
+              width: textureWidth,
+              height: textureHeight,
+              viewport: { x: offsetPage ? 32 : 0, y: offsetPage ? 48 : 0, width, height },
               badge,
               arrival,
               watch,
@@ -825,8 +847,8 @@ async function mock(
           };
           window.__mock.layerData.set(layer, data);
           if (!badge && !arrival && !watch && !gazeRing && !pointer) {
-            window.__mock.quadWidth = width;
-            window.__mock.quadHeight = height;
+            window.__mock.quadWidth = textureWidth;
+            window.__mock.quadHeight = textureHeight;
             window.__mock.texture = tex;
             window.__mock.quad = layer;
           }
@@ -843,7 +865,7 @@ async function mock(
           rotateSwapchain(data);
           return {
             colorTexture: data.tex,
-            viewport: { x: 0, y: 0, width: data.width, height: data.height },
+            viewport: data.viewport,
           };
         }
       };
@@ -887,6 +909,10 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_SURFACE_ONLY) {
+      await surfacePointerChecks(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} native surface pointer checks passed.`); return;
+    }
     if (process.env.CABIN_VISIBILITY_ONLY) {
       await pointerVisibilityChecks(browser,{mock,BASE_URL,out,passed});
       console.log(`${checks} menu visibility checks passed.`); return;
@@ -1347,7 +1373,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-050");
+        assert.equal(details.build, "gestures-051");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2318,7 +2344,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=50");
+        const { paintHandBadge } = await import("./hand-badges.js?v=51");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2638,7 +2664,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=50");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=51");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3394,8 +3420,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=50");
-        const { loadProgress } = await import("./progress.js?v=50");
+        const { calendarButtons } = await import("./calendar.js?v=51");
+        const { loadProgress } = await import("./progress.js?v=51");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3458,6 +3484,8 @@ async function mock(
     await frontdoorChecks(browser, { mock, BASE_URL, out, passed });
     await sessionDetailsChecks(browser, { mock, BASE_URL, out, passed });
     await pointerVisibilityChecks(browser, { mock, BASE_URL, out, passed });
+    await surfacePointerChecks(browser, { mock, BASE_URL, out, passed });
+    await glComposeChecks(browser, { BASE_URL, out, passed });
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(
