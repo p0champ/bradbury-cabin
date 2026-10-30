@@ -3161,7 +3161,8 @@ async function syncDrive() {
     const today = todayKey();
     // History first: picks are checked against every earlier day's reading.
     const remote = await drive.read("progress.json");
-    if (remote) {
+    // null means no file yet; an existing empty file is damaged, not missing.
+    if (remote !== null) {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
