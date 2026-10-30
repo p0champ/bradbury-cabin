@@ -31,12 +31,12 @@ export const CONTROL = Object.freeze({
 });
 
 export const MOODS = {
-  // Literary: warm paper, a bookish serif with italic titles.
+  // Literary: warm lamp-lit paper, a bookish serif with small-capital titles.
   literary: {
-    paper: { bg: "#f6f2e9", ink: "#1f2a24", muted: "#6a746c", card: "#ebe6da", hover: "#fffdf8" },
+    paper: { bg: "#f5eedf", ink: "#1f2a24", muted: "#6a746c", card: "#ebe6da", hover: "#fffdf8" },
     night: { bg: "#131715", ink: "#ebe6da", muted: "#9ba59d", card: "#1f2522", hover: "#3a443f" },
     body: "Literata, Georgia, serif",
-    title: "italic",
+    title: "small-caps",
   },
   // Clean modern: cooler paper, the interface sans with upright bold titles.
   modern: {

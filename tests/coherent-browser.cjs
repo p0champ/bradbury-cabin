@@ -33,7 +33,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   await target(p,'home-work:today-2026-10-29-poem-'+works[0].id);
   assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
   assert.equal(await p.locator('#page').getAttribute('data-work'),'today-2026-10-29-poem-'+works[0].id);
-  const paper=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(100,1000,1,1).data));assert.deepEqual(paper,[246,242,233,255]);
+  const paper=await p.evaluate(()=>Array.from(document.querySelector('#page').getContext('2d').getImageData(100,1000,1,1).data));assert.deepEqual(paper,[245,238,223,255]);
   await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
   const current=await p.evaluate(()=>__coherentText.filter(x=>x.text==='Continue →').length);assert.equal(current,1,'home must identify one current work');
   await target(p,'home-shelf');if(!lying&&!reduce)await crop(p,'home-shelf.png');

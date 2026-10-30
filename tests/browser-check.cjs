@@ -7,6 +7,7 @@ const surfacePointerChecks = require("./surface-pointer-browser.cjs");
 const glComposeChecks = require("./gl-compose-browser.cjs");
 const lampArrivalChecks = require("./lamp-arrival-browser.cjs");
 const glanceWatchChecks = require("./glance-watch-browser.cjs");
+const glassFolioChecks = require("./glass-folio-browser.cjs");
 const pressDriftChecks = require("./press-drift-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
@@ -641,7 +642,10 @@ async function mock(
               document.querySelector('#page')?.dataset.view === 'menu') ||
               // Build 052: the "Lamp on" arrival composes on the GPU too.
               (document.querySelector('#page')?.dataset.view === 'arrival' &&
-              !!document.querySelector('#page')?.dataset.lamp)) &&
+              !!document.querySelector('#page')?.dataset.lamp) ||
+              // Build 054: reading page turns and the glass rim highlight.
+              (document.querySelector('#page')?.dataset.view === 'reading' &&
+              !!document.querySelector('#page')?.dataset.pageMotion)) &&
               args[1] === g.COLOR_ATTACHMENT0 && [g.FRAMEBUFFER, g.DRAW_FRAMEBUFFER].includes(args[0]))
           )
             throw Error("A attached its quad texture instead of direct upload");
@@ -1388,7 +1392,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-053");
+        assert.equal(details.build, "gestures-054");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2361,7 +2365,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=53");
+        const { paintHandBadge } = await import("./hand-badges.js?v=54");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2682,7 +2686,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=53");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=54");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3440,8 +3444,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=53");
-        const { loadProgress } = await import("./progress.js?v=53");
+        const { calendarButtons } = await import("./calendar.js?v=54");
+        const { loadProgress } = await import("./progress.js?v=54");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3508,6 +3512,7 @@ async function mock(
     await glComposeChecks(browser, { BASE_URL, out, passed });
     await lampArrivalChecks(browser, { mock, BASE_URL, out, passed });
     await glanceWatchChecks(browser, { mock, BASE_URL, out, passed });
+    await glassFolioChecks(browser, { mock, BASE_URL, out, passed });
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(

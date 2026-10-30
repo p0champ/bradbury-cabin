@@ -4,7 +4,7 @@
 // and flows across pages with at least two lines kept together at a split.
 // Every page records an anchor (block, word) so a saved place survives a
 // change of text size.
-import { SIZES } from "./core.js?v=53";
+import { SIZES } from "./core.js?v=54";
 
 export const AREA = { left: 194, right: 1854, top: 380, bottom: 2120 };
 const WIDTH = AREA.right - AREA.left;
@@ -34,10 +34,12 @@ function wrapWords(ctx, text, width) {
 const countWords = (t) => t.split(/\s+/).filter(Boolean).length;
 
 // Turns a work into a flat list of typeset lines, then paginates them.
-export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, serif", titleStyle = "italic" } = {}) {
+export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, serif", titleStyle = "italic", dropCap = false } = {}) {
   const font = SIZES[size],
     leading = Math.round(font * 1.43);
   const items = [];
+  // A book's opening letter: stories and essays only, two lines tall.
+  let capPending = dropCap && (work.kind === "story" || work.kind === "essay");
   // Title block on the first page.
   ctx.font = `${titleStyle} 66px ${serif}`;
   for (const t of wrapWords(ctx, work.title, WIDTH))
@@ -81,6 +83,20 @@ export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, se
       });
     } else {
       if (bi > 0) items.push({ kind: "gap", h: Math.round(leading * 0.45), anchor: { block: bi, word: 0 } });
+      if (capPending && b.type === "para") {
+        capPending = false;
+        const cap = dropCapLines(ctx, b.text, font, leading, serif);
+        if (cap) {
+          let w = 0;
+          cap.lines.forEach((t, li) => {
+            items.push({ kind: "line", text: t, x: AREA.left + (li < 2 ? cap.width : 0), h: leading, font,
+              anchor: { block: bi, word: w }, para: bi, paraLine: li, paraLines: cap.lines.length,
+              keepNext: li === 0, ...(li === 0 ? { dropCap: { letter: cap.letter, font: cap.font, x: AREA.left, dy: leading, separate: cap.letterIsWord } } : {}) });
+            w += countWords(t) + (li === 0 && cap.letterIsWord ? 1 : 0);
+          });
+          return;
+        }
+      }
       const first = bi === 0 || work.blocks[bi - 1]?.type !== "para";
       const indent = first || work.kind === "guide" ? 0 : font * 1.4;
       const ls = wrapWords(ctx, b.text, WIDTH - indent);
@@ -95,6 +111,28 @@ export function layoutWork(ctx, work, size = 1, { serif = "Literata, Georgia, se
     }
   });
   return paginate(items, work);
+}
+
+// Splits a paragraph around a large first letter: the first two lines are
+// narrower, the rest full width. Null when the paragraph cannot carry one.
+function dropCapLines(ctx, text, font, leading, serif) {
+  const trimmed = String(text || "").trim();
+  if (!/^\p{Lu}/u.test(trimmed)) return null;
+  const letter = trimmed[0], rest = trimmed.slice(1);
+  const capFont = Math.round((leading + font * .7) / .7);
+  ctx.font = `${capFont}px ${serif}`;
+  const width = Math.ceil(ctx.measureText(letter).width + font * .3);
+  ctx.font = `${font}px ${serif}`;
+  const lines = [];
+  let remaining = rest.trim();
+  for (let k = 0; k < 2 && remaining; k++) {
+    const wrapped = wrapWords(ctx, remaining, WIDTH - width);
+    lines.push(wrapped[0]);
+    remaining = wrapped.slice(1).join(" ");
+  }
+  if (remaining) lines.push(...wrapWords(ctx, remaining, WIDTH));
+  if (lines.length < 2) return null;
+  return { letter, font: capFont, width, lines, letterIsWord: /^\s/.test(rest) };
 }
 
 function paginate(items, work) {

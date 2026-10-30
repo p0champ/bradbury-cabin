@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=53";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=54";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,33 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=53";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=53";
-import { HandBadges } from "./hand-badges.js?v=53";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=53";
-import { LIBRARY } from "./library.js?v=53";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=53";
-import { layoutReading } from "./reading-flow.js?v=53";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=53";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=53";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=53";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=53";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=53";
-import { parsePicks, pickLabels } from "./picks.js?v=53";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=53";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=53";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=53";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=53";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=53";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=53";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=53";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=53";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=53";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=53";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=53";
-import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=53";
-import { EntrySound } from "./entry-sound.js?v=53";
+} from "./gestures.js?v=54";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=54";
+import { HandBadges } from "./hand-badges.js?v=54";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=54";
+import { LIBRARY } from "./library.js?v=54";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=54";
+import { layoutReading } from "./reading-flow.js?v=54";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=54";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=54";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=54";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=54";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=54";
+import { parsePicks, pickLabels } from "./picks.js?v=54";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=54";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=54";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=54";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=54";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=54";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=54";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=54";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=54";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=54";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=54";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=54";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=54";
+import { EntrySound } from "./entry-sound.js?v=54";
+import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=54";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +48,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=53";
+} from "./progress.js?v=54";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=53";
+} from "./calendar.js?v=54";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -476,6 +477,36 @@ let arrival = null,
   lastArrivalTick = 0,
   arrivalAnchor = null,
   arrivalSkipSource = null;
+// "Glass folio": the current page's words on their own transparent band, so
+// a turn can slide the old words out and the new ones in over the glass.
+const folio = { canvases: [document.createElement("canvas"), document.createElement("canvas")], flip: 0,
+  current: null, revision: 0, plate: document.createElement("canvas"), plateRevision: 0, turn: null,
+  shimmer: null, readingSince: null };
+function paintFolioContent(c, items, position) {
+  const m = MOODS[state.mood], palette = state.night ? m.night : m.paper;
+  c.save();
+  c.translate(0, -FOLIO_BAND.y);
+  c.textAlign = "left";
+  for (const b of items) {
+    if (typeof b.text !== "string") continue; // spacing between blocks
+    c.fillStyle = b.kind === "meta" ? palette.muted : palette.ink;
+    c.font = b.kind === "heading" ? `bold ${b.font}px ${m.body}`
+      : b.kind === "title" ? `${m.title} ${b.font}px ${m.body}`
+      : b.kind === "meta" ? (m.body === UI ? `${b.font}px ${UI}` : `small-caps ${b.font}px ${m.body}`)
+      : `${b.font}px ${m.body}`;
+    c.fillText(typeset(b.text), b.x ?? 194, b.y);
+    if (b.dropCap) {
+      c.font = `${b.dropCap.font}px ${m.body}`;
+      c.fillText(b.dropCap.letter, b.dropCap.x, b.y + b.dropCap.dy);
+    }
+  }
+  // The folio: page numbers centred at the foot, as in a book.
+  c.fillStyle = palette.muted;
+  c.font = `30px ${m.body}`;
+  c.textAlign = "center";
+  c.fillText(position, PAGE.width / 2, 2175);
+  c.restore();
+}
 // "Lamp on" pieces, drawn once per arrival and composed on the GPU each frame:
 // the bare glass, the warm glow, and Today cut into header/reading/footer bands.
 let lamp = null;
@@ -720,6 +751,7 @@ function paint() {
       : layoutReading(ctx, work, state.size, {
           serif: MOODS[state.mood].body,
           titleStyle: MOODS[state.mood].title,
+          dropCap: true,
         });
   if (state.pendingAnchor) {
     state.page = pageForAnchor(pages, state.pendingAnchor);
@@ -735,20 +767,24 @@ function paint() {
     ink = palette.ink,
     muted = palette.muted;
   ctx.clearRect(0, 0, PAGE.width, PAGE.height);
-  if (!state.menuOpen && !state.arriving && !state.centering) { ctx.fillStyle = bg; ctx.fillRect(0, 0, PAGE.width, PAGE.height); }
+  const readingView = !state.menuOpen && !state.arriving && !state.centering && !state.practice;
+  const folioText = readingPosition().replace(/Page (\d+) of (\d+)/, "$1 / $2") +
+    (state.mode === "layer" ? "" : "  ·  sharpness test B");
+  if (readingView) paintGlassFrame(ctx, { width: PAGE.width, height: PAGE.height, paper: bg, night: state.night });
+  else if (!state.menuOpen && !state.arriving && !state.centering) { ctx.fillStyle = bg; ctx.fillRect(0, 0, PAGE.width, PAGE.height); }
   // Navigation owns its heading; the book retains its quiet running head.
   if (!state.menuOpen && !state.centering && !state.arriving && !state.practice) {
   // A quiet running head, like a book's: the cabin on the left, the work on
   // the right, a hairline below. No slogan competing with the page.
   ctx.fillStyle = muted;
-  ctx.font = `500 26px ${UI}`;
-  spaced(ctx, 6);
-  ctx.fillText("BRADBURY CABIN", 180, 170);
-  spaced(ctx, 4);
+  ctx.font = `small-caps 30px ${MOODS[state.mood].body}`;
+  spaced(ctx, 5);
+  ctx.fillText("Bradbury Cabin", 180, 170);
+  spaced(ctx, 3);
   ctx.textAlign = "right";
   {
     const w = workById(state.workId);
-    let title = (w === SAMPLER ? "THE FIRST LEAF" : w.title).toUpperCase();
+    let title = w === SAMPLER ? "The first leaf" : w.title;
     while (title.length > 8 && ctx.measureText(title).width > 740) title = title.slice(0, -2).trimEnd() + "…";
     if (!state.menuOpen && !state.centering && !state.arriving) ctx.fillText(title, 1690, 170);
     // Display only: which of today's three this is, and which are read.
@@ -861,26 +897,13 @@ function paint() {
       160,
       1950,
     );
-  } else {
-    for (const b of pages[state.page]) {
-      if (typeof b.text !== "string") continue; // spacing between blocks
-      ctx.fillStyle = b.kind === "meta" ? muted : ink;
-      const m = MOODS[state.mood];
-      ctx.font = `${b.kind === "heading" ? "bold " : b.kind === "title" ? m.title + " " : ""}${b.font}px ${b.kind === "meta" ? UI : m.body}`;
-      ctx.fillText(b.text, b.x ?? 194, b.y);
-    }
   }
   if (!state.menuOpen && !state.arriving && !state.centering) {
   ctx.fillStyle = muted;
   ctx.font = `32px ${UI}`;
   ctx.textAlign = "left";
-  if (!state.menuOpen && !state.centering && !state.arriving)
-    ctx.fillText(
-      readingPosition().replace(/Page (\d+) of (\d+)/, "$1 / $2") +
-        (state.mode === "layer" ? "" : "  ·  sharpness test B"),
-      160,
-      2175,
-    );
+  if (!state.menuOpen && !state.centering && !state.arriving && !readingView)
+    ctx.fillText(folioText, 160, 2175);
   ctx.font = `36px ${UI}`;
   if (state.gazeTurn && !state.menuOpen) ctx.textAlign = "center";
   ctx.fillText(
@@ -930,6 +953,27 @@ function paint() {
     else ctx.rect(0, 0, PAGE.width, PAGE.height);
     ctx.fill();
     ctx.globalCompositeOperation = "source-over";
+  }
+  if (readingView) {
+    const key = JSON.stringify([state.workId, state.page, state.size, state.mood, state.night, pages.length, state.mode]);
+    if (folio.current?.key !== key) {
+      const previous = folio.current, target = folio.canvases[folio.flip ^= 1];
+      target.width = PAGE.width; target.height = FOLIO_BAND.h;
+      paintFolioContent(target.getContext("2d"), pages[state.page], folioText);
+      folio.current = { key, canvas: target, revision: ++folio.revision, work: state.workId, page: state.page };
+      // Same work, another page: slide the words; the glass stays still.
+      folio.turn = null;
+      if (previous && previous.work === state.workId && previous.page !== state.page && state.mode === "layer" && state.session) {
+        folio.plate.width = PAGE.width; folio.plate.height = PAGE.height;
+        folio.plate.getContext("2d").drawImage(canvas, 0, 0);
+        folio.plateRevision++;
+        folio.turn = { from: previous, to: folio.current, dir: Math.sign(state.page - previous.page), start: null };
+      }
+    }
+    ctx.drawImage(folio.current.canvas, 0, FOLIO_BAND.y);
+  } else {
+    folio.current = null;
+    folio.turn = null;
   }
   $("place").textContent = readingPosition();
   $("prev").disabled = state.page === 0;
@@ -1574,7 +1618,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-053",
+    build: "gestures-054",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1659,7 +1703,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-053.json";
+  a.download = "bradbury-test-details-build-054.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1784,6 +1828,7 @@ function cleanSession() {
   if (projectionRoute) base?.destroy();
   projectionRoute = false;
   lamp = null;
+  folio.turn = folio.current = folio.readingSince = null;
   gpu?.dispose();
   gpu = null;
   placement = null;
@@ -2617,6 +2662,38 @@ function frame(time, xrFrame, generation) {
         canvas.dataset.lamp = JSON.stringify({ ms: Math.round(arrivalElapsed), opacity: f.opacity, glow: f.glow,
           header: f.header, rows: f.rows.map(r => r.alpha), lifts: f.rows.map(r => r.lift), footer: f.footer });
       } else delete canvas.dataset.lamp;
+      // Glass folio motion: a page turn, or the occasional rim highlight.
+      const readingNow = drawMode === "layer" && !state.menuOpen && !state.arriving && !state.centering &&
+        !state.practice && !state.attentionPaused;
+      let turnNow = null, shimmerNow = null;
+      if (readingNow && folio.turn) {
+        const turn = folio.turn;
+        turn.start ??= time;
+        const f = turnFrame(time - turn.start, turn.dir, reducedMotion());
+        turnNow = [
+          { source: turn.from.canvas, revision: turn.from.revision, x: f.old.dx, y: FOLIO_BAND.y, width: PAGE.width, height: FOLIO_BAND.h, alpha: f.old.alpha },
+          { source: turn.to.canvas, revision: turn.to.revision, x: f.next.dx, y: FOLIO_BAND.y, width: PAGE.width, height: FOLIO_BAND.h, alpha: f.next.alpha },
+        ];
+        canvas.dataset.pageTurn = JSON.stringify({ ms: Math.round(time - turn.start), dir: turn.dir, old: f.old, next: f.next });
+        if (f.done) folio.turn = null;
+      } else delete canvas.dataset.pageTurn;
+      if (!readingNow) folio.readingSince = null;
+      else if (!turnNow && !reducedMotion()) {
+        folio.readingSince ??= time;
+        const at = shimmerAt(time - folio.readingSince, PAGE.width);
+        if (at) {
+          if (!folio.shimmer) paintShimmer(folio.shimmer = document.createElement("canvas"));
+          shimmerNow = [{ source: folio.shimmer, x: at.x, y: at.y, width: SHIMMER.width, height: FRAME, alpha: at.alpha }];
+        }
+      }
+      if (shimmerNow) canvas.dataset.glassShimmer = JSON.stringify({ x: shimmerNow[0].x, alpha: shimmerNow[0].alpha });
+      else delete canvas.dataset.glassShimmer;
+      if (turnNow || shimmerNow) canvas.dataset.pageMotion = turnNow ? "turn" : "shimmer";
+      else {
+        // Motion over: free the snapshot textures until the next turn or pass.
+        if (canvas.dataset.pageMotion) gpu.release(folio.plate, canvas);
+        delete canvas.dataset.pageMotion;
+      }
       // The old cover leaves are retired: the window simply fades in.
       if (arrival?.clearVisible()) applyLayers();
       const display = state.arriving
@@ -2711,7 +2788,7 @@ function frame(time, xrFrame, generation) {
           checkGl(gl, "projection cleanup");
         }
       }
-      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed || lampNow)) {
+      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed || lampNow || turnNow || shimmerNow)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
         nativeQuadUpload = { viewport: { x: sub.viewport.x, y: sub.viewport.y,
@@ -2720,12 +2797,14 @@ function frame(time, xrFrame, generation) {
           imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
         if (lampNow) gpu.composePage(sub, lamp.base, { revision: lamp.revision, sprites: lampNow.sprites });
+        else if (turnNow) gpu.composePage(sub, folio.plate, { revision: folio.plateRevision, sprites: turnNow });
+        else if (shimmerNow) gpu.composePage(sub, canvas, { revision: pagePaintRevision, sprites: shimmerNow });
         else if (pagePointer) {
           gpu.composePage(sub, canvas, { revision: pagePaintRevision,
             sprites: pointer?.surfaceSprites(PAGE.width, PAGE.height, surfaceWidth(), surfaceHeight()) || [] });
         } else gpu.copyPage(sub, canvas, { premultiplied: true });
         // Composed images must be replaced by a clean page copy afterwards.
-        nativePointerComposed = pagePointer || !!lampNow;
+        nativePointerComposed = pagePointer || !!lampNow || !!turnNow || !!shimmerNow;
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
