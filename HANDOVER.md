@@ -1,3 +1,14 @@
+## 30 October 2026 (overnight) — Builds 052–054 BUILT and TESTED; NOT published
+
+Bastian approved three designs (each via 3 ideas + an independent judge, then his yes). Before bed he asked for all of them to be built but not published; he will test in the morning. The local branches are stacked on released Build 051 (8744b87):
+
+- **build-052-lamp-arrival: "Lamp on" intro.** About 5 s after placement: a warm glow rises and settles, Today's header fades in place, and the three readings rise in a beat apart. A pinch skips; reduced motion is a 0.3 s fade. Composed on the GPU from pieces drawn once. 220 unit/source and **295/295** full browser checks pass. See BUILD_052_REVIEW.md.
+- **build-053-glance-watch: "Glance face" watch.** 4.4 × 3.85 cm dark glass (was 8.8 × 7.7 cm) showing only the time, the first unread of today's real readings, and a gold streak. 0.25 s fade, same right-wrist trigger. 223 unit/source and **296/296** pass. See BUILD_053_REVIEW.md.
+- **build-054-glass-folio: "Glass folio" reading page.** Warm paper in a translucent glass frame; small-capital title, author and running head; an opening letter for prose; display-time curly quotes; a centred folio. Page turns slide and fade on the GPU, and a faint rim highlight passes about every 25 s on the glass only. Texts, anchors and saved places are unchanged. 229 unit/source and **300/300** pass. See BUILD_054_REVIEW.md.
+
+No Quest result for any of them. Couch mode needs Bastian's decision: placement already faces the head, and a self-moving recline mode was not built because the app re-centres only on request. Nothing was pushed or deployed; live remains Build 051. The worktrees are work/bradbury-next (052), work/bradbury-053 and work/bradbury-054, with local servers on ports 18190–18192. To release, fast-forward phase-1-gestures to the chosen branch tip after verifying it, as for 051.
+
+---
 ## 30 October 2026 — Build 051 RELEASED; live files verified, headset check pending
 
 Released tested code 64a2074 by fast-forwarding phase-1-gestures (09d361c..64a2074, atomic, no force); build-051-surface-pointer saved remotely. Live https://p0champ.github.io/bradbury-cabin/?v=51&pointerDiagnostics=1. Confirmed BUILD 051 and normalized SHA-256 equality of all 38 live root code files. No changes to main/phase-0-crispness. Publishing was authorized by Bastian's resume request ("publish and verify the release").

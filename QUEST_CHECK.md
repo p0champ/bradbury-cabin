@@ -1,3 +1,14 @@
+# Builds 052–054 — NOT published yet, device check after release
+
+When one of these is published, check:
+
+- **052 "Lamp on" intro.** After the placing pinch, the window glows warm and settles, then Today's header appears in place and the three readings rise in one after another, about 5 s in all. Does it feel calm rather than slow? A fresh pinch should skip straight to Today without opening anything. Is the warmth pleasant over your real room?
+- **053 watch.** Turn your right wrist like checking a watch. A small dark glass face should fade in, showing the time, "Poem · title" (your first unread reading) and the gold streak. Is it readable at arm's length, and the right size? The left wrist and ordinary page turns must never show it.
+- **054 reading page.** Warm paper inside a thin glass frame. Are the small capitals and the opening letter crisp from the couch? Turn pages both ways: the words should slide and fade smoothly while the frame stays still. Within about 25 s a faint light should run along the top glass edge. Is it subtle enough? Check the top-right Exit is still easy to hit and never triggers by accident.
+
+Also note whether anything feels less smooth than Build 051. Retain prior checks below.
+
+---
 # Build 051 — RELEASED, menu pointer device check pending
 
 Live https://p0champ.github.io/bradbury-cabin/?v=51&pointerDiagnostics=1 — check BUILD 051; all 38 root code files verified against tested code 64a2074. The menu dot is now drawn into the same picture as the buttons. 216 unit/source and 290 full synthetic browser checks pass. When convenient, with the same hand: start in the middle, then move the dot to the very top (Today, Settings), the bottom (Browse the library) and both sides. The dot should stay visible everywhere on the window, not only in a square around the poem. Pinch each choice and check that exact action opens. Repeat lying down if convenient. Also notice whether menus feel less smooth than reading (the menu now redraws more each frame). After leaving, Save test details gives bradbury-test-details-build-051.json. No headset result yet. Retain prior checks below.
