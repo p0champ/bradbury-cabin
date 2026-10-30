@@ -3133,6 +3133,7 @@ function paintDriveButton() {
         : "Sync with Drive";
 }
 let driveTimer = null;
+let picksSeen = null; // today's newest picks file as of the last good sync
 function scheduleDriveSave() {
   if (!progressPersistent) return; // Recovery mode must not publish a replacement.
   if (!clientId || !driveState.everSynced) return;
@@ -3225,6 +3226,9 @@ async function syncDrive() {
     if (!progressPersistent) throw Error("Your saved progress needs recovery first. Your existing readings are still available.");
     if (!drive.connected) await drive.signIn();
     const today = todayKey();
+    // Noted before reading the picks, so a file that lands mid-sync is
+    // still seen as new by the next minute's check.
+    const stamp = await drive.newestPicksStamp(today).catch(() => undefined);
     // History first: picks are checked against every earlier day's reading.
     const remote = await drive.read("progress.json");
     let restored = false;
@@ -3296,6 +3300,7 @@ async function syncDrive() {
     driveState.pending = 0;
     driveState.error = null;
     driveState.last = new Date().toTimeString().slice(0, 5);
+    picksSeen = { day: today, stamp };
     report(message);
   } catch (e) {
     driveState.error = e.message;
@@ -3311,6 +3316,24 @@ paintDriveButton();
 // After a reload within the hour, Google's sign-in is still valid: sync
 // straight away (no popup), so ticks keep going to Drive.
 if (clientId && drive.connected) syncDrive();
+// While the app is open, look once a minute (and on returning to it) for a
+// new daily three or swap from Claude, and sync only when one has arrived.
+let picksCheck = false;
+async function checkForPicks() {
+  if (picksCheck || driveState.syncing || !driveState.everSynced || !drive.connected || document.hidden || !progressPersistent) return;
+  picksCheck = true;
+  try {
+    const today = todayKey();
+    const stamp = await drive.newestPicksStamp(today);
+    if (picksSeen?.day !== today || picksSeen.stamp !== stamp) await syncDrive();
+  } catch {
+    // A missed check is retried next minute; reading carries on.
+  } finally {
+    picksCheck = false;
+  }
+}
+setInterval(checkForPicks, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForPicks(); });
 // Load Google sign-in early, so the popup opens directly from the tap.
 if (clientId) preloadGoogle();
 await document.fonts.load("54px Literata");

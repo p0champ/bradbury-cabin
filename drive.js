@@ -132,6 +132,17 @@ export class DriveLink {
     if (name === "progress.json") this.progressId = files[0].id;
     return (await this.call(`${API}/files/${files[0].id}?alt=media`)).text();
   }
+  // One small listing: which of today's picks files is newest. A new daily
+  // three or a swap changes it, so the open app knows when to sync.
+  async newestPicksStamp(today) {
+    const folder = await this.folder();
+    if (!folder) return null;
+    const query = `'${folder}' in parents and trashed = false and name contains 'picks-${today}'`;
+    const url = `${API}/files?q=${encodeURIComponent(query)}&fields=files(id,name,createdTime,modifiedTime)&orderBy=createdTime desc&pageSize=100&spaces=drive`;
+    const file = ((await (await this.call(url)).json()).files || []).find(f =>
+      new RegExp(`^picks-${today}(-[0-9]+)?\\.json$`).test(f.name));
+    return file ? `${file.id}:${file.createdTime || ""}:${file.modifiedTime || ""}` : null;
+  }
   // Claude's picks for `today`. Lists the folder (newest created first),
   // keeps only files named picks-YYYY-MM-DD[-n].json, and returns the first
   // one that parses with today's date. If none is for today, returns the
