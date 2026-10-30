@@ -50,7 +50,7 @@ module.exports=async function feelChecks(browser,{mock,BASE_URL,passed}){
  assert.ok(await p.evaluate(()=>[...__mock.layerData].some(([l,d])=>d.badge&&l.opacity>.5)));
  passed('feel: tracked idle hand discs stay clearly visible and follow movement');
  const contrast=await p.evaluate(async()=>{
-  const {paintHandBadge}=await import('/hand-badges.js?v=52');
+  const {paintHandBadge}=await import('/hand-badges.js?v=53');
   const linear=x=>{x/=255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4;};
   const luminance=p=>.2126*linear(p[0])+.7152*linear(p[1])+.0722*linear(p[2]);
   return ['#ffffff','#080a0b','#f6f2e9'].flatMap(background=>[true,false].map(available=>{

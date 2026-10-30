@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { watchPose, watchMeasure, watchPosition, watchSummary, WATCH_HAND, WristWatch, titleOnly } from "../watch.js";
+import { watchPose, watchMeasure, watchPosition, watchSummary, WATCH_HAND, WATCH_METRES, WATCH_TIMING, WristWatch, titleOnly, watchReading, streakText, clockText } from "../watch.js";
 import { seedProgress, toggleTick } from "../progress.js";
 // Viewer at the origin looking down -z; +x is the viewer's right.
 const viewer = { x: 0, y: 0, z: 0 },
@@ -64,7 +64,8 @@ function fixture({ preload = true } = {}) {
   globalThis.document = { createElement: () => ({ getContext: () => new Proxy({}, {
     get: (t, k) => k in t ? t[k]
       : k === "clearRect" ? () => paint.count++
-      : k === "createLinearGradient" ? () => ({ addColorStop() {} })
+      : k === "createLinearGradient" || k === "createRadialGradient" ? () => ({ addColorStop() {} })
+      : k === "measureText" ? (text) => ({ width: String(text).length * 18 })
       : k === "fillText" ? (label) => paint.labels.push(label)
       : () => {},
     set: (t, k, v) => ((t[k] = v), true),
@@ -72,7 +73,7 @@ function fixture({ preload = true } = {}) {
   const layer = { opacity: 0, destroy() {} };
   const w = new WristWatch({ createQuadLayer: () => layer, getSubImage() {} }, {});
   const viewerT = { position: viewer, orientation: { x: 0, y: 0, z: 0, w: 1 }, matrix: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1] };
-  const summary = watchSummary(seedProgress("2026-10-28"), "2026-10-28");
+  const summary = { ...watchSummary(seedProgress("2026-10-28"), "2026-10-28"), time: "21:47", titles: ["The Tyger", null, null] };
   const s = { hand: "right", ...watching };
   const step = (time, sample = s, nextSummary = summary) => w.update(sample, viewerT, { time, summary: nextSummary });
   const draw = () => w.draw({}, { copyPage() { paint.uploads++; } }, [layer]);
@@ -81,14 +82,14 @@ function fixture({ preload = true } = {}) {
   return { w, s, summary, layer, paint, step, draw, viewerT };
 }
 
-test("glance preloads once, paints only date and dots, and ignores nonvisual summary changes", () => {
+test("glance preloads once, paints only time, reading and streak, and ignores nonvisual summary changes", () => {
   const { w, layer, summary, paint, step, draw } = fixture();
-  assert.deepEqual(paint.labels, ["Wednesday", "28"]);
+  assert.deepEqual(paint.labels, ["21:47", "Poem · ", "The Tyger", "Begin a streak today"]);
   assert.equal(layer.opacity, 0);
   assert.deepEqual(w.pendingPreloads(), []);
   w.prepare(summary);
   step(0);
-  step(20, undefined, { ...summary, streak: 100, weekly: "unrelated" });
+  step(20, undefined, { ...summary, weekly: "unrelated", week: [] });
   draw();
   assert.equal(paint.count, 1);
   assert.equal(paint.uploads, 1);
@@ -96,6 +97,10 @@ test("glance preloads once, paints only date and dots, and ignores nonvisual sum
   draw();
   assert.equal(paint.count, 2);
   assert.equal(paint.uploads, 2);
+  step(60, undefined, { ...summary, ticks: [true, false, false], time: "21:48" });
+  draw();
+  assert.equal(paint.count, 3, "the minute changes the face");
+  assert.equal(paint.uploads, 3);
 });
 
 test("glance requires 300ms intentional posture, fades in, and locks only the right hand through departure", () => {
@@ -105,7 +110,7 @@ test("glance requires 300ms intentional posture, fades in, and locks only the ri
   step(300);
   assert.equal(w.shown, true);
   assert.ok(layer.opacity > 0 && layer.opacity < 1);
-  for (let t = 320; t <= 440; t += 20) step(t);
+  for (let t = 320; t <= 560; t += 20) step(t);
   assert.equal(layer.opacity, 1);
   assert.equal(w.showingFor("right"), true);
   assert.equal(w.showingFor("left"), false);
@@ -115,22 +120,22 @@ test("glance requires 300ms intentional posture, fades in, and locks only the ri
   step(580, null);
   assert.equal(w.shown, false);
   assert.equal(w.showingFor("right"), true, "still locked while fading");
-  for (let t = 600; t <= 740; t += 20) step(t, null);
+  for (let t = 600; t <= 860; t += 20) step(t, null);
   assert.equal(w.visible.length, 0);
   assert.equal(w.showingFor("right"), false);
 });
 
 test("lost tracking holds the last pose, fades safely, and permits a later glance", () => {
   const { w, s, step, layer } = fixture();
-  for (let t = 0; t <= 440; t += 20) step(t);
+  for (let t = 0; t <= 560; t += 20) step(t);
   const last = JSON.parse(JSON.stringify(layer.transform));
-  step(460, { ...s, wrist: null });
+  step(580, { ...s, wrist: null });
   assert.equal(w.failed, false);
   assert.equal(w.visible.length, 1);
   assert.deepEqual(layer.transform, Object.assign(new XRRigidTransform(), last));
-  for (let t = 480; t <= 760; t += 20) step(t, null);
+  for (let t = 600; t <= 1000; t += 20) step(t, null);
   assert.equal(w.visible.length, 0);
-  for (let t = 780; t <= 1240; t += 20) step(t);
+  for (let t = 1020; t <= 1600; t += 20) step(t);
   assert.equal(layer.opacity, 1);
 });
 
@@ -196,7 +201,7 @@ test("head rotation during a deliberate glance cannot starve acquisition", () =>
       orientation: { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) } }, { time, summary });
     movingFrames += Number(w.moving);
     draw();
-    if (time >= 450) assert.equal(layer.opacity, 1);
+    if (time >= 600) assert.equal(layer.opacity, 1);
   }
   assert.ok(movingFrames > 40, "head motion actually trips follower movement");
 });
@@ -244,7 +249,7 @@ test("initial texture upload proceeds during follower movement and gates first r
   draw();
   assert.equal(paint.uploads, 1);
   assert.deepEqual(w.pendingPreloads(), []);
-  for (let time = 40; time <= 460; time += 20) step(time, translateHand(s, .03));
+  for (let time = 40; time <= 600; time += 20) step(time, translateHand(s, .03));
   assert.equal(layer.opacity, 1);
 });
 
@@ -284,4 +289,26 @@ test("wrist titles drop the author and never invent one", () => {
   assert.equal(titleOnly("The Guest House - Rumi"), "The Guest House");
   assert.equal(titleOnly(" — Rumi"), "");
   assert.equal(titleOnly(null), "");
+});
+
+test("glance face: about Apple Watch size and a quarter-second fade", () => {
+  assert.ok(WATCH_METRES[0] <= .046 && WATCH_METRES[1] <= .04);
+  assert.equal(WATCH_TIMING.fade, 250);
+});
+
+test("glance face shows the first unread reading, never an invented title", () => {
+  const titles = ["The Tyger", "Tobin's Palm", "Of Death"];
+  assert.deepEqual(watchReading({ ticks: [false, false, false], titles }), { label: "Poem", title: "The Tyger", done: false });
+  assert.deepEqual(watchReading({ ticks: [true, false, false], titles }), { label: "Story", title: "Tobin's Palm", done: false });
+  assert.deepEqual(watchReading({ ticks: [true, true, false], picks: [null, null, "Of Truth — Francis Bacon"] }), { label: "Essay", title: "Of Truth", done: false });
+  assert.deepEqual(watchReading({ ticks: [false, false, false] }), { label: "Poem", title: "", done: false });
+  assert.equal(watchReading({ ticks: [true, true, true], titles }).done, true);
+});
+
+test("glance face streak and 24-hour time", () => {
+  assert.equal(streakText(12), "12-day streak");
+  assert.equal(streakText(1), "1-day streak");
+  assert.equal(streakText(0), "Begin a streak today");
+  assert.equal(clockText(new Date(2026, 9, 30, 7, 5)), "07:05");
+  assert.equal(clockText(new Date(2026, 9, 30, 21, 47)), "21:47");
 });

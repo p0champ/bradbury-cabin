@@ -29,9 +29,9 @@ module.exports = async function sessionDetailsChecks(browser, { mock, BASE_URL, 
     assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'shortcut must fit narrow screens');
     const dl = p.waitForEvent('download'); await p.locator('#session-export').click();
     const download = await dl;
-    assert.equal(download.suggestedFilename(), 'bradbury-test-details-build-052.json');
+    assert.equal(download.suggestedFilename(), 'bradbury-test-details-build-053.json');
     const report = JSON.parse(await fs.readFile(await download.path(), 'utf8'));
-    assert.equal(report.build, 'gestures-052');
+    assert.equal(report.build, 'gestures-053');
     assert.equal(report.pointer.diagnosticsEnabled, diagnostics);
     assert.equal(report.pointer.nativeQuad.width, geometry.width);
     assert.equal(report.pointer.nativeQuad.height, geometry.height);

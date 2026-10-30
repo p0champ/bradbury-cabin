@@ -1,23 +1,28 @@
-import { PoseFollower } from "./follow-pose.js?v=52";
-import { UI } from "./theme.js?v=52";
+import { PoseFollower } from "./follow-pose.js?v=53";
+import { UI } from "./theme.js?v=53";
+const SERIF = "Literata, Georgia, serif";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
 // It is locked to the right hand: only an input source whose handedness is
 // "right" can ever show it. There is no fallback to the other or nearest hand
 // (an earlier wrist feature that switched wrists was a real problem).
-// A quiet glass glance: the date and today's three readings.
+// "Glance face": small dark glass showing only the time, the reading you
+// are on today, and your reading streak.
 import {
   KINDS,
   addDays,
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=52";
+} from "./progress.js?v=53";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
-export const WATCH_METRES = [0.088, 0.077];
-export const WATCH_TIMING = { steady: 300, intentGrace: 80, maxGap: 100, hysteresis: 120, fade: 120 };
+// About the size of an Apple Watch face; the same pixels at half the size
+// keep the type twice as sharp.
+export const WATCH_METRES = [0.044, 0.0385];
+export const WATCH_TIMING = { steady: 300, intentGrace: 80, maxGap: 100, hysteresis: 120, fade: 250 };
+const KIND_LABEL = ["Poem", "Story", "Essay"];
 const DAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const WEEKDAYS = "Sun Mon Tue Wed Thu Fri Sat".split(" ");
@@ -132,46 +137,102 @@ function rounded(c, x, y, w, h, r) {
 export function titleOnly(pick) {
   return typeof pick === "string" ? pick.split(/\s+[—–-]\s+/)[0].trim() : "";
 }
-// Deliberately simulated frosting: no promise of live passthrough blur.
+// 24-hour clock text for the face, e.g. "21:47".
+export function clockText(date = new Date()) {
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+// The one reading line: the first of today's three not yet read. Titles come
+// from the app's real Today picks or stored picks, never invented.
+export function watchReading(s) {
+  const ticks = s.ticks || [];
+  if (ticks.length === 3 && ticks.every(Boolean)) return { label: "All three read", title: "", done: true };
+  const i = [0, 1, 2].find((k) => !ticks[k]) ?? 0;
+  return { label: KIND_LABEL[i], title: s.titles?.[i] || titleOnly(s.picks?.[i]) || "", done: false };
+}
+export function streakText(streak = 0) {
+  return streak > 0 ? `${streak}-day streak` : "Begin a streak today";
+}
+function fitText(c, text, width) {
+  if (c.measureText(text).width <= width) return text;
+  while (text.length > 1 && c.measureText(text + "…").width > width) text = text.slice(0, -1);
+  return text.trimEnd() + "…";
+}
+// Dark glass with a faint warm edge, like the arrival's lamp. Painted once
+// per change (the time changes once a minute); the GPU only fades it.
 export function paintWatch(canvas, s, night = false) {
   const c = canvas.getContext("2d");
-  const [W, H] = WATCH_PIXELS;
+  const [W, H] = WATCH_PIXELS, inset = 16, radius = 96;
   c.clearRect(0, 0, W, H);
-  const glass = c.createLinearGradient(0, 0, W, H);
-  glass.addColorStop(0, night ? "rgba(45,51,57,.88)" : "rgba(249,250,251,.88)");
-  glass.addColorStop(1, night ? "rgba(25,31,38,.82)" : "rgba(224,230,234,.80)");
+  c.save();
+  c.shadowColor = "rgba(255,186,112,.30)";
+  c.shadowBlur = 14;
+  const glass = c.createLinearGradient(0, inset, 0, H - inset);
+  glass.addColorStop(0, "rgba(42,42,40,.95)");
+  glass.addColorStop(1, "rgba(15,16,16,.95)");
   c.fillStyle = glass;
-  rounded(c, 8, 8, W - 16, H - 16, 58);
+  rounded(c, inset, inset, W - 2 * inset, H - 2 * inset, radius);
   c.fill();
-  const rim = c.createLinearGradient(0, 8, 0, H - 8);
-  rim.addColorStop(0, "rgba(255,255,255,.70)");
-  rim.addColorStop(1, "rgba(255,255,255,.10)");
+  c.restore();
+  // A soft sheen on the upper glass and a hairline warm rim.
+  c.save();
+  rounded(c, inset, inset, W - 2 * inset, H - 2 * inset, radius);
+  c.clip();
+  const sheen = c.createLinearGradient(0, inset, 0, H * .5);
+  sheen.addColorStop(0, "rgba(255,255,255,.075)");
+  sheen.addColorStop(1, "rgba(255,255,255,0)");
+  c.fillStyle = sheen;
+  c.fillRect(0, 0, W, H * .5);
+  c.restore();
+  const rim = c.createLinearGradient(0, inset, 0, H - inset);
+  rim.addColorStop(0, "rgba(255,220,180,.34)");
+  rim.addColorStop(1, "rgba(255,200,150,.10)");
   c.strokeStyle = rim;
   c.lineWidth = 2;
-  rounded(c, 10, 10, W - 20, H - 20, 56);
+  rounded(c, inset + 1, inset + 1, W - 2 * inset - 2, H - 2 * inset - 2, radius - 1);
   c.stroke();
+  const ink = night ? "rgba(236,231,222,.94)" : "#f4efe6";
   c.textAlign = "center";
-  c.fillStyle = night ? "rgba(244,246,249,.74)" : "rgba(32,39,48,.70)";
-  c.font = `500 37px ${UI}`;
-  c.fillText(s.weekday || s.title?.split(" ")[0] || "", W / 2, 93);
-  c.fillStyle = night ? "#f4f6f9" : "#202730";
-  c.font = `400 184px ${UI}`;
-  c.fillText(String(s.day ?? s.title?.split(" ")[1] ?? ""), W / 2, 285);
-  for (let i = 0; i < 3; i++) {
-    c.beginPath();
-    c.arc(W / 2 + (i - 1) * 48, 359, 11, 0, Math.PI * 2);
-    if (s.ticks?.[i]) {
-      c.fillStyle = night ? "rgba(244,246,249,.90)" : "rgba(32,39,48,.88)";
-      c.fill();
-    } else {
-      c.strokeStyle = night ? "rgba(244,246,249,.42)" : "rgba(32,39,48,.34)";
-      c.lineWidth = 3;
-      c.stroke();
-    }
+  c.textBaseline = "alphabetic";
+  // Time: large and calm.
+  c.fillStyle = ink;
+  c.font = `500 148px ${UI}`;
+  c.fillText(s.time || "", W / 2, 200);
+  // Today's reading: kind in the interface face, title in the book face.
+  const reading = watchReading(s), maxWidth = W - 2 * 56;
+  c.font = `400 33px ${UI}`;
+  const label = reading.title ? `${reading.label} · ` : reading.label;
+  const labelWidth = c.measureText(label).width;
+  c.font = `400 35px ${SERIF}`;
+  const title = reading.title ? fitText(c, reading.title, Math.max(40, maxWidth - labelWidth)) : "";
+  const titleWidth = title ? c.measureText(title).width : 0;
+  let x = W / 2 - (labelWidth + titleWidth) / 2;
+  c.textAlign = "left";
+  c.font = `400 33px ${UI}`;
+  c.fillStyle = "rgba(244,239,230,.62)";
+  c.fillText(label, x, 288);
+  if (title) {
+    c.font = `400 35px ${SERIF}`;
+    c.fillStyle = "rgba(244,239,230,.92)";
+    c.fillText(title, x + labelWidth, 288);
   }
+  // Streak in warm gold with an ember; brighter once all three are read.
+  const gold = reading.done ? "#f3c56e" : "#d6a14c";
+  c.font = `500 30px ${UI}`;
+  const streak = streakText(s.streak), streakWidth = c.measureText(streak).width;
+  const ember = 9, gap = 14;
+  x = W / 2 - (streakWidth + 2 * ember + gap) / 2;
+  const ey = 360;
+  const glow = c.createRadialGradient(x + ember, ey, 0, x + ember, ey, ember * (reading.done ? 3.2 : 2.2));
+  glow.addColorStop(0, reading.done ? "rgba(255,200,110,.75)" : "rgba(240,170,80,.55)");
+  glow.addColorStop(1, "rgba(240,170,80,0)");
+  c.fillStyle = glow;
+  c.beginPath(); c.arc(x + ember, ey, ember * (reading.done ? 3.2 : 2.2), 0, Math.PI * 2); c.fill();
+  c.fillStyle = gold;
+  c.beginPath(); c.arc(x + ember, ey, ember * .62, 0, Math.PI * 2); c.fill();
+  c.fillText(streak, x + 2 * ember + gap, ey + 11);
 }
 
-const visualKey = (s, night) => JSON.stringify([s.weekday, s.day, s.title, s.ticks, night]);
+const visualKey = (s, night) => JSON.stringify([s.time, s.streak, s.ticks, s.titles, s.picks, night]);
 
 export class WristWatch {
   constructor(binding, space, onError = () => {}) {
