@@ -385,6 +385,11 @@ async function mock(
         };
         session.dispatchEvent(e);
       };
+      // Build 054: a page turn slides for 0.46 s; wait until it rests.
+      window.__settleTurn = () => {
+        for (let i = 0; i < 40 && document.querySelector("#page").dataset.pageMotion; i++) __step(16);
+        __step(16);
+      };
       // Let the "Lamp on" arrival play out frame by frame (about 5 s).
       window.__finishArrival = () => {
         let waited = false;
@@ -2289,7 +2294,7 @@ async function mock(
       await p.evaluate(() => __step(240));
       assert.equal((await p.evaluate(() => badgeStates()))[0].lit,0,"turn acknowledgement ends while tracked");
       // Build 054: let the 0.46 s slide-and-fade turn come to rest first.
-      await p.evaluate(() => { for (let i = 0; i < 40 && document.querySelector("#page").dataset.pageMotion; i++) __step(16); __step(16); });
+      await p.evaluate(() => __settleTurn());
       const turned = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(turned.differences, 0, "displayed quad shows the new page");
       assert.notEqual(
@@ -2301,6 +2306,7 @@ async function mock(
       assert.match(await p.locator("#place").textContent(), /Page 2 of 2/);
       await p.evaluate(() => __pinch("left"));
       assert.match(await p.locator("#place").textContent(), /Page 1 of 2/);
+      await p.evaluate(() => __settleTurn());
       assert.equal(
         (await p.evaluate(() => uploadedMatchesCanvas())).differences,
         0,
