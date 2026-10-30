@@ -1,6 +1,6 @@
-# Build 050 — menu pointer repair, device check pending
+# Build 050 — RELEASED, menu pointer device check pending
 
-Local only until release verification is recorded. With the same hand, move the dot from the middle to Today, Settings and Browse the library near the window edges. It should remain visible while pointing at the window; pinch each choice and check that exact action opens. Repeat lying down if convenient. After leaving, Save test details is visible near Enter without opening advanced tools; the file is bradbury-test-details-build-050.json. Use the diagnostics link from this chat to include detailed tracking/aim evidence. Reading controls and system-menu protections are retained. The software visibility failure is reproduced and repaired in desktop checks; actual headset outcome remains pending. Retain prior checks below.
+Live https://p0champ.github.io/bradbury-cabin/?v=50&pointerDiagnostics=1 — BUILD 050, all 38 root code files verified. 216 unit/source and 281 full synthetic browser checks pass. With the same hand, move the dot from the middle to Today, Settings and Browse the library near the window edges. It should remain visible while pointing at the window; pinch each choice and check that exact action opens. Repeat lying down if convenient. After leaving, Save test details is visible near Enter without opening advanced tools; the file is bradbury-test-details-build-050.json. Use the diagnostics link from this chat to include detailed tracking/aim evidence. Reading controls and system-menu protections are retained. The software visibility failure is reproduced and repaired in desktop checks; actual headset outcome remains pending. Retain prior checks below.
 
 ---
 # Build 049 — RELEASED, reading continuity device check pending
