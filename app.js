@@ -57,6 +57,7 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
+  addDays,
 } from "./progress.js?v=57";
 import {
   paintCalendar,
@@ -741,6 +742,14 @@ function homeOptions(route = state.menuPage) {
     rewards: route!=="today" || rewardEntries(progress).length>0,
     c: { ...NAV, serif: MOODS[state.mood].body, ui: UI } };
   options.feedbackIds = Object.fromEntries(WORKS.filter(w => workRead(progress,w)).map(w => [w.id,true]));
+  if (route === "today" && !todayWorks.length) {
+    // No checked trio for today: say so, name the usual request to Claude,
+    // and offer the most recent earlier day's three.
+    options.dateline = picksNotice ? "Today’s picks didn’t pass the source checks · ask Claude again"
+      : "Today’s three aren’t here yet · ask Claude for the daily three";
+    const earlier = shelfDays(progress, today)[0];
+    if (earlier) options.earlierDay = { date: earlier, label: earlier === addDays(today, -1) ? "Yesterday’s three →" : "Earlier three →" };
+  }
   if (!learned()) options.dateline = state.headPointer ? "Look at a title, then pinch and release." : "Point at a title, then pinch and release.";
   if (route === "shelf") {
     const days = shelfDays(progress, today);

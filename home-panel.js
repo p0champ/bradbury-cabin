@@ -60,7 +60,11 @@ function layout(o = {}) {
     if (!o.library) buttons.push(rect('home-calendar', 24, 446, 116, 36));
     if ((archive || o.library) && (o.page || 0) > 0) buttons.push(rect('home-later', 151, 446, 100, 36));
     if ((archive || o.library) && ((o.page || 0) + 1) * 3 < (o.library ? o.total : (o.days || []).length)) buttons.push(rect('home-earlier', 260, 446, 110, 36));
-  } else if (o.notes) buttons.push(rect('home-notes', 24, 446, 180, 36));
+  } else {
+    // Without today's three, the latest earlier day comes first in the footer.
+    if (o.earlierDay) buttons.push(rect(`home-day:${o.earlierDay.date}`, 24, 446, 166, 36, { earlier: true }));
+    if (o.notes) buttons.push(rect('home-notes', o.earlierDay ? 196 : 24, 446, o.earlierDay ? 172 : 180, 36));
+  }
   if(o.rewards) buttons.push(rect('home-rewards',376,446,80,36));
   buttons.push(rect(o.library ? 'home-back-shelf' : 'home-library', 463, 446, 233, 36));
   return { buttons, display, placements, rows, archive, shelf, resume, next, nextStrip, featured, start };
@@ -145,6 +149,7 @@ export function paintHome(ctx, options = {}) {
     else if (b.id === 'home-rewards') label(b, 'Rewards', 15);
     else if (b.id === 'home-calendar') label(b, 'Calendar', 16);
     else if (b.id === 'home-notes') label(b, 'Today’s notes →', 16);
+    else if (b.earlier) label(b, o.earlierDay.label, 16);
     else if (b.id === 'home-earlier') label(b, o.library ? 'Next →' : 'Earlier →', 15);
     else if (b.id === 'home-later') label(b, o.library ? '← Previous' : '← Later', 15);
     else if (b.id === 'home-back-shelf') label(b, o.library ? '← Shelf' : '← All days', 16);

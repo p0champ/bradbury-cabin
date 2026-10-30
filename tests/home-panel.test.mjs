@@ -16,7 +16,10 @@ test('compact home painted frame and all hit regions share the portrait layer co
   assert.equal(homeHit(1024, HOME_FRAME.y + HOME_FRAME.h + 1, { works }), null);
 });
 test('every clickable home region has its own nonoverlapping area', () => {
+  const earlierDay = { date: '2026-10-29', label: 'Yesterday’s three →' };
   for (const o of [{ works, notes: true }, { works, currentId: 'old', resume: { id: 'old', title: 'Another day' }, resumable: { old: true } },
+    { works: [], currentId: 'old', resume: { id: 'old', title: 'Another day' }, resumable: { old: true }, earlierDay, notes: true, rewards: true },
+    { works: [], earlierDay, rewards: true },
     { tab: 'shelf', days: ['2026-10-28', '2026-10-27', '2026-10-26', '2026-10-25'], page: 0 },
     { tab: 'shelf', entries: works.map(work => ({ work, kind: work.kind })) }]) {
     const b = homeButtons(o);
@@ -24,6 +27,13 @@ test('every clickable home region has its own nonoverlapping area', () => {
       assert.ok(b[i].x + b[i].w <= b[j].x || b[j].x + b[j].w <= b[i].x || b[i].y + b[i].h <= b[j].y || b[j].y + b[j].h <= b[i].y, `${b[i].id} overlaps ${b[j].id}`);
     }
   }
+});
+test('without today’s three the footer offers the latest earlier day before notes', () => {
+  const earlierDay = { date: '2026-10-29', label: 'Yesterday’s three →' };
+  const ids = homeButtons({ works: [], earlierDay, notes: true }).map(b => b.id);
+  assert.ok(ids.includes('home-day:2026-10-29') && ids.includes('home-notes'));
+  assert.ok(ids.indexOf('home-day:2026-10-29') < ids.indexOf('home-notes'));
+  assert.equal(homeButtons({ works, notes: true }).find(b => b.id === 'home-notes').x, 24 * HOME_SCALE, 'notes keep their place when today’s three are here');
 });
 test('resume is truthful, appears once and preserves three distinct work targets', () => {
   const old = { id: 'old', title: 'Earlier reading' };
