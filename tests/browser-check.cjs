@@ -661,7 +661,9 @@ async function mock(
               window.__mock.versions.set(window.__mock.texture, (window.__mock.versions.get(window.__mock.texture) || 0) + 1);
             } else window.__mock.projectionDraws++;
           }
-          if (scenario === "projection-gl-error") {
+          // Breaks projection draws only; GPU page composition (menu cursor,
+          // Build 052 arrival) has its own named stage and checks.
+          if (scenario === "projection-gl-error" && window.__mock.attachments?.[0] !== window.__mock.texture) {
             injected = g.INVALID_FRAMEBUFFER_OPERATION;
             return;
           }
