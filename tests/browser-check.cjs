@@ -3467,6 +3467,11 @@ async function mock(
           writes.push({ method, url, body: r.request().postData() });
           return json({ id: "P" });
         }
+        // Automatic saves re-read the copy written last.
+        if (url.includes("/files/P?alt=media")) {
+          const w = writes.at(-1);
+          return r.fulfill({ contentType: "application/json", body: w.method === "PATCH" ? w.body : w.body.slice(w.body.indexOf('{"cabinPickerInstructions"'), w.body.lastIndexOf("\r\n--")) });
+        }
         return r.fulfill({ status: 404, body: "" });
       });
       await p.goto(BASE_URL);
@@ -3568,6 +3573,7 @@ async function mock(
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await require("./recovery-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./drive-merge-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

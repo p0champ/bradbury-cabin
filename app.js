@@ -3141,7 +3141,7 @@ function scheduleDriveSave() {
   }
   clearTimeout(driveTimer);
   driveTimer = setTimeout(() => {
-    drive.writeProgress(JSON.stringify(progress)).then(
+    pushProgress().then(
       () => {
         driveState.error = null;
         driveState.pending = 0;
@@ -3150,6 +3150,29 @@ function scheduleDriveSave() {
       (e) => (driveState.error = e.message),
     );
   }, 1500);
+}
+// Automatic saves re-read Drive first: another device's changes are merged
+// in, and a damaged Drive copy is left untouched instead of replaced.
+let drivePush = Promise.resolve();
+function pushProgress() {
+  const run = drivePush.then(async () => {
+    const remote = await drive.read("progress.json");
+    if (remote !== null) {
+      let parsed;
+      try { parsed = JSON.parse(remote); } catch {}
+      if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; your changes are kept on the headset.");
+      const merged = mergeProgress(progress, parsed);
+      if (JSON.stringify(merged) !== JSON.stringify(progress)) {
+        progress = merged;
+        if (progressPersistent) saveProgress(store, progress);
+        refreshSavedGuides();
+        paint();
+      }
+    }
+    await drive.writeProgress(JSON.stringify(progress));
+  });
+  drivePush = run.catch(() => {});
+  return run;
 }
 // Pull today's three and merge progress; push the merged progress back.
 async function syncDrive() {
