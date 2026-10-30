@@ -2288,6 +2288,8 @@ async function mock(
       );
       await p.evaluate(() => __step(240));
       assert.equal((await p.evaluate(() => badgeStates()))[0].lit,0,"turn acknowledgement ends while tracked");
+      // Build 054: let the 0.46 s slide-and-fade turn come to rest first.
+      await p.evaluate(() => { for (let i = 0; i < 40 && document.querySelector("#page").dataset.pageMotion; i++) __step(16); __step(16); });
       const turned = await p.evaluate(() => uploadedMatchesCanvas());
       assert.equal(turned.differences, 0, "displayed quad shows the new page");
       assert.notEqual(
