@@ -2,7 +2,7 @@
 // book typesetting touches, a slide-and-fade page turn and a slow highlight
 // that travels along the glass rim. Presentation only: the stored literary
 // text, its pagination and saved places are never changed here.
-import { WINDOW_RADIUS } from "./theme.js?v=55";
+import { WINDOW_RADIUS } from "./theme.js?v=56";
 
 // Width of the glass band around the paper, in page pixels (~2 cm).
 export const FRAME = 56;

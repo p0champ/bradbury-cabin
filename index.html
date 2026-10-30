@@ -6,14 +6,14 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=55" />
+    <link rel="stylesheet" href="style.css?v=56" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">BUILD 055</span>
+        ><span class="edition">BUILD 056</span>
       </header>
       <section class="intro">
         <div class="intro-copy">
@@ -108,17 +108,28 @@
           ><button id="next">Next →</button>
         </nav>
       </details>
+      <section id="thought-editor" class="thought-editor" hidden aria-label="Your reading feedback">
+        <h2>Your reading</h2><p id="thought-title"></p>
+        <div role="group" aria-label="Rate this piece">
+          <button data-rating="1" aria-pressed="false">1 ★</button><button data-rating="2" aria-pressed="false">2 ★</button><button data-rating="3" aria-pressed="false">3 ★</button><button data-rating="4" aria-pressed="false">4 ★</button><button data-rating="5" aria-pressed="false">5 ★</button><button id="rating-clear">Clear rating</button>
+        </div>
+        <label for="thought-text">One thought · optional</label>
+        <textarea id="thought-text" rows="3" maxlength="360"></textarea>
+        <button id="thought-speak">Speak / Stop</button><button id="thought-save">Save thought</button><button id="thought-clear">Remove thought</button>
+        <p id="thought-status" role="status" aria-live="polite"></p>
+      </section>
       <footer>
         <p>
           Challenge progress is kept in this browser when storage is available.
           Sync with Drive to share progress between devices, or use Export progress
           in Preview and advanced tools for a backup.
         </p>
+        <a href="voice-check.html">Check voice on this headset</a>
         <a href="CREDITS.md">Texts & credits</a
         ><a href="QUEST_CHECK.md">Headset checklist</a>
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=55"></script>
+    <script type="module" src="app.js?v=56"></script>
   </body>
 </html>

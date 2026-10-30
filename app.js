@@ -1,7 +1,10 @@
-import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=55";
-import { lookupWord } from "./word-lookup.js?v=55";
-import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=55";
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=55";
+import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=56";
+import { ThoughtVoice } from "./voice.js?v=56";
+import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=56";
+import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=56";
+import { lookupWord } from "./word-lookup.js?v=56";
+import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=56";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=56";
 import {
   GestureEngine,
   menuButtons,
@@ -13,33 +16,33 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=55";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=55";
-import { HandBadges } from "./hand-badges.js?v=55";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=55";
-import { LIBRARY } from "./library.js?v=55";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=55";
-import { layoutReading } from "./reading-flow.js?v=55";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=55";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=55";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=55";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=55";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=55";
-import { parsePicks, pickLabels } from "./picks.js?v=55";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=55";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=55";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=55";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=55";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=55";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=55";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=55";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=55";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=55";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=55";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=55";
-import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=55";
-import { EntrySound } from "./entry-sound.js?v=55";
-import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=55";
+} from "./gestures.js?v=56";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=56";
+import { HandBadges } from "./hand-badges.js?v=56";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=56";
+import { LIBRARY } from "./library.js?v=56";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=56";
+import { layoutReading } from "./reading-flow.js?v=56";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=56";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=56";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=56";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=56";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=56";
+import { parsePicks, pickLabels } from "./picks.js?v=56";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=56";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=56";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=56";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=56";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=56";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=56";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=56";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=56";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=56";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=56";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=56";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=56";
+import { EntrySound } from "./entry-sound.js?v=56";
+import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=56";
 import {
   readProgress,
   saveProgress,
@@ -51,13 +54,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=55";
+} from "./progress.js?v=56";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=55";
+} from "./calendar.js?v=56";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -156,7 +159,8 @@ function loadTodayCache() {
     if (r.date && r.date <= todayWorksFor && r.works.length === 3 && !r.problems.length) {
       const notesChanged = rememberGuides(progress, r.date, r.works, { onlyMissing: true });
       const linesChanged = rememberPersonal(progress, r.date, r, { onlyMissing: true });
-      if (notesChanged || linesChanged) {
+      const selectionsChanged = rememberSelections(progress, r.date, r.works, true);
+      if (notesChanged || linesChanged || selectionsChanged) {
         progress.savedAt = new Date().toISOString();
         if (!saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
       }
@@ -327,6 +331,57 @@ if (reading.last && WORKS.some((w) => w.id === reading.last)) {
   state.pendingAnchor = reading.places[reading.last]?.anchor || null;
 }
 let completionContext = null, currentReadingOpened = false;
+let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0;
+const thoughtVoice = new ThoughtVoice();
+function updateThoughtEditor() {
+  const panel = $("thought-editor");
+  panel.hidden = !feedbackWork || !!state.session;
+  if (feedbackWork) {
+    $("thought-title").textContent = feedbackWork.title + " — " + feedbackWork.author;
+    $("thought-text").value = thoughtDraft;
+    $("thought-status").textContent = voiceStatus || "Save here, then sync with Drive before asking Claude for your next picks.";
+    const f=feedbackFor(progress,feedbackWork);
+    for(const b of panel.querySelectorAll('[data-rating]'))b.setAttribute('aria-pressed',String(Number(b.dataset.rating)===f.stars));
+  }
+}
+function openFeedback(work) {
+  thoughtVoice.cancel(); feedbackWork=work; thoughtDraft=feedbackFor(progress,work).thought;voiceStatus='';thoughtPage=0;
+  state.menuOpen=true;state.menuPage='feedback';state.hover=null;dayOpenedAt=lastFrameTime;gestures.setContext('menu');updateThoughtEditor();paint();
+}
+function feedbackAction(id) {
+  if (!feedbackWork) return;
+  if(id.startsWith('feedback-star:') || id==='feedback-unrate') {
+    const value=id==='feedback-unrate'?null:Number(id.split(':')[1]);
+    if(setFeedback(progress,feedbackWork,'stars',value))voiceStatus=storeProgress()?'Rating saved.':'Rating could not be saved.';
+  } else if(id==='feedback-next' || id==='feedback-prev') {
+    thoughtPage += id==='feedback-next'?1:-1;
+  } else if(id==='feedback-save') {
+    thoughtVoice.cancel();
+    if(setFeedback(progress,feedbackWork,'thought',thoughtDraft))voiceStatus=storeProgress()?'Thought saved with this piece.':'Thought could not be saved.';
+    else voiceStatus='Keep your thought to 360 characters before saving.';
+  } else if(id==='feedback-clear') {
+    thoughtVoice.cancel();thoughtDraft='';thoughtPage=0;
+    if(setFeedback(progress,feedbackWork,'thought',null))voiceStatus=storeProgress()?'Thought removed.':'Could not save the removal.';
+  } else if(id==='feedback-speak') {
+    if(thoughtVoice.active)thoughtVoice.stop();
+    else thoughtVoice.start({onText:text=>{thoughtDraft=text;thoughtPage=0;updateThoughtEditor();paint();},onStatus:status=>{if(status)voiceStatus=status;else if(!thoughtDraft)voiceStatus='No sentence returned. Retry or type instead.';updateThoughtEditor();paint();}});
+  } else if(id==='feedback-type') {
+    thoughtVoice.cancel();voiceStatus='Type your thought on the browser page after leaving the cabin.';updateThoughtEditor();
+    if(state.session) {state.session.end().catch(()=>{voiceStatus='Leave the cabin to type your thought.';paint();});return;}
+    $('thought-editor').scrollIntoView({block:'center'});$('thought-text').focus();
+  } else if(id==='feedback-done') {
+    thoughtVoice.cancel();state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
+  }
+  updateThoughtEditor();paint();
+}
+$('thought-text').oninput=e=>{thoughtDraft=e.target.value;voiceStatus='Unsaved thought. Check it, then save.';paint();};
+$('thought-save').onclick=()=>feedbackAction('feedback-save');
+$('thought-speak').onclick=()=>feedbackAction('feedback-speak');
+$('thought-clear').onclick=()=>feedbackAction('feedback-clear');
+$('rating-clear').onclick=()=>feedbackAction('feedback-unrate');
+for(const b of document.querySelectorAll('[data-rating]'))b.onclick=()=>feedbackAction('feedback-star:'+b.dataset.rating);
+addEventListener('pagehide',()=>thoughtVoice.cancel());
+document.addEventListener('visibilitychange',()=>{if(document.hidden)thoughtVoice.cancel();});
 let pages = [],
   gpu,
   ref,
@@ -642,10 +697,11 @@ function homeOptions(route = state.menuPage) {
   const currentPage = pages[state.page];
   const currentPosition = currentPage ? `${currentPage.section === "before" ? "Before reading" : currentPage.section === "after" ? "After reading" : "Text"} · Page ${currentPage.sectionPage || state.page + 1}` : "";
   const options = { tab: route === "shelf" || route === "shelfday" || route === "library" ? "shelf" : "today",
-    works: todayWorks, currentId: state.workId, statuses, resumable, currentPosition, hover: state.hover,
+    works: todayWorks.map(w => ({...w, why: whyFor(w, progress)})), currentId: state.workId, statuses, resumable, currentPosition, hover: state.hover,
     resume: workById(state.workId), dateline: facts.dateline + (facts.read ? ` · ${facts.read} of 3 read` : ""),
     notes: !!(personal.dedication || personal.thread || picksNotice || driveNote()),
     c: { ...NAV, serif: MOODS[state.mood].body, ui: UI } };
+  options.feedbackIds = Object.fromEntries(WORKS.filter(w => workRead(progress,w)).map(w => [w.id,true]));
   if (!learned()) options.dateline = state.headPointer ? "Look at a title, then pinch and release." : "Point at a title, then pinch and release.";
   if (route === "shelf") {
     const days = shelfDays(progress, today);
@@ -655,7 +711,7 @@ function homeOptions(route = state.menuPage) {
     if (days[0] !== shelfTop) { if(shelfTop !== undefined) state.hover=null; shelfTop=days[0]; }
   } else if (route === "shelfday") {
     options.entries = resolveDay(progress, state.shelfDay, SOURCE_CATALOGUE).map(e => ({ ...e, read: e.read || (e.work && workRead(progress,e.work)),
-      work: e.work ? {...e.work,id:`today-${state.shelfDay}-${e.kind}-${e.work.id}`} : null }));
+      work: e.work ? {...e.work,id:`today-${state.shelfDay}-${e.kind}-${e.work.id}`, selection: archivedSelection(progress,state.shelfDay,e.work)} : null }));
     options.dayLabel = new Date(`${state.shelfDay}T12:00:00`).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
   } else if (route === "library") {
     const works = libraryWorks();
@@ -673,6 +729,11 @@ function homeOptions(route = state.menuPage) {
 }
 function navigationModel() {
   const page = state.arriving ? "today" : state.menuPage;
+  if (page === "feedback") {
+    const count=thoughtPages(ctx,thoughtDraft).length;thoughtPage=Math.max(0,Math.min(thoughtPage,count-1));
+    const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover};
+    return {kind:"feedback",options,bounds:compactBounds(),buttons:feedbackButtons(options)};
+  }
   if (HOME_ROUTES.includes(page) || state.arriving) {
     const options=homeOptions(page);return {kind:"home",options,bounds:HOME_FRAME,buttons:homeButtons(options)};
   }
@@ -698,6 +759,7 @@ function navigationModel() {
   return {kind:"compact",options,bounds:compactBounds(),buttons:compactButtons(options)};
 }
 function navigate(page) {
+  thoughtVoice.cancel();
   completionContext = null;
   cancelPointerPresses("navigation-route");
   state.menuOpen=true; state.menuPage=page; state.hover=null;
@@ -708,6 +770,17 @@ function navigate(page) {
   dayOpenedAt=lastFrameTime; gestures.setContext("menu"); paint();
 }
 function navigationAction(id) {
+  if (typeof id === "string" && id.startsWith("feedback-")) {
+    if (!state.centering && !state.arriving && dayInputAllowed(lastFrameTime,dayOpenedAt)) feedbackAction(id);
+    return true;
+  }
+  if (typeof id === "string" && id.startsWith("home-feedback:")) {
+    if (!state.centering && !state.arriving && dayInputAllowed(lastFrameTime,dayOpenedAt)) {
+      const target=id.slice(14), w=WORKS.find(w=>w.id===target)||addShelfWork(target);
+      if(w && workRead(progress,w)) openFeedback(w);
+    }
+    return true;
+  }
   if(id === "day-notes") {if(state.centering||state.arriving||!dayInputAllowed(lastFrameTime,dayOpenedAt))return true;state.notesContext="day";state.notesPage=0;navigate("notes");return true;}
   if(typeof id !== "string" || !(id.startsWith("home-") || id.startsWith("settings-") || id.startsWith("notes-")))return false;
   if(state.centering || state.arriving || !dayInputAllowed(lastFrameTime,dayOpenedAt))return true;
@@ -861,6 +934,7 @@ function paint() {
   if (state.arriving || state.menuOpen) {
     if (navigation.kind === "home") paintHome(ctx, navigation.options);
     else if (navigation.kind === "settings") paintSettings(ctx, navigation.options);
+    else if (navigation.kind === "feedback") paintFeedback(ctx, navigation.options);
     else paintCompact(ctx, navigation.options);
     if (state.arriving && navigation.kind === "home" && state.mode === "layer" && !reducedMotion())
       buildLamp(navigation.options);
@@ -1159,7 +1233,10 @@ function finishReading() {
   rememberPlace();
   rebuildWorks(state.workId);
   const works = libraryWorks(), index = works.findIndex(w => canonicalWorkId(w) === canonical);
-  state.menuPage = "library";
+  state.menuPage = "feedback";
+  feedbackWork = work; thoughtDraft = feedbackFor(progress,work).thought; thoughtPage=0;
+  voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
+  updateThoughtEditor();
   state.homeTab = "shelf";
   state.libraryPage = Math.max(0,Math.floor(index / 3));
   state.hover = null;
@@ -1170,6 +1247,7 @@ function finishReading() {
 }
 // Open a work at its saved place (or the start), and remember it as last.
 function openWork(id) {
+  thoughtVoice.cancel();
   completionContext = null;
   currentReadingOpened = true;
   rememberPlace();
@@ -1194,6 +1272,7 @@ function feedback(text) {
   state.feedbackUntil = performance.now() + 1800;
 }
 function toggleMenu(open = !state.menuOpen, initialPlacement = null) {
+  thoughtVoice.cancel();
   const wasOpen = state.menuOpen;
   completionContext = null;
   if (!open && wasOpen) currentReadingOpened = true;
@@ -1669,7 +1748,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-055",
+    build: "gestures-056",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1754,7 +1833,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-055.json";
+  a.download = "bradbury-test-details-build-056.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1844,6 +1923,7 @@ function insideNavigation(hit) {
 }
 
 function cleanSession() {
+  thoughtVoice.cancel();
   closeWordNote(); focusDim.reset(); seasonSince = null;
   comfortLayers?.dispose(); comfortLayers = null;
   lastNativeQuad = nativeQuadGeometry() || lastNativeQuad;
@@ -1854,6 +1934,7 @@ function cleanSession() {
   sessionGeneration++;
   state.todayReveal = null;
   state.session = null;
+  updateThoughtEditor();
   cancelPointerPresses("session-ended");
   nativeQueue = [];
   state.centering = false;
@@ -2146,7 +2227,7 @@ async function enter() {
       }
     });
     session.addEventListener("visibilitychange", () => {
-      if (session.visibilityState !== "visible") { focusDim.reset(); base.opacity=0; closeWordNote(); }
+      if (session.visibilityState !== "visible") { thoughtVoice.cancel(); focusDim.reset(); base.opacity=0; closeWordNote(); }
       // Quest can suspend audio behind system UI; resume when we return.
       if (session.visibilityState === "visible")
         entrySound?.context?.resume?.().catch?.(() => {});
@@ -3044,6 +3125,7 @@ async function syncDrive() {
         clearReplacedTicks(day, r.works);
         day.picks = { ...(day.picks || {}), ...pickLabels(r.works) };
         day.ids = { ...(day.ids || {}), ...Object.fromEntries(r.works.map((w) => [w.kind, w.catalogueId])) };
+        rememberSelections(progress, today, r.works);
         rememberGuides(progress, today, r.works, { savedAt: found.createdTime || new Date().toISOString() });
         rememberPersonal(progress, today, r, { savedAt: found.createdTime || new Date().toISOString() });
         rebuildWorks(state.workId);

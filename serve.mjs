@@ -2,7 +2,7 @@
 import http from "node:http";
 import { readFile } from "node:fs/promises";
 const allowed = new Set([
-  "index.html",
+  "index.html", "voice-check.html", "feedback.js", "feedback-panel.js", "voice.js",
   "style.css",
   "app.js", "home-panel.js", "settings-panel.js", "compact-panels.js",
   "core.js",

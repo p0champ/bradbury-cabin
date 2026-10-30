@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cabin · Voice check</title>
+<style>body{font:18px system-ui;background:#202723;color:#f5f5f2;max-width:680px;margin:60px auto;padding:24px;line-height:1.6}button,a{font:inherit;padding:12px;margin:8px;color:inherit}button{background:#455149;border:0;border-radius:14px}audio{display:block;width:100%}pre{white-space:pre-wrap}a{display:block}</style>
+<h1>A small voice check</h1><p>Run this in Quest Browser over HTTPS. Recording and dictation are checked separately. This page does not save your voice or add a thought to your shelf.</p>
+<button id="record">Record a short sentence</button><button id="stop" disabled>Stop</button><audio id="playback" controls></audio>
+<p id="capture" role="status">Microphone not checked.</p>
+<button id="dictate">Try dictation</button><button id="stop-voice">Stop dictation</button><p id="dictation" role="status">Dictation not checked. The browser may use its speech service.</p><pre id="transcript"></pre>
+<a href="./">Return to the cabin</a>
+<script type="module">
+import { ThoughtVoice } from './voice.js?v=56';
+const $=id=>document.getElementById(id);let stream,recorder,url,timer;const voice=new ThoughtVoice();
+function release(){clearTimeout(timer);stream?.getTracks().forEach(t=>t.stop());stream=null;$('record').disabled=false;$('stop').disabled=true;}
+$('record').onclick=async()=>{try{if(!navigator.mediaDevices?.getUserMedia||!globalThis.MediaRecorder)throw Error('Recording is not available in this browser.');stream=await navigator.mediaDevices.getUserMedia({audio:true});const chunks=[];recorder=new MediaRecorder(stream);recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};recorder.onstop=()=>{if(url)URL.revokeObjectURL(url);const blob=new Blob(chunks,{type:recorder.mimeType});url=URL.createObjectURL(blob);$('playback').src=url;$('capture').textContent=blob.size?'Recording captured. Play it back and check that you can hear your sentence.':'No audio captured.';release();};recorder.onerror=()=>{$('capture').textContent='Recording failed.';release();};recorder.start();$('capture').textContent='Recording…';$('record').disabled=true;$('stop').disabled=false;timer=setTimeout(()=>recorder?.state==='recording'&&recorder.stop(),10000);}catch(e){$('capture').textContent=e.message;release();}};
+$('stop').onclick=()=>{if(recorder?.state==='recording')recorder.stop();};
+$('dictate').onclick=()=>{ $('transcript').textContent='';voice.start({onText:t=>$('transcript').textContent=t,onStatus:s=>{if(s)$('dictation').textContent=s;else if(!$('transcript').textContent)$('dictation').textContent='No transcript returned. Built-in dictation is not confirmed.';}});};
+$('stop-voice').onclick=()=>voice.stop();
+addEventListener('pagehide',()=>{voice.cancel();if(recorder?.state==='recording')recorder.stop();release();if(url)URL.revokeObjectURL(url);});
+</script></html>

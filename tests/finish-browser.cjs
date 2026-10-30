@@ -59,11 +59,13 @@ module.exports = async function finishChecks(browser, { mock, BASE_URL, passed }
     // The confirmation uses the familiar NEXT hand, without aiming at a row.
     if(origin==='library')await p.evaluate(async()=>{await __aim('end-mark',true);__hand(.05,'left');__step(800);__pinch('left');__step(700);});
     else await p.evaluate(async()=>{await __aim({x:0,y:0,w:1,h:1},true);__step(700);__pinch('right');__step(700);});
-    assert.equal(await menu(p),'library',`${origin}: fresh NEXT opens Library`);
+    assert.equal(await menu(p),'feedback',`${origin}: fresh NEXT opens optional feedback`);
     const saved=await record();
     assert.ok(saved.completedWorks?.[canonical],`${origin}: completion saved immediately`);
     assert.equal(saved.days[today].poem,origin==='today'?true:undefined,'unrelated daily work tick changed');
     if(origin==='archive')assert.equal(saved.days[past].poem,true);
+    await target(p,'feedback-done');
+    assert.equal(await menu(p),'library','Skipping optional feedback opens Library');
     assert.ok(await p.evaluate(()=>__finishText.some(t=>/^Read\s*✓(?:\s|$)/.test(t))),'Library must show Read even on the current work');
     assert.ok(await p.evaluate(id=>JSON.parse(document.querySelector('#page').dataset.buttons).some(b=>b.id.includes(id)),canonical),'Library must show the completed edition on the selected page');
     await p.reload(); await p.locator('#enter').click(); await p.evaluate(()=>__center());

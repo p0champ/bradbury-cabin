@@ -1,3 +1,16 @@
+# Build 056 — personalization and voice checks pending
+
+After a separately approved release, use the HTTPS site, confirm BUILD 056, then:
+
+1. Open Check voice on this headset on the browser page. Allow microphone access. Record a sentence, stop and play it back. Report separately whether audio was audible and whether Try dictation returned the right text. A recording alone is not a dictation pass.
+2. In the cabin finish a short piece, choose stars, and try Speak. The sentence must appear for review, never save automatically. Use More/Back if needed, then Save thought. Check that the exact piece retains its stars and thought from Stars & thought on the shelf.
+3. If voice is absent or fails, use Type instead. It should leave XR and reveal the titled work's browser editor. Type, Save, reload and confirm the note survives. Skipping feedback must leave the piece marked read.
+4. Sync with Drive before requesting new Claude picks. Check the factual reason below each new piece; check discoveries and familiar choices over two trios. Verify notes can be edited or removed and do not return after syncing.
+5. Confirm intro, passthrough, watch, reading placement and Quiet Folio comfort still feel right.
+
+No Quest voice result exists yet. No external transcription service is configured. If native dictation fails, record the observed result and discuss a service's setup/cost before adding one. Desktop synthetic speech is not hardware evidence.
+
+---
 # Build 055 — local build, NOT published; Quest check pending
 
 After a separately approved release, check Settings → More settings → Reading comfort. Sweep Focus dim from barely dimmed to almost black: the room should darken gently and the paper should remain readable. Open the menu and leave reading to confirm the room restores. Aim at a word and pinch: its small card should sit beside the page, without covering the words or turning a page. Pinch it again to close, and check normal page turns with both hands. Try “thou”, “parsimony”, and a place or reference; most words need an internet connection. Seasons must start off; turn them on to check the subtle tint and rare detail outside the text. Reduced motion should have no drifting detail. Confirm the page is comfortable and steady from the couch, and the intro and right-wrist watch feel unchanged. No real-device result has been claimed.

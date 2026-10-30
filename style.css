@@ -454,3 +454,6 @@ body.night .primary:hover:not(:disabled):not(.secondary) { background: #e5d8b2; 
 #word-note[hidden] { display:none; }
 #word-card { width:100%; height:auto; display:block; }
 .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+
+.thought-editor{margin:32px 0;padding:28px;border-radius:22px;background:var(--panel,#e8e6de)}
+.thought-editor label,.thought-editor textarea{display:block;width:100%;margin:18px 0 10px}.thought-editor textarea{font:inherit;padding:14px;box-sizing:border-box;border-radius:12px}.thought-editor button{margin:4px;padding:12px}.thought-editor button[aria-pressed="true"]{outline:2px solid currentColor}

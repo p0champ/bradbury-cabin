@@ -8,10 +8,11 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { withPickerContract } from "./picker-contract.js?v=55";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=55";
-import { mergePersonal } from "./daily-lines.js?v=55";
-import { validCompletion } from "./progress.js?v=55";
+import { mergeFeedback, mergeSelections } from "./feedback.js?v=56";
+import { withPickerContract } from "./picker-contract.js?v=56";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=56";
+import { mergePersonal } from "./daily-lines.js?v=56";
+import { validCompletion } from "./progress.js?v=56";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -248,6 +249,7 @@ export function mergeProgress(local, remote) {
   if (!remote) return local;
   const newer = (remote.savedAt || "") > (local.savedAt || "") ? remote : local;
   const out = structuredClone(newer);
+  if (local.feedback || remote.feedback) out.feedback = mergeFeedback(local.feedback, remote.feedback);
   out.start = [local.start, remote.start].filter(Boolean).sort()[0];
   out.trackingSince = [local.trackingSince, remote.trackingSince].filter(Boolean).sort()[0];
   const older = newer === remote ? local : remote;
@@ -275,11 +277,13 @@ export function mergeProgress(local, remote) {
     if (d.missed && o.missed == null) o.missed = d.missed;
     mergeDayGuides(o, d);
     mergePersonal(o, d);
+    mergeSelections(o, d);
   }
   // Also validate notes on days present only in the newer copy.
   for (const day of Object.values(out.days || {})) {
     mergeDayGuides(day, null);
     mergePersonal(day, null);
+    mergeSelections(day, null);
   }
   for (const [key, w] of Object.entries(older.weeks || {})) {
     const o = (out.weeks[key] ||= {});

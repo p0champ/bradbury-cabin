@@ -1,3 +1,14 @@
+## 30 October 2026 — Build 056 personal picks BUILT locally; NOT published
+
+Bastian approved Quiet closing card after three plain-word ideas and an independent judge (9/10). Branch `build-056-personal-picks`, worktree `C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-056`, stacked on local 055 a39bbdf. Live remains confirmed 054. No publishing authorization was given for 055/056.
+
+Delivered optional per-edition 1–5 stars and approved text thoughts after completion, editable from completed shelf/library rows; native browser dictation with explicit Save and cancellation, long transcript paging, browser typing fallback via Type instead; structured factual Why lines and archived selection references; field-level Drive merging with deletion markers; synced Claude workflow and rotating approximately 50/50 familiar/stretch plan. Literary texts, passthrough, intro, watch and existing 055 comfort behavior preserved. Old picks without reason metadata say so honestly.
+
+Voice feasibility remains OPEN on the actual Quest. voice-check.html separates mic recording/playback from native speech-to-text. No backend, transcription account or paid service has been added. Native API presence is not proof of working dictation in immersive XR. Test after an approved HTTPS release; if dictation fails, explain the observed result and discuss a transcription service/setup/cost before adding it. Typed thoughts already work. Do not claim full voice functionality or a Quest pass from mocked desktop speech.
+
+249 unit and maintained source checks pass (241 accepted originals unchanged; all 39 damaged inputs rejected). 38 focused browser cases pass in complete groups, NOT a full browser suite: feedback/completion 6, continuity/personal lines 16, picker/archive/session-details/comfort 16. Feedback 3 repeated after final screenshots. Independent review's transcript and row-overlap issues are fixed; final review has no actionable blockers. See BUILD_056_REVIEW.md. Preview server port18196. Evidence/logs in parent work/; helper check-056.cjs runs named browser modules. Current thread outputs contain review, screenshots and local handover.
+
+---
 ## 30 October 2026 — Build 055 Quiet Folio BUILT locally; NOT published
 
 Bastian requested reading comfort, then approved Quiet Folio after three concepts and an independent judge (9/10). Local branch `build-055-quiet-folio`, worktree `C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-055`, based on confirmed 054 (`fcbaf67`). Live remains Build 054. Publishing still needs approval.

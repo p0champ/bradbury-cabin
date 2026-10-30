@@ -179,6 +179,8 @@ module.exports = async function readingContinuityChecks(browser, { mock, BASE_UR
     if (!failSave) await saveCanvas(p, 'reading-continuity-closing-confirmation.png');
     if (failSave) await p.evaluate(() => { window.__continuityFailSave = true; });
     await p.evaluate(async () => { await __aim({ x: 0, y: 0, w: 1, h: 1 }, true); __step(700); __pinch('right'); __step(700); });
+    assert.equal(await p.locator('#page').getAttribute('data-menu-page'), 'feedback', 'completion offers optional feedback');
+    await target(p, 'feedback-done');
     const s = await snapshot(p);
     assert.equal(s.route, 'library', 'completion must retain Library destination');
     assert.ok(s.text.some(t => /^Read\s*✓/.test(t.text)), 'completed edition lost Read');

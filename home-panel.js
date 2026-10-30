@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL } from './theme.js?v=55';
+import { navigationSurface, CONTROL } from './theme.js?v=56';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.
@@ -39,10 +39,17 @@ function layout(o = {}) {
   const display = archive ? (o.days || []).slice((o.page || 0) * 3, ((o.page || 0) + 1) * 3) : rows;
   let y = start;
   const placements = display.map(item => {
-    const height = strip ? 90 : featured ? item.id === featured.id ? 136 : 97 : 110;
+    const height = strip ? 90 : rows.some(w=>w.why) ? 110 : featured ? item.id === featured.id ? 136 : 97 : 110;
     const position = { item, y, height, featured: item.id === featured?.id };
     const b = rect(archive ? `home-day:${dateOf(item)}` : `home-work:${item.id}`, 24, y, 672, height, { item, archive, featured: position.featured });
-    if (archive || item.available) buttons.push(b);
+    if (archive || item.available) {
+      const canEdit = !archive && (item.read || o.feedbackIds?.[item.id]);
+      if (canEdit) {
+        b.w = 460;
+        buttons.push(rect(`home-feedback:${item.id}`, 500, y + height - 36, 180, 34));
+      }
+      buttons.push(b);
+    }
     y += height;
     return position;
   });
@@ -139,6 +146,7 @@ export function paintHome(ctx, options = {}) {
     else if (b.id === 'home-earlier') label(b, o.library ? 'Next →' : 'Earlier →', 15);
     else if (b.id === 'home-later') label(b, o.library ? '← Previous' : '← Later', 15);
     else if (b.id === 'home-back-shelf') label(b, o.library ? '← Shelf' : '← All days', 16);
+    else if (b.id.startsWith('home-feedback:')) label(b, 'Stars & thought →', 15);
   }
   font(16);
   if (o.library) {
@@ -157,12 +165,13 @@ export function paintHome(ctx, options = {}) {
     }
     const completed = isRead(o, item), saved = canResume(o, item);
     const next = item.id === l.next?.id;
-    if (featured) { font(12, 500); text(saved ? 'Continue reading' : 'A place to begin', 42, y + 20, '#cad6cb'); }
+    if (featured && !item.why) { font(12, 500); text(saved ? 'Continue reading' : 'A place to begin', 42, y + 20, '#cad6cb'); }
     ctx.font = `24px ${c.serif || 'Literata, Georgia, serif'}`;
     const title = item.title || item.label || KIND[item.kind] || 'Unavailable work';
-    const lines = homeTitleLines(ctx, title, 624);
-    const titleTop = y + (featured ? 49 : 26);
-    lines.forEach((line, n) => text(line, 40, titleTop + n * 27, item.available ? c.ink : c.muted));
+    const lines = homeTitleLines(ctx, title, completed && (item.read || o.feedbackIds?.[item.id]) ? 444 : 624);
+    const titleTop = y + (item.why ? height <= 90 ? 20 : 24 : featured ? 49 : 26);
+    lines.forEach((line, n) => text(line, 40, titleTop + n * (item.why ? 24 : 27), item.available ? c.ink : c.muted));
+    if(item.why) { font(13); text(fit(ctx,item.why,completed && (item.read || o.feedbackIds?.[item.id]) ? 444 : 624),40,y+height-30,c.muted); }
     let action = completed ? 'Read ✓ · Read again →' : saved ? 'Continue →' : 'Begin →';
     if (featured && !saved) action = 'Begin reading →';
     if (next && !completed) action = `Next · ${saved ? 'Continue' : 'Begin'} →`;
@@ -170,13 +179,15 @@ export function paintHome(ctx, options = {}) {
     const actionSize = featured ? 16 : 14;
     font(actionSize, featured ? 500 : 400);
     const actionWidth = ctx.measureText(action).width;
-    const actionX = 680 - actionWidth;
-    const metaY = y + height - (featured ? 21 : 13);
-    if (featured) {
+    const hasFeedback = completed && (item.read || o.feedbackIds?.[item.id]);
+    const actionRight = hasFeedback ? 484 : 680;
+    const actionX = actionRight - actionWidth;
+    const metaY = y + height - (item.why ? 9 : featured ? 21 : 13);
+    if (featured && !item.why) {
       ctx.fillStyle = CONTROL.selected;
       round(ctx, { x: actionX - 13, y: y + height - 43, w: actionWidth + 26, h: 32 }, 16); ctx.fill();
     }
-    ctx.textAlign = 'right'; text(action, 680, metaY, featured ? CONTROL.selectedInk : completed ? '#c8dec9' : c.ink); ctx.textAlign = 'left';
+    ctx.textAlign = 'right'; text(action, actionRight, metaY, featured && !item.why ? CONTROL.selectedInk : completed ? '#c8dec9' : c.ink); ctx.textAlign = 'left';
     const position = featured && item.id === o.currentId && saved ? o.currentPosition : '';
     const kind = KIND[item.kind] || item.kind;
     font(16);
