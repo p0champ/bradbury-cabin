@@ -258,13 +258,15 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     const m = await p.evaluate(() => {
       const c = document.querySelector('#page'), ctx = c.getContext('2d'), d = JSON.parse(c.dataset.exitDisc);
       const bg = [...ctx.getImageData(Math.round(d.cx - 70), Math.round(d.cy), 1, 1).data];
-      let left = null, right = null;
-      for (let x = Math.round(d.cx - 70); x <= Math.round(d.cx + 70); x++) {
+      // Measure the left half only: in reading, the circle's right half lies
+      // over the translucent glass frame (Build 054). The circle is symmetric.
+      let left = null;
+      for (let x = Math.round(d.cx - 70); x <= Math.round(d.cx); x++) {
         const px = [...ctx.getImageData(x, Math.round(d.cy) + 30, 1, 1).data];
         const ink = bg[3] < 255 ? px[3] > 200 : Math.max(...px.map((v, i) => Math.abs(v - bg[i]))) > 6;
-        if (ink) { left ??= x; right = x; }
+        if (ink) { left = x; break; }
       }
-      return { d, chord: right - left + 1 };
+      return { d, chord: 2 * (Math.round(d.cx) - left) + 1 };
     });
     const expected = 2 * Math.sqrt(48 * 48 - 30 * 30); // chord 30 px below centre
     assert.ok(Math.abs(m.chord - expected) <= 4, `Exit circle chord ${m.chord}, expected ${expected.toFixed(1)}`);
