@@ -105,6 +105,9 @@ let progress,
         kept = true;
       }
     } catch {}
+    // A recovery copy is evidence, not permission to overwrite the only
+    // original. Wait for an explicit valid import before saving progress.
+    progressPersistent = false;
     if (kept)
       progressNotice =
         "Saved progress was unreadable. A backup was kept; import a progress file.";
@@ -115,7 +118,7 @@ let progress,
         "Saved progress was unreadable and could not be backed up. Not saving.";
     }
   } else if (loaded.raw == null) saveProgress(store, progress);
-  if (!progressPersistent)
+  if (!progressPersistent && !loaded.recovered)
     progressNotice = "Not saving on this headset · export before leaving.";
   try {
     navigator.storage?.persist?.();
@@ -126,8 +129,8 @@ function storeProgress() {
   reconcileRewards(progress,todayKey());
   progressVersion++;
   progress.savedAt = new Date().toISOString();
-  scheduleDriveSave();
   const ok = progressPersistent && saveProgress(store, progress);
+  if (ok) scheduleDriveSave();
   if (!ok) {
     progressNotice = "Not saving on this headset · export before leaving.";
     feedback("Could not save on this headset · export from the browser page");
@@ -166,7 +169,7 @@ function loadTodayCache() {
       const selectionsChanged = rememberSelections(progress, r.date, r.works, true);
       if (notesChanged || linesChanged || selectionsChanged) {
         progress.savedAt = new Date().toISOString();
-        if (!saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
+        if (progressPersistent && !saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
       }
     }
     todayWorks = r.date === todayWorksFor && r.works.length === 3 && !r.problems.length ? r.works : [];
@@ -183,7 +186,7 @@ function loadTodayCache() {
   }
 }
 loadTodayCache();
-if(reconcileRewards(progress,todayKey())) { progress.savedAt=new Date().toISOString(); if(!saveProgress(store,progress))progressNotice="Rewards could not be saved on this headset."; }
+if(reconcileRewards(progress,todayKey())) { progress.savedAt=new Date().toISOString(); if(progressPersistent && !saveProgress(store,progress))progressNotice="Rewards could not be saved on this headset."; }
 const WORKS = [];
 // Works that stopped being "today" stay readable while open, so passing
 // midnight never pulls the page away mid-read.
@@ -3127,6 +3130,7 @@ function paintDriveButton() {
 }
 let driveTimer = null;
 function scheduleDriveSave() {
+  if (!progressPersistent) return; // Recovery mode must not publish a replacement.
   if (!clientId || !driveState.everSynced) return;
   driveState.pending++;
   if (!drive.connected) {
@@ -3152,15 +3156,16 @@ async function syncDrive() {
   driveState.syncing = true;
   paintDriveButton();
   try {
+    if (!progressPersistent) throw Error("Your saved progress needs recovery first. Your existing readings are still available.");
     if (!drive.connected) await drive.signIn();
     const today = todayKey();
     // History first: picks are checked against every earlier day's reading.
     const remote = await drive.read("progress.json");
     if (remote) {
-      try {
-        const parsed = JSON.parse(remote);
-        if (validProgress(parsed)) progress = mergeProgress(progress, parsed);
-      } catch {}
+      let parsed;
+      try { parsed = JSON.parse(remote); } catch {}
+      if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
+      progress = mergeProgress(progress, parsed);
     }
     const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS}));
     let message = "No picks from Claude yet. Ask Claude for today's three.";

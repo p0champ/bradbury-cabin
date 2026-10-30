@@ -215,6 +215,11 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.notEqual((await ticks()).poem,true,'an unpaired release cannot mark the work');
     await p.evaluate(()=>{__step(700);__pinch();__step(700);});
     assert.equal((await ticks()).poem,true,'fresh NEXT ticks today\'s exact poem');
+    // Build 056 added optional feedback after a fresh completion. Preserve
+    // this journey's tick/source checks, and explicitly skip feedback.
+    assert.deepEqual(await view(),['menu','feedback']);
+    assert.ok((await text()).includes(poem.title), 'feedback belongs to the confirmed poem');
+    await p.evaluate(async()=>{await __aim('feedback-done');__pinch();__step(700);});
     assert.deepEqual(await view(),['menu','library']);
     assert.ok((await text()).includes('Read ✓'),'Library shows immediate completion instead of Continue');
     assert.ok(await p.evaluate(id=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks[id],poem.id),'canonical edition completion is saved');
