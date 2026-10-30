@@ -1315,7 +1315,7 @@ async function mock(
             // Sample the paper inside the window: its rounded corners are
             // transparent and its edge is translucent glass (Build 054).
             await p.evaluate(() => {
-              const i = (120 * 2048 + 1024) * 4;
+              const i = (1000 * 2048 + 120) * 4;
               return Array.from(__mock.latestPixels.slice(i, i + 3));
             }),
             [19, 23, 21],
