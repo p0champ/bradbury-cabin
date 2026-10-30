@@ -1,3 +1,8 @@
+## 30 October 2026 — Build 054 RELEASED (includes 052 + 053); live files verified, headset check pending
+
+Bastian chose to test on the live link. The session's auto-mode guard blocked the agent's push as a production deploy, so Bastian ran the atomic, non-force push himself. phase-1-gestures moved 8744b87..6d37eef by fast-forward, and build-052/053/054 branches are saved remotely. Live https://p0champ.github.io/bradbury-cabin/?v=54 shows BUILD 054, and the normalized SHA-256 of all 39 live root code files matches tested code (work/live-054-hashes.json). To roll back, commit a forward revert that restores 8744b87's files (no force push needed) and publish it with Bastian's approval.
+
+---
 ## 30 October 2026 (overnight) — Builds 052–054 BUILT and TESTED; NOT published
 
 Bastian approved three designs (each via 3 ideas + an independent judge, then his yes). Before bed he asked for all of them to be built but not published; he will test in the morning. The local branches are stacked on released Build 051 (8744b87):

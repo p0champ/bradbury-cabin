@@ -1,6 +1,6 @@
-# Builds 052–054 — NOT published yet, device check after release
+# Builds 052–054 — RELEASED as Build 054, device check pending
 
-When one of these is published, check:
+Live https://p0champ.github.io/bradbury-cabin/?v=54 — check BUILD 054 (all 39 root code files verified). Check:
 
 - **052 "Lamp on" intro.** After the placing pinch, the window glows warm and settles, then Today's header appears in place and the three readings rise in one after another, about 5 s in all. Does it feel calm rather than slow? A fresh pinch should skip straight to Today without opening anything. Is the warmth pleasant over your real room?
 - **053 watch.** Turn your right wrist like checking a watch. A small dark glass face should fade in, showing the time, "Poem · title" (your first unread reading) and the gold streak. Is it readable at arm's length, and the right size? The left wrist and ordinary page turns must never show it.
