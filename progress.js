@@ -34,6 +34,10 @@ const pad = (n) => String(n).padStart(2, "0");
 export function dateKey(date) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
+export function berlinDateKey(date = new Date()) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date).map(v=>[v.type,v.value]));
+  return `${p.year}-${p.month}-${p.day}`;
+}
 export function parseKey(key) {
   const [y, m, d] = key.split("-").map(Number);
   return new Date(y, m - 1, d);
@@ -94,7 +98,7 @@ export function markWorkRead(progress, work, day, clock = new Date()) {
     Object.defineProperty(ledger, id, { value: timestamp, enumerable: true, writable: true, configurable: true });
     changed = true;
   }
-  const assigned = realDate(day) && day >= progress.start && day <= dateKey(date) ? progress.days[day] : null;
+  const assigned = realDate(day) && day >= progress.start && day <= berlinDateKey(date) ? progress.days[day] : null;
   if (assigned?.ids?.[work.kind] === id && assigned[work.kind] !== true) {
     assigned[work.kind] = true;
     changed = true;
@@ -168,17 +172,25 @@ export function toggleWeekly(p, key, today) {
   return true;
 }
 
-// Consecutive complete days ending today, or ending yesterday while today is
-// still being worked on.
-export function streak(p, today) {
-  let key = ticks(p, today) === 3 ? today : addDays(today, -1);
-  let n = 0;
-  while (key >= p.start && ticks(p, key) === 3) {
-    n++;
-    key = addDays(key, -1);
+// One missed/partial past day per Monday–Sunday week protects the chain,
+// without adding a reading day. Unknown history breaks continuity and earns
+// nothing. An unfinished today is still open, not a miss.
+export function streakStats(p, today) {
+  let current=0,best=0,completedDays=0,week=null,misses=0;
+  const history=[];
+  for(let key=p.start;key<=today;key=addDays(key,1)) {
+    const wk=weekSunday(key);if(wk!==week){week=wk;misses=0;}
+    const complete=ticks(p,key)===3,status=dayStatus(p,key,today);
+    let protectedDay=false;
+    if(complete){current++;completedDays++;best=Math.max(best,current);}
+    else if(key===today){} // The day is not over yet.
+    else if(status==='unrecorded'){current=0;}
+    else {misses++;if(misses<=1)protectedDay=current>0;else current=0;}
+    history.push({date:key,complete,streak:current,completedDays,protected:protectedDay});
   }
-  return n;
+  return {current,best,completedDays,protectionAvailable:misses===0,history};
 }
+export function streak(p, today) { return streakStats(p,today).current; }
 
 export function overview(p, today) {
   const counts = { complete: 0, partial: 0, missed: 0, unrecorded: 0 };

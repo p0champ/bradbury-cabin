@@ -1,5 +1,5 @@
-import { navigationSurface, CONTROL } from './theme.js?v=56';
-import { compactBounds, compactWrap } from './compact-panels.js?v=56';
+import { navigationSurface, CONTROL } from './theme.js?v=57';
+import { compactBounds, compactWrap } from './compact-panels.js?v=57';
 const S = 2048 / 720, Y = compactBounds().y;
 const rows = o => [
   ...[1,2,3,4,5].map((n,i)=>({id:`feedback-star:${n}`,x:24+i*88,y:112,w:78,h:52,label:`${n <= (o.feedback?.stars || 0) ? '★' : '☆'} ${n}`})),

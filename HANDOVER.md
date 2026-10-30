@@ -1,3 +1,16 @@
+## 30 October 2026 — Build 057 Hearthlight BUILT locally; NOT published
+
+Bastian approved Hearthlight after three plain-word reward ideas and an independent judge (9/10). Local branch build-057-hearthlight, worktree C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-057, based on local056 e117164. Live remains confirmed054. No push or publishing authorization for055–057.
+
+Delivered: original watch face retained with capped static flame; protected completed-day streak with one missed/partial past day per Monday–Sunday Berlin week (grace adds no day, second miss breaks; today neutral, unknown past gaps break); permanent milestones7 protected readingdays,30 total complete trios,100 distinct reviewed editions including optional rewards. Nine reserved critic-approved original editions form3 local pools with unread fallbacks. No realtime or preselected Claude reward service was added. Claude's current daily workflow/metadata excludes reserved IDs; new incoming daily files are guarded while existing older assignments survive.
+
+Completion's optional feedback ends via Done or hold-close, then a silent/skippable2s cached GPU rim glow reveals Read now/Later. Reduced motion uses a short fade. Multiple milestones share one ceremony. Rewards shelf and Library retain unlocked works. Awards, book entitlements and seen receipts union/merge through Drive; no repeated unlock on reload/sync; streak breaks or corrections don't revoke gifts. Offline fallback collisions retain previously granted books with one canonical achievement. Exhaustion is honest, with no invented text. See BUILD_057_REVIEW.md.
+
+263 unit/source checks pass (241 accepted originals unchanged;39 damaged inputs rejected).35 unique focused browser cases pass in complete groups, not a full suite: rewards/watch5; continuity/feedback/picker/archive19; comfort/composition11. Rewards4 repeated after hold-close and explicit animation Skip changes. Independent review reports no actionable blocker. Previews inspected; no physical Quest result.
+
+Local server18197, exec session8446. Parent work/ contains check-057.cjs, preview-057.cjs, unit-057.log, rewards-057.log, regression-057.log, rewards-final-057.log, rewards-skip-057.log and build-057-focused/. Root-code hashes saved by the current chat after commit. Outputs have preview/review/test-results/local handover. Build056's Quest voice feasibility remains OPEN; no transcription backend/account/service has been added. After a separately approved release, verify live root hashes then use combined QUEST_CHECK.md. Preserve fast-forward release rules; never force push or touch main/phase-0-crispness.
+
+---
 ## 30 October 2026 — Build 056 personal picks BUILT locally; NOT published
 
 Bastian approved Quiet closing card after three plain-word ideas and an independent judge (9/10). Branch `build-056-personal-picks`, worktree `C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-056`, stacked on local 055 a39bbdf. Live remains confirmed 054. No publishing authorization was given for 055/056.

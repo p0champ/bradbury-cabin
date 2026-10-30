@@ -1,5 +1,5 @@
-import { PoseFollower } from "./follow-pose.js?v=56";
-import { UI } from "./theme.js?v=56";
+import { PoseFollower } from "./follow-pose.js?v=57";
+import { UI } from "./theme.js?v=57";
 const SERIF = "Literata, Georgia, serif";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
@@ -14,7 +14,7 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=56";
+} from "./progress.js?v=57";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
@@ -152,6 +152,7 @@ export function watchReading(s) {
 export function streakText(streak = 0) {
   return streak > 0 ? `${streak}-day streak` : "Begin a streak today";
 }
+export function flameHeight(streak=0) {return streak<=0?12:streak<7?18:streak<30?24:streak<100?29:32;}
 function fitText(c, text, width) {
   if (c.measureText(text).width <= width) return text;
   while (text.length > 1 && c.measureText(text + "…").width > width) text = text.slice(0, -1);
@@ -228,7 +229,12 @@ export function paintWatch(canvas, s, night = false) {
   c.fillStyle = glow;
   c.beginPath(); c.arc(x + ember, ey, ember * (reading.done ? 3.2 : 2.2), 0, Math.PI * 2); c.fill();
   c.fillStyle = gold;
-  c.beginPath(); c.arc(x + ember, ey, ember * .62, 0, Math.PI * 2); c.fill();
+  const h=flameHeight(s.streak),cx=x+ember;
+  c.beginPath();c.moveTo(cx,ey-h*.72);
+  c.bezierCurveTo(cx+2,ey-h*.25,cx+10,ey-h*.12,cx+7,ey+4);
+  c.bezierCurveTo(cx+5,ey+11,cx-7,ey+10,cx-8,ey+3);
+  c.bezierCurveTo(cx-10,ey-3,cx-3,ey-h*.27,cx,ey-h*.72);
+  c.globalAlpha=s.streak>0?1:.45;c.fill();c.globalAlpha=1;
   c.fillText(streak, x + 2 * ember + gap, ey + 11);
 }
 

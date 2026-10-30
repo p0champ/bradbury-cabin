@@ -6,7 +6,7 @@
 <button id="dictate">Try dictation</button><button id="stop-voice">Stop dictation</button><p id="dictation" role="status">Dictation not checked. The browser may use its speech service.</p><pre id="transcript"></pre>
 <a href="./">Return to the cabin</a>
 <script type="module">
-import { ThoughtVoice } from './voice.js?v=56';
+import { ThoughtVoice } from './voice.js?v=57';
 const $=id=>document.getElementById(id);let stream,recorder,url,timer;const voice=new ThoughtVoice();
 function release(){clearTimeout(timer);stream?.getTracks().forEach(t=>t.stop());stream=null;$('record').disabled=false;$('stop').disabled=true;}
 $('record').onclick=async()=>{try{if(!navigator.mediaDevices?.getUserMedia||!globalThis.MediaRecorder)throw Error('Recording is not available in this browser.');stream=await navigator.mediaDevices.getUserMedia({audio:true});const chunks=[];recorder=new MediaRecorder(stream);recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};recorder.onstop=()=>{if(url)URL.revokeObjectURL(url);const blob=new Blob(chunks,{type:recorder.mimeType});url=URL.createObjectURL(blob);$('playback').src=url;$('capture').textContent=blob.size?'Recording captured. Play it back and check that you can hear your sentence.':'No audio captured.';release();};recorder.onerror=()=>{$('capture').textContent='Recording failed.';release();};recorder.start();$('capture').textContent='Recording…';$('record').disabled=true;$('stop').disabled=false;timer=setTimeout(()=>recorder?.state==='recording'&&recorder.stop(),10000);}catch(e){$('capture').textContent=e.message;release();}};

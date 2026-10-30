@@ -82,6 +82,15 @@ claiming continuous or immediate learning.
 - Bastian wants the whole work, never an excerpt.
 - **Swap** (e.g. "swap the essay"): read today's newest picks file and its `lastCheck`. If it was rejected, repair every listed problem. Preserve the other two supported selections and save the **full three-pick file** again (step 4). The app checks only the newest file; an invalid or incomplete latest file is rejected rather than replaced silently with an older one.
 
+### Milestone rewards
+
+The app reserves `cabinPickerInstructions.reservedRewardIds` for permanent
+milestone gifts. These exact critic-approved editions are already on the
+headset and unlock locally: no fresh model response is needed. Do not select
+reserved IDs for ordinary daily picks, even from an older published catalogue.
+Do not repeat works in `rewards.unlocked`. Reward reading is optional and never
+a fourth daily requirement. Rewards do not authorize invented or altered texts.
+
 ## 3. Select the exact source edition
 
 - Use the catalogue metadata in progress.json as the primary source of supported

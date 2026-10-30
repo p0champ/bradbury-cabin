@@ -1,7 +1,7 @@
 // Feedback belongs to an exact catalogue edition, independently of daily ticks.
-import { canonicalWorkId, validCompletion } from './progress.js?v=56';
-import { SOURCE_CATALOGUE } from './source-catalogue.js?v=56';
-import { LIBRARY } from './library.js?v=56';
+import { canonicalWorkId, validCompletion } from './progress.js?v=57';
+import { SOURCE_CATALOGUE } from './source-catalogue.js?v=57';
+import { LIBRARY } from './library.js?v=57';
 const plain = v => v && typeof v === 'object' && !Array.isArray(v);
 const known = id => SOURCE_CATALOGUE.some(w => w.id === id);
 export function feedbackField(id, record, name) {

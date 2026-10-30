@@ -1,6 +1,6 @@
 // Quiet Folio: local preferences, exact displayed-word bounds, and calm motion.
-import { typeset } from './folio.js?v=56';
-import { UI } from './theme.js?v=56';
+import { typeset } from './folio.js?v=57';
+import { UI } from './theme.js?v=57';
 
 export const clampDim = value => Number.isFinite(value) ? Math.min(.96, Math.max(0, value)) : .32;
 export const readingActive = s => !s.menuOpen && !s.centering && !s.arriving && !s.practice;

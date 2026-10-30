@@ -3,10 +3,10 @@
 // folder "Bradbury Cabin" (a new file per request; the newest one wins).
 // Version 2 contains catalogue references and separate original guide notes.
 // Literary text and edition metadata always come from the reviewed catalogue.
-import { selectionFor } from "./feedback.js?v=56";
-import { normalizeGuide } from "./study-guide.js?v=56";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=56";
-import { LIBRARY } from "./library.js?v=56";
+import { selectionFor } from "./feedback.js?v=57";
+import { normalizeGuide } from "./study-guide.js?v=57";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=57";
+import { LIBRARY } from "./library.js?v=57";
 export const KINDS = ["poem", "story", "essay"];
 const MAX_TEXT = 150000; // characters per text: a long story, not a novel
 
@@ -104,7 +104,7 @@ export function personalLine(value, max, works) {
 // Validates references. Model-supplied text, metadata and verification claims
 // can never replace the catalogue source. Old cached files use the same check.
 // days (progress.days) lets the app refuse a work given on an earlier day.
-export function parsePicks(json, days = {}) {
+export function parsePicks(json, days = {}, {reservedIds=[]} = {}) {
   const problems = [];
   let data = json;
   if (typeof json === "string") {
@@ -147,6 +147,10 @@ export function parsePicks(json, days = {}) {
     if (LIBRARY.some((w) => w.id === original.id)) {
       problems.push(`${kind} is already on the starter shelf; ask Claude for a different work`);
       continue;
+    }
+    const sameDay=days[date]?.ids?.[kind]===original.id || days[date]?.picks?.[kind]===`${original.title} — ${original.author}`;
+    if(reservedIds.includes(original.id) && !sameDay) {
+      problems.push(`${kind} is reserved for a reading reward; choose a daily catalogue work`);continue;
     }
     const label = titleKey(`${original.title} ${original.author}`);
     const given = Object.keys(days && typeof days === "object" ? days : {}).find((d) => (!date || d < date) &&

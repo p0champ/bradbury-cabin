@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL } from './theme.js?v=56';
+import { navigationSurface, CONTROL } from './theme.js?v=57';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.
@@ -61,6 +61,7 @@ function layout(o = {}) {
     if ((archive || o.library) && (o.page || 0) > 0) buttons.push(rect('home-later', 151, 446, 100, 36));
     if ((archive || o.library) && ((o.page || 0) + 1) * 3 < (o.library ? o.total : (o.days || []).length)) buttons.push(rect('home-earlier', 260, 446, 110, 36));
   } else if (o.notes) buttons.push(rect('home-notes', 24, 446, 180, 36));
+  if(o.rewards) buttons.push(rect('home-rewards',376,446,80,36));
   buttons.push(rect(o.library ? 'home-back-shelf' : 'home-library', 463, 446, 233, 36));
   return { buttons, display, placements, rows, archive, shelf, resume, next, nextStrip, featured, start };
 }
@@ -141,6 +142,7 @@ export function paintHome(ctx, options = {}) {
     else if (b.id === 'home-shelf') tab('Shelf');
     else if (b.id === 'home-settings') label(b, 'Settings', 19);
     else if (b.id === 'home-library') label(b, 'Browse the library →', 16);
+    else if (b.id === 'home-rewards') label(b, 'Rewards', 15);
     else if (b.id === 'home-calendar') label(b, 'Calendar', 16);
     else if (b.id === 'home-notes') label(b, 'Today’s notes →', 16);
     else if (b.id === 'home-earlier') label(b, o.library ? 'Next →' : 'Earlier →', 15);

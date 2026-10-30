@@ -40,7 +40,7 @@ test("Drive carries the complete maintained workflow first, replacing stale inst
   assert.ok(c.workflow.includes("download_file_content"));
   assert.ok(c.workflow.includes("catalogueId"));
   assert.ok(!raw.includes("OLD TEXT IMPORT FORMAT"));
-  assert.deepEqual(c.catalogue.map(w => w.catalogueId), SOURCE_CATALOGUE.map(w => w.id));
+  assert.deepEqual(c.catalogue.map(w => w.catalogueId), SOURCE_CATALOGUE.filter(w=>!c.reservedRewardIds.includes(w.id)).map(w => w.id));
   assert.ok(c.catalogue.every(w => !('blocks' in w) && !('text' in w)));
 });
 test("both initial and subsequent Drive writes include the current workflow and current rejection reasons", async () => {

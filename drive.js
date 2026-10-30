@@ -8,11 +8,12 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { mergeFeedback, mergeSelections } from "./feedback.js?v=56";
-import { withPickerContract } from "./picker-contract.js?v=56";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=56";
-import { mergePersonal } from "./daily-lines.js?v=56";
-import { validCompletion } from "./progress.js?v=56";
+import { mergeRewards } from "./rewards.js?v=57";
+import { mergeFeedback, mergeSelections } from "./feedback.js?v=57";
+import { withPickerContract } from "./picker-contract.js?v=57";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=57";
+import { mergePersonal } from "./daily-lines.js?v=57";
+import { validCompletion } from "./progress.js?v=57";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -249,6 +250,7 @@ export function mergeProgress(local, remote) {
   if (!remote) return local;
   const newer = (remote.savedAt || "") > (local.savedAt || "") ? remote : local;
   const out = structuredClone(newer);
+  if(local.rewards || remote.rewards)out.rewards=mergeRewards(local.rewards,remote.rewards);
   if (local.feedback || remote.feedback) out.feedback = mergeFeedback(local.feedback, remote.feedback);
   out.start = [local.start, remote.start].filter(Boolean).sort()[0];
   out.trackingSince = [local.trackingSince, remote.trackingSince].filter(Boolean).sort()[0];

@@ -1,3 +1,14 @@
+# Build 057 — Hearthlight checks pending
+
+After a separately approved HTTPS release, confirm BUILD 057. Use real reading history; desktop fixture screenshots do not imply earned milestones on the headset.
+
+1. Check the existing right-wrist watch. Its size, time and reading line should be familiar. The tiny flame should be calm and still. Only a complete poem/story/essay day increases the streak; one missed/partial past day per Monday–Sunday Berlin week preserves it without adding a day.
+2. At an earned milestone, finish or skip optional feedback. A short warm rim glow should lead to the reward card. Check Skip, reduced motion, Read now and Later. No effect should interrupt the literary text or play sound.
+3. Read now should open the exact reviewed original immediately. Later should leave it on Shelf → Rewards and in Library. It is optional extra reading, never a fourth daily task. Check the original text, saved position, normal completion and feedback.
+4. Reload and sync with Drive. The reward should remain owned and its celebration should not replay. Several simultaneous milestones should share one ceremony and leave every gift accessible.
+5. Check passthrough, intro, watch, page position, reading comfort and the056 feedback/voice checklist below. Quest voice remains unconfirmed; do not substitute desktop mocked speech for a microphone/dictation result.
+
+---
 # Build 056 — personalization and voice checks pending
 
 After a separately approved release, use the HTTPS site, confirm BUILD 056, then:

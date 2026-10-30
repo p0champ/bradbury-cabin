@@ -1,10 +1,12 @@
-import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=56";
-import { ThoughtVoice } from "./voice.js?v=56";
-import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=56";
-import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=56";
-import { lookupWord } from "./word-lookup.js?v=56";
-import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=56";
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=56";
+import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
+import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
+import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
+import { ThoughtVoice } from "./voice.js?v=57";
+import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=57";
+import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=57";
+import { lookupWord } from "./word-lookup.js?v=57";
+import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=57";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=57";
 import {
   GestureEngine,
   menuButtons,
@@ -16,33 +18,33 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=56";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=56";
-import { HandBadges } from "./hand-badges.js?v=56";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=56";
-import { LIBRARY } from "./library.js?v=56";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=56";
-import { layoutReading } from "./reading-flow.js?v=56";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=56";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=56";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=56";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=56";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=56";
-import { parsePicks, pickLabels } from "./picks.js?v=56";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=56";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=56";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=56";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=56";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=56";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=56";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=56";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=56";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=56";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=56";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=56";
-import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=56";
-import { EntrySound } from "./entry-sound.js?v=56";
-import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=56";
+} from "./gestures.js?v=57";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=57";
+import { HandBadges } from "./hand-badges.js?v=57";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=57";
+import { LIBRARY } from "./library.js?v=57";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=57";
+import { layoutReading } from "./reading-flow.js?v=57";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=57";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=57";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=57";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=57";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=57";
+import { parsePicks, pickLabels } from "./picks.js?v=57";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=57";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=57";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=57";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=57";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=57";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=57";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=57";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=57";
+import { EntrySound } from "./entry-sound.js?v=57";
+import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=57";
 import {
   readProgress,
   saveProgress,
@@ -50,17 +52,18 @@ import {
   toggleWeekly,
   validProgress,
   dateKey,
+  berlinDateKey,
   parseKey,
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=56";
+} from "./progress.js?v=57";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=56";
+} from "./calendar.js?v=57";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -83,7 +86,7 @@ const store = (() => {
     };
   }
 })();
-const todayKey = () => dateKey(new Date());
+const todayKey = () => berlinDateKey(new Date());
 let progress,
   progressVersion = 0;
 {
@@ -120,6 +123,7 @@ let progress,
 }
 // Saves, and tells the truth when it could not.
 function storeProgress() {
+  reconcileRewards(progress,todayKey());
   progressVersion++;
   progress.savedAt = new Date().toISOString();
   scheduleDriveSave();
@@ -153,7 +157,7 @@ let todayWorks = [];
 let todayWorksFor = null;
 let picksNotice = "";
 function loadTodayCache() {
-  todayWorksFor = dateKey(new Date());
+  todayWorksFor = berlinDateKey(new Date());
   try {
     const r = parsePicks(localStorage.getItem(TODAY_KEY) || "", progress.days);
     if (r.date && r.date <= todayWorksFor && r.works.length === 3 && !r.problems.length) {
@@ -179,6 +183,7 @@ function loadTodayCache() {
   }
 }
 loadTodayCache();
+if(reconcileRewards(progress,todayKey())) { progress.savedAt=new Date().toISOString(); if(!saveProgress(store,progress))progressNotice="Rewards could not be saved on this headset."; }
 const WORKS = [];
 // Works that stopped being "today" stay readable while open, so passing
 // midnight never pulls the page away mid-read.
@@ -192,7 +197,7 @@ function rebuildWorks(openId = null) {
   );
   carriedWorks = open ? [{ ...open, today: false }] : [];
   WORKS.length = 0;
-  WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...shelfWorks.filter((w) => !todayWorks.some((t) => t.id === w.id)), ...LIBRARY);
+  WORKS.push(...todayWorks, SAMPLER, ...carriedWorks, ...shelfWorks.filter((w) => !todayWorks.some((t) => t.id === w.id)), ...LIBRARY, ...rewardWorks(progress));
   for (const id of Object.keys(progress.completedWorks || {})) {
     const completed = SOURCE_CATALOGUE.find(w => w.id === id);
     if (completed && !WORKS.some(w => w.id === id)) WORKS.push(completed);
@@ -332,6 +337,32 @@ if (reading.last && WORKS.some((w) => w.id === reading.last)) {
 }
 let completionContext = null, currentReadingOpened = false;
 let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0;
+let rewardQueue=[],rewardIndex=0,rewardSince=null,rewardPhase='card',rewardNotice='',rewardGlow=null;
+function beginRewardCelebration() {
+  const entries=pendingRewards(progress);if(!entries.length)return false;
+  thoughtVoice.cancel();rewardQueue=entries;rewardIndex=0;rewardSince=null;rewardPhase='glow';
+  acknowledgeRewards(progress,entries.map(r=>r.id));
+  rewardNotice=storeProgress()?'':'Could not save rewards on this headset · export before leaving.';
+  rebuildWorks(state.workId);state.menuOpen=true;state.menuPage='reward';state.hover=null;dayOpenedAt=lastFrameTime;
+  if(!state.session || state.mode!=='layer') { rewardPhase='card'; }
+  paint();return true;
+}
+function rewardAction(id) {
+  if(id==='reward-skip'){rewardPhase='card';rewardSince=null;state.hover=null;dayOpenedAt=lastFrameTime;paint();return;}
+  if(id==='reward-back'){navigate('shelf');return;}
+  if(id.startsWith('reward-detail:')){
+    rewardQueue=rewardEntries(progress).filter(r=>r.id===id.slice(14));rewardIndex=0;rewardPhase='card';rewardNotice='';
+    acknowledgeRewards(progress,rewardQueue.map(r=>r.id));storeProgress();navigate('reward');return;
+  }
+  const entry=rewardQueue[rewardIndex];
+  if(id==='reward-read' && entry?.work){
+    rebuildWorks(state.workId);openWork(entry.work.id);toggleMenu(false);paint();return;
+  }
+  if(id==='reward-later') {
+    if(rewardIndex+1<rewardQueue.length){rewardIndex++;state.hover=null;dayOpenedAt=lastFrameTime;paint();}
+    else {navigate('library');}
+  }
+}
 const thoughtVoice = new ThoughtVoice();
 function updateThoughtEditor() {
   const panel = $("thought-editor");
@@ -370,7 +401,7 @@ function feedbackAction(id) {
     if(state.session) {state.session.end().catch(()=>{voiceStatus='Leave the cabin to type your thought.';paint();});return;}
     $('thought-editor').scrollIntoView({block:'center'});$('thought-text').focus();
   } else if(id==='feedback-done') {
-    thoughtVoice.cancel();state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
+    thoughtVoice.cancel();if(beginRewardCelebration())return;state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
   }
   updateThoughtEditor();paint();
 }
@@ -700,6 +731,7 @@ function homeOptions(route = state.menuPage) {
     works: todayWorks.map(w => ({...w, why: whyFor(w, progress)})), currentId: state.workId, statuses, resumable, currentPosition, hover: state.hover,
     resume: workById(state.workId), dateline: facts.dateline + (facts.read ? ` · ${facts.read} of 3 read` : ""),
     notes: !!(personal.dedication || personal.thread || picksNotice || driveNote()),
+    rewards: route!=="today" || rewardEntries(progress).length>0,
     c: { ...NAV, serif: MOODS[state.mood].body, ui: UI } };
   options.feedbackIds = Object.fromEntries(WORKS.filter(w => workRead(progress,w)).map(w => [w.id,true]));
   if (!learned()) options.dateline = state.headPointer ? "Look at a title, then pinch and release." : "Point at a title, then pinch and release.";
@@ -729,6 +761,10 @@ function homeOptions(route = state.menuPage) {
 }
 function navigationModel() {
   const page = state.arriving ? "today" : state.menuPage;
+  if (page === "reward" || page === "rewards") {
+    const options={shelf:page==="rewards",phase:page==="rewards"?"card":rewardPhase,entries:page==="rewards"?rewardEntries(progress):rewardQueue,entry:rewardQueue[rewardIndex],index:rewardIndex,notice:rewardNotice,hover:state.hover};
+    return {kind:"rewards",options,bounds:HOME_FRAME,buttons:rewardsButtons(options)};
+  }
   if (page === "feedback") {
     const count=thoughtPages(ctx,thoughtDraft).length;thoughtPage=Math.max(0,Math.min(thoughtPage,count-1));
     const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover};
@@ -770,6 +806,10 @@ function navigate(page) {
   dayOpenedAt=lastFrameTime; gestures.setContext("menu"); paint();
 }
 function navigationAction(id) {
+  if(typeof id==="string" && id.startsWith("reward-")) {
+    if(!state.centering && !state.arriving && dayInputAllowed(lastFrameTime,dayOpenedAt))rewardAction(id);return true;
+  }
+  if(id==="home-rewards") {if(!state.centering && !state.arriving && dayInputAllowed(lastFrameTime,dayOpenedAt))navigate("rewards");return true;}
   if (typeof id === "string" && id.startsWith("feedback-")) {
     if (!state.centering && !state.arriving && dayInputAllowed(lastFrameTime,dayOpenedAt)) feedbackAction(id);
     return true;
@@ -826,7 +866,7 @@ function navigationAction(id) {
 function paint() {
   updateVolumeControl();
   // After midnight, yesterday's picks stop being "today".
-  if (todayWorksFor !== dateKey(new Date())) {
+  if (todayWorksFor !== berlinDateKey(new Date())) {
     loadTodayCache();
     rebuildWorks(state.workId);
   }
@@ -934,6 +974,7 @@ function paint() {
   if (state.arriving || state.menuOpen) {
     if (navigation.kind === "home") paintHome(ctx, navigation.options);
     else if (navigation.kind === "settings") paintSettings(ctx, navigation.options);
+    else if (navigation.kind === "rewards") paintRewards(ctx, navigation.options);
     else if (navigation.kind === "feedback") paintFeedback(ctx, navigation.options);
     else paintCompact(ctx, navigation.options);
     if (state.arriving && navigation.kind === "home" && state.mode === "layer" && !reducedMotion())
@@ -1274,6 +1315,7 @@ function feedback(text) {
 function toggleMenu(open = !state.menuOpen, initialPlacement = null) {
   thoughtVoice.cancel();
   const wasOpen = state.menuOpen;
+  if(!open && wasOpen && state.menuPage==='feedback' && beginRewardCelebration())return;
   completionContext = null;
   if (!open && wasOpen) currentReadingOpened = true;
   gazeDwell.consume();
@@ -1748,7 +1790,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-056",
+    build: "gestures-057",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1833,7 +1875,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-056.json";
+  a.download = "bradbury-test-details-build-057.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1924,6 +1966,7 @@ function insideNavigation(hit) {
 
 function cleanSession() {
   thoughtVoice.cancel();
+  rewardPhase="card";rewardSince=null;if(rewardGlow)gpu?.release?.(rewardGlow);rewardGlow=null;
   closeWordNote(); focusDim.reset(); seasonSince = null;
   comfortLayers?.dispose(); comfortLayers = null;
   lastNativeQuad = nativeQuadGeometry() || lastNativeQuad;
@@ -2851,6 +2894,19 @@ function frame(time, xrFrame, generation) {
         if (canvas.dataset.pageMotion) gpu.release(folio.plate, canvas);
         delete canvas.dataset.pageMotion;
       }
+      let rewardNow=null;
+      if(state.menuOpen && state.menuPage==='reward' && rewardPhase==='glow') {
+        if(!attentive || !sessionVisible) {rewardPhase='card';rewardSince=null;paint();}
+        else {
+          rewardSince ??= time;const f=rewardFrame(time-rewardSince,reducedMotion());
+          canvas.dataset.rewardGlow=JSON.stringify({ms:Math.round(time-rewardSince),alpha:f.alpha});
+          if(f.done){rewardPhase='card';rewardSince=null;paint();}
+          else {
+            if(!rewardGlow)paintRewardGlow(rewardGlow=document.createElement('canvas'));
+            rewardNow=[{source:rewardGlow,x:0,y:0,width:PAGE.width,height:PAGE.height,alpha:f.alpha},...(pagePointer?pointer?.surfaceSprites(PAGE.width,PAGE.height,surfaceWidth(),surfaceHeight())||[]:[])];
+          }
+        }
+      } else delete canvas.dataset.rewardGlow;
       // The old cover leaves are retired: the window simply fades in.
       if (arrival?.clearVisible()) applyLayers();
       const display = state.arriving
@@ -2971,7 +3027,7 @@ function frame(time, xrFrame, generation) {
           checkGl(gl, "projection cleanup");
         }
       }
-      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed || lampNow || turnNow || shimmerNow)) {
+      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed || lampNow || turnNow || shimmerNow || rewardNow)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
         nativeQuadUpload = { viewport: { x: sub.viewport.x, y: sub.viewport.y,
@@ -2979,7 +3035,8 @@ function frame(time, xrFrame, generation) {
           textureWidth: sub.textureWidth, textureHeight: sub.textureHeight,
           imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
-        if (lampNow) gpu.composePage(sub, lamp.base, { revision: lamp.revision, sprites: lampNow.sprites });
+        if (rewardNow) gpu.composePage(sub,canvas,{revision:pagePaintRevision,sprites:rewardNow});
+        else if (lampNow) gpu.composePage(sub, lamp.base, { revision: lamp.revision, sprites: lampNow.sprites });
         else if (turnNow) gpu.composePage(sub, folio.plate, { revision: folio.plateRevision, sprites: turnNow });
         else if (shimmerNow) gpu.composePage(sub, canvas, { revision: pagePaintRevision, sprites: shimmerNow });
         else if (pagePointer) {
@@ -2987,7 +3044,7 @@ function frame(time, xrFrame, generation) {
             sprites: pointer?.surfaceSprites(PAGE.width, PAGE.height, surfaceWidth(), surfaceHeight()) || [] });
         } else gpu.copyPage(sub, canvas, { premultiplied: true });
         // Composed images must be replaced by a clean page copy afterwards.
-        nativePointerComposed = pagePointer || !!lampNow || !!turnNow || !!shimmerNow;
+        nativePointerComposed = pagePointer || !!lampNow || !!turnNow || !!shimmerNow || !!rewardNow;
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";
@@ -3105,7 +3162,7 @@ async function syncDrive() {
         if (validProgress(parsed)) progress = mergeProgress(progress, parsed);
       } catch {}
     }
-    const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days));
+    const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS}));
     let message = "No picks from Claude yet. Ask Claude for today's three.";
     drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
     if (found) {

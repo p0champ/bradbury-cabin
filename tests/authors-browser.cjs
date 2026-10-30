@@ -45,10 +45,10 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     await p.waitForFunction(id => document.querySelector('#page').dataset.work === id, todayId);
     const expected = await p.evaluate(async id => {
       await document.fonts.ready;
-      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=56');
-      const { layoutWork } = await import('./reader.js?v=56');
-      const { MOODS } = await import('./theme.js?v=56');
-      const { typeset } = await import('./folio.js?v=56');
+      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=57');
+      const { layoutWork } = await import('./reader.js?v=57');
+      const { MOODS } = await import('./theme.js?v=57');
+      const { typeset } = await import('./folio.js?v=57');
       const ctx = document.querySelector('#page').getContext('2d');
       const work = SOURCE_CATALOGUE.find(w => w.id === id);
       // Same layout and display-time quotes as the app (Build 054 opening letter).

@@ -952,6 +952,10 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_REWARDS_ONLY) {
+      await require("./rewards-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} reward checks passed.`); return;
+    }
     if (process.env.CABIN_COMFORT_ONLY) {
       await require("./comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
       console.log(`${checks} comfort checks passed.`); return;
@@ -1430,7 +1434,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-056");
+        assert.equal(details.build, "gestures-057");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2410,7 +2414,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=56");
+        const { paintHandBadge } = await import("./hand-badges.js?v=57");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2731,7 +2735,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=56");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=57");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3489,8 +3493,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=56");
-        const { loadProgress } = await import("./progress.js?v=56");
+        const { calendarButtons } = await import("./calendar.js?v=57");
+        const { loadProgress } = await import("./progress.js?v=57");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3560,6 +3564,7 @@ async function mock(
     await glassFolioChecks(browser, { mock, BASE_URL, out, passed });
     await require("./comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./feedback-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./rewards-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(

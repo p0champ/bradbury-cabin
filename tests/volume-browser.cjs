@@ -71,7 +71,7 @@ module.exports=async function volumeChecks(browser,{mock,BASE_URL,out,passed}){
  {
   const p=await browser.newPage();await p.goto(BASE_URL);
   const ratios=await p.evaluate(async()=>{
-   const {Ambience}=await import('./ambience.js?v=56');
+   const {Ambience}=await import('./ambience.js?v=57');
    async function render(level){
     const context=new OfflineAudioContext(1,4*22050,22050),a=new Ambience();a.kind='rain';a.start(context,'rain');
     const suspension=context.suspend(2.5);const rendering=context.startRendering();
