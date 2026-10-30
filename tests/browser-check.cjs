@@ -3061,7 +3061,7 @@ async function mock(
       assert.ok((await p.evaluate(() => __watchLayer())).listed, "two hands: right shows");
       await p.evaluate(() => {
         __mock.session.inputSources = [__mock.sources.left];
-        __step(320); // hold final pose briefly, then fade after right tracking loss
+        __step(420); // hold final pose briefly, then the 0.25 s fade after right tracking loss
       });
       assert.ok(!(await p.evaluate(() => __watchLayer())).listed, "right removed: hidden at once");
       // After glancing, the right hand turns pages again.
