@@ -1157,9 +1157,13 @@ async function mock(
           let differences = 0;
           for (let y = 0; y < expected.height; y += 61)
             for (let x = 0; x < expected.width; x += 59) {
-              const i = (y * expected.width + x) * 4;
-              for (let c = 0; c < 4; c++)
-                if (bytes[i + c] !== m.latestPixels[i + c]) differences++;
+              const i = (y * expected.width + x) * 4, a = bytes[i + 3];
+              // The native image is premultiplied. Opaque pixels must match
+              // exactly; translucent glass (Build 054) may round by one.
+              for (let c = 0; c < 4; c++) {
+                const want = c === 3 ? a : Math.round(bytes[i + c] * a / 255);
+                if (Math.abs(want - m.latestPixels[i + c]) > (a === 255 || a === 0 ? 0 : 1)) differences++;
+              }
             }
           return differences;
         });
@@ -1308,9 +1312,10 @@ async function mock(
           await p.evaluate(() => __step());
           assert.ok(await p.evaluate((n) => __mock.uploads > n, uploads));
           assert.deepEqual(
-            // Sample inside the window: its rounded corners are transparent.
+            // Sample the paper inside the window: its rounded corners are
+            // transparent and its edge is translucent glass (Build 054).
             await p.evaluate(() => {
-              const i = (40 * 2048 + 1024) * 4;
+              const i = (120 * 2048 + 1024) * 4;
               return Array.from(__mock.latestPixels.slice(i, i + 3));
             }),
             [19, 23, 21],
