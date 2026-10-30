@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL } from './theme.js?v=51';
+import { navigationSurface, CONTROL } from './theme.js?v=52';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.
@@ -93,12 +93,28 @@ export function homeTitleLines(ctx, text, width) {
   return lines;
 }
 
+// The arrival lifts these horizontal bands separately: the header, each
+// reading, then everything below. Page pixels, rounded so bands abut exactly.
+export function homeArrivalBands(options = {}) {
+  const l = layout(options);
+  const band = (top, bottom) => {
+    const y = Math.round(HOME_FRAME.y + top * HOME_SCALE);
+    return { y, h: Math.round(HOME_FRAME.y + bottom * HOME_SCALE) - y };
+  };
+  const last = l.placements.at(-1), end = last ? last.y + last.height : l.start;
+  return { header: band(0, l.start), rows: l.placements.map(p => band(p.y, p.y + p.height)), footer: band(end, 500) };
+}
+
+// options.layer: "surface" paints only the glass, "content" only what sits
+// on it (transparent elsewhere), so the arrival can reveal one over the other.
 export function paintHome(ctx, options = {}) {
   const o = options, l = layout(o), c = { ink: '#f5f5f2', muted: '#cbd0cc', ...o.c };
   ctx.save();
   ctx.translate(HOME_FRAME.x, HOME_FRAME.y);
   ctx.scale(HOME_SCALE, HOME_SCALE);
-  navigationSurface(ctx, 720, 500);
+  if (o.layer === 'content') { ctx.beginPath(); ctx.roundRect(.5, .5, 719, 499, 28); ctx.clip(); }
+  else navigationSurface(ctx, 720, 500);
+  if (o.layer === 'surface') { ctx.restore(); return; }
   ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
   const font = (size, weight = 400) => { ctx.font = `${weight} ${size}px ${c.ui || UI}`; };
   const text = (value, x, y, color = c.ink) => { ctx.fillStyle = color; ctx.fillText(value, x, y); };

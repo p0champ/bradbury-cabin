@@ -13,12 +13,13 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   await p.addInitScript(works=>{localStorage.setItem('cabin-today',JSON.stringify({version:2,date:'2026-10-29',picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id}]))}));window.__coherentText=[];const fill=CanvasRenderingContext2D.prototype.fillText,clear=CanvasRenderingContext2D.prototype.clearRect;CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.id==='page')__coherentText=[];return clear.call(this,...a);};CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page')__coherentText.push({text:String(t),font:this.font});return fill.call(this,t,...a);};},works.map(w=>({id:w.id,kind:w.kind})));
   await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__step();__pinch();__step(240);});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today','entry must land directly in content home');
-  assert.equal(Number(await p.locator('#page').getAttribute('data-arrival-ms')),reduce?1:200);
+  assert.equal(Number(await p.locator('#page').getAttribute('data-arrival-ms')),reduce?300:5000);
   const snapshot=await p.evaluate(()=>({buttons:JSON.parse(document.querySelector('#page').dataset.buttons),bounds:JSON.parse(document.querySelector('#page').dataset.activeBounds),text:__coherentText,alpha:document.querySelector('#page').getContext('2d').getImageData(1024,200,1,1).data[3]}));
   assert.equal(snapshot.buttons.filter(b=>b.id.startsWith('home-work:')).length,3);
   assert.ok(Math.abs(snapshot.bounds.h/2560*.9-.5)<1e-6);assert.equal(snapshot.alpha,0,'transparent margin became a portrait slab');
   assert.ok(!snapshot.text.some(x=>/BRADBURY CABIN|More settings|Leave the cabin|Good evening/.test(x.text)));
   for(const w of works)assert.ok(snapshot.text.some(x=>x.text===w.title||x.text.includes(w.title.split(' ').slice(0,3).join(' '))),'missing complete initial work '+w.title);
+  await p.evaluate(()=>__finishArrival());
   const anchor=await p.evaluate(()=>__mock.placed.at(-1));
   await p.evaluate(()=>{__mock.offsetX=.08;__step(120);__native('select');__native('selectend');__step(40);});
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today','placing/released input picked a title');

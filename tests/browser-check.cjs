@@ -5,6 +5,7 @@ const pointerChecks = require("./pointer-browser.cjs");
 const pointerTruthChecks = require("./pointer-truth-browser.cjs");
 const surfacePointerChecks = require("./surface-pointer-browser.cjs");
 const glComposeChecks = require("./gl-compose-browser.cjs");
+const lampArrivalChecks = require("./lamp-arrival-browser.cjs");
 const pressDriftChecks = require("./press-drift-browser.cjs");
 const feelChecks = require("./feel-browser.cjs");
 const frontdoorChecks = require("./frontdoor-browser.cjs");
@@ -342,7 +343,16 @@ async function mock(
         session.inputSources = [source];
         return source;
       };
+      // Native events are stamped max(frame time, performance.now()), as on a
+      // headset where both share one clock. Slow software GPU frames can let
+      // wall time overtake this mock frame clock, making every press look
+      // stale. Only then, move the frame clock well ahead before the helper's
+      // open-hand frames, which re-arm readiness exactly as before.
+      window.__syncPressClock = () => {
+        if (performance.now() > __mock.clock - 2500) __mock.clock = performance.now() + 5000;
+      };
       window.__pinch = (hand = "right", duration = 240) => {
+        __syncPressClock();
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
@@ -354,6 +364,7 @@ async function mock(
         __step(16);
       };
       window.__hold = (hand = "right") => {
+        __syncPressClock();
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
@@ -382,6 +393,10 @@ async function mock(
         };
         session.dispatchEvent(e);
       };
+      // Let the "Lamp on" arrival play out frame by frame (about 5 s).
+      window.__finishArrival = () => {
+        for (let i = 0; i < 250 && !session.ended && document.querySelector("#page").dataset.view === "arrival"; i++) __step(40);
+      };
       window.__center = () => {
         if (session.ended) return;
         __mock.clock = Math.max(__mock.clock, performance.now());
@@ -389,6 +404,7 @@ async function mock(
         __pinch();
         __step(1240);
         __step(1000);
+        __finishArrival();
         if(session.ended || !document.querySelector("#enter").disabled)return;
         // Feature fixtures keep seeded Today open; otherwise resume through
         // the real Home target, preserving their existing reading setup.
@@ -627,8 +643,11 @@ async function mock(
             window.__mock.inFrame &&
             args[3] &&
             args[3] === window.__mock.texture &&
-            !(document.querySelector('#page')?.dataset.pointerSurface === 'page' &&
-              document.querySelector('#page')?.dataset.view === 'menu' &&
+            !(((document.querySelector('#page')?.dataset.pointerSurface === 'page' &&
+              document.querySelector('#page')?.dataset.view === 'menu') ||
+              // Build 052: the "Lamp on" arrival composes on the GPU too.
+              (document.querySelector('#page')?.dataset.view === 'arrival' &&
+              !!document.querySelector('#page')?.dataset.lamp)) &&
               args[1] === g.COLOR_ATTACHMENT0 && [g.FRAMEBUFFER, g.DRAW_FRAMEBUFFER].includes(args[0]))
           )
             throw Error("A attached its quad texture instead of direct upload");
@@ -1373,7 +1392,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-051");
+        assert.equal(details.build, "gestures-052");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1491,7 +1510,7 @@ async function mock(
         await p.locator("#page").getAttribute("data-view"),
         "arrival",
       );
-      await p.evaluate(() => __step(1240));
+      await p.evaluate(() => { __step(1240); __finishArrival(); });
       // Placement lands directly on Home, without an intermediate welcome.
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       await p.evaluate(() => __welcomeChoose());
@@ -2344,7 +2363,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=51");
+        const { paintHandBadge } = await import("./hand-badges.js?v=52");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2495,6 +2514,7 @@ async function mock(
         __step();
         __pinch();
         __step(1240);
+        __finishArrival();
         if (document.querySelector("#page").dataset.menuPage === "today") __welcomeChoose();
         const l = __hand(0.05, "left"),
           r = __hand(0.05, "right");
@@ -2664,7 +2684,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=51");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=52");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3420,8 +3440,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=51");
-        const { loadProgress } = await import("./progress.js?v=51");
+        const { calendarButtons } = await import("./calendar.js?v=52");
+        const { loadProgress } = await import("./progress.js?v=52");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3486,6 +3506,7 @@ async function mock(
     await pointerVisibilityChecks(browser, { mock, BASE_URL, out, passed });
     await surfacePointerChecks(browser, { mock, BASE_URL, out, passed });
     await glComposeChecks(browser, { BASE_URL, out, passed });
+    await lampArrivalChecks(browser, { mock, BASE_URL, out, passed });
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(

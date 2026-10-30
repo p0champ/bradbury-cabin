@@ -1,4 +1,4 @@
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=51";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=52";
 import {
   GestureEngine,
   menuButtons,
@@ -10,32 +10,32 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=51";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=51";
-import { HandBadges } from "./hand-badges.js?v=51";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=51";
-import { LIBRARY } from "./library.js?v=51";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=51";
-import { layoutReading } from "./reading-flow.js?v=51";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome } from "./home-panel.js?v=51";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=51";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=51";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=51";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=51";
-import { parsePicks, pickLabels } from "./picks.js?v=51";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=51";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=51";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=51";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=51";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=51";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=51";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=51";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=51";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=51";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=51";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=51";
-import { Arrival, ARRIVAL_MS, pageArrivalPose, smooth } from "./arrival.js?v=51";
-import { EntrySound } from "./entry-sound.js?v=51";
+} from "./gestures.js?v=52";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=52";
+import { HandBadges } from "./hand-badges.js?v=52";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND } from "./watch.js?v=52";
+import { LIBRARY } from "./library.js?v=52";
+import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=52";
+import { layoutReading } from "./reading-flow.js?v=52";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=52";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=52";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=52";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=52";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=52";
+import { parsePicks, pickLabels } from "./picks.js?v=52";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=52";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=52";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=52";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=52";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=52";
+import { GOOGLE_CLIENT_ID } from "./config.js?v=52";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=52";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=52";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=52";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=52";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=52";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=52";
+import { EntrySound } from "./entry-sound.js?v=52";
 import {
   readProgress,
   saveProgress,
@@ -47,13 +47,13 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=51";
+} from "./progress.js?v=52";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=51";
+} from "./calendar.js?v=52";
 // Headset cache for challenge progress. Export/Import on the browser page is
 // the backup until durable bridge storage arrives with Claude (Phase 3).
 let progressPersistent = true,
@@ -259,7 +259,9 @@ if (preferences.handMapRevision !== 9) {
 // Ordinary page/menu changes keep their material opaque and position fixed.
 const motionPreference = window.matchMedia?.("(prefers-reduced-motion: reduce)");
 const reducedMotion = () => motionPreference?.matches === true;
-const arrivalDuration = () => reducedMotion() ? 1 : ARRIVAL_MS;
+// The full "Lamp on" arrival needs the compositor layer; the desktop
+// comparison view keeps its short fade.
+const arrivalDuration = () => reducedMotion() ? ARRIVAL_REDUCED_MS : state.mode === "layer" ? ARRIVAL_MS : 200;
 // After a few visits the gestures are known: the instruction lines go quiet.
 const learned = () => (preferences.visits || 0) > 3;
 const state = {
@@ -469,7 +471,62 @@ let entrySound = null;
 let arrival = null,
   arrivalElapsed = 0,
   lastArrivalTick = 0,
-  arrivalAnchor = null;
+  arrivalAnchor = null,
+  arrivalSkipSource = null;
+// "Lamp on" pieces, drawn once per arrival and composed on the GPU each frame:
+// the bare glass, the warm glow, and Today cut into header/reading/footer bands.
+let lamp = null;
+function buildLamp(options) {
+  lamp ||= { base: document.createElement("canvas"), content: document.createElement("canvas"),
+    glow: document.createElement("canvas"), pieces: [], used: new Set(), revision: 0 };
+  lamp.revision++;
+  for (const c of [lamp.base, lamp.content]) { c.width = PAGE.width; c.height = PAGE.height; }
+  paintHome(lamp.base.getContext("2d"), { ...options, layer: "surface" });
+  paintHome(lamp.content.getContext("2d"), { ...options, layer: "content" });
+  const bands = homeArrivalBands(options);
+  const list = [["header", bands.header], ...bands.rows.map((b, i) => ["row" + i, b]), ["footer", bands.footer]]
+    .filter(([, b]) => b.h > 0);
+  lamp.pieces = list.map(([id, b], i) => {
+    const source = lamp.pieces[i]?.source || document.createElement("canvas");
+    source.width = PAGE.width; source.height = b.h;
+    source.getContext("2d").drawImage(lamp.content, 0, b.y, PAGE.width, b.h, 0, 0, PAGE.width, b.h);
+    lamp.used.add(source);
+    return { id, source, y: b.y, h: b.h };
+  });
+  lamp.content.width = lamp.content.height = 0;
+  if (!lamp.glowPainted) {
+    lamp.glow.width = 512; lamp.glow.height = Math.round(512 * HOME_FRAME.h / HOME_FRAME.w);
+    paintLampGlow(lamp.glow, 28 * 512 / 720);
+    lamp.glowPainted = true;
+  }
+}
+function lampSprites(t) {
+  const rows = lamp.pieces.filter(p => p.id.startsWith("row")).length, f = lampFrame(t, rows);
+  // Glow first, so it warms the glass but never tints the words.
+  const sprites = [{ source: lamp.glow, x: HOME_FRAME.x, y: HOME_FRAME.y, width: HOME_FRAME.w, height: HOME_FRAME.h, alpha: f.glow }];
+  for (const p of lamp.pieces) {
+    const row = p.id.startsWith("row") ? f.rows[Number(p.id.slice(3))] : null;
+    sprites.push({ source: p.source, x: 0, y: p.y + (row ? row.lift : 0), width: PAGE.width, height: p.h,
+      alpha: row ? row.alpha : p.id === "header" ? f.header : f.footer, revision: lamp.revision });
+  }
+  return { sprites, frame: f };
+}
+function releaseLamp() {
+  if (lamp) gpu?.release(lamp.base, lamp.glow, ...lamp.used);
+  lamp = null;
+}
+// A fresh pinch (begun after the placing pinch is over) skips to Today.
+// Its release is consumed here, so it can never select a reading.
+function arrivalSkip(kind, source) {
+  if (kind === "selectstart") {
+    arrivalSkipSource = arrivalElapsed >= ARRIVAL_SKIP_AFTER_MS ? source : null;
+    return false;
+  }
+  if (kind !== "select" || source !== arrivalSkipSource) return false;
+  arrivalSkipSource = null;
+  arrivalElapsed = Math.max(arrivalElapsed, arrivalDuration());
+  return true;
+}
 let menuPlacement = null,
   lastViewer = null,
   lastDisplay = null,
@@ -717,6 +774,8 @@ function paint() {
     if (navigation.kind === "home") paintHome(ctx, navigation.options);
     else if (navigation.kind === "settings") paintSettings(ctx, navigation.options);
     else paintCompact(ctx, navigation.options);
+    if (state.arriving && navigation.kind === "home" && state.mode === "layer" && !reducedMotion())
+      buildLamp(navigation.options);
     if (state.attentionPaused) {
       const b = navigation.bounds;
       ctx.fillStyle = "rgba(20,23,22,.94)";
@@ -1087,6 +1146,7 @@ function gestureEvent(event) {
     }
     entrySound?.play(state.entrySound);
     arrivalElapsed = 0;
+    arrivalSkipSource = null;
     lastArrivalTick = lastFrameTime;
     arrivalAnchor = lastViewer;
     gestures.setContext("arrival");
@@ -1511,7 +1571,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-051",
+    build: "gestures-052",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1596,7 +1656,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-051.json";
+  a.download = "bradbury-test-details-build-052.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1720,6 +1780,7 @@ function cleanSession() {
   nativePointerComposed = false;
   if (projectionRoute) base?.destroy();
   projectionRoute = false;
+  lamp = null;
   gpu?.dispose();
   gpu = null;
   placement = null;
@@ -1902,9 +1963,10 @@ async function enter() {
         });
         if (gestures.trace.length > 120) gestures.trace.shift();
         if (state.arriving) {
+          const skipped = arrivalSkip(kind, e.inputSource);
           gestures.note({
             result: "ignored",
-            reason: "arrival-animation",
+            reason: skipped ? "arrival-skipped" : "arrival-animation",
             kind,
             time,
             hand: e.inputSource.handedness,
@@ -2034,7 +2096,8 @@ function frame(time, xrFrame, generation) {
       }
       // The menu cursor shares the page texture. Erase it even when head
       // tracking is unavailable and the normal drawing branch cannot run.
-      if (nativePointerComposed && drawMode === "layer" && quad && binding) {
+      // The arrival's image holds no cursor, so it stays until tracking returns.
+      if (nativePointerComposed && !state.arriving && drawMode === "layer" && quad && binding) {
         const sub = binding.getSubImage(quad, xrFrame);
         gpu.copyPage(sub, canvas, { premultiplied: true });
         nativePointerComposed = false;
@@ -2065,6 +2128,7 @@ function frame(time, xrFrame, generation) {
         gestures.setContext("reading");
         state.handEntryStarted = time;
         placeAtArrival = readingPlace();
+        releaseLamp();
         // Keep the welcome at the chosen position, even if the head moved
         // during the fade. Its first usable frame must not dip again.
         openWelcome(placement);
@@ -2543,17 +2607,22 @@ function frame(time, xrFrame, generation) {
       const progress = state.arriving
         ? Math.min(1, arrivalElapsed / arrivalDuration())
         : null;
+      const lampNow = state.arriving && lamp && drawMode === "layer" && !reducedMotion()
+        ? lampSprites(arrivalElapsed) : null;
+      if (lampNow) {
+        const f = lampNow.frame;
+        canvas.dataset.lamp = JSON.stringify({ ms: Math.round(arrivalElapsed), opacity: f.opacity, glow: f.glow,
+          header: f.header, rows: f.rows.map(r => r.alpha), lifts: f.rows.map(r => r.lift), footer: f.footer });
+      } else delete canvas.dataset.lamp;
       // The old cover leaves are retired: the window simply fades in.
       if (arrival?.clearVisible()) applyLayers();
       const display = state.arriving
         ? placement
         : presentPose();
+      // Lamp on fades the window in with the glow; reduced motion and the
+      // comparison view use one plain fade over the whole arrival.
       if (quad)
-        quad.opacity = reducedMotion()
-          ? 1
-          : state.arriving
-          ? smooth(progress)
-          : 1;
+        quad.opacity = !state.arriving ? 1 : lampNow ? lampNow.frame.opacity : smooth(progress);
       if (display !== lastDisplay) {
         if (quad) quad.transform = display;
         canvas.dataset.panelPose = JSON.stringify(Array.from(display.matrix));
@@ -2639,7 +2708,7 @@ function frame(time, xrFrame, generation) {
           checkGl(gl, "projection cleanup");
         }
       }
-      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed)) {
+      if (drawMode === "layer" && quad && (layerDirty || quad.needsRedraw || pagePointer || nativePointerComposed || lampNow)) {
         const sub = binding.getSubImage(quad, xrFrame);
         state.actualPixels = [sub.viewport.width, sub.viewport.height];
         nativeQuadUpload = { viewport: { x: sub.viewport.x, y: sub.viewport.y,
@@ -2647,11 +2716,13 @@ function frame(time, xrFrame, generation) {
           textureWidth: sub.textureWidth, textureHeight: sub.textureHeight,
           imageIndex: sub.imageIndex ?? null, sourceWidth: canvas.width, sourceHeight: canvas.height };
         checkGl(gl, "quad subimage acquisition");
-        if (pagePointer) {
+        if (lampNow) gpu.composePage(sub, lamp.base, { revision: lamp.revision, sprites: lampNow.sprites });
+        else if (pagePointer) {
           gpu.composePage(sub, canvas, { revision: pagePaintRevision,
             sprites: pointer?.surfaceSprites(PAGE.width, PAGE.height, surfaceWidth(), surfaceHeight()) || [] });
         } else gpu.copyPage(sub, canvas, { premultiplied: true });
-        nativePointerComposed = pagePointer;
+        // Composed images must be replaced by a clean page copy afterwards.
+        nativePointerComposed = pagePointer || !!lampNow;
         layerDirty = false;
         if (state.layerStatus !== "drawn") {
           state.layerStatus = "drawn";

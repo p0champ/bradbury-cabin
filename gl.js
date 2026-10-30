@@ -52,7 +52,7 @@ export async function renderer(canvas) {
     program,
     shader(
       gl.FRAGMENT_SHADER,
-      `#version 300 es\nprecision highp float;uniform sampler2D tex;in vec2 uv;out vec4 c;void main(){c=texture(tex,uv);}`,
+      `#version 300 es\nprecision highp float;uniform sampler2D tex;uniform float a;in vec2 uv;out vec4 c;void main(){c=texture(tex,uv)*a;}`,
     ),
   );
   gl.linkProgram(program);
@@ -85,7 +85,13 @@ export async function renderer(canvas) {
   // Projection-mode pointer images, one texture per look, uploaded once.
   const sprites = new Map();
   const fbo = gl.createFramebuffer(),
-    loc = gl.getUniformLocation(program, "m");
+    loc = gl.getUniformLocation(program, "m"),
+    alphaLoc = gl.getUniformLocation(program, "a");
+  // Every draw is opaque-as-painted unless a composition sprite says
+  // otherwise; composePage restores this after its translucent sprites.
+  gl.useProgram(program);
+  gl.uniform1f(alphaLoc, 1);
+  gl.useProgram(null);
   const resized = document.createElement("canvas");
   const compositionFbo = gl.createFramebuffer();
   const compositionPages = new Map(), compositionSprites = new Map();
@@ -154,9 +160,10 @@ export async function renderer(canvas) {
         const prepared = overlays.map(sprite => {
           if (!sprite.source?.width || !sprite.source?.height ||
               ![sprite.x, sprite.y, sprite.width, sprite.height].every(Number.isFinite) ||
-              sprite.width <= 0 || sprite.height <= 0) throw new Error("Invalid composition sprite.");
-          return { ...sprite, texture: compositionTexture(compositionSprites, sprite.source, 0) };
-        });
+              sprite.width <= 0 || sprite.height <= 0 ||
+              !(sprite.alpha == null || (sprite.alpha >= 0 && sprite.alpha <= 1))) throw new Error("Invalid composition sprite.");
+          return { ...sprite, texture: compositionTexture(compositionSprites, sprite.source, sprite.revision ?? 0) };
+        }).filter(sprite => sprite.alpha !== 0);
         // Opaque XR texture attachment is valid only in the current frame.
         gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, compositionFbo);
         gl.framebufferTexture2D(gl.DRAW_FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, sub.colorTexture, 0);
@@ -185,6 +192,7 @@ export async function renderer(canvas) {
           matrix[13] = 1 - 2 * (sprite.y + sprite.height / 2) / source.height;
           gl.bindTexture(gl.TEXTURE_2D, sprite.texture);
           gl.uniformMatrix4fv(loc, false, matrix);
+          gl.uniform1f(alphaLoc, sprite.alpha ?? 1);
           gl.drawArrays(gl.TRIANGLES, 0, 6);
         }
         checkGl(gl, "XR page composition");
@@ -200,7 +208,7 @@ export async function renderer(canvas) {
         gl.blendEquationSeparate(saved.rgbEquation, saved.alphaEquation);
         gl.blendFuncSeparate(saved.rgbSrc, saved.rgbDst, saved.alphaSrc, saved.alphaDst);
         caps.forEach((cap, i) => savedEnable(cap, enabled[i]));
-        gl.useProgram(program); gl.uniformMatrix4fv(loc, false, saved.matrix);
+        gl.useProgram(program); gl.uniformMatrix4fv(loc, false, saved.matrix); gl.uniform1f(alphaLoc, 1);
         gl.useProgram(saved.program); gl.bindVertexArray(saved.vao);
         gl.bindTexture(gl.TEXTURE_2D, saved.texture); gl.bindSampler(0, saved.sampler);
         gl.activeTexture(saved.active);
@@ -296,6 +304,15 @@ export async function renderer(canvas) {
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       gl.bindTexture(gl.TEXTURE_2D, null);
       gl.bindVertexArray(null);
+    },
+    // Frees cached composition textures for sources that are finished with,
+    // such as the arrival's pre-drawn pieces once Today is showing.
+    release(...sources) {
+      for (const source of sources)
+        for (const cache of [compositionPages, compositionSprites]) {
+          const entry = cache.get(source);
+          if (entry) { gl.deleteTexture(entry.texture); cache.delete(source); }
+        }
     },
     dispose() {
       gl.deleteTexture(texture);

@@ -1,6 +1,14 @@
 // A brief, transparent book gateway. It never moves the viewer or replaces
 // passthrough. Original procedural artwork; no external assets.
-export const ARRIVAL_MS = 200;
+// "Lamp on": a warm glow rises and settles, then Today's header fades in
+// where it belongs and the three readings rise into place, a beat apart.
+export const ARRIVAL_MS = 5000;
+// Reduced motion: one short fade straight into Today, no movement.
+export const ARRIVAL_REDUCED_MS = 300;
+// A fresh pinch skips to Today, but never the placing pinch's own release.
+export const ARRIVAL_SKIP_AFTER_MS = 400;
+// Rise distance in page pixels (2048 px = 0.72 m), about 1 cm.
+export const LAMP_RISE_PX = 28;
 export function easeArrival(p) {
   p = Math.max(0, Math.min(1, p));
   // Retained for the optional leaf artwork.
@@ -11,6 +19,39 @@ export const smooth = (p) => {
   p = Math.max(0, Math.min(1, p));
   return p * p * (3 - 2 * p);
 };
+const LAMP = { opacityMs: 1400, glowRise: 1100, glowSettle: [1300, 1300], glowPeak: .55,
+  header: [2000, 900], rows: 2700, rowStep: 380, rowMs: 900, footerMs: 800 };
+const span = (t, start, ms) => Math.max(0, Math.min(1, (t - start) / ms));
+const easeOut = (p) => 1 - (1 - p) ** 3;
+// Everything the compositor needs at t ms into the arrival. Pure, so tests
+// and previews can sample any moment without running frames.
+export function lampFrame(t, rowCount = 3) {
+  const rows = Array.from({ length: rowCount }, (_, i) => {
+    const p = span(t, LAMP.rows + i * LAMP.rowStep, LAMP.rowMs);
+    return { alpha: smooth(p), lift: LAMP_RISE_PX * (1 - easeOut(p)) };
+  });
+  return {
+    opacity: smooth(t / LAMP.opacityMs),
+    glow: LAMP.glowPeak * smooth(span(t, 0, LAMP.glowRise)) * (1 - smooth(span(t, ...LAMP.glowSettle))),
+    header: smooth(span(t, ...LAMP.header)),
+    rows,
+    footer: smooth(span(t, LAMP.rows + rowCount * LAMP.rowStep, LAMP.footerMs)),
+  };
+}
+// The lamp's light: a warm pane, brightest a little above centre, with no
+// hard edge. Drawn once at low resolution; the GPU scales it smoothly.
+export function paintLampGlow(canvas, radius) {
+  const c = canvas.getContext("2d"), w = canvas.width, h = canvas.height;
+  c.clearRect(0, 0, w, h);
+  c.save();
+  c.beginPath(); c.roundRect(0, 0, w, h, radius); c.clip();
+  const g = c.createRadialGradient(w / 2, h * .42, 0, w / 2, h * .42, Math.hypot(w, h) * .62);
+  g.addColorStop(0, "rgba(255,214,160,.95)");
+  g.addColorStop(.45, "rgba(255,196,128,.55)");
+  g.addColorStop(1, "rgba(240,170,105,.22)");
+  c.fillStyle = g; c.fillRect(0, 0, w, h);
+  c.restore();
+}
 export function localPose(anchor, x, y, z, yaw = 0) {
   const m = anchor.matrix,
     q = anchor.orientation,
