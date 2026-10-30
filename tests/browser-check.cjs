@@ -2223,9 +2223,11 @@ async function mock(
       const windowShape = await p.evaluate(() => {
         const m = __mock, w = m.quadWidth, alpha = (x, y) => m.latestPixels[(y * w + x) * 4 + 3];
         const main = [...m.layerData].find(([, d]) => !d.badge && !d.arrival && !d.watch && !d.gazeRing && !d.pointer);
-        return { corner: alpha(0, 0), inside: alpha(Math.floor(w / 2), 40), blend: main?.[0].blendTextureSourceAlpha };
+        const h = m.quadHeight, glass = alpha(Math.floor(w / 2), Math.round(20 * h / 2560));
+        return { corner: alpha(0, 0), inside: alpha(Math.floor(w / 2), Math.round(200 * h / 2560)), glass: glass > 0 && glass < 255, blend: main?.[0].blendTextureSourceAlpha };
       });
-      assert.deepEqual(windowShape, { corner: 0, inside: 255, blend: true });
+      // Build 054: a translucent glass band frames the opaque paper.
+      assert.deepEqual(windowShape, { corner: 0, inside: 255, glass: true, blend: true });
       await p.evaluate(() => {
         // Reads every visible badge texture: lit-arrow and orange end-bar pixels.
         window.badgeStates = () => {
