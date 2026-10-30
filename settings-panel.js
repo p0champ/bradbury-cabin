@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL, NAV } from './theme.js?v=54';
+import { navigationSurface, CONTROL, NAV } from './theme.js?v=55';
 // Settings uses the same canvas and ray plane as Home. Geometry is expressed
 // here once, in millimetre-like logical units, then shared with the hit tester.
 const SCALE = 2048 / 720;
@@ -6,7 +6,7 @@ const WIDTH = 580, HEIGHT = 400;
 const X = (2048 - WIDTH * SCALE) / 2;
 const Y = (2560 - HEIGHT * SCALE) / 2;
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
-export const SETTINGS_PAGES = Object.freeze(['settings', 'more', 'sound', 'volume', 'wrist', 'controls']);
+export const SETTINGS_PAGES = Object.freeze(['settings', 'more', 'sound', 'volume', 'wrist', 'controls', 'comfort']);
 export const settingsBounds = () => ({ x: X, y: Y, w: WIDTH * SCALE, h: HEIGHT * SCALE });
 const rect = (id, label, x, y, w, h, selected = false) => ({ id, label, x, y, w, h, selected });
 function segment(prefix, choices, selected, y, { x = 24, w = 532 } = {}) {
@@ -21,7 +21,11 @@ function localButtons(page, values) {
     rows.push(...segment('settings-size', [[0, 'Small'], [1, 'Medium'], [2, 'Large']], values.size ?? 1, 263));
     rows.push(rect('settings-more', 'More settings', 24, 334, 260, 48), rect('settings-exit', 'Leave cabin', 296, 334, 260, 48));
   } else if (page === 'more') {
-    ['Sound', 'Calendar', 'Wrist calendar', 'Controls'].forEach((label, i) => rows.push(rect(`settings-${['sound', 'calendar', 'wrist', 'controls'][i]}`, label, 24, 84 + i * 74, 532, 64)));
+    ['Reading comfort', 'Sound', 'Calendar', 'Wrist calendar', 'Controls'].forEach((label, i) => rows.push(rect(`settings-${['comfort', 'sound', 'calendar', 'wrist', 'controls'][i]}`, label, 24, 80 + i * 60, 532, 54)));
+  } else if (page === 'comfort') {
+    rows.push(rect('settings-dim', '', 36, 116, 508, 60));
+    rows.push(rect('settings-seasons', `Seasons · ${values.seasons ? 'On' : 'Off'}`, 24, 218, 532, 60));
+    rows.push(rect('settings-hemisphere', `${values.hemisphere === 'south' ? 'Southern' : 'Northern'} hemisphere`, 24, 290, 532, 54));
   } else if (page === 'sound') {
     rows.push(...segment('settings-entry', [['on', 'On'], ['off', 'Off']], values.entrySound !== false ? 'on' : 'off', 111));
     rows.push(...segment('settings-ambience', [['off', 'Off'], ['rain', 'Soft rain'], ['fire', 'Fireplace'], ['room', 'Quiet room']], values.ambience ?? 'off', 202));
@@ -69,7 +73,7 @@ export function paintSettings(ctx, { page = 'settings', values = {}, hover = nul
   ctx.textAlign = 'left';
   ctx.fillStyle = '#f5f5f2';
   ctx.font = `550 24px ${FONT}`;
-  ctx.fillText({ settings: 'Settings', more: 'More settings', sound: 'Sound', volume: 'Volume', wrist: 'Wrist calendar', controls: 'Controls' }[page], 29, 42);
+  ctx.fillText({ settings: 'Settings', more: 'More settings', sound: 'Sound', volume: 'Volume', wrist: 'Wrist calendar', controls: 'Controls', comfort: 'Reading comfort' }[page], 29, 42);
   const group = y => {
     ctx.fillStyle = 'rgba(0,0,0,.14)';
     rounded(ctx, 24, y, 532, 54, 14);
@@ -79,6 +83,11 @@ export function paintSettings(ctx, { page = 'settings', values = {}, hover = nul
     label(ctx, 'Reading appearance', 86); group(101);
     label(ctx, 'Typeface', 167); group(182);
     label(ctx, 'Text size', 248); group(263);
+  } else if (page === 'comfort') {
+    label(ctx, `Focus dim · ${Math.round((values.focusDim ?? .32) / .96 * 100)}%`, 96);
+    label(ctx, 'Barely dimmed', 190);
+    ctx.textAlign='right';ctx.fillText('Almost black', 550, 190);ctx.textAlign='left';
+    label(ctx, 'Pinch a word for its meaning while reading.', 372);
   } else if (page === 'sound') {
     label(ctx, 'Entry chime', 96); group(111);
     label(ctx, 'Background ambience', 187); group(202);
@@ -95,6 +104,22 @@ export function paintSettings(ctx, { page = 'settings', values = {}, hover = nul
     label(ctx, 'Turn pages by looking', 248); group(263);
   }
   for (const b of localButtons(page, values)) {
+    if (b.id === 'settings-dim') {
+      const t = Math.max(0, Math.min(1, (values.focusDim ?? .32) / .96));
+      ctx.lineCap='round';ctx.lineWidth=6;ctx.strokeStyle='rgba(255,255,255,.2)';
+      ctx.beginPath();ctx.moveTo(b.x,b.y+b.h/2);ctx.lineTo(b.x+b.w,b.y+b.h/2);ctx.stroke();
+      ctx.strokeStyle='#c7b58b';ctx.beginPath();ctx.moveTo(b.x,b.y+b.h/2);ctx.lineTo(b.x+b.w*t,b.y+b.h/2);ctx.stroke();
+      ctx.fillStyle='#f4f2e9';ctx.beginPath();ctx.arc(b.x+b.w*t,b.y+b.h/2,12,0,Math.PI*2);ctx.fill();continue;
+    }
+    if (b.id === 'settings-seasons') {
+      ctx.fillStyle=hover===b.id?CONTROL.hover:CONTROL.quiet;
+      rounded(ctx,b.x,b.y,b.w,b.h);ctx.fill();
+      ctx.fillStyle=NAV.ink;ctx.textAlign='left';ctx.font=`400 19px ${FONT}`;ctx.fillText('Seasons',b.x+18,b.y+b.h/2);
+      const x=b.x+b.w-84,y=b.y+14;
+      ctx.fillStyle=values.seasons?'#819b83':'#656d6b';rounded(ctx,x,y,62,32,16);ctx.fill();
+      ctx.fillStyle='#f4f2e9';ctx.beginPath();ctx.arc(x+(values.seasons?46:16),y+16,12,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=NAV.muted;ctx.font=`400 15px ${FONT}`;ctx.textAlign='right';ctx.fillText(values.seasons?'On':'Off',x-14,y+16);continue;
+    }
     const header = ['settings-done', 'settings-back'].includes(b.id);
     const route = page === 'more' || b.id === 'settings-volume';
     if (hover === b.id || b.selected || route) {

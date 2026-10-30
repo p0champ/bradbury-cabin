@@ -6,14 +6,14 @@
     <meta name="color-scheme" content="light dark" />
     <title>Bradbury Cabin · The first leaf</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="style.css?v=54" />
+    <link rel="stylesheet" href="style.css?v=55" />
   </head>
   <body>
     <main>
       <header>
         <a href="./" class="brand">B<span class="brand-line"></span>C</a
         ><span>BRADBURY CABIN</span
-        ><span class="edition">BUILD 054</span>
+        ><span class="edition">BUILD 055</span>
       </header>
       <section class="intro">
         <div class="intro-copy">
@@ -97,6 +97,12 @@
             aria-label="Public domain poem and short story excerpt"
           ></canvas>
         </div>
+        <aside id="word-note" hidden aria-label="Word meaning">
+          <canvas id="word-card" width="800" height="900" aria-hidden="true"></canvas>
+          <p id="word-note-text" class="sr-only" role="status" aria-live="polite"></p>
+          <a id="word-source" target="_blank" rel="noopener noreferrer" hidden>Source</a>
+          <button id="word-close" type="button">Close word note</button>
+        </aside>
         <nav class="pagination" aria-label="Page navigation">
           <button id="prev">← Previous</button><span id="place"></span
           ><button id="next">Next →</button>
@@ -113,6 +119,6 @@
       </footer>
     </main>
     <canvas id="xr" hidden></canvas>
-    <script type="module" src="app.js?v=54"></script>
+    <script type="module" src="app.js?v=55"></script>
   </body>
 </html>

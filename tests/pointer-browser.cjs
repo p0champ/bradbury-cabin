@@ -6,7 +6,7 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  {
   const p=await browser.newPage(); await p.goto(BASE_URL);
   const result=await p.evaluate(async()=>{
-   const {Pointer}=await import('./pointer.js?v=54');
+   const {Pointer}=await import('./pointer.js?v=55');
    window.XRRigidTransform ||= class { constructor(position, orientation) { Object.assign(this, { position, orientation }); } };
    let acquisitions=0;const layers=[];
    const binding={createQuadLayer:init=>{const l={init,opacity:0,destroy(){}};layers.push(l);return l;},getSubImage:()=>{acquisitions++;return {};}};
@@ -155,7 +155,7 @@ module.exports = async function pointerChecks(browser,{mock,BASE_URL,out,passed}
  }
  const p=await browser.newPage();await p.goto(BASE_URL);
  const filters=await p.evaluate(async()=>{
-  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=54');
+  const {PageAimFilter,OneEuro,smoothRay}=await import('./pointer.js?v=55');
   const display=new DOMMatrix().translate(0,0,-1.1);
   const plane={matrix:display.toFloat32Array(),inverse:{matrix:display.inverse().toFloat32Array()}};
   const ray=x=>{const m=new DOMMatrix(),l=Math.hypot(x,1.1);m.m31=-x/l;m.m33=1.1/l;return {matrix:m.toFloat32Array()};};

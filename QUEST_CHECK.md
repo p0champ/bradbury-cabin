@@ -1,3 +1,8 @@
+# Build 055 — local build, NOT published; Quest check pending
+
+After a separately approved release, check Settings → More settings → Reading comfort. Sweep Focus dim from barely dimmed to almost black: the room should darken gently and the paper should remain readable. Open the menu and leave reading to confirm the room restores. Aim at a word and pinch: its small card should sit beside the page, without covering the words or turning a page. Pinch it again to close, and check normal page turns with both hands. Try “thou”, “parsimony”, and a place or reference; most words need an internet connection. Seasons must start off; turn them on to check the subtle tint and rare detail outside the text. Reduced motion should have no drifting detail. Confirm the page is comfortable and steady from the couch, and the intro and right-wrist watch feel unchanged. No real-device result has been claimed.
+
+---
 # Builds 052–054 — RELEASED as Build 054, device check pending
 
 Live https://p0champ.github.io/bradbury-cabin/?v=54 — check BUILD 054 (all 39 root code files verified). Check:

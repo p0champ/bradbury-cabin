@@ -24,3 +24,10 @@ The skip icons, hold rings, paper-and-gold welcome leaves, hand-entry orbit and 
 - Rabindranath Tagore, Sadhana, the Realisation of Life, source edition1916 (first1913), [Project Gutenberg6842](https://www.gutenberg.org/ebooks/6842):seven complete essays. The source preface credits translated passages by Satish Chandra Roy and Ajit Kumar Chakravarti; Realisation in Action is translated by Surendra Nath Tagore; Ernest Rhys assisted revisions and proofs. These historical English contributions are part of the identified edition. Source-specific dates and authority links are retained in tools/EXPANSION_031_NOTES.md.
 
 Raw full-book snapshots and separate critic HTML downloads are retained unchanged for provenance. Only independently accepted complete works enter the reader; unsupported source markup and differing words/verse structure are not repaired by model generation.
+
+
+## Build 055 word notes
+
+The small offline Cabin glossary contains original plain-English explanations. Other deliberately selected words are requested from the [Free Dictionary API](https://dictionaryapi.dev/), whose entries are sourced from [Wiktionary](https://en.wiktionary.org/). Reference notes use the introduction of the matching article through the [MediaWiki Action API](https://www.mediawiki.org/wiki/API:Main_page). Wikipedia contributions are available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/); Wiktionary entries carry their applicable source licences. Results are shortened for the small card and identified there by provider. General dictionary meanings may have several senses; these notes do not claim to interpret an author's intended meaning.
+
+Only the selected word is sent to lookup providers. The surrounding reading, saved progress and account details are not sent. Lookup is on demand, uses no credentials, and is cached only for the current page visit. Network failures are shown plainly; unknown or ambiguous references do not receive an invented note. Literary source text is unchanged.

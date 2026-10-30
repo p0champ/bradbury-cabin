@@ -449,3 +449,8 @@ body.night .primary:hover:not(:disabled):not(.secondary) { background: #e5d8b2; 
 .session-details[hidden] { display: none; }
 .session-details button { min-height: 48px; padding: 12px 18px; }
 .session-details p { max-width: 420px; margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+#word-note { max-width: 340px; margin: 20px auto; }
+#word-note[hidden] { display:none; }
+#word-card { width:100%; height:auto; display:block; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }

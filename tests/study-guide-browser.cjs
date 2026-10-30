@@ -333,7 +333,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.deepEqual(await view(),['menu','shelfday']);
     assert.ok((await text()).includes('Not in the cabin'));
     await p.evaluate(()=>__step(700));
-    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=54');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
+    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=55');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
     assert.equal(await p.locator('#page').getAttribute('data-target'),'','an unchecked work is not a target');
     await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','shelfday']);

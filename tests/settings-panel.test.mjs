@@ -40,7 +40,7 @@ test('explicit choices show current preferences without cycling through hidden s
 });
 
 test('secondary routes retain sound, calendar, wrist and interaction capabilities', () => {
-  assert.deepEqual(settingsButtons({ page: 'more' }).map(b => b.id), ['settings-back', 'settings-sound', 'settings-calendar', 'settings-wrist', 'settings-controls']);
+  assert.deepEqual(settingsButtons({ page: 'more' }).map(b => b.id), ['settings-back', 'settings-comfort', 'settings-sound', 'settings-calendar', 'settings-wrist', 'settings-controls']);
   assert.ok(settingsButtons({ page: 'controls' }).some(b => b.id === 'settings-move'));
   assert.ok(settingsButtons({ page: 'controls' }).some(b => b.id === 'settings-practise'));
   assert.deepEqual(settingsButtons({ page: 'unknown' }), []);

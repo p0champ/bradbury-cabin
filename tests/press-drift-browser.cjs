@@ -69,6 +69,13 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     const x = 300, y = A.y + A.h - 25, dip = 82; // ends inside home-notes
     const held = await p.evaluate(({ x, y, dip }) => __driftPress(x, y, dip, { release: false }), { x, y, dip });
     const shown = await p.evaluate(() => document.querySelector('#page').dataset.target);
+    if (held?.look !== 'press') console.log('Press readiness diagnostics', await p.evaluate(async () => {
+      const original=URL.createObjectURL; let blob;
+      URL.createObjectURL=b=>{blob=b;return original(b);};
+      document.querySelector('#export').click(); URL.createObjectURL=original;
+      const d=JSON.parse(await blob.text());
+      return { input:d.inputState, events:d.nativeEvents.slice(-16), ignored:d.ignoredPinches.slice(-6) };
+    }));
     assert.equal(shown, 'home-notes', `fixture: Notes should be highlighted at the press: ${JSON.stringify({A,B,held})}`);
     assert.ok(held && held.look === 'press' && held.y >= B.y && held.y <= B.y + B.h, `held dot ${JSON.stringify(held)} not on the highlighted button`);
     await p.evaluate(() => { __hand(.06); __native('select'); __native('selectend'); __step(16); });

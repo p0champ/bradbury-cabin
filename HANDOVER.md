@@ -1,3 +1,18 @@
+## 30 October 2026 — Build 055 Quiet Folio BUILT locally; NOT published
+
+Bastian requested reading comfort, then approved Quiet Folio after three concepts and an independent judge (9/10). Local branch `build-055-quiet-folio`, worktree `C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-055`, based on confirmed 054 (`fcbaf67`). Live remains Build 054. Publishing still needs approval.
+
+Delivered: continuous remembered focus dim (0–96% black) under the native page, with live preview in Reading comfort settings; off-page word cards with offline glossary, public dictionary and exact Wikipedia references, cancellation on page/menu/reflow/tracking loss; Seasons off by default with subtle glass tint and rare outside-page detail, hemisphere choice and reduced-motion support. Existing stable placement, passthrough, intro and watch retained. Word selection uses a deliberate hand ray even when head pointing is preferred for menus. No automatic recline following.
+
+240 unit checks and maintained source checks pass; all 241 accepted works are unchanged and all 39 damaged-source inputs are rejected. 308 browser cases pass across the full-run prefix and complete focused reruns, NOT one clean full invocation. Details in BUILD_055_REVIEW.md and current chat outputs/BUILD_055_TEST_RESULTS.json. The public dictionary and Wikipedia providers both returned HTTP 200 with wildcard CORS in live smoke tests. No Quest result.
+
+The simulator now includes the dim projection beneath the quad and models an independently relaxed hand after choosing a reading. Fixed-date Playwright setup can replace the initial performance.now override; rebind it to __mock.clock at frame/native-event boundaries. A future-stamped press caused a false stale-tracking failure under slow rendering. No production gesture thresholds were relaxed.
+
+Preview server: 127.0.0.1:18195. Evidence and logs live one directory above this worktree: full-055.log (interrupted prefix), guide-055.log, tail-055.log (partial continuation), focused-055.log, regressions-a-055.log, regressions-b2-055.log, regressions-c-055.log, drift-055.log, unit-055.log. Helpers check-055.cjs, tail-055.cjs and preview-055.cjs are there too. A clean full rerun can use tests/browser-check.cjs with no CABIN_*_ONLY flags.
+
+Keep the release fast-forward only, never force push or touch main/phase-0-crispness. After approval, publish, verify all 42 root code files, then ask for the couch Quest check in QUEST_CHECK.md. Browser checks do not prove headset comfort.
+
+---
 ## 30 October 2026 — Build 054 CONFIRMED on Quest by Bastian
 
 Bastian tested live Build 054 on the headset: "It's great! And the pointer finally works." This is the first real-device confirmation of the Build 051 same-surface menu pointer, and of the 052 intro, 053 watch and 054 reading page as a whole. No issues reported. Couch mode (self-moving recline) remains an open, optional idea.

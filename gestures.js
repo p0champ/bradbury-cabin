@@ -284,10 +284,12 @@ export class GestureEngine {
     const duration = Math.max(0, time - h.started);
     let event;
     if (this.context === "centering") event = { type: "center", hand: h.hand };
-    else if (duration >= HOLD_MS) event = { type: "menu", hand: h.hand };
+    else if (duration >= HOLD_MS && h.pressTarget !== "settings-dim") event = { type: "menu", hand: h.hand };
     else if (this.context === "menu") {
       if (h.pressTarget && target === h.pressTarget)
         event = { type: "select", target, hand: h.hand };
+    } else if (h.pressTarget?.startsWith("word:")) {
+      if (target === h.pressTarget) event = { type: "select", target, hand: h.hand };
     } else event = { type: "page", hand: h.hand };
     h.closed = false;
     h.nativeDown = false;
@@ -312,6 +314,7 @@ export class GestureEngine {
       !h.safe ||
       time - h.lastTime > MAX_GAP_MS ||
       this.context === "centering" ||
+      h.pressTarget === "settings-dim" ||
       time - h.started < HOLD_MS
     )
       return null;
@@ -333,7 +336,7 @@ export class GestureEngine {
   }
   holdCharge(time, key = this.owner) {
     const h = this.hands.get(key);
-    return this.context !== "centering" && h?.closed && h.safe
+    return this.context !== "centering" && h?.closed && h.safe && h.pressTarget !== "settings-dim"
       ? Math.min(1, Math.max(0, (time - h.started) / HOLD_MS))
       : 0;
   }

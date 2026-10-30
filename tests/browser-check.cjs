@@ -163,7 +163,18 @@ async function mock(
       // frames must not let wall time overtake the mock frame clock and turn
       // every press stale, so the session page reads the frame clock.
       performance.now = () => window.__mock.clock;
+      // Head aiming is a menu preference. A relaxed hand does not point at
+      // the exact word the reader is looking at; word taps explicitly set rayLook.
+      const restingRay = () => {
+        const h=head().orientation;
+        if(document.querySelector('#page')?.dataset.view !== 'reading') return h;
+        const x=-.55,w=Math.sqrt(1-x*x);
+        return {x:h.x*w+h.w*x,y:h.y*w+h.z*x,z:h.z*w-h.y*x,w:h.w*w-h.x*x};
+      };
       window.__step = (advance = 16) => {
+        // A later Playwright fixed-date clock can replace the init-script
+        // binding. Frame and event timestamps must still share the XR clock.
+        performance.now = () => window.__mock.clock;
         if (advance > 40) {
           while (advance > 0) {
             const piece = Math.min(40, advance);
@@ -215,7 +226,7 @@ async function mock(
               window.__mock.rayOrigin?.[space?.handedness] || head().position,
               window.__mock.rayByHand?.[space?.handedness] ||
                 window.__mock.rayLook ||
-                head().orientation,
+                restingRay(),
             ),
           }),
         };
@@ -230,14 +241,10 @@ async function mock(
           if (window.__mock.attachments?.some(Boolean))
             throw Error("Projection texture remained attached after callback");
           // Synthetic preview only; the real browser compositor owns this step.
-          const tex = session.renderState.layers?.includes(
-            window.__mock.projection,
-          )
+          const tex = (!session.renderState.layers?.includes(window.__mock.quad) && session.renderState.layers?.includes(window.__mock.projection))
             ? window.__mock.projectionTexture
             : window.__mock.texture;
-          const previewKey = session.renderState.layers?.includes(
-            window.__mock.projection,
-          )
+          const previewKey = (!session.renderState.layers?.includes(window.__mock.quad) && session.renderState.layers?.includes(window.__mock.projection))
             ? "projection:" + window.__mock.clock
             : "page:" + window.__mock.versions.get(tex);
           if (
@@ -256,9 +263,7 @@ async function mock(
               0,
             );
 
-            const projection = session.renderState.layers?.includes(
-              window.__mock.projection,
-            );
+            const projection = (!session.renderState.layers?.includes(window.__mock.quad) && session.renderState.layers?.includes(window.__mock.projection));
             const width = projection ? 1200 : window.__mock.quadWidth,
               height = projection ? 1000 : window.__mock.quadHeight;
             const pixels = new Uint8Array(width * height * 4);
@@ -345,7 +350,15 @@ async function mock(
         session.inputSources = [source];
         return source;
       };
+      // After choosing a reading, the fixture relaxes the hand. Keeping the
+      // old menu ray on a word would deliberately exercise lookup, not a turn.
+      const restAfterOpening = before => {
+        if (['menu','practice'].includes(before) && document.querySelector('#page')?.dataset.view === 'reading') {
+          __mock.rayLook=null; __mock.rayByHand=null;
+        }
+      };
       window.__pinch = (hand = "right", duration = 240) => {
+        const before=document.querySelector('#page')?.dataset.view;
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
@@ -355,8 +368,10 @@ async function mock(
         __native("select", hand);
         __native("selectend", hand);
         __step(16);
+        restAfterOpening(before);
       };
       window.__hold = (hand = "right") => {
+        const before=document.querySelector('#page')?.dataset.view;
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
@@ -366,8 +381,10 @@ async function mock(
         __native("select", hand);
         __native("selectend", hand);
         __step(16);
+        restAfterOpening(before);
       };
       window.__native = (kind, hand = "right") => {
+        performance.now = () => window.__mock.clock;
         const source = __mock.sources[hand];
         source.gamepad.buttons[0].pressed = kind === "selectstart";
         const e = new Event(kind);
@@ -376,7 +393,7 @@ async function mock(
           getPose: () => ({
             transform: new Transform(
               __mock.rayOrigin?.[hand] || head().position,
-              __mock.rayByHand?.[hand] || __mock.rayLook || head().orientation,
+              __mock.rayByHand?.[hand] || __mock.rayLook || restingRay(),
             ),
           }),
           getViewerPose() {
@@ -550,8 +567,8 @@ async function mock(
           if(id==='home-calendar')via=['home-shelf','settings-calendar','settings-more','settings-back'].find(key=>buttons.some(b=>b.id===key));
           else if(id.startsWith('home-'))via=buttons.some(b=>b.id==='home-today')?'home-today':buttons.some(b=>b.id==='settings-done')?'settings-done':'settings-back';
           else if(buttons.some(b=>b.id==='home-settings'))via='home-settings';
-          else if(['settings','more','sound','volume','controls','wrist'].includes(page.dataset.menuPage)){
-            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-more','settings-exit'],more:['settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:']};
+          else if(['settings','more','sound','volume','controls','wrist','comfort'].includes(page.dataset.menuPage)){
+            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-more','settings-exit'],more:['settings-comfort','settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:'],comfort:['settings-dim','settings-seasons','settings-hemisphere']};
             const desired=Object.keys(routes).find(route=>routes[route].some(prefix=>id===prefix||id.startsWith(prefix)));
             if(page.dataset.menuPage==='settings')via='settings-more';
             else if(page.dataset.menuPage==='more')via=desired==='settings'?'settings-back':'settings-'+desired;
@@ -806,8 +823,9 @@ async function mock(
           const arrival = init.viewPixelWidth === 384;
           const watch = init.viewPixelWidth === 512 && init.viewPixelHeight === 448;
           const gazeRing = init.viewPixelWidth === 192;
+          const comfort = [800, 96].includes(init.viewPixelWidth);
           const pointer = init.viewPixelWidth === 48 || init.viewPixelWidth === 160;
-          const width = pointer
+          const width = comfort ? init.viewPixelWidth : pointer
               ? init.viewPixelWidth
               : gazeRing
               ? 192
@@ -820,7 +838,7 @@ async function mock(
                 : ["clamped-layer", "clamped-offset-layer"].includes(scenario)
                   ? 1024
                   : 2048,
-            height = pointer
+            height = comfort ? init.viewPixelHeight : pointer
               ? init.viewPixelHeight
               : gazeRing
               ? 192
@@ -833,7 +851,7 @@ async function mock(
                 : ["clamped-layer", "clamped-offset-layer"].includes(scenario)
                   ? 1280
                   : 2560;
-          const offsetPage = ["offset-layer", "clamped-offset-layer"].includes(scenario) && !badge && !arrival && !watch && !gazeRing && !pointer;
+          const offsetPage = ["offset-layer", "clamped-offset-layer"].includes(scenario) && !badge && !arrival && !watch && !gazeRing && !pointer && !comfort;
           const textureWidth = width + (offsetPage ? 64 : 0), textureHeight = height + (offsetPage ? 96 : 0);
           const tex = colorTexture(textureWidth, textureHeight),
             data = {
@@ -845,6 +863,7 @@ async function mock(
               arrival,
               watch,
               gazeRing,
+              comfort,
               pointer,
               metresWide: init.width,
               metresHigh: init.height,
@@ -862,7 +881,7 @@ async function mock(
               shownTransform = v;
               data.matrix = Array.from(v.matrix);
               data.history.push(data.matrix);
-              if (!badge && !arrival && !watch && !gazeRing && !pointer) window.__mock.placed.push(data.matrix);
+              if (!badge && !arrival && !watch && !gazeRing && !pointer && !comfort) window.__mock.placed.push(data.matrix);
             },
             destroy() {
               gl.deleteTexture(tex);
@@ -870,7 +889,7 @@ async function mock(
             },
           };
           window.__mock.layerData.set(layer, data);
-          if (!badge && !arrival && !watch && !gazeRing && !pointer) {
+          if (!badge && !arrival && !watch && !gazeRing && !pointer && !comfort) {
             window.__mock.quadWidth = textureWidth;
             window.__mock.quadHeight = textureHeight;
             window.__mock.texture = tex;
@@ -933,6 +952,14 @@ async function mock(
     console.log("PASS " + name);
   };
   try {
+    if (process.env.CABIN_COMFORT_ONLY) {
+      await require("./comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} comfort checks passed.`); return;
+    }
+    if (process.env.CABIN_FOLIO_ONLY) {
+      await glassFolioChecks(browser,{mock,BASE_URL,out,passed});
+      console.log(`${checks} folio checks passed.`); return;
+    }
     if (process.env.CABIN_SURFACE_ONLY) {
       await surfacePointerChecks(browser,{mock,BASE_URL,out,passed});
       console.log(`${checks} native surface pointer checks passed.`); return;
@@ -1403,7 +1430,7 @@ async function mock(
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-054");
+        assert.equal(details.build, "gestures-055");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -2120,7 +2147,7 @@ async function mock(
         };
       });
       const idle = await p.evaluate(() => badgeSnapshot());
-      assert.equal(idle.layers, 3);
+      assert.equal(idle.layers, 4);
       assert.equal(idle.counts.length, 2);
       assert.ok(idle.counts.every((n) => n < 20));
       await fs.writeFile(
@@ -2166,7 +2193,7 @@ async function mock(
       });
       assert.equal(
         await p.evaluate(() => __mock.session.renderState.layers.length),
-        1,
+        2,
       );
       passed(
         "two native hand badges animate only the owning ring, preserve page pixels, wait 1.4 seconds, and hide on tracking loss" +
@@ -2375,13 +2402,15 @@ async function mock(
         ),
         true,
       );
-      await p.evaluate(() => __pinch("right"));
+      // The practice button's old aim can now land on a real word. Rest the
+      // hand ray in the margin before checking the ordinary page gesture.
+      await p.evaluate(async () => { await __aim({x:1900,y:2000,w:20,h:20},true); __step(200); __pinch("right"); });
       assert.match(await p.locator("#place").textContent(), /Page 2/);
       passed(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=54");
+        const { paintHandBadge } = await import("./hand-badges.js?v=55");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2591,7 +2620,7 @@ async function mock(
       // pose. Let that real movement settle before testing decorative drift.
       await p.evaluate(() => __step(1600));
       const a = await p.evaluate(() => handWelcome());
-      assert.equal(a.layers, 3);
+      assert.equal(a.layers, 4);
       assert.equal(a.versions.length, 2);
       await fs.writeFile(
         path.join(out, `hand-entry-${lying ? "lying" : "front"}-start.png`),
@@ -2702,7 +2731,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=54");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=55");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -3460,8 +3489,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=54");
-        const { loadProgress } = await import("./progress.js?v=54");
+        const { calendarButtons } = await import("./calendar.js?v=55");
+        const { loadProgress } = await import("./progress.js?v=55");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3529,6 +3558,7 @@ async function mock(
     await lampArrivalChecks(browser, { mock, BASE_URL, out, passed });
     await glanceWatchChecks(browser, { mock, BASE_URL, out, passed });
     await glassFolioChecks(browser, { mock, BASE_URL, out, passed });
+    await require("./comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await fs.writeFile(

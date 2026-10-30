@@ -1,5 +1,5 @@
-import { PoseFollower } from "./follow-pose.js?v=54";
-import { UI } from "./theme.js?v=54";
+import { PoseFollower } from "./follow-pose.js?v=55";
+import { UI } from "./theme.js?v=55";
 const SERIF = "Literata, Georgia, serif";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
@@ -14,7 +14,7 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=54";
+} from "./progress.js?v=55";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
