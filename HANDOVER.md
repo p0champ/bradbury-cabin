@@ -1,3 +1,8 @@
+## 30 October 2026 — Build 054 CONFIRMED on Quest by Bastian
+
+Bastian tested live Build 054 on the headset: "It's great! And the pointer finally works." This is the first real-device confirmation of the Build 051 same-surface menu pointer, and of the 052 intro, 053 watch and 054 reading page as a whole. No issues reported. Couch mode (self-moving recline) remains an open, optional idea.
+
+---
 ## 30 October 2026 — Build 054 RELEASED (includes 052 + 053); live files verified, headset check pending
 
 Bastian chose to test on the live link. The session's auto-mode guard blocked the agent's push as a production deploy, so Bastian ran the atomic, non-force push himself. phase-1-gestures moved 8744b87..6d37eef by fast-forward, and build-052/053/054 branches are saved remotely. Live https://p0champ.github.io/bradbury-cabin/?v=54 shows BUILD 054, and the normalized SHA-256 of all 39 live root code files matches tested code (work/live-054-hashes.json). To roll back, commit a forward revert that restores 8744b87's files (no force push needed) and publish it with Bastian's approval.
