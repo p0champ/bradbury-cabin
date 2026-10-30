@@ -343,16 +343,7 @@ async function mock(
         session.inputSources = [source];
         return source;
       };
-      // Native events are stamped max(frame time, performance.now()), as on a
-      // headset where both share one clock. Slow software GPU frames can let
-      // wall time overtake this mock frame clock, making every press look
-      // stale. Only then, move the frame clock well ahead before the helper's
-      // open-hand frames, which re-arm readiness exactly as before.
-      window.__syncPressClock = () => {
-        if (performance.now() > __mock.clock - 2500) __mock.clock = performance.now() + 5000;
-      };
       window.__pinch = (hand = "right", duration = 240) => {
-        __syncPressClock();
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
@@ -364,7 +355,6 @@ async function mock(
         __step(16);
       };
       window.__hold = (hand = "right") => {
-        __syncPressClock();
         __hand(0.05, hand);
         __step(600);
         __hand(0.012, hand);
