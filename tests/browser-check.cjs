@@ -385,7 +385,9 @@ async function mock(
       };
       // Let the "Lamp on" arrival play out frame by frame (about 5 s).
       window.__finishArrival = () => {
-        for (let i = 0; i < 250 && !session.ended && document.querySelector("#page").dataset.view === "arrival"; i++) __step(40);
+        let waited = false;
+        for (let i = 0; i < 250 && !session.ended && document.querySelector("#page").dataset.view === "arrival"; i++) { __step(40); waited = true; }
+        return waited;
       };
       window.__center = () => {
         if (session.ended) return;
@@ -394,7 +396,8 @@ async function mock(
         __pinch();
         __step(1240);
         __step(1000);
-        __finishArrival();
+        // Keep the old rhythm: Today has been open about 2 s when centring returns.
+        if (__finishArrival()) __step(2000);
         if(session.ended || !document.querySelector("#enter").disabled)return;
         // Feature fixtures keep seeded Today open; otherwise resume through
         // the real Home target, preserving their existing reading setup.
