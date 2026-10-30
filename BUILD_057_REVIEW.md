@@ -1,6 +1,6 @@
 # Build 057 — Hearthlight rewards
 
-Built locally on `build-057-hearthlight`, based on local Build 056 (`e117164`). Not pushed, published or checked on Quest. Live remains the Quest-confirmed Build 054. Builds 055–057 are stacked locally.
+Built locally on `build-057-hearthlight`, based on local Build 056 (`e117164`). Published on Bastian's explicit request on 30 October 2026, together with Builds 055 and 056. Live is Build 057 at https://p0champ.github.io/bradbury-cabin/?v=57 . All 48 live root code hashes match tested code 1a7e8a6. Physical Quest checks remain pending.
 
 ## Behavior
 
@@ -27,4 +27,4 @@ The celebration uses the existing native-page GPU composition with a glow painte
 
 Preview: http://127.0.0.1:18197 (local PC only). Logs and evidence are in the parent work directory: unit-057.log, rewards-057.log, regression-057.log, rewards-final-057.log, rewards-skip-057.log, build-057-focused/. The helper check-057.cjs runs named maintained browser modules; the normal suite also includes rewards-browser.cjs, with CABIN_REWARDS_ONLY for a focused run.
 
-Publishing still requires a separate request. Build 056's Quest recording/dictation check remains open; no transcription service was added by this build.
+Publishing was authorized and completed. Build 056's Quest recording/dictation check remains open; no transcription service was added by this build.

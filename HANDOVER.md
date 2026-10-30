@@ -1,3 +1,12 @@
+## 30 October 2026 — Builds 055–057 RELEASED; live files verified, Quest checks pending
+
+Bastian explicitly requested: "Publish all the work youve done and lets try it out". Published combined tested code1a7e8a6 to phase-1-gestures by atomic non-force fast-forward from6d37eef; source branches build-055-quiet-folio,build-056-personal-picks,build-057-hearthlight saved remotely. No changes to main or phase-0-crispness.
+
+Live: https://p0champ.github.io/bradbury-cabin/?v=57 . BUILD057 and normalized SHA-256 equality of all48 root code files verified over HTTPS, including voice-check.html. Evidence: parent work/live-057-hashes.json and current thread outputs/BUILD_057_LIVE_VERIFICATION.json. Code remains the tested1a7e8a6; this entry records release state only.
+
+The release includes Quiet Folio comfort, personal picks/feedback and Hearthlight rewards, on the existing confirmed intro/watch. Prior263 unit/source and35 focused browser cases passed; no full browser suite is claimed for057. Physical Quest comfort, voice/dictation and reward appearance/performance are still unverified. The user will test now. Start with the normal browser voice check, then Settings → More settings → Reading comfort; finish a piece for stars/thoughts, sync with Drive before next Claude picks. Rewards appear from genuine earned milestones under Shelf → Rewards; don't fabricate test history or claim a reward is already earned. No transcription service was added.
+
+---
 ## 30 October 2026 — Build 057 Hearthlight BUILT locally; NOT published
 
 Bastian approved Hearthlight after three plain-word reward ideas and an independent judge (9/10). Local branch build-057-hearthlight, worktree C:/Users/Bruger/Documents/Codex/2026-10-30/files-mentioned-by-the-user-gpt/work/bradbury-057, based on local056 e117164. Live remains confirmed054. No push or publishing authorization for055–057.

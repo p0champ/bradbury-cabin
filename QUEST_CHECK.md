@@ -1,3 +1,7 @@
+# Live Build 057 — ready for the Quest check
+
+Open https://p0champ.github.io/bradbury-cabin/?v=57 and confirm BUILD 057. Builds055–057 are published and all48 live code file hashes match the tested build. Hardware checks below remain pending. Try Check voice on this headset before entering the cabin: audible recording and a correct written transcript are separate results.
+
 # Build 057 — Hearthlight checks pending
 
 After a separately approved HTTPS release, confirm BUILD 057. Use real reading history; desktop fixture screenshots do not imply earned milestones on the headset.
