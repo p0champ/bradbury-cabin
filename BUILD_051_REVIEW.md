@@ -28,6 +28,10 @@ The first full runs failed on two test-harness problems. Each was traced to its 
 1. **Pointer-truth ink detector on a half-size image.** The detector sampled every 4 native pixels; on the runtime-resized 1024 × 1280 image that is every 8 page pixels, so only two samples landed on the cursor and its estimated centre was 2.9 mm off. A precise all-pixel centroid showed the cursor exactly on the aimed point (1550, 1400). The detector now samples every 4 *page* pixels at any image size (full-size sampling is unchanged). The 2 mm still-cursor limit is unchanged; a deliberate 2.8 mm cursor shift fails the check.
 2. **Mock clock overtaken by wall time.** The app stamps native events `max(frame time, performance.now())`. On a headset both are one clock. The test mock drives frames with its own clock, and Build 051's full per-frame GPU composition is slow in software rendering, so wall time overtook that clock and pinches arrived "stale" (surface-pointer menu close, coherent Day → Notes, and under load press-drift). The same coherent check passes on committed Build 050 code, which confirmed the difference was frame cost, not selection logic. Once a mocked XR session starts, the harness page's `performance.now()` now reads the mock frame clock, as on a headset. Tests that need staleness already advance the mock clock explicitly and still pass.
 
+## Release
+
+Released tested code 64a2074 to phase-1-gestures by atomic fast-forward (09d361c..64a2074, no force); build-051-surface-pointer saved remotely. Live https://p0champ.github.io/bradbury-cabin/?v=51 shows BUILD 051, and all 38 live root code files match the tested files by normalized SHA-256. main and phase-0-crispness untouched.
+
 ## Performance note
 
 Full native redraw and graphics-state queries each hand-menu frame cost bandwidth. That made software-rendered desktop frames slower than real time; Quest frame timing under this load is unmeasured. Reading remains direct/static.

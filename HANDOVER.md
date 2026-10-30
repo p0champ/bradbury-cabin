@@ -1,4 +1,8 @@
-## 30 October 2026 — Build 051 tested; release pending verification
+## 30 October 2026 — Build 051 RELEASED; live files verified, headset check pending
+
+Released tested code 64a2074 by fast-forwarding phase-1-gestures (09d361c..64a2074, atomic, no force); build-051-surface-pointer saved remotely. Live https://p0champ.github.io/bradbury-cabin/?v=51&pointerDiagnostics=1. Confirmed BUILD 051 and normalized SHA-256 equality of all 38 live root code files. No changes to main/phase-0-crispness. Publishing was authorized by Bastian's resume request ("publish and verify the release").
+
+## 30 October 2026 — Build 051 tested
 
 Bastian resumed and asked to finish, publish and verify overnight without another headset test. Hand menus now draw the cursor into the same native page image as the buttons (GPU composition from a pristine cached page), so the dot and the buttons cannot disagree on scale, clipping or depth. Reading keeps its direct copy and tiny Exit cursor; gestures.js and literary content unchanged.
 
