@@ -133,7 +133,7 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
     const expected = left => `Turn the page. ${left ? 'Left' : 'Right'} goes forward, ${left ? 'right' : 'left'} goes back.`;
     assert.ok((await hands.locator('#page-turn-help').textContent()).startsWith(expected(swapped)));
     await hands.locator('#enter:not([disabled])').click();
-    await hands.evaluate(() => { __step(); __pinch(); __step(1000); });
+    await hands.evaluate(() => { __step(); __pinch(); __step(1000); __finishArrival(); });
     for (const id of ['home-settings', 'settings-more', 'settings-controls', `settings-next:${swapped ? 'right' : 'left'}`]) {
       await hands.evaluate(async id => { await __aim(id, true); __pinch(); __step(500); }, id);
     }

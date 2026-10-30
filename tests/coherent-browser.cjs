@@ -57,7 +57,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.id==='page')__resumeText=[];return r.call(this,...a);};
   CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page'){const point=this.getTransform().transformPoint({x:a[0],y:a[1]});__resumeText.push({text:String(t),font:this.font,y:point.y});}return f.call(this,t,...a);};
  },{seed,savedId,works:works.map(w=>({id:w.id,kind:w.kind}))});
- await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__step();__pinch();__step(1000);});
+ await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__step();__pinch();__step(1000);__finishArrival();});
  const rendered=await p.evaluate(()=>__resumeText);
  const resume=rendered.filter(x=>x.font.startsWith('500 18px')).map(x=>x.text).join(' ');
  assert.ok(resume.includes(longest.title),'longest real Resume title was shortened: '+resume);
@@ -81,7 +81,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
  await target(p,'notes-home');assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'day');
  await p.close();passed('content home: full longest Resume, truthful Library, pointer margins and full imported title pagination');
  for(const scenario of ['no-layer','no-layers-feature']){
-  const q=await browser.newPage();await mock(q,scenario,false,{practised:true,headPointer:false,visits:4});await q.goto(BASE_URL);await q.locator('#enter').click();await q.evaluate(()=>{__step();__pinch();__step(1000);});
+  const q=await browser.newPage();await mock(q,scenario,false,{practised:true,headPointer:false,visits:4});await q.goto(BASE_URL);await q.locator('#enter').click();await q.evaluate(()=>{__step();__pinch();__step(1000);__finishArrival();});
   assert.equal(await q.locator('#page').getAttribute('data-menu-page'),'today');await target(q,'home-settings');
   assert.equal(await q.locator('#page').getAttribute('data-menu-page'),'settings','projection fallback did not use visible target');
   await target(q,'settings-done');await target(q,'home-resume');assert.equal(await q.locator('#page').getAttribute('data-view'),'reading');await q.close();passed('content home: actual native targets and reading return on '+scenario+' fallback');

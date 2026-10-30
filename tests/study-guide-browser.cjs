@@ -356,7 +356,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     // Centre and let the arrival settle, stepping frame by frame.
     await p.evaluate(()=>{__mock.clock=Math.max(__mock.clock,performance.now());__step();__pinch();});
     let opened=null;
-    for (let i=0;i<120&&!opened;i++){await p.evaluate(()=>__step(40));const v=(await view())[1];if(v==='welcome')await p.evaluate(()=>__welcomeChoose(false));else if(v==='today'&&(await view())[0]==='menu')opened=await p.evaluate(()=>window.__paints);}
+    for (let i=0;i<220&&!opened;i++){await p.evaluate(()=>__step(40));const v=(await view())[1];if(v==='welcome')await p.evaluate(()=>__welcomeChoose(false));else if(v==='today'&&(await view())[0]==='menu')opened=await p.evaluate(()=>window.__paints);}
     assert.ok(opened,'Today opened after the arrival');
     let t=await text();
     assert.ok(t.includes('Wednesday evening · Day 11') && [poem,story,essay].every(w=>t.includes(w.title)) && t.includes('Shelf'),'complete choices on the first Today frame');

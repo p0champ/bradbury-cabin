@@ -1709,6 +1709,8 @@ async function mock(
         0,
       );
       // The arrival ends on Home; Resume returns to the saved reading.
+      await p.evaluate(() => __finishArrival());
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu");
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       await p.evaluate(() => __step(2000));
       await p.locator("#page").screenshot({ path: path.join(out, `welcome-screen${lying ? "-lying" : ""}.png`) });
