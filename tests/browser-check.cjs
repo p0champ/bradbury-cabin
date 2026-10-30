@@ -2982,7 +2982,8 @@ async function mock(
       });
       const early = await p.evaluate(() => __watchLayer());
       assert.ok(!early || !early.listed, "brief turns do not flash it");
-      await p.evaluate(() => __step(380));
+      // Build 053: 0.3 s deliberate posture, then a quarter-second fade.
+      await p.evaluate(() => __step(520));
       const shown = await p.evaluate(() => __watchLayer());
       assert.ok(shown && shown.listed && shown.opacity === 1, "right wrist shows it");
       const pixels = await p.evaluate(() => {
@@ -3011,10 +3012,11 @@ async function mock(
         g.scale(1, -1);
         g.drawImage(tmp, 0, -448);
         g.restore();
-        let glass=0;for(let i=3;i<px.length;i+=4)if(px[i]>20&&px[i]<240)glass++;
-        return { opaque, glass, corner: px[3], image: c.toDataURL("image/png") };
+        // Build 053: dark glass face with light time text.
+        let ink=0;for(let i=0;i<px.length;i+=4)if(px[i+3]>200&&px[i]>200&&px[i+1]>190)ink++;
+        return { opaque, ink, corner: px[3], image: c.toDataURL("image/png") };
       });
-      assert.ok(pixels.glass > 100000 && pixels.opaque > 3000, "glass and date uploaded");
+      assert.ok(pixels.opaque > 100000 && pixels.ink > 3000, "glass face and time uploaded");
       assert.equal(pixels.corner, 0, "rounded transparent corners");
       await fs.writeFile(
         path.join(out, `wrist-calendar-${night ? "night" : "paper"}.png`),
