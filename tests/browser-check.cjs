@@ -3574,6 +3574,7 @@ async function mock(
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await require("./recovery-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./drive-merge-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./restore-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

@@ -23,7 +23,7 @@ import { renderer, identity, multiply, checkGl } from "./gl.js?v=57";
 import { HandBadges } from "./hand-badges.js?v=57";
 import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=57";
 import { LIBRARY } from "./library.js?v=57";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=57";
+import { pageForAnchor, loadReading, saveReading, validAnchor, fillReadingFromBackup } from "./reader.js?v=57";
 import { layoutReading } from "./reading-flow.js?v=57";
 import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=57";
 import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=57";
@@ -253,6 +253,10 @@ const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
 let preferences = {};
+// Settings come back from a backup only into a browser that had none.
+const controlsAtOpen = (() => {
+  try { return localStorage.getItem("cabin-controls"); } catch { return ""; }
+})();
 try {
   preferences = JSON.parse(localStorage.getItem("cabin-controls") || "{}");
   if (
@@ -1754,11 +1758,7 @@ $("progress-export").onclick = () => {
   const url = URL.createObjectURL(
     new Blob(
       [
-        JSON.stringify(
-          unreadableBackup == null ? progress : { ...progress, unreadableBackup },
-          null,
-          2,
-        ),
+        JSON.stringify(backupCopy(true), null, 2),
       ],
       { type: "application/json" },
     ),
@@ -1778,13 +1778,17 @@ $("progress-file").onchange = async (e) => {
   try {
     const data = JSON.parse(await file.text());
     if (!validProgress(data)) throw Error("not a Bradbury progress file");
+    const { headset } = data;
     delete data.unreadableBackup;
+    delete data.headset;
     progress = data;
     unreadableBackup = null;
     // An import replaces the unreadable record, so saving may resume.
     progressPersistent = storageWorks;
     if (storageWorks) progressNotice = "";
-    report(storeProgress() ? "Progress imported." : "Imported, but this browser cannot save it.");
+    const saved = storeProgress();
+    const restored = restoreHeadset(headset) ? finishRestore() : "";
+    report((saved ? "Progress imported." : "Imported, but this browser cannot save it.") + restored);
     paint();
   } catch (error) {
     report("Could not import progress: " + error.message);
@@ -3151,6 +3155,43 @@ function scheduleDriveSave() {
     );
   }, 1500);
 }
+// The backup copy (Drive and export) also carries reading places and
+// settings, which otherwise live only in this browser.
+// Only the export also keeps an unreadable original for manual recovery.
+function backupCopy(withRecovery = false) {
+  const headset = { reading: { last: reading.last, places: reading.places }, controls: preferences };
+  return withRecovery && unreadableBackup != null ? { ...progress, unreadableBackup, headset } : { ...progress, headset };
+}
+const backupText = () => JSON.stringify(backupCopy());
+let controlsRestored = false;
+// True when the restored last work or settings need a reopen to apply;
+// other filled-in places are used directly when that work is opened.
+function restoreHeadset(headset) {
+  if (!headset || typeof headset !== "object") return false;
+  const lastBefore = reading.last;
+  let reopen = false;
+  if (fillReadingFromBackup(reading, headset.reading)) {
+    saveReading(store, reading);
+    reopen = reading.last !== lastBefore;
+  }
+  const c = headset.controls;
+  if (controlsAtOpen === null && !controlsRestored && c && typeof c === "object" && !Array.isArray(c)) {
+    preferences = structuredClone(c);
+    savePreferences();
+    controlsRestored = reopen = true;
+  }
+  return reopen;
+}
+// A fresh browser picks up restored places and settings on a quiet reload.
+function finishRestore() {
+  if (state.session) return " Your saved places and settings are back; they apply next time you open the app.";
+  try {
+    if (sessionStorage.getItem("cabin-restore-reload")) return "";
+    sessionStorage.setItem("cabin-restore-reload", "1");
+  } catch { return ""; }
+  setTimeout(() => location.reload(), 1200);
+  return " Your saved places and settings are back; reopening…";
+}
 // Automatic saves re-read Drive first: another device's changes are merged
 // in, and a damaged Drive copy is left untouched instead of replaced.
 let drivePush = Promise.resolve();
@@ -3161,7 +3202,9 @@ function pushProgress() {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; your changes are kept on the headset.");
-      const merged = mergeProgress(progress, parsed);
+      const { headset, ...saved } = parsed;
+      restoreHeadset(headset);
+      const merged = mergeProgress(progress, saved);
       if (JSON.stringify(merged) !== JSON.stringify(progress)) {
         progress = merged;
         if (progressPersistent) saveProgress(store, progress);
@@ -3169,7 +3212,7 @@ function pushProgress() {
         paint();
       }
     }
-    await drive.writeProgress(JSON.stringify(progress));
+    await drive.writeProgress(backupText());
   });
   drivePush = run.catch(() => {});
   return run;
@@ -3184,12 +3227,15 @@ async function syncDrive() {
     const today = todayKey();
     // History first: picks are checked against every earlier day's reading.
     const remote = await drive.read("progress.json");
+    let restored = false;
     // null means no file yet; an existing empty file is damaged, not missing.
     if (remote !== null) {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
-      progress = mergeProgress(progress, parsed);
+      const { headset, ...saved } = parsed;
+      restored = restoreHeadset(headset);
+      progress = mergeProgress(progress, saved);
     }
     const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS}));
     let message = "No picks from Claude yet. Ask Claude for today's three.";
@@ -3245,7 +3291,8 @@ async function syncDrive() {
     storeProgress();
     // This direct write replaces any queued save (no duplicate creation).
     clearTimeout(driveTimer);
-    await drive.writeProgress(JSON.stringify(progress));
+    await drive.writeProgress(backupText());
+    if (restored) message += finishRestore();
     driveState.pending = 0;
     driveState.error = null;
     driveState.last = new Date().toTimeString().slice(0, 5);
