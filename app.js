@@ -482,10 +482,11 @@ let arrival = null,
 const folio = { canvases: [document.createElement("canvas"), document.createElement("canvas")], flip: 0,
   current: null, revision: 0, plate: document.createElement("canvas"), plateRevision: 0, turn: null,
   shimmer: null, readingSince: null };
-function paintFolioContent(c, items, position) {
+// offsetY: FOLIO_BAND.y for the moving band, 0 when drawn on the page itself.
+function paintFolioContent(c, items, position, offsetY = FOLIO_BAND.y) {
   const m = MOODS[state.mood], palette = state.night ? m.night : m.paper;
   c.save();
-  c.translate(0, -FOLIO_BAND.y);
+  c.translate(0, -offsetY);
   c.textAlign = "left";
   for (const b of items) {
     if (typeof b.text !== "string") continue; // spacing between blocks
@@ -494,11 +495,14 @@ function paintFolioContent(c, items, position) {
       : b.kind === "title" ? `${m.title} ${b.font}px ${m.body}`
       : b.kind === "meta" ? (m.body === UI ? `${b.font}px ${UI}` : `small-caps ${b.font}px ${m.body}`)
       : `${b.font}px ${m.body}`;
-    c.fillText(typeset(b.text), b.x ?? 194, b.y);
+    // The opening letter first, in reading order, then the rest of its line.
     if (b.dropCap) {
+      const font = c.font;
       c.font = `${b.dropCap.font}px ${m.body}`;
       c.fillText(b.dropCap.letter, b.dropCap.x, b.y + b.dropCap.dy);
+      c.font = font;
     }
+    c.fillText(typeset(b.text), b.x ?? 194, b.y);
   }
   // The folio: page numbers centred at the foot, as in a book.
   c.fillStyle = palette.muted;
@@ -970,7 +974,7 @@ function paint() {
         folio.turn = { from: previous, to: folio.current, dir: Math.sign(state.page - previous.page), start: null };
       }
     }
-    ctx.drawImage(folio.current.canvas, 0, FOLIO_BAND.y);
+    paintFolioContent(ctx, pages[state.page], folioText, 0);
   } else {
     folio.current = null;
     folio.turn = null;

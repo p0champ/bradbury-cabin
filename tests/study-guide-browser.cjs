@@ -319,7 +319,9 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.equal(await p.locator('#page').getAttribute('data-work'),id);
     assert.equal((await view())[0],'reading');
     const shown=(await p.evaluate(()=>__pageText)).join(' ').replace(/\s+/g,' ');
-    assert.ok(shown.includes(travel.blocks[0].text.split(' ').slice(0,8).join(' ')),'the edition\'s own words');
+    // Build 054: prose opens with a separate large first letter.
+    const opening=travel.blocks[0].text.split(' ').slice(0,8).join(' ');
+    assert.ok(shown.includes(opening[0]+' '+opening.slice(1)),'the edition\'s own words');
     // After a reload the same earlier work is still open.
     await p.reload();await p.locator('#enter:not([disabled])').click();await p.evaluate(()=>__center());
     assert.equal(await p.locator('#page').getAttribute('data-work'),id);

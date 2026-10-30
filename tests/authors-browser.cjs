@@ -47,9 +47,13 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
       await document.fonts.ready;
       const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=54');
       const { layoutWork } = await import('./reader.js?v=54');
+      const { MOODS } = await import('./theme.js?v=54');
+      const { typeset } = await import('./folio.js?v=54');
       const ctx = document.querySelector('#page').getContext('2d');
       const work = SOURCE_CATALOGUE.find(w => w.id === id);
-      return layoutWork(ctx, work, 2).map(p => p.filter(x => x.kind === 'line').map(x => x.text));
+      // Same layout and display-time quotes as the app (Build 054 opening letter).
+      return layoutWork(ctx, work, 2, { titleStyle: MOODS.literary.title, dropCap: true })
+        .map(p => p.filter(x => x.kind === 'line').map(x => typeset(x.text)));
     }, id);
     // Compare the actual app's first and last source pages with its full layout.
     const actual = () => p.evaluate(() => __pageText.join(' '));
