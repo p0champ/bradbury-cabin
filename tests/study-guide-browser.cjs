@@ -282,8 +282,11 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     // Build 056: optional feedback follows a fresh completion; skip it.
     assert.deepEqual(await view(),['menu','feedback']);
     assert.ok((await p.evaluate(()=>__pageText)).join(' ').includes('Sick Rose'),'feedback belongs to the confirmed work');
+    // Critic 6: no unread daily piece is left (the new day has no three yet),
+    // so the card says Done and returns to Today.
+    assert.ok((await p.evaluate(()=>__pageText)).join(' ').includes('Done · Today →'));
     await p.evaluate(async()=>{await __aim('feedback-done');__pinch();__step(700);});
-    assert.deepEqual(await view(),['menu','library']);
+    assert.deepEqual(await view(),['menu','today']);
     const firstFinish=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']);
     assert.ok(firstFinish);
     // Critic 4: a reread promises the Library and goes there, no feedback card.

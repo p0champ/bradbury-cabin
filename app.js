@@ -408,8 +408,14 @@ function feedbackAction(id) {
     thoughtVoice.cancel();voiceStatus='Type your thought on the browser page after leaving the cabin.';updateThoughtEditor();
     if(state.session) {state.session.end().catch(()=>{voiceStatus='Leave the cabin to type your thought.';paint();});return;}
     $('thought-editor').scrollIntoView({block:'center'});$('thought-text').focus();
-  } else if(id==='feedback-done') {
-    thoughtVoice.cancel();if(beginRewardCelebration())return;state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
+  } else if(id==='feedback-continue' || id==='feedback-done') {
+    // A reward earned by this finish is celebrated first, as before.
+    thoughtVoice.cancel();if(beginRewardCelebration())return;
+    const finishing = !!completionContext && canonicalWorkId(feedbackWork) === completionContext.canonical;
+    const next = finishing ? nextReadingWork(feedbackWork) : null;
+    if(id==='feedback-continue' && next){rebuildWorks(state.workId);openWork(next.id);toggleMenu(false);paint();return;}
+    if(finishing && !next){openToday();return;}
+    state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
   }
   updateThoughtEditor();paint();
 }
@@ -787,7 +793,9 @@ function navigationModel() {
   }
   if (page === "feedback") {
     const count=thoughtPages(ctx,thoughtDraft).length;thoughtPage=Math.max(0,Math.min(thoughtPage,count-1));
-    const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover};
+    const finishing = !!completionContext && canonicalWorkId(feedbackWork) === completionContext.canonical;
+    const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover,
+      finishing, next: finishing ? nextReadingWork(feedbackWork) : null};
     return {kind:"feedback",options,bounds:compactBounds(),buttons:feedbackButtons(options)};
   }
   if (HOME_ROUTES.includes(page) || state.arriving) {
