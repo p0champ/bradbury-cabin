@@ -3581,6 +3581,7 @@ async function mock(
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
     await require("./recovery-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./drive-merge-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./backup-outbox-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./restore-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./picks-arrival-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./today-missing-browser.cjs")(browser,{mock,BASE_URL,out,passed});

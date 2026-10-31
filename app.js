@@ -1,5 +1,6 @@
 import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
 import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
+import { BackupOutbox } from "./backup-outbox.js?v=57";
 import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
 import { ThoughtVoice } from "./voice.js?v=57";
 import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=57";
@@ -88,6 +89,8 @@ const store = (() => {
   }
 })();
 const todayKey = () => berlinDateKey(new Date());
+const backupOutbox = new BackupOutbox(store);
+let driveReady = false;
 let progress,
   progressVersion = 0;
 {
@@ -270,6 +273,7 @@ try {
 const savePreferences = () => {
   try {
     localStorage.setItem("cabin-controls", JSON.stringify(preferences));
+    scheduleDriveSave();
   } catch {}
 };
 if (preferences.handMapRevision !== 9) {
@@ -1338,7 +1342,7 @@ function openWork(id) {
   state.page = 0;
   state.pendingAnchor = saved?.anchor || null;
   reading.last = state.workId;
-  saveReading(store, reading);
+  if(saveReading(store, reading))scheduleDriveSave();
 }
 // Saved place: the first line on the current page, so a text-size change or
 // a later visit lands on the same words.
@@ -1347,7 +1351,7 @@ function rememberPlace() {
   if (!anchor) return;
   reading.places[state.workId] = { anchor, page: state.page };
   reading.last = state.workId;
-  saveReading(store, reading);
+  if(saveReading(store, reading))scheduleDriveSave();
 }
 function feedback(text) {
   state.feedback = text;
@@ -3178,9 +3182,12 @@ function paintDriveButton() {
 let driveTimer = null;
 let picksSeen = null; // today's newest picks file as of the last good sync
 function scheduleDriveSave() {
+  if (!driveReady) return;
   if (!progressPersistent) return; // Recovery mode must not publish a replacement.
+  backupOutbox.enqueue(backupText());
+  driveState.pending = backupOutbox.pending ? 1 : 0;
+  if (!backupOutbox.pending) return;
   if (!clientId || !driveState.everSynced) return;
-  driveState.pending++;
   if (!drive.connected) {
     // Google's sign-in lasts about an hour. Ticks stay safe on the headset
     // and go up with the next Sync; say so instead of failing silently.
@@ -3188,16 +3195,15 @@ function scheduleDriveSave() {
     return;
   }
   clearTimeout(driveTimer);
-  driveTimer = setTimeout(() => {
-    pushProgress().then(
-      () => {
-        driveState.error = null;
-        driveState.pending = 0;
-        driveState.last = new Date().toTimeString().slice(0, 5);
-      },
-      (e) => (driveState.error = calmDriveError(e)),
-    );
-  }, 1500);
+  driveTimer = setTimeout(retryPendingBackup, 1500);
+}
+let driveSaving = false;
+async function retryPendingBackup() {
+  if(driveSaving || driveState.syncing || !progressPersistent || !driveState.everSynced || !drive.connected || !backupOutbox.pending)return;
+  driveSaving=true;
+  try {await pushProgress();driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);}
+  catch(e){driveState.error=calmDriveError(e);}
+  finally {driveSaving=false;driveState.pending=backupOutbox.pending?1:0;paintDriveButton();}
 }
 // The backup copy (Drive and export) also carries reading places and
 // settings, which otherwise live only in this browser.
@@ -3256,7 +3262,10 @@ function pushProgress() {
         paint();
       }
     }
-    await drive.writeProgress(backupText());
+    const queued=backupOutbox.enqueue(backupText());
+    driveState.pending=backupOutbox.pending?1:0;
+    await drive.writeProgress(queued.payload);
+    backupOutbox.acknowledge(queued.id);
   });
   drivePush = run.catch(() => {});
   return run;
@@ -3336,11 +3345,11 @@ async function syncDrive() {
     refreshSavedGuides();
     driveState.everSynced = true;
     storeProgress();
-    // This direct write replaces any queued save (no duplicate creation).
+    // Flush the latest snapshot through the same serialized save path.
     clearTimeout(driveTimer);
-    await drive.writeProgress(backupText());
+    await pushProgress();
     if (restored) message += finishRestore();
-    driveState.pending = 0;
+    driveState.pending = backupOutbox.pending ? 1 : 0;
     driveState.error = null;
     driveState.last = new Date().toTimeString().slice(0, 5);
     picksSeen = { day: today, stamp };
@@ -3355,20 +3364,25 @@ async function syncDrive() {
   }
 }
 $("drive-sync").onclick = () => syncDrive();
+driveReady = true;
+if(progressPersistent)backupOutbox.enqueue(backupText());
+driveState.pending = backupOutbox.pending ? 1 : 0;
 paintDriveButton();
 // After a reload within the hour, Google's sign-in is still valid: sync
 // straight away (no popup), so ticks keep going to Drive.
 if (clientId && drive.connected) syncDrive();
 // While the app is open, look once a minute (and on returning to it) for a
-// new daily three or swap from Claude, and sync only when one has arrived.
+// new daily three or swap from Claude, and retry any pending backup.
 let picksCheck = false;
 async function checkForPicks() {
-  if (picksCheck || driveState.syncing || !driveState.everSynced || !drive.connected || document.hidden || !progressPersistent) return;
+  if (picksCheck || driveState.syncing || !drive.connected || document.hidden || !progressPersistent) return;
   picksCheck = true;
   try {
+    if(!driveState.everSynced){await syncDrive();return;}
     const today = todayKey();
     const stamp = await drive.newestPicksStamp(today);
     if (picksSeen?.day !== today || picksSeen.stamp !== stamp) await syncDrive();
+    else await retryPendingBackup();
   } catch {
     // A missed check is retried next minute; reading carries on.
   } finally {
@@ -3377,6 +3391,7 @@ async function checkForPicks() {
 }
 setInterval(checkForPicks, 60000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForPicks(); });
+addEventListener("online", () => checkForPicks());
 // Load Google sign-in early, so the popup opens directly from the tap.
 if (clientId) preloadGoogle();
 await document.fonts.load("54px Literata");

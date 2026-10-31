@@ -62,22 +62,27 @@ module.exports = async (browser,{mock,BASE_URL,passed}) => {
       await p.evaluate(()=>{__step(700);__pinch();__step(700);});
       assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
       before=await p.evaluate(()=>[...__pageText]);
+      // Entering updates saved settings. Its newly required backup is
+      // separate from polling for Claude's file; require it to finish first.
+      await p.waitForFunction(()=>JSON.parse(localStorage.getItem('cabin-backup-outbox')||'null')?.acknowledged===true);
+      assert.equal(progressWrites,2,'entering backs up its changed settings once');
     }
+    const readyWrites=where==='mid-story'?2:1;
     // Claude saves today's three while the app is open.
     files.push({id:'T1',name:`picks-${today}.json`,createdTime:new Date().toISOString(),body:picksFile(poem)});
     await minute();
-    assert.equal(progressWrites,2,'a new picks file starts one sync');
+    assert.equal(progressWrites,readyWrites+1,'a new picks file starts one sync');
     let days=JSON.parse(await p.evaluate(()=>localStorage.getItem('cabin-progress'))).days;
     assert.equal(days[today].ids.poem,poem.id,'today\'s three arrived');
     // "Swap the poem": a newer file for the same day.
     files.push({id:'T2',name:`picks-${today}-2.json`,createdTime:new Date(Date.now()+1000).toISOString(),body:picksFile(swapPoem)});
     await minute();
-    assert.equal(progressWrites,3,'the swap starts one sync');
+    assert.equal(progressWrites,readyWrites+2,'the swap starts one sync');
     days=JSON.parse(await p.evaluate(()=>localStorage.getItem('cabin-progress'))).days;
     assert.equal(days[today].ids.poem,swapPoem.id,'the swapped poem replaced the old one');
     assert.equal(days[today].ids.story,story.id,'the other two stay');
     await minute();
-    assert.equal(progressWrites,3,'no repeat sync once the swap is in');
+    assert.equal(progressWrites,readyWrites+2,'no repeat sync once the swap is in');
     if(where==='mid-story') {
       assert.equal(await p.locator('#page').getAttribute('data-view'),'reading','the reader is not pulled out of the story');
       // Drawn words accumulate across repaints; the last page drawn counts.
