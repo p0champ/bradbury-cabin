@@ -41,7 +41,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'shelf','menu must remember selected home tab');
   await target(p,'home-settings');await target(p,'settings-more');await target(p,'settings-controls');await target(p,'settings-pointer:head');
   assert.ok(await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).some(b=>b.id==='settings-pointer:head'&&b.selected)));
-  await target(p,'settings-back',true);await target(p,'settings-back',true);await target(p,'settings-exit',true);
+  await target(p,'settings-back',true);await target(p,'settings-back',true);await target(p,'global-exit',true);
   assert.equal(await p.locator('#enter').isEnabled(),true,'leaving did not restore browser entry');
   assert.deepEqual(errors,[]);await p.close();passed(`content home: real targets, transparent bounds, saved reading, settings, remembered tabs and exit ${lying?'lying':'upright'} ${reduce?'reduced':'normal'}`);
  }

@@ -857,8 +857,17 @@ function navigationAction(id) {
     "home-calendar":"calendar","home-back-shelf":"shelf","home-notes":"notes","notes-home":state.notesContext==="day"?"day":state.homeTab,
     "settings-done":state.homeTab,"settings-more":"more","settings-sound":"sound","settings-calendar":"calendar",
     "settings-wrist":"wrist","settings-controls":"controls","settings-volume":"volume","settings-comfort":"comfort"};
-  if(id in routes) { if(id==="home-library")state.libraryPage=0; if(id==="home-notes"){state.notesPage=0;state.notesContext="today";} navigate(routes[id]); return true; }
-  if(id==="settings-back") {navigate(state.menuPage==="more"?"settings":state.menuPage==="volume"?"sound":"more");return true;}
+  if(id in routes) {
+    if(id==="home-library")state.libraryPage=0;
+    if(id==="home-notes"){state.notesPage=0;state.notesContext="today";}
+    if(id==="settings-comfort")state.comfortFrom=state.menuPage;
+    navigate(routes[id]); return true;
+  }
+  if(id==="settings-back") {
+    // Comfort opens from the first Settings page or from More; Back returns there.
+    const parent=state.menuPage==="more"?"settings":state.menuPage==="volume"?"sound":state.menuPage==="comfort"&&state.comfortFrom==="settings"?"settings":"more";
+    navigate(parent);return true;
+  }
   if(id.startsWith("home-day:")){state.shelfDay=id.slice(9);navigate("shelfday");return true;}
   if(id.startsWith("home-work:")){
     const target=id.slice(10),work=WORKS.find(w=>w.id===target)||addShelfWork(target);
@@ -871,7 +880,6 @@ function navigationAction(id) {
   if(id==="settings-dim") { updateDimFromPoint(state.headPointer ? pagePoint(lastViewer) : livePoints.get(pointerSource)); return true; }
   if(id==="settings-seasons") { state.seasons=!state.seasons; preferences.seasons=state.seasons; savePreferences(); paint(); return true; }
   if(id==="settings-hemisphere") { state.hemisphere=state.hemisphere==="north"?"south":"north"; preferences.hemisphere=state.hemisphere; savePreferences(); paint(); return true; }
-  if(id==="settings-exit"){action("exit");return true;}
   if(id==="settings-move"){action("recenter");return true;}
   if(id==="settings-practise"){action("practice");return true;}
   const [name,value]=id.slice(9).split(":");

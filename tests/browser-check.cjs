@@ -528,7 +528,7 @@ async function mock(
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
         const buttons = JSON.parse(document.querySelector('#page').dataset.buttons || '[]');
-        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2'};
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'global-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2'};
         const button = typeof id==='object' ? id : buttons.find(b=>b.id===id||b.id===aliases[id]);
         if(!button) throw Error('Target '+id+' unavailable on '+document.querySelector('#page').dataset.menuPage+': '+buttons.map(b=>b.id).join(', '));
         const matrix = JSON.parse(document.querySelector('#page').dataset.panelPose || 'null') || __mock.placed.at(-1);
@@ -558,7 +558,7 @@ async function mock(
       // choice; each caller still completes its own native pinch.
       window.__navigate = async (name, rayOnly=false) => {
         const page=document.querySelector('#page');
-        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2',sound:'settings-sound',volume:'settings-volume',gaze:'settings-look:on',ambience:'settings-ambience:rain',recenter:'settings-move'};
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'global-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2',sound:'settings-sound',volume:'settings-volume',gaze:'settings-look:on',ambience:'settings-ambience:rain',recenter:'settings-move'};
         const id=aliases[name]||name;
         for(let tries=0;tries<8;tries++){
           const buttons=JSON.parse(page.dataset.buttons||'[]');
@@ -568,7 +568,7 @@ async function mock(
           else if(id.startsWith('home-'))via=buttons.some(b=>b.id==='home-today')?'home-today':buttons.some(b=>b.id==='settings-done')?'settings-done':'settings-back';
           else if(buttons.some(b=>b.id==='home-settings'))via='home-settings';
           else if(['settings','more','sound','volume','controls','wrist','comfort'].includes(page.dataset.menuPage)){
-            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-more','settings-exit'],more:['settings-comfort','settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:'],comfort:['settings-dim','settings-seasons','settings-hemisphere']};
+            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-move','settings-comfort','settings-more'],more:['settings-comfort','settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:'],comfort:['settings-dim','settings-seasons','settings-hemisphere']};
             const desired=Object.keys(routes).find(route=>routes[route].some(prefix=>id===prefix||id.startsWith(prefix)));
             if(page.dataset.menuPage==='settings')via='settings-more';
             else if(page.dataset.menuPage==='more')via=desired==='settings'?'settings-back':'settings-'+desired;
@@ -1982,7 +1982,7 @@ async function mock(
         __native("selectstart");
         __step(120);
       });
-      await p.evaluate(() => __aim("settings-exit", true));
+      await p.evaluate(() => __aim("global-exit", true));
       await p.evaluate(() => {
         __native("select");
         __native("selectend");
@@ -2798,7 +2798,7 @@ async function mock(
       assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'sound');
       const soundIds=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
       assert.ok(soundIds.includes('settings-entry:off'));assert.ok(soundIds.includes('settings-ambience:rain'));
-      assert.ok(!soundIds.includes('settings-exit'),'screen-specific targets leak');
+      assert.ok(!soundIds.includes('settings-move'),'screen-specific targets leak');
       await p.evaluate(async()=>{await __aim('settings-back');__pinch();});
       assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'more');
       await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
@@ -3259,7 +3259,7 @@ async function mock(
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
       // Open Settings, then immediately attempt Leave: screen guard rejects
       // the repeat instead of letting the opening pinch leave the cabin.
-      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('settings-exit');});
+      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('global-exit');});
       await p.evaluate(() => {
         __hand(0.05);
         __step(200);
@@ -3579,6 +3579,7 @@ async function mock(
     await require("./today-missing-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./drive-failure-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./finish-next-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./settings-comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(
