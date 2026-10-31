@@ -22,12 +22,23 @@ module.exports = async function sessionDetailsChecks(browser, { mock, BASE_URL, 
     // The synthetic compositor appends a 1200px evidence canvas to the body.
     // It is not part of the browser page being checked for mobile overflow.
     await p.addStyleTag({content:'#xr-preview, #welcome-scene { display:none !important; }'});
-    assert.equal(await p.locator('#session-details').isVisible(), true);
+    // Critic 8: an ordinary exit carries no test language; the shortcut is
+    // for opt-in diagnostics (or a problem), and the advanced tools keep
+    // the same export.
+    assert.equal(await p.locator('#session-details').isVisible(), diagnostics);
+    assert.equal(await p.locator('#status').textContent(), 'Back from the cabin. Your place is saved.');
+    assert.doesNotMatch(await p.locator('body').innerText(), /Compositor|Build 006|layer test/);
     assert.equal(await p.locator('#preview-tools').evaluate(d => d.open), false, 'export must not require opening advanced tools');
-    const b = await p.locator('#session-export').boundingBox();
-    assert.ok(b && b.x >= 0 && b.x + b.width <= 390 && b.y >= 0 && b.y + b.height <= 844, 'export shortcut must be in view after exit');
+    let exportButton = '#session-export';
+    if (diagnostics) {
+      const b = await p.locator('#session-export').boundingBox();
+      assert.ok(b && b.x >= 0 && b.x + b.width <= 390 && b.y >= 0 && b.y + b.height <= 844, 'export shortcut must be in view after exit');
+    } else {
+      await p.locator('#preview-tools').evaluate(d => { d.open = true; });
+      exportButton = '#export';
+    }
     assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'shortcut must fit narrow screens');
-    const dl = p.waitForEvent('download'); await p.locator('#session-export').click();
+    const dl = p.waitForEvent('download'); await p.locator(exportButton).click();
     const download = await dl;
     assert.equal(download.suggestedFilename(), 'bradbury-test-details-build-057.json');
     const report = JSON.parse(await fs.readFile(await download.path(), 'utf8'));

@@ -2011,8 +2011,14 @@ function cleanSession() {
   closeWordNote(); focusDim.reset(); seasonSince = null;
   comfortLayers?.dispose(); comfortLayers = null;
   lastNativeQuad = nativeQuadGeometry() || lastNativeQuad;
-  $("session-details").hidden = false;
-  $("session-details").scrollIntoView({ block: "nearest", behavior: "auto" });
+  // The report shortcut appears after a problem (or with opt-in pointer
+  // diagnostics); an ordinary exit stays free of test language.
+  const problem = pointerDiagnosticsEnabled || !!state.error;
+  $("session-details").hidden = !problem;
+  $("session-note").textContent = state.error
+    ? `The cabin closed after a display problem (${state.error}). A saved report helps fix it.`
+    : "After leaving the cabin, save a file to help check the pointer and controls.";
+  if (problem) $("session-details").scrollIntoView({ block: "nearest", behavior: "auto" });
   completionContext = null;
   currentReadingOpened = false;
   sessionGeneration++;
@@ -2064,7 +2070,7 @@ function cleanSession() {
   ending = false;
   $("enter").disabled = false;
   $("enter").textContent = "Enter the cabin ↗";
-  if (!state.error) report("Back from the cabin. You can save test details below.");
+  if (!state.error) report("Back from the cabin. Your place is saved.");
   paint();
 }
 async function enter() {
@@ -3091,7 +3097,7 @@ function frame(time, xrFrame, generation) {
           state.layerStatus = "drawn";
           if (state.handFeedbackError) report('Hand feedback unavailable: ' + state.handFeedbackError);
           else report(
-            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 006: practise Next, Back and Menu.`,
+            "The cabin is open. Enjoy your reading.",
           );
         }
       }
@@ -3108,11 +3114,8 @@ function frame(time, xrFrame, generation) {
     state.error = e.message;
     state.graphicsError = e.graphics || null;
     state.layerStatus = "failed: " + e.message;
-    report(
-      "The layer test stopped: " +
-        e.message +
-        " Return to the browser to read the test details.",
-    );
+    // The technical reason goes to the report shortcut, not the status line.
+    report("The cabin closed after a display problem. Your reading is saved; tap Enter the cabin to try again.");
     session.end();
     return;
   }
@@ -3404,6 +3407,6 @@ if (!isSecureContext) {
 } else {
   $("enter").textContent = "Open in Quest Browser";
   report(
-    "PC preview is ready. The compositor comparison happens in your headset.",
+    "Open this page in Quest Browser to read in the cabin.",
   );
 }

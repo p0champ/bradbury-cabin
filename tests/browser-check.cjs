@@ -1169,7 +1169,7 @@ async function mock(
         }
         assert.match(
           await p.locator("#status").textContent(),
-          /Compositor layer drawn/,
+          /The cabin is open/,
         );
         const before = await p.evaluate(() => __mock.placed.at(-1));
         const placedCount = await p.evaluate(() => __mock.placed.length),
@@ -1427,7 +1427,10 @@ async function mock(
             : scenario === "quad-gl-error"
               ? "quad page upload"
               : "comparison projection draw";
-        assert.ok((await p.locator("#status").textContent()).includes(stage));
+        // The status stays calm; the named reason is on the report shortcut.
+        assert.match(await p.locator("#status").textContent(), /closed after a display problem/);
+        assert.ok((await p.locator("#session-note").textContent()).includes(stage));
+        assert.equal(await p.locator("#session-details").isVisible(), true);
         const download = p.waitForEvent("download");
         await p.locator("#export").click();
         const dl = await download;
@@ -1445,7 +1448,8 @@ async function mock(
         ]);
         passed("injected GL error is named and exported: " + stage);
       } else if (scenario === "draw-failure") {
-        assert.match(await p.locator("#status").textContent(), /test stopped/);
+        assert.match(await p.locator("#status").textContent(), /closed after a display problem/);
+        assert.ok((await p.locator("#session-note").textContent()).length > 40, "the reason is kept for the report");
         passed("draw failure ends XR and reports reason");
       } else if (scenario === "opaque") {
         assert.match(
