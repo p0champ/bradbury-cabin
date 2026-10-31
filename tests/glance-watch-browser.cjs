@@ -50,5 +50,23 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   assert.equal(r.text.length, 4, `face painted more than time, reading and streak: ${JSON.stringify(r.text)}`);
   assert.deepEqual(errors, []);
   passed('glance watch: Apple Watch sized, quarter-second fade, only time, today\'s real reading and streak');
+  // Critic 5: while today's story is open, the watch names the story, not
+  // the first unread poem.
+  // Lower the wrist (drop the glance pose) so the right hand points again.
+  await p.evaluate(() => {
+    const j = __hand(.05, 'right').testJoints;
+    for (const name of ['wrist', 'index-finger-metacarpal', 'pinky-finger-metacarpal', 'middle-finger-metacarpal']) j.delete(name);
+    __step(600);
+  });
+  await p.evaluate(async id => { await __aim(id); __pinch(); __step(800); }, `home-work:today-2026-10-29-story-${works[1].id}`);
+  assert.equal(await p.locator('#page').getAttribute('data-view'), 'reading');
+  const open = await p.evaluate(() => {
+    for (let t = 0; t < 900; t += 16) { __glance(); __step(16); }
+    return __watchText.slice();
+  });
+  assert.ok(open.includes('Story · ') && open.some(t => works[1].title.startsWith(t.replace(/…$/, ''))), `the open story is not named: ${JSON.stringify(open)}`);
+  assert.equal(open.length, 4, `face painted more than time, reading and streak: ${JSON.stringify(open)}`);
+  assert.deepEqual(errors, []);
+  passed('glance watch names the piece open now, with the same face');
   await p.close();
 };

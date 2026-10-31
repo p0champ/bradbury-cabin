@@ -595,9 +595,13 @@ let handBadges = null,
 function currentWatchSummary() {
   const titles = ["poem", "story", "essay"].map((kind) => todayWorks.find((w) => w.kind === kind)?.title || null);
   const time = clockText();
-  const key = [progressVersion, todayKey(), time, ...titles].join(":");
+  // The piece open in the cabin names itself, so the watch never describes
+  // a different work from the one being read.
+  const open = currentReadingOpened ? workById(state.workId) : null;
+  const current = open?.title && ["poem", "story", "essay"].includes(open.kind) ? { kind: open.kind, title: open.title } : null;
+  const key = [progressVersion, todayKey(), time, ...titles, current?.kind, current?.title].join(":");
   if (watchCache.key !== key)
-    watchCache = { key, summary: { ...watchSummary(progress, todayKey()), time, titles } };
+    watchCache = { key, summary: { ...watchSummary(progress, todayKey()), time, titles, current } };
   return watchCache.summary;
 }
 let entrySound = null;

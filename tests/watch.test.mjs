@@ -304,6 +304,13 @@ test("glance face shows the first unread reading, never an invented title", () =
   assert.deepEqual(watchReading({ ticks: [false, false, false] }), { label: "Poem", title: "", done: false });
   assert.equal(watchReading({ ticks: [true, true, true], titles }).done, true);
 });
+test("glance face names the piece open now, not a different unread one", () => {
+  const titles = ["The Tyger", "Tobin's Palm", "Of Death"];
+  assert.deepEqual(watchReading({ ticks: [false, false, false], titles, current: { kind: "story", title: "Tobin's Palm" } }), { label: "Story", title: "Tobin's Palm", done: false });
+  assert.deepEqual(watchReading({ ticks: [true, true, true], titles, current: { kind: "poem", title: "The Sick Rose" } }), { label: "Poem", title: "The Sick Rose", done: true }, "a reread after all three keeps the warm ember");
+  assert.deepEqual(watchReading({ ticks: [false, false, false], titles, current: { kind: "sampler", title: "A first leaf" } }), { label: "Poem", title: "The Tyger", done: false }, "the sampler is not a daily kind");
+  assert.deepEqual(watchReading({ ticks: [false, false, false], titles, current: null }), { label: "Poem", title: "The Tyger", done: false });
+});
 
 test("glance face streak and 24-hour time", () => {
   assert.equal(streakText(12), "12-day streak");
