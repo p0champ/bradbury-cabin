@@ -1284,16 +1284,21 @@ function finishReading() {
   if (!state.menuOpen || state.menuPage !== "closing" || !dayInputAllowed(lastFrameTime, dayOpenedAt)) return false;
   const work = workById(state.workId), canonical = canonicalWorkId(work);
   const assignedDay = /^today-(\d{4}-\d{2}-\d{2})-/.exec(work.id)?.[1] || todayKey();
+  // A reread was promised "Open Library" (the closing page's read state).
+  const reread = workRead(progress, work);
   markWorkRead(progress, work, assignedDay);
   const saved = storeProgress();
   completionContext = { canonical, saved };
   rememberPlace();
   rebuildWorks(state.workId);
   const works = libraryWorks(), index = works.findIndex(w => canonicalWorkId(w) === canonical);
-  state.menuPage = "feedback";
-  feedbackWork = work; thoughtDraft = feedbackFor(progress,work).thought; thoughtPage=0;
-  voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
-  updateThoughtEditor();
+  if (reread) state.menuPage = "library"; // Stars & thought stay one tap away there.
+  else {
+    state.menuPage = "feedback";
+    feedbackWork = work; thoughtDraft = feedbackFor(progress,work).thought; thoughtPage=0;
+    voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
+    updateThoughtEditor();
+  }
   state.homeTab = "shelf";
   state.libraryPage = Math.max(0,Math.floor(index / 3));
   state.hover = null;

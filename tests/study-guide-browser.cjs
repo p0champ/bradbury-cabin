@@ -284,9 +284,22 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.ok((await p.evaluate(()=>__pageText)).join(' ').includes('Sick Rose'),'feedback belongs to the confirmed work');
     await p.evaluate(async()=>{await __aim('feedback-done');__pinch();__step(700);});
     assert.deepEqual(await view(),['menu','library']);
-    assert.ok(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']));
+    const firstFinish=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']);
+    assert.ok(firstFinish);
+    // Critic 4: a reread promises the Library and goes there, no feedback card.
+    await p.evaluate(()=>__step(700));
+    await aimLibrary(p,'blake-sick-rose');
+    await p.evaluate(()=>__pinch());
+    for (let i=0;i<12&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','closing']);
+    const promise=(await p.evaluate(()=>__pageText)).join(' ');
+    assert.ok(promise.includes('NEXT opens your Library'),'the reread closing promises the Library: '+promise);
+    await p.evaluate(()=>{__step(700);__pinch();__step(700);});
+    assert.deepEqual(await view(),['menu','library'],'a reread goes where its button says');
+    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']),firstFinish,'the first finish time is kept');
+    assert.ok(await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).some(b=>b.id==='home-feedback:blake-sick-rose')),'stars and thought stay one tap away');
     assert.deepEqual(errors,[]);await p.close();
-    passed('Today tabs lead where they say; Today survives midnight; Library works finish explicitly');
+    passed('Today tabs lead where they say; Today survives midnight; Library works finish explicitly; rereads return to the Library');
   }
   {
     // Your shelf: earlier days from progress, by saved ID or exact label.
