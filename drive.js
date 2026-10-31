@@ -139,9 +139,26 @@ export class DriveLink {
     if (!r.ok) throw Object.assign(Error(DRIVE_NOTES.refused), { status: r.status });
     return r;
   }
+  async listFiles(q, fields, order = 'createdTime desc', size = 100) {
+    const files = [], seen = new Set();
+    let token = '';
+    do {
+      const url = `${API}/files?q=${encodeURIComponent(q)}&fields=nextPageToken,incompleteSearch,files(${fields})&orderBy=${order}&pageSize=${size}&spaces=drive` +
+        (token ? `&pageToken=${encodeURIComponent(token)}` : '');
+      const page = await (await this.call(url)).json();
+      if (!page || page.incompleteSearch || (page.files != null && !Array.isArray(page.files)))
+        throw Error("Google Drive couldn't list all the files. Your readings are kept; tap Sync with Drive to try again.");
+      const next = page.nextPageToken ?? '';
+      if (typeof next !== 'string' || (next && seen.has(next)))
+        throw Error("Google Drive couldn't finish listing the files. Your readings are kept; tap Sync with Drive to try again.");
+      files.push(...(page.files || []));
+      if (next) seen.add(next);
+      token = next;
+    } while (token);
+    return files;
+  }
   async find(q) {
-    const url = `${API}/files?q=${encodeURIComponent(q)}&fields=files(id,name,modifiedTime)&orderBy=modifiedTime desc&pageSize=5&spaces=drive`;
-    return (await (await this.call(url)).json()).files || [];
+    return this.listFiles(q, 'id,name,modifiedTime', 'modifiedTime desc', 5);
   }
   async folder() {
     if (this.folderId) return this.folderId;
@@ -166,8 +183,7 @@ export class DriveLink {
     const folder = await this.folder();
     if (!folder) return null;
     const query = `'${folder}' in parents and trashed = false and name contains 'picks-${today}'`;
-    const url = `${API}/files?q=${encodeURIComponent(query)}&fields=files(id,name,createdTime,modifiedTime)&orderBy=createdTime desc&pageSize=100&spaces=drive`;
-    const file = ((await (await this.call(url)).json()).files || []).find(f =>
+    const file = (await this.listFiles(query, 'id,name,createdTime,modifiedTime')).find(f =>
       new RegExp(`^picks-${today}(-[0-9]+)?\\.json$`).test(f.name));
     return file ? `${file.id}:${file.createdTime || ""}:${file.modifiedTime || ""}` : null;
   }
@@ -178,10 +194,8 @@ export class DriveLink {
   async readPicksFor(today, parse) {
     const folder = await this.folder();
     if (!folder) return null;
-    const url =
-      `${API}/files?q=${encodeURIComponent(`'${folder}' in parents and trashed = false`)}` +
-      `&fields=files(id,name,size,createdTime)&orderBy=createdTime desc&pageSize=20&spaces=drive`;
-    const files = ((await (await this.call(url)).json()).files || []).filter((f) =>
+    const query = `'${folder}' in parents and trashed = false`;
+    const files = (await this.listFiles(query, 'id,name,size,createdTime', 'createdTime desc', 20)).filter((f) =>
       /^picks-\d{4}-\d{2}-\d{2}(-\d+)?\.json$/.test(f.name),
     );
     // The newest current-day request is authoritative. A failed new swap
@@ -218,8 +232,7 @@ export class DriveLink {
       progress.guideRecoveryCursor = date;
       listed++;
       const query = `'${folder}' in parents and trashed = false and name contains 'picks-${date}'`;
-      const url = `${API}/files?q=${encodeURIComponent(query)}&fields=files(id,name,size,createdTime,modifiedTime)&orderBy=createdTime desc&pageSize=100&spaces=drive`;
-      const files = ((await (await this.call(url)).json()).files || []).filter(f =>
+      const files = (await this.listFiles(query, 'id,name,size,createdTime,modifiedTime')).filter(f =>
         new RegExp(`^picks-${date}(-[0-9]+)?\\.json$`).test(f.name));
       const file = files[0];
       if (!file || Number(file.size) > MAX_FILE) continue;

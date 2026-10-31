@@ -30,6 +30,8 @@ module.exports = async (browser,{mock,BASE_URL,passed}) => {
       const q=url.searchParams.get('q')||'';
       if(q.includes('progress.json'))return json({files:remote?[{id:'P',name:'progress.json'}]:[]});
       if(q.includes("name = 'Bradbury Cabin'"))return json({files:[{id:'F',name:'Bradbury Cabin'}]});
+      if(!url.searchParams.has('pageToken'))return json({files:Array.from({length:20},(_,i)=>({id:`noise-${i}`,name:`picks-${today}-draft-${i}.txt`})),nextPageToken:'picks next /?&'});
+      assert.equal(url.searchParams.get('pageToken'),'picks next /?&');
       return json({files:[...files].reverse().map(({body,...f})=>f)});
     });
     await p.addInitScript(()=>{
