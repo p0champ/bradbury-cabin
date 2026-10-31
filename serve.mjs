@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 const allowed = new Set([
   "rewards.js", "rewards-panel.js",
   "backup-outbox.js",
+  "thought-drafts.js",
   "index.html", "voice-check.html", "feedback.js", "feedback-panel.js", "voice.js",
   "style.css",
   "app.js", "home-panel.js", "settings-panel.js", "compact-panels.js",

@@ -10,6 +10,7 @@
 // The OAuth client ID is a public identifier (not a secret).
 import { mergeRewards } from "./rewards.js?v=57";
 import { mergeFeedback, mergeSelections } from "./feedback.js?v=57";
+import { mergeThoughtDrafts } from "./thought-drafts.js?v=57";
 import { withPickerContract } from "./picker-contract.js?v=57";
 import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=57";
 import { mergePersonal } from "./daily-lines.js?v=57";
@@ -304,6 +305,8 @@ export function mergeProgress(local, remote) {
   const out = structuredClone(newer);
   if(local.rewards || remote.rewards)out.rewards=mergeRewards(local.rewards,remote.rewards);
   if (local.feedback || remote.feedback) out.feedback = mergeFeedback(local.feedback, remote.feedback);
+  if(local.unapprovedThoughtDrafts || remote.unapprovedThoughtDrafts)
+    out.unapprovedThoughtDrafts=mergeThoughtDrafts(local.unapprovedThoughtDrafts,remote.unapprovedThoughtDrafts,out.feedback);
   out.start = [local.start, remote.start].filter(Boolean).sort()[0];
   out.trackingSince = [local.trackingSince, remote.trackingSince].filter(Boolean).sort()[0];
   const older = newer === remote ? local : remote;

@@ -1,6 +1,7 @@
 import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
 import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
 import { BackupOutbox } from "./backup-outbox.js?v=57";
+import { thoughtDraftFor, setThoughtDraft } from "./thought-drafts.js?v=57";
 import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
 import { ThoughtVoice } from "./voice.js?v=57";
 import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=57";
@@ -348,7 +349,7 @@ if (reading.last && WORKS.some((w) => w.id === reading.last)) {
   state.pendingAnchor = reading.places[reading.last]?.anchor || null;
 }
 let completionContext = null, currentReadingOpened = false;
-let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0;
+let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0, draftSaveFailed = false;
 let rewardQueue=[],rewardIndex=0,rewardSince=null,rewardPhase='card',rewardNotice='',rewardGlow=null;
 function beginRewardCelebration() {
   const entries=pendingRewards(progress);if(!entries.length)return false;
@@ -388,8 +389,18 @@ function updateThoughtEditor() {
   }
 }
 function openFeedback(work) {
-  thoughtVoice.cancel(); feedbackWork=work; thoughtDraft=feedbackFor(progress,work).thought;voiceStatus='';thoughtPage=0;
+  thoughtVoice.cancel(); loadThought(work);
   state.menuOpen=true;state.menuPage='feedback';state.hover=null;dayOpenedAt=lastFrameTime;gestures.setContext('menu');updateThoughtEditor();paint();
+}
+function loadThought(work) {
+  feedbackWork=work;const draft=thoughtDraftFor(progress,work);
+  thoughtDraft=draft===null?feedbackFor(progress,work).thought:draft;
+  voiceStatus=draft===null?'':'Unsaved draft restored. Check it, then save.';thoughtPage=0;draftSaveFailed=false;
+}
+function keepThoughtDraft(text) {
+  thoughtDraft=text;thoughtPage=0;
+  draftSaveFailed=!setThoughtDraft(progress,feedbackWork,text) || !storeProgress();
+  voiceStatus=draftSaveFailed?'Draft could not be saved. Keep this card open.':'Unsaved thought. Check it, then save.';
 }
 function feedbackAction(id) {
   if (!feedbackWork) return;
@@ -400,14 +411,18 @@ function feedbackAction(id) {
     thoughtPage += id==='feedback-next'?1:-1;
   } else if(id==='feedback-save') {
     thoughtVoice.cancel();
-    if(setFeedback(progress,feedbackWork,'thought',thoughtDraft))voiceStatus=storeProgress()?'Thought saved with this piece.':'Thought could not be saved.';
+    if(setFeedback(progress,feedbackWork,'thought',thoughtDraft)){
+      setThoughtDraft(progress,feedbackWork,null);draftSaveFailed=false;
+      voiceStatus=storeProgress()?'Thought saved with this piece.':'Thought could not be saved.';
+    }
     else voiceStatus='Keep your thought to 360 characters before saving.';
   } else if(id==='feedback-clear') {
     thoughtVoice.cancel();thoughtDraft='';thoughtPage=0;
+    setThoughtDraft(progress,feedbackWork,null);draftSaveFailed=false;
     if(setFeedback(progress,feedbackWork,'thought',null))voiceStatus=storeProgress()?'Thought removed.':'Could not save the removal.';
   } else if(id==='feedback-speak') {
     if(thoughtVoice.active)thoughtVoice.stop();
-    else thoughtVoice.start({onText:text=>{thoughtDraft=text;thoughtPage=0;updateThoughtEditor();paint();},onStatus:status=>{if(status)voiceStatus=status;else if(!thoughtDraft)voiceStatus='No sentence returned. Retry or type instead.';updateThoughtEditor();paint();}});
+    else thoughtVoice.start({onText:text=>{keepThoughtDraft(text);updateThoughtEditor();paint();},onStatus:status=>{if(draftSaveFailed)voiceStatus='Draft could not be saved. Keep this card open.';else if(status)voiceStatus=status;else if(!thoughtDraft)voiceStatus='No sentence returned. Retry or type instead.';updateThoughtEditor();paint();}});
   } else if(id==='feedback-type') {
     thoughtVoice.cancel();voiceStatus='Type your thought on the browser page after leaving the cabin.';updateThoughtEditor();
     if(state.session) {state.session.end().catch(()=>{voiceStatus='Leave the cabin to type your thought.';paint();});return;}
@@ -423,7 +438,7 @@ function feedbackAction(id) {
   }
   updateThoughtEditor();paint();
 }
-$('thought-text').oninput=e=>{thoughtDraft=e.target.value;voiceStatus='Unsaved thought. Check it, then save.';paint();};
+$('thought-text').oninput=e=>{keepThoughtDraft(e.target.value);paint();};
 $('thought-save').onclick=()=>feedbackAction('feedback-save');
 $('thought-speak').onclick=()=>feedbackAction('feedback-speak');
 $('thought-clear').onclick=()=>feedbackAction('feedback-clear');
@@ -1319,8 +1334,8 @@ function finishReading() {
   if (reread) state.menuPage = "library"; // Stars & thought stay one tap away there.
   else {
     state.menuPage = "feedback";
-    feedbackWork = work; thoughtDraft = feedbackFor(progress,work).thought; thoughtPage=0;
-    voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
+    loadThought(work);
+    if(!voiceStatus)voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
     updateThoughtEditor();
   }
   state.homeTab = "shelf";
@@ -1819,7 +1834,9 @@ $("progress-file").onchange = async (e) => {
     const { headset } = data;
     delete data.unreadableBackup;
     delete data.headset;
-    progress = data;
+    // A normal restore keeps newer independent edits and deletion records.
+    // Recovery from an unreadable original uses only the explicitly chosen file.
+    progress = progressPersistent ? mergeProgress(progress, data) : data;
     unreadableBackup = null;
     // An import replaces the unreadable record, so saving may resume.
     progressPersistent = storageWorks;
