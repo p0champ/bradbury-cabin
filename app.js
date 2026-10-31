@@ -1,3 +1,4 @@
+import "./offline.js?v=57";
 import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
 import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
 import { BackupOutbox } from "./backup-outbox.js?v=57";

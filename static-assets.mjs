@@ -1,5 +1,6 @@
 // Complete public reader inventory; excludes tools, tests and private data.
 export const STATIC_ASSETS = Object.freeze([
+  "offline.js", "service-worker.js", "offline-manifest.js",
   "rewards.js", "rewards-panel.js",
   "backup-outbox.js",
   "thought-drafts.js",

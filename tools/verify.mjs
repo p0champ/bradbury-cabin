@@ -54,6 +54,7 @@ if (process.argv.includes('--receipt')) {
     if (code !== 0) throw Error(`${name} failed; no release receipt issued.`);
   }
   await run('unit',process.execPath,['--test',...tests]);
+  await run('offline',process.execPath,['tools/generate-offline.mjs','--check']);
   await run('picker',process.execPath,['tools/generate_picker_workflow.mjs','--check']);
   for (const script of ['expand_catalogue_031','generate_source_catalogue','critic_compare','extract_library','test_critic_compare'])
     await run(script,process.env.CABIN_PYTHON || 'python',['-I',`tools/${script}.py`,...(script==='test_critic_compare'?[]:['--check'])]);
