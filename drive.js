@@ -27,16 +27,34 @@ export const READ_SCOPE_MISSING =
   "Google didn't allow reading Claude's file. Tap Sync with Drive again and tick \"See and download all your Google Drive files\"";
 const MAX_FILE = 1_500_000; // bytes; a day's three texts are far smaller
 
+// Calm notes for the reader: what happened, that reading is safe, what to do.
+const KEPT = "Your readings are all here; tap Sync with Drive to try again.";
+export const DRIVE_NOTES = {
+  signInUnreachable: "Couldn't reach Google sign-in. Check the internet connection. " + KEPT,
+  signInClosed: "Google sign-in closed before it finished. " + KEPT,
+  unreachable: "Couldn't reach Google Drive just now. " + KEPT,
+  slow: "Google Drive is taking too long to answer. " + KEPT,
+  refused: "Google Drive didn't accept the request just now. " + KEPT,
+};
+const REQUEST_MS = 20000;
+
+// One load per page; a failed load is forgotten so the next tap retries.
+const loading = new Map();
 function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const s = document.createElement("script");
-    s.src = src;
-    s.async = true;
-    s.onload = resolve;
-    s.onerror = () => reject(Error("Could not load Google sign-in"));
-    document.head.append(s);
-  });
+  if (!loading.has(src))
+    loading.set(src, new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = () => {
+        s.remove();
+        loading.delete(src);
+        reject(Error(DRIVE_NOTES.signInUnreachable));
+      };
+      document.head.append(s);
+    }));
+  return loading.get(src);
 }
 
 export function preloadGoogle() {
@@ -69,13 +87,16 @@ export class DriveLink {
   // Must be called from a user tap (Google opens a small sign-in window).
   async signIn() {
     if (!this.clientId) throw Error("Google setup is not finished yet");
-    await loadScript("https://accounts.google.com/gsi/client");
+    if (!globalThis.google?.accounts?.oauth2) await loadScript("https://accounts.google.com/gsi/client");
+    // A blocked or partial script load leaves no usable sign-in.
+    const oauth2 = globalThis.google?.accounts?.oauth2;
+    if (!oauth2?.initTokenClient) throw Error(DRIVE_NOTES.signInUnreachable);
     const response = await new Promise((resolve, reject) => {
-      const client = google.accounts.oauth2.initTokenClient({
+      const client = oauth2.initTokenClient({
         client_id: this.clientId,
         scope: SCOPES,
-        callback: (r) => (r.error ? reject(Error(r.error_description || r.error)) : resolve(r)),
-        error_callback: (e) => reject(Error(e?.message || e?.type || "Sign-in was closed")),
+        callback: (r) => (r.error ? reject(Error(DRIVE_NOTES.signInClosed)) : resolve(r)),
+        error_callback: () => reject(Error(DRIVE_NOTES.signInClosed)),
       });
       // After a partial grant, ask with the full consent screen again.
       client.requestAccessToken({ prompt: this.needsReadScope ? "consent" : "" });
@@ -100,15 +121,22 @@ export class DriveLink {
   }
   async call(url, init = {}) {
     if (!this.connected) throw Error("Not signed in to Google Drive");
-    const r = await this.fetch(url, {
-      ...init,
-      headers: { ...(init.headers || {}), Authorization: `Bearer ${this.token}` },
-    });
+    // Every request has a deadline, so a poor connection cannot hang a sync.
+    let r;
+    try {
+      r = await this.fetch(url, {
+        ...init,
+        signal: init.signal || AbortSignal.timeout?.(REQUEST_MS),
+        headers: { ...(init.headers || {}), Authorization: `Bearer ${this.token}` },
+      });
+    } catch (e) {
+      throw Error(e?.name === "TimeoutError" || e?.name === "AbortError" ? DRIVE_NOTES.slow : DRIVE_NOTES.unreachable);
+    }
     if (r.status === 401) {
       this.signOut();
       throw Error("Google sign-in expired");
     }
-    if (!r.ok) throw Error(`Google Drive error ${r.status}`);
+    if (!r.ok) throw Object.assign(Error(DRIVE_NOTES.refused), { status: r.status });
     return r;
   }
   async find(q) {

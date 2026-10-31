@@ -35,7 +35,7 @@ import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=57";
 import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=57";
 import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
 import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=57";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=57";
 import { GOOGLE_CLIENT_ID } from "./config.js?v=57";
 import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
 import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
@@ -3122,12 +3122,18 @@ function driveNote() {
   if (driveState.error)
     return (
       "Drive: " +
-      driveState.error.slice(0, 90) +
+      driveState.error.slice(0, 160) +
       (driveState.pending ? ` (${driveState.pending} change${driveState.pending === 1 ? "" : "s"} not yet on Drive)` : "")
     );
   if (picksNotice) return picksNotice;
   if (driveState.last) return "Synced with Google Drive at " + driveState.last;
   return clientId ? "Not synced yet · use Sync with Drive on the browser page" : "";
+}
+// Raw technical failures (a script that never loaded, a garbled reply) never
+// reach the reader; the app's own plain sentences pass through unchanged.
+function calmDriveError(e) {
+  const m = e?.message || "";
+  return e?.name === "Error" && m && !/\b(undefined|null|is not defined|is not a function|Unexpected|NaN|JSON|token)\b/.test(m) ? m : DRIVE_NOTES.unreachable;
 }
 function paintDriveButton() {
   const b = $("drive-sync");
@@ -3161,7 +3167,7 @@ function scheduleDriveSave() {
         driveState.pending = 0;
         driveState.last = new Date().toTimeString().slice(0, 5);
       },
-      (e) => (driveState.error = e.message),
+      (e) => (driveState.error = calmDriveError(e)),
     );
   }, 1500);
 }
@@ -3312,8 +3318,8 @@ async function syncDrive() {
     picksSeen = { day: today, stamp };
     report(message);
   } catch (e) {
-    driveState.error = e.message;
-    report("Drive sync failed: " + e.message);
+    driveState.error = calmDriveError(e);
+    report(driveState.error);
   } finally {
     driveState.syncing = false;
     paintDriveButton();

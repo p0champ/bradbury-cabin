@@ -3577,6 +3577,7 @@ async function mock(
     await require("./restore-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./picks-arrival-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./today-missing-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./drive-failure-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(
