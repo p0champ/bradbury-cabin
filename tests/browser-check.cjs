@@ -3257,9 +3257,10 @@ async function mock(
       await p.evaluate(async () => await __aim("home-today"));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
-      // Open Settings, then immediately attempt Leave: screen guard rejects
-      // the repeat instead of letting the opening pinch leave the cabin.
-      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('global-exit');});
+      // Open Settings, then immediately pinch its action row (Move page here
+      // since Critic 7; leaving moved to the corner ✕): the screen guard
+      // rejects the repeat instead of letting the opening pinch act.
+      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('settings-move');});
       await p.evaluate(() => {
         __hand(0.05);
         __step(200);
@@ -3272,7 +3273,9 @@ async function mock(
         __step(16);
       });
       assert.equal(await p.locator("#enter").isEnabled(), false, "still in the cabin");
-      passed("Library Menu button and the Exit guard prevent an accidental exit");
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu", "the page was not moved");
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "settings");
+      passed("Library Menu button and the screen guard prevent an accidental exit or move");
       await p.close();
     }
     {
