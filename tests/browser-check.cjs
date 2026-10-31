@@ -3589,6 +3589,7 @@ async function mock(
     await require("./finish-next-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./settings-comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./offline-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./weekly-sync-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(
