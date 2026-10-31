@@ -37,6 +37,12 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
   await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'today');
   const current=await p.evaluate(()=>__coherentText.filter(x=>x.text==='Continue →').length);assert.equal(current,1,'home must identify one current work');
   await target(p,'home-shelf');if(!lying&&!reduce)await crop(p,'home-shelf.png');
+  assert.ok(await p.evaluate(()=>__coherentText.some(x=>x.text==="Your earlier days · each day's three as they were given")),'Shelf explanation must fit in full');
+  await target(p,'home-library');
+  assert.ok(await p.evaluate(()=>__coherentText.some(x=>x.text==='Library · every work in the cabin, starters and rewards included')),'Library explanation must fit in full');
+  assert.ok(await p.evaluate(()=>__coherentText.some(x=>/^1 of \d+$/.test(x.text))),'Library keeps its page count');
+  if(!lying&&!reduce)await crop(p,'home-library.png');
+  await target(p,'home-back-shelf');
   await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
   await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'shelf','menu must remember selected home tab');
   await target(p,'home-settings');await target(p,'settings-more');await target(p,'settings-controls');await target(p,'settings-pointer:head');

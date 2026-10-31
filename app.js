@@ -781,7 +781,7 @@ function homeOptions(route = state.menuPage) {
       const completed = works.find(w => canonicalWorkId(w) === completionContext.canonical);
       if (completed) options.completion = { id: completed.id, title: completed.title, saved: completionContext.saved, next: nextReadingWork(completed) };
     }
-    options.dateline = `Library · ${state.libraryPage+1} of ${Math.max(1,Math.ceil(works.length/3))}`;
+    options.dateline = "Library · every work in the cabin, starters and rewards included";
   }
   return options;
 }

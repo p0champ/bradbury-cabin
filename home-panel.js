@@ -161,7 +161,7 @@ export function paintHome(ctx, options = {}) {
     text(fit(ctx, notice, 510), 40, 96, o.completion?.saved ? '#d6e9d6' : c.muted);
     if (o.total != null) { ctx.textAlign = 'right'; font(14); text(`${o.completion ? 'Library · ' : ''}${(o.page || 0) + 1} of ${Math.max(1, Math.ceil(o.total / 3))}`, 680, 96, c.muted); ctx.textAlign = 'left'; }
   } else if (l.shelf && !l.archive) { ctx.textAlign = 'right'; text(fit(ctx, o.dayLabel || '', 492), 680, 96, c.muted); ctx.textAlign = 'left'; }
-  else text(fit(ctx, l.archive ? 'Your earlier days' : (o.dateline || 'Three pieces for today'), 640), 40, 96, c.muted);
+  else text(fit(ctx, l.archive ? "Your earlier days · each day's three as they were given" : (o.dateline || 'Three pieces for today'), 640), 40, 96, c.muted);
   for (const { item, y, height, featured } of l.placements) {
     if (y > l.start && !featured) { ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fillRect(40, y, 640, 1); }
     if (l.archive) {
