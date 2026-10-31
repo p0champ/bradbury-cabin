@@ -1,4 +1,4 @@
-import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
+import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
 import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
 import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
 import { ThoughtVoice } from "./voice.js?v=57";
@@ -788,7 +788,7 @@ function homeOptions(route = state.menuPage) {
 function navigationModel() {
   const page = state.arriving ? "today" : state.menuPage;
   if (page === "reward" || page === "rewards") {
-    const options={shelf:page==="rewards",phase:page==="rewards"?"card":rewardPhase,entries:page==="rewards"?rewardEntries(progress):rewardQueue,entry:rewardQueue[rewardIndex],index:rewardIndex,notice:rewardNotice,hover:state.hover};
+    const options={shelf:page==="rewards",phase:page==="rewards"?"card":rewardPhase,entries:page==="rewards"?rewardEntries(progress):rewardQueue,goals:page==="rewards"?rewardGoals(progress,todayKey()):[],entry:rewardQueue[rewardIndex],index:rewardIndex,notice:rewardNotice,hover:state.hover};
     return {kind:"rewards",options,bounds:HOME_FRAME,buttons:rewardsButtons(options)};
   }
   if (page === "feedback") {

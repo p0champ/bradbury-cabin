@@ -57,6 +57,14 @@ export function rewardFacts(progress,today) {
   const days=streakStats(progress,today),pieces=completedPieceIds(progress,today).size;
   return {...days,pieces};
 }
+export function rewardGoals(progress,today) {
+  const facts=rewardFacts(progress,today),earned=new Set(rewardEntries(progress).map(r=>r.id));
+  return MILESTONES.filter(g=>!earned.has(g.id)).flatMap(g=>{
+    const count=g.metric==='streak'?facts.best:g.metric==='days'?facts.completedDays:facts.pieces;
+    if(count>=g.target)return [];
+    return [{id:g.id,line:g.metric==='streak'?`${g.short} · best so far ${count} ${count===1?'day':'days'}`:`${g.short} · ${count} so far`}];
+  });
+}
 export function reconcileRewards(progress,today,clock=new Date()) {
   const old=JSON.stringify(progress.rewards || null),state=mergeRewards(progress.rewards,null),facts=rewardFacts(progress,today);
   progress.rewards=state;
