@@ -3601,6 +3601,7 @@ async function mock(
     await require("./weekly-sync-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./managed-connection-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./fallback-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./reader-lease-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

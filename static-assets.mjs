@@ -2,7 +2,7 @@
 export const STATIC_ASSETS = Object.freeze([
   "offline.js", "service-worker.js", "offline-manifest.js",
   "rewards.js", "rewards-panel.js",
-  "backup-outbox.js",
+  "backup-outbox.js", "reader-lease.js",
   "thought-drafts.js",
   "managed-drive.js", "pair-return.js",
   "connection/google-recovery.js", "connection/recovery-protocol.js",

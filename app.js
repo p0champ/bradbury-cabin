@@ -1,6 +1,7 @@
 import "./offline.js?v=57";
 import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
 import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
+import { readerLease } from "./reader-lease.js?v=57";
 import { BackupOutbox } from "./backup-outbox.js?v=57";
 import { thoughtDraftFor, setThoughtDraft } from "./thought-drafts.js?v=57";
 import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
@@ -77,7 +78,7 @@ let progressPersistent = true,
   storageWorks = true,
   progressNotice = "",
   unreadableBackup = null;
-const store = (() => {
+let store = (() => {
   try {
     const s = globalThis.localStorage;
     s.getItem("cabin-progress");
@@ -104,6 +105,14 @@ if (pairResult.handled) {
   // unfinished local saves with the original tab.
   await new Promise(() => {});
 }
+const reader = await readerLease();
+if (!reader.active) {
+  document.getElementById('status').textContent = 'The cabin is open in another tab. Return there, or close it and reopen this page.';
+  document.getElementById('enter').disabled = true;
+  document.getElementById('drive-sync').disabled = true;
+  await new Promise(() => {});
+}
+store = reader.wrap(store);
 const directDrive = (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
 const readingAtOpen = (() => { try { return store.getItem('cabin-reading') !== null; } catch { return false; } })();
 const progressAtOpen = (() => { try { return store.getItem('cabin-progress') !== null; } catch { return false; } })();
@@ -296,7 +305,7 @@ try {
 } catch {}
 const savePreferences = () => {
   try {
-    localStorage.setItem("cabin-controls", JSON.stringify(preferences));
+    store.setItem("cabin-controls", JSON.stringify(preferences));
     scheduleDriveSave();
   } catch {}
 };
@@ -3443,7 +3452,7 @@ async function syncDrive({ interactive = false, transport = null } = {}) {
       drive.lastCheck = { checked: today, date: r.date, accepted: !problems.length, problems };
       if (r.date === today && r.works.length === 3 && !r.problems.length) {
         try {
-          localStorage.setItem(TODAY_KEY, raw);
+          store.setItem(TODAY_KEY, raw);
         } catch {}
         todayWorks = r.works;
         picksNotice = "";
@@ -3474,7 +3483,7 @@ async function syncDrive({ interactive = false, transport = null } = {}) {
       if (r.problems.length) message += " (" + r.problems.join("; ") + ")";
     }
     try {
-      localStorage.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
+      store.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
     } catch {}
     try {
       if (picksFailure) throw picksFailure;
