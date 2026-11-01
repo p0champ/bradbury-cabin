@@ -76,6 +76,18 @@ test('snapshot, edit acknowledgement and retry alarm survive together or all rol
   storage.failWrite = true; await assert.rejects(send(coordinator, a, original()), /quota/); storage.failWrite = false;
   assert.equal((await coordinator.state(a)).revision, accepted.reply.revision);
 });
+
+test('a checked read restores an exhausted outage retry without changing the backup or replacing an existing retry', async () => {
+  const { storage, coordinator } = setup(), first = await coordinator.state(a);
+  const root = await storage.get('current'); storage.alarm = null;
+  const recovered = await coordinator.state(a);
+  assert.ok(await storage.getAlarm(), 'returning service must resume the pending Google copy even without a new local edit');
+  assert.deepEqual(await storage.get('current'), root); assert.deepEqual(recovered.state, first.state); assert.equal(recovered.revision, first.revision);
+  const later = Date.now() + 60000; storage.alarm = later;
+  await coordinator.state(a); assert.equal(await storage.getAlarm(), later, 'a normal retry keeps its existing backoff');
+  await storage.put('mirrorVerified', { revision: root.revision }); storage.alarm = null;
+  await coordinator.state(a); assert.equal(await storage.getAlarm(), null, 'a confirmed Google copy needs no replacement retry');
+});
 test('corruption and stale revisions refuse a write while preserving the last backup and independent private secrets', async () => {
   const { storage, coordinator } = setup(); await storage.put('google', { protectedRefresh: 'fixture-encrypted' });
   const first = await send(coordinator, a, original());

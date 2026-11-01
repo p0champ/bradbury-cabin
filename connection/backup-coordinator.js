@@ -22,7 +22,9 @@ export class BackupCoordinator {
     return this.snapshots.read();
   }
   async state(device) {
-    const current = await this.ensureInitial(), record = await this.snapshots.deviceState(device);
+    const current = await this.ensureInitial();
+    await this.snapshots.resumeMirror(current?.root);
+    const record = await this.snapshots.deviceState(device);
     const [mirror, problem, grant] = await Promise.all(['mirrorVerified', 'mirrorProblem', 'googleGrant'].map(key => this.storage.get(key)));
     const currentProblem = problem?.code === 'google_reconnect' && !grant?.reconnect ? null : problem;
     const driveCurrent = !!current && mirror?.revision === current.root.revision;

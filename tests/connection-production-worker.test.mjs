@@ -15,6 +15,8 @@ const entry = fileURLToPath(new URL('../connection/worker.js', import.meta.url))
 const source = `import worker, { CabinOwner } from ${JSON.stringify(entry)};
 export class OwnerFixture extends CabinOwner {
   async fetch(request) {
+    if (new URL(request.url).pathname === '/__fixture/forget-alarm') return this.exclusive(async () => { await this.authority.authenticate(request.headers.get('Authorization')); await this.storage.deleteAlarm(); return Response.json({ forgotten: true }); });
+    if (new URL(request.url).pathname === '/__fixture/alarm-status') return this.exclusive(async () => { await this.authority.authenticate(request.headers.get('Authorization')); return Response.json({ at: await this.storage.getAlarm() }); });
     if (new URL(request.url).pathname === '/__fixture/alarm') { await this.authority.authenticate(request.headers.get('Authorization')); await super.alarm(); return Response.json({ ran: true }); }
     return super.fetch(request);
   }
@@ -64,6 +66,11 @@ test('actual Worker: owner setup, harmless compatibility probe, checked Drive mi
   try {
     const privacy = await call(mf, '/privacy'); assert.equal(privacy.status, 200); assert.equal((await privacy.text()).includes('fixture-secret'), false);
     const token = await connect(mf), first = await (await call(mf, '/state', { token })).json(); assert.deepEqual(first.state, original);
+    await call(mf, '/__fixture/forget-alarm', { token });
+    assert.equal((await (await call(mf, '/__fixture/alarm-status', { token })).json()).at, null);
+    const resumed = await (await call(mf, '/state', { token })).json();
+    assert.deepEqual(resumed.state, original); assert.equal(resumed.revision, first.revision);
+    assert.ok((await (await call(mf, '/__fixture/alarm-status', { token })).json()).at, 'native SQLite retry must restart after an exhausted outage');
     await call(mf, '/__fixture/alarm', { token }); assert.equal(google.writes(), 0, 'personal Drive writes stay disabled until the compatibility test passes');
     const renewals = google.renewals();
     const probe = await call(mf, '/connection-check', { token, body: {} }); assert.equal(probe.status, 200); assert.deepEqual(await probe.json(), { safeConditional: true, cleanup: true, renewed: true }); assert.equal(google.files.size, 1); assert.equal(google.renewals(), renewals + 1, 'setup must actually decrypt and use the renewal grant');
@@ -74,6 +81,7 @@ test('actual Worker: owner setup, harmless compatibility probe, checked Drive mi
     const waiting = await (await call(mf, '/state', { token })).json(); assert.equal(waiting.state.days['2026-10-31'].poem, false); assert.equal(waiting.driveCurrent, false); assert.equal(waiting.mirrorProblem.code, 'unavailable');
     google.setQuota(false); await call(mf, '/__fixture/alarm', { token });
     const checked = await (await call(mf, '/state', { token })).json(); assert.equal(checked.driveCurrent, true); assert.equal(checked.mirrorProblem, null);
+    assert.equal((await (await call(mf, '/__fixture/alarm-status', { token })).json()).at, null, 'checked-current storage stays quiet');
     const mirrored = JSON.parse(google.files.get('P').raw); assert.equal(mirrored.days['2026-10-31'].poem, false); assert.deepEqual(mirrored.headset, original.headset); assert.equal(mirrored.cabinPickerInstructions.protocol, 'bradbury-daily-three/v2'); assert.ok(mirrored.cabinPickerInstructions.catalogue.length > 20);
     await mf.dispose(); mf = runtime();
     const restored = await (await call(mf, '/state', { token })).json(); assert.deepEqual(restored.state, state); assert.equal(restored.driveCurrent, true); assert.equal(JSON.stringify(restored).includes('fixture-refresh'), false);

@@ -24,6 +24,17 @@ export class SnapshotStore {
     await txn.put('mirrorPending', { revision });
     if (!await txn.getAlarm()) await txn.setAlarm(Date.now() + 1000);
   }
+  async resumeMirror(root) {
+    if (!this.queueMirror || !root) return;
+    // Cloudflare can exhaust alarm retries during a prolonged outage. A
+    // later checked read must resume the durable pending copy, even when
+    // the reader has made no new edit. Keep any existing retry's backoff.
+    await this.storage.transaction(async txn => {
+      const current = await txn.get('current');
+      if (current?.id !== root.id || (await txn.get('mirrorVerified'))?.revision === root.revision || await txn.getAlarm()) return;
+      await this.scheduleMirror(txn, root.revision);
+    });
+  }
   async readSnapshot(root) {
     checkedRoot(root);
     const chunks = await this.storage.get(rootKeys(root)), bytes = new Uint8Array(root.bytes);
