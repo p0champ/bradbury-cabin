@@ -354,7 +354,8 @@ sources.update(extra['sources'])
 works.extend(extra['works'])
 notes.extend(extra['notes'])
 out = {'critic': 'independent', 'sources': sources, 'works': works, 'notes': notes}
-with open(OUT, 'w', encoding='utf-8') as f:
+# Match the existing pinned extraction bytes on every platform.
+with open(OUT, 'w', encoding='utf-8', newline='\r\n') as f:
     json.dump(out, f, ensure_ascii=False, indent=1)
 from collections import Counter
 print(Counter(w['gutenbergId'] for w in works))
