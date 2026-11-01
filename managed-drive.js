@@ -1,10 +1,10 @@
 // Lasting owner connection. Google credentials stay on the private service.
-import { withPickerContract } from './picker-contract.js?v=57';
-import { validProgress } from './progress.js?v=57';
-import { mergeProgress } from './drive.js?v=57';
-import { mergeManagedState } from './connection/managed-state.js?v=57';
-import { mergeWithIntents, acknowledgeIntents } from './connection/managed-intents.js?v=57';
-import { missingGuideKinds, rememberGuides } from './guide-archive.js?v=57';
+import { withPickerContract } from './picker-contract.js?v=58';
+import { validProgress } from './progress.js?v=58';
+import { mergeProgress } from './drive.js?v=58';
+import { mergeManagedState } from './connection/managed-state.js?v=58';
+import { mergeWithIntents, acknowledgeIntents } from './connection/managed-intents.js?v=58';
+import { missingGuideKinds, rememberGuides } from './guide-archive.js?v=58';
 
 export const CONNECTION_KEY = 'cabin-connection';
 export const CONNECTION_DEVICE_KEY = 'cabin-connection-device';

@@ -1,6 +1,6 @@
-import { navigationSurface, CONTROL } from './theme.js?v=57';
-import { HOME_FRAME, HOME_SCALE as S } from './home-panel.js?v=57';
-import { compactWrap } from './compact-panels.js?v=57';
+import { navigationSurface, CONTROL } from './theme.js?v=58';
+import { HOME_FRAME, HOME_SCALE as S } from './home-panel.js?v=58';
+import { compactWrap } from './compact-panels.js?v=58';
 const Y=HOME_FRAME.y;
 function local(o) {
   if(o.phase==='glow')return [{id:'reward-skip',x:536,y:432,w:160,h:48,label:'Skip →'}];

@@ -1,9 +1,9 @@
 // Connection: explicit local edits, independent of remote reads or clock skew.
 // Replayed edits carry the same sequence, so a lost acknowledgement cannot
 // reassert an old untick or old setting over another device's later change.
-import { mergeDayGuides } from '../guide-archive.js?v=57';
-import { mergePersonal } from '../daily-lines.js?v=57';
-import { mergeSelections } from '../feedback.js?v=57';
+import { mergeDayGuides } from '../guide-archive.js?v=58';
+import { mergePersonal } from '../daily-lines.js?v=58';
+import { mergeSelections } from '../feedback.js?v=58';
 const plain = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const clone = v => v === undefined ? undefined : structuredClone(v);
 const safe = key => typeof key === 'string' && !['__proto__', 'prototype', 'constructor'].includes(key);

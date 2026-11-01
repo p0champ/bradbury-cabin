@@ -1,16 +1,16 @@
-import "./offline.js?v=57";
-import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
-import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
-import { readerLease } from "./reader-lease.js?v=57";
-import { BackupOutbox } from "./backup-outbox.js?v=57";
-import { thoughtDraftFor, setThoughtDraft } from "./thought-drafts.js?v=57";
-import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
-import { ThoughtVoice } from "./voice.js?v=57";
-import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=57";
-import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=57";
-import { lookupWord } from "./word-lookup.js?v=57";
-import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=57";
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=57";
+import "./offline.js?v=58";
+import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=58";
+import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=58";
+import { readerLease } from "./reader-lease.js?v=58";
+import { BackupOutbox } from "./backup-outbox.js?v=58";
+import { thoughtDraftFor, setThoughtDraft } from "./thought-drafts.js?v=58";
+import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=58";
+import { ThoughtVoice } from "./voice.js?v=58";
+import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=58";
+import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=58";
+import { lookupWord } from "./word-lookup.js?v=58";
+import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=58";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=58";
 import {
   GestureEngine,
   menuButtons,
@@ -22,36 +22,36 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=57";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=57";
-import { HandBadges } from "./hand-badges.js?v=57";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=57";
-import { LIBRARY } from "./library.js?v=57";
-import { pageForAnchor, loadReading, saveReading, validAnchor, fillReadingFromBackup } from "./reader.js?v=57";
-import { layoutReading } from "./reading-flow.js?v=57";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=57";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=57";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=57";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=57";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=57";
-import { parsePicks, pickLabels } from "./picks.js?v=57";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=57";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=57";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=57";
-import { GOOGLE_CLIENT_ID, CONNECTION_URL } from "./config.js?v=57";
-import { GoogleRecovery } from "./connection/google-recovery.js?v=57";
-import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY, CONNECTION_DEVICE_KEY } from "./managed-drive.js?v=57";
-import { EditJournal } from "./connection/edit-journal.js?v=57";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=57";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=57";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=57";
-import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=57";
-import { EntrySound } from "./entry-sound.js?v=57";
-import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=57";
+} from "./gestures.js?v=58";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=58";
+import { HandBadges } from "./hand-badges.js?v=58";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=58";
+import { LIBRARY } from "./library.js?v=58";
+import { pageForAnchor, loadReading, saveReading, validAnchor, fillReadingFromBackup } from "./reader.js?v=58";
+import { layoutReading } from "./reading-flow.js?v=58";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=58";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=58";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=58";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=58";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=58";
+import { parsePicks, pickLabels } from "./picks.js?v=58";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=58";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=58";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=58";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=58";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=58";
+import { GOOGLE_CLIENT_ID, CONNECTION_URL } from "./config.js?v=58";
+import { GoogleRecovery } from "./connection/google-recovery.js?v=58";
+import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY, CONNECTION_DEVICE_KEY } from "./managed-drive.js?v=58";
+import { EditJournal } from "./connection/edit-journal.js?v=58";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=58";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=58";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=58";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=58";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=58";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=58";
+import { EntrySound } from "./entry-sound.js?v=58";
+import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=58";
 import {
   readProgress,
   saveProgress,
@@ -65,15 +65,15 @@ import {
   markWorkRead,
   workRead,
   addDays,
-} from "./progress.js?v=57";
+} from "./progress.js?v=58";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=57";
-// Headset cache for challenge progress. Export/Import on the browser page is
-// the backup until durable bridge storage arrives with Claude (Phase 3).
+} from "./calendar.js?v=58";
+// Keep personal reading immediately on this device, then in the checked
+// private/Google backup. Browser Export/Import remains a complete safety copy.
 let progressPersistent = true,
   storageWorks = true,
   progressNotice = "",
@@ -1884,7 +1884,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-057",
+    build: "gestures-058",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1969,7 +1969,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-057.json";
+  a.download = "bradbury-test-details-build-058.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };

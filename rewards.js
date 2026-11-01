@@ -1,6 +1,6 @@
-import { SOURCE_CATALOGUE } from './source-catalogue.js?v=57';
-import { LIBRARY } from './library.js?v=57';
-import { streakStats, validCompletion, berlinDateKey, KINDS } from './progress.js?v=57';
+import { SOURCE_CATALOGUE } from './source-catalogue.js?v=58';
+import { LIBRARY } from './library.js?v=58';
+import { streakStats, validCompletion, berlinDateKey, KINDS } from './progress.js?v=58';
 const catalogue=new Map(SOURCE_CATALOGUE.map(w=>[w.id,w]));
 export const MILESTONES=Object.freeze([
   {id:'streak-7',label:'Seven reading days in your streak',short:'7-day streak',metric:'streak',target:7, pool:['edgar-allan-poe-the-tell-tale-heart','edgar-allan-poe-the-black-cat','edgar-allan-poe-the-cask-of-amontillado']},

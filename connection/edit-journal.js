@@ -1,7 +1,7 @@
 // Connection metadata is private to this browser, never exported.
-import { collectIntents, observeRemote, acknowledgeIntents, mutableState, validIntentPath } from './managed-intents.js?v=57';
-import { validProgress } from '../progress.js?v=57';
-import { validAnchor } from '../reader.js?v=57';
+import { collectIntents, observeRemote, acknowledgeIntents, mutableState, validIntentPath } from './managed-intents.js?v=58';
+import { validProgress } from '../progress.js?v=58';
+import { validAnchor } from '../reader.js?v=58';
 export const EDIT_JOURNAL_KEY = 'cabin-connection-edits';
 const keys = new Set(['cabin-progress', 'cabin-reading', 'cabin-controls', 'cabin-last-check']);
 const plain = v => v !== null && typeof v === 'object' && !Array.isArray(v);

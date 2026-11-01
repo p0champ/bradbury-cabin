@@ -1,5 +1,5 @@
-// Connection: private snapshot protocol, shared by the eventual authenticated
-// Worker controller and local tests. The controller supplies owner identity.
+// Complete private snapshots shared by the authenticated Worker and tests.
+// The controller supplies the verified device identity.
 import { SnapshotStore } from './snapshot-store.js';
 import { mergeWithIntents } from './managed-intents.js';
 import { mergeManagedState } from './managed-state.js';

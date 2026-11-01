@@ -1,7 +1,7 @@
 // Google recovery copies never contain account credentials or replace progress.json.
-import { validProgress } from '../progress.js?v=57';
-import { mergeProgress } from '../drive.js?v=57';
-import { mergeWithIntents } from './managed-intents.js?v=57';
+import { validProgress } from '../progress.js?v=58';
+import { mergeProgress } from '../drive.js?v=58';
+import { mergeWithIntents } from './managed-intents.js?v=58';
 export const RECOVERY_PREFIX = 'cabin-recovery-';
 export const MAX_RECOVERY_BYTES = 10_000_000;
 const id = value => typeof value === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(value);

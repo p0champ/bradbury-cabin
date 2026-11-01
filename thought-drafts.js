@@ -1,8 +1,8 @@
 // Drafts are never feedback. Only the existing explicit Save action approves
 // a thought; null draft records prevent an old backup resurrecting a draft.
-import {canonicalWorkId,validCompletion} from './progress.js?v=57';
-import {feedbackField} from './feedback.js?v=57';
-import {SOURCE_CATALOGUE} from './source-catalogue.js?v=57';
+import {canonicalWorkId,validCompletion} from './progress.js?v=58';
+import {feedbackField} from './feedback.js?v=58';
+import {SOURCE_CATALOGUE} from './source-catalogue.js?v=58';
 const known=new Set(SOURCE_CATALOGUE.map(w=>w.id));
 const valid=(id,r)=>known.has(id) && r && r.approved===false && validCompletion(id,r.at) &&
   (r.value===null || typeof r.value==='string' && r.value.length<=12000);

@@ -1,8 +1,8 @@
 // Tap-to-Sync safety copy: immutable files, never a second progress.json writer.
-import { checkedRecovery, recoveryName, orderedRecovery, recoveryQuery, MAX_RECOVERY_BYTES } from './recovery-protocol.js?v=57';
-import { mergeManagedState } from './managed-state.js?v=57';
-import { mergeProgress } from '../drive.js?v=57';
-import { validProgress } from '../progress.js?v=57';
+import { checkedRecovery, recoveryName, orderedRecovery, recoveryQuery, MAX_RECOVERY_BYTES } from './recovery-protocol.js?v=58';
+import { mergeManagedState } from './managed-state.js?v=58';
+import { mergeProgress } from '../drive.js?v=58';
+import { validProgress } from '../progress.js?v=58';
 const API='https://www.googleapis.com/drive/v3',UPLOAD='https://www.googleapis.com/upload/drive/v3';
 const fileId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,200}$/.test(id);
 const sha=async text=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(v=>v.toString(16).padStart(2,'0')).join('');
