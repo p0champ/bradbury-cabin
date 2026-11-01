@@ -9,7 +9,13 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   const { SOURCE_CATALOGUE } = await import(pathToFileURL(path.join(__dirname, '..', 'source-catalogue.js')).href);
   const excluded = new Set(['blake-sick-rose', 'whitman-astronomer', 'whitman-captain', 'ohenry-magi', 'chopin-desiree', 'bacon-studies', 'bacon-truth']);
   const works = ['poem', 'story', 'essay'].map(kind => SOURCE_CATALOGUE.find(w => w.kind === kind && !excluded.has(w.id)));
-  const p = await browser.newPage(), errors = []; p.on('pageerror', e => errors.push(e.message));
+  // The wrist shows device-local time; the reading day is separately Berlin-based.
+  // Fix both browser zones explicitly instead of relying on the host OS.
+  for (const { timezoneId, time } of [
+    { timezoneId: 'Europe/Berlin', time: '21:47' },
+    { timezoneId: 'UTC', time: '20:47' },
+  ]) {
+  const p = await browser.newPage({ timezoneId }), errors = []; p.on('pageerror', e => errors.push(e.message));
   await mock(p, 'layer', false, { practised: true, headPointer: false, visits: 4 });
   await p.addInitScript(w => {
     localStorage.setItem('cabin-today', JSON.stringify({ version: 2, date: '2026-10-29', picks: Object.fromEntries(w.map(x => [x.kind, { catalogueId: x.id }])) }));
@@ -44,7 +50,7 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   const fadeMs = (full - first) * 16;
   assert.ok(fadeMs >= 200 && fadeMs <= 300, `fade took ${fadeMs} ms, expected about 250`);
   assert.ok(r.uploaded, 'wrist texture was never uploaded');
-  assert.deepEqual(r.text.slice(0, 1), ['21:47'], `time missing: ${JSON.stringify(r.text)}`);
+  assert.deepEqual(r.text.slice(0, 1), [time], `time missing: ${JSON.stringify(r.text)}`);
   assert.ok(r.text.includes('Poem · ') && r.text.some(t => works[0].title.startsWith(t.replace(/…$/, ''))), `today's real poem missing: ${JSON.stringify(r.text)}`);
   assert.ok(r.text.at(-1).endsWith('streak') || r.text.at(-1) === 'Begin a streak today', `streak missing: ${JSON.stringify(r.text)}`);
   assert.equal(r.text.length, 4, `face painted more than time, reading and streak: ${JSON.stringify(r.text)}`);
@@ -69,4 +75,5 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   assert.deepEqual(errors, []);
   passed('glance watch names the piece open now, with the same face');
   await p.close();
+  }
 };
