@@ -3,3 +3,6 @@
 // (https://p0champ.github.io). Created by Bastian on 28 Oct 2026 (project "Bradbury Cabin", Testing mode).
 export const GOOGLE_CLIENT_ID =
   "379320678298-n7emu1el4qc84v3gepk0tn82rra4jglr.apps.googleusercontent.com";
+// The public address contains no credential. Owner setup and the complete
+// release check must finish before this reader is published.
+export const CONNECTION_URL = 'https://bradbury-cabin-connection.bastianfarges40.workers.dev/';

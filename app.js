@@ -39,7 +39,9 @@ import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, d
 import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
 import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
 import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=57";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=57";
+import { GOOGLE_CLIENT_ID, CONNECTION_URL } from "./config.js?v=57";
+import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY } from "./managed-drive.js?v=57";
+import { EditJournal } from "./connection/edit-journal.js?v=57";
 import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
 import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
 import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=57";
@@ -90,6 +92,24 @@ const store = (() => {
     };
   }
 })();
+let pairSession;
+try { pairSession = sessionStorage; } catch {}
+const pairResult = pairSession ? await finishConnectionReturn({ url: CONNECTION_URL, storage: store, session: pairSession }) : { handled: globalThis.__cabinConnectionReturn === true, message: 'This browser could not keep the connection. Return to the other cabin tab; your readings are kept.' };
+if (pairResult.handled) {
+  document.getElementById('status').textContent = pairResult.message;
+  document.getElementById('drive-sync').disabled = true;
+  if (pairResult.connected) { try { window.close(); } catch {} }
+  // A sign-in return is a small handoff tab, never a second reader sharing
+  // unfinished local saves with the original tab.
+  await new Promise(() => {});
+}
+const directDrive = (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
+const readingAtOpen = (() => { try { return store.getItem('cabin-reading') !== null; } catch { return false; } })();
+let managedJournal = null;
+if (!directDrive && storageWorks) {
+  try { managedJournal = new EditJournal(store); }
+  catch { progressPersistent = false; progressNotice = 'The saved connection needs recovery. Your readings are kept; reopen the cabin.'; }
+}
 const todayKey = () => berlinDateKey(new Date());
 const backupOutbox = new BackupOutbox(store);
 let driveReady = false;
@@ -3158,7 +3178,7 @@ const clientId = (() => {
     return GOOGLE_CLIENT_ID;
   }
 })();
-const drive = new DriveLink({ clientId });
+const drive = directDrive ? new DriveLink({ clientId }) : new ManagedLink({ url: CONNECTION_URL, journal: managedJournal, storage: store });
 // The app's verdict on Claude's newest picks file travels in every
 // progress.json write, so it must survive a reload until the next sync.
 const LAST_CHECK_KEY = "cabin-last-check";
@@ -3176,6 +3196,12 @@ function driveNote() {
       (driveState.pending ? ` (${driveState.pending} change${driveState.pending === 1 ? "" : "s"} not yet on Drive)` : "")
     );
   if (picksNotice) return picksNotice;
+  if (drive.isManaged && drive.status && !drive.status.driveCurrent) return drive.status.googleReconnect
+    ? 'Progress saved privately · tap Sync with Drive to reconnect Google'
+    : drive.status.mirrorProblem?.message || 'Progress saved privately · Google Drive will catch up';
+  if (drive.isManaged && drive.status?.driveCurrent) return drive.status.driveSyncedAt
+    ? 'Synced with Google Drive at ' + new Date(drive.status.driveSyncedAt).toTimeString().slice(0, 5)
+    : 'Progress saved with Google Drive';
   if (driveState.last) return "Synced with Google Drive at " + driveState.last;
   return clientId ? "Not synced yet · use Sync with Drive on the browser page" : "";
 }
@@ -3193,7 +3219,7 @@ function paintDriveButton() {
     ? "Drive: setup needed"
     : driveState.syncing
       ? "Syncing…"
-      : drive.connected
+      : drive.connected && !drive.needsReconnect
         ? "Sync with Drive ✓"
         : "Sync with Drive";
 }
@@ -3204,6 +3230,10 @@ function scheduleDriveSave() {
   if (!progressPersistent) return; // Recovery mode must not publish a replacement.
   backupOutbox.enqueue(backupText());
   driveState.pending = backupOutbox.pending ? 1 : 0;
+  if (drive.isManaged) {
+    try { drive.captureLocal(JSON.parse(backupText())); }
+    catch (e) { driveState.error = calmDriveError(e); return; }
+  }
   if (!backupOutbox.pending) return;
   if (!clientId || !driveState.everSynced) return;
   if (!drive.connected) {
@@ -3219,7 +3249,7 @@ let driveSaving = false;
 async function retryPendingBackup() {
   if(driveSaving || driveState.syncing || !progressPersistent || !driveState.everSynced || !drive.connected || !backupOutbox.pending)return;
   driveSaving=true;
-  try {await pushProgress();driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);}
+  try {const restored=await pushProgress();driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);if(drive.isManaged && restored)finishRestore();}
   catch(e){driveState.error=calmDriveError(e);}
   finally {driveSaving=false;driveState.pending=backupOutbox.pending?1:0;paintDriveButton();}
 }
@@ -3230,8 +3260,48 @@ function backupCopy(withRecovery = false) {
   const headset = { reading: { last: reading.last, places: reading.places }, controls: preferences };
   return withRecovery && unreadableBackup != null ? { ...progress, unreadableBackup, headset } : { ...progress, headset };
 }
-const backupText = () => JSON.stringify(backupCopy());
+const backupText = () => {
+  const text = JSON.stringify(backupCopy());
+  return drive.prepareBackupText ? drive.prepareBackupText(text) : text;
+};
+if (drive.isManaged && progressPersistent) {
+  try { drive.initialise(JSON.parse(backupText()), { controls: controlsAtOpen !== null, reading: readingAtOpen }); }
+  catch { driveState.error = 'Could not prepare the private backup. Your readings are kept on this headset; reopen the cabin.'; }
+}
 let controlsRestored = false;
+function applyManagedBackup(saved) {
+  const combined = drive.mergeForLocal(JSON.parse(backupText()), saved);
+  if (!validProgress(combined)) throw Error('The private backup needs recovery. Your readings are kept.');
+  const nextCheck = combined.cabinPickerInstructions?.lastCheck ?? drive.lastCheck;
+  const complete = JSON.parse(drive.prepareBackupText(JSON.stringify(combined), nextCheck));
+  const { headset, ...nextProgress } = complete, nextReading = structuredClone(reading);
+  const lastBefore = reading.last, filled = fillReadingFromBackup(nextReading, headset?.reading);
+  const restoreControls = controlsAtOpen === null && !controlsRestored && headset?.controls && typeof headset.controls === 'object' && !Array.isArray(headset.controls);
+  const nextPreferences = restoreControls ? structuredClone(headset.controls) : preferences;
+  // Save confirmation and polling metadata are not a new visible screen.
+  // Repainting those alone would cancel a pinch already held by the reader.
+  const visibleProgress = value => {
+    const { savedAt, cabinPickerInstructions, guideRecoveryCursor, ...visible } = value;
+    return JSON.stringify(visible);
+  };
+  const changed = visibleProgress(progress) !== visibleProgress(nextProgress);
+  try {
+    managedJournal.adopt({
+      'cabin-progress': JSON.stringify(nextProgress),
+      'cabin-reading': JSON.stringify(nextReading),
+      'cabin-controls': JSON.stringify(nextPreferences),
+      [LAST_CHECK_KEY]: JSON.stringify(nextCheck),
+    }, { ...nextProgress, headset: { reading: nextReading, controls: nextPreferences } });
+  } catch (failure) {
+    progressPersistent = false;
+    progressNotice = 'Could not finish restoring safely. Your previous copy is kept; reopen the cabin.';
+    throw failure;
+  }
+  progress = nextProgress; Object.assign(reading, nextReading); preferences = nextPreferences; drive.lastCheck = nextCheck;
+  if (restoreControls) controlsRestored = true;
+  if (changed || filled || restoreControls) { progressVersion++; refreshSavedGuides(); paint(); }
+  return (filled && reading.last !== lastBefore) || !!restoreControls;
+}
 // True when the restored last work or settings need a reopen to apply;
 // other filled-in places are used directly when that work is opened.
 function restoreHeadset(headset) {
@@ -3265,11 +3335,14 @@ function finishRestore() {
 let drivePush = Promise.resolve();
 function pushProgress() {
   const run = drivePush.then(async () => {
+    let restored = false;
     const remote = await drive.read("progress.json");
     if (remote !== null) {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; your changes are kept on the headset.");
+      if (drive.isManaged) restored = applyManagedBackup(parsed);
+      else {
       const { headset, ...saved } = parsed;
       restoreHeadset(headset);
       const merged = mergeProgress(progress, saved);
@@ -3279,22 +3352,25 @@ function pushProgress() {
         refreshSavedGuides();
         paint();
       }
+      }
     }
     const queued=backupOutbox.enqueue(backupText());
     driveState.pending=backupOutbox.pending?1:0;
-    await drive.writeProgress(queued.payload);
+    const receipt = await drive.writeProgress(queued.payload, { requestId: queued.id });
+    if (drive.isManaged) { restored = applyManagedBackup(receipt.state) || restored; drive.acknowledge(receipt); }
     backupOutbox.acknowledge(queued.id);
+    return restored;
   });
   drivePush = run.catch(() => {});
   return run;
 }
 // Pull today's three and merge progress; push the merged progress back.
-async function syncDrive() {
+async function syncDrive({ interactive = false } = {}) {
   driveState.syncing = true;
   paintDriveButton();
   try {
     if (!progressPersistent) throw Error("Your saved progress needs recovery first. Your existing readings are still available.");
-    if (!drive.connected) await drive.signIn();
+    if (!drive.connected || (drive.needsReconnect && interactive)) await drive.signIn();
     const today = todayKey();
     // Noted before reading the picks, so a file that lands mid-sync is
     // still seen as new by the next minute's check.
@@ -3307,13 +3383,18 @@ async function syncDrive() {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
+      if (drive.isManaged) restored = applyManagedBackup(parsed);
+      else {
       const { headset, ...saved } = parsed;
       restored = restoreHeadset(headset);
       progress = mergeProgress(progress, saved);
+      }
     }
-    const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS}));
+    let picksFailure = null, found;
+    try { found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS})); }
+    catch (failure) { if (!drive.isManaged) throw failure; picksFailure = failure; }
     let message = "No picks from Claude yet. Ask Claude for today's three.";
-    drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
+    if (!picksFailure) drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
     if (found) {
       const { raw, parsed: r } = found;
       const problems = [...r.problems];
@@ -3356,6 +3437,7 @@ async function syncDrive() {
       localStorage.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
     } catch {}
     try {
+      if (picksFailure) throw picksFailure;
       await drive.recoverGuides(progress, today, raw => parsePicks(raw));
     } catch {
       message += " Earlier study notes could not be recovered this time; existing readings are kept.";
@@ -3365,13 +3447,13 @@ async function syncDrive() {
     storeProgress();
     // Flush the latest snapshot through the same serialized save path.
     clearTimeout(driveTimer);
-    await pushProgress();
+    restored = await pushProgress() || restored;
     if (restored) message += finishRestore();
     driveState.pending = backupOutbox.pending ? 1 : 0;
-    driveState.error = null;
+    driveState.error = picksFailure ? calmDriveError(picksFailure) : null;
     driveState.last = new Date().toTimeString().slice(0, 5);
-    picksSeen = { day: today, stamp };
-    report(message);
+    if (!picksFailure) picksSeen = { day: today, stamp };
+    report(picksFailure ? calmDriveError(picksFailure) : message);
   } catch (e) {
     driveState.error = calmDriveError(e);
     report(driveState.error);
@@ -3381,7 +3463,7 @@ async function syncDrive() {
     paint();
   }
 }
-$("drive-sync").onclick = () => syncDrive();
+$("drive-sync").onclick = () => syncDrive({ interactive: true });
 driveReady = true;
 if(progressPersistent)backupOutbox.enqueue(backupText());
 driveState.pending = backupOutbox.pending ? 1 : 0;
@@ -3400,9 +3482,13 @@ async function checkForPicks() {
     const today = todayKey();
     const stamp = await drive.newestPicksStamp(today);
     if (picksSeen?.day !== today || picksSeen.stamp !== stamp) await syncDrive();
-    else await retryPendingBackup();
+    else {
+      await retryPendingBackup();
+      if (drive.isManaged && !backupOutbox.pending && drive.status && !drive.status.driveCurrent) { await drive.refreshStatus(); paintDriveButton(); paint(); }
+    }
   } catch {
     // A missed check is retried next minute; reading carries on.
+    if (drive.isManaged) await retryPendingBackup();
   } finally {
     picksCheck = false;
   }
@@ -3411,7 +3497,7 @@ setInterval(checkForPicks, 60000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForPicks(); });
 addEventListener("online", () => checkForPicks());
 // Load Google sign-in early, so the popup opens directly from the tap.
-if (clientId) preloadGoogle();
+if (clientId && !drive.isManaged) preloadGoogle();
 await document.fonts.load("54px Literata");
 $("enter").onclick = enter;
 paint();

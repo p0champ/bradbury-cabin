@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Bradbury Cabin connection setup</title>
+<script src="/pair-return.js"></script>
+<main>
+  <h1>Cabin connection setup</h1>
+  <p>This page runs only on this computer. Your Google renewal credential stays in your private Cloudflare account.</p>
+  <p>The check uses a new disposable Google file and leaves your progress file untouched. Reading the backup imports its current copy into private storage.</p>
+  <button id="connect">Connect my Google account</button>
+  <button id="check" disabled>Check the connection and read my backup</button>
+  <button id="download" disabled>Download my complete backup</button>
+  <button id="disconnect" disabled>Finish and disconnect this setup page</button>
+  <p id="status" role="status">Ready for owner setup.</p>
+  <p id="summary"></p>
+</main>
+<script type="module" src="/setup.js"></script>
+</html>

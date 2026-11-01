@@ -32,9 +32,13 @@ async function mock(
   scenario = "layer",
   lying = false,
   preferences = { practised: true, headPointer: true },
+  connection = 'direct',
 ) {
   await page.addInitScript(
-    ({ scenario, lying, preferences }) => {
+    ({ scenario, lying, preferences, connection }) => {
+      // Preserve the complete legacy Drive checks; managed fixtures choose
+      // their transport explicitly through the fifth mock argument.
+      try { localStorage.setItem('cabin-drive-mode', connection); } catch {}
       if (!sessionStorage.getItem("mock-preferences")) {
         localStorage.setItem(
           "cabin-controls",
@@ -924,7 +928,7 @@ async function mock(
         },
       });
     },
-    { scenario, lying, preferences },
+    { scenario, lying, preferences, connection },
   );
 }
 (async () => {
@@ -940,10 +944,15 @@ async function mock(
   const createPage = browser.newPage.bind(browser);
   browser.newPage = async (...args) => {
     const p = await createPage(...args);
-    await p.addInitScript(() => document.addEventListener('DOMContentLoaded', () => {
+    await p.addInitScript(() => {
+      // These maintained fixtures protect the original direct connection.
+      // Managed fixtures use their own browser contexts and the real service.
+      try { localStorage.setItem('cabin-drive-mode', 'direct'); } catch {}
+      document.addEventListener('DOMContentLoaded', () => {
       if (!window.__testClosedDisclosures)
         for (const d of document.querySelectorAll('details')) d.open = true;
-    }));
+      });
+    });
     return p;
   };
   let checks = 0;
@@ -3590,6 +3599,7 @@ async function mock(
     await require("./settings-comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./offline-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await require("./weekly-sync-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./managed-connection-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

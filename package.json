@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "wrangler": "4.156.0"
+  },
   "scripts": {
     "test": "node --test tests/*.test.mjs && npm run check:sources",
     "start": "node serve.mjs",

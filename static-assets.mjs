@@ -4,6 +4,8 @@ export const STATIC_ASSETS = Object.freeze([
   "rewards.js", "rewards-panel.js",
   "backup-outbox.js",
   "thought-drafts.js",
+  "managed-drive.js", "pair-return.js",
+  "connection/managed-state.js", "connection/managed-intents.js", "connection/edit-journal.js",
   "index.html", "voice-check.html", "feedback.js", "feedback-panel.js", "voice.js",
   "style.css",
   "app.js", "home-panel.js", "settings-panel.js", "compact-panels.js",
