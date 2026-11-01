@@ -2823,7 +2823,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false);
       await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
@@ -2959,7 +2959,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false, night ? { practised: true, headPointer: true } : undefined);
       if (!night)
         // Test data only: a day with stored picks, to show titles on the card.
@@ -3450,7 +3450,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false);
       await p.addInitScript(() => localStorage.setItem("cabin-google-client", "test-client.apps.googleusercontent.com"));
       const today = {
@@ -3543,7 +3543,7 @@ async function mock(
       if ((await p.locator("#page").getAttribute("data-view")) === "menu") await p.evaluate(() => __hold());
       const before = await exportReading("before-midnight.json");
       assert.match(before.work, /^today-2026-10-28-/);
-      await p.clock.setFixedTime(new Date(2026, 9, 29, 0, 0, 5));
+      await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
       // Any repaint after midnight (here: opening and closing the menu).
       await p.evaluate(() => __hold());
       await p.evaluate(() => __hold());

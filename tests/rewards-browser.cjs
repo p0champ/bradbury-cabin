@@ -10,7 +10,7 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
  async function setup({reduce=false,multiple=false,failSave=false}={}){
   const p=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});
-  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date(2026,10,2,20));
+  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date('2026-11-02T20:00:00+01:00'));
   await p.addInitScript(({works,date,multiple,C,failSave})=>{
    if(!sessionStorage.getItem('rewards-seeded')){
     const days={};for(let i=26;i<=31;i++)days[`2026-10-${i}`]={poem:true,story:true,essay:true};

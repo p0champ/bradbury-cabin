@@ -20,7 +20,7 @@ module.exports = async function readingContinuityChecks(browser, { mock, BASE_UR
   };
   async function open({ selected = null, read = [], foreign = false, failSave = false, set = works, extraSaved = [] } = {}) {
     const p = await browser.newPage();
-    await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
     await mock(p, 'layer', false, { practised: true, headPointer: false, visits: 4 });
     await p.addInitScript(({ set, selected, read, foreign, today, place, failSave, extraSaved }) => {
       const ids = Object.fromEntries(set.map(w => [w.kind, w.id]));

@@ -20,7 +20,7 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
     CanvasRenderingContext2D.prototype.clearRect = function (...a) { if (isWatch(this.canvas) && a[2] === 512) __watchText = []; return clear.call(this, ...a); };
     CanvasRenderingContext2D.prototype.fillText = function (t, ...a) { if (isWatch(this.canvas)) __watchText.push(String(t)); return fill.call(this, t, ...a); };
   }, works.map(({ id, kind }) => ({ id, kind })));
-  await p.clock.setFixedTime(new Date(2026, 9, 29, 21, 47));
+  await p.clock.setFixedTime(new Date('2026-10-29T21:47:00+01:00'));
   await p.goto(BASE_URL); await p.locator('#enter').click();
   await p.evaluate(() => __center());
   const r = await p.evaluate(() => {

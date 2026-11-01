@@ -8,7 +8,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
  const crop=async(p,name)=>{const box=await p.locator('#page').boundingBox(),r=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.activeBounds));await p.screenshot({path:path.join(out,name),fullPage:true,clip:{x:box.x+r.x/2048*box.width,y:box.y+r.y/2560*box.height,width:r.w/2048*box.width,height:r.h/2560*box.height}});};
  for(const lying of [false,true])for(const reduce of [false,true]){
   const p=await browser.newPage();const errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});await p.clock.setFixedTime(new Date(2026,9,29,20));
+  await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
   await mock(p,'layer',lying,{practised:true,headPointer:false,visits:4});
   await p.addInitScript(works=>{localStorage.setItem('cabin-today',JSON.stringify({version:2,date:'2026-10-29',picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id}]))}));window.__coherentText=[];const fill=CanvasRenderingContext2D.prototype.fillText,clear=CanvasRenderingContext2D.prototype.clearRect;CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.id==='page')__coherentText=[];return clear.call(this,...a);};CanvasRenderingContext2D.prototype.fillText=function(t,...a){if(this.canvas.id==='page')__coherentText.push({text:String(t),font:this.font});return fill.call(this,t,...a);};},works.map(w=>({id:w.id,kind:w.kind})));
   await p.goto(BASE_URL);await p.locator('#enter').click();await p.evaluate(()=>{__step();__pinch();__step(240);__finishArrival();});
@@ -55,7 +55,7 @@ module.exports=async function coherentChecks(browser,{mock,BASE_URL,out,passed})
  const longest=[...SOURCE_CATALOGUE].sort((a,b)=>b.title.length-a.title.length)[0];
  const savedId=`today-2026-10-28-${longest.kind}-${longest.id}`,seed=seedProgress('2026-10-29');
  seed.days['2026-10-28']={...seed.days['2026-10-28'],ids:{[longest.kind]:longest.id},picks:{[longest.kind]:`${longest.title} — ${longest.author}`,story:'Unmatched imported story label '.repeat(45)}};
- const p=await browser.newPage();await p.clock.setFixedTime(new Date(2026,9,29,20));await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});
+ const p=await browser.newPage();await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});
  await p.addInitScript(({seed,savedId,works})=>{
   localStorage.setItem('cabin-progress',JSON.stringify(seed));localStorage.setItem('cabin-reading',JSON.stringify({last:savedId,places:{[savedId]:{anchor:{block:0,word:0,section:'text'},page:0}}}));
   localStorage.setItem('cabin-today',JSON.stringify({version:2,date:'2026-10-29',picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id}]))}));

@@ -31,7 +31,7 @@ module.exports = async function archiveChecks(browser, { mock, BASE_URL, out, pa
   for (const lying of [false, true]) {
     const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }), errors = [];
     p.on('pageerror', e => errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20)); await mock(p,'layer',lying);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00')); await mock(p,'layer',lying);
     const id = `today-2026-10-27-poem-${originals[0].id}`;
     await seed(p, base(), picksFor('2026-10-27'), id);
     await p.goto(BASE_URL);
@@ -58,7 +58,7 @@ module.exports = async function archiveChecks(browser, { mock, BASE_URL, out, pa
     const p = await browser.newPage(), progress = base(), date = '2026-10-28';
     rememberGuides(progress, date, originals.map(w => ({ ...w, catalogueId: w.id, guide })));
     const id = `today-${date}-poem-${originals[0].id}`;
-    await p.clock.setFixedTime(new Date(2026,9,28,20)); await mock(p,'layer',false);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00')); await mock(p,'layer',false);
     await seed(p, progress, picksFor(date, false), id);
     await p.goto(BASE_URL);
     await p.waitForFunction(() => document.querySelector('#page').dataset.section === 'before');
@@ -71,7 +71,7 @@ module.exports = async function archiveChecks(browser, { mock, BASE_URL, out, pa
     p.on('pageerror', e => errors.push(e.message));
     progress.days['2026-10-27'] = { ids: Object.fromEntries(originals.map(w => [w.kind,w.id])), picks: Object.fromEntries(originals.map(w => [w.kind,`${w.title} — ${w.author}`])), story: true };
     const id = `today-2026-10-27-poem-${originals[0].id}`;
-    await p.clock.setFixedTime(new Date(2026,9,28,20)); await mock(p,'layer',false); await seed(p,progress,null,id);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00')); await mock(p,'layer',false); await seed(p,progress,null,id);
     await p.route('https://accounts.google.com/gsi/client', r => r.fulfill({ contentType:'text/javascript', body:`window.google={accounts:{oauth2:{initTokenClient:o=>({requestAccessToken:()=>o.callback({access_token:'fake-token',expires_in:3600})})}}};` }));
     await p.route('https://www.googleapis.com/**', async r => {
       const u = decodeURIComponent(r.request().url()), json = x => r.fulfill({contentType:'application/json',body:JSON.stringify(x)});

@@ -13,7 +13,7 @@ module.exports = async function finishNextChecks(browser, { mock, BASE_URL, out,
   const today = '2026-10-29';
   const p = await browser.newPage({viewport:{width:1440,height:1100}}), errors=[];
   p.on('pageerror',e=>errors.push(e.message));
-  await p.clock.setFixedTime(new Date(2026,9,29,20));
+  await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
   await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});
   await p.addInitScript(({works,today}) => {
     if(!sessionStorage.getItem('finish-next-seeded')) {

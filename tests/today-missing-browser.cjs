@@ -12,7 +12,7 @@ module.exports = async (browser,{mock,BASE_URL,out,passed}) => {
     '2026-10-28':{poem:true,ids:{poem:poem.id,story:story.id,essay:essay.id},
       picks:{poem:`${poem.title} — ${poem.author}`,story:`${story.title} — ${story.author}`,essay:`${essay.title} — ${essay.author}`}}}};
   const p=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.clock.setFixedTime(new Date(2026,9,29,20));
+  await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
   await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});
   await p.addInitScript(pr=>{
     if(!sessionStorage.getItem('missing-fixture')){localStorage.setItem('cabin-progress',pr);sessionStorage.setItem('missing-fixture','1');}

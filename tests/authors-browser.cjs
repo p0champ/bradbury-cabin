@@ -14,7 +14,7 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     const lying = i % 2 === 1;
     const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }), errors = [];
     p.on('pageerror', e => errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026, 9, 28, 20));
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
     await mock(p, 'layer', lying, { practised: true, headPointer: true, size: 2 });
     const picks = { version: 2, date: '2026-10-28', picks: {} };
     for (const kind of ['poem', 'story', 'essay']) {

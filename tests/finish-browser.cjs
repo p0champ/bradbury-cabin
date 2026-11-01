@@ -11,7 +11,7 @@ module.exports = async function finishChecks(browser, { mock, BASE_URL, passed }
   for (const origin of ['today','library','archive']) {
     const p = await browser.newPage(), errors=[];
     p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,29,20));
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
     await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});
     const assignedWorks=origin==='archive' ? works.map(w=>w.kind==='poem' ? SOURCE_CATALOGUE.find(x=>x.kind==='poem'&&x.id!==tiger.id&&!['blake-sick-rose','whitman-astronomer','whitman-captain'].includes(x.id)) : w) : works;
     await p.addInitScript(({works,today,past,tiger,origin}) => {

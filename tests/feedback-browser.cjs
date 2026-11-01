@@ -9,7 +9,7 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
  const target=(p,id)=>p.evaluate(async id=>{await __aim(id,true);__pinch();__step(800);},id);
  async function setup(voice=false){
   const p=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date(2026,9,30,20));
+  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date('2026-10-30T20:00:00+01:00'));
   await p.addInitScript(({works,date,voice})=>{
    if(!sessionStorage.getItem('feedback-seeded')){
     localStorage.setItem('cabin-today',JSON.stringify({version:2,date,picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id,selection:{mode:'explore'}}]))}));

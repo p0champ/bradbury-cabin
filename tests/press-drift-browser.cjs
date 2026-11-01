@@ -12,7 +12,7 @@ module.exports = async function pressDriftChecks(browser, { mock, BASE_URL, pass
     if (foreignResume) {
       // Exercise the adjacent Resume/Notes rows using the real three-work Home.
       // Empty Home now has a taller Begin card and a deliberate empty gap.
-      await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+      await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
       const excluded = new Set(['blake-sick-rose', 'whitman-astronomer', 'whitman-captain', 'ohenry-magi', 'chopin-desiree', 'bacon-studies', 'bacon-truth']);
       const works = ['poem', 'story', 'essay'].map(kind => SOURCE_CATALOGUE.find(w => w.kind === kind && !excluded.has(w.id)));
       const foreign = SOURCE_CATALOGUE.find(w => w.kind === 'poem' && w.id !== works[0].id && !excluded.has(w.id));

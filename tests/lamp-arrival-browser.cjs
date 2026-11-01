@@ -14,7 +14,7 @@ module.exports = async function lampArrivalChecks(browser, { mock, BASE_URL, out
     await p.emulateMedia({ reducedMotion: reduce ? 'reduce' : 'no-preference' });
     await mock(p, 'layer', lying, { practised: true, headPointer: false, visits: 4 });
     await p.addInitScript(w => localStorage.setItem('cabin-today', JSON.stringify({ version: 2, date: '2026-10-29', picks: Object.fromEntries(w.map(x => [x.kind, { catalogueId: x.id }])) })), works.map(({ id, kind }) => ({ id, kind })));
-    await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => {
       const P = WebGL2RenderingContext.prototype;
