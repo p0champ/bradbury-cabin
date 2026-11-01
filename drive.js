@@ -62,8 +62,9 @@ export function preloadGoogle() {
   return loadScript("https://accounts.google.com/gsi/client").catch(() => {});
 }
 export class DriveLink {
-  constructor({ clientId, fetchFn = (...a) => fetch(...a), storage = sessionStorage } = {}) {
+  constructor({ clientId, fetchFn = (...a) => fetch(...a), storage = sessionStorage, identity = false } = {}) {
     this.clientId = clientId;
+    this.identity = identity;
     this.fetch = fetchFn;
     this.storage = storage;
     this.token = null;
@@ -78,7 +79,7 @@ export class DriveLink {
       const t = JSON.parse(storage.getItem(TOKEN_KEY) || "null");
       // Older saved tokens carry no scope list: drop them so the next tap
       // checks the permissions properly.
-      if (t && t.expires > Date.now() + 60000 && t.read === true)
+      if (t && t.expires > Date.now() + 60000 && t.read === true && (!identity || t.identity === true))
         Object.assign(this, { token: t.token, expires: t.expires });
     } catch {}
   }
@@ -95,7 +96,7 @@ export class DriveLink {
     const response = await new Promise((resolve, reject) => {
       const client = oauth2.initTokenClient({
         client_id: this.clientId,
-        scope: SCOPES,
+        scope: SCOPES + (this.identity ? ' openid email' : ''),
         callback: (r) => (r.error ? reject(Error(DRIVE_NOTES.signInClosed)) : resolve(r)),
         error_callback: () => reject(Error(DRIVE_NOTES.signInClosed)),
       });
@@ -107,10 +108,11 @@ export class DriveLink {
     const granted = String(response.scope || SCOPES).split(" ");
     this.needsReadScope = !granted.includes("https://www.googleapis.com/auth/drive.readonly");
     if (this.needsReadScope) throw Error(READ_SCOPE_MISSING);
+    if (this.identity && !granted.includes('https://www.googleapis.com/auth/drive.file')) throw Error('Google did not allow the backup files. Your readings are kept; tap Sync with Drive and allow both Drive permissions');
     this.token = response.access_token;
     this.expires = Date.now() + (Number(response.expires_in) || 3600) * 1000;
     try {
-      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires, read: true }));
+      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires, read: true, ...(this.identity ? { identity: true } : {}) }));
     } catch {}
   }
   signOut() {

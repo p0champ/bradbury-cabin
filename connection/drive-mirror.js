@@ -45,7 +45,7 @@ export class DriveMirror {
       const saved = await this.snapshots.read();
       if (!saved) { await this.storage.deleteAlarm(); return; }
       if (!this.conditionalReady) throw hold('The lasting Google connection still needs its final setup; your private progress is kept');
-      const text = this.publish(saved.text), checksum = await digest(text);
+      const text = await this.publish(saved.text), checksum = await digest(text);
       const version = await this.files.readProgressVersion();
       if (version) {
         let parsed; try { parsed = JSON.parse(version.raw); } catch {}

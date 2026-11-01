@@ -8,6 +8,7 @@ import { missingGuideKinds, rememberGuides } from './guide-archive.js?v=57';
 
 export const CONNECTION_KEY = 'cabin-connection';
 export const CONNECTION_DEVICE_KEY = 'cabin-connection-device';
+export const CONNECTION_OWNER_KEY = 'cabin-connection-owner';
 export const CONNECTION_RESULT_KEY = 'cabin-connection-result';
 export const CONNECTION_PAIR_KEY = 'cabin-connection-pair';
 export const DRIVE_MODE_KEY = 'cabin-drive-mode';
@@ -40,11 +41,12 @@ async function readJSON(response) {
   for (const part of parts) { bytes.set(part, offset); offset += part.byteLength; }
   try { const value = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); if (!plain(value) && value !== null) throw error(); return value; } catch { throw error(); }
 }
-async function requestJSON(fetchFn, url, { body, connection } = {}) {
+async function requestJSON(fetchFn, url, { body, connection, timeout = 20000 } = {}) {
   let response;
-  try { response = await fetchFn(url, { method: body === undefined ? 'GET' : 'POST', redirect: 'error', credentials: 'omit', referrerPolicy: 'no-referrer', signal: AbortSignal.timeout(20000), headers: { ...(body === undefined ? {} : { 'Content-Type': 'application/json' }), ...(connection ? { Authorization: `Bearer ${connection}` } : {}) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) }); }
+  try { response = await fetchFn(url, { method: body === undefined ? 'GET' : 'POST', redirect: 'error', credentials: 'omit', referrerPolicy: 'no-referrer', signal: AbortSignal.timeout(timeout), headers: { ...(body === undefined ? {} : { 'Content-Type': 'application/json' }), ...(connection ? { Authorization: `Bearer ${connection}` } : {}) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) }); }
   catch { throw error(); }
-  const value = await readJSON(response);
+  let value;
+  try { value = await readJSON(response); } catch { throw error(); }
   if (!response.ok) throw error(safeCodes.has(value?.code) && typeof value.message === 'string' ? value.message : unavailable, safeCodes.has(value?.code) ? value.code : 'unavailable', response.status);
   return value;
 }
@@ -61,6 +63,10 @@ export async function finishConnectionReturn({ url, storage = localStorage, sess
     if (!pattern.test(pending?.code || '') || !Number.isFinite(pending.until) || pending.until <= Date.now()) throw error('This connection link expired. Tap Sync with Drive again in the other cabin tab.');
     const paired = await requestJSON(fetchFn, new URL('pair', endpoint(url)).href, { body: { code: pending.code, device: deviceIdentity(storage) } });
     if (!pattern.test(paired?.token || '')) throw error();
+    if (paired.ownerSubject !== undefined) {
+      if (!/^[A-Za-z0-9_-]{1,255}$/.test(paired.ownerSubject)) throw error();
+      storage.setItem(CONNECTION_OWNER_KEY, paired.ownerSubject);
+    }
     storage.setItem(CONNECTION_KEY, paired.token); session.removeItem(CONNECTION_PAIR_KEY);
     return result(true, 'The cabin is connected. You can close this tab and return to your reading.');
   } catch (failure) { return result(false, safeCodes.has(failure?.code) ? failure.message : unavailable); }
@@ -69,7 +75,8 @@ export async function finishConnectionReturn({ url, storage = localStorage, sess
 export class ManagedLink {
   constructor({ url, journal, storage = localStorage, fetchFn = (...args) => fetch(...args), windowObject = globalThis.window } = {}) {
     this.isManaged = true; this.url = url; this.journal = journal; this.storage = storage; this.fetch = fetchFn; this.window = windowObject;
-    this.token = null; this.status = null; this.lastCheck = null; this.needsReconnect = false;
+    this.token = null; this.status = null; this.lastCheck = null; this.needsReconnect = false; this.unavailable = false; this.ownerSubject = null;
+    try { const owner = storage.getItem(CONNECTION_OWNER_KEY); if (/^[A-Za-z0-9_-]{1,255}$/.test(owner || '')) this.ownerSubject = owner; } catch {}
     try { this.refreshConnection(); } catch {}
   }
   refreshConnection() { const token = this.storage.getItem(CONNECTION_KEY); this.token = pattern.test(token || '') ? token : null; }
@@ -77,7 +84,7 @@ export class ManagedLink {
   initialise(snapshot, ownership) {
     if (!this.journal) return;
     const existing = !!this.journal.record; this.journal.initialise(snapshot);
-    if (!existing) this.journal.persist({ ...this.journal.record, ownership: { controls: !!ownership?.controls, reading: !!ownership?.reading }, initialClaimed: false, joined: false });
+    if (!existing) this.journal.persist({ ...this.journal.record, ownership: { controls: !!ownership?.controls, reading: !!ownership?.reading, progress: ownership?.progress !== false }, initialClaimed: false, joined: false });
   }
   captureLocal(snapshot) {
     if (!this.journal?.record) throw error('The saved connection needs recovery. ' + kept, 'recovery');
@@ -94,9 +101,10 @@ export class ManagedLink {
   prepareBackupText(text, check = this.lastCheck) { return withPickerContract(text, check); }
   async api(path, options = {}) {
     if (!this.connected) throw error('Connect the cabin again. ' + kept, 'connection', 401);
-    try { return await requestJSON(this.fetch, new URL(path, endpoint(this.url)).href, { ...options, connection: this.token }); }
+    try { const reply = await requestJSON(this.fetch, new URL(path, endpoint(this.url)).href, { ...options, connection: this.token }); this.unavailable = false; return reply; }
     catch (failure) {
       if (failure.code === 'google_reconnect') this.needsReconnect = true;
+      if (failure.code === 'unavailable' || failure.code === 'busy') this.unavailable = true;
       if (failure.status === 401 && failure.code === 'connection') { this.token = null; try { this.storage.removeItem(CONNECTION_KEY); } catch {} }
       throw failure;
     }
@@ -105,8 +113,17 @@ export class ManagedLink {
     if (!this.window?.open) throw error("Google sign-in couldn't open. " + kept, 'signin');
     deviceIdentity(this.storage);
     const previous = this.token, started = Date.now();
-    const popup = this.window.open(new URL('auth/begin?' + new URLSearchParams({ return: this.window.location.origin + this.window.location.pathname }), endpoint(this.url)).href, 'cabin-connection', 'popup,width=500,height=680');
+    const destination = new URL('auth/begin?' + new URLSearchParams({ return: this.window.location.origin + this.window.location.pathname }), endpoint(this.url)).href;
+    const popup = this.window.open('about:blank', 'cabin-connection', 'popup,width=500,height=680');
     if (!popup) throw error("Google sign-in couldn't open. " + kept, 'signin');
+    try {
+      const ready = await requestJSON(this.fetch, new URL('health', endpoint(this.url)).href, { timeout: 8000 });
+      if (ready?.ready !== true || popup.closed) throw error();
+      popup.location.href = destination;
+    } catch {
+      this.unavailable = true; try { popup.close(); } catch {}
+      throw error('The automatic connection is resting. Tap Sync with Drive to try the Google backup. ' + kept);
+    }
     await new Promise((resolve, reject) => {
       let poll, timeout;
       const done = failure => { clearInterval(poll); clearTimeout(timeout); this.window.removeEventListener('storage', inspect); failure ? reject(failure) : resolve(); };
@@ -124,27 +141,47 @@ export class ManagedLink {
   acceptStatus(reply) {
     if (!plain(reply) || !(reply.state === null || validProgress(reply.state)) || !sequence(reply.revision) || !sequence(reply.baselineRevision) || reply.baselineRevision > reply.revision || !sequence(reply.sequence) || (reply.state === null && reply.revision !== 0) || typeof reply.driveCurrent !== 'boolean') throw error('The private backup needs recovery; your readings are kept.', 'recovery');
     if ('googleReconnect' in reply && typeof reply.googleReconnect !== 'boolean') throw error();
+    if ('ownerSubject' in reply && reply.ownerSubject !== null) {
+      if (!/^[A-Za-z0-9_-]{1,255}$/.test(reply.ownerSubject)) throw error();
+      this.ownerSubject = reply.ownerSubject;
+      try { if (this.storage.getItem(CONNECTION_OWNER_KEY) !== reply.ownerSubject) this.storage.setItem(CONNECTION_OWNER_KEY, reply.ownerSubject); } catch {}
+    }
     this.status = reply; this.needsReconnect = reply.googleReconnect === true; return reply;
   }
   async read(name) { if (name !== 'progress.json') throw error(); const reply = this.acceptStatus(await this.api('state')); return reply.state === null ? null : JSON.stringify(reply.state); }
   async refreshStatus() { return this.acceptStatus(await this.api('state')); }
   mergeForLocal(local, remote) {
     const record = this.captureLocal(local);
-    if (!record.joined && !this.status?.baselineRevision) {
+    if (!record.joined && !this.status?.baselineRevision && record.ownership?.progress !== false) {
       const initial = mergeManagedState(local, remote, null, mergeProgress);
       return mergeWithIntents(initial, initial, record.pending, 0, mergeProgress).state;
     }
     return mergeWithIntents(local, remote, record.pending, this.status?.sequence ?? 0, mergeProgress).state;
   }
-  async writeProgress(payload, { requestId } = {}) {
+  mergeFallbackForLocal(local, remote) {
+    const record = this.captureLocal(local);
+    if (!record.joined && record.ownership?.progress === false) return mergeWithIntents(local, remote, record.pending, 0, mergeProgress).state;
+    return mergeManagedState(local, remote, record.joined ? remote : null, mergeProgress);
+  }
+  freezeEnvelope(payload, requestId) {
     const snapshot = JSON.parse(payload); if (!validProgress(snapshot) || !requestId) throw error('The complete backup needs recovery. ' + kept, 'recovery');
     this.captureLocal(snapshot);
     let envelope = this.journal.record.envelope;
-    if (envelope?.id !== requestId) envelope = this.journal.persist({ ...this.journal.record, envelope: { id: requestId, sequence: this.journal.record.sequence, operations: structuredClone(this.journal.record.pending) } }).envelope;
+    if (envelope?.id !== requestId) envelope = this.journal.persist({ ...this.journal.record, envelope: { id: requestId, sequence: this.journal.record.sequence, operations: structuredClone(this.journal.record.pending), bootstrap: this.journal.record.ownership?.progress !== false } }).envelope;
+    return { snapshot, envelope };
+  }
+  async prepareRecovery(queued) {
+    const { envelope } = this.freezeEnvelope(queued.payload, queued.id);
+    const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(deviceIdentity(this.storage)));
+    const device = [...new Uint8Array(bytes)].map(value => value.toString(16).padStart(2, '0')).join('');
+    return { version: 1, device, requestId: queued.id, payload: queued.payload, sequence: envelope.sequence, operations: structuredClone(envelope.operations), bootstrap: envelope.bootstrap ?? true };
+  }
+  async writeProgress(payload, { requestId } = {}) {
+    const { snapshot, envelope } = this.freezeEnvelope(payload, requestId);
     for (let attempt = 0; attempt < 3; attempt++) {
       if (!this.status || attempt) this.acceptStatus(await this.api('state'));
       try {
-        const reply = this.acceptStatus(await this.api('backup', { body: { requestId, state: snapshot, sequence: envelope.sequence, operations: envelope.operations, revision: this.status.revision, baselineRevision: this.status.baselineRevision } }));
+        const reply = this.acceptStatus(await this.api('backup', { body: { requestId, state: snapshot, sequence: envelope.sequence, operations: envelope.operations, bootstrap: envelope.bootstrap ?? true, revision: this.status.revision, baselineRevision: this.status.baselineRevision } }));
         if (reply.receipt?.id !== requestId || reply.receipt.sequence !== envelope.sequence || !sequence(reply.receipt.revision) || reply.receipt.revision > reply.revision) throw error();
         return reply;
       } catch (failure) { if (failure.code !== 'conflict' || attempt === 2) throw failure; }

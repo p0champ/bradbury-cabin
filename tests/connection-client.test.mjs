@@ -23,6 +23,21 @@ class PrivateStorage {
   async transaction(fn) { const tx = new PrivateStorage(); tx.data = structuredClone(this.data); tx.alarm = this.alarm; const result = await fn(tx); this.data = tx.data; this.alarm = tx.alarm; return result; }
 }
 const token = 't'.repeat(43), device = 'a'.repeat(64);
+test('interrupted JSON bodies arm the calm fallback without exposing stream errors or revoking the private connection', async () => {
+  for (const reason of [new TypeError('fixture private stream detail'), new DOMException('fixture private stream detail', 'AbortError')]) {
+    const storage = new LocalStorage(); storage.setItem(CONNECTION_KEY, token);
+    const client = new ManagedLink({ url: 'https://connection.example/', storage, fetchFn: async () => {
+      let sent = false;
+      return new Response(new ReadableStream({ pull(controller) {
+        if (!sent) { sent = true; controller.enqueue(new TextEncoder().encode('{"state":')); }
+        else controller.error(reason);
+      } }), { headers: { 'Content-Type': 'application/json' } });
+    } });
+    await assert.rejects(client.read('progress.json'), failure => failure.code === 'unavailable' && failure.message.includes('kept') && !failure.message.includes('private stream detail'));
+    assert.equal(client.unavailable, true); assert.equal(client.connected, true);
+    assert.equal(storage.getItem(CONNECTION_KEY), token);
+  }
+});
 const original = () => ({ version: 1, start: '2026-10-18', trackingSince: '2026-10-31', days: { '2026-10-31': { poem: true, story: false, essay: false } }, weeks: {}, savedAt: '2026-10-31T12:00:00Z', headset: { controls: { night: false }, reading: { last: 'the-raven', places: {} } } });
 const fixture = (initial = original(), remote = original(), ownership = { controls: true, reading: true }) => {
   const storage = new LocalStorage(); storage.setItem(CONNECTION_KEY, token); storage.setItem('cabin-progress', JSON.stringify(initial));

@@ -175,14 +175,20 @@ module.exports = async (browser, { mock, BASE_URL, passed }) => {
       await popup.locator('#allow').click({ noWaitAfter: true }).catch(error => { if (!popup.isClosed()) throw error; });
       await page.locator('#check:not([disabled])').click();
       await page.waitForFunction(() => document.querySelector('#status').textContent.includes('Your complete backup was read'));
+      assert.equal(fixture.writes.length,0,'the disposable probe must leave the real progress file untouched');
+      await page.locator('#fallback:not([disabled])').click();
+      for(let attempt=0;attempt<100&&!fixture.recoveryFiles().length;attempt++)await page.waitForTimeout(50);
+      assert.equal(fixture.recoveryFiles().length,1);await fixture.mirror(await page.evaluate(()=>localStorage.getItem('cabin-connection')));
+      await page.waitForFunction(() => document.querySelector('#status').textContent.includes('Your reading data matches'));
+      assert.equal(fixture.recoveryFiles().length,1);
       const download = page.waitForEvent('download'); await page.locator('#download').click();
       const exported = await fs.readFile(await (await download).path(), 'utf8');
       const privateCopy = await fixture.state(await page.evaluate(() => localStorage.getItem('cabin-connection')));
       assert.deepEqual(JSON.parse(exported), privateCopy.state);
-      assert.equal(JSON.parse(exported).version, 1); assert.equal(exported.includes('fixture-refresh'), false); assert.equal(fixture.writes.length, 0);
+      assert.equal(JSON.parse(exported).version, 1); assert.equal(exported.includes('fixture-refresh'), false); assert.ok(fixture.writes.length>0,'the real main backup must also pass checked publication');
       await page.locator('#disconnect').click(); await page.waitForFunction(() => document.querySelector('#status').textContent.includes('This setup page is disconnected'));
       assert.equal(await page.evaluate(() => localStorage.getItem('cabin-connection')), null); assert.equal(await page.locator('#download').isDisabled(), true); assert.deepEqual(errors, []);
-      passed('managed connection: the local owner setup renews Google, checks a disposable file, downloads the complete private backup and revokes only its own setup access');
+      passed('managed connection: the local owner setup renews Google, checks a disposable file and the complete direct safety backup, downloads the private backup and revokes only its own setup access');
     } finally { if (popup && !popup.isClosed()) await popup.close(); await context.close(); await fixture.dispose(); server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
   }
   assert.equal(contexts.length, 0);

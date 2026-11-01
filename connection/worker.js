@@ -9,6 +9,8 @@ import { ConnectionService } from './connection-service.js';
 import { createOwnerDrive } from './owner-drive.js';
 import { DriveMirror } from './drive-mirror.js';
 import { digest } from './connection-crypto.js';
+import { importRecoveryCopies } from './import-recovery.js';
+import { checkedCursor } from './recovery-protocol.js';
 export class CabinOwner {
   constructor(ctx, env) {
     this.storage = ctx.storage; this.env = env; this.queue = Promise.resolve();
@@ -20,19 +22,38 @@ export class CabinOwner {
     return new BackupCoordinator(this.storage, {
       validate: validProgress, mergeProgress, dayKey: berlinDateKey,
       readInitial: async () => {
-        const version = await files.readProgressVersion(); if (!version) return null;
+        const version = await files.readProgressVersion();
+        if (!version) {
+          if (await this.storage.get('driveMirrorHead')) throw Object.assign(Error('The earlier Google backup is missing; your readings are kept'), { code: 'recovery', status: 409 });
+          return null;
+        }
         let value; try { value = JSON.parse(version.raw); } catch {}
         if (!validProgress(value)) throw Object.assign(Error('The Drive backup needs recovery; it has been left untouched'), { code: 'recovery', status: 409 });
+        const cursor = checkedCursor(value.cabinRecoveryCursor);
         // No private snapshot exists yet. This records the exact external
         // starting copy; normal later reads never replace private progress.
         await this.storage.put('driveMirrorHead', { id: version.id, etag: version.etag, digest: await digest(version.raw) });
+        if (cursor && !await this.storage.get('recoveryCursor')) await this.storage.put('recoveryCursor', cursor);
         return version.raw;
       }
     });
   }
+  async recover(files, backups, force = false) {
+    try { await importRecoveryCopies(this.storage, files, backups, { force }); }
+    catch {
+      await this.storage.put('recoveryProblem', { code: 'unavailable', message: 'Google could not be fully checked just now; your private progress is kept and will retry' });
+    }
+  }
   fetch(request) {
     return this.exclusive(async () => {
       const files = this.files(), backups = this.backups(files);
+      const path = new URL(request.url).pathname;
+      if (['/state', '/backup'].includes(path)) {
+        const origin = request.headers.get('Origin'); let authorised = false;
+        try { if (!origin || this.authority.google.config.origins.has(origin)) { await this.authority.authenticate(request.headers.get('Authorization')); authorised = true; } } catch {}
+        // Let the service retain its normal, checked 401/403 response.
+        if (authorised) await this.recover(files, backups, path === '/backup');
+      }
       const verifyConnection = async () => {
         // Exercise the encrypted renewal grant, rather than a cached access
         // token, before the owner enables the connection.
@@ -51,8 +72,13 @@ export class CabinOwner {
   alarm() {
     return this.exclusive(async () => {
       const files = this.files(), backups = this.backups(files), [verified, grant] = await Promise.all(['conditionalVerified', 'googleGrant'].map(key => this.storage.get(key)));
+      await this.recover(files, backups, true);
       const conditionalReady = verified?.client === this.env.GOOGLE_CLIENT_ID && verified?.subject === grant?.subject;
-      await new DriveMirror(this.storage, backups.snapshots, files, { conditionalReady, publish: text => withPickerContract(text, JSON.parse(text).cabinPickerInstructions?.lastCheck ?? null) }).run();
+      await new DriveMirror(this.storage, backups.snapshots, files, { conditionalReady, publish: async text => {
+        const value = JSON.parse(withPickerContract(text, JSON.parse(text).cabinPickerInstructions?.lastCheck ?? null));
+        value.cabinRecoveryCursor = checkedCursor(await this.storage.get('recoveryCursor'));
+        return JSON.stringify(value);
+      } }).run();
     });
   }
 }

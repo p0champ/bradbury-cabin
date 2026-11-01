@@ -1,5 +1,6 @@
 // Connection: the existing manual Claude folder, reached with server-only
 // Google authorization. No reader token can make an arbitrary Google call.
+import { MAX_RECOVERY_BYTES, recoveryQuery } from './recovery-protocol.js';
 const API = 'https://www.googleapis.com/drive/v3';
 const UPLOAD = 'https://www.googleapis.com/upload/drive/v3';
 const MAX_BACKUP = 8000000, MAX_PICK = 1500000;
@@ -23,7 +24,7 @@ export function createOwnerDrive(DriveLink, authority, { fetchFn = (...args) => 
   return new class extends DriveLink {
     constructor() { super({ storage: { getItem: () => null } }); this.requests = 0; this.started = Date.now(); }
     get connected() { return true; }
-    async call(url, init = {}) {
+    async call(url, init = {}, limit = MAX_BACKUP) {
       if (typeof url !== 'string' || !(url.startsWith(API + '/') || url.startsWith(UPLOAD + '/'))) throw fault('That file is outside the Cabin connection');
       const attempt = async () => {
         if (++this.requests > 45) throw fault('The connection is busy; your readings are kept and will retry');
@@ -40,10 +41,19 @@ export function createOwnerDrive(DriveLink, authority, { fetchFn = (...args) => 
         await response.body?.cancel(); authority.accessInfo = null; response = await attempt();
       }
       if (!response.ok) { const status = response.status; await response.body?.cancel(); throw fault('Google did not finish this request; your readings are kept', status); }
-      try { return await bounded(response, MAX_BACKUP); }
+      try { return await bounded(response, limit); }
       catch { throw fault('Google gave an incomplete or oversized file; your readings are kept'); }
     }
     listFiles(query, fields, order = 'createdTime desc') { return super.listFiles(query, fields, order, 1000); }
+    async listRecovery(cursor) {
+      const folder = await this.folder(); if (!folder) return [];
+      return (await this.listFiles(`'${folder}' in parents and trashed = false and name contains 'cabin-recovery-'${recoveryQuery(cursor)}`, 'id,name,size,createdTime', 'createdTime asc'))
+        .filter(file => /^cabin-recovery-[a-f0-9]{64}-[A-Za-z0-9-]{8,100}\.json$/.test(file.name));
+    }
+    async readRecovery(file) {
+      if (!fileId(file?.id) || !/^cabin-recovery-[a-f0-9]{64}-[A-Za-z0-9-]{8,100}\.json$/.test(file.name) || Number(file.size) > MAX_RECOVERY_BYTES) throw fault('An earlier Google backup needs checking; your saved readings are kept');
+      return (await this.call(`${API}/files/${file.id}?alt=media`, {}, MAX_RECOVERY_BYTES)).text();
+    }
     async readPicks(day) {
       const found = await this.readPicksFor(day, raw => {
         let value; try { value = JSON.parse(raw); } catch {}

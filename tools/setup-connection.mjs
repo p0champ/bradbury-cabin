@@ -17,7 +17,7 @@ export function setupServer() {
     if (!['tools/connection-setup/index.html', 'tools/connection-setup/setup.js'].includes(name) && !allowed.has(name)) return response.writeHead(404).end();
     try {
       const body = await readFile(new URL(name, root));
-      response.writeHead(200, { 'Content-Type': name.endsWith('.html') ? 'text/html; charset=utf-8' : name.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'application/octet-stream', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': `default-src 'self'; connect-src 'self' ${new URL(CONNECTION_URL).origin}; frame-ancestors 'none'; base-uri 'none'` }); response.end(body);
+      response.writeHead(200, { 'Content-Type': name.endsWith('.html') ? 'text/html; charset=utf-8' : name.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'application/octet-stream', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': `default-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; frame-src https://accounts.google.com; connect-src 'self' ${new URL(CONNECTION_URL).origin} https://www.googleapis.com https://openidconnect.googleapis.com https://accounts.google.com; frame-ancestors 'none'; base-uri 'none'` }); response.end(body);
     } catch { response.writeHead(404).end(); }
   });
 }

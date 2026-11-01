@@ -5,6 +5,7 @@ export const STATIC_ASSETS = Object.freeze([
   "backup-outbox.js",
   "thought-drafts.js",
   "managed-drive.js", "pair-return.js",
+  "connection/google-recovery.js", "connection/recovery-protocol.js",
   "connection/managed-state.js", "connection/managed-intents.js", "connection/edit-journal.js",
   "index.html", "voice-check.html", "feedback.js", "feedback-panel.js", "voice.js",
   "style.css",

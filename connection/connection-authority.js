@@ -52,7 +52,8 @@ export class ConnectionAuthority {
       delete codes[codeDigest]; tokens[tokenDigest] = { device, created: this.now() };
       await tx.put({ pairCodes: codes, cabinTokens: tokens });
     });
-    return { token, device };
+    const grant = await this.storage.get('googleGrant');
+    return { token, device, ownerSubject: grant.subject };
   }
   async authenticate(header) {
     const match = /^Bearer ([A-Za-z0-9_-]{43})$/.exec(header || '');

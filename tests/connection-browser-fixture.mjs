@@ -21,13 +21,13 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
   const temporary = await mkdtemp(join(tmpdir(), 'cabin-browser-api-')), output = await bundled;
   const config = { SERVICE_URL: CONNECTION_URL, CABIN_URL: 'https://p0champ.github.io/bradbury-cabin/', SETUP_URL: new URL('/', returnURL).href, GOOGLE_CLIENT_ID: 'fixture-client', GOOGLE_CLIENT_SECRET: 'fixture-secret', MASTER_KEY: randomToken(), OWNER_EMAIL: 'reader@example.com' };
   const files = new Map([['P', { id: 'P', name: 'progress.json', raw: JSON.stringify(initial), revision: 1, createdTime: '2026-10-30T12:00:00Z' }]]), writes = [], requestPaths = [];
-  let reserved = 0, googleMode = 'normal', apiMode = 'normal', pause = false, held = null, loseBackup = false, todaySequence = 0, renewals = 0;
+  let reserved = 0, directProfile = 'fixture-owner', directCalls = 0, googleMode = 'normal', apiMode = 'normal', pause = false, held = null, loseBackup = false, todaySequence = 0, renewals = 0;
   const excluded = new Set([...LIBRARY.map(work => work.id), ...RESERVED_REWARD_IDS]), available = SOURCE_CATALOGUE.filter(work => !excluded.has(work.id));
   const [poem, swapPoem] = available.filter(work => work.kind === 'poem'), story = available.find(work => work.kind === 'story'), essay = available.find(work => work.kind === 'essay');
   const googleFetch = async request => {
     const url = new URL(request.url);
     if (url.hostname === 'oauth2.googleapis.com') { if (new URLSearchParams(await request.text()).get('grant_type') === 'refresh_token') renewals++; return Response.json({ access_token: 'fixture-access', refresh_token: 'fixture-refresh', token_type: 'Bearer', expires_in: 3600, scope: 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.file' }); }
-    if (url.hostname === 'openidconnect.googleapis.com') return Response.json({ email: config.OWNER_EMAIL, email_verified: true, sub: 'fixture-owner' });
+    if (url.hostname === 'openidconnect.googleapis.com') return Response.json({ email: config.OWNER_EMAIL, email_verified: true, sub: directProfile });
     if (url.hostname !== 'www.googleapis.com') throw Error('Unexpected external request in the local service fixture');
     if (googleMode !== 'normal') return new Response('<html>fixture Google limit</html>', { status: 429 });
     if (url.pathname.endsWith('/generateIds')) return Response.json({ ids: [`probe-${++reserved}`] });
@@ -35,13 +35,14 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
     if (query) {
       if (query.includes('mimeType')) return Response.json({ files: [{ id: 'F', name: 'Bradbury Cabin' }] });
       if (query.includes("name = 'progress.json'")) return Response.json({ files: [{ id: 'P', name: 'progress.json' }] });
+      if (query.includes("name contains 'cabin-recovery-'")) return Response.json({files:[...files.values()].filter(file=>file.name.startsWith('cabin-recovery-')).map(({raw,revision,...metadata})=>({...metadata,size:new TextEncoder().encode(raw).length}))});
       const day = /name contains 'picks-(\d{4}-\d{2}-\d{2})'/.exec(query)?.[1];
       return Response.json({ files: [...files.values()].filter(file => /^picks-/.test(file.name) && (!day || file.name.includes(day))).sort((a, b) => b.createdTime.localeCompare(a.createdTime)).map(({ raw, revision, ...metadata }) => ({ ...metadata, size: new TextEncoder().encode(raw).length, modifiedTime: metadata.createdTime })) });
     }
     if (request.method === 'POST') {
       const raw = await request.text(), parts = [...raw.matchAll(/\r\n\r\n({[^\r\n]+})\r\n--/g)].map(match => match[1]), metadata = JSON.parse(parts[0]);
-      if (!/^cabin-connection-check-/.test(metadata.name)) throw Error('Unexpected file creation in the local Google fixture');
-      files.set(metadata.id, { ...metadata, raw: parts[1], revision: 1 }); return Response.json({ id: metadata.id });
+      if (!/^(cabin-connection-check-|cabin-recovery-)/.test(metadata.name)) throw Error('Unexpected file creation in the local Google fixture');
+      files.set(metadata.id, { ...metadata, raw: parts[1], revision: 1, createdTime: new Date(Date.now()+reserved).toISOString() }); return Response.json({ id: metadata.id });
     }
     const id = url.pathname.split('/').at(-1), file = files.get(id); if (!file) return new Response(null, { status: 404 });
     if (request.method === 'PATCH') {
@@ -62,9 +63,9 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
     if (callback.status !== 303) throw Error('Fixture sign-in did not return');
     const code = new URLSearchParams(new URL(callback.headers.get('Location')).hash.slice(1)).get('cabin-pair'), paired = await dispatch('pair', { body: { code, device } });
     if (paired.status !== 200) throw Error('Fixture connection was not paired');
-    const token = (await paired.json()).token, probe = await dispatch('connection-check', { token, body: {} });
+    const { token, ownerSubject } = await paired.json(), probe = await dispatch('connection-check', { token, body: {} });
     if (probe.status !== 200 || !(await probe.json()).safeConditional) throw Error('The disposable compatibility probe failed');
-    return { token, device };
+    return { token, device, ownerSubject };
   }
   async function routeContext(context) {
     await context.route('https://**/*', route => route.abort());
@@ -88,7 +89,15 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
       if (path === '/backup' && loseBackup) { loseBackup = false; return route.abort(); }
       await route.fulfill({ status: response.status, headers: Object.fromEntries(response.headers), body: Buffer.from(await response.arrayBuffer()) });
     });
+    for (const origin of ['https://www.googleapis.com/**','https://openidconnect.googleapis.com/**']) await context.route(origin, async route => {
+      const request=route.request(),headers=await request.allHeaders();
+      if (headers.authorization !== 'Bearer fixture-direct-access') throw Error('A private Cabin credential must never reach Google');
+      directCalls++;
+      const response=await googleFetch(new Request(request.url(),{method:request.method(),headers,...(request.method()==='GET'?{}:{body:request.postData()})}));
+      return route.fulfill({status:response.status,headers:Object.fromEntries(response.headers),body:Buffer.from(await response.arrayBuffer())});
+    });
     await context.route('https://accounts.google.com/**', async route => {
+      if (new URL(route.request().url()).pathname === '/gsi/client') return route.fulfill({status:200,contentType:'text/javascript',body:`globalThis.google={accounts:{oauth2:{initTokenClient:options=>({requestAccessToken(){globalThis.__fixtureDirectPrompts=(globalThis.__fixtureDirectPrompts||0)+1;options.callback({access_token:'fixture-direct-access',expires_in:3600,scope:options.scope});}})}}};`});
       const requested = new URL(route.request().url()), callback = new URL(requested.searchParams.get('redirect_uri'));
       callback.searchParams.set('state', requested.searchParams.get('state')); callback.searchParams.set('code', 'fixture-code-long-enough');
       const declined = new URL(callback); declined.searchParams.delete('code'); declined.searchParams.set('error', 'access_denied');
@@ -96,7 +105,7 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
     });
   }
   return {
-    authorise, routeContext, dispatch, writes, requestPaths, works: { poem, swapPoem, story, essay },
+    authorise, routeContext, dispatch, writes, requestPaths, directCalls:()=>directCalls, setDirectProfile:value=>{directProfile=value;}, recoveryFiles:()=>[...files.values()].filter(file=>file.name.startsWith('cabin-recovery-')), main:()=>JSON.parse(files.get('P').raw), works: { poem, swapPoem, story, essay },
     setAPI: value => { apiMode = value; }, setGoogle: value => { googleMode = value; },
     holdNextBackup: () => { pause = true; }, held: () => !!held, release: () => { if (!held) throw Error('No fixture backup is held'); held(); }, loseNextBackup: () => { loseBackup = true; },
     addPicks: (selected = poem) => { const date = berlinDateKey(), id = `T${++todaySequence}`, raw = JSON.stringify({ version: 2, date, picks: { poem: { catalogueId: selected.id }, story: { catalogueId: story.id }, essay: { catalogueId: essay.id } } }); files.set(id, { id, name: `picks-${date}-${todaySequence}.json`, raw, revision: 1, createdTime: new Date(Date.now() + todaySequence * 1000).toISOString() }); },

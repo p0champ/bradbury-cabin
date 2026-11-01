@@ -40,7 +40,8 @@ import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
 import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
 import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=57";
 import { GOOGLE_CLIENT_ID, CONNECTION_URL } from "./config.js?v=57";
-import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY } from "./managed-drive.js?v=57";
+import { GoogleRecovery } from "./connection/google-recovery.js?v=57";
+import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY, CONNECTION_DEVICE_KEY } from "./managed-drive.js?v=57";
 import { EditJournal } from "./connection/edit-journal.js?v=57";
 import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
 import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
@@ -105,6 +106,7 @@ if (pairResult.handled) {
 }
 const directDrive = (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
 const readingAtOpen = (() => { try { return store.getItem('cabin-reading') !== null; } catch { return false; } })();
+const progressAtOpen = (() => { try { return store.getItem('cabin-progress') !== null; } catch { return false; } })();
 let managedJournal = null;
 if (!directDrive && storageWorks) {
   try { managedJournal = new EditJournal(store); }
@@ -3187,8 +3189,38 @@ try {
 } catch {
   drive.lastCheck = null;
 }
-const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false };
+const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false, googleBackup: null };
+let fallback = null;
+function googleFallback() {
+  if (!drive.isManaged || !drive.ownerSubject) return null;
+  if (!fallback) {
+    const direct = new DriveLink({ clientId, identity: true });
+    const copies = new GoogleRecovery(direct, managedJournal, { ownerSubject: drive.ownerSubject, deviceId: store.getItem(CONNECTION_DEVICE_KEY) });
+    fallback = {
+      direct, copies,
+      get connected() { return direct.connected; },
+      async signIn() { await direct.signIn(); await copies.verifyOwner(); },
+      async read(name) { if (name !== 'progress.json') throw Error('Your readings are kept'); const state = await copies.readProgress(); return state === null ? null : JSON.stringify(state); },
+      newestPicksStamp: (...args) => direct.newestPicksStamp(...args),
+      readPicksFor: (...args) => direct.readPicksFor(...args),
+      recoverGuides: (...args) => direct.recoverGuides(...args),
+      async writeProgress(payload, { requestId }) {
+        const envelope = await drive.prepareRecovery({ payload, id: requestId });
+        const receipt = await copies.save(envelope);
+        driveState.googleBackup = { at: receipt.at, id: requestId };
+        return receipt;
+      },
+    };
+  }
+  fallback.copies.ownerSubject = drive.ownerSubject;
+  return fallback;
+}
+function armGoogleFallback() { if (drive.isManaged && drive.unavailable && drive.ownerSubject) { googleFallback(); preloadGoogle(); } }
+function backupTransport() { return drive.isManaged && drive.unavailable && fallback?.connected ? fallback : drive; }
 function driveNote() {
+  if (drive.isManaged && drive.unavailable) return !!driveState.googleBackup && driveState.googleBackup.id === backupOutbox.entry?.id
+    ? 'Backup checked with Google Drive at ' + new Date(driveState.googleBackup.at).toTimeString().slice(0, 5) + ' · automatic connection will retry'
+    : 'Your readings are kept here · tap Sync with Drive to try the Google backup';
   if (driveState.error)
     return (
       "Drive: " +
@@ -3249,8 +3281,8 @@ let driveSaving = false;
 async function retryPendingBackup() {
   if(driveSaving || driveState.syncing || !progressPersistent || !driveState.everSynced || !drive.connected || !backupOutbox.pending)return;
   driveSaving=true;
-  try {const restored=await pushProgress();driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);if(drive.isManaged && restored)finishRestore();}
-  catch(e){driveState.error=calmDriveError(e);}
+  try {const restored=await pushProgress(backupTransport());driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);if(drive.isManaged && restored)finishRestore();}
+  catch(e){armGoogleFallback();driveState.error=calmDriveError(e);}
   finally {driveSaving=false;driveState.pending=backupOutbox.pending?1:0;paintDriveButton();}
 }
 // The backup copy (Drive and export) also carries reading places and
@@ -3265,12 +3297,13 @@ const backupText = () => {
   return drive.prepareBackupText ? drive.prepareBackupText(text) : text;
 };
 if (drive.isManaged && progressPersistent) {
-  try { drive.initialise(JSON.parse(backupText()), { controls: controlsAtOpen !== null, reading: readingAtOpen }); }
+  try { drive.initialise(JSON.parse(backupText()), { controls: controlsAtOpen !== null, reading: readingAtOpen, progress: progressAtOpen }); }
   catch { driveState.error = 'Could not prepare the private backup. Your readings are kept on this headset; reopen the cabin.'; }
 }
 let controlsRestored = false;
-function applyManagedBackup(saved) {
-  const combined = drive.mergeForLocal(JSON.parse(backupText()), saved);
+function applyManagedBackup(saved, { fallback = false } = {}) {
+  const local = JSON.parse(backupText());
+  const combined = fallback ? drive.mergeFallbackForLocal(local, saved) : drive.mergeForLocal(local, saved);
   if (!validProgress(combined)) throw Error('The private backup needs recovery. Your readings are kept.');
   const nextCheck = combined.cabinPickerInstructions?.lastCheck ?? drive.lastCheck;
   const complete = JSON.parse(drive.prepareBackupText(JSON.stringify(combined), nextCheck));
@@ -3281,7 +3314,7 @@ function applyManagedBackup(saved) {
   // Save confirmation and polling metadata are not a new visible screen.
   // Repainting those alone would cancel a pinch already held by the reader.
   const visibleProgress = value => {
-    const { savedAt, cabinPickerInstructions, guideRecoveryCursor, ...visible } = value;
+    const { savedAt, cabinPickerInstructions, guideRecoveryCursor, cabinRecoveryCursor, ...visible } = value;
     return JSON.stringify(visible);
   };
   const changed = visibleProgress(progress) !== visibleProgress(nextProgress);
@@ -3333,15 +3366,15 @@ function finishRestore() {
 // Automatic saves re-read Drive first: another device's changes are merged
 // in, and a damaged Drive copy is left untouched instead of replaced.
 let drivePush = Promise.resolve();
-function pushProgress() {
+function pushProgress(transport = drive) {
   const run = drivePush.then(async () => {
     let restored = false;
-    const remote = await drive.read("progress.json");
+    const remote = await transport.read("progress.json");
     if (remote !== null) {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; your changes are kept on the headset.");
-      if (drive.isManaged) restored = applyManagedBackup(parsed);
+      if (drive.isManaged) restored = applyManagedBackup(parsed, { fallback: transport !== drive });
       else {
       const { headset, ...saved } = parsed;
       restoreHeadset(headset);
@@ -3356,34 +3389,41 @@ function pushProgress() {
     }
     const queued=backupOutbox.enqueue(backupText());
     driveState.pending=backupOutbox.pending?1:0;
-    const receipt = await drive.writeProgress(queued.payload, { requestId: queued.id });
-    if (drive.isManaged) { restored = applyManagedBackup(receipt.state) || restored; drive.acknowledge(receipt); }
-    backupOutbox.acknowledge(queued.id);
+    const receipt = await transport.writeProgress(queued.payload, { requestId: queued.id });
+    if (transport === drive) {
+      if (drive.isManaged) { restored = applyManagedBackup(receipt.state) || restored; drive.acknowledge(receipt); }
+      backupOutbox.acknowledge(queued.id);
+    }
     return restored;
   });
   drivePush = run.catch(() => {});
   return run;
 }
 // Pull today's three and merge progress; push the merged progress back.
-async function syncDrive({ interactive = false } = {}) {
+async function syncDrive({ interactive = false, transport = null } = {}) {
+  transport ||= interactive && drive.isManaged && drive.unavailable ? googleFallback() || drive : drive;
+  const beforeSync = backupText();
   driveState.syncing = true;
   paintDriveButton();
   try {
     if (!progressPersistent) throw Error("Your saved progress needs recovery first. Your existing readings are still available.");
-    if (!drive.connected || (drive.needsReconnect && interactive)) await drive.signIn();
+    if (!transport.connected || (transport === drive && drive.needsReconnect && interactive)) {
+      if (!interactive && transport !== drive) throw Error('Tap Sync with Drive to reconnect Google. Your readings are kept');
+      await transport.signIn();
+    }
     const today = todayKey();
     // Noted before reading the picks, so a file that lands mid-sync is
     // still seen as new by the next minute's check.
-    const stamp = await drive.newestPicksStamp(today).catch(() => undefined);
+    const stamp = await transport.newestPicksStamp(today).catch(() => undefined);
     // History first: picks are checked against every earlier day's reading.
-    const remote = await drive.read("progress.json");
+    const remote = await transport.read("progress.json");
     let restored = false;
     // null means no file yet; an existing empty file is damaged, not missing.
     if (remote !== null) {
       let parsed;
       try { parsed = JSON.parse(remote); } catch {}
       if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
-      if (drive.isManaged) restored = applyManagedBackup(parsed);
+      if (drive.isManaged) restored = applyManagedBackup(parsed, { fallback: transport !== drive });
       else {
       const { headset, ...saved } = parsed;
       restored = restoreHeadset(headset);
@@ -3391,7 +3431,7 @@ async function syncDrive({ interactive = false } = {}) {
       }
     }
     let picksFailure = null, found;
-    try { found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS})); }
+    try { found = await transport.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS})); }
     catch (failure) { if (!drive.isManaged) throw failure; picksFailure = failure; }
     let message = "No picks from Claude yet. Ask Claude for today's three.";
     if (!picksFailure) drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
@@ -3438,23 +3478,25 @@ async function syncDrive({ interactive = false } = {}) {
     } catch {}
     try {
       if (picksFailure) throw picksFailure;
-      await drive.recoverGuides(progress, today, raw => parsePicks(raw));
+      await transport.recoverGuides(progress, today, raw => parsePicks(raw));
     } catch {
       message += " Earlier study notes could not be recovered this time; existing readings are kept.";
     }
     refreshSavedGuides();
     driveState.everSynced = true;
-    storeProgress();
+    if (transport === drive || backupText() !== beforeSync) storeProgress();
     // Flush the latest snapshot through the same serialized save path.
     clearTimeout(driveTimer);
-    restored = await pushProgress() || restored;
+    restored = await pushProgress(transport) || restored;
     if (restored) message += finishRestore();
     driveState.pending = backupOutbox.pending ? 1 : 0;
     driveState.error = picksFailure ? calmDriveError(picksFailure) : null;
-    driveState.last = new Date().toTimeString().slice(0, 5);
+    if (transport === drive) driveState.last = new Date().toTimeString().slice(0, 5);
+    else message += ' Your complete Google backup was checked; the automatic connection will retry.';
     if (!picksFailure) picksSeen = { day: today, stamp };
     report(picksFailure ? calmDriveError(picksFailure) : message);
   } catch (e) {
+    armGoogleFallback();
     driveState.error = calmDriveError(e);
     report(driveState.error);
   } finally {
@@ -3488,7 +3530,15 @@ async function checkForPicks() {
     }
   } catch {
     // A missed check is retried next minute; reading carries on.
-    if (drive.isManaged) await retryPendingBackup();
+    if (drive.isManaged) {
+      armGoogleFallback();
+      if (drive.unavailable && fallback?.connected) {
+        const stamp = await fallback.newestPicksStamp(todayKey()).catch(() => undefined);
+        if (picksSeen?.day !== todayKey() || picksSeen.stamp !== stamp) await syncDrive({ transport: fallback });
+        else await retryPendingBackup();
+      }
+      else await retryPendingBackup();
+    }
   } finally {
     picksCheck = false;
   }

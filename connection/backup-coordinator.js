@@ -25,24 +25,25 @@ export class BackupCoordinator {
     const current = await this.ensureInitial();
     await this.snapshots.resumeMirror(current?.root);
     const record = await this.snapshots.deviceState(device);
-    const [mirror, problem, grant] = await Promise.all(['mirrorVerified', 'mirrorProblem', 'googleGrant'].map(key => this.storage.get(key)));
-    const currentProblem = problem?.code === 'google_reconnect' && !grant?.reconnect ? null : problem;
-    const driveCurrent = !!current && mirror?.revision === current.root.revision;
-    return { state: current?.value ?? null, revision: current?.root.revision ?? 0, baselineRevision: record.baseline?.root.revision ?? 0, sequence: record.sequence, driveCurrent, driveSyncedAt: driveCurrent && Number.isFinite(mirror.at) ? new Date(mirror.at).toISOString() : null, mirrorProblem: currentProblem ? { code: currentProblem.code, message: currentProblem.message } : null, googleReconnect: grant?.reconnect === true };
+    const [mirror, problem, grant, recoveryProblem] = await Promise.all(['mirrorVerified', 'mirrorProblem', 'googleGrant', 'recoveryProblem'].map(key => this.storage.get(key)));
+    const currentProblem = (problem?.code === 'google_reconnect' && !grant?.reconnect ? null : problem) || recoveryProblem;
+    const driveCurrent = !!current && mirror?.revision === current.root.revision && !recoveryProblem;
+    return { state: current?.value ?? null, revision: current?.root.revision ?? 0, baselineRevision: record.baseline?.root.revision ?? 0, sequence: record.sequence, driveCurrent, driveSyncedAt: driveCurrent && Number.isFinite(mirror.at) ? new Date(mirror.at).toISOString() : null, mirrorProblem: currentProblem ? { code: currentProblem.code, message: currentProblem.message } : null, googleReconnect: grant?.reconnect === true, ownerSubject: /^[A-Za-z0-9_-]{1,255}$/.test(grant?.subject || '') ? grant.subject : null };
   }
   async save(device, request) {
-    const { requestId, payload, revision, baselineRevision, sequence, operations } = request || {};
+    const { requestId, payload, revision, baselineRevision, sequence, operations, bootstrap = true } = request || {};
+    if (typeof bootstrap !== 'boolean') throw fault('The connection could not read the changes', 'invalid', 400);
     if (!Number.isSafeInteger(revision) || revision < 0 || !Number.isSafeInteger(baselineRevision) || baselineRevision < 0 || !Number.isSafeInteger(sequence) || sequence < 0 || typeof payload !== 'string') throw fault('The connection could not read the changes', 'invalid', 400);
     let local; try { local = JSON.parse(payload); } catch {}
     if (!this.validate(local)) throw fault('The complete backup needs recovery; your readings are kept', 'recovery', 409);
     const current = await this.ensureInitial(), record = await this.snapshots.deviceState(device);
-    const initial = !record.baseline ? mergeManagedState(local, current?.value ?? null, null, this.mergeProgress) : null;
+    const initial = !record.baseline && bootstrap ? mergeManagedState(local, current?.value ?? null, null, this.mergeProgress) : null;
     const merged = initial
       ? mergeWithIntents(initial, initial, operations, 0, this.mergeProgress).state
       : mergeWithIntents(local, current?.value ?? null, operations, record.sequence, this.mergeProgress).state;
     if (!this.validate(merged)) throw fault('The merged backup needs recovery; your readings are kept', 'recovery', 409);
     const stamp = this.now().toISOString();
-    const result = await this.snapshots.commit({ revision, baselineRevision, device, requestId, payload, state: JSON.stringify(merged), stamp, day: this.dayKey(this.now()), sequence, operations });
+    const result = await this.snapshots.commit({ revision, baselineRevision, device, requestId, payload, state: JSON.stringify(merged), stamp, day: this.dayKey(this.now()), sequence, operations, bootstrap });
     if (result.conflict || result.staleDevice) throw fault('Another save arrived; your changes will retry', 'conflict', 409);
     // Snapshot, edit sequence, retry signal and alarm committed together.
     const restored = await this.snapshots.read();

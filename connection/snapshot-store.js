@@ -72,7 +72,7 @@ export class SnapshotStore {
     if (!Array.isArray(previous) || !plain(daily)) throw Error('Private backup history needs recovery');
     return { current, previous: previous.map(checkedRoot), daily: Object.fromEntries(Object.entries(daily).map(([day, root]) => [day, checkedRoot(root)])) };
   }
-  async commit({ revision, baselineRevision, device, requestId, payload, state, stamp, day, sequence = 0, operations = [] }) {
+  async commit({ revision, baselineRevision, device, requestId, payload, state, stamp, day, sequence = 0, operations = [], bootstrap = true }) {
     if (!/^[a-f0-9]{64}$/.test(device) || !/^[A-Za-z0-9-]{8,100}$/.test(requestId) || !/^\d{4}-\d{2}-\d{2}$/.test(day) || !Number.isFinite(Date.parse(stamp))) throw Error('Invalid backup request');
     if (!this.validate(JSON.parse(payload)) || !this.validate(JSON.parse(state))) throw Error('Invalid complete backup');
     if (!Number.isSafeInteger(sequence) || sequence < 0 || !Array.isArray(operations) || operations.length > 20000 || operations.some(op => !Number.isSafeInteger(op?.sequence) || op.sequence < 1 || op.sequence > sequence)) throw Error('Invalid backup changes');
@@ -81,7 +81,7 @@ export class SnapshotStore {
     await this.read();
     const nextRevision = revision + 1;
     const [backup, baseline] = await Promise.all([prepare(`backup:${nextRevision}`, nextRevision, state, stamp), prepare(`client:${device}:${nextRevision}`, nextRevision, payload, stamp)]);
-    const requestDigest = await hash(encoder.encode(JSON.stringify({ payload: baseline.root.digest, sequence, operations })));
+    const requestDigest = await hash(encoder.encode(JSON.stringify({ payload: baseline.root.digest, sequence, operations, ...(bootstrap === false ? { bootstrap: false } : {}) })));
     return this.storage.transaction(async txn => {
       const current = await txn.get('current');
       if (current != null) checkedRoot(current);
