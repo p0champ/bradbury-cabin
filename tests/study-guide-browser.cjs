@@ -148,7 +148,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   {
     const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     // A complete trio of real catalogue references; the shortest poem fits one page.
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
@@ -163,7 +163,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await aimRow(p,0);await p.evaluate(()=>__pinch());
     const id=await p.locator('#page').getAttribute('data-work');assert.equal(id,`today-2026-10-28-poem-${shortPoem.id}`);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'before');
-    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
     await p.evaluate(()=>{__mock.look=null;__step(600);__pinch();});
     assert.equal(await p.locator('#page').getAttribute('data-work'),id);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'text');
@@ -180,7 +180,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   for (const night of [false, true]) {
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
     const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
@@ -243,7 +243,8 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   {
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,23,59,50));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    // The cabin day is Berlin time, including on the UTC publishing host.
+    await p.clock.setFixedTime(new Date('2026-10-28T23:59:50+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
     const pickOf = k => SOURCE_CATALOGUE.find(w=>w.kind===k&&!shelf.includes(w.id));
@@ -260,7 +261,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>{await __aim('home-today');__pinch();});
     assert.deepEqual(await view(),['menu','today'],'the Today tab opens Today');
     // Midnight with Today open: no crash, the session continues on the Library.
-    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
     await p.evaluate(async()=>{__step(100);await __aim('home-settings');__step(100);});
     assert.deepEqual(await view(),['menu','today'],'the compact home stays on Today after midnight');
     const midnightButtons=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
@@ -307,7 +308,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   {
     // Your shelf: earlier days from progress, by saved ID or exact label.
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,29,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const find = id => SOURCE_CATALOGUE.find(w=>w.id===id);
     const tiger=find('william-blake-experience-the-tiger'), stockings=find('kate-chopin-a-pair-of-silk-stockings'), travel=find('francis-bacon-of-travel');
@@ -368,7 +369,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   for (const skip of [false, 'essay', 'shelf']) {
     // Build 039: Today is complete immediately; a fresh pinch chooses directly.
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     await p.addInitScript(()=>{window.__paints=0;const r=CanvasRenderingContext2D.prototype.clearRect;CanvasRenderingContext2D.prototype.clearRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)window.__paints++;return r.call(this,x,y,w,h);};});
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];

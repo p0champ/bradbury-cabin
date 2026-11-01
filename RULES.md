@@ -4,6 +4,7 @@ Build 058 closes the approved finishing work. Build 057 remains the protected st
 
 ## Governing rules
 
+- The project budget is zero. Use free services only. Do not activate paid plans, paid APIs, chargeable trials, paid domains, payment methods or usage billing. If any required setup would charge money, stop and report it; reaching free limits must keep local reading and progress safe and use the approved calm fallback.
 - Bradbury Cabin is feature-complete. Future work permits bug fixes only. Do not add features, polish, redesigns or speculative improvements unless Bastian explicitly starts a new version. A repair must address an identified failure and preserve the frozen behavior below.
 - Preserve the look, intro, existing watch design, pointer/input behavior, passthrough, stationary page placement and exact-text rule. A bug report does not authorize a redesign. If a proposed repair would alter a frozen behavior, explain it and get an explicit selection first.
 - Bastian continues to ask Claude “give me the daily three” and “swap the poem” or another kind. Do not generate, schedule or automate that request, replace Claude, or move the choice into a new system.

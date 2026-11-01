@@ -29,6 +29,8 @@ week protects your streak without adding a reading day. Earned gifts stay yours.
 
 ## Saving
 
+The connection stays on Cloudflare Free, with no automatic paid upgrade.
+
 Reading, settings, thoughts and drafts save on this device, then back up
 automatically when connected. The lasting connection normally renews itself.
 If it needs help, use **Sync with Drive** on the opening browser page and
