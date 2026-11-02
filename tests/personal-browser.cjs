@@ -4,7 +4,7 @@ module.exports=async function personalChecks(browser,{mock,BASE_URL,out,passed})
  const ids={poem:'william-blake-experience-the-tiger',story:'kate-chopin-a-pair-of-silk-stockings',essay:'francis-bacon-of-travel'};
  for(const lying of [false,true]) for(const read of [0,2,3]){
   const p=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',lying);
+  await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',lying);
   const dedication='Take a quiet moment. There is time to look more closely today.';
   const thread='Across these three works, attention changes what we see. Leave room for the small details, and for whatever connection you found for yourself.';
   await p.addInitScript(({ids,read,dedication,thread})=>{

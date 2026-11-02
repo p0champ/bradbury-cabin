@@ -1,12 +1,16 @@
-import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=57";
-import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=57";
-import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=57";
-import { ThoughtVoice } from "./voice.js?v=57";
-import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=57";
-import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=57";
-import { lookupWord } from "./word-lookup.js?v=57";
-import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=57";
-import { PAGE, SIZES, layout, placedPose } from "./core.js?v=57";
+import "./offline.js?v=58";
+import { reconcileRewards, rewardWorks, pendingRewards, rewardEntries, rewardGoals, acknowledgeRewards, rewardFrame, RESERVED_REWARD_IDS } from "./rewards.js?v=58";
+import { rewardsButtons, paintRewards, paintRewardGlow } from "./rewards-panel.js?v=58";
+import { readerLease } from "./reader-lease.js?v=58";
+import { BackupOutbox } from "./backup-outbox.js?v=58";
+import { thoughtDraftFor, setThoughtDraft } from "./thought-drafts.js?v=58";
+import { feedbackFor, setFeedback, whyFor, rememberSelections, archivedSelection } from "./feedback.js?v=58";
+import { ThoughtVoice } from "./voice.js?v=58";
+import { feedbackButtons, paintFeedback, thoughtPages } from "./feedback-panel.js?v=58";
+import { clampDim, readingActive, seasonFor, FocusDim, wordBounds, wordAt, seasonalDetail, paintSeason } from "./comfort.js?v=58";
+import { lookupWord } from "./word-lookup.js?v=58";
+import { ComfortLayers, paintWordCard } from "./comfort-layers.js?v=58";
+import { PAGE, SIZES, layout, placedPose } from "./core.js?v=58";
 import {
   GestureEngine,
   menuButtons,
@@ -18,33 +22,36 @@ import {
   inView,
   facingPanel,
   handAnchor,
-} from "./gestures.js?v=57";
-import { renderer, identity, multiply, checkGl } from "./gl.js?v=57";
-import { HandBadges } from "./hand-badges.js?v=57";
-import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=57";
-import { LIBRARY } from "./library.js?v=57";
-import { pageForAnchor, loadReading, saveReading, validAnchor } from "./reader.js?v=57";
-import { layoutReading } from "./reading-flow.js?v=57";
-import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=57";
-import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=57";
-import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=57";
-import { paintLibrary, libraryHit } from "./library-panel.js?v=57";
-import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=57";
-import { parsePicks, pickLabels } from "./picks.js?v=57";
-import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=57";
-import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=57";
-import { rememberGuides, dayGuide } from "./guide-archive.js?v=57";
-import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=57";
-import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle } from "./drive.js?v=57";
-import { GOOGLE_CLIENT_ID } from "./config.js?v=57";
-import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=57";
-import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=57";
-import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=57";
-import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=57";
-import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=57";
-import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=57";
-import { EntrySound } from "./entry-sound.js?v=57";
-import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=57";
+} from "./gestures.js?v=58";
+import { renderer, identity, multiply, checkGl } from "./gl.js?v=58";
+import { HandBadges } from "./hand-badges.js?v=58";
+import { WristWatch, watchSummary, watchPose, WATCH_HAND, clockText } from "./watch.js?v=58";
+import { LIBRARY } from "./library.js?v=58";
+import { pageForAnchor, loadReading, saveReading, validAnchor, fillReadingFromBackup } from "./reader.js?v=58";
+import { layoutReading } from "./reading-flow.js?v=58";
+import { HOME_FRAME, HOME_DAYS_PER_PAGE, homeButtons, paintHome, homeArrivalBands } from "./home-panel.js?v=58";
+import { SETTINGS_PAGES, settingsBounds, settingsButtons, paintSettings } from "./settings-panel.js?v=58";
+import { compactBounds, compactButtons, paintCompact, compactNotesPages, compactWrap } from "./compact-panels.js?v=58";
+import { paintLibrary, libraryHit } from "./library-panel.js?v=58";
+import { todayFacts, workStatus, paintToday, todayHit, nextUnread, closingHit, paintClosing } from "./today-panel.js?v=58";
+import { parsePicks, pickLabels } from "./picks.js?v=58";
+import { SOURCE_CATALOGUE } from "./source-catalogue.js?v=58";
+import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, dayHit, DAYS_PER_PAGE } from "./shelf-panel.js?v=58";
+import { rememberGuides, dayGuide } from "./guide-archive.js?v=58";
+import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=58";
+import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=58";
+import { GOOGLE_CLIENT_ID, CONNECTION_URL, MANAGED_CONNECTION_ENABLED } from "./config.js?v=58";
+import { GoogleRecovery } from "./connection/google-recovery.js?v=58";
+import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY, CONNECTION_DEVICE_KEY } from "./managed-drive.js?v=58";
+import { EditJournal } from "./connection/edit-journal.js?v=58";
+import { Ambience, AMBIENCE_KINDS, AMBIENCE_LABEL, VOLUME_STEPS, ambienceVolume } from "./ambience.js?v=58";
+import { GazeDwell, GazeRing, gazeZone } from "./gaze.js?v=58";
+import { Pointer, rayOnPage, PageAimFilter, chooseSnapshot, LOOK_BACK } from "./pointer.js?v=58";
+import { paintWelcome, welcomeHit, greeting } from "./welcome-panel.js?v=58";
+import { MOODS, NAV, UI, accentFor, goldFor, WINDOW_RADIUS, spaced, unspaced, navigationSurface } from "./theme.js?v=58";
+import { Arrival, ARRIVAL_MS, ARRIVAL_REDUCED_MS, ARRIVAL_SKIP_AFTER_MS, lampFrame, paintLampGlow, pageArrivalPose, smooth } from "./arrival.js?v=58";
+import { EntrySound } from "./entry-sound.js?v=58";
+import { FRAME, FOLIO_BAND, SHIMMER, paintGlassFrame, typeset, turnFrame, paintShimmer, shimmerAt } from "./folio.js?v=58";
 import {
   readProgress,
   saveProgress,
@@ -57,20 +64,21 @@ import {
   canonicalWorkId,
   markWorkRead,
   workRead,
-} from "./progress.js?v=57";
+  addDays,
+} from "./progress.js?v=58";
 import {
   paintCalendar,
   calendarHit,
   shiftMonth,
   dayInputAllowed,
-} from "./calendar.js?v=57";
-// Headset cache for challenge progress. Export/Import on the browser page is
-// the backup until durable bridge storage arrives with Claude (Phase 3).
+} from "./calendar.js?v=58";
+// Keep personal reading immediately on this device, then in the checked
+// private/Google backup. Browser Export/Import remains a complete safety copy.
 let progressPersistent = true,
   storageWorks = true,
   progressNotice = "",
   unreadableBackup = null;
-const store = (() => {
+let store = (() => {
   try {
     const s = globalThis.localStorage;
     s.getItem("cabin-progress");
@@ -86,7 +94,36 @@ const store = (() => {
     };
   }
 })();
+let pairSession;
+try { pairSession = sessionStorage; } catch {}
+const pairResult = !MANAGED_CONNECTION_ENABLED ? { handled: false } : pairSession ? await finishConnectionReturn({ url: CONNECTION_URL, storage: store, session: pairSession }) : { handled: globalThis.__cabinConnectionReturn === true, message: 'This browser could not keep the connection. Return to the other cabin tab; your readings are kept.' };
+if (pairResult.handled) {
+  document.getElementById('status').textContent = pairResult.message;
+  document.getElementById('drive-sync').disabled = true;
+  if (pairResult.connected) { try { window.close(); } catch {} }
+  // A sign-in return is a small handoff tab, never a second reader sharing
+  // unfinished local saves with the original tab.
+  await new Promise(() => {});
+}
+const reader = await readerLease();
+if (!reader.active) {
+  document.getElementById('status').textContent = 'The cabin is open in another tab. Return there, or close it and reopen this page.';
+  document.getElementById('enter').disabled = true;
+  document.getElementById('drive-sync').disabled = true;
+  await new Promise(() => {});
+}
+store = reader.wrap(store);
+const directDrive = !MANAGED_CONNECTION_ENABLED || (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
+const readingAtOpen = (() => { try { return store.getItem('cabin-reading') !== null; } catch { return false; } })();
+const progressAtOpen = (() => { try { return store.getItem('cabin-progress') !== null; } catch { return false; } })();
+let managedJournal = null;
+if (!directDrive && storageWorks) {
+  try { managedJournal = new EditJournal(store); }
+  catch { progressPersistent = false; progressNotice = 'The saved connection needs recovery. Your readings are kept; reopen the cabin.'; }
+}
 const todayKey = () => berlinDateKey(new Date());
+const backupOutbox = new BackupOutbox(store);
+let driveReady = false;
 let progress,
   progressVersion = 0;
 {
@@ -105,6 +142,9 @@ let progress,
         kept = true;
       }
     } catch {}
+    // A recovery copy is evidence, not permission to overwrite the only
+    // original. Wait for an explicit valid import before saving progress.
+    progressPersistent = false;
     if (kept)
       progressNotice =
         "Saved progress was unreadable. A backup was kept; import a progress file.";
@@ -115,7 +155,7 @@ let progress,
         "Saved progress was unreadable and could not be backed up. Not saving.";
     }
   } else if (loaded.raw == null) saveProgress(store, progress);
-  if (!progressPersistent)
+  if (!progressPersistent && !loaded.recovered)
     progressNotice = "Not saving on this headset · export before leaving.";
   try {
     navigator.storage?.persist?.();
@@ -126,8 +166,8 @@ function storeProgress() {
   reconcileRewards(progress,todayKey());
   progressVersion++;
   progress.savedAt = new Date().toISOString();
-  scheduleDriveSave();
   const ok = progressPersistent && saveProgress(store, progress);
+  if (ok) scheduleDriveSave();
   if (!ok) {
     progressNotice = "Not saving on this headset · export before leaving.";
     feedback("Could not save on this headset · export from the browser page");
@@ -166,7 +206,7 @@ function loadTodayCache() {
       const selectionsChanged = rememberSelections(progress, r.date, r.works, true);
       if (notesChanged || linesChanged || selectionsChanged) {
         progress.savedAt = new Date().toISOString();
-        if (!saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
+        if (progressPersistent && !saveProgress(store, progress)) progressNotice = "Reading notes could not be saved on this headset.";
       }
     }
     todayWorks = r.date === todayWorksFor && r.works.length === 3 && !r.problems.length ? r.works : [];
@@ -183,7 +223,7 @@ function loadTodayCache() {
   }
 }
 loadTodayCache();
-if(reconcileRewards(progress,todayKey())) { progress.savedAt=new Date().toISOString(); if(!saveProgress(store,progress))progressNotice="Rewards could not be saved on this headset."; }
+if(reconcileRewards(progress,todayKey())) { progress.savedAt=new Date().toISOString(); if(progressPersistent && !saveProgress(store,progress))progressNotice="Rewards could not be saved on this headset."; }
 const WORKS = [];
 // Works that stopped being "today" stay readable while open, so passing
 // midnight never pulls the page away mid-read.
@@ -250,6 +290,10 @@ const $ = (id) => document.getElementById(id),
   canvas = $("page"),
   ctx = canvas.getContext("2d");
 let preferences = {};
+// Settings come back from a backup only into a browser that had none.
+const controlsAtOpen = (() => {
+  try { return localStorage.getItem("cabin-controls"); } catch { return ""; }
+})();
 try {
   preferences = JSON.parse(localStorage.getItem("cabin-controls") || "{}");
   if (
@@ -261,7 +305,8 @@ try {
 } catch {}
 const savePreferences = () => {
   try {
-    localStorage.setItem("cabin-controls", JSON.stringify(preferences));
+    store.setItem("cabin-controls", JSON.stringify(preferences));
+    scheduleDriveSave();
   } catch {}
 };
 if (preferences.handMapRevision !== 9) {
@@ -336,7 +381,7 @@ if (reading.last && WORKS.some((w) => w.id === reading.last)) {
   state.pendingAnchor = reading.places[reading.last]?.anchor || null;
 }
 let completionContext = null, currentReadingOpened = false;
-let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0;
+let feedbackWork = null, thoughtDraft = '', voiceStatus = '', thoughtPage = 0, draftSaveFailed = false;
 let rewardQueue=[],rewardIndex=0,rewardSince=null,rewardPhase='card',rewardNotice='',rewardGlow=null;
 function beginRewardCelebration() {
   const entries=pendingRewards(progress);if(!entries.length)return false;
@@ -376,8 +421,18 @@ function updateThoughtEditor() {
   }
 }
 function openFeedback(work) {
-  thoughtVoice.cancel(); feedbackWork=work; thoughtDraft=feedbackFor(progress,work).thought;voiceStatus='';thoughtPage=0;
+  thoughtVoice.cancel(); loadThought(work);
   state.menuOpen=true;state.menuPage='feedback';state.hover=null;dayOpenedAt=lastFrameTime;gestures.setContext('menu');updateThoughtEditor();paint();
+}
+function loadThought(work) {
+  feedbackWork=work;const draft=thoughtDraftFor(progress,work);
+  thoughtDraft=draft===null?feedbackFor(progress,work).thought:draft;
+  voiceStatus=draft===null?'':'Unsaved draft restored. Check it, then save.';thoughtPage=0;draftSaveFailed=false;
+}
+function keepThoughtDraft(text) {
+  thoughtDraft=text;thoughtPage=0;
+  draftSaveFailed=!setThoughtDraft(progress,feedbackWork,text) || !storeProgress();
+  voiceStatus=draftSaveFailed?'Draft could not be saved. Keep this card open.':'Unsaved thought. Check it, then save.';
 }
 function feedbackAction(id) {
   if (!feedbackWork) return;
@@ -388,24 +443,34 @@ function feedbackAction(id) {
     thoughtPage += id==='feedback-next'?1:-1;
   } else if(id==='feedback-save') {
     thoughtVoice.cancel();
-    if(setFeedback(progress,feedbackWork,'thought',thoughtDraft))voiceStatus=storeProgress()?'Thought saved with this piece.':'Thought could not be saved.';
+    if(setFeedback(progress,feedbackWork,'thought',thoughtDraft)){
+      setThoughtDraft(progress,feedbackWork,null);draftSaveFailed=false;
+      voiceStatus=storeProgress()?'Thought saved with this piece.':'Thought could not be saved.';
+    }
     else voiceStatus='Keep your thought to 360 characters before saving.';
   } else if(id==='feedback-clear') {
     thoughtVoice.cancel();thoughtDraft='';thoughtPage=0;
+    setThoughtDraft(progress,feedbackWork,null);draftSaveFailed=false;
     if(setFeedback(progress,feedbackWork,'thought',null))voiceStatus=storeProgress()?'Thought removed.':'Could not save the removal.';
   } else if(id==='feedback-speak') {
     if(thoughtVoice.active)thoughtVoice.stop();
-    else thoughtVoice.start({onText:text=>{thoughtDraft=text;thoughtPage=0;updateThoughtEditor();paint();},onStatus:status=>{if(status)voiceStatus=status;else if(!thoughtDraft)voiceStatus='No sentence returned. Retry or type instead.';updateThoughtEditor();paint();}});
+    else thoughtVoice.start({onText:text=>{keepThoughtDraft(text);updateThoughtEditor();paint();},onStatus:status=>{if(draftSaveFailed)voiceStatus='Draft could not be saved. Keep this card open.';else if(status)voiceStatus=status;else if(!thoughtDraft)voiceStatus='No sentence returned. Retry or type instead.';updateThoughtEditor();paint();}});
   } else if(id==='feedback-type') {
     thoughtVoice.cancel();voiceStatus='Type your thought on the browser page after leaving the cabin.';updateThoughtEditor();
     if(state.session) {state.session.end().catch(()=>{voiceStatus='Leave the cabin to type your thought.';paint();});return;}
     $('thought-editor').scrollIntoView({block:'center'});$('thought-text').focus();
-  } else if(id==='feedback-done') {
-    thoughtVoice.cancel();if(beginRewardCelebration())return;state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
+  } else if(id==='feedback-continue' || id==='feedback-done') {
+    // A reward earned by this finish is celebrated first, as before.
+    thoughtVoice.cancel();if(beginRewardCelebration())return;
+    const finishing = !!completionContext && canonicalWorkId(feedbackWork) === completionContext.canonical;
+    const next = finishing ? nextReadingWork(feedbackWork) : null;
+    if(id==='feedback-continue' && next){rebuildWorks(state.workId);openWork(next.id);toggleMenu(false);paint();return;}
+    if(finishing && !next){openToday();return;}
+    state.menuPage='library';state.hover=null;dayOpenedAt=lastFrameTime;
   }
   updateThoughtEditor();paint();
 }
-$('thought-text').oninput=e=>{thoughtDraft=e.target.value;voiceStatus='Unsaved thought. Check it, then save.';paint();};
+$('thought-text').oninput=e=>{keepThoughtDraft(e.target.value);paint();};
 $('thought-save').onclick=()=>feedbackAction('feedback-save');
 $('thought-speak').onclick=()=>feedbackAction('feedback-speak');
 $('thought-clear').onclick=()=>feedbackAction('feedback-clear');
@@ -587,9 +652,13 @@ let handBadges = null,
 function currentWatchSummary() {
   const titles = ["poem", "story", "essay"].map((kind) => todayWorks.find((w) => w.kind === kind)?.title || null);
   const time = clockText();
-  const key = [progressVersion, todayKey(), time, ...titles].join(":");
+  // The piece open in the cabin names itself, so the watch never describes
+  // a different work from the one being read.
+  const open = currentReadingOpened ? workById(state.workId) : null;
+  const current = open?.title && ["poem", "story", "essay"].includes(open.kind) ? { kind: open.kind, title: open.title } : null;
+  const key = [progressVersion, todayKey(), time, ...titles, current?.kind, current?.title].join(":");
   if (watchCache.key !== key)
-    watchCache = { key, summary: { ...watchSummary(progress, todayKey()), time, titles } };
+    watchCache = { key, summary: { ...watchSummary(progress, todayKey()), time, titles, current } };
   return watchCache.summary;
 }
 let entrySound = null;
@@ -734,6 +803,14 @@ function homeOptions(route = state.menuPage) {
     rewards: route!=="today" || rewardEntries(progress).length>0,
     c: { ...NAV, serif: MOODS[state.mood].body, ui: UI } };
   options.feedbackIds = Object.fromEntries(WORKS.filter(w => workRead(progress,w)).map(w => [w.id,true]));
+  if (route === "today" && !todayWorks.length) {
+    // No checked trio for today: say so, name the usual request to Claude,
+    // and offer the most recent earlier day's three.
+    options.dateline = picksNotice ? "Today’s picks didn’t pass the source checks · ask Claude again"
+      : "Today’s three aren’t here yet · ask Claude for the daily three";
+    const earlier = shelfDays(progress, today)[0];
+    if (earlier) options.earlierDay = { date: earlier, label: earlier === addDays(today, -1) ? "Yesterday’s three →" : "Earlier three →" };
+  }
   if (!learned()) options.dateline = state.headPointer ? "Look at a title, then pinch and release." : "Point at a title, then pinch and release.";
   if (route === "shelf") {
     const days = shelfDays(progress, today);
@@ -755,19 +832,21 @@ function homeOptions(route = state.menuPage) {
       const completed = works.find(w => canonicalWorkId(w) === completionContext.canonical);
       if (completed) options.completion = { id: completed.id, title: completed.title, saved: completionContext.saved, next: nextReadingWork(completed) };
     }
-    options.dateline = `Library · ${state.libraryPage+1} of ${Math.max(1,Math.ceil(works.length/3))}`;
+    options.dateline = "Library · every work in the cabin, starters and rewards included";
   }
   return options;
 }
 function navigationModel() {
   const page = state.arriving ? "today" : state.menuPage;
   if (page === "reward" || page === "rewards") {
-    const options={shelf:page==="rewards",phase:page==="rewards"?"card":rewardPhase,entries:page==="rewards"?rewardEntries(progress):rewardQueue,entry:rewardQueue[rewardIndex],index:rewardIndex,notice:rewardNotice,hover:state.hover};
+    const options={shelf:page==="rewards",phase:page==="rewards"?"card":rewardPhase,entries:page==="rewards"?rewardEntries(progress):rewardQueue,goals:page==="rewards"?rewardGoals(progress,todayKey()):[],entry:rewardQueue[rewardIndex],index:rewardIndex,notice:rewardNotice,hover:state.hover};
     return {kind:"rewards",options,bounds:HOME_FRAME,buttons:rewardsButtons(options)};
   }
   if (page === "feedback") {
     const count=thoughtPages(ctx,thoughtDraft).length;thoughtPage=Math.max(0,Math.min(thoughtPage,count-1));
-    const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover};
+    const finishing = !!completionContext && canonicalWorkId(feedbackWork) === completionContext.canonical;
+    const options = {work:feedbackWork, feedback:feedbackFor(progress,feedbackWork), draft:thoughtDraft, thoughtPage, thoughtPages:count, voiceStatus, listening:!!thoughtVoice.active, hover:state.hover,
+      finishing, next: finishing ? nextReadingWork(feedbackWork) : null};
     return {kind:"feedback",options,bounds:compactBounds(),buttons:feedbackButtons(options)};
   }
   if (HOME_ROUTES.includes(page) || state.arriving) {
@@ -829,8 +908,17 @@ function navigationAction(id) {
     "home-calendar":"calendar","home-back-shelf":"shelf","home-notes":"notes","notes-home":state.notesContext==="day"?"day":state.homeTab,
     "settings-done":state.homeTab,"settings-more":"more","settings-sound":"sound","settings-calendar":"calendar",
     "settings-wrist":"wrist","settings-controls":"controls","settings-volume":"volume","settings-comfort":"comfort"};
-  if(id in routes) { if(id==="home-library")state.libraryPage=0; if(id==="home-notes"){state.notesPage=0;state.notesContext="today";} navigate(routes[id]); return true; }
-  if(id==="settings-back") {navigate(state.menuPage==="more"?"settings":state.menuPage==="volume"?"sound":"more");return true;}
+  if(id in routes) {
+    if(id==="home-library")state.libraryPage=0;
+    if(id==="home-notes"){state.notesPage=0;state.notesContext="today";}
+    if(id==="settings-comfort")state.comfortFrom=state.menuPage;
+    navigate(routes[id]); return true;
+  }
+  if(id==="settings-back") {
+    // Comfort opens from the first Settings page or from More; Back returns there.
+    const parent=state.menuPage==="more"?"settings":state.menuPage==="volume"?"sound":state.menuPage==="comfort"&&state.comfortFrom==="settings"?"settings":"more";
+    navigate(parent);return true;
+  }
   if(id.startsWith("home-day:")){state.shelfDay=id.slice(9);navigate("shelfday");return true;}
   if(id.startsWith("home-work:")){
     const target=id.slice(10),work=WORKS.find(w=>w.id===target)||addShelfWork(target);
@@ -843,7 +931,6 @@ function navigationAction(id) {
   if(id==="settings-dim") { updateDimFromPoint(state.headPointer ? pagePoint(lastViewer) : livePoints.get(pointerSource)); return true; }
   if(id==="settings-seasons") { state.seasons=!state.seasons; preferences.seasons=state.seasons; savePreferences(); paint(); return true; }
   if(id==="settings-hemisphere") { state.hemisphere=state.hemisphere==="north"?"south":"north"; preferences.hemisphere=state.hemisphere; savePreferences(); paint(); return true; }
-  if(id==="settings-exit"){action("exit");return true;}
   if(id==="settings-move"){action("recenter");return true;}
   if(id==="settings-practise"){action("practice");return true;}
   const [name,value]=id.slice(9).split(":");
@@ -1268,16 +1355,21 @@ function finishReading() {
   if (!state.menuOpen || state.menuPage !== "closing" || !dayInputAllowed(lastFrameTime, dayOpenedAt)) return false;
   const work = workById(state.workId), canonical = canonicalWorkId(work);
   const assignedDay = /^today-(\d{4}-\d{2}-\d{2})-/.exec(work.id)?.[1] || todayKey();
+  // A reread was promised "Open Library" (the closing page's read state).
+  const reread = workRead(progress, work);
   markWorkRead(progress, work, assignedDay);
   const saved = storeProgress();
   completionContext = { canonical, saved };
   rememberPlace();
   rebuildWorks(state.workId);
   const works = libraryWorks(), index = works.findIndex(w => canonicalWorkId(w) === canonical);
-  state.menuPage = "feedback";
-  feedbackWork = work; thoughtDraft = feedbackFor(progress,work).thought; thoughtPage=0;
-  voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
-  updateThoughtEditor();
+  if (reread) state.menuPage = "library"; // Stars & thought stay one tap away there.
+  else {
+    state.menuPage = "feedback";
+    loadThought(work);
+    if(!voiceStatus)voiceStatus = saved ? "Stars and thoughts are optional." : "Read here · could not save completion on this headset.";
+    updateThoughtEditor();
+  }
   state.homeTab = "shelf";
   state.libraryPage = Math.max(0,Math.floor(index / 3));
   state.hover = null;
@@ -1297,7 +1389,7 @@ function openWork(id) {
   state.page = 0;
   state.pendingAnchor = saved?.anchor || null;
   reading.last = state.workId;
-  saveReading(store, reading);
+  if(saveReading(store, reading))scheduleDriveSave();
 }
 // Saved place: the first line on the current page, so a text-size change or
 // a later visit lands on the same words.
@@ -1306,7 +1398,7 @@ function rememberPlace() {
   if (!anchor) return;
   reading.places[state.workId] = { anchor, page: state.page };
   reading.last = state.workId;
-  saveReading(store, reading);
+  if(saveReading(store, reading))scheduleDriveSave();
 }
 function feedback(text) {
   state.feedback = text;
@@ -1751,11 +1843,7 @@ $("progress-export").onclick = () => {
   const url = URL.createObjectURL(
     new Blob(
       [
-        JSON.stringify(
-          unreadableBackup == null ? progress : { ...progress, unreadableBackup },
-          null,
-          2,
-        ),
+        JSON.stringify(backupCopy(true), null, 2),
       ],
       { type: "application/json" },
     ),
@@ -1775,13 +1863,19 @@ $("progress-file").onchange = async (e) => {
   try {
     const data = JSON.parse(await file.text());
     if (!validProgress(data)) throw Error("not a Bradbury progress file");
+    const { headset } = data;
     delete data.unreadableBackup;
-    progress = data;
+    delete data.headset;
+    // A normal restore keeps newer independent edits and deletion records.
+    // Recovery from an unreadable original uses only the explicitly chosen file.
+    progress = progressPersistent ? mergeProgress(progress, data) : data;
     unreadableBackup = null;
     // An import replaces the unreadable record, so saving may resume.
     progressPersistent = storageWorks;
     if (storageWorks) progressNotice = "";
-    report(storeProgress() ? "Progress imported." : "Imported, but this browser cannot save it.");
+    const saved = storeProgress();
+    const restored = restoreHeadset(headset) ? finishRestore() : "";
+    report((saved ? "Progress imported." : "Imported, but this browser cannot save it.") + restored);
     paint();
   } catch (error) {
     report("Could not import progress: " + error.message);
@@ -1790,7 +1884,7 @@ $("progress-file").onchange = async (e) => {
 $("session-export").onclick = () => $("export").click();
 $("export").onclick = () => {
   const data = {
-    build: "gestures-057",
+    build: "gestures-058",
     phase: "1-gesture-trial",
     gestureTiming: { holdMs: HOLD_MS, minPinchMs: MIN_PINCH_MS },
     // Last 40 pinch attempts: what the recogniser decided, why, and what the
@@ -1875,7 +1969,7 @@ $("export").onclick = () => {
   );
   const a = document.createElement("a");
   a.href = url;
-  a.download = "bradbury-test-details-build-057.json";
+  a.download = "bradbury-test-details-build-058.json";
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
@@ -1970,8 +2064,14 @@ function cleanSession() {
   closeWordNote(); focusDim.reset(); seasonSince = null;
   comfortLayers?.dispose(); comfortLayers = null;
   lastNativeQuad = nativeQuadGeometry() || lastNativeQuad;
-  $("session-details").hidden = false;
-  $("session-details").scrollIntoView({ block: "nearest", behavior: "auto" });
+  // The report shortcut appears after a problem (or with opt-in pointer
+  // diagnostics); an ordinary exit stays free of test language.
+  const problem = pointerDiagnosticsEnabled || !!state.error;
+  $("session-details").hidden = !problem;
+  $("session-note").textContent = state.error
+    ? `The cabin closed after a display problem (${state.error}). A saved report helps fix it.`
+    : "After leaving the cabin, save a file to help check the pointer and controls.";
+  if (problem) $("session-details").scrollIntoView({ block: "nearest", behavior: "auto" });
   completionContext = null;
   currentReadingOpened = false;
   sessionGeneration++;
@@ -2023,7 +2123,7 @@ function cleanSession() {
   ending = false;
   $("enter").disabled = false;
   $("enter").textContent = "Enter the cabin ↗";
-  if (!state.error) report("Back from the cabin. You can save test details below.");
+  if (!state.error) report("Back from the cabin. Your place is saved.");
   paint();
 }
 async function enter() {
@@ -3050,7 +3150,7 @@ function frame(time, xrFrame, generation) {
           state.layerStatus = "drawn";
           if (state.handFeedbackError) report('Hand feedback unavailable: ' + state.handFeedbackError);
           else report(
-            `Compositor layer drawn at ${state.actualPixels.join(" × ")} pixels. Build 006: practise Next, Back and Menu.`,
+            "The cabin is open. Enjoy your reading.",
           );
         }
       }
@@ -3067,11 +3167,8 @@ function frame(time, xrFrame, generation) {
     state.error = e.message;
     state.graphicsError = e.graphics || null;
     state.layerStatus = "failed: " + e.message;
-    report(
-      "The layer test stopped: " +
-        e.message +
-        " Return to the browser to read the test details.",
-    );
+    // The technical reason goes to the report shortcut, not the status line.
+    report("The cabin closed after a display problem. Your reading is saved; tap Enter the cabin to try again.");
     session.end();
     return;
   }
@@ -3092,7 +3189,7 @@ const clientId = (() => {
     return GOOGLE_CLIENT_ID;
   }
 })();
-const drive = new DriveLink({ clientId });
+const drive = directDrive ? new DriveLink({ clientId }) : new ManagedLink({ url: CONNECTION_URL, journal: managedJournal, storage: store });
 // The app's verdict on Claude's newest picks file travels in every
 // progress.json write, so it must survive a reload until the next sync.
 const LAST_CHECK_KEY = "cabin-last-check";
@@ -3101,17 +3198,59 @@ try {
 } catch {
   drive.lastCheck = null;
 }
-const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false };
+const driveState = { last: null, error: null, syncing: false, pending: 0, everSynced: false, googleBackup: null };
+let fallback = null;
+function googleFallback() {
+  if (!drive.isManaged || !drive.ownerSubject) return null;
+  if (!fallback) {
+    const direct = new DriveLink({ clientId, identity: true });
+    const copies = new GoogleRecovery(direct, managedJournal, { ownerSubject: drive.ownerSubject, deviceId: store.getItem(CONNECTION_DEVICE_KEY) });
+    fallback = {
+      direct, copies,
+      get connected() { return direct.connected; },
+      async signIn() { await direct.signIn(); await copies.verifyOwner(); },
+      async read(name) { if (name !== 'progress.json') throw Error('Your readings are kept'); const state = await copies.readProgress(); return state === null ? null : JSON.stringify(state); },
+      newestPicksStamp: (...args) => direct.newestPicksStamp(...args),
+      readPicksFor: (...args) => direct.readPicksFor(...args),
+      recoverGuides: (...args) => direct.recoverGuides(...args),
+      async writeProgress(payload, { requestId }) {
+        const envelope = await drive.prepareRecovery({ payload, id: requestId });
+        const receipt = await copies.save(envelope);
+        driveState.googleBackup = { at: receipt.at, id: requestId };
+        return receipt;
+      },
+    };
+  }
+  fallback.copies.ownerSubject = drive.ownerSubject;
+  return fallback;
+}
+function armGoogleFallback() { if (drive.isManaged && drive.unavailable && drive.ownerSubject) { googleFallback(); preloadGoogle(); } }
+function backupTransport() { return drive.isManaged && drive.unavailable && fallback?.connected ? fallback : drive; }
 function driveNote() {
+  if (drive.isManaged && drive.unavailable) return !!driveState.googleBackup && driveState.googleBackup.id === backupOutbox.entry?.id
+    ? 'Backup checked with Google Drive at ' + new Date(driveState.googleBackup.at).toTimeString().slice(0, 5) + ' · automatic connection will retry'
+    : 'Your readings are kept here · tap Sync with Drive to try the Google backup';
   if (driveState.error)
     return (
       "Drive: " +
-      driveState.error.slice(0, 90) +
+      driveState.error.slice(0, 160) +
       (driveState.pending ? ` (${driveState.pending} change${driveState.pending === 1 ? "" : "s"} not yet on Drive)` : "")
     );
   if (picksNotice) return picksNotice;
+  if (drive.isManaged && drive.status && !drive.status.driveCurrent) return drive.status.googleReconnect
+    ? 'Progress saved privately · tap Sync with Drive to reconnect Google'
+    : drive.status.mirrorProblem?.message || 'Progress saved privately · Google Drive will catch up';
+  if (drive.isManaged && drive.status?.driveCurrent) return drive.status.driveSyncedAt
+    ? 'Synced with Google Drive at ' + new Date(drive.status.driveSyncedAt).toTimeString().slice(0, 5)
+    : 'Progress saved with Google Drive';
   if (driveState.last) return "Synced with Google Drive at " + driveState.last;
   return clientId ? "Not synced yet · use Sync with Drive on the browser page" : "";
+}
+// Raw technical failures (a script that never loaded, a garbled reply) never
+// reach the reader; the app's own plain sentences pass through unchanged.
+function calmDriveError(e) {
+  const m = e?.message || "";
+  return e?.name === "Error" && m && !/\b(undefined|null|is not defined|is not a function|Unexpected|NaN|JSON|token)\b/.test(m) ? m : DRIVE_NOTES.unreachable;
 }
 function paintDriveButton() {
   const b = $("drive-sync");
@@ -3121,14 +3260,23 @@ function paintDriveButton() {
     ? "Drive: setup needed"
     : driveState.syncing
       ? "Syncing…"
-      : drive.connected
+      : drive.connected && !drive.needsReconnect
         ? "Sync with Drive ✓"
         : "Sync with Drive";
 }
 let driveTimer = null;
+let picksSeen = null; // today's newest picks file as of the last good sync
 function scheduleDriveSave() {
+  if (!driveReady) return;
+  if (!progressPersistent) return; // Recovery mode must not publish a replacement.
+  backupOutbox.enqueue(backupText());
+  driveState.pending = backupOutbox.pending ? 1 : 0;
+  if (drive.isManaged) {
+    try { drive.captureLocal(JSON.parse(backupText())); }
+    catch (e) { driveState.error = calmDriveError(e); return; }
+  }
+  if (!backupOutbox.pending) return;
   if (!clientId || !driveState.everSynced) return;
-  driveState.pending++;
   if (!drive.connected) {
     // Google's sign-in lasts about an hour. Ticks stay safe on the headset
     // and go up with the next Sync; say so instead of failing silently.
@@ -3136,35 +3284,166 @@ function scheduleDriveSave() {
     return;
   }
   clearTimeout(driveTimer);
-  driveTimer = setTimeout(() => {
-    drive.writeProgress(JSON.stringify(progress)).then(
-      () => {
-        driveState.error = null;
-        driveState.pending = 0;
-        driveState.last = new Date().toTimeString().slice(0, 5);
-      },
-      (e) => (driveState.error = e.message),
-    );
-  }, 1500);
+  driveTimer = setTimeout(retryPendingBackup, 1500);
+}
+let driveSaving = false;
+async function retryPendingBackup() {
+  if(driveSaving || driveState.syncing || !progressPersistent || !driveState.everSynced || !drive.connected || !backupOutbox.pending)return;
+  driveSaving=true;
+  try {const restored=await pushProgress(backupTransport());driveState.error=null;driveState.last=new Date().toTimeString().slice(0,5);if(drive.isManaged && restored)finishRestore();}
+  catch(e){armGoogleFallback();driveState.error=calmDriveError(e);}
+  finally {driveSaving=false;driveState.pending=backupOutbox.pending?1:0;paintDriveButton();}
+}
+// The backup copy (Drive and export) also carries reading places and
+// settings, which otherwise live only in this browser.
+// Only the export also keeps an unreadable original for manual recovery.
+function backupCopy(withRecovery = false) {
+  const headset = { reading: { last: reading.last, places: reading.places }, controls: preferences };
+  return withRecovery && unreadableBackup != null ? { ...progress, unreadableBackup, headset } : { ...progress, headset };
+}
+const backupText = () => {
+  const text = JSON.stringify(backupCopy());
+  return drive.prepareBackupText ? drive.prepareBackupText(text) : text;
+};
+if (drive.isManaged && progressPersistent) {
+  try { drive.initialise(JSON.parse(backupText()), { controls: controlsAtOpen !== null, reading: readingAtOpen, progress: progressAtOpen }); }
+  catch { driveState.error = 'Could not prepare the private backup. Your readings are kept on this headset; reopen the cabin.'; }
+}
+let controlsRestored = false;
+function applyManagedBackup(saved, { fallback = false } = {}) {
+  const local = JSON.parse(backupText());
+  const combined = fallback ? drive.mergeFallbackForLocal(local, saved) : drive.mergeForLocal(local, saved);
+  if (!validProgress(combined)) throw Error('The private backup needs recovery. Your readings are kept.');
+  const nextCheck = combined.cabinPickerInstructions?.lastCheck ?? drive.lastCheck;
+  const complete = JSON.parse(drive.prepareBackupText(JSON.stringify(combined), nextCheck));
+  const { headset, ...nextProgress } = complete, nextReading = structuredClone(reading);
+  const lastBefore = reading.last, filled = fillReadingFromBackup(nextReading, headset?.reading);
+  const restoreControls = controlsAtOpen === null && !controlsRestored && headset?.controls && typeof headset.controls === 'object' && !Array.isArray(headset.controls);
+  const nextPreferences = restoreControls ? structuredClone(headset.controls) : preferences;
+  // Save confirmation and polling metadata are not a new visible screen.
+  // Repainting those alone would cancel a pinch already held by the reader.
+  const visibleProgress = value => {
+    const { savedAt, cabinPickerInstructions, guideRecoveryCursor, cabinRecoveryCursor, ...visible } = value;
+    return JSON.stringify(visible);
+  };
+  const changed = visibleProgress(progress) !== visibleProgress(nextProgress);
+  try {
+    managedJournal.adopt({
+      'cabin-progress': JSON.stringify(nextProgress),
+      'cabin-reading': JSON.stringify(nextReading),
+      'cabin-controls': JSON.stringify(nextPreferences),
+      [LAST_CHECK_KEY]: JSON.stringify(nextCheck),
+    }, { ...nextProgress, headset: { reading: nextReading, controls: nextPreferences } });
+  } catch (failure) {
+    progressPersistent = false;
+    progressNotice = 'Could not finish restoring safely. Your previous copy is kept; reopen the cabin.';
+    throw failure;
+  }
+  progress = nextProgress; Object.assign(reading, nextReading); preferences = nextPreferences; drive.lastCheck = nextCheck;
+  if (restoreControls) controlsRestored = true;
+  if (changed || filled || restoreControls) { progressVersion++; refreshSavedGuides(); paint(); }
+  return (filled && reading.last !== lastBefore) || !!restoreControls;
+}
+// True when the restored last work or settings need a reopen to apply;
+// other filled-in places are used directly when that work is opened.
+function restoreHeadset(headset) {
+  if (!headset || typeof headset !== "object") return false;
+  const lastBefore = reading.last;
+  let reopen = false;
+  if (fillReadingFromBackup(reading, headset.reading)) {
+    saveReading(store, reading);
+    reopen = reading.last !== lastBefore;
+  }
+  const c = headset.controls;
+  if (controlsAtOpen === null && !controlsRestored && c && typeof c === "object" && !Array.isArray(c)) {
+    preferences = structuredClone(c);
+    savePreferences();
+    controlsRestored = reopen = true;
+  }
+  return reopen;
+}
+// A fresh browser picks up restored places and settings on a quiet reload.
+function finishRestore() {
+  if (state.session) return " Your saved places and settings are back; they apply next time you open the app.";
+  try {
+    if (sessionStorage.getItem("cabin-restore-reload")) return "";
+    sessionStorage.setItem("cabin-restore-reload", "1");
+  } catch { return ""; }
+  setTimeout(() => location.reload(), 1200);
+  return " Your saved places and settings are back; reopening…";
+}
+// Automatic saves re-read Drive first: another device's changes are merged
+// in, and a damaged Drive copy is left untouched instead of replaced.
+let drivePush = Promise.resolve();
+function pushProgress(transport = drive) {
+  const run = drivePush.then(async () => {
+    let restored = false;
+    const remote = await transport.read("progress.json");
+    if (remote !== null) {
+      let parsed;
+      try { parsed = JSON.parse(remote); } catch {}
+      if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; your changes are kept on the headset.");
+      if (drive.isManaged) restored = applyManagedBackup(parsed, { fallback: transport !== drive });
+      else {
+      const { headset, ...saved } = parsed;
+      restoreHeadset(headset);
+      const merged = mergeProgress(progress, saved);
+      if (JSON.stringify(merged) !== JSON.stringify(progress)) {
+        progress = merged;
+        if (progressPersistent) saveProgress(store, progress);
+        refreshSavedGuides();
+        paint();
+      }
+      }
+    }
+    const queued=backupOutbox.enqueue(backupText());
+    driveState.pending=backupOutbox.pending?1:0;
+    const receipt = await transport.writeProgress(queued.payload, { requestId: queued.id });
+    if (transport === drive) {
+      if (drive.isManaged) { restored = applyManagedBackup(receipt.state) || restored; drive.acknowledge(receipt); }
+      backupOutbox.acknowledge(queued.id);
+    }
+    return restored;
+  });
+  drivePush = run.catch(() => {});
+  return run;
 }
 // Pull today's three and merge progress; push the merged progress back.
-async function syncDrive() {
+async function syncDrive({ interactive = false, transport = null } = {}) {
+  transport ||= interactive && drive.isManaged && drive.unavailable ? googleFallback() || drive : drive;
+  const beforeSync = backupText();
   driveState.syncing = true;
   paintDriveButton();
   try {
-    if (!drive.connected) await drive.signIn();
-    const today = todayKey();
-    // History first: picks are checked against every earlier day's reading.
-    const remote = await drive.read("progress.json");
-    if (remote) {
-      try {
-        const parsed = JSON.parse(remote);
-        if (validProgress(parsed)) progress = mergeProgress(progress, parsed);
-      } catch {}
+    if (!progressPersistent) throw Error("Your saved progress needs recovery first. Your existing readings are still available.");
+    if (!transport.connected || (transport === drive && drive.needsReconnect && interactive)) {
+      if (!interactive && transport !== drive) throw Error('Tap Sync with Drive to reconnect Google. Your readings are kept');
+      await transport.signIn();
     }
-    const found = await drive.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS}));
+    const today = todayKey();
+    // Noted before reading the picks, so a file that lands mid-sync is
+    // still seen as new by the next minute's check.
+    const stamp = await transport.newestPicksStamp(today).catch(() => undefined);
+    // History first: picks are checked against every earlier day's reading.
+    const remote = await transport.read("progress.json");
+    let restored = false;
+    // null means no file yet; an existing empty file is damaged, not missing.
+    if (remote !== null) {
+      let parsed;
+      try { parsed = JSON.parse(remote); } catch {}
+      if (!validProgress(parsed)) throw Error("The Drive backup needs recovery. It has been left untouched; you can keep reading here.");
+      if (drive.isManaged) restored = applyManagedBackup(parsed, { fallback: transport !== drive });
+      else {
+      const { headset, ...saved } = parsed;
+      restored = restoreHeadset(headset);
+      progress = mergeProgress(progress, saved);
+      }
+    }
+    let picksFailure = null, found;
+    try { found = await transport.readPicksFor(today, (raw) => parsePicks(raw, progress.days, {reservedIds:RESERVED_REWARD_IDS})); }
+    catch (failure) { if (!drive.isManaged) throw failure; picksFailure = failure; }
     let message = "No picks from Claude yet. Ask Claude for today's three.";
-    drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
+    if (!picksFailure) drive.lastCheck = { checked: today, accepted: false, problems: ["no picks file for today yet"] };
     if (found) {
       const { raw, parsed: r } = found;
       const problems = [...r.problems];
@@ -3173,7 +3452,7 @@ async function syncDrive() {
       drive.lastCheck = { checked: today, date: r.date, accepted: !problems.length, problems };
       if (r.date === today && r.works.length === 3 && !r.problems.length) {
         try {
-          localStorage.setItem(TODAY_KEY, raw);
+          store.setItem(TODAY_KEY, raw);
         } catch {}
         todayWorks = r.works;
         picksNotice = "";
@@ -3204,39 +3483,80 @@ async function syncDrive() {
       if (r.problems.length) message += " (" + r.problems.join("; ") + ")";
     }
     try {
-      localStorage.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
+      store.setItem(LAST_CHECK_KEY, JSON.stringify(drive.lastCheck));
     } catch {}
     try {
-      await drive.recoverGuides(progress, today, raw => parsePicks(raw));
+      if (picksFailure) throw picksFailure;
+      await transport.recoverGuides(progress, today, raw => parsePicks(raw));
     } catch {
       message += " Earlier study notes could not be recovered this time; existing readings are kept.";
     }
     refreshSavedGuides();
     driveState.everSynced = true;
-    storeProgress();
-    // This direct write replaces any queued save (no duplicate creation).
+    if (transport === drive || backupText() !== beforeSync) storeProgress();
+    // Flush the latest snapshot through the same serialized save path.
     clearTimeout(driveTimer);
-    await drive.writeProgress(JSON.stringify(progress));
-    driveState.pending = 0;
-    driveState.error = null;
-    driveState.last = new Date().toTimeString().slice(0, 5);
-    report(message);
+    restored = await pushProgress(transport) || restored;
+    if (restored) message += finishRestore();
+    driveState.pending = backupOutbox.pending ? 1 : 0;
+    driveState.error = picksFailure ? calmDriveError(picksFailure) : null;
+    if (transport === drive) driveState.last = new Date().toTimeString().slice(0, 5);
+    else message += ' Your complete Google backup was checked; the automatic connection will retry.';
+    if (!picksFailure) picksSeen = { day: today, stamp };
+    report(picksFailure ? calmDriveError(picksFailure) : message);
   } catch (e) {
-    driveState.error = e.message;
-    report("Drive sync failed: " + e.message);
+    armGoogleFallback();
+    driveState.error = calmDriveError(e);
+    report(driveState.error);
   } finally {
     driveState.syncing = false;
     paintDriveButton();
     paint();
   }
 }
-$("drive-sync").onclick = () => syncDrive();
+$("drive-sync").onclick = () => syncDrive({ interactive: true });
+driveReady = true;
+if(progressPersistent)backupOutbox.enqueue(backupText());
+driveState.pending = backupOutbox.pending ? 1 : 0;
 paintDriveButton();
 // After a reload within the hour, Google's sign-in is still valid: sync
 // straight away (no popup), so ticks keep going to Drive.
 if (clientId && drive.connected) syncDrive();
+// While the app is open, look once a minute (and on returning to it) for a
+// new daily three or swap from Claude, and retry any pending backup.
+let picksCheck = false;
+async function checkForPicks() {
+  if (picksCheck || driveState.syncing || !drive.connected || document.hidden || !progressPersistent) return;
+  picksCheck = true;
+  try {
+    if(!driveState.everSynced){await syncDrive();return;}
+    const today = todayKey();
+    const stamp = await drive.newestPicksStamp(today);
+    if (picksSeen?.day !== today || picksSeen.stamp !== stamp) await syncDrive();
+    else {
+      await retryPendingBackup();
+      if (drive.isManaged && !backupOutbox.pending && drive.status && !drive.status.driveCurrent) { await drive.refreshStatus(); paintDriveButton(); paint(); }
+    }
+  } catch {
+    // A missed check is retried next minute; reading carries on.
+    if (drive.isManaged) {
+      armGoogleFallback();
+      if (drive.unavailable && fallback?.connected) {
+        const stamp = await fallback.newestPicksStamp(todayKey()).catch(() => undefined);
+        if (picksSeen?.day !== todayKey() || picksSeen.stamp !== stamp) await syncDrive({ transport: fallback });
+        else await retryPendingBackup();
+      }
+      else await retryPendingBackup();
+    }
+  } finally {
+    picksCheck = false;
+  }
+}
+setInterval(checkForPicks, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForPicks(); });
+addEventListener("online", () => checkForPicks());
 // Load Google sign-in early, so the popup opens directly from the tap.
-if (clientId) preloadGoogle();
+if (clientId && !drive.isManaged) preloadGoogle();
 await document.fonts.load("54px Literata");
 $("enter").onclick = enter;
 paint();
@@ -3265,6 +3585,6 @@ if (!isSecureContext) {
 } else {
   $("enter").textContent = "Open in Quest Browser";
   report(
-    "PC preview is ready. The compositor comparison happens in your headset.",
+    "Open this page in Quest Browser to read in the cabin.",
   );
 }

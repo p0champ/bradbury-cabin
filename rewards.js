@@ -1,6 +1,6 @@
-import { SOURCE_CATALOGUE } from './source-catalogue.js?v=57';
-import { LIBRARY } from './library.js?v=57';
-import { streakStats, validCompletion, berlinDateKey, KINDS } from './progress.js?v=57';
+import { SOURCE_CATALOGUE } from './source-catalogue.js?v=58';
+import { LIBRARY } from './library.js?v=58';
+import { streakStats, validCompletion, berlinDateKey, KINDS } from './progress.js?v=58';
 const catalogue=new Map(SOURCE_CATALOGUE.map(w=>[w.id,w]));
 export const MILESTONES=Object.freeze([
   {id:'streak-7',label:'Seven reading days in your streak',short:'7-day streak',metric:'streak',target:7, pool:['edgar-allan-poe-the-tell-tale-heart','edgar-allan-poe-the-black-cat','edgar-allan-poe-the-cask-of-amontillado']},
@@ -56,6 +56,14 @@ function alreadyGiven(progress) {
 export function rewardFacts(progress,today) {
   const days=streakStats(progress,today),pieces=completedPieceIds(progress,today).size;
   return {...days,pieces};
+}
+export function rewardGoals(progress,today) {
+  const facts=rewardFacts(progress,today),earned=new Set(rewardEntries(progress).map(r=>r.id));
+  return MILESTONES.filter(g=>!earned.has(g.id)).flatMap(g=>{
+    const count=g.metric==='streak'?facts.best:g.metric==='days'?facts.completedDays:facts.pieces;
+    if(count>=g.target)return [];
+    return [{id:g.id,line:g.metric==='streak'?`${g.short} · best so far ${count} ${count===1?'day':'days'}`:`${g.short} · ${count} so far`}];
+  });
 }
 export function reconcileRewards(progress,today,clock=new Date()) {
   const old=JSON.stringify(progress.rewards || null),state=mergeRewards(progress.rewards,null),facts=rewardFacts(progress,today);

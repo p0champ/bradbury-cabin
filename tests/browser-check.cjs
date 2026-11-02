@@ -32,9 +32,13 @@ async function mock(
   scenario = "layer",
   lying = false,
   preferences = { practised: true, headPointer: true },
+  connection = 'direct',
 ) {
   await page.addInitScript(
-    ({ scenario, lying, preferences }) => {
+    ({ scenario, lying, preferences, connection }) => {
+      // Preserve the complete legacy Drive checks; managed fixtures choose
+      // their transport explicitly through the fifth mock argument.
+      try { localStorage.setItem('cabin-drive-mode', connection); } catch {}
       if (!sessionStorage.getItem("mock-preferences")) {
         localStorage.setItem(
           "cabin-controls",
@@ -528,7 +532,7 @@ async function mock(
       window.__aim = async (id, rayOnly = false) => {
         // Native ray target used by the menu fixture.
         const buttons = JSON.parse(document.querySelector('#page').dataset.buttons || '[]');
-        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2'};
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'global-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2'};
         const button = typeof id==='object' ? id : buttons.find(b=>b.id===id||b.id===aliases[id]);
         if(!button) throw Error('Target '+id+' unavailable on '+document.querySelector('#page').dataset.menuPage+': '+buttons.map(b=>b.id).join(', '));
         const matrix = JSON.parse(document.querySelector('#page').dataset.panelPose || 'null') || __mock.placed.at(-1);
@@ -558,7 +562,7 @@ async function mock(
       // choice; each caller still completes its own native pinch.
       window.__navigate = async (name, rayOnly=false) => {
         const page=document.querySelector('#page');
-        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'settings-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2',sound:'settings-sound',volume:'settings-volume',gaze:'settings-look:on',ambience:'settings-ambience:rain',recenter:'settings-move'};
+        const aliases={library:'home-shelf',calendar:'home-calendar',resume:'home-resume',more:'settings-more',back:'settings-back',exit:'global-exit',practice:'settings-practise',night:'settings-appearance:night',mood:'settings-type:modern',size:'settings-size:2',sound:'settings-sound',volume:'settings-volume',gaze:'settings-look:on',ambience:'settings-ambience:rain',recenter:'settings-move'};
         const id=aliases[name]||name;
         for(let tries=0;tries<8;tries++){
           const buttons=JSON.parse(page.dataset.buttons||'[]');
@@ -568,7 +572,7 @@ async function mock(
           else if(id.startsWith('home-'))via=buttons.some(b=>b.id==='home-today')?'home-today':buttons.some(b=>b.id==='settings-done')?'settings-done':'settings-back';
           else if(buttons.some(b=>b.id==='home-settings'))via='home-settings';
           else if(['settings','more','sound','volume','controls','wrist','comfort'].includes(page.dataset.menuPage)){
-            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-more','settings-exit'],more:['settings-comfort','settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:'],comfort:['settings-dim','settings-seasons','settings-hemisphere']};
+            const routes={settings:['settings-appearance:','settings-type:','settings-size:','settings-move','settings-comfort','settings-more'],more:['settings-comfort','settings-sound','settings-calendar','settings-wrist','settings-controls'],sound:['settings-entry:','settings-ambience:','settings-volume'],volume:['settings-volume:'],controls:['settings-pointer:','settings-next:','settings-look:','settings-move','settings-practise'],wrist:['settings-wrist:'],comfort:['settings-dim','settings-seasons','settings-hemisphere']};
             const desired=Object.keys(routes).find(route=>routes[route].some(prefix=>id===prefix||id.startsWith(prefix)));
             if(page.dataset.menuPage==='settings')via='settings-more';
             else if(page.dataset.menuPage==='more')via=desired==='settings'?'settings-back':'settings-'+desired;
@@ -924,7 +928,7 @@ async function mock(
         },
       });
     },
-    { scenario, lying, preferences },
+    { scenario, lying, preferences, connection },
   );
 }
 (async () => {
@@ -940,10 +944,15 @@ async function mock(
   const createPage = browser.newPage.bind(browser);
   browser.newPage = async (...args) => {
     const p = await createPage(...args);
-    await p.addInitScript(() => document.addEventListener('DOMContentLoaded', () => {
+    await p.addInitScript(() => {
+      // These maintained fixtures protect the original direct connection.
+      // Managed fixtures use their own browser contexts and the real service.
+      try { localStorage.setItem('cabin-drive-mode', 'direct'); } catch {}
+      document.addEventListener('DOMContentLoaded', () => {
       if (!window.__testClosedDisclosures)
         for (const d of document.querySelectorAll('details')) d.open = true;
-    }));
+      });
+    });
     return p;
   };
   let checks = 0;
@@ -1169,7 +1178,7 @@ async function mock(
         }
         assert.match(
           await p.locator("#status").textContent(),
-          /Compositor layer drawn/,
+          /The cabin is open/,
         );
         const before = await p.evaluate(() => __mock.placed.at(-1));
         const placedCount = await p.evaluate(() => __mock.placed.length),
@@ -1427,14 +1436,17 @@ async function mock(
             : scenario === "quad-gl-error"
               ? "quad page upload"
               : "comparison projection draw";
-        assert.ok((await p.locator("#status").textContent()).includes(stage));
+        // The status stays calm; the named reason is on the report shortcut.
+        assert.match(await p.locator("#status").textContent(), /closed after a display problem/);
+        assert.ok((await p.locator("#session-note").textContent()).includes(stage));
+        assert.equal(await p.locator("#session-details").isVisible(), true);
         const download = p.waitForEvent("download");
         await p.locator("#export").click();
         const dl = await download;
         const file = path.join(out, scenario + ".json");
         await dl.saveAs(file);
         const details = JSON.parse(await fs.readFile(file, "utf8"));
-        assert.equal(details.build, "gestures-057");
+        assert.equal(details.build, "gestures-058");
         assert.equal(details.graphicsError.stage, stage);
         assert.deepEqual(details.graphicsError.codes, [
           scenario === "source-gl-error"
@@ -1445,7 +1457,8 @@ async function mock(
         ]);
         passed("injected GL error is named and exported: " + stage);
       } else if (scenario === "draw-failure") {
-        assert.match(await p.locator("#status").textContent(), /test stopped/);
+        assert.match(await p.locator("#status").textContent(), /closed after a display problem/);
+        assert.ok((await p.locator("#session-note").textContent()).length > 40, "the reason is kept for the report");
         passed("draw failure ends XR and reports reason");
       } else if (scenario === "opaque") {
         assert.match(
@@ -1982,7 +1995,7 @@ async function mock(
         __native("selectstart");
         __step(120);
       });
-      await p.evaluate(() => __aim("settings-exit", true));
+      await p.evaluate(() => __aim("global-exit", true));
       await p.evaluate(() => {
         __native("select");
         __native("selectend");
@@ -2414,7 +2427,7 @@ async function mock(
         "practice completes in any order and hands straight back to reading",
       );
       const icons = await p.evaluate(async () => {
-        const { paintHandBadge } = await import("./hand-badges.js?v=57");
+        const { paintHandBadge } = await import("./hand-badges.js?v=58");
         const bright = (opts) => {
           const c = document.createElement("canvas");
           c.width = c.height = 256;
@@ -2735,7 +2748,7 @@ async function mock(
         0,
       );
       const sound = await p.evaluate(async () => {
-        const { scheduleEntryChime } = await import("./entry-sound.js?v=57");
+        const { scheduleEntryChime } = await import("./entry-sound.js?v=58");
         const c = new OfflineAudioContext(1, 96000, 48000);
         scheduleEntryChime(c, c.destination, 0);
         const result = await c.startRendering();
@@ -2798,7 +2811,7 @@ async function mock(
       assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'sound');
       const soundIds=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
       assert.ok(soundIds.includes('settings-entry:off'));assert.ok(soundIds.includes('settings-ambience:rain'));
-      assert.ok(!soundIds.includes('settings-exit'),'screen-specific targets leak');
+      assert.ok(!soundIds.includes('settings-move'),'screen-specific targets leak');
       await p.evaluate(async()=>{await __aim('settings-back');__pinch();});
       assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'more');
       await p.evaluate(()=>__hold());assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');
@@ -2810,7 +2823,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false);
       await p.goto(BASE_URL);
       await p.locator("#enter:not([disabled])").click();
@@ -2946,7 +2959,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false, night ? { practised: true, headPointer: true } : undefined);
       if (!night)
         // Test data only: a day with stored picks, to show titles on the card.
@@ -3257,9 +3270,10 @@ async function mock(
       await p.evaluate(async () => await __aim("home-today"));
       await p.evaluate(() => __pinch());
       assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "today");
-      // Open Settings, then immediately attempt Leave: screen guard rejects
-      // the repeat instead of letting the opening pinch leave the cabin.
-      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('settings-exit');});
+      // Open Settings, then immediately pinch its action row (Move page here
+      // since Critic 7; leaving moved to the corner ✕): the screen guard
+      // rejects the repeat instead of letting the opening pinch act.
+      await p.evaluate(async () => {await __aim('home-settings');__pinch();await __aim('settings-move');});
       await p.evaluate(() => {
         __hand(0.05);
         __step(200);
@@ -3272,7 +3286,9 @@ async function mock(
         __step(16);
       });
       assert.equal(await p.locator("#enter").isEnabled(), false, "still in the cabin");
-      passed("Library Menu button and the Exit guard prevent an accidental exit");
+      assert.equal(await p.locator("#page").getAttribute("data-view"), "menu", "the page was not moved");
+      assert.equal(await p.locator("#page").getAttribute("data-menu-page"), "settings");
+      passed("Library Menu button and the screen guard prevent an accidental exit or move");
       await p.close();
     }
     {
@@ -3434,7 +3450,7 @@ async function mock(
       const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }),
         errors = [];
       p.on("pageerror", (e) => errors.push(e.message));
-      await p.clock.setFixedTime(new Date(2026, 9, 28, 20, 0, 0));
+      await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
       await mock(p, "layer", false);
       await p.addInitScript(() => localStorage.setItem("cabin-google-client", "test-client.apps.googleusercontent.com"));
       const today = {
@@ -3467,6 +3483,11 @@ async function mock(
           writes.push({ method, url, body: r.request().postData() });
           return json({ id: "P" });
         }
+        // Automatic saves re-read the copy written last.
+        if (url.includes("/files/P?alt=media")) {
+          const w = writes.at(-1);
+          return r.fulfill({ contentType: "application/json", body: w.method === "PATCH" ? w.body : w.body.slice(w.body.indexOf('{"cabinPickerInstructions"'), w.body.lastIndexOf("\r\n--")) });
+        }
         return r.fulfill({ status: 404, body: "" });
       });
       await p.goto(BASE_URL);
@@ -3493,8 +3514,8 @@ async function mock(
       await p.evaluate(() => __navigate("calendar"));
       await p.evaluate(() => __pinch());
       const cell = await p.evaluate(async () => {
-        const { calendarButtons } = await import("./calendar.js?v=57");
-        const { loadProgress } = await import("./progress.js?v=57");
+        const { calendarButtons } = await import("./calendar.js?v=58");
+        const { loadProgress } = await import("./progress.js?v=58");
         return calendarButtons("calendar", { year: 2026, month: 9 }, loadProgress(localStorage, "2026-10-28"), "2026-10-28").find((b) => b.id === "day:2026-10-28");
       });
       await p.evaluate(async () => await __aim("day:2026-10-28"));
@@ -3522,7 +3543,7 @@ async function mock(
       if ((await p.locator("#page").getAttribute("data-view")) === "menu") await p.evaluate(() => __hold());
       const before = await exportReading("before-midnight.json");
       assert.match(before.work, /^today-2026-10-28-/);
-      await p.clock.setFixedTime(new Date(2026, 9, 29, 0, 0, 5));
+      await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
       // Any repaint after midnight (here: opening and closing the menu).
       await p.evaluate(() => __hold());
       await p.evaluate(() => __hold());
@@ -3567,6 +3588,21 @@ async function mock(
     await require("./rewards-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await coherentChecks(browser, { mock, BASE_URL, out, passed });
     await continuityChecks(browser, { mock, BASE_URL, out, passed });
+    await require("./recovery-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./drive-merge-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./backup-outbox-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./restore-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./picks-arrival-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./today-missing-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./drive-failure-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./finish-next-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./settings-comfort-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./offline-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./weekly-sync-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./direct-release-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./managed-connection-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./fallback-browser.cjs")(browser,{mock,BASE_URL,out,passed});
+    await require("./reader-lease-browser.cjs")(browser,{mock,BASE_URL,out,passed});
     await fs.writeFile(
       path.join(out, "ui-results.json"),
       JSON.stringify(

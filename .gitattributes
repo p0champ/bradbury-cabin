@@ -1,0 +1,7 @@
+.githooks/* text eol=lf
+
+# Preserve the exact retained edition bytes pinned by the source critics.
+# Both platforms must check out the verified CRLF originals, without rehashing.
+tools/sources/*.txt text eol=crlf
+tools/critic/sources/*.html text eol=crlf
+tools/critic/critic-extraction.json text eol=crlf

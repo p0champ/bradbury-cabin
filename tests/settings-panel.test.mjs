@@ -39,6 +39,10 @@ test('explicit choices show current preferences without cycling through hidden s
   assert.deepEqual(selected('controls', { headPointer: true, swapped: true, gazeTurn: true }), ['settings-pointer:head', 'settings-next:left', 'settings-look:on']);
 });
 
+test('the first Settings page reaches Move page here and Comfort in one pinch', () => {
+  assert.deepEqual(settingsButtons({ page: 'settings' }).map(b => b.id).slice(-3), ['settings-move', 'settings-comfort', 'settings-more']);
+  assert.ok(!settingsButtons({ page: 'settings' }).some(b => b.id === 'settings-exit'), 'leaving stays on the corner ✕');
+});
 test('secondary routes retain sound, calendar, wrist and interaction capabilities', () => {
   assert.deepEqual(settingsButtons({ page: 'more' }).map(b => b.id), ['settings-back', 'settings-comfort', 'settings-sound', 'settings-calendar', 'settings-wrist', 'settings-controls']);
   assert.ok(settingsButtons({ page: 'controls' }).some(b => b.id === 'settings-move'));

@@ -1,5 +1,5 @@
-import { navigationSurface, CONTROL } from './theme.js?v=57';
-import { compactBounds, compactWrap } from './compact-panels.js?v=57';
+import { navigationSurface, CONTROL } from './theme.js?v=58';
+import { compactBounds, compactWrap } from './compact-panels.js?v=58';
 const S = 2048 / 720, Y = compactBounds().y;
 const rows = o => [
   ...[1,2,3,4,5].map((n,i)=>({id:`feedback-star:${n}`,x:24+i*88,y:112,w:78,h:52,label:`${n <= (o.feedback?.stars || 0) ? '★' : '☆'} ${n}`})),
@@ -10,7 +10,13 @@ const rows = o => [
   ...(o.draft && o.draft.length<=360?[{id:'feedback-save',x:192,y:378,w:160,h:48,label:'Save thought'}]:[]),
   {id:'feedback-type',x:360,y:378,w:160,h:48,label:'Type instead'},
   {id:'feedback-clear',x:528,y:378,w:168,h:48,label:'Clear thought'},
-  {id:'feedback-done',x:24,y:440,w:672,h:44,label:'Done · Library →'},
+  // Right after finishing: go straight on to the next unread piece of
+  // today's three, with the Library beside it; once all three are read,
+  // Done returns to Today.
+  ...(o.finishing && o.next ? [
+    {id:'feedback-continue',x:24,y:440,w:488,h:44,label:`Next: ${o.next.title} →`,fit:true},
+    {id:'feedback-done',x:520,y:440,w:176,h:44,label:'Library'},
+  ] : [{id:'feedback-done',x:24,y:440,w:672,h:44,label:o.finishing ? 'Done · Today →' : 'Done · Library →'}]),
 ];
 export function feedbackButtons(o) {return rows(o).map(b=>({...b,x:b.x*S,y:Y+b.y*S,w:b.w*S,h:b.h*S}));}
 export function thoughtPages(ctx,draft) {
@@ -33,7 +39,15 @@ export function paintFeedback(ctx,o) {
   compactWrap(ctx,o.voiceStatus || 'Saved feedback reaches Claude after Drive sync.',650).slice(0,2).forEach((s,i)=>text(s,24,344+i*18,15,'#cbd0cd'));
   for(const b of rows(o)){
     ctx.fillStyle=o.hover===b.id?CONTROL.hover:CONTROL.quiet;ctx.beginPath();ctx.roundRect(b.x,b.y,b.w,b.h,12);ctx.fill();
-    text(b.label,b.x+12,b.y+b.h/2,b.id.startsWith('feedback-star:')?22:16);
+    let label=b.label;
+    if(b.fit){
+      // A long title is shortened with … and keeps its arrow.
+      ctx.font='400 16px system-ui';
+      let body=b.label.slice(0,-2);
+      while(body.length>6&&ctx.measureText(`${body}… →`).width>b.w-24)body=body.slice(0,-1);
+      if(ctx.measureText(b.label).width>b.w-24)label=`${body.trimEnd()}… →`;
+    }
+    text(label,b.x+12,b.y+b.h/2,b.id.startsWith('feedback-star:')?22:16);
   }
   ctx.restore();
 }

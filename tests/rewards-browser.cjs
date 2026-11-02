@@ -10,7 +10,7 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
  async function setup({reduce=false,multiple=false,failSave=false}={}){
   const p=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});
-  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date(2026,10,2,20));
+  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date('2026-11-02T20:00:00+01:00'));
   await p.addInitScript(({works,date,multiple,C,failSave})=>{
    if(!sessionStorage.getItem('rewards-seeded')){
     const days={};for(let i=26;i<=31;i++)days[`2026-10-${i}`]={poem:true,story:true,essay:true};
@@ -36,6 +36,14 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
   assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'feedback');
  }
  {
+  const {p,errors}=await setup();await target(p,'home-shelf');await target(p,'home-rewards');
+  const text=await p.evaluate(()=>__rewardText);
+  for(const line of ['7-day streak · best so far 6 days','30 reading days · 6 so far','100 pieces · 2 so far'])assert.ok(text.includes(line),line);
+  assert.ok(text.join(' ').includes("One missed or half-read day per week (Mon–Sun) is forgiven: your streak holds, but it doesn't add a day."));
+  await p.locator('#page').screenshot({path:path.join(out,'rewards-unreached-goals.png')});
+  assert.deepEqual(errors,[]);passed('rewards: unreached goals show real counts and explain the Monday–Sunday grace day');await p.close();
+ }
+ {
   const {p,errors}=await setup();await finishPoem(p);
   let data=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')));assert.ok(data.rewards.awards['streak-7']);assert.equal(Object.keys(data.rewards.awards).length,1);
   await target(p,'feedback-done');assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'reward');
@@ -46,6 +54,8 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
   await p.locator('#page').screenshot({path:path.join(out,'hearthlight-reward-card.png')});
   await target(p,'reward-later');assert.equal(await p.locator('#page').getAttribute('data-menu-page'),'library');
   await target(p,'home-rewards');assert.ok(await p.evaluate(()=>__rewardText.some(t=>t.includes('TELL-TALE'))));
+  assert.ok(await p.evaluate(()=>!__rewardText.some(t=>t.startsWith('7-day streak · best so far'))),'earned goal leaves the progress lines');
+  assert.ok(await p.evaluate(()=>__rewardText.includes('30 reading days · 7 so far')&&__rewardText.includes('100 pieces · 3 so far')));
   await p.locator('#page').screenshot({path:path.join(out,'hearthlight-rewards-shelf.png')});
   await target(p,'reward-detail:streak-7');await target(p,'reward-read');
   assert.equal(await p.locator('#page').getAttribute('data-work'),MILESTONES[0].pool[0]);assert.equal(await p.locator('#page').getAttribute('data-view'),'reading');

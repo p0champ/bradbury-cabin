@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {streak,streakStats,berlinDateKey} from '../progress.js';
-import {MILESTONES,RESERVED_REWARD_IDS,reconcileRewards,rewardWorks,pendingRewards,acknowledgeRewards,mergeRewards,completedPieceIds,rewardFrame} from '../rewards.js';
+import {MILESTONES,RESERVED_REWARD_IDS,reconcileRewards,rewardWorks,pendingRewards,acknowledgeRewards,mergeRewards,completedPieceIds,rewardFrame,rewardGoals} from '../rewards.js';
 import {SOURCE_CATALOGUE as C} from '../source-catalogue.js';
 import {flameHeight,WATCH_METRES} from '../watch.js';
 import {mergeProgress} from '../drive.js';
@@ -9,6 +9,18 @@ import {parsePicks} from '../picks.js';
 import {withPickerContract} from '../picker-contract.js';
 const full=()=>({poem:true,story:true,essay:true}),at='2026-11-02T12:00:00.000Z';
 const fixture=()=>({version:1,start:'2026-10-26',trackingSince:'2026-10-26',days:{},weeks:{}});
+
+test('unreached goals show best historical streak, full days and distinct reviewed pieces; earned goals stay hidden',()=>{
+ const p=fixture();for(let i=26;i<=29;i++)p.days[`2026-10-${i}`]=full();
+ p.days['2026-11-02']={poem:true,ids:{poem:C.find(w=>w.kind==='poem').id}};
+ p.completedWorks={[C.find(w=>w.kind==='poem').id]:at,invented:at};
+ assert.equal(streakStats(p,'2026-11-02').current,0);
+ assert.deepEqual(rewardGoals(p,'2026-11-02').map(g=>g.line),[
+  '7-day streak · best so far 4 days','30 reading days · 4 so far','100 pieces · 1 so far']);
+ p.rewards={awards:{'streak-7':{at,catalogueId:MILESTONES[0].pool[0]}}};
+ assert.deepEqual(rewardGoals(p,'2026-11-02').map(g=>g.id),['days-30','pieces-100']);
+ assert.match(rewardGoals(fixture(),'2026-11-02')[0].line,/best so far 0 days$/);
+});
 test('only fully completed trios add a day; first weekly miss protects without credit',()=>{
  const p=fixture();p.days['2026-10-26']=full();p.days['2026-10-28']=full();
  const f=streakStats(p,'2026-10-29');assert.equal(f.current,2);assert.equal(f.completedDays,2);assert.equal(f.history.find(d=>d.date==='2026-10-27').protected,true);

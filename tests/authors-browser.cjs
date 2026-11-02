@@ -14,7 +14,7 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     const lying = i % 2 === 1;
     const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }), errors = [];
     p.on('pageerror', e => errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026, 9, 28, 20));
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
     await mock(p, 'layer', lying, { practised: true, headPointer: true, size: 2 });
     const picks = { version: 2, date: '2026-10-28', picks: {} };
     for (const kind of ['poem', 'story', 'essay']) {
@@ -45,10 +45,10 @@ module.exports = async function authorChecks(browser, { mock, BASE_URL, out, pas
     await p.waitForFunction(id => document.querySelector('#page').dataset.work === id, todayId);
     const expected = await p.evaluate(async id => {
       await document.fonts.ready;
-      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=57');
-      const { layoutWork } = await import('./reader.js?v=57');
-      const { MOODS } = await import('./theme.js?v=57');
-      const { typeset } = await import('./folio.js?v=57');
+      const { SOURCE_CATALOGUE } = await import('./source-catalogue.js?v=58');
+      const { layoutWork } = await import('./reader.js?v=58');
+      const { MOODS } = await import('./theme.js?v=58');
+      const { typeset } = await import('./folio.js?v=58');
       const ctx = document.querySelector('#page').getContext('2d');
       const work = SOURCE_CATALOGUE.find(w => w.id === id);
       // Same layout and display-time quotes as the app (Build 054 opening letter).

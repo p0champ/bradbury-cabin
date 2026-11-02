@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { layoutWork, pageForAnchor, AREA, loadReading, saveReading } from "../reader.js";
+import { layoutWork, pageForAnchor, AREA, loadReading, saveReading, fillReadingFromBackup } from "../reader.js";
 import { LIBRARY } from "../library.js";
 import { SOURCE_CATALOGUE } from "../source-catalogue.js";
 const ADDED_AUTHORS = new Set(["W. B. Yeats", "Edgar Allan Poe", "Thomas De Quincey", "Rabindranath Tagore"]);
@@ -128,6 +128,28 @@ test("reading places round-trip and tolerate bad storage", () => {
   assert.deepEqual(loadReading(s), { last: null, places: { b: { anchor: { block: 2, word: 3 }, page: 1 } } });
   m.set("cabin-reading", "{bad");
   assert.deepEqual(loadReading(s), { last: null, places: {} });
+});
+test("a backup only fills missing reading places, never moves one", () => {
+  const local = { last: "a", places: { a: { anchor: { block: 9, word: 1 }, page: 4 } } };
+  const backup = { last: "b", places: {
+    a: { anchor: { block: 1, word: 0 }, page: 0 },
+    b: { anchor: { block: 5, word: 2 }, page: 2 },
+    c: { anchor: { block: "bad" } },
+  } };
+  assert.equal(fillReadingFromBackup(local, backup), true);
+  assert.deepEqual(local, { last: "a", places: {
+    a: { anchor: { block: 9, word: 1 }, page: 4 },
+    b: { anchor: { block: 5, word: 2 }, page: 2 },
+  } });
+  assert.equal(fillReadingFromBackup(local, backup), false, "nothing new the second time");
+  const fresh = { last: null, places: {} };
+  assert.equal(fillReadingFromBackup(fresh, backup), true);
+  assert.equal(fresh.last, "b");
+  for (const junk of [null, undefined, "x", [], { places: [] }]) assert.equal(fillReadingFromBackup({ last: null, places: {} }, junk), false);
+  const proto = JSON.parse('{"places":{"__proto__":{"anchor":{"block":1,"word":0},"page":0}}}');
+  const target = { last: null, places: {} };
+  fillReadingFromBackup(target, proto);
+  assert.equal(Object.getPrototypeOf(target.places), Object.prototype);
 });
 
 test("pages contain only drawable text items (no blank spacers drawn)", () => {

@@ -6,3 +6,5 @@ work/
 evidence/
 *.log
 __pycache__/
+.dev.vars*
+.wrangler/

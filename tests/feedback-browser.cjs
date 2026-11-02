@@ -9,7 +9,7 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
  const target=(p,id)=>p.evaluate(async id=>{await __aim(id,true);__pinch();__step(800);},id);
  async function setup(voice=false){
   const p=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date(2026,9,30,20));
+  await mock(p,'layer',false,{practised:true,headPointer:false,visits:4});await p.clock.setFixedTime(new Date('2026-10-30T20:00:00+01:00'));
   await p.addInitScript(({works,date,voice})=>{
    if(!sessionStorage.getItem('feedback-seeded')){
     localStorage.setItem('cabin-today',JSON.stringify({version:2,date,picks:Object.fromEntries(works.map(w=>[w.kind,{catalogueId:w.id,selection:{mode:'explore'}}]))}));
@@ -65,6 +65,29 @@ module.exports=async(browser,{mock,BASE_URL,out,passed})=>{
   assert.ok(await p.evaluate(()=>__texts.some(t=>t.includes('END.'))),'tail of transcript must be available for review');
   await target(p,'feedback-save');assert.equal(await p.evaluate(id=>JSON.parse(localStorage.getItem('cabin-progress')).feedback[id].thought.value,works[0].id),'W'.repeat(330)+' END.');
   assert.deepEqual(errors,[]);passed('feedback: successful dictation requires explicit Save; closing the card cancels late results');await p.close();
+ }
+ {
+  const {p,errors}=await setup(true);await target(p,`home-feedback:${id}`);await target(p,'feedback-speak');
+  const draft='A thought I am still checking.';
+  await p.evaluate(text=>{__speech.onresult({results:[Object.assign([{transcript:text}],{isFinal:true})]});__speech.onend();},draft);
+  let data=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')));
+  assert.equal(data.unapprovedThoughtDrafts[works[0].id].value,draft);assert.equal(data.unapprovedThoughtDrafts[works[0].id].approved,false);
+  assert.equal(data.feedback?.[works[0].id]?.thought,undefined,'draft is never approved feedback');
+  const download=p.waitForEvent('download');await p.locator('#progress-export').click();const exported=await (await download).path();
+  await p.reload();await p.locator('#enter').click();await p.evaluate(()=>__center());await target(p,`home-feedback:${id}`);
+  assert.ok(await p.evaluate(()=>__texts.includes('Unsaved draft restored. Check it, then save.')));
+  await target(p,'feedback-type');assert.equal(await p.locator('#thought-text').inputValue(),draft);
+  await p.locator('#thought-save').click();data=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')));
+  assert.equal(data.feedback[works[0].id].thought.value,draft);assert.equal(data.unapprovedThoughtDrafts[works[0].id].value,null);
+  await p.locator('#thought-clear').click();await p.locator('[data-rating="4"]').click();await p.locator('#progress-file').setInputFiles(exported);
+  await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Progress imported.'));
+  data=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')));
+  assert.equal(data.feedback[works[0].id].thought.value,null);assert.equal(data.unapprovedThoughtDrafts[works[0].id].value,null,'old backup cannot revive a cleared draft');
+  assert.equal(data.feedback[works[0].id].stars.value,4,'restore also keeps newer independent feedback');
+  const q=await browser.newPage();await q.route('https://accounts.google.com/**',r=>r.abort());await q.goto(BASE_URL);await q.locator('#progress-file').setInputFiles(exported);
+  await q.waitForFunction(id=>JSON.parse(localStorage.getItem('cabin-progress'))?.unapprovedThoughtDrafts?.[id]?.value==='A thought I am still checking.',works[0].id);
+  data=await q.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')));assert.equal(data.unapprovedThoughtDrafts[works[0].id].value,draft);assert.equal(data.feedback?.[works[0].id]?.thought,undefined,'fresh restore keeps it unapproved');
+  await q.close();assert.deepEqual(errors,[]);await p.close();passed('thought draft: full text survives reopening and backup restore, stays unsaved, and never revives after clearing');
  }
  {
   const p=await browser.newPage();await p.addInitScript(()=>{window.SpeechRecognition=undefined;window.webkitSpeechRecognition=undefined;});

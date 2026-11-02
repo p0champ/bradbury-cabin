@@ -8,12 +8,13 @@
 // Scopes: drive.readonly to read the file Claude wrote, drive.file to create
 // and update the progress file the cabin owns. Nothing else is touched.
 // The OAuth client ID is a public identifier (not a secret).
-import { mergeRewards } from "./rewards.js?v=57";
-import { mergeFeedback, mergeSelections } from "./feedback.js?v=57";
-import { withPickerContract } from "./picker-contract.js?v=57";
-import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=57";
-import { mergePersonal } from "./daily-lines.js?v=57";
-import { validCompletion } from "./progress.js?v=57";
+import { mergeRewards } from "./rewards.js?v=58";
+import { mergeFeedback, mergeSelections } from "./feedback.js?v=58";
+import { mergeThoughtDrafts } from "./thought-drafts.js?v=58";
+import { withPickerContract } from "./picker-contract.js?v=58";
+import { rememberGuides, missingGuideKinds, mergeDayGuides } from "./guide-archive.js?v=58";
+import { mergePersonal } from "./daily-lines.js?v=58";
+import { validCompletion } from "./progress.js?v=58";
 export const CLIENT_ID_KEY = "cabin-google-client";
 export const FOLDER = "Bradbury Cabin";
 const SCOPES = [
@@ -27,24 +28,43 @@ export const READ_SCOPE_MISSING =
   "Google didn't allow reading Claude's file. Tap Sync with Drive again and tick \"See and download all your Google Drive files\"";
 const MAX_FILE = 1_500_000; // bytes; a day's three texts are far smaller
 
+// Calm notes for the reader: what happened, that reading is safe, what to do.
+const KEPT = "Your readings are all here; tap Sync with Drive to try again.";
+export const DRIVE_NOTES = {
+  signInUnreachable: "Couldn't reach Google sign-in. Check the internet connection. " + KEPT,
+  signInClosed: "Google sign-in closed before it finished. " + KEPT,
+  unreachable: "Couldn't reach Google Drive just now. " + KEPT,
+  slow: "Google Drive is taking too long to answer. " + KEPT,
+  refused: "Google Drive didn't accept the request just now. " + KEPT,
+};
+const REQUEST_MS = 20000;
+
+// One load per page; a failed load is forgotten so the next tap retries.
+const loading = new Map();
 function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const s = document.createElement("script");
-    s.src = src;
-    s.async = true;
-    s.onload = resolve;
-    s.onerror = () => reject(Error("Could not load Google sign-in"));
-    document.head.append(s);
-  });
+  if (!loading.has(src))
+    loading.set(src, new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = () => {
+        s.remove();
+        loading.delete(src);
+        reject(Error(DRIVE_NOTES.signInUnreachable));
+      };
+      document.head.append(s);
+    }));
+  return loading.get(src);
 }
 
 export function preloadGoogle() {
   return loadScript("https://accounts.google.com/gsi/client").catch(() => {});
 }
 export class DriveLink {
-  constructor({ clientId, fetchFn = (...a) => fetch(...a), storage = sessionStorage } = {}) {
+  constructor({ clientId, fetchFn = (...a) => fetch(...a), storage = sessionStorage, identity = false } = {}) {
     this.clientId = clientId;
+    this.identity = identity;
     this.fetch = fetchFn;
     this.storage = storage;
     this.token = null;
@@ -59,7 +79,7 @@ export class DriveLink {
       const t = JSON.parse(storage.getItem(TOKEN_KEY) || "null");
       // Older saved tokens carry no scope list: drop them so the next tap
       // checks the permissions properly.
-      if (t && t.expires > Date.now() + 60000 && t.read === true)
+      if (t && t.expires > Date.now() + 60000 && t.read === true && (!identity || t.identity === true))
         Object.assign(this, { token: t.token, expires: t.expires });
     } catch {}
   }
@@ -69,13 +89,16 @@ export class DriveLink {
   // Must be called from a user tap (Google opens a small sign-in window).
   async signIn() {
     if (!this.clientId) throw Error("Google setup is not finished yet");
-    await loadScript("https://accounts.google.com/gsi/client");
+    if (!globalThis.google?.accounts?.oauth2) await loadScript("https://accounts.google.com/gsi/client");
+    // A blocked or partial script load leaves no usable sign-in.
+    const oauth2 = globalThis.google?.accounts?.oauth2;
+    if (!oauth2?.initTokenClient) throw Error(DRIVE_NOTES.signInUnreachable);
     const response = await new Promise((resolve, reject) => {
-      const client = google.accounts.oauth2.initTokenClient({
+      const client = oauth2.initTokenClient({
         client_id: this.clientId,
-        scope: SCOPES,
-        callback: (r) => (r.error ? reject(Error(r.error_description || r.error)) : resolve(r)),
-        error_callback: (e) => reject(Error(e?.message || e?.type || "Sign-in was closed")),
+        scope: SCOPES + (this.identity ? ' openid email' : ''),
+        callback: (r) => (r.error ? reject(Error(DRIVE_NOTES.signInClosed)) : resolve(r)),
+        error_callback: () => reject(Error(DRIVE_NOTES.signInClosed)),
       });
       // After a partial grant, ask with the full consent screen again.
       client.requestAccessToken({ prompt: this.needsReadScope ? "consent" : "" });
@@ -85,10 +108,11 @@ export class DriveLink {
     const granted = String(response.scope || SCOPES).split(" ");
     this.needsReadScope = !granted.includes("https://www.googleapis.com/auth/drive.readonly");
     if (this.needsReadScope) throw Error(READ_SCOPE_MISSING);
+    if (this.identity && !granted.includes('https://www.googleapis.com/auth/drive.file')) throw Error('Google did not allow the backup files. Your readings are kept; tap Sync with Drive and allow both Drive permissions');
     this.token = response.access_token;
     this.expires = Date.now() + (Number(response.expires_in) || 3600) * 1000;
     try {
-      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires, read: true }));
+      this.storage.setItem(TOKEN_KEY, JSON.stringify({ token: this.token, expires: this.expires, read: true, ...(this.identity ? { identity: true } : {}) }));
     } catch {}
   }
   signOut() {
@@ -100,20 +124,44 @@ export class DriveLink {
   }
   async call(url, init = {}) {
     if (!this.connected) throw Error("Not signed in to Google Drive");
-    const r = await this.fetch(url, {
-      ...init,
-      headers: { ...(init.headers || {}), Authorization: `Bearer ${this.token}` },
-    });
+    // Every request has a deadline, so a poor connection cannot hang a sync.
+    let r;
+    try {
+      r = await this.fetch(url, {
+        ...init,
+        signal: init.signal || AbortSignal.timeout?.(REQUEST_MS),
+        headers: { ...(init.headers || {}), Authorization: `Bearer ${this.token}` },
+      });
+    } catch (e) {
+      throw Error(e?.name === "TimeoutError" || e?.name === "AbortError" ? DRIVE_NOTES.slow : DRIVE_NOTES.unreachable);
+    }
     if (r.status === 401) {
       this.signOut();
       throw Error("Google sign-in expired");
     }
-    if (!r.ok) throw Error(`Google Drive error ${r.status}`);
+    if (!r.ok) throw Object.assign(Error(DRIVE_NOTES.refused), { status: r.status });
     return r;
   }
+  async listFiles(q, fields, order = 'createdTime desc', size = 100) {
+    const files = [], seen = new Set();
+    let token = '';
+    do {
+      const url = `${API}/files?q=${encodeURIComponent(q)}&fields=nextPageToken,incompleteSearch,files(${fields})&orderBy=${order}&pageSize=${size}&spaces=drive` +
+        (token ? `&pageToken=${encodeURIComponent(token)}` : '');
+      const page = await (await this.call(url)).json();
+      if (!page || page.incompleteSearch || (page.files != null && !Array.isArray(page.files)))
+        throw Error("Google Drive couldn't list all the files. Your readings are kept; tap Sync with Drive to try again.");
+      const next = page.nextPageToken ?? '';
+      if (typeof next !== 'string' || (next && seen.has(next)))
+        throw Error("Google Drive couldn't finish listing the files. Your readings are kept; tap Sync with Drive to try again.");
+      files.push(...(page.files || []));
+      if (next) seen.add(next);
+      token = next;
+    } while (token);
+    return files;
+  }
   async find(q) {
-    const url = `${API}/files?q=${encodeURIComponent(q)}&fields=files(id,name,modifiedTime)&orderBy=modifiedTime desc&pageSize=5&spaces=drive`;
-    return (await (await this.call(url)).json()).files || [];
+    return this.listFiles(q, 'id,name,modifiedTime', 'modifiedTime desc', 5);
   }
   async folder() {
     if (this.folderId) return this.folderId;
@@ -132,6 +180,16 @@ export class DriveLink {
     if (name === "progress.json") this.progressId = files[0].id;
     return (await this.call(`${API}/files/${files[0].id}?alt=media`)).text();
   }
+  // One small listing: which of today's picks files is newest. A new daily
+  // three or a swap changes it, so the open app knows when to sync.
+  async newestPicksStamp(today) {
+    const folder = await this.folder();
+    if (!folder) return null;
+    const query = `'${folder}' in parents and trashed = false and name contains 'picks-${today}'`;
+    const file = (await this.listFiles(query, 'id,name,createdTime,modifiedTime')).find(f =>
+      new RegExp(`^picks-${today}(-[0-9]+)?\\.json$`).test(f.name));
+    return file ? `${file.id}:${file.createdTime || ""}:${file.modifiedTime || ""}` : null;
+  }
   // Claude's picks for `today`. Lists the folder (newest created first),
   // keeps only files named picks-YYYY-MM-DD[-n].json, and returns the first
   // one that parses with today's date. If none is for today, returns the
@@ -139,10 +197,8 @@ export class DriveLink {
   async readPicksFor(today, parse) {
     const folder = await this.folder();
     if (!folder) return null;
-    const url =
-      `${API}/files?q=${encodeURIComponent(`'${folder}' in parents and trashed = false`)}` +
-      `&fields=files(id,name,size,createdTime)&orderBy=createdTime desc&pageSize=20&spaces=drive`;
-    const files = ((await (await this.call(url)).json()).files || []).filter((f) =>
+    const query = `'${folder}' in parents and trashed = false`;
+    const files = (await this.listFiles(query, 'id,name,size,createdTime', 'createdTime desc', 20)).filter((f) =>
       /^picks-\d{4}-\d{2}-\d{2}(-\d+)?\.json$/.test(f.name),
     );
     // The newest current-day request is authoritative. A failed new swap
@@ -179,8 +235,7 @@ export class DriveLink {
       progress.guideRecoveryCursor = date;
       listed++;
       const query = `'${folder}' in parents and trashed = false and name contains 'picks-${date}'`;
-      const url = `${API}/files?q=${encodeURIComponent(query)}&fields=files(id,name,size,createdTime,modifiedTime)&orderBy=createdTime desc&pageSize=100&spaces=drive`;
-      const files = ((await (await this.call(url)).json()).files || []).filter(f =>
+      const files = (await this.listFiles(query, 'id,name,size,createdTime,modifiedTime')).filter(f =>
         new RegExp(`^picks-${date}(-[0-9]+)?\\.json$`).test(f.name));
       const file = files[0];
       if (!file || Number(file.size) > MAX_FILE) continue;
@@ -252,6 +307,8 @@ export function mergeProgress(local, remote) {
   const out = structuredClone(newer);
   if(local.rewards || remote.rewards)out.rewards=mergeRewards(local.rewards,remote.rewards);
   if (local.feedback || remote.feedback) out.feedback = mergeFeedback(local.feedback, remote.feedback);
+  if(local.unapprovedThoughtDrafts || remote.unapprovedThoughtDrafts)
+    out.unapprovedThoughtDrafts=mergeThoughtDrafts(local.unapprovedThoughtDrafts,remote.unapprovedThoughtDrafts,out.feedback);
   out.start = [local.start, remote.start].filter(Boolean).sort()[0];
   out.trackingSince = [local.trackingSince, remote.trackingSince].filter(Boolean).sort()[0];
   const older = newer === remote ? local : remote;

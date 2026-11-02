@@ -1,6 +1,6 @@
-import { navigationSurface, CONTROL } from './theme.js?v=57';
-import { HOME_FRAME, HOME_SCALE as S } from './home-panel.js?v=57';
-import { compactWrap } from './compact-panels.js?v=57';
+import { navigationSurface, CONTROL } from './theme.js?v=58';
+import { HOME_FRAME, HOME_SCALE as S } from './home-panel.js?v=58';
+import { compactWrap } from './compact-panels.js?v=58';
 const Y=HOME_FRAME.y;
 function local(o) {
   if(o.phase==='glow')return [{id:'reward-skip',x:536,y:432,w:160,h:48,label:'Skip →'}];
@@ -24,7 +24,11 @@ export function paintRewards(ctx,o) {
       ctx.font='400 21px Georgia';const title=r.work?.title||'Reward earned · more reviewed picks needed';
       const wrapped=compactWrap(ctx,title,620);wrapped.slice(0,2).forEach((s,n)=>{ctx.font='400 21px Georgia';ctx.fillStyle='#f5f5f2';ctx.fillText(s,42,y+49+n*23);});
     }
-    if(!o.entries.length){lines('A reading habit, a little at a time.',216,27);text('7-day streak · 30 complete days · 100 different pieces',32,275,18,'#cbd0cd');}
+    if(!o.entries.length)lines('A reading habit, a little at a time.',150,27);
+    const goalY=o.entries.length?146+o.entries.length*98:202;
+    (o.goals||[]).forEach((g,i)=>text(g.line,32,goalY+i*28,18,'#cbd0cd'));
+    const grace="One missed or half-read day per week (Mon–Sun) is forgiven: your streak holds, but it doesn't add a day.";
+    ctx.font='400 16px system-ui';compactWrap(ctx,grace,640).forEach((s,i)=>text(s,32,436+i*22,16,'#cbd0cd'));
   } else {
     const r=o.entry;text(o.entries.length>1?`Reward ${o.index+1} of ${o.entries.length}`:'A reading reward',32,40,18,'#e5c98f');
     text(r?.label || 'A milestone earned',32,90,21);

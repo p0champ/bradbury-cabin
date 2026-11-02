@@ -1,0 +1,50 @@
+name: Complete reader checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    # The free Linux renderer needed 81 minutes before the last 80 checks.
+    # Allow the entire gate to finish; every assertion and test timeout stays intact.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: npm install --no-save --package-lock=false
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verify
+      - name: Package only the checked public reader
+        if: github.event_name == 'push' && github.ref == 'refs/heads/phase-1-gestures'
+        run: node tools/package-site.mjs
+      - uses: actions/upload-pages-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/phase-1-gestures'
+        with:
+          path: evidence/site
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: complete-reader-evidence
+          path: evidence/verify
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/phase-1-gestures'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: cabin-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish the checked reader
+        id: deployment
+        uses: actions/deploy-pages@v4

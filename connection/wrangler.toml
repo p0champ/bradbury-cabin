@@ -1,0 +1,25 @@
+name = "bradbury-cabin-connection"
+main = "worker.js"
+compatibility_date = "2026-10-30"
+workers_dev = true
+preview_urls = false
+
+[vars]
+SERVICE_URL = "https://bradbury-cabin-connection.bastianfarges40.workers.dev/"
+CABIN_URL = "https://p0champ.github.io/bradbury-cabin/"
+SETUP_URL = ""
+GOOGLE_CLIENT_ID = "379320678298-n7emu1el4qc84v3gepk0tn82rra4jglr.apps.googleusercontent.com"
+# OWNER_EMAIL, GOOGLE_CLIENT_SECRET and MASTER_KEY are private host secrets.
+# The optional temporary SETUP_URL must be an exact loopback address, and is
+# removed after owner setup. No credential belongs in this file or a backup.
+
+[[durable_objects.bindings]]
+name = "OWNER"
+class_name = "CabinOwner"
+
+[[migrations]]
+tag = "cabin-private-v1"
+new_sqlite_classes = ["CabinOwner"]
+
+[observability]
+enabled = false

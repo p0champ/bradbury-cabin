@@ -4,7 +4,7 @@
 // and flows across pages with at least two lines kept together at a split.
 // Every page records an anchor (block, word) so a saved place survives a
 // change of text size.
-import { SIZES } from "./core.js?v=57";
+import { SIZES } from "./core.js?v=58";
 
 export const AREA = { left: 194, right: 1854, top: 380, bottom: 2120 };
 const WIDTH = AREA.right - AREA.left;
@@ -261,6 +261,22 @@ export function loadReading(storage) {
     }
   } catch {}
   return { last: null, places: {} };
+}
+// Fill gaps from a backup copy. A place this browser already has always
+// wins, so restoring never moves an existing bookmark.
+export function fillReadingFromBackup(reading, backup) {
+  const saved = loadReading({ getItem: () => JSON.stringify(backup ?? null) });
+  let changed = false;
+  for (const [id, place] of Object.entries(saved.places))
+    if (id !== "__proto__" && !Object.hasOwn(reading.places, id)) {
+      reading.places[id] = place;
+      changed = true;
+    }
+  if (!reading.last && saved.last) {
+    reading.last = saved.last;
+    changed = true;
+  }
+  return changed;
 }
 export function saveReading(storage, reading) {
   try {

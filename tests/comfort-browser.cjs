@@ -6,7 +6,7 @@ module.exports = async (browser, {mock,BASE_URL,out,passed}) => {
     const p=await browser.newPage(), errors=[];p.on('pageerror',e=>errors.push(e.message));
     await p.emulateMedia({reducedMotion:reduce?'reduce':'no-preference'});
     await mock(p,'layer',false,{practised:true,headPointer:false,visits:4,...preferences});
-    await p.clock.setFixedTime(new Date(2026,9,30,20));
+    await p.clock.setFixedTime(new Date('2026-10-30T20:00:00+01:00'));
     await p.route('https://api.dictionaryapi.dev/**',r=>r.fulfill({headers:{'access-control-allow-origin':'*'},json:[{meanings:[{definitions:[{definition:r.request().url().endsWith('/crimson')?'A deep red colour.':'A country in northwestern Europe.'}]}]}]}));
     await p.route('https://en.wikipedia.org/**',r=>r.fulfill({headers:{'access-control-allow-origin':'*'},json:{query:{pages:{1:{title:'England',extract:'England is a country that forms part of the United Kingdom.'}}}}}));
     await p.goto(BASE_URL);await p.locator('#enter').click();

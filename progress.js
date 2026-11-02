@@ -168,7 +168,7 @@ export function toggleWeekly(p, key, today) {
   if (key < p.start || key > today) return false;
   const w = (p.weeks[sunday] ||= {});
   w.submitted = !w.submitted;
-  if (!w.submitted && w.grade == null && !w.title) delete p.weeks[sunday];
+  // Keep an explicit removal so an older backup cannot restore the tick.
   return true;
 }
 

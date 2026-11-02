@@ -7,7 +7,7 @@ module.exports = async function pickerChecks(browser, { mock, BASE_URL, out, pas
   for (const lying of [false, true]) {
     const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } }), errors = [];
     p.on('pageerror', e => errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026, 9, 28, 20));
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));
     await mock(p, 'layer', lying);
     let picks = { version: 1, date: '2026-10-28', picks: { poem: { title: 'UNSUPPORTED MODEL COPY', author: 'Unknown', text: 'FORGED' } } };
     const writes = [];

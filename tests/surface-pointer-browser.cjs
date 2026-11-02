@@ -75,7 +75,7 @@ module.exports = async function surfacePointerChecks(browser, { mock, BASE_URL, 
     const p = await browser.newPage(), errors = []; p.on('pageerror', error => errors.push(error.message));
     await mock(p, scenario, lying, { practised: true, headPointer: false, visits: 4 });
     await p.addInitScript(works => localStorage.setItem('cabin-today', JSON.stringify({ version: 2, date: '2026-10-29', picks: Object.fromEntries(works.map(w => [w.kind, { catalogueId: w.id }])) })), works.map(({ id, kind }) => ({ id, kind })));
-    await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => { __center(); if (document.querySelector('#page').dataset.view !== 'menu') __hold(); __hand(.05); __step(800); });
     await p.evaluate(installSurfaceProbe);

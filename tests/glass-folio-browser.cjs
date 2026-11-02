@@ -22,7 +22,7 @@ module.exports = async function glassFolioChecks(browser, { mock, BASE_URL, pass
         return fill.call(this, t, ...a);
       };
     }, works.map(({ id, kind }) => ({ id, kind })));
-    await p.clock.setFixedTime(new Date(2026, 9, 29, 20));
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));
     await p.goto(BASE_URL); await p.locator('#enter').click();
     await p.evaluate(() => {
       __center();

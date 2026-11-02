@@ -1,4 +1,4 @@
-import { SEASON_COLOURS } from './comfort.js?v=57';
+import { SEASON_COLOURS } from './comfort.js?v=58';
 const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
 export const CARD = Object.freeze({ width: 800, height: 900, metresWide: .29, metresHigh: .32625 });
 export function paintWordCard(canvas, result) {

@@ -1,11 +1,11 @@
-import { UI, lift, unlift, innerEdge } from "./theme.js?v=57";
+import { UI, lift, unlift, innerEdge } from "./theme.js?v=58";
 // Your shelf: every earlier day's three, newest first, and the works of one
 // day. Past works reopen only as the exact catalogue edition that was given
 // (by saved ID, or by an unambiguous title and author match). Anything else
 // is listed as not in the cabin and can never be opened as unchecked text.
-import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=57";
-import { rule } from "./today-panel.js?v=57";
-import { dayGuide } from "./guide-archive.js?v=57";
+import { KINDS, parseKey, CHALLENGE_START } from "./progress.js?v=58";
+import { rule } from "./today-panel.js?v=58";
+import { dayGuide } from "./guide-archive.js?v=58";
 
 const KIND = { poem: "POEM", story: "STORY", essay: "ESSAY" };
 export const DAYS_PER_PAGE = 6;

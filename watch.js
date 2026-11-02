@@ -1,5 +1,5 @@
-import { PoseFollower } from "./follow-pose.js?v=57";
-import { UI } from "./theme.js?v=57";
+import { PoseFollower } from "./follow-pose.js?v=58";
+import { UI } from "./theme.js?v=58";
 const SERIF = "Literata, Georgia, serif";
 // Wrist calendar: a small native quad on Bastian's RIGHT wrist that appears
 // when the back of that wrist is turned toward the eyes, like checking a watch.
@@ -14,7 +14,7 @@ import {
   dayStatus,
   overview,
   parseKey,
-} from "./progress.js?v=57";
+} from "./progress.js?v=58";
 
 export const WATCH_HAND = "right";
 export const WATCH_PIXELS = [512, 448];
@@ -141,11 +141,16 @@ export function titleOnly(pick) {
 export function clockText(date = new Date()) {
   return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
 }
-// The one reading line: the first of today's three not yet read. Titles come
-// from the app's real Today picks or stored picks, never invented.
+// The one reading line: the poem, story or essay open now, otherwise the
+// first of today's three not yet read. Titles come from the app's real
+// works or stored picks, never invented. `done` (all three read) only warms
+// the ember.
 export function watchReading(s) {
   const ticks = s.ticks || [];
-  if (ticks.length === 3 && ticks.every(Boolean)) return { label: "All three read", title: "", done: true };
+  const done = ticks.length === 3 && ticks.every(Boolean);
+  const open = KINDS.indexOf(s.current?.kind);
+  if (s.current?.title && open >= 0) return { label: KIND_LABEL[open], title: s.current.title, done };
+  if (done) return { label: "All three read", title: "", done: true };
   const i = [0, 1, 2].find((k) => !ticks[k]) ?? 0;
   return { label: KIND_LABEL[i], title: s.titles?.[i] || titleOnly(s.picks?.[i]) || "", done: false };
 }
@@ -238,7 +243,7 @@ export function paintWatch(canvas, s, night = false) {
   c.fillText(streak, x + 2 * ember + gap, ey + 11);
 }
 
-const visualKey = (s, night) => JSON.stringify([s.time, s.streak, s.ticks, s.titles, s.picks, night]);
+const visualKey = (s, night) => JSON.stringify([s.time, s.streak, s.ticks, s.titles, s.picks, s.current, night]);
 
 export class WristWatch {
   constructor(binding, space, onError = () => {}) {

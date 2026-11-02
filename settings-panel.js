@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL, NAV } from './theme.js?v=57';
+import { navigationSurface, CONTROL, NAV } from './theme.js?v=58';
 // Settings uses the same canvas and ray plane as Home. Geometry is expressed
 // here once, in millimetre-like logical units, then shared with the hit tester.
 const SCALE = 2048 / 720;
@@ -19,7 +19,9 @@ function localButtons(page, values) {
     rows.push(...segment('settings-appearance', [['paper', 'Paper'], ['night', 'Night']], values.night ? 'night' : 'paper', 101));
     rows.push(...segment('settings-type', [['literary', 'Literary'], ['modern', 'Modern']], values.mood ?? 'literary', 182));
     rows.push(...segment('settings-size', [[0, 'Small'], [1, 'Medium'], [2, 'Large']], values.size ?? 1, 263));
-    rows.push(rect('settings-more', 'More settings', 24, 334, 260, 48), rect('settings-exit', 'Leave cabin', 296, 334, 260, 48));
+    // Couch comfort sits on the first page; leaving stays on the corner ✕.
+    rows.push(rect('settings-move', 'Move page here', 24, 334, 172, 48), rect('settings-comfort', 'Comfort', 204, 334, 172, 48),
+      rect('settings-more', 'More settings', 384, 334, 172, 48));
   } else if (page === 'more') {
     ['Reading comfort', 'Sound', 'Calendar', 'Wrist calendar', 'Controls'].forEach((label, i) => rows.push(rect(`settings-${['comfort', 'sound', 'calendar', 'wrist', 'controls'][i]}`, label, 24, 80 + i * 60, 532, 54)));
   } else if (page === 'comfort') {

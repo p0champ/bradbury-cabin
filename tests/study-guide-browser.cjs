@@ -148,7 +148,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   {
     const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     // A complete trio of real catalogue references; the shortest poem fits one page.
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
@@ -163,7 +163,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await aimRow(p,0);await p.evaluate(()=>__pinch());
     const id=await p.locator('#page').getAttribute('data-work');assert.equal(id,`today-2026-10-28-poem-${shortPoem.id}`);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'before');
-    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
     await p.evaluate(()=>{__mock.look=null;__step(600);__pinch();});
     assert.equal(await p.locator('#page').getAttribute('data-work'),id);
     assert.equal(await p.locator('#page').getAttribute('data-section'),'text');
@@ -180,7 +180,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   for (const night of [false, true]) {
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
     const lines = w => w.blocks.reduce((n,b)=>n+b.lines.length,0);
@@ -215,6 +215,11 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.notEqual((await ticks()).poem,true,'an unpaired release cannot mark the work');
     await p.evaluate(()=>{__step(700);__pinch();__step(700);});
     assert.equal((await ticks()).poem,true,'fresh NEXT ticks today\'s exact poem');
+    // Build 056 added optional feedback after a fresh completion. Preserve
+    // this journey's tick/source checks, and explicitly skip feedback.
+    assert.deepEqual(await view(),['menu','feedback']);
+    assert.ok((await text()).includes(poem.title), 'feedback belongs to the confirmed poem');
+    await p.evaluate(async()=>{await __aim('feedback-done');__pinch();__step(700);});
     assert.deepEqual(await view(),['menu','library']);
     assert.ok((await text()).includes('Read ✓'),'Library shows immediate completion instead of Continue');
     assert.ok(await p.evaluate(id=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks[id],poem.id),'canonical edition completion is saved');
@@ -238,7 +243,8 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   }
   {
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,23,59,50));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    // The cabin day is Berlin time, including on the UTC publishing host.
+    await p.clock.setFixedTime(new Date('2026-10-28T23:59:50+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];
     const pickOf = k => SOURCE_CATALOGUE.find(w=>w.kind===k&&!shelf.includes(w.id));
@@ -255,7 +261,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     await p.evaluate(async()=>{await __aim('home-today');__pinch();});
     assert.deepEqual(await view(),['menu','today'],'the Today tab opens Today');
     // Midnight with Today open: no crash, the session continues on the Library.
-    await p.clock.setFixedTime(new Date(2026,9,29,0,0,5));
+    await p.clock.setFixedTime(new Date('2026-10-29T00:00:05+01:00'));
     await p.evaluate(async()=>{__step(100);await __aim('home-settings');__step(100);});
     assert.deepEqual(await view(),['menu','today'],'the compact home stays on Today after midnight');
     const midnightButtons=await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).map(b=>b.id));
@@ -274,15 +280,35 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     for (let i=0;i<12&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','closing'],'Library works also offer completion');
     await p.evaluate(()=>{__step(700);__pinch();__step(700);});
-    assert.deepEqual(await view(),['menu','library']);
-    assert.ok(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']));
+    // Build 056: optional feedback follows a fresh completion; skip it.
+    assert.deepEqual(await view(),['menu','feedback']);
+    assert.ok((await p.evaluate(()=>__pageText)).join(' ').includes('Sick Rose'),'feedback belongs to the confirmed work');
+    // Critic 6: no unread daily piece is left (the new day has no three yet),
+    // so the card says Done and returns to Today.
+    assert.ok((await p.evaluate(()=>__pageText)).join(' ').includes('Done · Today →'));
+    await p.evaluate(async()=>{await __aim('feedback-done');__pinch();__step(700);});
+    assert.deepEqual(await view(),['menu','today']);
+    const firstFinish=await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']);
+    assert.ok(firstFinish);
+    // Critic 4: a reread promises the Library and goes there, no feedback card.
+    await p.evaluate(()=>__step(700));
+    await aimLibrary(p,'blake-sick-rose');
+    await p.evaluate(()=>__pinch());
+    for (let i=0;i<12&&(await view())[0]==='reading';i++) await p.evaluate(()=>__pinch());
+    assert.deepEqual(await view(),['menu','closing']);
+    const promise=(await p.evaluate(()=>__pageText)).join(' ');
+    assert.ok(promise.includes('NEXT opens your Library'),'the reread closing promises the Library: '+promise);
+    await p.evaluate(()=>{__step(700);__pinch();__step(700);});
+    assert.deepEqual(await view(),['menu','library'],'a reread goes where its button says');
+    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('cabin-progress')).completedWorks['blake-sick-rose']),firstFinish,'the first finish time is kept');
+    assert.ok(await p.evaluate(()=>JSON.parse(document.querySelector('#page').dataset.buttons).some(b=>b.id==='home-feedback:blake-sick-rose')),'stars and thought stay one tap away');
     assert.deepEqual(errors,[]);await p.close();
-    passed('Today tabs lead where they say; Today survives midnight; Library works finish explicitly');
+    passed('Today tabs lead where they say; Today survives midnight; Library works finish explicitly; rereads return to the Library');
   }
   {
     // Your shelf: earlier days from progress, by saved ID or exact label.
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,29,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-29T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const find = id => SOURCE_CATALOGUE.find(w=>w.id===id);
     const tiger=find('william-blake-experience-the-tiger'), stockings=find('kate-chopin-a-pair-of-silk-stockings'), travel=find('francis-bacon-of-travel');
@@ -333,7 +359,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
     assert.deepEqual(await view(),['menu','shelfday']);
     assert.ok((await text()).includes('Not in the cabin'));
     await p.evaluate(()=>__step(700));
-    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=57');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
+    await p.evaluate(async()=>{const {HOME_FRAME,HOME_SCALE}=await import('./home-panel.js?v=58');await __aim({x:40*HOME_SCALE,y:HOME_FRAME.y+120*HOME_SCALE,w:620*HOME_SCALE,h:80*HOME_SCALE});});
     assert.equal(await p.locator('#page').getAttribute('data-target'),'','an unchecked work is not a target');
     await p.evaluate(()=>__pinch());
     assert.deepEqual(await view(),['menu','shelfday']);
@@ -343,7 +369,7 @@ module.exports = async function guideChecks(browser, { mock, BASE_URL, out, pass
   for (const skip of [false, 'essay', 'shelf']) {
     // Build 039: Today is complete immediately; a fresh pinch chooses directly.
     const p=await browser.newPage({ viewport: { width:1440, height:1100 } }),errors=[];p.on('pageerror',e=>errors.push(e.message));
-    await p.clock.setFixedTime(new Date(2026,9,28,20));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
+    await p.clock.setFixedTime(new Date('2026-10-28T20:00:00+01:00'));await mock(p,'layer',false,{practised:true,headPointer:true,visits:4});await observe(p);
     await p.addInitScript(()=>{window.__paints=0;const r=CanvasRenderingContext2D.prototype.clearRect;CanvasRenderingContext2D.prototype.clearRect=function(x,y,w,h){if(this.canvas.id==='page'&&w===2048&&h===2560)window.__paints++;return r.call(this,x,y,w,h);};});
     const { SOURCE_CATALOGUE } = await import(require('node:url').pathToFileURL(path.join(__dirname,'..','source-catalogue.js')).href);
     const shelf=['blake-sick-rose','whitman-astronomer','whitman-captain','ohenry-magi','chopin-desiree','bacon-studies','bacon-truth'];

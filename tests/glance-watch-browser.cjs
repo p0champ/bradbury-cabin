@@ -9,7 +9,13 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   const { SOURCE_CATALOGUE } = await import(pathToFileURL(path.join(__dirname, '..', 'source-catalogue.js')).href);
   const excluded = new Set(['blake-sick-rose', 'whitman-astronomer', 'whitman-captain', 'ohenry-magi', 'chopin-desiree', 'bacon-studies', 'bacon-truth']);
   const works = ['poem', 'story', 'essay'].map(kind => SOURCE_CATALOGUE.find(w => w.kind === kind && !excluded.has(w.id)));
-  const p = await browser.newPage(), errors = []; p.on('pageerror', e => errors.push(e.message));
+  // The wrist shows device-local time; the reading day is separately Berlin-based.
+  // Fix both browser zones explicitly instead of relying on the host OS.
+  for (const { timezoneId, time } of [
+    { timezoneId: 'Europe/Berlin', time: '21:47' },
+    { timezoneId: 'UTC', time: '20:47' },
+  ]) {
+  const p = await browser.newPage({ timezoneId }), errors = []; p.on('pageerror', e => errors.push(e.message));
   await mock(p, 'layer', false, { practised: true, headPointer: false, visits: 4 });
   await p.addInitScript(w => {
     localStorage.setItem('cabin-today', JSON.stringify({ version: 2, date: '2026-10-29', picks: Object.fromEntries(w.map(x => [x.kind, { catalogueId: x.id }])) }));
@@ -20,7 +26,7 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
     CanvasRenderingContext2D.prototype.clearRect = function (...a) { if (isWatch(this.canvas) && a[2] === 512) __watchText = []; return clear.call(this, ...a); };
     CanvasRenderingContext2D.prototype.fillText = function (t, ...a) { if (isWatch(this.canvas)) __watchText.push(String(t)); return fill.call(this, t, ...a); };
   }, works.map(({ id, kind }) => ({ id, kind })));
-  await p.clock.setFixedTime(new Date(2026, 9, 29, 21, 47));
+  await p.clock.setFixedTime(new Date('2026-10-29T21:47:00+01:00'));
   await p.goto(BASE_URL); await p.locator('#enter').click();
   await p.evaluate(() => __center());
   const r = await p.evaluate(() => {
@@ -44,11 +50,30 @@ module.exports = async function glanceWatchChecks(browser, { mock, BASE_URL, pas
   const fadeMs = (full - first) * 16;
   assert.ok(fadeMs >= 200 && fadeMs <= 300, `fade took ${fadeMs} ms, expected about 250`);
   assert.ok(r.uploaded, 'wrist texture was never uploaded');
-  assert.deepEqual(r.text.slice(0, 1), ['21:47'], `time missing: ${JSON.stringify(r.text)}`);
+  assert.deepEqual(r.text.slice(0, 1), [time], `time missing: ${JSON.stringify(r.text)}`);
   assert.ok(r.text.includes('Poem · ') && r.text.some(t => works[0].title.startsWith(t.replace(/…$/, ''))), `today's real poem missing: ${JSON.stringify(r.text)}`);
   assert.ok(r.text.at(-1).endsWith('streak') || r.text.at(-1) === 'Begin a streak today', `streak missing: ${JSON.stringify(r.text)}`);
   assert.equal(r.text.length, 4, `face painted more than time, reading and streak: ${JSON.stringify(r.text)}`);
   assert.deepEqual(errors, []);
   passed('glance watch: Apple Watch sized, quarter-second fade, only time, today\'s real reading and streak');
+  // Critic 5: while today's story is open, the watch names the story, not
+  // the first unread poem.
+  // Lower the wrist (drop the glance pose) so the right hand points again.
+  await p.evaluate(() => {
+    const j = __hand(.05, 'right').testJoints;
+    for (const name of ['wrist', 'index-finger-metacarpal', 'pinky-finger-metacarpal', 'middle-finger-metacarpal']) j.delete(name);
+    __step(600);
+  });
+  await p.evaluate(async id => { await __aim(id); __pinch(); __step(800); }, `home-work:today-2026-10-29-story-${works[1].id}`);
+  assert.equal(await p.locator('#page').getAttribute('data-view'), 'reading');
+  const open = await p.evaluate(() => {
+    for (let t = 0; t < 900; t += 16) { __glance(); __step(16); }
+    return __watchText.slice();
+  });
+  assert.ok(open.includes('Story · ') && open.some(t => works[1].title.startsWith(t.replace(/…$/, ''))), `the open story is not named: ${JSON.stringify(open)}`);
+  assert.equal(open.length, 4, `face painted more than time, reading and streak: ${JSON.stringify(open)}`);
+  assert.deepEqual(errors, []);
+  passed('glance watch names the piece open now, with the same face');
   await p.close();
+  }
 };

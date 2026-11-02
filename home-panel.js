@@ -1,4 +1,4 @@
-import { navigationSurface, CONTROL } from './theme.js?v=57';
+import { navigationSurface, CONTROL } from './theme.js?v=58';
 // A compact home on the existing portrait composition layer. All public
 // rectangles use that layer's 2048 × 2560 canvas coordinates; the painter
 // works in 720 × 500 logical units. Drawing and picking share one layout.
@@ -60,7 +60,11 @@ function layout(o = {}) {
     if (!o.library) buttons.push(rect('home-calendar', 24, 446, 116, 36));
     if ((archive || o.library) && (o.page || 0) > 0) buttons.push(rect('home-later', 151, 446, 100, 36));
     if ((archive || o.library) && ((o.page || 0) + 1) * 3 < (o.library ? o.total : (o.days || []).length)) buttons.push(rect('home-earlier', 260, 446, 110, 36));
-  } else if (o.notes) buttons.push(rect('home-notes', 24, 446, 180, 36));
+  } else {
+    // Without today's three, the latest earlier day comes first in the footer.
+    if (o.earlierDay) buttons.push(rect(`home-day:${o.earlierDay.date}`, 24, 446, 166, 36, { earlier: true }));
+    if (o.notes) buttons.push(rect('home-notes', o.earlierDay ? 196 : 24, 446, o.earlierDay ? 172 : 180, 36));
+  }
   if(o.rewards) buttons.push(rect('home-rewards',376,446,80,36));
   buttons.push(rect(o.library ? 'home-back-shelf' : 'home-library', 463, 446, 233, 36));
   return { buttons, display, placements, rows, archive, shelf, resume, next, nextStrip, featured, start };
@@ -145,6 +149,7 @@ export function paintHome(ctx, options = {}) {
     else if (b.id === 'home-rewards') label(b, 'Rewards', 15);
     else if (b.id === 'home-calendar') label(b, 'Calendar', 16);
     else if (b.id === 'home-notes') label(b, 'Today’s notes →', 16);
+    else if (b.earlier) label(b, o.earlierDay.label, 16);
     else if (b.id === 'home-earlier') label(b, o.library ? 'Next →' : 'Earlier →', 15);
     else if (b.id === 'home-later') label(b, o.library ? '← Previous' : '← Later', 15);
     else if (b.id === 'home-back-shelf') label(b, o.library ? '← Shelf' : '← All days', 16);
@@ -156,7 +161,7 @@ export function paintHome(ctx, options = {}) {
     text(fit(ctx, notice, 510), 40, 96, o.completion?.saved ? '#d6e9d6' : c.muted);
     if (o.total != null) { ctx.textAlign = 'right'; font(14); text(`${o.completion ? 'Library · ' : ''}${(o.page || 0) + 1} of ${Math.max(1, Math.ceil(o.total / 3))}`, 680, 96, c.muted); ctx.textAlign = 'left'; }
   } else if (l.shelf && !l.archive) { ctx.textAlign = 'right'; text(fit(ctx, o.dayLabel || '', 492), 680, 96, c.muted); ctx.textAlign = 'left'; }
-  else text(fit(ctx, l.archive ? 'Your earlier days' : (o.dateline || 'Three pieces for today'), 640), 40, 96, c.muted);
+  else text(fit(ctx, l.archive ? "Your earlier days · each day's three as they were given" : (o.dateline || 'Three pieces for today'), 640), 40, 96, c.muted);
   for (const { item, y, height, featured } of l.placements) {
     if (y > l.start && !featured) { ctx.fillStyle = 'rgba(255,255,255,.07)'; ctx.fillRect(40, y, 640, 1); }
     if (l.archive) {
