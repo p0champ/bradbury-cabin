@@ -5,7 +5,9 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # The free Linux renderer needed 81 minutes before the last 80 checks.
+    # Allow the entire gate to finish; every assertion and test timeout stays intact.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
