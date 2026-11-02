@@ -1,5 +1,6 @@
 // Local real service + fake Google. Nothing here is part of the public site.
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, readFile } from 'node:fs/promises';
+import { makeOfflineEdition, manifestSource } from '../tools/generate-offline.mjs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -68,6 +69,15 @@ export async function connectionFixture(returnURL, { initial = seedProgress(berl
     return { token, device, ownerSubject };
   }
   async function routeContext(context) {
+    // Build 058 publishes the direct reader. These retained Build 059 checks
+    // explicitly serve a managed test edition, including its real, matching
+    // offline hashes; no assertion or integrity check is skipped or relaxed.
+    const original = await readFile(new URL('../config.js', import.meta.url), 'utf8');
+    if (!original.includes('export const MANAGED_CONNECTION_ENABLED = false;')) throw Error('Expected the direct Build 058 release configuration');
+    const managed = Buffer.from(original.replace('export const MANAGED_CONNECTION_ENABLED = false;', 'export const MANAGED_CONNECTION_ENABLED = true;'));
+    const edition = await makeOfflineEdition(name => name === 'config.js' ? managed : readFile(new URL('../' + name, import.meta.url)));
+    await context.route(new URL('config.js', returnURL).href + '*', route => route.fulfill({ contentType: 'text/javascript', body: managed }));
+    await context.route(new URL('offline-manifest.js', returnURL).href + '*', route => route.fulfill({ contentType: 'text/javascript', body: manifestSource(edition) }));
     await context.route('https://**/*', route => route.abort());
     await context.route(CONNECTION_URL + '**', async route => {
       const request = route.request(), path = new URL(request.url()).pathname; requestPaths.push(path);

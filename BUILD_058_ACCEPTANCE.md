@@ -1,5 +1,7 @@
 # Build 058 acceptance map
 
+Build 058 uses tap-to-Sync only. Cloudflare, encrypted renewal, private snapshots and their real-account proof are deferred to Build 059 under the owner's one-working-day limit. Retained managed/fallback tests still run against an explicitly enabled local test edition, including matching offline hashes; they do not mean those features are enabled in Build 058. The direct-release browser checks separately exercise the actual published configuration, including stale managed settings and old callback links.
+
 This maps the 26 frozen RULES.md inventory rows to stable IDs. Every listed unit/browser file runs in the complete gate; the gate also refuses an omitted maintained browser module. Names inside browser.log are the individual assertions. A code mapping is not a passing result.
 
 Local evidence: `evidence/verify/receipt.json`, `unit.log`, `browser.log` and the source-check logs. The receipt must be allPassed:true for the exact commit and bytes. GitHub repeats the whole gate and retains the complete-reader-evidence artifact. The Linux publishing symlink assertion runs there; Windows reports that platform-specific assertion as skipped.
@@ -14,7 +16,7 @@ Local evidence: `evidence/verify/receipt.json`, `unit.log`, `browser.log` and th
 | BC-06 | Reading page | `glass-folio-browser.cjs`, `folio.test.mjs`, `core.test.mjs` | Text comfort, page placement and actual display; pending until recorded |
 | BC-07 | Position and resume | `reading-continuity-browser.cjs`, `restore-browser.cjs`, `offline-browser.cjs`, `reader.test.mjs` | Actual Quest restart and personal place restore; pending until recorded |
 | BC-08 | Today | `today-missing-browser.cjs`, `picks-arrival-browser.cjs`, `today.test.mjs` | Normal daily opening and arrival; pending until recorded |
-| BC-09 | Claude and Drive | `managed-connection-browser.cjs`, `fallback-browser.cjs`, `connection-production-worker.test.mjs`, `drive-pagination.test.mjs` | Actual account renewal/probe; seven real manual Claude deliveries; pending until recorded |
+| BC-09 | Claude and Drive | `direct-release-browser.cjs`, `drive-failure-browser.cjs`, `picks-arrival-browser.cjs`, `drive-pagination.test.mjs`; deferred managed checks also retained | Actual tap-to-Sync; seven real manual Claude deliveries; Build 059 renewal/probe deferred |
 | BC-10 | Sources and critic | `picker-browser.cjs`, `authors-browser.cjs` | Real display only; original source checks run separately below; pending until recorded |
 | BC-11 | Guides and personal lines | `guide-archive-browser.cjs`, `study-guide-browser.cjs`, `personal-browser.cjs` | Spoiler separation and readability; pending until recorded |
 | BC-12 | Shelf | `shelf.test.mjs`, `coherent-browser.cjs` | Earlier exact editions on the headset; pending until recorded |
@@ -35,6 +37,6 @@ Local evidence: `evidence/verify/receipt.json`, `unit.log`, `browser.log` and th
 
 Original-text evidence is the unchanged full chain: expand_catalogue_031, generate_source_catalogue, critic_compare, extract_library and test_critic_compare, plus generated-picker and complete-offline-inventory checks. Passing graphics mocks cannot waive a source failure.
 
-The owner setup separately exercises encrypted Google renewal, conditional write/readback and cleanup on a disposable file, complete immutable fallback upload/readback/reconciliation, normal Google mirror readback, and exact personal-data equivalence. A fake account passes code tests only. Record the actual owner result and the fields present in that real copy; do not invent Quest places/settings absent from an older Google backup.
+For Build 059, the deferred owner setup separately exercises encrypted Google renewal, conditional write/readback and cleanup on a disposable file, complete immutable fallback upload/readback/reconciliation, normal Google mirror readback, and exact personal-data equivalence. A fake account passes code tests only. Record the actual owner result and the fields present in that real copy; do not invent Quest places/settings absent from an older Google backup.
 
 Report built, automatically checked, independently reviewed, published, physically Quest-checked and seven real days separately. Independent code review is not supplied by this map. Keep the current private copy, full local queue and original device intact during recovery; never reset data for a test.

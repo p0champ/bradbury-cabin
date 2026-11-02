@@ -1,6 +1,10 @@
 # Bradbury Cabin — finished app: bug fixes only
 
-Build 058 closes the approved finishing work. Build 057 remains the protected starting inventory; the chosen finishing changes are recorded in the Git history. The exact complete-check receipt and release record establish what passed. Account checks, physical Quest checks and seven real reading days require their own evidence; never infer them from a desktop pass.
+Build 058 releases the finished fixes with the existing tap-to-Sync connection. Bastian explicitly split the release on 2 November 2026: the Cloudflare connection and its real-account backup/restore proof belong to Build 059. Keep MANAGED_CONNECTION_ENABLED false in Build 058; browser settings or old connection tokens must not enable it. Preserve the retained Cloudflare work and checks, but do not describe it as available or proven in Build 058.
+
+Build 059 has a hard limit of one working day (at most eight working hours), starting when work on its real backup failure resumes after the Build 058 handover. If the real backup test is not fixed and passing by that limit, stop and explain the actual failure and simple options. Do not extend the limit or publish Build 059 without the required real-account proof. Record the start and deadline when that work begins. This split supersedes the earlier single-release plan.
+
+Build 058 closes the other approved finishing work. Build 057 remains the protected starting inventory; the chosen finishing changes are recorded in the Git history. The exact complete-check receipt and release record establish what passed. Account checks, physical Quest checks and seven real reading days require their own evidence; never infer them from a desktop pass.
 
 ## Governing rules
 
@@ -74,6 +78,8 @@ Run `npm run verify` before and after each repair. This discovers every unit tes
 Real Quest acceptance remains pending until the owner reports it. Full backup, durable connection, restore and the seven-day trial must each have their own evidence; do not substitute a code savepoint or a test fixture for personal-data recovery.
 
 ## Backup and outage invariants
+
+Build 058 uses the established direct Google connection: local saves, an enduring pending-save queue, merge-before-write and tap-to-Sync renewal. The service ownership, private acknowledgement, sequenced reconciliation and dual-provider invariants below apply to the deferred Build 059 managed connection. Keep their maintained checks intact. Neither release may claim an actual personal restore or Quest check without its own evidence.
 
 - Complete personal state includes history, exact editions, completion and corrections, weekly entries, rewards, saved/deleted thoughts, explicitly unapproved drafts, reading places and settings. Credentials and private connection identity stay outside public exports and source.
 - A private backup is acknowledged only after complete durable readback. Do not clear a newer queued save on an older reply. Preserve the explicit device edit sequence and duplicate identity, including its frozen first-device ownership mode.

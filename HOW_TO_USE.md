@@ -29,17 +29,20 @@ week protects your streak without adding a reading day. Earned gifts stay yours.
 
 ## Saving
 
-The connection stays on Cloudflare Free, with no automatic paid upgrade.
+Build 058 keeps your usual tap-to-Sync connection; it does not use Cloudflare.
+Reading, settings, thoughts and drafts save on this device. Tap **Sync with
+Drive** on the opening browser page, using your usual Google account, at the
+start and end of a reading session. While signed in, later changes back up
+automatically; Google may ask you to connect again after about an hour.
+Check that Sync finishes successfully before relying on the outside copy.
 
-Reading, settings, thoughts and drafts save on this device, then back up
-automatically when connected. The lasting connection normally renews itself.
-If it needs help, use **Sync with Drive** on the opening browser page and
-choose the same Google account you used for the cabin.
+If Google or the internet is unavailable, installed readings still work and
+unsent changes stay on this device for retry. Keep the browser data and tap
+Sync again when the connection returns. A fresh device needs an outside copy
+from a successful Sync; it cannot recover changes left only on the Quest.
 
-If Cloudflare is unavailable, that same Sync button can check a complete
-Google safety copy. When the automatic connection returns, those copies
-rejoin your normal backup. If Google is unavailable, the private connection
-can still keep a checked backup. Installed readings remain usable offline.
+The optional Cloudflare backup is separate Build 059 work and is not ready.
+The project budget remains zero: no paid plans or automatic paid upgrades.
 
 ## If something goes wrong
 

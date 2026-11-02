@@ -5,8 +5,9 @@ These physical checks are still pending until you try them. Stop at ten
 minutes and leave any unfinished check marked pending.
 
 1. **Two minutes — opening and resume.** Check that the opening page says
-   Build 058. Close older cabin tabs and tap Sync with Drive once to connect
-   this Quest. Enter, turn a page, change one setting, then
+   Build 058. Close older cabin tabs and tap Sync with Drive, choosing your
+   usual Google account; check it finishes successfully.
+   Enter, turn a page, change one setting, then
    restart the Quest and reopen the browser; check that both return. The room, pointer, intro,
    page position and wrist-watch design should feel as before.
 2. **Two minutes — Claude's three.** Ask Claude for the daily three while
@@ -31,6 +32,9 @@ minutes and leave any unfinished check marked pending.
    open the cabin and connect to the same account. After the quiet reopen,
    check your saved place, setting and any saved thought. Keep the original
    Quest copy intact. If you run out of time, leave this marked pending.
+
+Build 058 keeps tap-to-Sync and does not use Cloudflare. If sign-in expires,
+tap Sync again; keep the Quest browser data if a backup cannot finish.
 
 During your next seven normal reading days, keep using the same Claude
 requests and report any missed arrival or lost change. A computer check

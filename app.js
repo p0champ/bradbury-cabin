@@ -40,7 +40,7 @@ import { shelfDays, resolveDay, pastWork, paintShelf, shelfHit, paintShelfDay, d
 import { rememberGuides, dayGuide } from "./guide-archive.js?v=58";
 import { rememberPersonal, personalFor, clearReplacedTicks } from "./daily-lines.js?v=58";
 import { DriveLink, mergeProgress, CLIENT_ID_KEY, preloadGoogle, DRIVE_NOTES } from "./drive.js?v=58";
-import { GOOGLE_CLIENT_ID, CONNECTION_URL } from "./config.js?v=58";
+import { GOOGLE_CLIENT_ID, CONNECTION_URL, MANAGED_CONNECTION_ENABLED } from "./config.js?v=58";
 import { GoogleRecovery } from "./connection/google-recovery.js?v=58";
 import { ManagedLink, finishConnectionReturn, DRIVE_MODE_KEY, CONNECTION_DEVICE_KEY } from "./managed-drive.js?v=58";
 import { EditJournal } from "./connection/edit-journal.js?v=58";
@@ -96,7 +96,7 @@ let store = (() => {
 })();
 let pairSession;
 try { pairSession = sessionStorage; } catch {}
-const pairResult = pairSession ? await finishConnectionReturn({ url: CONNECTION_URL, storage: store, session: pairSession }) : { handled: globalThis.__cabinConnectionReturn === true, message: 'This browser could not keep the connection. Return to the other cabin tab; your readings are kept.' };
+const pairResult = !MANAGED_CONNECTION_ENABLED ? { handled: false } : pairSession ? await finishConnectionReturn({ url: CONNECTION_URL, storage: store, session: pairSession }) : { handled: globalThis.__cabinConnectionReturn === true, message: 'This browser could not keep the connection. Return to the other cabin tab; your readings are kept.' };
 if (pairResult.handled) {
   document.getElementById('status').textContent = pairResult.message;
   document.getElementById('drive-sync').disabled = true;
@@ -113,7 +113,7 @@ if (!reader.active) {
   await new Promise(() => {});
 }
 store = reader.wrap(store);
-const directDrive = (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
+const directDrive = !MANAGED_CONNECTION_ENABLED || (() => { try { return store.getItem(DRIVE_MODE_KEY) === 'direct'; } catch { return false; } })();
 const readingAtOpen = (() => { try { return store.getItem('cabin-reading') !== null; } catch { return false; } })();
 const progressAtOpen = (() => { try { return store.getItem('cabin-progress') !== null; } catch { return false; } })();
 let managedJournal = null;
