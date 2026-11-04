@@ -520,7 +520,7 @@ async function showWord(id) {
     $("word-note-text").textContent = [result.word, result.meaning, result.background, result.source].filter(Boolean).join(". ");
   };
   display({ word: word.word, meaning: "Looking up…" });
-  try { display(await lookupWord(word.word, { signal: request.signal })); }
+  try { display(await lookupWord(word.word, { signal: request.signal, language: workById(state.workId)?.language })); }
   catch (e) { if (!request.signal.aborted) display({ word: word.word, meaning: "Could not look this up. Pinch the word again to close, then retry." }); }
 }
 let gazeRing = null;

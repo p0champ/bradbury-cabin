@@ -26,8 +26,8 @@ export function withPickerContract(text, lastCheck = null) {
     reservedRewardIds: RESERVED_REWARD_IDS,
     rewards: "Reserved editions are optional milestone gifts. Never use them for ordinary daily picks or count them as a fourth daily requirement. Do not supply literary text for a reward.",
     shelfIds: LIBRARY.map((w) => w.id),
-    catalogue: SOURCE_CATALOGUE.filter(w=>!RESERVED_REWARD_IDS.includes(w.id)).map(({ id, kind, title, author, year, place, source }) =>
-      ({ catalogueId: id, kind, title, author, year, place, source })),
+    catalogue: SOURCE_CATALOGUE.filter(w=>!RESERVED_REWARD_IDS.includes(w.id)).map(({ id, kind, title, author, year, place, source, language, level }) =>
+      ({ catalogueId: id, kind, title, author, year, place, source, ...(language ? { language, level } : {}) })),
   };
   // Put the complete current workflow first, where even a short connector
   // preview can find it. Discard any stale contract from a merged Drive copy.

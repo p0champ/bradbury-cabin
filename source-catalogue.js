@@ -32508,5 +32508,1327 @@ export const SOURCE_CATALOGUE = [
    "bodySha256": "3ef6369380971f3aed79ff452234875d1a90b571a4807bce6c7d6591d26858b0"
   },
   "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "alphonse-daudet-la-mort-du-dauphin",
+  "kind": "story",
+  "title": "La Mort du Dauphin",
+  "author": "Alphonse Daudet",
+  "year": "1869",
+  "place": "France",
+  "language": "French",
+  "level": 1,
+  "source": "https://www.gutenberg.org/ebooks/11770",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Le petit Dauphin est malade, le petit Dauphin va mourir... Dans toutes les églises du royaume, le Saint-Sacrement demeure exposé nuit et jour et de grands cierges brûlent pour la guérison de l'enfant royal. Les rues de la vieille résidence sont tristes et silencieuses, les cloches ne sonnent plus, les voitures vont au pas... Aux abords du palais, les bourgeois curieux regardent, à travers les grilles, des suisses à bedaines dorées qui causent dans les cours d'un air important."
+   },
+   {
+    "type": "para",
+    "text": "Tout le château est en émoi... Des chambellans, des majordomes, montent et descendent en courant les escaliers de marbre... Les galeries sont pleines de pages et de courtisans en habits de soie qui vont d'un groupe à l'autre quêter des nouvelles à voix basse... Sur les larges perrons, les dames d'honneur éplorées se font de grandes révérences en essuyant leurs yeux avec de jolis mouchoirs brodés."
+   },
+   {
+    "type": "para",
+    "text": "Dans l'Orangerie, il y a nombreuse assemblée de médecins en robe. On les voit, à travers les vitres, agiter leurs longues manches noires et incliner doctoralement leurs perruques à marteaux... Le gouverneur et l'écuyer du petit Dauphin se promènent devant la porte, attendant les décisions de la Faculté. Des marmitons passent à côté d'eux sans les saluer. M. l'écuyer jure comme un païen, M. le gouverneur récite des vers d'Horace... Et pendant ce temps-là, là-bas, du côté des écuries, on entend un long hennissement plaintif. C'est l'alezan du petit Dauphin que les palefreniers oublient et qui appelle tristement devant sa mangeoire vide."
+   },
+   {
+    "type": "para",
+    "text": "Et le roi? Où est monseigneur le roi?... Le roi s'est enfermé tout seul dans une chambre, au bout du château... Les Majestés n'aiment pas qu'on les voie pleurer... Pour la reine, c'est autre chose... Assise au chevet du petit Dauphin, elle a son beau visage baigné de larmes, et sanglote bien haut devant tous, comme ferait une drapière."
+   },
+   {
+    "type": "para",
+    "text": "Dans sa couchette de dentelles, le petit Dauphin, plus blanc que les coussins sur lesquels il est étendu, repose, les yeux fermés. On croit qu'il dort; mais non! Le petit Dauphin ne dort pas... Il se retourne vers sa mère, et, voyant qu'elle pleure, il lui dit:"
+   },
+   {
+    "type": "para",
+    "text": "--Madame la reine, pourquoi pleurez-vous? Est-ce que vous croyez bonnement que je m'en vas mourir?"
+   },
+   {
+    "type": "para",
+    "text": "La reine veut répondre. Les sanglots l'empêchent de parler."
+   },
+   {
+    "type": "para",
+    "text": "--Ne pleurez donc pas, madame la reine; vous oubliez que je suis le Dauphin, et que les Dauphins ne peuvent pas mourir ainsi..."
+   },
+   {
+    "type": "para",
+    "text": "La reine sanglote encore plus fort, et le petit Dauphin commence à s'effrayer."
+   },
+   {
+    "type": "para",
+    "text": "--Holà, dit-il, je ne veux pas que la mort vienne me prendre, et je saurai bien l'empêcher d'arriver jusqu'ici... Qu'on fasse venir sur l'heure quarante lansquenets très forts pour monter la garde autour de notre lit!... Que cent gros canons veillent nuit et jour, mèche allumée, sous nos fenêtres! Et malheur à la mort, si elle ose s'approcher de nous!..."
+   },
+   {
+    "type": "para",
+    "text": "Pour complaire à l'enfant royal, la reine fait un signe. Sur l'heure, on entend les gros canons qui roulent dans la cour; et quarante grands lansquenets, la pertuisane au poing, viennent se ranger autour de la chambre. Ce sont de vieux soudards à moustaches grises. Le petit Dauphin bat des mains en les voyant. Il en reconnaît un et l'appelle:"
+   },
+   {
+    "type": "para",
+    "text": "--Lorrain! Lorrain!"
+   },
+   {
+    "type": "para",
+    "text": "Le soudard fait un pas vers le lit:"
+   },
+   {
+    "type": "para",
+    "text": "--Je t'aime bien, mon vieux Lorrain... Fais voir un peu ton grand sabre... Si la mort veut me prendre, il faudra la tuer, n'est-ce pas?"
+   },
+   {
+    "type": "para",
+    "text": "Lorrain répond:"
+   },
+   {
+    "type": "para",
+    "text": "--Oui, monseigneur..."
+   },
+   {
+    "type": "para",
+    "text": "Et il a deux grosses larmes qui coulent sur ses joues tannées."
+   },
+   {
+    "type": "para",
+    "text": "A ce moment, l'aumônier s'approche du petit Dauphin et lui parle longtemps à voix basse en lui montrant un crucifix. Le petit Dauphin l'écoute d'un air fort étonné, puis tout à coup l'interrompant:"
+   },
+   {
+    "type": "para",
+    "text": "--Je comprends bien ce que vous me dites, monsieur l'abbé; mais enfin est-ce que mon petit ami Beppo ne pourrait pas mourir à ma place, en lui donnant beaucoup d'argent?..."
+   },
+   {
+    "type": "para",
+    "text": "L'aumônier continue à lui parler à voix basse, et le petit Dauphin a l'air de plus en plus étonné."
+   },
+   {
+    "type": "para",
+    "text": "Quand l'aumônier a fini, le petit Dauphin reprend avec un gros soupir:"
+   },
+   {
+    "type": "para",
+    "text": "--Tout ce que vous me dites là est bien triste, monsieur l'abbé; mais une chose me console, c'est que là-haut, dans le paradis des étoiles, je vais être encore le Dauphin... Je sais que le bon Dieu est mon cousin et ne peut pas manquer de me traiter selon mon rang."
+   },
+   {
+    "type": "para",
+    "text": "Puis il ajoute, en se tournant vers sa mère:"
+   },
+   {
+    "type": "para",
+    "text": "--Qu'on m'apporte mes plus beaux habits, mon pourpoint d'hermine blanche et mes escarpins de velours! Je veux me faire brave pour les anges et entrer au paradis en costume de Dauphin."
+   },
+   {
+    "type": "para",
+    "text": "Une troisième fois, l'aumônier se penche vers le petit Dauphin et lui parle longuement à voix basse... Au milieu de son discours, l'enfant royal l'interrompt avec colère:"
+   },
+   {
+    "type": "para",
+    "text": "--Mais alors crie-t-il, d'être Dauphin, ce n'est rien du tout!"
+   },
+   {
+    "type": "para",
+    "text": "Et, sans vouloir plus rien entendre, le petit Dauphin se tourne vers la muraille, et il pleure amèrement."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 11770,
+   "path": "pg11770.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "73bec08b9f597a1f5cbfcfcdc810e77d355115dbb8bf39386a4062f30fdcf30a",
+   "url": "https://www.gutenberg.org/cache/epub/11770/pg11770.txt",
+   "headingLine": 2781,
+   "startLine": 2782,
+   "endLine": 2889,
+   "heading": "LA MORT DU DAUPHIN.",
+   "bodySha256": "847b5633cb48aced90d30625a0b826eed7051706a65018cbd82bc48d9c705685",
+   "headingStartLine": 2779
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "alphonse-daudet-le-sous-prefet-aux-champs",
+  "kind": "story",
+  "title": "Le Sous-préfet aux champs",
+  "author": "Alphonse Daudet",
+  "year": "1869",
+  "place": "France",
+  "language": "French",
+  "level": 1,
+  "source": "https://www.gutenberg.org/ebooks/11770",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "M. le sous-préfet est en tournée. Cocher devant, laquais derrière, la calèche de la sous-préfecture l'emporte majestueusement au concours régional de la Combe-aux-Fées. Pour cette journée mémorable, M. le sous-préfet a mis son bel habit brodé, son petit claque, sa culotte collante à bandes d'argent et son épée de gala à poignée de nacre... Sur ses genoux repose une grande serviette en chagrin gaufré qu'il regarde tristement."
+   },
+   {
+    "type": "para",
+    "text": "M. le sous-préfet regarde tristement sa serviette en chagrin gaufré; il songe au fameux discours qu'il va falloir prononcer tout à l'heure devant les habitants de la Combe-aux-Fées:"
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés..."
+   },
+   {
+    "type": "para",
+    "text": "Mais il a beau tortiller la soie blonde de ses favoris et répéter vingt fois de suite:"
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés... la suite du discours ne vient pas."
+   },
+   {
+    "type": "para",
+    "text": "La suite du discours ne vient pas... Il fait si chaud dans cette calèche!... A perte de vue, la route de la Combe-aux-Fées poudroie sous le soleil du Midi... L'air est embrasé... et sur les ormeaux du bord du chemin, tout couverts de poussière blanche, des milliers de cigales se répondent d'un arbre à l'autre... Tout à coup M. le sous-préfet tressaille. Là-bas, au pied d'un coteau, il vient d'apercevoir un petit bois de chênes verts qui semble lui faire signe."
+   },
+   {
+    "type": "para",
+    "text": "Le petit bois de chênes verts semble lui faire signe:"
+   },
+   {
+    "type": "para",
+    "text": "--Venez donc par ici, monsieur le sous-préfet; pour composer votre discours, vous serez beaucoup mieux sous mes arbres..."
+   },
+   {
+    "type": "para",
+    "text": "M. le sous-préfet est séduit; il saute à bas de sa calèche et dit à ses gens de l'attendre, qu'il va composer son discours dans le petit bois de chênes verts."
+   },
+   {
+    "type": "para",
+    "text": "Dans le petit bois de chênes verts il y a des oiseaux, des violettes, et des sources sous l'herbe fine... Quand ils ont aperçu M. le sous-préfet avec sa belle culotte et sa serviette en chagrin gaufré, les oiseaux ont eu peur et se sont arrêtés de chanter, les sources n'ont plus osé faire de bruit, et les violettes se sont cachées dans le gazon... Tout ce petit monde-là n'a jamais vu de sous-préfet, et se demande à voix basse quel est ce beau seigneur qui se promène en culotte d'argent."
+   },
+   {
+    "type": "para",
+    "text": "A voix basse, sous la feuillée, on se demande quel est ce beau seigneur en culotte d'argent... Pendant ce temps-là, M. le sous-préfet, ravi du silence et de la fraîcheur du bois, relève les pans de son habit, pose son claque sur l'herbe et s'assied dans la mousse au pied d'un jeune chêne; puis il ouvre sur ses genoux sa grande serviette de chagrin gaufré et en tire une large feuille de papier ministre."
+   },
+   {
+    "type": "para",
+    "text": "--C'est un artiste! dit la fauvette."
+   },
+   {
+    "type": "para",
+    "text": "--Non, dit le bouvreuil, ce n'est pas un artiste, puisqu'il a une culotte en argent; c'est plutôt un prince."
+   },
+   {
+    "type": "para",
+    "text": "--C'est plutôt un prince, dit le bouvreuil."
+   },
+   {
+    "type": "para",
+    "text": "--Ni un artiste, ni un prince, interrompt un vieux rossignol, qui a chanté toute une saison dans les jardins de la sous-préfecture... Je sais ce que c'est: c'est un sous-préfet!"
+   },
+   {
+    "type": "para",
+    "text": "Et tout le petit bois va chuchotant:"
+   },
+   {
+    "type": "para",
+    "text": "--C'est un sous-préfet! c'est un sous-préfet!"
+   },
+   {
+    "type": "para",
+    "text": "--Comme il est chauve! remarque une alouette à grande huppe."
+   },
+   {
+    "type": "para",
+    "text": "Les violettes demandent:"
+   },
+   {
+    "type": "para",
+    "text": "--Est-ce que c'est méchant?"
+   },
+   {
+    "type": "para",
+    "text": "--Est-ce que c'est méchant? demandent les violettes."
+   },
+   {
+    "type": "para",
+    "text": "Le vieux rossignol répond:"
+   },
+   {
+    "type": "para",
+    "text": "--Pas du tout!"
+   },
+   {
+    "type": "para",
+    "text": "Et sur cette assurance, les oiseaux se remettent à chanter, les sources à courir, les violettes à embaumer, comme si le monsieur n'était pas là... Impassible au milieu de tout ce joli tapage, M. le sous-préfet invoque dans son coeur la Muse des comices agricoles, et, le crayon levé, commence à déclamer de sa voix de cérémonie:"
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés..."
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés, dit le sous-préfet de sa voix de cérémonie..."
+   },
+   {
+    "type": "para",
+    "text": "Un éclat de rire l'interrompt; il se retourne et ne voit rien qu'un gros pivert qui le regarde en riant, perché sur son claque. Le sous-préfet hausse les épaules et veut continuer son discours; mais le pivert l'interrompt encore et lui crie de loin:"
+   },
+   {
+    "type": "para",
+    "text": "--A quoi bon?"
+   },
+   {
+    "type": "para",
+    "text": "--Comment! à quoi bon? dit le sous-préfet, qui devient tout rouge; et, chassant d'un geste cette bête effrontée, il reprend de plus belle:"
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés..."
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés..., a repris le sous-préfet de plus belle."
+   },
+   {
+    "type": "para",
+    "text": "Mais alors, voilà les petites violettes qui se haussent vers lui sur le bout de leurs tiges et qui lui disent doucement:"
+   },
+   {
+    "type": "para",
+    "text": "--Monsieur le sous-préfet, sentez-vous comme nous sentons bon?"
+   },
+   {
+    "type": "para",
+    "text": "Et les sources lui font sous la mousse une musique divine; et dans les branches, au-dessus de sa tête, des tas de fauvettes viennent lui chanter leurs plus jolis airs; et tout le petit bois conspire pour l'empêcher de composer son discours."
+   },
+   {
+    "type": "para",
+    "text": "Tout le petit bois conspire pour l'empêcher de composer son discours... M. le sous-préfet, grisé de parfums, ivre de musique, essaye vainement de résister au nouveau charme qui l'envahit. Il s'accoude sur l'herbe, dégrafe son bel habit, balbutie encore deux ou trois fois:"
+   },
+   {
+    "type": "para",
+    "text": "--Messieurs et chers administrés... Messieurs et chers admi... Messieurs et chers..."
+   },
+   {
+    "type": "para",
+    "text": "Puis il envoie les administrés au diable; et la Muse des comices agricoles n'a plus qu'à se voiler la face."
+   },
+   {
+    "type": "para",
+    "text": "Voile-toi la face, ô Muse, des comices agricoles!... Lorsque, au bout d'une heure, les gens de la sous-préfecture, inquiets de leur maître, sont entrés dans le petit bois, ils ont vu un spectacle qui les a fait reculer d'horreur... M. le sous-préfet était couché sur le ventre, dans l'herbe, débraillé comme un bohème. Il avait mis son habit bas;... et, tout en mâchonnant des violettes, M. le sous-préfet faisait des vers."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 11770,
+   "path": "pg11770.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "73bec08b9f597a1f5cbfcfcdc810e77d355115dbb8bf39386a4062f30fdcf30a",
+   "url": "https://www.gutenberg.org/cache/epub/11770/pg11770.txt",
+   "headingLine": 2894,
+   "startLine": 2895,
+   "endLine": 3027,
+   "heading": "LE SOUS-PRÉFET AUX CHAMPS.",
+   "bodySha256": "94e466247e676472f8b25df500b9c5253f9352a7c10772d32e3b057f6076fbe8",
+   "headingStartLine": 2892
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "victor-hugo-veni-vidi-vixi",
+  "kind": "poem",
+  "title": "Veni, vidi, vixi",
+  "author": "Victor Hugo",
+  "year": "1856",
+  "place": "France",
+  "language": "French",
+  "level": 2,
+  "source": "https://www.gutenberg.org/ebooks/29844",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "J'ai bien assez vécu, puisque dans mes douleurs",
+      "indent": 0
+     },
+     {
+      "text": "Je marche, sans trouver de bras qui me secourent,",
+      "indent": 0
+     },
+     {
+      "text": "Puisque je ris à peine aux enfants qui m'entourent,",
+      "indent": 0
+     },
+     {
+      "text": "Puisque je ne suis plus réjoui par les fleurs;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Puisqu'au printemps, quand Dieu met la nature en fête,",
+      "indent": 0
+     },
+     {
+      "text": "J'assiste, esprit sans joie, à ce splendide amour;",
+      "indent": 0
+     },
+     {
+      "text": "Puisque je suis à l'heure où l'homme fuit le jour,",
+      "indent": 0
+     },
+     {
+      "text": "Hélas! et sent de tout la tristesse secrète;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Puisque l'espoir serein dans mon âme est vaincu;",
+      "indent": 0
+     },
+     {
+      "text": "Puisqu'en cette saison des parfums et des roses,",
+      "indent": 0
+     },
+     {
+      "text": "O ma fille! j'aspire à l'ombre où tu reposes,",
+      "indent": 0
+     },
+     {
+      "text": "Puisque mon coeur est mort, j'ai bien assez vécu.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Je n'ai pas refusé ma tâche sur la terre.",
+      "indent": 0
+     },
+     {
+      "text": "Mon sillon? Le voilà. Ma gerbe? La voici.",
+      "indent": 0
+     },
+     {
+      "text": "J'ai vécu souriant, toujours plus adouci,",
+      "indent": 0
+     },
+     {
+      "text": "Debout, mais incliné du côté du mystère.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "J'ai fait ce que j'ai pu; j'ai servi, j'ai veillé,",
+      "indent": 0
+     },
+     {
+      "text": "Et j'ai vu bien souvent qu'on riait de ma peine.",
+      "indent": 0
+     },
+     {
+      "text": "Je me suis étonné d'être un objet de haine,",
+      "indent": 0
+     },
+     {
+      "text": "Ayant beaucoup souffert et beaucoup travaillé.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Dans ce bagne terrestre où ne s'ouvre aucune aile,",
+      "indent": 0
+     },
+     {
+      "text": "Sans me plaindre, saignant, et tombant sur les mains,",
+      "indent": 0
+     },
+     {
+      "text": "Morne, épuisé, raillé par les forçats humains,",
+      "indent": 0
+     },
+     {
+      "text": "J'ai porté mon chaînon de la chaîne éternelle.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Maintenant, mon regard ne s'ouvre qu'à demi;",
+      "indent": 0
+     },
+     {
+      "text": "Je ne me tourne plus même quand on me nomme;",
+      "indent": 0
+     },
+     {
+      "text": "Je suis plein de stupeur et d'ennui, comme un homme",
+      "indent": 0
+     },
+     {
+      "text": "Qui se lève avant l'aube et qui n'a pas dormi.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Je ne daigne plus même, en ma sombre paresse,",
+      "indent": 0
+     },
+     {
+      "text": "Répondre à l'envieux dont la bouche me nuit.",
+      "indent": 0
+     },
+     {
+      "text": "O Seigneur! ouvrez-moi les portes de la nuit",
+      "indent": 0
+     },
+     {
+      "text": "Afin que je m'en aille et que je disparaisse!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Avril 1848.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 29844,
+   "path": "pg29844.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "e89759eda7f6508167c20033f8ffbd8fd4e6a547788573cf51cbeba75b1f7918",
+   "url": "https://www.gutenberg.org/cache/epub/29844/pg29844.txt",
+   "headingLine": 739,
+   "startLine": 740,
+   "endLine": 782,
+   "heading": "VENI, VIDI, VIXI",
+   "bodySha256": "3b5e1e9c184cf73850728a97733c864df2e3827d466e5b97fe9b82461fc2a9c8",
+   "headingStartLine": 737
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "victor-hugo-mors",
+  "kind": "poem",
+  "title": "Mors",
+  "author": "Victor Hugo",
+  "year": "1856",
+  "place": "France",
+  "language": "French",
+  "level": 2,
+  "source": "https://www.gutenberg.org/ebooks/29844",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Je vis cette faucheuse. Elle était dans son champ.",
+      "indent": 0
+     },
+     {
+      "text": "Elle allait à grands pas moissonnant et fauchant,",
+      "indent": 0
+     },
+     {
+      "text": "Noir squelette laissant passer le crépuscule.",
+      "indent": 0
+     },
+     {
+      "text": "Dans l'ombre où l'on dirait que tout tremble et recule,",
+      "indent": 0
+     },
+     {
+      "text": "L'homme suivait des yeux les lueurs de la faulx.",
+      "indent": 0
+     },
+     {
+      "text": "Et les triomphateurs sous les arcs triomphaux",
+      "indent": 0
+     },
+     {
+      "text": "Tombaient; elle changeait en désert Babylone,",
+      "indent": 0
+     },
+     {
+      "text": "Le trône en l'échafaud et l'échafaud en trône,",
+      "indent": 0
+     },
+     {
+      "text": "Les roses en fumier, les enfants en oiseaux,",
+      "indent": 0
+     },
+     {
+      "text": "L'or en cendre, et les yeux des mères en ruisseaux.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Et les femmes criaient:--Rends-nous ce petit être.",
+      "indent": 0
+     },
+     {
+      "text": "Pour le faire mourir, pourquoi l'avoir fait naître?--",
+      "indent": 0
+     },
+     {
+      "text": "Ce n'était qu'un sanglot sur terre, en haut, en bas;",
+      "indent": 0
+     },
+     {
+      "text": "Des mains aux doigts osseux sortaient des noirs grabats;",
+      "indent": 0
+     },
+     {
+      "text": "Un vent froid bruissait dans les linceuls sans nombre;",
+      "indent": 0
+     },
+     {
+      "text": "Les peuples éperdus semblaient sous la faulx sombre",
+      "indent": 0
+     },
+     {
+      "text": "Un troupeau frissonnant qui dans l'ombre s'enfuit;",
+      "indent": 0
+     },
+     {
+      "text": "Tout était sous ses pieds deuil, épouvante et nuit.",
+      "indent": 0
+     },
+     {
+      "text": "Derrière elle, le front baigné de douces flammes,",
+      "indent": 0
+     },
+     {
+      "text": "Un ange souriant portait la gerbe d'âmes.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Mars 1854.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 29844,
+   "path": "pg29844.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "e89759eda7f6508167c20033f8ffbd8fd4e6a547788573cf51cbeba75b1f7918",
+   "url": "https://www.gutenberg.org/cache/epub/29844/pg29844.txt",
+   "headingLine": 1022,
+   "startLine": 1023,
+   "endLine": 1047,
+   "heading": "MORS",
+   "bodySha256": "d0be7bba0e37ded9f918d0c73d4a35d84440de1ae24f33b539a76bc1a144c76c",
+   "headingStartLine": 1020
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "victor-hugo-paroles-sur-la-dune",
+  "kind": "poem",
+  "title": "Paroles sur la dune",
+  "author": "Victor Hugo",
+  "year": "1856",
+  "place": "France",
+  "language": "French",
+  "level": 3,
+  "source": "https://www.gutenberg.org/ebooks/29844",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Maintenant que mon temps décroît comme un flambeau,",
+      "indent": 0
+     },
+     {
+      "text": "Que mes tâches sont terminées;",
+      "indent": 8
+     },
+     {
+      "text": "Maintenant que voici que je touche au tombeau",
+      "indent": 0
+     },
+     {
+      "text": "Par les deuils et par les années,",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Et qu'au fond de ce ciel que mon essor rêva,",
+      "indent": 0
+     },
+     {
+      "text": "Je vois fuir, vers l'ombre entraînées,",
+      "indent": 8
+     },
+     {
+      "text": "Comme le tourbillon du passé qui s'en va,",
+      "indent": 0
+     },
+     {
+      "text": "Tant de belles heures sonnées;",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Maintenant que je dis:--Un jour, nous triomphons;",
+      "indent": 0
+     },
+     {
+      "text": "Le lendemain, tout est mensonge!--",
+      "indent": 8
+     },
+     {
+      "text": "Je suis triste, et je marche au bord des flots profonds,",
+      "indent": 0
+     },
+     {
+      "text": "Courbé comme celui qui songe.",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Je regarde, au-dessus du mont et du vallon,",
+      "indent": 0
+     },
+     {
+      "text": "Et des mers sans fin remuées,",
+      "indent": 8
+     },
+     {
+      "text": "S'envoler sous le bec du vautour aquilon,",
+      "indent": 0
+     },
+     {
+      "text": "Toute la toison des nuées;",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "J'entends le vent dans l'air, la mer sur le récif,",
+      "indent": 0
+     },
+     {
+      "text": "L'homme liant la gerbe mûre;",
+      "indent": 8
+     },
+     {
+      "text": "J'écoute, et je confronte en mon esprit pensif",
+      "indent": 0
+     },
+     {
+      "text": "Ce qui parle à ce qui murmure;",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Et je reste parfois couché sans me lever",
+      "indent": 0
+     },
+     {
+      "text": "Sur l'herbe rare de la dune.",
+      "indent": 8
+     },
+     {
+      "text": "Jusqu'à l'heure où l'on voit apparaître et rêver",
+      "indent": 0
+     },
+     {
+      "text": "Les yeux sinistres de la lune.",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Elle monte, elle jette un long rayon dormant",
+      "indent": 0
+     },
+     {
+      "text": "À l'espace, au mystère, au gouffre;",
+      "indent": 8
+     },
+     {
+      "text": "Et nous nous regardons tous les deux fixement",
+      "indent": 0
+     },
+     {
+      "text": "Elle qui brille et moi qui souffre.",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Où donc s'en sont allés mes jours évanouis?",
+      "indent": 0
+     },
+     {
+      "text": "Est-il quelqu'un qui me connaisse?",
+      "indent": 8
+     },
+     {
+      "text": "Ai-je encor quelque chose en mes yeux éblouis,",
+      "indent": 0
+     },
+     {
+      "text": "De la clarté de ma jeunesse?",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Tout s'est-il envolé? Je suis seul, je suis las;",
+      "indent": 0
+     },
+     {
+      "text": "J'appelle sans qu'on me réponde;",
+      "indent": 8
+     },
+     {
+      "text": "Ô vents! ô flots! ne suis-je aussi qu'un souffle, hélas!",
+      "indent": 0
+     },
+     {
+      "text": "Hélas! ne suis-je aussi qu'une onde?",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Ne verrai-je plus rien de tout ce que j'aimais?",
+      "indent": 0
+     },
+     {
+      "text": "Au dedans de moi le soir tombe.",
+      "indent": 8
+     },
+     {
+      "text": "Ô terre, dont la brume efface les sommets,",
+      "indent": 0
+     },
+     {
+      "text": "Suis-je le spectre, et toi la tombe?",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Ai-je donc vidé tout, vie, amour, joie, espoir?",
+      "indent": 0
+     },
+     {
+      "text": "J'attends, je demande, j'implore;",
+      "indent": 8
+     },
+     {
+      "text": "Je penche tour à tour mes urnes pour avoir",
+      "indent": 0
+     },
+     {
+      "text": "De chacune une goutte encore!",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Comme le souvenir est voisin du remord!",
+      "indent": 0
+     },
+     {
+      "text": "Comme à pleurer tout nous ramène!",
+      "indent": 8
+     },
+     {
+      "text": "Et que je te sens froide en te touchant, ô mort,",
+      "indent": 0
+     },
+     {
+      "text": "Noir verrou de la porte humaine!",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Et je pense, écoutant gémir le vent amer,",
+      "indent": 0
+     },
+     {
+      "text": "Et l'onde aux plis infranchissables;",
+      "indent": 8
+     },
+     {
+      "text": "L'été rit, et l'on voit sur le bord de la mer",
+      "indent": 0
+     },
+     {
+      "text": "Fleurir le chardon bleu des sables.",
+      "indent": 8
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "5 août 1854, anniversaire de mon arrivée à Jersey.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 29844,
+   "path": "pg29844.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "e89759eda7f6508167c20033f8ffbd8fd4e6a547788573cf51cbeba75b1f7918",
+   "url": "https://www.gutenberg.org/cache/epub/29844/pg29844.txt",
+   "headingLine": 2326,
+   "startLine": 2327,
+   "endLine": 2394,
+   "heading": "PAROLES SUR LA DUNE",
+   "bodySha256": "e7c958631b0c727053c0856ac9760f0449d32e7f4cfc73fa6f72d045cf22ed22",
+   "headingStartLine": 2324
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "arthur-rimbaud-sensation",
+  "kind": "poem",
+  "title": "Sensation",
+  "author": "Arthur Rimbaud",
+  "year": "1870–1871",
+  "place": "France",
+  "language": "French",
+  "level": 1,
+  "source": "https://www.gutenberg.org/ebooks/56708",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Par les soirs bleus d'été j'irai dans les sentiers,",
+      "indent": 0
+     },
+     {
+      "text": "Picoté par les blés, fouler l'herbe menue:",
+      "indent": 0
+     },
+     {
+      "text": "Rêveur, j'en sentirai la fraîcheur à mes pieds,",
+      "indent": 0
+     },
+     {
+      "text": "Je laisserai le vent baigner ma tête nue",
+      "indent": 0
+     },
+     {
+      "text": "Je ne parlerai pas, je ne penserai rien.",
+      "indent": 0
+     },
+     {
+      "text": "Mais l'amour infini me montera dans l'âme;",
+      "indent": 0
+     },
+     {
+      "text": "Et j'irai loin, bien loin, comme un bohémien,",
+      "indent": 0
+     },
+     {
+      "text": "Par la Nature,--heureux comme avec une femme.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 56708,
+   "path": "pg56708.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "a65104395df079e71ccf62ab55847b0ec2bc2abde71457098ad26406c9d4d8dc",
+   "url": "https://www.gutenberg.org/cache/epub/56708/pg56708.txt",
+   "headingLine": 353,
+   "startLine": 354,
+   "endLine": 363,
+   "heading": "    SENSATION",
+   "bodySha256": "c233d4b197558df5bd7454a18f89ddd41171aa4a13780106f46deef86468c17c"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "arthur-rimbaud-ma-boheme",
+  "kind": "poem",
+  "title": "Ma Bohème",
+  "author": "Arthur Rimbaud",
+  "year": "1870–1871",
+  "place": "France",
+  "language": "French",
+  "level": 1,
+  "source": "https://www.gutenberg.org/ebooks/56708",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Je m'en allais, les poings dans mes poches crevées.",
+      "indent": 0
+     },
+     {
+      "text": "Mon paletot aussi devenait idéal.",
+      "indent": 0
+     },
+     {
+      "text": "J'allais sous le ciel, Muse, et j'étais ton féal:",
+      "indent": 0
+     },
+     {
+      "text": "Oh là là, que d'amours splendides j'ai rêvées!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Mon unique culotte avait un large trou.",
+      "indent": 0
+     },
+     {
+      "text": "Petit-Poucet rêveur, j'égrenais dans ma course",
+      "indent": 0
+     },
+     {
+      "text": "Des rimes. Mon auberge était à la Grande-Ourse.",
+      "indent": 0
+     },
+     {
+      "text": "Mes étoiles au ciel avaient un doux frou-frou.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Et je les écoutais, assis au bord des routes,",
+      "indent": 0
+     },
+     {
+      "text": "Ces bons soirs de septembre où je sentais des gouttes",
+      "indent": 0
+     },
+     {
+      "text": "De rosée à mon front, comme un vin de vigueur;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Où, rimant au milieu des ombres fantastiques,",
+      "indent": 0
+     },
+     {
+      "text": "Comme des lyres, je tirais les élastiques",
+      "indent": 0
+     },
+     {
+      "text": "De mes souliers blessés, un pied contre mon cœur!",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 56708,
+   "path": "pg56708.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "a65104395df079e71ccf62ab55847b0ec2bc2abde71457098ad26406c9d4d8dc",
+   "url": "https://www.gutenberg.org/cache/epub/56708/pg56708.txt",
+   "headingLine": 524,
+   "startLine": 525,
+   "endLine": 543,
+   "heading": "    MA BOHÊME",
+   "bodySha256": "d30fd1e270eff51127dd0510cc80a0cdd3429b727d274f98ca32c280eef2b0cc"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "arthur-rimbaud-le-dormeur-du-val",
+  "kind": "poem",
+  "title": "Le Dormeur du val",
+  "author": "Arthur Rimbaud",
+  "year": "1870–1871",
+  "place": "France",
+  "language": "French",
+  "level": 1,
+  "source": "https://www.gutenberg.org/ebooks/56708",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "C'est un trou de verdure où chante une rivière",
+      "indent": 0
+     },
+     {
+      "text": "Accrochant follement aux herbes des haillons",
+      "indent": 0
+     },
+     {
+      "text": "D'argent, où le soleil, de la montagne fière,",
+      "indent": 0
+     },
+     {
+      "text": "Luit; c'est un petit val qui mousse de rayons.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Un soldat jeune, bouche ouverte, tête nue",
+      "indent": 0
+     },
+     {
+      "text": "Et la nuque baignant dans le frais cresson bleu,",
+      "indent": 0
+     },
+     {
+      "text": "Dort: il est étendu dans l'herbe, sous la nue,",
+      "indent": 0
+     },
+     {
+      "text": "Pâle dans son lit vert où la lumière pleut.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Les pieds dans les glaïeuls, il dort. Souriant comme",
+      "indent": 0
+     },
+     {
+      "text": "Sourirait un enfant malade, il fait un somme.",
+      "indent": 0
+     },
+     {
+      "text": "Nature, berce-le chaudement: il a froid!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Les parfums ne font pas frissonner sa narine;",
+      "indent": 0
+     },
+     {
+      "text": "Il dort dans le soleil, la main sur sa poitrine",
+      "indent": 0
+     },
+     {
+      "text": "Tranquille. Il a deux trous rouges au côté droit.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 56708,
+   "path": "pg56708.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "a65104395df079e71ccf62ab55847b0ec2bc2abde71457098ad26406c9d4d8dc",
+   "url": "https://www.gutenberg.org/cache/epub/56708/pg56708.txt",
+   "headingLine": 476,
+   "startLine": 477,
+   "endLine": 495,
+   "heading": "    LE DORMEUR DU VAL",
+   "bodySha256": "19a25e65f8313eb9087544c3cf0aad2b2e0fc0ed55d0c0f63be772a5a2a8d4f8"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "arthur-rimbaud-le-buffet",
+  "kind": "poem",
+  "title": "Le Buffet",
+  "author": "Arthur Rimbaud",
+  "year": "1870–1871",
+  "place": "France",
+  "language": "French",
+  "level": 2,
+  "source": "https://www.gutenberg.org/ebooks/56708",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "C'est un large buffet sculpté: le chêne sombre,",
+      "indent": 0
+     },
+     {
+      "text": "Très vieux, a pris cet air si bon des vieilles gens.",
+      "indent": 0
+     },
+     {
+      "text": "Ce buffet est ouvert et verse dans son ombre,",
+      "indent": 0
+     },
+     {
+      "text": "Comme un flot de vin vieux, des parfums engageants.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Tout plein: c'est un fouillis de vieilles vieilleries,",
+      "indent": 0
+     },
+     {
+      "text": "De linges odorants et jaunes, de chiffons",
+      "indent": 0
+     },
+     {
+      "text": "De femmes et d'enfants, de dentelles flétries,",
+      "indent": 0
+     },
+     {
+      "text": "De fichus de grand'mère où sont peints des griffons.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "C'est là qu'on trouverait les médaillons, les mèches",
+      "indent": 0
+     },
+     {
+      "text": "De cheveux blancs ou blonds, les portraits, les fleurs sèches",
+      "indent": 0
+     },
+     {
+      "text": "Dont le parfum se mêle à des parfums de fruits.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Ô buffet du vieux temps, tu sais bien des histoires!",
+      "indent": 0
+     },
+     {
+      "text": "Et tu voudrais conter tes contes, et tu bruis",
+      "indent": 0
+     },
+     {
+      "text": "Quand s'ouvrent lentement tes grandes potres noires.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 56708,
+   "path": "pg56708.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "a65104395df079e71ccf62ab55847b0ec2bc2abde71457098ad26406c9d4d8dc",
+   "url": "https://www.gutenberg.org/cache/epub/56708/pg56708.txt",
+   "headingLine": 500,
+   "startLine": 501,
+   "endLine": 519,
+   "heading": "    LE BUFFET",
+   "bodySha256": "6c139ea955c43101d4b9fc77ae7f96e37bfe7844c9990b2e67710123aeb30040"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
  }
 ];

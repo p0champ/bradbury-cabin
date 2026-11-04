@@ -1,7 +1,7 @@
 # Source catalogue (Build 031)
 
-`source-catalogue.js` holds the only literary texts Claude can select: 276
-complete works (141 poems, 58 stories, 77 essays). Claude's picks file names a
+`source-catalogue.js` holds the only literary texts Claude can select: 285
+complete works (148 poems, 60 stories, 77 essays), 9 of them in original French. Claude's picks file names a
 catalogue ID and adds its own study notes; the app never displays text that
 Claude supplies.
 
@@ -103,3 +103,7 @@ Edition dates remain explicit: Yeats collection first1899, this source1903; Tago
 Bastian started a new version with one scope: a wider catalogue (different writers, eras, subjects and parts of the world). Producer: tools/expand_catalogue_world.py, with unchanged plain-text downloads and explicit boundaries in tools/expansion-world.json. Independent critic: a fresh agent working in its own folder, with no producer access, its own unchanged HTML downloads and its own DOM extraction, tools/critic/extract_world.py. The comparator, tests and thresholds are unchanged.
 
 60 candidates by 59 new authors were compared, and 35 were accepted (12 poems, 12 stories, 11 essays). They come from 19 countries on all six inhabited continents and from 11 original languages besides English (Latin, Arabic, Italian, German, Russian, Middle Welsh, Portuguese, Swedish, Anglo-Norman French, French, Hebrew), and they range from Ecclesiastes and Horace to 1923. The 25 rejections are genuine differences between the plain-text and HTML files: straight vs curly quotes, special characters, small capitals, verse layout or paragraph breaks. None was hand-corrected or published; each work and reason is listed in tools/EXPANSION_WORLD_NOTES.md. A reviewer found four bugs in the critic's own HTML reading, which the critic fixed without seeing producer text. Two suggested boundary changes were not applied, because they would have tuned boundaries after seeing results. Existing 241 published works, IDs and texts are byte-for-byte unchanged. Translators and editors are credited in CREDITS.md.
+
+## French expansion
+
+Original French texts for a French reading every third day: producer tools/expand_catalogue_french.py and tools/expansion-french.json; independent critic tools/critic/extract_french.py, from its own HTML downloads; comparator unchanged. 26 candidates were compared and 9 accepted (7 poems, 2 stories) by Daudet, Hugo and Rimbaud. French works carry `language` and `level` fields; existing entries are unchanged. The 17 exclusions are genuine plain-text/HTML differences (section-break ornaments vs drawn rules, date-line indentation, one missing space, one unpaired italic marker), listed in tools/EXPANSION_FRENCH_NOTES.md.

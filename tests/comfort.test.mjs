@@ -74,3 +74,24 @@ test('a reference without a dictionary entry still separates meaning and backgro
   try { const result=await lookupWord('Testisland');assert.equal(result.meaning,'Testisland is an island.');assert.equal(result.background,'It was settled long ago.'); }
   finally {globalThis.fetch=old;}
 });
+
+test('a French word in a French work shows its English meaning, following a form to its main word', async () => {
+  const old=globalThis.fetch;const requests=[];
+  const defs={fauteuil:['armchair'],chantait:['third-person singular imperfect indicative of <a>chanter</a>'],chanter:['to sing']};
+  globalThis.fetch=async url=>{requests.push(url);const w=decodeURIComponent(url.split('/').pop());return defs[w]?{ok:true,json:async()=>({fr:[{definitions:defs[w].map(definition=>({definition}))}]})}:{ok:false};};
+  try {
+    const chair=await lookupWord('fauteuil',{language:'French'});
+    assert.equal(chair.meaning,'armchair');assert.equal(chair.source,'Wiktionary · French');
+    assert.match((await lookupWord('chantait',{language:'French'})).meaning,/of chanter: to sing$/);
+    assert.ok(requests.every(u=>u.startsWith('https://en.wiktionary.org/api/rest_v1/page/definition/')));
+  } finally { globalThis.fetch=old; }
+});
+test('French lookups never reuse an English answer for the same spelling, and failures stay truthful', async () => {
+  const old=globalThis.fetch;
+  globalThis.fetch=async url=>url.includes('dictionaryapi')?{ok:true,json:async()=>[{meanings:[{definitions:[{definition:'Physical suffering.'}]}]}]}:{ok:true,json:async()=>({fr:[{definitions:[{definition:'bread'}]}]})};
+  try { assert.equal((await lookupWord('pain')).meaning,'Physical suffering.');assert.equal((await lookupWord('pain',{language:'French'})).meaning,'bread'); }
+  finally { globalThis.fetch=old; }
+  globalThis.fetch=async()=>{throw Error('offline')};
+  try { assert.match((await lookupWord('introuvablexyz',{language:'French'})).meaning,/connection/); }
+  finally { globalThis.fetch=old; }
+});

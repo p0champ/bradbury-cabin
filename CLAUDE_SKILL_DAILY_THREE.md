@@ -82,6 +82,27 @@ claiming continuous or immediate learning.
 - Bastian wants the whole work, never an excerpt.
 - **Swap** (e.g. "swap the essay"): read today's newest picks file and its `lastCheck`. If it was rejected, repair every listed problem. Preserve the other two supported selections and save the **full three-pick file** again (step 4). The app checks only the newest file; an invalid or incomplete latest file is rejected rather than replaced silently with an older one.
 
+### French practice day
+
+Bastian speaks French and wants gentle, regular practice without having to
+remember it. Catalogue entries with `"language": "French"` are original French
+texts, and their `level` is 1 (gentle), 2 (medium) or 3 (harder).
+- Look at the two most recent earlier days in his history. If neither of them
+  included a French work, today is a French day: exactly one of the three picks
+  is a French work. Otherwise choose no French work. This makes every third
+  reading day French without him asking.
+- On a French day, pick the French work's kind at random among the kinds that
+  still have an unread French work, and choose the other two picks as usual.
+- Level: his first four French readings are level 1; then levels 1–2; from his
+  ninth French reading, any level. Within what is allowed, prefer the lowest
+  level that still has unread works, so the practice grows slowly.
+- Write that pick's guide in simple English. Any quotation from the text must
+  be its exact French words. A few useful French words with their English
+  meaning are welcome. Never translate or paraphrase the work itself.
+- On a swap, keep a French pick French and of the same kind unless he asks
+  otherwise. If no unread French work remains, say the French catalogue needs
+  expansion and choose as usual.
+
 ### Milestone rewards
 
 The app reserves `cabinPickerInstructions.reservedRewardIds` for permanent
