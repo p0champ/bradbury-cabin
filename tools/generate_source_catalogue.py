@@ -178,6 +178,10 @@ def discover():
     assert not set(sources) & set(expansion["sources"]), "expansion overwrites an existing source"
     sources.update(expansion["sources"])
     entries.extend(expansion["works"])
+    world = runpy.run_path(str(ROOT / "tools" / "expand_catalogue_world.py"), run_name="cabin_expansion")["discover"]()
+    assert not set(sources) & set(world["sources"]), "world expansion overwrites an existing source"
+    sources.update(world["sources"])
+    entries.extend(world["works"])
     assert len({e["id"] for e in entries}) == len(entries), "duplicate expansion ID"
     assert len({(e["author"], e["title"].casefold()) for e in entries}) == len(entries), "duplicate expansion title"
     return {"version": 2, "sources": sources, "works": entries}

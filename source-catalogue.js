@@ -24454,5 +24454,8059 @@ export const SOURCE_CATALOGUE = [
    "bodySha256": "02d43f4d0956d471ce5d4737e72d0d1e75a9c0ab0e477714d1fed148beef2866"
   },
   "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "horace-odes-ii-14-eheu-fugaces",
+  "kind": "poem",
+  "title": "Odes II.14, Eheu, Fugaces",
+  "author": "Horace",
+  "year": "23 BC; John Conington translation 1863",
+  "place": "Rome",
+  "source": "https://www.gutenberg.org/ebooks/5432",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Ah, Postumus! they fleet away,",
+      "indent": 0
+     },
+     {
+      "text": "Our years, nor piety one hour",
+      "indent": 2
+     },
+     {
+      "text": "Can win from wrinkles and decay,",
+      "indent": 0
+     },
+     {
+      "text": "And Death's indomitable power;",
+      "indent": 2
+     },
+     {
+      "text": "Not though three hundred bullocks flame",
+      "indent": 0
+     },
+     {
+      "text": "Each year, to soothe the tearless king",
+      "indent": 2
+     },
+     {
+      "text": "Who holds huge Geryon's triple frame",
+      "indent": 0
+     },
+     {
+      "text": "And Tityos in his watery ring,",
+      "indent": 2
+     },
+     {
+      "text": "That circling flood, which all must stem,",
+      "indent": 0
+     },
+     {
+      "text": "Who eat the fruits that Nature yields,",
+      "indent": 2
+     },
+     {
+      "text": "Wearers of haughtiest diadem,",
+      "indent": 0
+     },
+     {
+      "text": "Or humblest tillers of the fields.",
+      "indent": 2
+     },
+     {
+      "text": "In vain we shun war's contact red",
+      "indent": 0
+     },
+     {
+      "text": "Or storm-tost spray of Hadrian main:",
+      "indent": 2
+     },
+     {
+      "text": "In vain, the season through, we dread",
+      "indent": 0
+     },
+     {
+      "text": "For our frail lives Scirocco's bane.",
+      "indent": 2
+     },
+     {
+      "text": "Cocytus' black and stagnant ooze",
+      "indent": 0
+     },
+     {
+      "text": "Must welcome you, and Danaus' seed",
+      "indent": 2
+     },
+     {
+      "text": "Ill-famed, and ancient Sisyphus",
+      "indent": 0
+     },
+     {
+      "text": "To never-ending toil decreed.",
+      "indent": 2
+     },
+     {
+      "text": "Your land, your house, your lovely bride",
+      "indent": 0
+     },
+     {
+      "text": "Must lose you; of your cherish'd trees",
+      "indent": 2
+     },
+     {
+      "text": "None to its fleeting master's side",
+      "indent": 0
+     },
+     {
+      "text": "Will cleave, but those sad cypresses.",
+      "indent": 2
+     },
+     {
+      "text": "Your heir, a larger soul, will drain",
+      "indent": 0
+     },
+     {
+      "text": "The hundred-padlock'd Caecuban,",
+      "indent": 2
+     },
+     {
+      "text": "And richer spilth the pavement stain",
+      "indent": 0
+     },
+     {
+      "text": "Than e'er at pontiff's supper ran.",
+      "indent": 2
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 5432,
+   "path": "pg5432.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "b78f660001a270019ce085c4e4072118dab1501493774fe381d8ef342d0a1a63",
+   "url": "https://www.gutenberg.org/cache/epub/5432/pg5432.txt",
+   "headingLine": 2275,
+   "startLine": 2276,
+   "endLine": 2305,
+   "heading": "EHEU, FUGACES.",
+   "bodySha256": "3a83fc974538b331ec813b729fdc0ccb23fb3948fc1ab91bdd4a431e13c1ee19"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "the-archpoet-the-confession-of-golias",
+  "kind": "poem",
+  "title": "The Confession of Golias",
+  "author": "The Archpoet",
+  "year": "c. 1163; John Addington Symonds translation 1884",
+  "place": "Germany",
+  "source": "https://www.gutenberg.org/ebooks/18044",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Boiling in my spirit's veins",
+      "indent": 0
+     },
+     {
+      "text": "With fierce indignation,",
+      "indent": 2
+     },
+     {
+      "text": "From my bitterness of soul",
+      "indent": 0
+     },
+     {
+      "text": "Springs self-revelation:",
+      "indent": 2
+     },
+     {
+      "text": "Framed am I of flimsy stuff,",
+      "indent": 0
+     },
+     {
+      "text": "Fit for levitation,",
+      "indent": 2
+     },
+     {
+      "text": "Like a thin leaf which the wind",
+      "indent": 0
+     },
+     {
+      "text": "Scatters from its station.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "While it is the wise man's part",
+      "indent": 0
+     },
+     {
+      "text": "With deliberation",
+      "indent": 2
+     },
+     {
+      "text": "On a rock to base his heart's",
+      "indent": 0
+     },
+     {
+      "text": "Permanent foundation,",
+      "indent": 2
+     },
+     {
+      "text": "With a running river I",
+      "indent": 0
+     },
+     {
+      "text": "Find my just equation,",
+      "indent": 2
+     },
+     {
+      "text": "Which beneath the self-same sky",
+      "indent": 0
+     },
+     {
+      "text": "Hath no habitation.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Carried am I like a ship",
+      "indent": 0
+     },
+     {
+      "text": "Left without a sailor,",
+      "indent": 2
+     },
+     {
+      "text": "Like a bird that through the air",
+      "indent": 0
+     },
+     {
+      "text": "Flies where tempests hale her;",
+      "indent": 2
+     },
+     {
+      "text": "Chains and fetters hold me not,",
+      "indent": 0
+     },
+     {
+      "text": "Naught avails a jailer;",
+      "indent": 2
+     },
+     {
+      "text": "Still I find my fellows out,",
+      "indent": 0
+     },
+     {
+      "text": "Toper, gamester, railer.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "To my mind all gravity",
+      "indent": 0
+     },
+     {
+      "text": "Is a grave subjection;",
+      "indent": 2
+     },
+     {
+      "text": "Sweeter far than honey are",
+      "indent": 0
+     },
+     {
+      "text": "Jokes and free affection.",
+      "indent": 2
+     },
+     {
+      "text": "All that Venus bids me do,",
+      "indent": 0
+     },
+     {
+      "text": "Do I with erection,",
+      "indent": 2
+     },
+     {
+      "text": "For she ne'er in heart of man",
+      "indent": 0
+     },
+     {
+      "text": "Dwelt with dull dejection.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Down the broad road do I run,",
+      "indent": 0
+     },
+     {
+      "text": "As the way of youth is;",
+      "indent": 2
+     },
+     {
+      "text": "Snare myself in sin, and ne'er",
+      "indent": 0
+     },
+     {
+      "text": "Think where faith and truth is;",
+      "indent": 2
+     },
+     {
+      "text": "Eager far for pleasure more",
+      "indent": 0
+     },
+     {
+      "text": "Than soul's health, the sooth is,",
+      "indent": 2
+     },
+     {
+      "text": "For this flesh of mine I care,",
+      "indent": 0
+     },
+     {
+      "text": "Seek not ruth where ruth is.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Prelate, most discreet of priests,",
+      "indent": 0
+     },
+     {
+      "text": "Grant me absolution!",
+      "indent": 2
+     },
+     {
+      "text": "Dear's the death whereof I die,",
+      "indent": 0
+     },
+     {
+      "text": "Sweet my dissolution;",
+      "indent": 2
+     },
+     {
+      "text": "For my heart is wounded by",
+      "indent": 0
+     },
+     {
+      "text": "Beauty's soft suffusion;",
+      "indent": 2
+     },
+     {
+      "text": "All the girls I come not nigh,",
+      "indent": 0
+     },
+     {
+      "text": "Mine are in illusion.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "'Tis most arduous to make",
+      "indent": 0
+     },
+     {
+      "text": "Nature's self surrender;",
+      "indent": 2
+     },
+     {
+      "text": "Seeing girls, to blush and be",
+      "indent": 0
+     },
+     {
+      "text": "Purity's defender!",
+      "indent": 2
+     },
+     {
+      "text": "We young men our longings ne'er",
+      "indent": 0
+     },
+     {
+      "text": "Shall to stern law render,",
+      "indent": 2
+     },
+     {
+      "text": "Or preserve our fancies from",
+      "indent": 0
+     },
+     {
+      "text": "Bodies smooth and tender.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Who, when into fire he falls,",
+      "indent": 0
+     },
+     {
+      "text": "Keeps himself from burning?",
+      "indent": 2
+     },
+     {
+      "text": "Who within Pavia's walls",
+      "indent": 0
+     },
+     {
+      "text": "Fame of chaste is earning?",
+      "indent": 2
+     },
+     {
+      "text": "Venus with her finger calls",
+      "indent": 0
+     },
+     {
+      "text": "Youths at every turning,",
+      "indent": 2
+     },
+     {
+      "text": "Snares them with her eyes, and thralls",
+      "indent": 0
+     },
+     {
+      "text": "With her amorous yearning.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "If you brought Hippolitus",
+      "indent": 0
+     },
+     {
+      "text": "To Pavia Sunday,",
+      "indent": 2
+     },
+     {
+      "text": "He'd not be Hippolitus",
+      "indent": 0
+     },
+     {
+      "text": "On the following Monday;",
+      "indent": 2
+     },
+     {
+      "text": "Venus there keeps holiday",
+      "indent": 0
+     },
+     {
+      "text": "Every day as one day;",
+      "indent": 2
+     },
+     {
+      "text": "'Mid these towers in no tower dwells",
+      "indent": 0
+     },
+     {
+      "text": "Venus Verecunda.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "In the second place I own",
+      "indent": 0
+     },
+     {
+      "text": "To the vice of gaming:",
+      "indent": 2
+     },
+     {
+      "text": "Cold indeed outside I seem,",
+      "indent": 0
+     },
+     {
+      "text": "Yet my soul is flaming:",
+      "indent": 2
+     },
+     {
+      "text": "But when once the dice-box hath",
+      "indent": 0
+     },
+     {
+      "text": "Stripped me to my shaming,",
+      "indent": 2
+     },
+     {
+      "text": "Make I songs and verses fit",
+      "indent": 0
+     },
+     {
+      "text": "For the world's acclaiming.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "In the third place, I will speak",
+      "indent": 0
+     },
+     {
+      "text": "Of the tavern's pleasure;",
+      "indent": 2
+     },
+     {
+      "text": "For I never found nor find",
+      "indent": 0
+     },
+     {
+      "text": "There the least displeasure;",
+      "indent": 2
+     },
+     {
+      "text": "Nor shall find it till I greet",
+      "indent": 0
+     },
+     {
+      "text": "Angels without measure,",
+      "indent": 2
+     },
+     {
+      "text": "Singing requiems for the souls",
+      "indent": 0
+     },
+     {
+      "text": "In eternal leisure.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "In the public-house to die",
+      "indent": 0
+     },
+     {
+      "text": "Is my resolution;",
+      "indent": 2
+     },
+     {
+      "text": "Let wine to my lips be nigh",
+      "indent": 0
+     },
+     {
+      "text": "At life's dissolution:",
+      "indent": 2
+     },
+     {
+      "text": "That will make the angels cry,",
+      "indent": 0
+     },
+     {
+      "text": "With glad elocution,",
+      "indent": 2
+     },
+     {
+      "text": "\"Grant this toper, God on high,",
+      "indent": 0
+     },
+     {
+      "text": "Grace and absolution!\"",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "With the cup the soul lights up,",
+      "indent": 0
+     },
+     {
+      "text": "Inspirations flicker;",
+      "indent": 2
+     },
+     {
+      "text": "Nectar lifts the soul on high",
+      "indent": 0
+     },
+     {
+      "text": "With its heavenly ichor:",
+      "indent": 2
+     },
+     {
+      "text": "To my lips a sounder taste",
+      "indent": 0
+     },
+     {
+      "text": "Hath the tavern's liquor",
+      "indent": 2
+     },
+     {
+      "text": "Than the wine a village clerk",
+      "indent": 0
+     },
+     {
+      "text": "Waters for the vicar.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Nature gives to every man",
+      "indent": 0
+     },
+     {
+      "text": "Some gift serviceable;",
+      "indent": 2
+     },
+     {
+      "text": "Write I never could nor can",
+      "indent": 0
+     },
+     {
+      "text": "Hungry at the table;",
+      "indent": 2
+     },
+     {
+      "text": "Fasting, any stripling to",
+      "indent": 0
+     },
+     {
+      "text": "Vanquish me is able;",
+      "indent": 2
+     },
+     {
+      "text": "Hunger, thirst, I liken to",
+      "indent": 0
+     },
+     {
+      "text": "Death that ends the fable.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Nature gives to every man",
+      "indent": 0
+     },
+     {
+      "text": "Gifts as she is willing;",
+      "indent": 2
+     },
+     {
+      "text": "I compose my verses when",
+      "indent": 0
+     },
+     {
+      "text": "Good wine I am swilling,",
+      "indent": 2
+     },
+     {
+      "text": "Wine the best for jolly guest",
+      "indent": 0
+     },
+     {
+      "text": "Jolly hosts are filling;",
+      "indent": 2
+     },
+     {
+      "text": "From such wine rare fancies fine",
+      "indent": 0
+     },
+     {
+      "text": "Flow like dews distilling.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Such my verse is wont to be",
+      "indent": 0
+     },
+     {
+      "text": "As the wine I swallow;",
+      "indent": 2
+     },
+     {
+      "text": "No ripe thoughts enliven me",
+      "indent": 0
+     },
+     {
+      "text": "While my stomach's hollow;",
+      "indent": 2
+     },
+     {
+      "text": "Hungry wits on hungry lips",
+      "indent": 0
+     },
+     {
+      "text": "Like a shadow follow,",
+      "indent": 2
+     },
+     {
+      "text": "But when once I'm in my cups,",
+      "indent": 0
+     },
+     {
+      "text": "I can beat Apollo.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Never to my spirit yet",
+      "indent": 0
+     },
+     {
+      "text": "Flew poetic vision",
+      "indent": 2
+     },
+     {
+      "text": "Until first my belly had",
+      "indent": 0
+     },
+     {
+      "text": "Plentiful provision;",
+      "indent": 2
+     },
+     {
+      "text": "Let but Bacchus in the brain",
+      "indent": 0
+     },
+     {
+      "text": "Take a strong position,",
+      "indent": 2
+     },
+     {
+      "text": "Then comes Phoebus flowing in",
+      "indent": 0
+     },
+     {
+      "text": "With a fine precision.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "There are poets, worthy men,",
+      "indent": 0
+     },
+     {
+      "text": "Shrink from public places,",
+      "indent": 2
+     },
+     {
+      "text": "And in lurking-hole or den",
+      "indent": 0
+     },
+     {
+      "text": "Hide their pallid faces;",
+      "indent": 2
+     },
+     {
+      "text": "There they study, sweat, and woo",
+      "indent": 0
+     },
+     {
+      "text": "Pallas and the Graces,",
+      "indent": 2
+     },
+     {
+      "text": "But bring nothing forth to view",
+      "indent": 0
+     },
+     {
+      "text": "Worth the girls' embraces.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Fasting, thirsting, toil the bards,",
+      "indent": 0
+     },
+     {
+      "text": "Swift years flying o'er them;",
+      "indent": 2
+     },
+     {
+      "text": "Shun the strife of open life,",
+      "indent": 0
+     },
+     {
+      "text": "Tumults of the forum;",
+      "indent": 2
+     },
+     {
+      "text": "They, to sing some deathless thing,",
+      "indent": 0
+     },
+     {
+      "text": "Lest the world ignore them,",
+      "indent": 2
+     },
+     {
+      "text": "Die the death, expend their breath,",
+      "indent": 0
+     },
+     {
+      "text": "Drowned in dull decorum.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Lo! my frailties I've betrayed,",
+      "indent": 0
+     },
+     {
+      "text": "Shown you every token,",
+      "indent": 2
+     },
+     {
+      "text": "Told you what your servitors",
+      "indent": 0
+     },
+     {
+      "text": "Have against me spoken;",
+      "indent": 2
+     },
+     {
+      "text": "But of those men each and all",
+      "indent": 0
+     },
+     {
+      "text": "Leave their sins unspoken,",
+      "indent": 2
+     },
+     {
+      "text": "Though they play, enjoy to-day,",
+      "indent": 0
+     },
+     {
+      "text": "Scorn their pledges broken.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Now within the audience-room",
+      "indent": 0
+     },
+     {
+      "text": "Of this blessed prelate,",
+      "indent": 2
+     },
+     {
+      "text": "Sent to hunt out vice, and from",
+      "indent": 0
+     },
+     {
+      "text": "Hearts of men expel it;",
+      "indent": 2
+     },
+     {
+      "text": "Let him rise, nor spare the bard,",
+      "indent": 0
+     },
+     {
+      "text": "Cast at him a pellet;",
+      "indent": 2
+     },
+     {
+      "text": "He whose heart knows not crime's smart,",
+      "indent": 0
+     },
+     {
+      "text": "Show my sin and tell it!",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I have uttered openly",
+      "indent": 0
+     },
+     {
+      "text": "All I knew that shamed me,",
+      "indent": 2
+     },
+     {
+      "text": "And have spued the poison forth",
+      "indent": 0
+     },
+     {
+      "text": "That so long defamed me;",
+      "indent": 2
+     },
+     {
+      "text": "Of my old ways I repent,",
+      "indent": 0
+     },
+     {
+      "text": "New life hath reclaimed me;",
+      "indent": 2
+     },
+     {
+      "text": "God beholds the heart--'twas man",
+      "indent": 0
+     },
+     {
+      "text": "Viewed the face and blamed me.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Goodness now hath won my love,",
+      "indent": 0
+     },
+     {
+      "text": "I am wroth with vices;",
+      "indent": 2
+     },
+     {
+      "text": "Made a new man in my mind,",
+      "indent": 0
+     },
+     {
+      "text": "Lo, my soul arises!",
+      "indent": 2
+     },
+     {
+      "text": "Like a babe new milk I drink--",
+      "indent": 0
+     },
+     {
+      "text": "Milk for me suffices,",
+      "indent": 2
+     },
+     {
+      "text": "Lest my heart should longer be",
+      "indent": 0
+     },
+     {
+      "text": "Filled with vain devices.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Thou Elect of fair Cologne,",
+      "indent": 0
+     },
+     {
+      "text": "Listen to my pleading!",
+      "indent": 2
+     },
+     {
+      "text": "Spurn not thou the penitent;",
+      "indent": 0
+     },
+     {
+      "text": "See, his heart is bleeding!",
+      "indent": 2
+     },
+     {
+      "text": "Give me penance! what is due",
+      "indent": 0
+     },
+     {
+      "text": "For my faults exceeding",
+      "indent": 2
+     },
+     {
+      "text": "I will bear with willing cheer,",
+      "indent": 0
+     },
+     {
+      "text": "All thy precepts heeding.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Lo, the lion, king of beasts,",
+      "indent": 0
+     },
+     {
+      "text": "Spares the meek and lowly;",
+      "indent": 2
+     },
+     {
+      "text": "Toward submissive creatures he",
+      "indent": 0
+     },
+     {
+      "text": "Tames his anger wholly.",
+      "indent": 2
+     },
+     {
+      "text": "Do the like, ye powers of earth,",
+      "indent": 0
+     },
+     {
+      "text": "Temporal and holy!",
+      "indent": 2
+     },
+     {
+      "text": "Bitterness is more than's right",
+      "indent": 0
+     },
+     {
+      "text": "When 'tis bitter solely.",
+      "indent": 2
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 18044,
+   "path": "pg18044.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "c1a7adf4c057d297e6e51c9abaf23227fa5e1de437e2c3723a23153ab1197e8c",
+   "url": "https://www.gutenberg.org/cache/epub/18044/pg18044.txt",
+   "headingLine": 1708,
+   "startLine": 1709,
+   "endLine": 1934,
+   "heading": "No. 5.",
+   "bodySha256": "cea7bd2436c47328cb9eb986877f42b4b7ff53bf7df8fcb398d329ff9026fb5d",
+   "headingStartLine": 1706
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "maisun-bint-bahdal-the-song-of-maisuna",
+  "kind": "poem",
+  "title": "The Song of Maisuna",
+  "author": "Maisun bint Bahdal",
+  "year": "7th century; J. D. Carlyle translation 1796",
+  "place": "Syria",
+  "source": "https://www.gutenberg.org/ebooks/10121",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The russet suit of camel's hair,",
+      "indent": 0
+     },
+     {
+      "text": "With spirits light, and eye serene,",
+      "indent": 2
+     },
+     {
+      "text": "Is dearer to my bosom far",
+      "indent": 0
+     },
+     {
+      "text": "Than all the trappings of a queen.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The humble tent and murmuring breeze",
+      "indent": 0
+     },
+     {
+      "text": "That whistles thro' its fluttering wall,",
+      "indent": 2
+     },
+     {
+      "text": "My unaspiring fancy please",
+      "indent": 0
+     },
+     {
+      "text": "Better than towers and splendid halls.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Th' attendant colts that bounding fly",
+      "indent": 0
+     },
+     {
+      "text": "And frolic by the litter's side,",
+      "indent": 2
+     },
+     {
+      "text": "Are dearer in Maisuna's eye",
+      "indent": 0
+     },
+     {
+      "text": "Than gorgeous mules in all their pride.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The watch-dog's voice that bays whene'er",
+      "indent": 0
+     },
+     {
+      "text": "A stranger seeks his master's cot,",
+      "indent": 2
+     },
+     {
+      "text": "Sounds sweeter in Maisuna's ear",
+      "indent": 0
+     },
+     {
+      "text": "Than yonder trumpet's long-drawn note.",
+      "indent": 2
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The rustic youth unspoilt by art,",
+      "indent": 0
+     },
+     {
+      "text": "Son of my kindred, poor but free,",
+      "indent": 2
+     },
+     {
+      "text": "Will ever to Maisuna's heart",
+      "indent": 0
+     },
+     {
+      "text": "Be dearer, pamper'd fool, than thee.",
+      "indent": 2
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 10121,
+   "path": "pg10121.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "f48cff33682e06260038ff74b080f913a278d7b0555e1b38e1bed0f18b72fda2",
+   "url": "https://www.gutenberg.org/cache/epub/10121/pg10121.txt",
+   "headingLine": 2103,
+   "startLine": 2104,
+   "endLine": 2128,
+   "heading": "THE SONG OF MAISUNA[8]",
+   "bodySha256": "897d5a2efe946f9cd2c26e7bde858816eab264e537ee5db14a1ec00cf852aa45"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "michelangelo-buonarroti-to-giovanni-da-pistoja-on-the-painting-of-the-sistine-chapel",
+  "kind": "poem",
+  "title": "To Giovanni da Pistoja, On the Painting of the Sistine Chapel",
+  "author": "Michelangelo Buonarroti",
+  "year": "c. 1510; John Addington Symonds translation 1878",
+  "place": "Italy",
+  "source": "https://www.gutenberg.org/ebooks/10314",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "ON THE PAINTING OF THE SISTINE CHAPEL.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I' ho già fatto un gozzo.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I've grown a goitre by dwelling in this den--",
+      "indent": 0
+     },
+     {
+      "text": "As cats from stagnant streams in Lombardy,",
+      "indent": 4
+     },
+     {
+      "text": "Or in what other land they hap to be--",
+      "indent": 4
+     },
+     {
+      "text": "Which drives the belly close beneath the chin:",
+      "indent": 4
+     },
+     {
+      "text": "My beard turns up to heaven; my nape falls in,",
+      "indent": 0
+     },
+     {
+      "text": "Fixed on my spine: my breast-bone visibly",
+      "indent": 4
+     },
+     {
+      "text": "Grows like a harp: a rich embroidery",
+      "indent": 4
+     },
+     {
+      "text": "Bedews my face from brush-drops thick and thin.",
+      "indent": 4
+     },
+     {
+      "text": "My loins into my paunch like levers grind:",
+      "indent": 0
+     },
+     {
+      "text": "My buttock like a crupper bears my weight;",
+      "indent": 4
+     },
+     {
+      "text": "My feet unguided wander to and fro;",
+      "indent": 4
+     },
+     {
+      "text": "In front my skin grows loose and long; behind,",
+      "indent": 0
+     },
+     {
+      "text": "By bending it becomes more taut and strait;",
+      "indent": 4
+     },
+     {
+      "text": "Crosswise I strain me like a Syrian bow:",
+      "indent": 4
+     },
+     {
+      "text": "Whence false and quaint, I know,",
+      "indent": 8
+     },
+     {
+      "text": "Must be the fruit of squinting brain and eye;",
+      "indent": 4
+     },
+     {
+      "text": "For ill can aim the gun that bends awry.",
+      "indent": 4
+     },
+     {
+      "text": "Come then, Giovanni, try",
+      "indent": 8
+     },
+     {
+      "text": "To succour my dead pictures and my fame;",
+      "indent": 4
+     },
+     {
+      "text": "Since foul I fare and painting is my shame.",
+      "indent": 4
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 10314,
+   "path": "pg10314.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "0c56227dafc6c31f44d6d6b4631af3014fb0ea4108fa414f182b8b9c0ead7ca3",
+   "url": "https://www.gutenberg.org/cache/epub/10314/pg10314.txt",
+   "headingLine": 866,
+   "startLine": 867,
+   "endLine": 892,
+   "heading": "TO GIOVANNI DA PISTOJA.",
+   "bodySha256": "5eb370120f70366b2648e0473fc41c45cd73fa51120e4aa8ad79802b85169011"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "johann-wolfgang-von-goethe-prometheus",
+  "kind": "poem",
+  "title": "Prometheus",
+  "author": "Johann Wolfgang von Goethe",
+  "year": "1773; Edgar Alfred Bowring translation 1853",
+  "place": "Germany",
+  "source": "https://www.gutenberg.org/ebooks/1287",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "COVER thy spacious heavens, Zeus,",
+      "indent": 0
+     },
+     {
+      "text": "With clouds of mist,",
+      "indent": 0
+     },
+     {
+      "text": "And, like the boy who lops",
+      "indent": 0
+     },
+     {
+      "text": "The thistles' heads,",
+      "indent": 0
+     },
+     {
+      "text": "Disport with oaks and mountain-peaks,",
+      "indent": 0
+     },
+     {
+      "text": "Yet thou must leave",
+      "indent": 0
+     },
+     {
+      "text": "My earth still standing;",
+      "indent": 0
+     },
+     {
+      "text": "My cottage too, which was not raised by thee;",
+      "indent": 0
+     },
+     {
+      "text": "Leave me my hearth,",
+      "indent": 0
+     },
+     {
+      "text": "Whose kindly glow",
+      "indent": 0
+     },
+     {
+      "text": "By thee is envied.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I know nought poorer",
+      "indent": 0
+     },
+     {
+      "text": "Under the sun, than ye gods!",
+      "indent": 0
+     },
+     {
+      "text": "Ye nourish painfully,",
+      "indent": 0
+     },
+     {
+      "text": "With sacrifices",
+      "indent": 0
+     },
+     {
+      "text": "And votive prayers,",
+      "indent": 0
+     },
+     {
+      "text": "Your majesty:",
+      "indent": 0
+     },
+     {
+      "text": "Ye would e'en starve,",
+      "indent": 0
+     },
+     {
+      "text": "If children and beggars",
+      "indent": 0
+     },
+     {
+      "text": "Were not trusting fools.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "While yet a child",
+      "indent": 0
+     },
+     {
+      "text": "And ignorant of life,",
+      "indent": 0
+     },
+     {
+      "text": "I turned my wandering gaze",
+      "indent": 0
+     },
+     {
+      "text": "Up tow'rd the sun, as if with him",
+      "indent": 0
+     },
+     {
+      "text": "There were an ear to hear my wailings,",
+      "indent": 0
+     },
+     {
+      "text": "A heart, like mine,",
+      "indent": 0
+     },
+     {
+      "text": "To feel compassion for distress.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Who help'd me",
+      "indent": 0
+     },
+     {
+      "text": "Against the Titans' insolence?",
+      "indent": 0
+     },
+     {
+      "text": "Who rescued me from certain death,",
+      "indent": 0
+     },
+     {
+      "text": "From slavery?",
+      "indent": 0
+     },
+     {
+      "text": "Didst thou not do all this thyself,",
+      "indent": 0
+     },
+     {
+      "text": "My sacred glowing heart?",
+      "indent": 0
+     },
+     {
+      "text": "And glowedst, young and good,",
+      "indent": 0
+     },
+     {
+      "text": "Deceived with grateful thanks",
+      "indent": 0
+     },
+     {
+      "text": "To yonder slumbering one?",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I honour thee! and why?",
+      "indent": 0
+     },
+     {
+      "text": "Hast thou e'er lighten'd the sorrows",
+      "indent": 0
+     },
+     {
+      "text": "Of the heavy laden?",
+      "indent": 0
+     },
+     {
+      "text": "Hast thou e'er dried up the tears",
+      "indent": 0
+     },
+     {
+      "text": "Of the anguish-stricken?",
+      "indent": 0
+     },
+     {
+      "text": "Was I not fashion'd to be a man",
+      "indent": 0
+     },
+     {
+      "text": "By omnipotent Time,",
+      "indent": 0
+     },
+     {
+      "text": "And by eternal Fate,",
+      "indent": 0
+     },
+     {
+      "text": "Masters of me and thee?",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Didst thou e'er fancy",
+      "indent": 0
+     },
+     {
+      "text": "That life I should learn to hate,",
+      "indent": 0
+     },
+     {
+      "text": "And fly to deserts,",
+      "indent": 0
+     },
+     {
+      "text": "Because not all",
+      "indent": 0
+     },
+     {
+      "text": "My blossoming dreams grew ripe?",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Here sit I, forming mortals",
+      "indent": 0
+     },
+     {
+      "text": "After my image;",
+      "indent": 0
+     },
+     {
+      "text": "A race resembling me,",
+      "indent": 0
+     },
+     {
+      "text": "To suffer, to weep,",
+      "indent": 0
+     },
+     {
+      "text": "To enjoy, to be glad,",
+      "indent": 0
+     },
+     {
+      "text": "And thee to scorn,",
+      "indent": 0
+     },
+     {
+      "text": "As I!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "1773.",
+      "indent": 32
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1287,
+   "path": "pg1287.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "12baf287e3f2a4cbc40c4c86f990d0c1dd9e59aba41efd89c38605da11c2a3b6",
+   "url": "https://www.gutenberg.org/cache/epub/1287/pg1287.txt",
+   "headingLine": 10563,
+   "startLine": 10564,
+   "endLine": 10629,
+   "heading": "PROMETHEUS.",
+   "bodySha256": "e81f7b024cfae5f203f6a46c75bb80cc9963b61dc2f3870e0ffb9f977bb41797"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "alexander-pushkin-the-prophet",
+  "kind": "poem",
+  "title": "The Prophet",
+  "author": "Alexander Pushkin",
+  "year": "1826; Ivan Panin translation 1888",
+  "place": "Russia",
+  "source": "https://www.gutenberg.org/ebooks/54991",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "IV. 19.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Tormented by the thirst for the spirit",
+      "indent": 0
+     },
+     {
+      "text": "I was dragging myself in a sombre desert,",
+      "indent": 0
+     },
+     {
+      "text": "And a six-winged seraph appeared",
+      "indent": 0
+     },
+     {
+      "text": "Unto me on the parting of the roads.",
+      "indent": 0
+     },
+     {
+      "text": "With fingers as light as a dream",
+      "indent": 0
+     },
+     {
+      "text": "Mine eyes he touched:",
+      "indent": 0
+     },
+     {
+      "text": "And mine eyes opened wise",
+      "indent": 0
+     },
+     {
+      "text": "Like the eyes of a frightened eagle;",
+      "indent": 0
+     },
+     {
+      "text": "He touched mine ears,",
+      "indent": 0
+     },
+     {
+      "text": "And they filled with din and ringing.",
+      "indent": 0
+     },
+     {
+      "text": "And I heard the trembling of the heavens",
+      "indent": 0
+     },
+     {
+      "text": "And the flight of the angel's wings,",
+      "indent": 0
+     },
+     {
+      "text": "And the creeping of the polyps in the sea,",
+      "indent": 0
+     },
+     {
+      "text": "And the growth of the vine in the valley.",
+      "indent": 0
+     },
+     {
+      "text": "And he took hold of my lips,",
+      "indent": 0
+     },
+     {
+      "text": "And out he tore my sinful tongue",
+      "indent": 0
+     },
+     {
+      "text": "With its empty and false speech.",
+      "indent": 0
+     },
+     {
+      "text": "And the fang of the wise serpent",
+      "indent": 0
+     },
+     {
+      "text": "Between my terrified lips he placed",
+      "indent": 0
+     },
+     {
+      "text": "With bloody hand.",
+      "indent": 0
+     },
+     {
+      "text": "And ope he cut with sword my breast,",
+      "indent": 0
+     },
+     {
+      "text": "And out he took my trembling heart,",
+      "indent": 0
+     },
+     {
+      "text": "And a coal with flaming blaze",
+      "indent": 0
+     },
+     {
+      "text": "Into the opened breast he shoved.",
+      "indent": 0
+     },
+     {
+      "text": "Like a corpse I lay in the desert.",
+      "indent": 0
+     },
+     {
+      "text": "And the voice of God unto me called:",
+      "indent": 0
+     },
+     {
+      "text": "Arise, O prophet, and listen, and guide.",
+      "indent": 0
+     },
+     {
+      "text": "Be thou filled with my will,",
+      "indent": 0
+     },
+     {
+      "text": "And going over land and sea",
+      "indent": 0
+     },
+     {
+      "text": "Fire with the word the hearts of men!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "1826.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 54991,
+   "path": "pg54991.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "82a7c90ca6353ae308b7c7950df9feb8d6ffcf9d63a28d89b2ba73414b9df9c1",
+   "url": "https://www.gutenberg.org/cache/epub/54991/pg54991.txt",
+   "headingLine": 1637,
+   "startLine": 1638,
+   "endLine": 1673,
+   "heading": "    THE PROPHET.",
+   "bodySha256": "39725a9eae7302c166d3775ad0e56aca2faed38c124e5797dc04f17bfc1bda79"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "henry-lawson-faces-in-the-street",
+  "kind": "poem",
+  "title": "Faces in the Street",
+  "author": "Henry Lawson",
+  "year": "1888",
+  "place": "Australia",
+  "source": "https://www.gutenberg.org/ebooks/214",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "They lie, the men who tell us in a loud decisive tone",
+      "indent": 0
+     },
+     {
+      "text": "That want is here a stranger, and that misery's unknown;",
+      "indent": 0
+     },
+     {
+      "text": "For where the nearest suburb and the city proper meet",
+      "indent": 0
+     },
+     {
+      "text": "My window-sill is level with the faces in the street --",
+      "indent": 0
+     },
+     {
+      "text": "Drifting past, drifting past,",
+      "indent": 4
+     },
+     {
+      "text": "To the beat of weary feet --",
+      "indent": 4
+     },
+     {
+      "text": "While I sorrow for the owners of those faces in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And cause I have to sorrow, in a land so young and fair,",
+      "indent": 0
+     },
+     {
+      "text": "To see upon those faces stamped the marks of Want and Care;",
+      "indent": 0
+     },
+     {
+      "text": "I look in vain for traces of the fresh and fair and sweet",
+      "indent": 0
+     },
+     {
+      "text": "In sallow, sunken faces that are drifting through the street --",
+      "indent": 0
+     },
+     {
+      "text": "Drifting on, drifting on,",
+      "indent": 4
+     },
+     {
+      "text": "To the scrape of restless feet;",
+      "indent": 4
+     },
+     {
+      "text": "I can sorrow for the owners of the faces in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "In hours before the dawning dims the starlight in the sky",
+      "indent": 0
+     },
+     {
+      "text": "The wan and weary faces first begin to trickle by,",
+      "indent": 0
+     },
+     {
+      "text": "Increasing as the moments hurry on with morning feet,",
+      "indent": 0
+     },
+     {
+      "text": "Till like a pallid river flow the faces in the street --",
+      "indent": 0
+     },
+     {
+      "text": "Flowing in, flowing in,",
+      "indent": 4
+     },
+     {
+      "text": "To the beat of hurried feet --",
+      "indent": 4
+     },
+     {
+      "text": "Ah!  I sorrow for the owners of those faces in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "The human river dwindles when 'tis past the hour of eight,",
+      "indent": 0
+     },
+     {
+      "text": "Its waves go flowing faster in the fear of being late;",
+      "indent": 0
+     },
+     {
+      "text": "But slowly drag the moments, whilst beneath the dust and heat",
+      "indent": 0
+     },
+     {
+      "text": "The city grinds the owners of the faces in the street --",
+      "indent": 0
+     },
+     {
+      "text": "Grinding body, grinding soul,",
+      "indent": 4
+     },
+     {
+      "text": "Yielding scarce enough to eat --",
+      "indent": 4
+     },
+     {
+      "text": "Oh!  I sorrow for the owners of the faces in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And then the only faces till the sun is sinking down",
+      "indent": 0
+     },
+     {
+      "text": "Are those of outside toilers and the idlers of the town,",
+      "indent": 0
+     },
+     {
+      "text": "Save here and there a face that seems a stranger in the street,",
+      "indent": 0
+     },
+     {
+      "text": "Tells of the city's unemployed upon his weary beat --",
+      "indent": 0
+     },
+     {
+      "text": "Drifting round, drifting round,",
+      "indent": 4
+     },
+     {
+      "text": "To the tread of listless feet --",
+      "indent": 4
+     },
+     {
+      "text": "Ah!  My heart aches for the owner of that sad face in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And when the hours on lagging feet have slowly dragged away,",
+      "indent": 0
+     },
+     {
+      "text": "And sickly yellow gaslights rise to mock the going day,",
+      "indent": 0
+     },
+     {
+      "text": "Then flowing past my window like a tide in its retreat,",
+      "indent": 0
+     },
+     {
+      "text": "Again I see the pallid stream of faces in the street --",
+      "indent": 0
+     },
+     {
+      "text": "Ebbing out, ebbing out,",
+      "indent": 4
+     },
+     {
+      "text": "To the drag of tired feet,",
+      "indent": 4
+     },
+     {
+      "text": "While my heart is aching dumbly for the faces in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And now all blurred and smirched with vice the day's sad pages end,",
+      "indent": 0
+     },
+     {
+      "text": "For while the short 'large hours' toward the longer 'small hours' trend,",
+      "indent": 0
+     },
+     {
+      "text": "With smiles that mock the wearer, and with words that half entreat,",
+      "indent": 0
+     },
+     {
+      "text": "Delilah pleads for custom at the corner of the street --",
+      "indent": 0
+     },
+     {
+      "text": "Sinking down, sinking down,",
+      "indent": 4
+     },
+     {
+      "text": "Battered wreck by tempests beat --",
+      "indent": 4
+     },
+     {
+      "text": "A dreadful, thankless trade is hers, that Woman of the Street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "But, ah! to dreader things than these our fair young city comes,",
+      "indent": 0
+     },
+     {
+      "text": "For in its heart are growing thick the filthy dens and slums,",
+      "indent": 0
+     },
+     {
+      "text": "Where human forms shall rot away in sties for swine unmeet,",
+      "indent": 0
+     },
+     {
+      "text": "And ghostly faces shall be seen unfit for any street --",
+      "indent": 0
+     },
+     {
+      "text": "Rotting out, rotting out,",
+      "indent": 4
+     },
+     {
+      "text": "For the lack of air and meat --",
+      "indent": 4
+     },
+     {
+      "text": "In dens of vice and horror that are hidden from the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I wonder would the apathy of wealthy men endure",
+      "indent": 0
+     },
+     {
+      "text": "Were all their windows level with the faces of the Poor?",
+      "indent": 0
+     },
+     {
+      "text": "Ah! Mammon's slaves, your knees shall knock, your hearts in terror beat,",
+      "indent": 0
+     },
+     {
+      "text": "When God demands a reason for the sorrows of the street,",
+      "indent": 0
+     },
+     {
+      "text": "The wrong things and the bad things",
+      "indent": 4
+     },
+     {
+      "text": "And the sad things that we meet",
+      "indent": 4
+     },
+     {
+      "text": "In the filthy lane and alley, and the cruel, heartless street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I left the dreadful corner where the steps are never still,",
+      "indent": 0
+     },
+     {
+      "text": "And sought another window overlooking gorge and hill;",
+      "indent": 0
+     },
+     {
+      "text": "But when the night came dreary with the driving rain and sleet,",
+      "indent": 0
+     },
+     {
+      "text": "They haunted me -- the shadows of those faces in the street,",
+      "indent": 0
+     },
+     {
+      "text": "Flitting by, flitting by,",
+      "indent": 4
+     },
+     {
+      "text": "Flitting by with noiseless feet,",
+      "indent": 4
+     },
+     {
+      "text": "And with cheeks but little paler than the real ones in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Once I cried:  'Oh, God Almighty! if Thy might doth still endure,",
+      "indent": 0
+     },
+     {
+      "text": "Now show me in a vision for the wrongs of Earth a cure.'",
+      "indent": 0
+     },
+     {
+      "text": "And, lo! with shops all shuttered I beheld a city's street,",
+      "indent": 0
+     },
+     {
+      "text": "And in the warning distance heard the tramp of many feet,",
+      "indent": 0
+     },
+     {
+      "text": "Coming near, coming near,",
+      "indent": 4
+     },
+     {
+      "text": "To a drum's dull distant beat,",
+      "indent": 4
+     },
+     {
+      "text": "And soon I saw the army that was marching down the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Then, like a swollen river that has broken bank and wall,",
+      "indent": 0
+     },
+     {
+      "text": "The human flood came pouring with the red flags over all,",
+      "indent": 0
+     },
+     {
+      "text": "And kindled eyes all blazing bright with revolution's heat,",
+      "indent": 0
+     },
+     {
+      "text": "And flashing swords reflecting rigid faces in the street.",
+      "indent": 0
+     },
+     {
+      "text": "Pouring on, pouring on,",
+      "indent": 4
+     },
+     {
+      "text": "To a drum's loud threatening beat,",
+      "indent": 4
+     },
+     {
+      "text": "And the war-hymns and the cheering of the people in the street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And so it must be while the world goes rolling round its course,",
+      "indent": 0
+     },
+     {
+      "text": "The warning pen shall write in vain, the warning voice grow hoarse,",
+      "indent": 0
+     },
+     {
+      "text": "But not until a city feels Red Revolution's feet",
+      "indent": 0
+     },
+     {
+      "text": "Shall its sad people miss awhile the terrors of the street --",
+      "indent": 0
+     },
+     {
+      "text": "The dreadful everlasting strife",
+      "indent": 4
+     },
+     {
+      "text": "For scarcely clothes and meat",
+      "indent": 4
+     },
+     {
+      "text": "In that pent track of living death -- the city's cruel street.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 214,
+   "path": "pg214.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "dae08e7ad618b825884eefba2f07c75d175a2f4c8817612e855931350a7f2489",
+   "url": "https://www.gutenberg.org/cache/epub/214/pg214.txt",
+   "headingLine": 476,
+   "startLine": 477,
+   "endLine": 582,
+   "heading": "Faces in the Street",
+   "bodySha256": "9cc4dcf43b469e97b5980ce80504b2b85aa3a59ea01c846370849862fc396fa5"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "archibald-lampman-the-city-of-the-end-of-things",
+  "kind": "poem",
+  "title": "The City of the End of Things",
+  "author": "Archibald Lampman",
+  "year": "1899",
+  "place": "Canada",
+  "source": "https://www.gutenberg.org/ebooks/22833",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Beside the pounding cataracts",
+      "indent": 0
+     },
+     {
+      "text": "Of midnight streams unknown to us",
+      "indent": 0
+     },
+     {
+      "text": "'Tis builded in the leafless tracts",
+      "indent": 0
+     },
+     {
+      "text": "And valleys huge of Tartarus.",
+      "indent": 0
+     },
+     {
+      "text": "Lurid and lofty and vast it seems;",
+      "indent": 0
+     },
+     {
+      "text": "It hath no rounded name that rings,",
+      "indent": 0
+     },
+     {
+      "text": "But I have heard it called in dreams",
+      "indent": 0
+     },
+     {
+      "text": "The City of the End of Things.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Its roofs and iron towers have grown",
+      "indent": 0
+     },
+     {
+      "text": "None knoweth how high within the night,",
+      "indent": 0
+     },
+     {
+      "text": "But in its murky streets far down",
+      "indent": 0
+     },
+     {
+      "text": "A flaming terrible and bright",
+      "indent": 0
+     },
+     {
+      "text": "Shakes all the stalking shadows there,",
+      "indent": 0
+     },
+     {
+      "text": "Across the walls, across the floors,",
+      "indent": 0
+     },
+     {
+      "text": "And shifts upon the upper air",
+      "indent": 0
+     },
+     {
+      "text": "From out a thousand furnace doors;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And all the while an awful sound",
+      "indent": 0
+     },
+     {
+      "text": "Keeps roaring on continually,",
+      "indent": 0
+     },
+     {
+      "text": "And crashes in the ceaseless round",
+      "indent": 0
+     },
+     {
+      "text": "Of a gigantic harmony.",
+      "indent": 0
+     },
+     {
+      "text": "Through its grim depths re-echoing",
+      "indent": 0
+     },
+     {
+      "text": "And all its weary height of walls,",
+      "indent": 0
+     },
+     {
+      "text": "With measured roar and iron ring,",
+      "indent": 0
+     },
+     {
+      "text": "The inhuman music lifts and falls.",
+      "indent": 0
+     },
+     {
+      "text": "Where no thing rests and no man is,",
+      "indent": 0
+     },
+     {
+      "text": "And only fire and night hold sway;",
+      "indent": 0
+     },
+     {
+      "text": "The beat, the thunder and the hiss",
+      "indent": 0
+     },
+     {
+      "text": "Cease not, and change not, night nor day.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "And moving at unheard commands,",
+      "indent": 0
+     },
+     {
+      "text": "The abysses and vast fires between,",
+      "indent": 0
+     },
+     {
+      "text": "Flit figures that with clanking hands",
+      "indent": 0
+     },
+     {
+      "text": "Obey a hideous routine;",
+      "indent": 0
+     },
+     {
+      "text": "They are not flesh, they are not bone,",
+      "indent": 0
+     },
+     {
+      "text": "They see not with the human eye,",
+      "indent": 0
+     },
+     {
+      "text": "And from their iron lips is blown",
+      "indent": 0
+     },
+     {
+      "text": "A dreadful and monotonous cry;",
+      "indent": 0
+     },
+     {
+      "text": "And whoso of our mortal race",
+      "indent": 0
+     },
+     {
+      "text": "Should find that city unaware,",
+      "indent": 0
+     },
+     {
+      "text": "Lean Death would smite him face to face,",
+      "indent": 0
+     },
+     {
+      "text": "And blanch him with its venomed air:",
+      "indent": 0
+     },
+     {
+      "text": "Or caught by the terrific spell,",
+      "indent": 0
+     },
+     {
+      "text": "Each thread of memory snapt and cut,",
+      "indent": 0
+     },
+     {
+      "text": "His soul would shrivel and its shell",
+      "indent": 0
+     },
+     {
+      "text": "Go rattling like an empty nut.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "It was not always so, but once,",
+      "indent": 0
+     },
+     {
+      "text": "In days that no man thinks upon,",
+      "indent": 0
+     },
+     {
+      "text": "Fair voices echoed from its stones,",
+      "indent": 0
+     },
+     {
+      "text": "The light above it leaped and shone:",
+      "indent": 0
+     },
+     {
+      "text": "Once there were multitudes of men,",
+      "indent": 0
+     },
+     {
+      "text": "That built that city in their pride,",
+      "indent": 0
+     },
+     {
+      "text": "Until its might was made, and then",
+      "indent": 0
+     },
+     {
+      "text": "They withered age by age and died.",
+      "indent": 0
+     },
+     {
+      "text": "But now of that prodigious race,",
+      "indent": 0
+     },
+     {
+      "text": "Three only in an iron tower,",
+      "indent": 0
+     },
+     {
+      "text": "Set like carved idols face to face,",
+      "indent": 0
+     },
+     {
+      "text": "Remain the masters of its power;",
+      "indent": 0
+     },
+     {
+      "text": "And at the city gate a fourth,",
+      "indent": 0
+     },
+     {
+      "text": "Gigantic and with dreadful eyes,",
+      "indent": 0
+     },
+     {
+      "text": "Sits looking toward the lightless north,",
+      "indent": 0
+     },
+     {
+      "text": "Beyond the reach of memories;",
+      "indent": 0
+     },
+     {
+      "text": "Fast rooted to the lurid floor,",
+      "indent": 0
+     },
+     {
+      "text": "A bulk that never moves a jot,",
+      "indent": 0
+     },
+     {
+      "text": "In his pale body dwells no more,",
+      "indent": 0
+     },
+     {
+      "text": "Or mind, or soul,--an idiot!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "But sometime in the end those three",
+      "indent": 0
+     },
+     {
+      "text": "Shall perish and their hands be still,",
+      "indent": 0
+     },
+     {
+      "text": "And with the master's touch shall flee",
+      "indent": 0
+     },
+     {
+      "text": "Their incommunicable skill.",
+      "indent": 0
+     },
+     {
+      "text": "A stillness absolute as death",
+      "indent": 0
+     },
+     {
+      "text": "Along the slacking wheels shall lie,",
+      "indent": 0
+     },
+     {
+      "text": "And, flagging at a single breath,",
+      "indent": 0
+     },
+     {
+      "text": "The fires shall moulder out and die.",
+      "indent": 0
+     },
+     {
+      "text": "The roar shall vanish at its height,",
+      "indent": 0
+     },
+     {
+      "text": "And over that tremendous town",
+      "indent": 0
+     },
+     {
+      "text": "The silence of eternal night",
+      "indent": 0
+     },
+     {
+      "text": "Shall gather close and settle down.",
+      "indent": 0
+     },
+     {
+      "text": "All its grim grandeur, tower and hall,",
+      "indent": 0
+     },
+     {
+      "text": "Shall be abandoned utterly,",
+      "indent": 0
+     },
+     {
+      "text": "And into rust and dust shall fall",
+      "indent": 0
+     },
+     {
+      "text": "From century to century;",
+      "indent": 0
+     },
+     {
+      "text": "Nor ever living thing shall grow,",
+      "indent": 0
+     },
+     {
+      "text": "Or trunk of tree, or blade of grass;",
+      "indent": 0
+     },
+     {
+      "text": "No drop shall fall, no wind shall blow,",
+      "indent": 0
+     },
+     {
+      "text": "Nor sound of any foot shall pass:",
+      "indent": 0
+     },
+     {
+      "text": "Alone of its accursèd state,",
+      "indent": 0
+     },
+     {
+      "text": "One thing the hand of Time shall spare,",
+      "indent": 0
+     },
+     {
+      "text": "For the grim Idiot at the gate",
+      "indent": 0
+     },
+     {
+      "text": "Is deathless and eternal there.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 22833,
+   "path": "pg22833.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "a0a4297796e3a71d92ad6186269f07302dcc08f49358a43dc60c69085b6d529d",
+   "url": "https://www.gutenberg.org/cache/epub/22833/pg22833.txt",
+   "headingLine": 243,
+   "startLine": 244,
+   "endLine": 338,
+   "heading": " THE CITY OF THE END OF THINGS",
+   "bodySha256": "b7500e443f106657c9db983750d23007c8a1d72b40e8db172880dac8eaed54a1"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "claude-mckay-harlem-shadows",
+  "kind": "poem",
+  "title": "Harlem Shadows",
+  "author": "Claude McKay",
+  "year": "1918; book 1922",
+  "place": "Jamaica",
+  "source": "https://www.gutenberg.org/ebooks/64989",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I hear the halting footsteps of a lass",
+      "indent": 0
+     },
+     {
+      "text": "In Negro Harlem when the night lets fall",
+      "indent": 2
+     },
+     {
+      "text": "Its veil. I see the shapes of girls who pass",
+      "indent": 0
+     },
+     {
+      "text": "To bend and barter at desire’s call.",
+      "indent": 2
+     },
+     {
+      "text": "Ah, little dark girls who in slippered feet",
+      "indent": 0
+     },
+     {
+      "text": "Go prowling through the night from street to street!",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Through the long night until the silver break",
+      "indent": 0
+     },
+     {
+      "text": "Of day the little gray feet know no rest;",
+      "indent": 2
+     },
+     {
+      "text": "Through the lone night until the last snow-flake",
+      "indent": 0
+     },
+     {
+      "text": "Has dropped from heaven upon the earth’s white breast,",
+      "indent": 2
+     },
+     {
+      "text": "The dusky, half-clad girls of tired feet",
+      "indent": 0
+     },
+     {
+      "text": "Are trudging, thinly shod, from street to street.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Ah, stern harsh world, that in the wretched way",
+      "indent": 0
+     },
+     {
+      "text": "Of poverty, dishonor and disgrace,",
+      "indent": 2
+     },
+     {
+      "text": "Has pushed the timid little feet of clay,",
+      "indent": 0
+     },
+     {
+      "text": "The sacred brown feet of my fallen race!",
+      "indent": 2
+     },
+     {
+      "text": "Ah, heart of me, the weary, weary feet",
+      "indent": 0
+     },
+     {
+      "text": "In Harlem wandering from street to street.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 64989,
+   "path": "pg64989.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "65654b10a9a6c141858a88aa074c3fbf5cefee8ac692bdc7feda3d0d13fb7113",
+   "url": "https://www.gutenberg.org/cache/epub/64989/pg64989.txt",
+   "headingLine": 775,
+   "startLine": 776,
+   "endLine": 797,
+   "heading": "        HARLEM SHADOWS",
+   "bodySha256": "bf7362254b437d7ba486e1857f53277366b303308908fe10934c9d2d8f7b7b8c"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "edgar-lee-masters-lucinda-matlock",
+  "kind": "poem",
+  "title": "Lucinda Matlock",
+  "author": "Edgar Lee Masters",
+  "year": "1915",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/1280",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "I went to the dances at Chandlerville,",
+      "indent": 0
+     },
+     {
+      "text": "And played snap-out at Winchester.",
+      "indent": 0
+     },
+     {
+      "text": "One time we changed partners,",
+      "indent": 0
+     },
+     {
+      "text": "Driving home in the moonlight of middle June,",
+      "indent": 0
+     },
+     {
+      "text": "And then I found Davis.",
+      "indent": 0
+     },
+     {
+      "text": "We were married and lived together for seventy years,",
+      "indent": 0
+     },
+     {
+      "text": "Enjoying, working, raising the twelve children,",
+      "indent": 0
+     },
+     {
+      "text": "Eight of whom we lost",
+      "indent": 0
+     },
+     {
+      "text": "Ere I had reached the age of sixty.",
+      "indent": 0
+     },
+     {
+      "text": "I spun,",
+      "indent": 0
+     },
+     {
+      "text": "I wove,",
+      "indent": 0
+     },
+     {
+      "text": "I kept the house,",
+      "indent": 0
+     },
+     {
+      "text": "I nursed the sick,",
+      "indent": 0
+     },
+     {
+      "text": "I made the garden, and for holiday",
+      "indent": 0
+     },
+     {
+      "text": "Rambled over the fields where sang the larks,",
+      "indent": 0
+     },
+     {
+      "text": "And by Spoon River gathering many a shell,",
+      "indent": 0
+     },
+     {
+      "text": "And many a flower and medicinal weed—",
+      "indent": 0
+     },
+     {
+      "text": "Shouting to the wooded hills, singing to the green valleys.",
+      "indent": 0
+     },
+     {
+      "text": "At ninety—six I had lived enough, that is all,",
+      "indent": 0
+     },
+     {
+      "text": "And passed to a sweet repose.",
+      "indent": 0
+     },
+     {
+      "text": "What is this I hear of sorrow and weariness,",
+      "indent": 0
+     },
+     {
+      "text": "Anger, discontent and drooping hopes?",
+      "indent": 0
+     },
+     {
+      "text": "Degenerate sons and daughters,",
+      "indent": 0
+     },
+     {
+      "text": "Life is too strong for you—",
+      "indent": 0
+     },
+     {
+      "text": "It takes life to love Life.",
+      "indent": 0
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1280,
+   "path": "pg1280.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "c0f36f51baae63a5e2745d2955e5742d1ba30f98bc2a60470f5ccf152479ccec",
+   "url": "https://www.gutenberg.org/cache/epub/1280/pg1280.txt",
+   "headingLine": 5602,
+   "startLine": 5603,
+   "endLine": 5629,
+   "heading": "Lucinda Matlock",
+   "bodySha256": "d1b76433907de6bc3e4d30c384530b92fe8eee5d0c096acae2adea5fc605dd5b"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "gerard-manley-hopkins-felix-randal",
+  "kind": "poem",
+  "title": "Felix Randal",
+  "author": "Gerard Manley Hopkins",
+  "year": "written 1880; first published 1918",
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/22403",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "FELIX RANDAL the farrier, O he is dead then? my duty all ended,",
+      "indent": 0
+     },
+     {
+      "text": "Who have watched his mould of man, big-boned and hardy-",
+      "indent": 0
+     },
+     {
+      "text": "handsome",
+      "indent": 5
+     },
+     {
+      "text": "Pining, pining, till time when reason rambled in it and some",
+      "indent": 0
+     },
+     {
+      "text": "Fatal four disorders, fleshed there, all contended?",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Sickness broke him. Impatient he cursed at first, but mended",
+      "indent": 0
+     },
+     {
+      "text": "Being anointed and all; though a heavenlier heart began some",
+      "indent": 0
+     },
+     {
+      "text": "Months earlier, since I had our sweet reprieve and ransom",
+      "indent": 0
+     },
+     {
+      "text": "Tendered to him. Ah well, God rest him all road ever he",
+      "indent": 0
+     },
+     {
+      "text": "offended!",
+      "indent": 5
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "This seeing the sick endears them to us, us too it endears.",
+      "indent": 0
+     },
+     {
+      "text": "My tongue had taught thee comfort, touch had quenched thy tears,",
+      "indent": 0
+     },
+     {
+      "text": "Thy tears that touched my heart, child, Felix, poor Felix Randal;",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "How far from then forethought of, all thy more boisterous years,",
+      "indent": 0
+     },
+     {
+      "text": "When thou at the random grim forge, powerful amidst peers,",
+      "indent": 0
+     },
+     {
+      "text": "Didst fettle for the great grey drayhorse his bright and battering",
+      "indent": 0
+     },
+     {
+      "text": "sandal!",
+      "indent": 5
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 22403,
+   "path": "pg22403.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "7be6edff06b1894903c104ef500d1c2206a708a72f3509ae51fde405b8daab84",
+   "url": "https://www.gutenberg.org/cache/epub/22403/pg22403.txt",
+   "headingLine": 1669,
+   "startLine": 1670,
+   "endLine": 1690,
+   "heading": "Felix Randal_",
+   "bodySha256": "f3f99f63f1adbfde92526cec352c0017d9bdbc894a8deeea7a41de9b2cd6f02a",
+   "headingStartLine": 1668
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "paul-laurence-dunbar-we-wear-the-mask",
+  "kind": "poem",
+  "title": "We Wear the Mask",
+  "author": "Paul Laurence Dunbar",
+  "year": "1895",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/18338",
+  "blocks": [
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "We wear the mask that grins and lies,",
+      "indent": 0
+     },
+     {
+      "text": "It hides our cheeks and shades our eyes,--",
+      "indent": 0
+     },
+     {
+      "text": "This debt we pay to human guile;",
+      "indent": 0
+     },
+     {
+      "text": "With torn and bleeding hearts we smile,",
+      "indent": 0
+     },
+     {
+      "text": "And mouth with myriad subtleties.",
+      "indent": 0
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "Why should the world be over-wise,",
+      "indent": 0
+     },
+     {
+      "text": "In counting all our tears and sighs?",
+      "indent": 0
+     },
+     {
+      "text": "Nay, let them only see us, while",
+      "indent": 0
+     },
+     {
+      "text": "We wear the mask.",
+      "indent": 4
+     }
+    ]
+   },
+   {
+    "type": "stanza",
+    "lines": [
+     {
+      "text": "We smile, but, O great Christ, our cries",
+      "indent": 0
+     },
+     {
+      "text": "To thee from tortured souls arise.",
+      "indent": 0
+     },
+     {
+      "text": "We sing, but oh the clay is vile",
+      "indent": 0
+     },
+     {
+      "text": "Beneath our feet, and long the mile;",
+      "indent": 0
+     },
+     {
+      "text": "But let the world dream otherwise,",
+      "indent": 0
+     },
+     {
+      "text": "We wear the mask!",
+      "indent": 4
+     }
+    ]
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 18338,
+   "path": "pg18338.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "0e97ad6cd6ea5775b96446a531e2b097116b4c7e2b7b313e45f31bfed9055a6c",
+   "url": "https://www.gutenberg.org/cache/epub/18338/pg18338.txt",
+   "headingLine": 4726,
+   "startLine": 4727,
+   "endLine": 4744,
+   "heading": "WE WEAR THE MASK",
+   "bodySha256": "db2d9fe4088d3ce6fcf7bf5b28f8be141232579772a8ce191788408a41fe05bc"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "anonymous-welsh-the-dream-of-maxen-wledig",
+  "kind": "story",
+  "title": "The Dream of Maxen Wledig",
+  "author": "Anonymous Welsh",
+  "year": "c. 1350 manuscript; Lady Charlotte Guest translation 1849",
+  "place": "Wales",
+  "source": "https://www.gutenberg.org/ebooks/5160",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Maxen Wledig was emperor of Rome, and he was a comelier man, and a better and a wiser than any emperor that had been before him.  And one day he held a council of kings, and he said to his friends, “I desire to go to-morrow to hunt.”  And the next day in the morning he set forth with his retinue, and came to the valley of the river that flowed towards Rome.  And he hunted through the valley until mid-day.  And with him also were two-and-thirty crowned kings, that were his vassals; not for the delight of hunting went the emperor with them, but to put himself on equal terms with those kings."
+   },
+   {
+    "type": "para",
+    "text": "And the sun was high in the sky over their heads and the heat was great. And sleep came upon Maxen Wledig.  And his attendants stood and set up their shields around him upon the shafts of their spears to protect him from the sun, and they placed a gold enamelled shield under his head; and so Maxen slept."
+   },
+   {
+    "type": "para",
+    "text": "And he saw a dream.  And this is the dream that he saw.  He was journeying along the valley of the river towards its source; and he came to the highest mountain in the world.  And he thought that the mountain was as high as the sky; and when he came over the mountain, it seemed to him that he went through the fairest and most level regions that man ever yet beheld, on the other side of the mountain.  And he saw large and mighty rivers descending from the mountain to the sea, and towards the mouths of the rivers he proceeded.  And as he journeyed thus, he came to the mouth of the largest river ever seen.  And he beheld a great city at the entrance of the river, and a vast castle in the city, and he saw many high towers of various colours in the castle.  And he saw a fleet at the mouth of the river, the largest ever seen.  And he saw one ship among the fleet; larger was it by far, and fairer than all the others.  Of such part of the ship as he could see above the water, one plank was gilded and the other silvered over.  He saw a bridge of the bone of a whale from the ship to the land, and he thought that he went along the bridge, and came into the ship.  And a sail was hoisted on the ship, and along the sea and the ocean was it borne.  Then it seemed that he came to the fairest island in the whole world, and he traversed the island from sea to sea, even to the furthest shore of the island.  Valleys he saw, and steeps, and rocks of wondrous height, and rugged precipices.  Never yet saw he the like.  And thence he beheld an island in the sea, facing this rugged land.  And between him and this island was a country of which the plain was as large as the sea, the mountain as vast as the wood.  And from the mountain he saw a river that flowed through the land and fell into the sea.  And at the mouth of the river he beheld a castle, the fairest that man ever saw, and the gate of the castle was open, and he went into the castle.  And in the castle he saw a fair hall, of which the roof seemed to be all gold, the walls of the hall seemed to be entirely of glittering precious gems, the doors all seemed to be of gold.  Golden seats he saw in the hall, and silver tables.  And on a seat opposite to him he beheld two auburn-haired youths playing at chess.  He saw a silver board for the chess, and golden pieces thereon.  The garments of the youths were of jet-black satin, and chaplets of ruddy gold bound their hair, whereon were sparkling jewels of great price, rubies, and gems, alternately with imperial stones.  Buskins of new Cordovan leather on their feet, fastened by slides of red gold."
+   },
+   {
+    "type": "para",
+    "text": "And beside a pillar in the hall he saw a hoary-headed man, in a chair of ivory, with the figures of two eagles of ruddy gold thereon.  Bracelets of gold were upon his arms, and many rings were on his hands, and a golden torque about his neck; and his hair was bound with a golden diadem.  He was of powerful aspect.  A chessboard of gold was before him, and a rod of gold, and a steel file in his hand.  And he was carving out chessmen."
+   },
+   {
+    "type": "para",
+    "text": "And he saw a maiden sitting before him in a chair of ruddy gold.  Not more easy than to gaze upon the sun when brightest, was it to look upon her by reason of her beauty.  A vest of white silk was upon the maiden, with clasps of red gold at the breast; and a surcoat of gold tissue upon her, and a frontlet of red gold upon her head, and rubies and gems were in the frontlet, alternating with pearls and imperial stones.  And a girdle of ruddy gold was around her.  She was the fairest sight that man ever beheld."
+   },
+   {
+    "type": "para",
+    "text": "The maiden arose from her chair before him, and he threw his arms about the neck of the maiden, and they two sat down together in the chair of gold: and the chair was not less roomy for them both, than for the maiden alone.  And as he had his arms about the maiden’s neck, and his cheek by her cheek, behold, through the chafing of the dogs at their leashing, and the clashing of the shields as they struck against each other, and the beating together of the shafts of the spears, and the neighing of the horses and their prancing, the emperor awoke."
+   },
+   {
+    "type": "para",
+    "text": "And when he awoke, nor spirit nor existence was left him, because of the maiden whom he had seen in his sleep, for the love of the maiden pervaded his whole frame.  Then his household spake unto him.  “Lord,” said they, “is it not past the time for thee to take thy food?”  Thereupon the emperor mounted his palfrey, the saddest man that mortal ever saw, and went forth towards Rome."
+   },
+   {
+    "type": "para",
+    "text": "And thus he was during the space of a week.  When they of the household went to drink wine and mead out of golden vessels, he went not with any of them.  When they went to listen to songs and tales, he went not with them there; neither could he be persuaded to do anything but sleep.  And as often as he slept, he beheld in his dreams the maiden he loved best; but except when he slept he saw nothing of her, for he knew not where in the world she was."
+   },
+   {
+    "type": "para",
+    "text": "One day the page of the chamber spake unto him; now, although he was page of the chamber, he was king of the Romans.  “Lord,” said he, “all the people revile thee.”  “Wherefore do they revile me?” asked the emperor. “Because they can get neither message nor answer from thee as men should have from their lord.  This is the cause why thou art spoken evil of.” “Youth,” said the emperor, “do thou bring unto me the wise men of Rome, and I will tell them wherefore I am sorrowful.”"
+   },
+   {
+    "type": "para",
+    "text": "Then the wise men of Rome were brought to the emperor, and he spake to them.  “Sages of Rome,” said he, “I have seen a dream.  And in the dream I beheld a maiden, and because of the maiden is there neither life, nor spirit, nor existence within me.”  “Lord,” they answered, “since thou judgest us worthy to counsel thee, we will give thee counsel.  And this is our counsel; that thou send messengers for three years to the three parts of the world to seek for thy dream.  And as thou knowest not what day or what night good news may come to thee, the hope thereof will support thee.”"
+   },
+   {
+    "type": "para",
+    "text": "So the messengers journeyed for the space of a year, wandering about the world, and seeking tidings concerning his dream.  But when they came back at the end of the year, they knew not one word more than they did the day they set forth.  And then was the emperor exceeding sorrowful, for he thought that he should never have tidings of her whom best he loved."
+   },
+   {
+    "type": "para",
+    "text": "Then spoke the king of the Romans unto the emperor.  “Lord,” said he, “go forth to hunt by the way thou didst seem to go, whether it were to the east, or to the west.”  So the emperor went forth to the hunt, and he came to the bank of the river.  “Behold,” said he, “this is where I was when I saw the dream, and I went towards the source of the river westward.”"
+   },
+   {
+    "type": "para",
+    "text": "And thereupon thirteen messengers of the emperor’s set forth, and before them they saw a high mountain, which seemed to them to touch the sky. Now this was the guise in which the messengers journeyed; one sleeve was on the cap of each of them in front, as a sign that they were messengers, in order that through what hostile land soever they might pass no harm might be done them.  And when they were come over this mountain, they beheld vast plains, and large rivers flowing there through."
+   },
+   {
+    "type": "para",
+    "text": "“Behold,” said they, “the land which our master saw.”"
+   },
+   {
+    "type": "para",
+    "text": "And they went along the mouths of the rivers, until they came to the mighty river which they saw flowing to the sea, and the vast city, and the many-coloured high towers in the castle.  They saw the largest fleet in the world, in the harbour of the river, and one ship that was larger than any of the others.  “Behold again,” said they, “the dream that our master saw.”  And in the great ship they crossed the sea, and came to the Island of Britain.  And they traversed the island until they came to Snowdon.  “Behold,” said they, “the rugged land that our master saw.” And they went forward until they saw Anglesey before them, and until they saw Arvon likewise.  “Behold,” said they, “the land our master saw in his sleep.”  And they saw Aber Sain, and a castle at the mouth of the river. The portal of the castle saw they open, and into the castle they went, and they saw a hall in the castle.  Then said they, “Behold, the hall which he saw in his sleep.”  They went into the hall, and they beheld two youths playing at chess on the golden bench.  And they beheld the hoary-headed man beside the pillar, in the ivory chair, carving chessmen. And they beheld the maiden sitting on a chair of ruddy gold."
+   },
+   {
+    "type": "para",
+    "text": "The messengers bent down upon their knees.  “Empress of Rome, all hail!” “Ha, gentles,” said the maiden, “ye bear the seeming of honourable men, and the badge of envoys, what mockery is this ye do to me?”  “We mock thee not, lady; but the Emperor of Rome hath seen thee in his sleep, and he has neither life nor spirit left because of thee.  Thou shalt have of us therefore the choice, lady, whether thou wilt go with us and be made empress of Rome, or that the emperor come hither and take thee for his wife?”  “Ha, lords,” said the maiden, “I will not deny what ye say, neither will I believe it too well.  If the emperor love me, let him come here to seek me.”"
+   },
+   {
+    "type": "para",
+    "text": "And by day and night the messengers hied them back.  And when their horses failed, they bought other fresh ones.  And when they came to Rome, they saluted the emperor, and asked their boon, which was given to them according as they named it.  “We will be thy guides, lord,” said they, “over sea and over land, to the place where is the woman whom best thou lovest, for we know her name, and her kindred, and her race.”"
+   },
+   {
+    "type": "para",
+    "text": "And immediately the emperor set forth with his army.  And these men were his guides.  Towards the Island of Britain they went over the sea and the deep.  And he conquered the Island from Beli the son of Manogan, and his sons, and drove them to the sea, and went forward even unto Arvon.  And the emperor knew the land when he saw it.  And when he beheld the castle of Aber Sain, “Look yonder,” said he, “there is the castle wherein I saw the damsel whom I best love.”  And he went forward into the castle and into the hall, and there he saw Kynan the son of Eudav, and Adeon the son of Eudav, playing at chess.  And he saw Eudav the son of Caradawc, sitting on a chair of ivory carving chessmen.  And the maiden whom he had beheld in his sleep, he saw sitting on a chair of gold.  “Empress of Rome,” said he, “all hail!”  And the emperor threw his arms about her neck; and that night she became his bride."
+   },
+   {
+    "type": "para",
+    "text": "And the next day in the morning, the damsel asked her maiden portion. And he told her to name what she would.  And she asked to have the Island of Britain for her father, from the Channel to the Irish Sea, together with the three adjacent Islands, to hold under the empress of Rome; and to have three chief castles made for her, in whatever places she might choose in the Island of Britain.  And she chose to have the highest castle made at Arvon.  And they brought thither earth from Rome that it might be more healthful for the emperor to sleep, and sit, and walk upon. After that the two other castles were made for her, which were Caerlleon and Caermarthen."
+   },
+   {
+    "type": "para",
+    "text": "And one day the emperor went to hunt at Caermarthen, and he came so far as the top of Brevi Vawr, and there the emperor pitched his tent.  And that encamping place is called Cadeir Maxen, even to this day.  And because that he built the castle with a myriad of men, he called it Caervyrddin.  Then Helen bethought her to make high roads from one castle to another throughout the Island of Britain.  And the roads were made. And for this cause are they called the roads of Helen Luyddawc, that she was sprung from a native of this island, and the men of the Island of Britain would not have made these great roads for any save for her."
+   },
+   {
+    "type": "para",
+    "text": "Seven years did the emperor tarry in this Island.  Now, at that time, the men of Rome had a custom, that whatsoever emperor should remain in other lands more than seven years should remain to his own overthrow, and should never return to Rome again."
+   },
+   {
+    "type": "para",
+    "text": "So they made a new emperor.  And this one wrote a letter of threat to Maxen.  There was nought in the letter but only this.  “If thou comest, and if thou ever comest to Rome.”  And even unto Caerlleon came this letter to Maxen, and these tidings.  Then sent he a letter to the man who styled himself emperor in Rome.  There was nought in that letter also but only this.  “If I come to Rome, and if I come.”"
+   },
+   {
+    "type": "para",
+    "text": "And thereupon Maxen set forth towards Rome with his army, and vanquished France and Bugundy, and every land on the way, and sat down before the city of Rome."
+   },
+   {
+    "type": "para",
+    "text": "A year was the emperor before the city, and he was no nearer taking it than the first day.  And after him there came the brothers of Helen Luyddawc from the Island of Britain, and a small host with them, and better warriors were in that small host than twice as many Romans.  And the emperor was told that a host was seen, halting close to his army and encamping, and no man ever saw a fairer or better appointed host for its size, nor more handsome standards."
+   },
+   {
+    "type": "para",
+    "text": "And Helen went to see the hosts, and she knew the standards of her brothers.  Then came Kynan the son of Eudav, and Adeon the son of Eudav, to meet the emperor.  And the emperor was glad because of them, and embraced them."
+   },
+   {
+    "type": "para",
+    "text": "Then they looked at the Romans as they attacked the city.  Said Kynan to his brother, “We will try to attack the city more expertly than this.” So they measured by night the height of the wall, and they sent their carpenters to the wood, and a ladder was made for every four men of their number.  Now when these were ready, every day at mid-day the emperors went to meat, and they ceased to fight on both sides till all had finished eating.  And in the morning the men of Britain took their food and they drank until they were invigorated.  And while the two emperors were at meat, the Britons came to the city, and placed their ladders against it, and forthwith they came in through the city."
+   },
+   {
+    "type": "para",
+    "text": "The new emperor had no time to arm himself when they fell upon him, and slew him, and many others with him.  And three nights and three days were they subduing the men that were in the city and taking the castle.  And others of them kept the city, lest any of the host of Maxen should come therein, until they had subjected all to their will."
+   },
+   {
+    "type": "para",
+    "text": "Then spake Maxen to Helen Luyddawc.  “I marvel, lady,” said he, “that thy brothers have not conquered this city for me.”  “Lord, emperor,” she answered, “the wisest youths in the world are my brothers.  Go thou thither and ask the city of them, and if it be in their possession thou shalt have it gladly.”  So the emperor and Helen went and demanded the city.  And they told the emperor that none had taken the city, and that none could give it him, but the men of the Island of Britain.  Then the gates of the city of Rome were opened, and the emperor sat on the throne, and all the men of Rome submitted them selves unto him."
+   },
+   {
+    "type": "para",
+    "text": "The emperor then said unto Kynan and Adeon, “Lords,” said he, “I have now had possession of the whole of my empire.  This host give I unto you to vanquish whatever region ye may desire in the world.”"
+   },
+   {
+    "type": "para",
+    "text": "So they set forth and conquered lands, and castles, and cities.  And they slew all the men, but the women they kept alive.  And thus they continued until the young men that had come with them were grown grey-headed, from the length of time they were upon this conquest."
+   },
+   {
+    "type": "para",
+    "text": "Then spoke Kynan unto Adeon his brother, “Whether wilt thou rather,” said he, “tarry in this land, or go back into the land whence thou didst come forth?”  Now he chose to go back to his own land, and many with him.  But Kynan tarried there with the other part and dwelt there."
+   },
+   {
+    "type": "para",
+    "text": "And they took counsel and cut out the tongues of the women, lest they should corrupt their speech.  And because of the silence of the women from their own speech, the men of Armorica are called Britons.  From that time there came frequently, and still comes, that language from the Island of Britain."
+   },
+   {
+    "type": "para",
+    "text": "And this dream is called the Dream of Maxen Wledig, emperor of Rome.  And here it ends."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 5160,
+   "path": "pg5160.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "e177d7c2ff357bc5e3f506c7131d158d8b8f5e05883110bdf495f0d9d7f49886",
+   "url": "https://www.gutenberg.org/cache/epub/5160/pg5160.txt",
+   "headingLine": 8128,
+   "startLine": 8129,
+   "endLine": 8415,
+   "heading": "THE DREAM OF MAXEN WLEDIG",
+   "bodySha256": "e81e78f4e2e834b7c73820d20a41708356021d2a672752f8f01b2048be68ff1f"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "giovanni-boccaccio-federigo-and-his-falcon",
+  "kind": "story",
+  "title": "Federigo and his Falcon",
+  "author": "Giovanni Boccaccio",
+  "year": "c. 1353; J. M. Rigg translation 1903",
+  "place": "Italy",
+  "source": "https://www.gutenberg.org/ebooks/13102",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "-- Federigo degli Alberighi loves and is not loved in return: he wastes his substance by lavishness until nought is left but a single falcon, which, his lady being come to see him at his house, he gives her to eat: she, knowing his case, changes her mind, takes him to husband and makes him rich. --"
+   },
+   {
+    "type": "para",
+    "text": "So ended Filomena; and the queen, being ware that besides herself only Dioneo (by virtue of his privilege) was left to speak, said with gladsome mien:--'Tis now for me to take up my parable; which, dearest ladies, I will do with a story like in some degree to the foregoing, and that, not only that you may know how potent are your charms to sway the gentle heart, but that you may also learn how upon fitting occasions to make bestowal of your guerdons of your own accord, instead of always waiting for the guidance of Fortune, which most times, not wisely, but without rule or measure, scatters her gifts."
+   },
+   {
+    "type": "para",
+    "text": "You are then to know, that Coppo di Borghese Domenichi, a man that in our day was, and perchance still is, had in respect and great reverence in our city, being not only by reason of his noble lineage, but, and yet more, for manners and merit most illustrious and worthy of eternal renown, was in his old age not seldom wont to amuse himself by discoursing of things past with his neighbours and other folk; wherein he had not his match for accuracy and compass of memory and concinnity of speech. Among other good stories, he would tell, how that there was of yore in Florence a gallant named Federigo di Messer Filippo Alberighi, who for feats of arms and courtesy had not his peer in Tuscany; who, as is the common lot of gentlemen, became enamoured of a lady named Monna Giovanna, who in her day held rank among the fairest and most elegant ladies of Florence; to gain whose love he jousted, tilted, gave entertainments, scattered largess, and in short set no bounds to his expenditure. However the lady, no less virtuous than fair, cared not a jot for what he did for her sake, nor yet for him."
+   },
+   {
+    "type": "para",
+    "text": "Spending thus greatly beyond his means, and making nothing, Federigo could hardly fail to come to lack, and was at length reduced to such poverty that he had nothing left but a little estate, on the rents of which he lived very straitly, and a single falcon, the best in the world. The estate was at Campi, and thither, deeming it no longer possible for him to live in the city as he desired, he repaired, more in love than ever before; and there, in complete seclusion, diverting himself with hawking, he bore his poverty as patiently as he might."
+   },
+   {
+    "type": "para",
+    "text": "Now, Federigo being thus reduced to extreme poverty, it so happened that one day Monna Giovanna's husband, who was very rich, fell ill, and, seeing that he was nearing his end, made his will, whereby he left his estate to his son, who was now growing up, and in the event of his death without lawful heir named Monna Giovanna, whom he dearly loved, heir in his stead; and having made these dispositions he died."
+   },
+   {
+    "type": "para",
+    "text": "Monna Giovanna, being thus left a widow, did as our ladies are wont, and repaired in the summer to one of her estates in the country which lay very near to that of Federigo. And so it befell that the urchin began to make friends with Federigo, and to shew a fondness for hawks and dogs, and having seen Federigo's falcon fly not a few times, took a singular fancy to him, and greatly longed to have him for his own, but still did not dare to ask him of Federigo, knowing that Federigo prized him so much. So the matter stood when by chance the boy fell sick; whereby the mother was sore distressed, for he was her only son, and she loved him as much as might be, insomuch that all day long she was beside him, and ceased not to comfort him, and again and again asked him if there were aught that he wished for, imploring him to say the word, and, if it might by any means be had, she would assuredly do her utmost to procure it for him. Thus repeatedly exhorted, the boy said:--\"Mother mine, do but get me Federigo's falcon, and I doubt not I shall soon be well.\" Whereupon the lady was silent a while, bethinking her what she should do. She knew that Federigo had long loved her, and had never had so much as a single kind look from her: wherefore she said to herself:--How can I send or go to beg of him this falcon, which by what I hear is the best that ever flew, and moreover is his sole comfort? And how could I be so unfeeling as to seek to deprive a gentleman of the one solace that is now left him? And so, albeit she very well knew that she might have the falcon for the asking, she was perplexed, and knew not what to say, and gave her son no answer. At length, however, the love she bore the boy carried the day, and she made up her mind, for his contentment, come what might, not to send, but to go herself and fetch him the falcon. So:--\"Be of good cheer, my son,\" she said, \"and doubt not thou wilt soon be well; for I promise thee that the very first thing that I shall do tomorrow morning will be to go and fetch thee the falcon.\" Whereat the child was so pleased that he began to mend that very day."
+   },
+   {
+    "type": "para",
+    "text": "On the morrow the lady, as if for pleasure, hied her with another lady to Federigo's little house, and asked to see him. 'Twas still, as for some days past, no weather for hawking, and Federigo was in his garden, busy about some small matters which needed to be set right there. When he heard that Monna Giovanna was at the door, asking to see him, he was not a little surprised and pleased, and hied him to her with all speed. As soon as she saw him, she came forward to meet him with womanly grace, and having received his respectful salutation, said to him:--\"Good morrow, Federigo,\" and continued:--\"I am come to requite thee for what thou hast lost by loving me more than thou shouldst: which compensation is this, that I and this lady that accompanies me will breakfast with thee without ceremony this morning.\" \"Madam,\" Federigo replied with all humility, \"I mind not ever to have lost aught by loving you, but rather to have been so much profited that, if I ever deserved well in aught, 'twas to your merit that I owed it, and to the love that I bore you. And of a surety had I still as much to spend as I have spent in the past, I should not prize it so much as this visit you so frankly pay me, come as you are to one who can afford you but a sorry sort of hospitality.\" Which said, with some confusion, he bade her welcome to his house, and then led her into his garden, where, having none else to present to her by way of companion, he said:--\"Madam, as there is none other here, this good woman, wife of this husbandman, will bear you company, while I go to have the table set.\" Now, albeit his poverty was extreme, yet he had not known as yet how sore was the need to which his extravagance had reduced him; but this morning 'twas brought home to him, for that he could find nought wherewith to do honour to the lady, for love of whom he had done the honours of his house to men without number: wherefore, distressed beyond measure, and inwardly cursing his evil fortune, he sped hither and thither like one beside himself, but never a coin found he, nor yet aught to pledge. Meanwhile it grew late, and sorely he longed that the lady might not leave his house altogether unhonoured, and yet to crave help of his own husbandman was more than his pride could brook. In these desperate straits his glance happened to fall on his brave falcon on his perch in his little parlour. And so, as a last resource, he took him, and finding him plump, deemed that he would make a dish meet for such a lady. Wherefore, without thinking twice about it, he wrung the bird's neck, and caused his maid forthwith pluck him and set him on a spit, and roast him carefully; and having still some spotless table linen, he had the table laid therewith, and with a cheerful countenance hied him back to his lady in the garden, and told her that such breakfast as he could give her was ready. So the lady and her companion rose and came to table, and there, with Federigo, who waited on them most faithfully, ate the brave falcon, knowing not what they ate."
+   },
+   {
+    "type": "para",
+    "text": "When they were risen from table, and had dallied a while in gay converse with him, the lady deemed it time to tell the reason of her visit: wherefore, graciously addressing Federigo, thus began she:--\"Federigo, by what thou rememberest of thy past life and my virtue, which, perchance, thou hast deemed harshness and cruelty, I doubt not thou must marvel at my presumption, when thou hearest the main purpose of my visit; but if thou hadst sons, or hadst had them, so that thou mightest know the full force of the love that is borne them, I should make no doubt that thou wouldst hold me in part excused. Nor, having a son, may I, for that thou hast none, claim exemption from the laws to which all other mothers are subject, and, being thus bound to own their sway, I must, though fain were I not, and though 'tis neither meet nor right, crave of thee that which I know thou dost of all things and with justice prize most highly, seeing that this extremity of thy adverse fortune has left thee nought else wherewith to delight, divert and console thee; which gift is no other than thy falcon, on which my boy has so set his heart that, if I bring him it not, I fear lest he grow so much worse of the malady that he has, that thereby it may come to pass that I lose him. And so, not for the love which thou dost bear me, and which may nowise bind thee, but for that nobleness of temper, whereof in courtesy more conspicuously than in aught else thou hast given proof, I implore thee that thou be pleased to give me the bird, that thereby I may say that I have kept my son alive, and thus made him for aye thy debtor.\""
+   },
+   {
+    "type": "para",
+    "text": "No sooner had Federigo apprehended what the lady wanted, than, for grief that 'twas not in his power to serve her, because he had given her the falcon to eat, he fell a weeping in her presence, before he could so much as utter a word. At first the lady supposed that 'twas only because he was loath to part with the brave falcon that he wept, and as good as made up her mind that he would refuse her: however, she awaited with patience Federigo's answer, which was on this wise:--\"Madam, since it pleased God that I should set my affections upon you there have been matters not a few, in which to my sorrow I have deemed Fortune adverse to me; but they have all been trifles in comparison of the trick that she now plays me: the which I shall never forgive her, seeing that you are come here to my poor house, where, while I was rich, you deigned not to come, and ask a trifling favour of me, which she has put it out of my power to grant: how 'tis so, I will briefly tell you. When I learned that you, of your grace, were minded to breakfast with me, having respect to your high dignity and desert, I deemed it due and seemly that in your honour I should regale you, to the best of my power, with fare of a more excellent quality than is commonly set before others; and, calling to mind the falcon which you now ask of me, and his excellence, I judged him meet food for you, and so you have had him roasted on the trencher this morning; and well indeed I thought I had bestowed him; but, as now I see that you would fain have had him in another guise, so mortified am I that I am not able to serve you, that I doubt I shall never know peace of mind more.\" In witness whereof he had the feathers and feet and beak of the bird brought in and laid before her."
+   },
+   {
+    "type": "para",
+    "text": "The first thing the lady did, when she had heard Federigo's story, and seen the relics of the bird, was to chide him that he had killed so fine a falcon to furnish a woman with a breakfast; after which the magnanimity of her host, which poverty had been and was powerless to impair, elicited no small share of inward commendation. Then, frustrate of her hope of possessing the falcon, and doubting of her son's recovery, she took her leave with the heaviest of hearts, and hied her back to the boy: who, whether for fretting, that he might not have the falcon, or by the unaided energy of his disorder, departed this life not many days after, to the exceeding great grief of his mother. For a while she would do nought but weep and bitterly bewail herself; but being still young, and left very wealthy, she was often urged by her brothers to marry again, and though she would rather have not done so, yet being importuned, and remembering Federigo's high desert, and the magnificent generosity with which he had finally killed his falcon to do her honour, she said to her brothers:--\"Gladly, with your consent, would I remain a widow, but if you will not be satisfied except I take a husband, rest assured that none other will I ever take save Federigo degli Alberighi.\" Whereupon her brothers derided her, saying:--\"Foolish woman, what is't thou sayst? How shouldst thou want Federigo, who has not a thing in the world?\" To whom she answered:--\"My brothers, well wot I that 'tis as you say; but I had rather have a man without wealth than wealth without a man.\" The brothers, perceiving that her mind was made up, and knowing Federigo for a good man and true, poor though he was, gave her to him with all her wealth. And so Federigo, being mated with such a wife, and one that he had so much loved, and being very wealthy to boot, lived happily, keeping more exact accounts, to the end of his days."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 13102,
+   "path": "pg13102.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "4e0d5b881224691490a4ff7b8a7a32a41d18ebcc9f91aa4cc1359196fbf8ba4d",
+   "url": "https://www.gutenberg.org/cache/epub/13102/pg13102.txt",
+   "headingLine": 2172,
+   "startLine": 2173,
+   "endLine": 2376,
+   "heading": "NOVEL IX.",
+   "bodySha256": "cbdcdf706bf98c54b7ee7047126cd1cf8201ab4dd54025a06cc2d89526108816"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "anton-chekhov-misery",
+  "kind": "story",
+  "title": "Misery",
+  "author": "Anton Chekhov",
+  "year": "1886; Constance Garnett translation 1920",
+  "place": "Russia",
+  "source": "https://www.gutenberg.org/ebooks/1732",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "“To whom shall I tell my grief?”"
+   },
+   {
+    "type": "para",
+    "text": "THE twilight of evening. Big flakes of wet snow are whirling lazily about the street lamps, which have just been lighted, and lying in a thin soft layer on roofs, horses’ backs, shoulders, caps. Iona Potapov, the sledge-driver, is all white like a ghost. He sits on the box without stirring, bent as double as the living body can be bent. If a regular snowdrift fell on him it seems as though even then he would not think it necessary to shake it off.... His little mare is white and motionless too. Her stillness, the angularity of her lines, and the stick-like straightness of her legs make her look like a halfpenny gingerbread horse. She is probably lost in thought. Anyone who has been torn away from the plough, from the familiar gray landscapes, and cast into this slough, full of monstrous lights, of unceasing uproar and hurrying people, is bound to think."
+   },
+   {
+    "type": "para",
+    "text": "It is a long time since Iona and his nag have budged. They came out of the yard before dinnertime and not a single fare yet. But now the shades of evening are falling on the town. The pale light of the street lamps changes to a vivid color, and the bustle of the street grows noisier."
+   },
+   {
+    "type": "para",
+    "text": "“Sledge to Vyborgskaya!” Iona hears. “Sledge!”"
+   },
+   {
+    "type": "para",
+    "text": "Iona starts, and through his snow-plastered eyelashes sees an officer in a military overcoat with a hood over his head."
+   },
+   {
+    "type": "para",
+    "text": "“To Vyborgskaya,” repeats the officer. “Are you asleep? To Vyborgskaya!”"
+   },
+   {
+    "type": "para",
+    "text": "In token of assent Iona gives a tug at the reins which sends cakes of snow flying from the horse’s back and shoulders. The officer gets into the sledge. The sledge-driver clicks to the horse, cranes his neck like a swan, rises in his seat, and more from habit than necessity brandishes his whip. The mare cranes her neck, too, crooks her stick-like legs, and hesitatingly sets of...."
+   },
+   {
+    "type": "para",
+    "text": "“Where are you shoving, you devil?” Iona immediately hears shouts from the dark mass shifting to and fro before him. “Where the devil are you going? Keep to the r-right!”"
+   },
+   {
+    "type": "para",
+    "text": "“You don’t know how to drive! Keep to the right,” says the officer angrily."
+   },
+   {
+    "type": "para",
+    "text": "A coachman driving a carriage swears at him; a pedestrian crossing the road and brushing the horse’s nose with his shoulder looks at him angrily and shakes the snow off his sleeve. Iona fidgets on the box as though he were sitting on thorns, jerks his elbows, and turns his eyes about like one possessed as though he did not know where he was or why he was there."
+   },
+   {
+    "type": "para",
+    "text": "“What rascals they all are!” says the officer jocosely. “They are simply doing their best to run up against you or fall under the horse’s feet. They must be doing it on purpose.”"
+   },
+   {
+    "type": "para",
+    "text": "Iona looks as his fare and moves his lips.... Apparently he means to say something, but nothing comes but a sniff."
+   },
+   {
+    "type": "para",
+    "text": "“What?” inquires the officer."
+   },
+   {
+    "type": "para",
+    "text": "Iona gives a wry smile, and straining his throat, brings out huskily: “My son... er... my son died this week, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "“H’m! What did he die of?”"
+   },
+   {
+    "type": "para",
+    "text": "Iona turns his whole body round to his fare, and says:"
+   },
+   {
+    "type": "para",
+    "text": "“Who can tell! It must have been from fever.... He lay three days in the hospital and then he died.... God’s will.”"
+   },
+   {
+    "type": "para",
+    "text": "“Turn round, you devil!” comes out of the darkness. “Have you gone cracked, you old dog? Look where you are going!”"
+   },
+   {
+    "type": "para",
+    "text": "“Drive on! drive on!...” says the officer. “We shan’t get there till to-morrow going on like this. Hurry up!”"
+   },
+   {
+    "type": "para",
+    "text": "The sledge-driver cranes his neck again, rises in his seat, and with heavy grace swings his whip. Several times he looks round at the officer, but the latter keeps his eyes shut and is apparently disinclined to listen. Putting his fare down at Vyborgskaya, Iona stops by a restaurant, and again sits huddled up on the box.... Again the wet snow paints him and his horse white. One hour passes, and then another...."
+   },
+   {
+    "type": "para",
+    "text": "Three young men, two tall and thin, one short and hunchbacked, come up, railing at each other and loudly stamping on the pavement with their goloshes."
+   },
+   {
+    "type": "para",
+    "text": "“Cabby, to the Police Bridge!” the hunchback cries in a cracked voice. “The three of us,... twenty kopecks!”"
+   },
+   {
+    "type": "para",
+    "text": "Iona tugs at the reins and clicks to his horse. Twenty kopecks is not a fair price, but he has no thoughts for that. Whether it is a rouble or whether it is five kopecks does not matter to him now so long as he has a fare.... The three young men, shoving each other and using bad language, go up to the sledge, and all three try to sit down at once. The question remains to be settled: Which are to sit down and which one is to stand? After a long altercation, ill-temper, and abuse, they come to the conclusion that the hunchback must stand because he is the shortest."
+   },
+   {
+    "type": "para",
+    "text": "“Well, drive on,” says the hunchback in his cracked voice, settling himself and breathing down Iona’s neck. “Cut along! What a cap you’ve got, my friend! You wouldn’t find a worse one in all Petersburg....”"
+   },
+   {
+    "type": "para",
+    "text": "“He-he!... he-he!...” laughs Iona. “It’s nothing to boast of!”"
+   },
+   {
+    "type": "para",
+    "text": "“Well, then, nothing to boast of, drive on! Are you going to drive like this all the way? Eh? Shall I give you one in the neck?”"
+   },
+   {
+    "type": "para",
+    "text": "“My head aches,” says one of the tall ones. “At the Dukmasovs’ yesterday Vaska and I drank four bottles of brandy between us.”"
+   },
+   {
+    "type": "para",
+    "text": "“I can’t make out why you talk such stuff,” says the other tall one angrily. “You lie like a brute.”"
+   },
+   {
+    "type": "para",
+    "text": "“Strike me dead, it’s the truth!...”"
+   },
+   {
+    "type": "para",
+    "text": "“It’s about as true as that a louse coughs.”"
+   },
+   {
+    "type": "para",
+    "text": "“He-he!” grins Iona. “Me-er-ry gentlemen!”"
+   },
+   {
+    "type": "para",
+    "text": "“Tfoo! the devil take you!” cries the hunchback indignantly. “Will you get on, you old plague, or won’t you? Is that the way to drive? Give her one with the whip. Hang it all, give it her well.”"
+   },
+   {
+    "type": "para",
+    "text": "Iona feels behind his back the jolting person and quivering voice of the hunchback. He hears abuse addressed to him, he sees people, and the feeling of loneliness begins little by little to be less heavy on his heart. The hunchback swears at him, till he chokes over some elaborately whimsical string of epithets and is overpowered by his cough. His tall companions begin talking of a certain Nadyezhda Petrovna. Iona looks round at them. Waiting till there is a brief pause, he looks round once more and says:"
+   },
+   {
+    "type": "para",
+    "text": "“This week... er... my... er... son died!”"
+   },
+   {
+    "type": "para",
+    "text": "“We shall all die,...” says the hunchback with a sigh, wiping his lips after coughing. “Come, drive on! drive on! My friends, I simply cannot stand crawling like this! When will he get us there?”"
+   },
+   {
+    "type": "para",
+    "text": "“Well, you give him a little encouragement... one in the neck!”"
+   },
+   {
+    "type": "para",
+    "text": "“Do you hear, you old plague? I’ll make you smart. If one stands on ceremony with fellows like you one may as well walk. Do you hear, you old dragon? Or don’t you care a hang what we say?”"
+   },
+   {
+    "type": "para",
+    "text": "And Iona hears rather than feels a slap on the back of his neck."
+   },
+   {
+    "type": "para",
+    "text": "“He-he!...” he laughs. “Merry gentlemen.... God give you health!”"
+   },
+   {
+    "type": "para",
+    "text": "“Cabman, are you married?” asks one of the tall ones."
+   },
+   {
+    "type": "para",
+    "text": "“I? He he! Me-er-ry gentlemen. The only wife for me now is the damp earth.... He-ho-ho!.... The grave that is!... Here my son’s dead and I am alive.... It’s a strange thing, death has come in at the wrong door.... Instead of coming for me it went for my son....”"
+   },
+   {
+    "type": "para",
+    "text": "And Iona turns round to tell them how his son died, but at that point the hunchback gives a faint sigh and announces that, thank God! they have arrived at last. After taking his twenty kopecks, Iona gazes for a long while after the revelers, who disappear into a dark entry. Again he is alone and again there is silence for him.... The misery which has been for a brief space eased comes back again and tears his heart more cruelly than ever. With a look of anxiety and suffering Iona’s eyes stray restlessly among the crowds moving to and fro on both sides of the street: can he not find among those thousands someone who will listen to him? But the crowds flit by heedless of him and his misery.... His misery is immense, beyond all bounds. If Iona’s heart were to burst and his misery to flow out, it would flood the whole world, it seems, but yet it is not seen. It has found a hiding-place in such an insignificant shell that one would not have found it with a candle by daylight...."
+   },
+   {
+    "type": "para",
+    "text": "Iona sees a house-porter with a parcel and makes up his mind to address him."
+   },
+   {
+    "type": "para",
+    "text": "“What time will it be, friend?” he asks."
+   },
+   {
+    "type": "para",
+    "text": "“Going on for ten.... Why have you stopped here? Drive on!”"
+   },
+   {
+    "type": "para",
+    "text": "Iona drives a few paces away, bends himself double, and gives himself up to his misery. He feels it is no good to appeal to people. But before five minutes have passed he draws himself up, shakes his head as though he feels a sharp pain, and tugs at the reins.... He can bear it no longer."
+   },
+   {
+    "type": "para",
+    "text": "“Back to the yard!” he thinks. “To the yard!”"
+   },
+   {
+    "type": "para",
+    "text": "And his little mare, as though she knew his thoughts, falls to trotting. An hour and a half later Iona is sitting by a big dirty stove. On the stove, on the floor, and on the benches are people snoring. The air is full of smells and stuffiness. Iona looks at the sleeping figures, scratches himself, and regrets that he has come home so early...."
+   },
+   {
+    "type": "para",
+    "text": "“I have not earned enough to pay for the oats, even,” he thinks. “That’s why I am so miserable. A man who knows how to do his work,... who has had enough to eat, and whose horse has had enough to eat, is always at ease....”"
+   },
+   {
+    "type": "para",
+    "text": "In one of the corners a young cabman gets up, clears his throat sleepily, and makes for the water-bucket."
+   },
+   {
+    "type": "para",
+    "text": "“Want a drink?” Iona asks him."
+   },
+   {
+    "type": "para",
+    "text": "“Seems so.”"
+   },
+   {
+    "type": "para",
+    "text": "“May it do you good.... But my son is dead, mate.... Do you hear? This week in the hospital.... It’s a queer business....”"
+   },
+   {
+    "type": "para",
+    "text": "Iona looks to see the effect produced by his words, but he sees nothing. The young man has covered his head over and is already asleep. The old man sighs and scratches himself.... Just as the young man had been thirsty for water, he thirsts for speech. His son will soon have been dead a week, and he has not really talked to anybody yet.... He wants to talk of it properly, with deliberation.... He wants to tell how his son was taken ill, how he suffered, what he said before he died, how he died.... He wants to describe the funeral, and how he went to the hospital to get his son’s clothes. He still has his daughter Anisya in the country.... And he wants to talk about her too.... Yes, he has plenty to talk about now. His listener ought to sigh and exclaim and lament.... It would be even better to talk to women. Though they are silly creatures, they blubber at the first word."
+   },
+   {
+    "type": "para",
+    "text": "“Let’s go out and have a look at the mare,” Iona thinks. “There is always time for sleep.... You’ll have sleep enough, no fear....”"
+   },
+   {
+    "type": "para",
+    "text": "He puts on his coat and goes into the stables where his mare is standing. He thinks about oats, about hay, about the weather.... He cannot think about his son when he is alone.... To talk about him with someone is possible, but to think of him and picture him is insufferable anguish...."
+   },
+   {
+    "type": "para",
+    "text": "“Are you munching?” Iona asks his mare, seeing her shining eyes. “There, munch away, munch away.... Since we have not earned enough for oats, we will eat hay.... Yes,... I have grown too old to drive.... My son ought to be driving, not I.... He was a real cabman.... He ought to have lived....”"
+   },
+   {
+    "type": "para",
+    "text": "Iona is silent for a while, and then he goes on:"
+   },
+   {
+    "type": "para",
+    "text": "“That’s how it is, old girl.... Kuzma Ionitch is gone.... He said good-by to me.... He went and died for no reason.... Now, suppose you had a little colt, and you were own mother to that little colt. ... And all at once that same little colt went and died.... You’d be sorry, wouldn’t you?...”"
+   },
+   {
+    "type": "para",
+    "text": "The little mare munches, listens, and breathes on her master’s hands. Iona is carried away and tells her all about it."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1732,
+   "path": "pg1732.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "df2058990448c28353fd556ecc221637f8896c6de429ccb345f1e6dd238b21cb",
+   "url": "https://www.gutenberg.org/cache/epub/1732/pg1732.txt",
+   "headingLine": 1471,
+   "startLine": 1472,
+   "endLine": 1719,
+   "heading": "MISERY",
+   "bodySha256": "5fbcd6afb59fc878ba8f044ccdedda5f39c2959bf0cb1c3b74d44a1ead1b295b"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "joaquim-maria-machado-de-assis-the-attendant-s-confession",
+  "kind": "story",
+  "title": "The Attendant's Confession",
+  "author": "Joaquim Maria Machado de Assis",
+  "year": "1884; Isaac Goldberg translation 1921",
+  "place": "Brazil",
+  "source": "https://www.gutenberg.org/ebooks/21040",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "By Joaquim Maria Machado de Assis"
+   },
+   {
+    "type": "para",
+    "text": "First President of the Brazilian Academy of Letters"
+   },
+   {
+    "type": "para",
+    "text": "So it really seems to you that what happened to me in 1860 is worth while writing down? Very well. I'll tell you the story, but on the condition that you do not divulge it before my death. You'll not have to wait long--a week at most; I am a marked man."
+   },
+   {
+    "type": "para",
+    "text": "I could have told you the story of my whole life, which holds many other interesting details: but for that there would be needed time, courage and paper. There is plenty of paper, indeed, but my courage is at low ebb, and as to the time that is yet left me, it may be compared to the life of a candle-flame. Soon tomorrow's sun will rise--a demon sun as impenetrable as life itself. So goodbye, my dear sir; read this and bear me no ill will; pardon me those things that will appear evil to you and do not complain too much if there is exhaled a disagreeable odor which is not exactly that of the rose. You asked me for a human document. Here it is. Ask me for neither the empire of the Great Mogul nor a photograph of the Maccabees; but request, if you will, my dead man's shoes, and I'll will them to you and no other."
+   },
+   {
+    "type": "para",
+    "text": "You already know that this took place in 1860. The year before, about the month of August, at the age of forty-two, I had become a theologian--that is, I copied the theological studies of a priest at Nictheroy, an old college-chum, who thus tactfully gave me my board and lodging. In that same month of August, 1859, he received a letter from the vicar of a small town in the interior, asking if he knew of an intelligent, discreet and patient person who would be willing, in return for generous wages, to serve as attendant to the invalid Colonel Felisbert. The priest proposed that I take the place, and I accepted it eagerly, for I was tired of copying Latin quotations and ecclesiastic formulas. First I went to Rio de Janeiro to take leave of a brother who lived at the capital, and from there I departed for the little village of the interior."
+   },
+   {
+    "type": "para",
+    "text": "When I arrived there I heard bad news concerning the colonel. He was pictured to me as a disagreeable, harsh, exacting fellow; nobody could endure him, not even his own friends. He had used more attendants than medicines. In fact he had broken the faces of two of them. But to all this I replied that I had no fear of persons in good health, still less of invalids. So, after first visiting the vicar, who confirmed all that I had heard and recommended to me charity and forbearance, I turned toward the colonel's residence."
+   },
+   {
+    "type": "para",
+    "text": "I found him on the veranda of his house, stretched out on a chair and suffering greatly. He received me fairly well. At first he examined me silently, piercing me with his two feline eyes; then a kind of malicious smile spread over his features, which were rather hard. Finally he declared to me that all the attendants he had ever engaged in his service hadn't been worth a button, that they slept too much, were impudent and spent their time courting the servants; two of them were even thieves."
+   },
+   {
+    "type": "para",
+    "text": "\"And you, are you a thief?\""
+   },
+   {
+    "type": "para",
+    "text": "\"No, sir.\""
+   },
+   {
+    "type": "para",
+    "text": "Then he asked me my name. Scarcely had I uttered it when he made a gesture of astonishment."
+   },
+   {
+    "type": "para",
+    "text": "\"Your name is Colombo?\""
+   },
+   {
+    "type": "para",
+    "text": "\"No, sir. My name is Procopio José Gomes Vallongo.\""
+   },
+   {
+    "type": "para",
+    "text": "Vallongo?--He came to the conclusion that this was no Christian name and proposed thenceforth to call me simply Procopio. I replied that it should be just as he pleased."
+   },
+   {
+    "type": "para",
+    "text": "If I recall this incident, it is not only because it seems to me to give a good picture of the colonel, but also to show you that my reply made a very good impression upon him. The next day he told the vicar so, adding that he had never had a more sympathetic attendant. The fact is, we lived a regular honeymoon that lasted one week."
+   },
+   {
+    "type": "para",
+    "text": "From the dawn of the eighth day I knew the life of my predecessors--a dog's life. I no longer slept. I no longer thought of anything, I was showered with insults and laughed at them from time to time with an air of resignation and submission, for I had discovered that this was a way of pleasing him. His impertinences proceeded as much from his malady as from his temperament. His illness was of the most complicated: he suffered from aneurism, rheumatism and three or four minor affections. He was nearly sixty, and since he had been five years old had been accustomed to having everybody at his beck and call. That he was surly one could well forgive; but he was also very malicious. He took pleasure in the grief and the humiliation of others. At the end of three months I was tired of putting up with him and had resolved to leave; only the opportunity was lacking."
+   },
+   {
+    "type": "para",
+    "text": "But that came soon enough. One day, when I was a bit late in giving him a massage, he took his cane and struck me with it two or three times. That was the last straw. I told him on the spot that I was through with him and I went to pack my trunk. He came later to my room; he begged me to remain, assured me that there wasn't anything to be angry at, that I must excuse the ill-humoredness of old age ... He insisted so much that I agreed to stay."
+   },
+   {
+    "type": "para",
+    "text": "\"I am nearing the end, Procopio,\" he said to me that evening. \"I can't live much longer. I am upon the verge of the grave. You will go to my burial, Procopio. Under no circumstances will I excuse you. You shall go, you shall pray over my tomb. And if you don't,\" he added, laughing, \"my ghost will come at night and pull you by the legs. Do you believe in souls of the other world, Procopio?\""
+   },
+   {
+    "type": "para",
+    "text": "\"Nonsense!\""
+   },
+   {
+    "type": "para",
+    "text": "\"And why don't you, you blockhead?\" he replied passionately, with distended eyes."
+   },
+   {
+    "type": "para",
+    "text": "That is how he was in his peaceful intervals; what he was during his attacks of anger, you may well imagine!"
+   },
+   {
+    "type": "para",
+    "text": "He hit me no more with his cane, but his insults were the same, if not worse. With time I became hardened, I no longer heeded anything; I was an ignoramus, a camel, a bumpkin, an idiot, a loggerhead--I was everything! It must further be understood that I alone was favored with these pretty names. He had no relatives; there had been a nephew, but he had died of consumption. As to friends, those who came now and then to flatter him and indulge his whims made him but a short visit, five or ten minutes at the most. I alone was always present to receive his dictionary of insults. More than once I resolved to leave him; but as the vicar would exhort me not to abandon the colonel I always yielded in the end."
+   },
+   {
+    "type": "para",
+    "text": "Not only were our relations becoming very much strained, but I was in a hurry to get back to Rio de Janeiro. At forty-two years of age one does not easily accustom himself to perpetual seclusion with a brutal, snarling old invalid, in the depths of a remote village. Just to give you an idea of my isolation, let it suffice to inform you that I didn't even read the newspapers; outside of some more or less important piece of news that was brought to the colonel, I knew nothing of what was doing in the world. I therefore yearned to get back to Rio at the first opportunity, even at the cost of breaking with the vicar. And I may as well add--since I am here making a general confession--that having spent nothing of my wages, I was itching to dissipate them at the capital."
+   },
+   {
+    "type": "para",
+    "text": "Very probably my chance was approaching. The colonel was rapidly getting worse. He made his will, the notary receiving almost as many insults as did I. The invalid's treatment became more strict; short intervals of peace and rest became rarer than ever for me. Already I had lost the meagre measure of pity that made me forget the old invalid's excesses; within me there seethed a cauldron of aversion and hatred. At the beginning of the month of August I decided definitely to leave. The vicar and the doctor, finally accepting my explanations, asked me but a few days' more service. I gave them a month. At the end of that time I would depart, whatever might be the condition of the invalid. The vicar promised to find a substitute for me."
+   },
+   {
+    "type": "para",
+    "text": "You'll see now what happened. On the evening of the 24th of August the colonel had a violent attack of anger; he struck me, he called me the vilest names, he threatened to shoot me; finally he threw in my face a plate of porridge that was too cold for him. The plate struck the wall and broke into a thousand fragments."
+   },
+   {
+    "type": "para",
+    "text": "\"You'll pay me for it, you thief!\" he bellowed."
+   },
+   {
+    "type": "para",
+    "text": "For a long time he grumbled. Towards eleven o'clock he gradually fell asleep. While he slept I took a book out of my pocket, a translation of an old d'Arlincourt romance which I had found lying about, and began to read it in his room, at a small distance from his bed. I was to wake him at midnight to give him his medicine; but, whether it was due to fatigue or to the influence of the book, I, too, before reaching the second page, fell asleep. The cries of the colonel awoke me with a start; in an instant I was up. He, apparently in a delirium, continued to utter the same cries; finally he seized his water-bottle and threw it at my face. I could not get out of the way in time; the bottle hit me in the left cheek, and the pain was so acute that I almost lost consciousness. With a leap I rushed upon the invalid; I tightened my hands around his neck; he struggled several moments; I strangled him."
+   },
+   {
+    "type": "para",
+    "text": "When I beheld that he no longer breathed, I stepped back in terror. I cried out; but nobody heard me. Then, approaching the bed once more, I shook him so as to bring him back to life. It was too late; the aneurism had burst, and the colonel was dead. I went into the adjoining room, and for two hours I did not dare to return. It is impossible for me to express all that I felt during that time. It was intense stupefaction, a kind of vague and vacant delirium. It seemed to me that I saw faces grinning on the walls; I heard muffled voices. The cries of the victim, the cries uttered before the struggle and during its wild moments continued to reverberate within me, and the air, in whatever direction I turned, seemed to shake with convulsions. Do not imagine that I am inventing pictures or aiming at verbal style. I swear to you that I heard distinctly voices that were crying at me: \"Murderer; Murderer!\""
+   },
+   {
+    "type": "para",
+    "text": "All was quiet in the house. The tick-tick of the clock, very even, slow, dryly metrical, increased the silence and solitude. I put my ear to the door of the room, in hope of hearing a groan, a word, an insult, anything that would be a sign of life, that might bring back peace to my conscience; I was ready to let myself be struck ten, twenty, a hundred times, by the colonel's hand. But, nothing--all was silent. I began to pace the room aimlessly; I sat down, I brought my hands despairingly to my head; I repented ever having come to the place."
+   },
+   {
+    "type": "para",
+    "text": "\"Cursed be the hour in which I ever accepted such a position,\" I cried. And I flamed with resentment against the priest of Nichteroy, against the doctor, the vicar--against all those who had procured the place for me and forced me to remain there so long. They, too, I convinced myself, were accomplices in my crime."
+   },
+   {
+    "type": "para",
+    "text": "As the silence finally terrified me, I opened a window, in the hope of hearing at least the murmuring of the wind. But no wind was blowing. The night was peaceful. The stars were sparkling with the indifference of those who remove their hats before a passing funeral procession and continue to speak of other things. I remained at the window for some time, my elbows on the sill, my gaze seeking to penetrate the night, forcing myself to make a mental summary of my life so that I might escape the present agony. I believe it was only then that I thought clearly about the penalty of my crime. I saw myself already being accused and threatened with dire punishment. From this moment fear complicated my feeling of remorse. I felt my hair stand on end. A few minutes later I saw three or four human shapes spying at me from the terrace, where they seemed to be waiting in ambush; I withdrew; the shapes vanished into the air; it had been an hallucination."
+   },
+   {
+    "type": "para",
+    "text": "Before daybreak I bandaged the wounds that I had received in the face. Then only did I pluck up enough courage to return to the other room. Twice I started, only to turn back; but it must be done, so I entered. Even then, I did not at first go to the bed. My legs shook, my heart pounded. I thought of flight; but that would have been a confession of the crime.... It was on the contrary very important for me to hide all traces of it. I approached the bed. I looked at the corpse, with its widely distended eyes and its mouth gaping, as if uttering the eternal reproach of the centuries: \"Cain, what hast thou done with thy brother?\" I discovered on the neck the marks of my nails; I buttoned the shirt to the top, and threw the bed-cover up to the dead man's chin. Then I called a servant and told him that the colonel had died towards morning; I sent him to notify the vicar and the doctor."
+   },
+   {
+    "type": "para",
+    "text": "The first idea that came to me was to leave as soon as possible under the pretext that my brother was ill; and in reality I had received, several days before, from Rio, a letter telling me that he was not at all well. But I considered that my immediate departure might arouse suspicion, and I decided to wait. I laid out the corpse myself, with the assistance of an old, near-sighted negro. I remained continually in the room of the dead. I trembled lest something out of the way should be discovered. I wanted to assure myself that no mistrust could be read upon the faces of the others; but I did not dare to look any person in the eye. Everything made me impatient; the going and coming of those who, on tip-toe crossed the room; their whisperings; the ceremonies and the prayers of the vicar.... The hour having come, I closed the coffin, but with trembling hands, so trembling that somebody noticed it and commented upon it aloud, with pity."
+   },
+   {
+    "type": "para",
+    "text": "\"Poor Procopio! Despite what he has suffered from his master, he is strongly moved.\""
+   },
+   {
+    "type": "para",
+    "text": "It sounded like irony to me. I was anxious to have it all over with. We went out. Once in the street the passing from semi-obscurity to daylight dazed me and I staggered. I began to fear that it would no longer be possible for me to conceal the crime. I kept my eyes steadily fixed upon the ground and took my place in the procession. When all was over, I breathed once more. I was at peace with man. But I was not at peace with my conscience, and the first nights, naturally, I spent in restlessness and affliction. Need I tell you that I hastened to return to Rio de Janeiro, and that I dwelt there in terror and suspense, although far removed from the scene of the crime? I never smiled; I scarcely spoke; I ate very little; I suffered hallucinations and nightmares...."
+   },
+   {
+    "type": "para",
+    "text": "\"Let the dead rest in peace,\" they would say to me. \"It is out of all reason to show so much melancholy.\""
+   },
+   {
+    "type": "para",
+    "text": "And I was happy to find how people interpreted my symptoms, and praised the dead man highly, calling him a good soul, surly, in truth, but with a heart of gold. And as I spoke in such wise, I convinced myself, at least for a few moments at a time. Another interesting phenomenon was taking place within me--I tell it to you because you will perhaps make some useful deduction from it--and that was, although I had very little religion in me, I had a mass sung for the eternal rest of the colonel at the Church of the Blessed Sacrament. I sent out no invitations to it, I did not whisper a word of it to anybody; I went there alone. I knelt during the whole service and made many signs of the cross. I paid the priest double and distributed alms at the door, all in the name of the deceased."
+   },
+   {
+    "type": "para",
+    "text": "I wished to deceive nobody. The proof of this lies in the fact that I did all this without letting any other know. To complete this incident, I may add that I never mentioned the colonel without repeating, \"May his soul rest in peace!\" And I told several funny anecdotes about him, some amusing caprices of his ..."
+   },
+   {
+    "type": "para",
+    "text": "About a week after my arrival at Rio I received a letter from the vicar. He announced that the will of the colonel had been opened and that I was there designated as his sole heir. Imagine my stupefaction! I was sure that I had read wrongly; I showed it to my brother, to friends; they all read the same thing. It was there in black and white, I was really the sole heir of the colonel. Then I suddenly thought that this was a trap to catch me, but then I considered that there were other ways of arresting me, if the crime had been discovered. Moreover, I knew the vicar's honesty, and I was sure that he would not be a party to such a plan. I reread the letter five times, ten times, a hundred times; it was true. I was the colonel's sole heir!"
+   },
+   {
+    "type": "para",
+    "text": "\"How much was he worth?\" my brother asked me."
+   },
+   {
+    "type": "para",
+    "text": "\"I don't know, but I know that he was very wealthy.\""
+   },
+   {
+    "type": "para",
+    "text": "\"Really, he's shown that he was a very true friend to you.\""
+   },
+   {
+    "type": "para",
+    "text": "\"He certainly was--he was....\""
+   },
+   {
+    "type": "para",
+    "text": "Thus, by a strange irony of fate, all the colonel's wealth came into my hands. At first I thought of refusing the legacy. It seemed odious to take a sou of that inheritance; it seemed worse than the reward of a hired assassin. For three days this thought obsessed me; but more and more I was thrust against this consideration: that my refusal would not fail to awake suspicion. Finally I settled upon a compromise; I would accept the inheritance and would distribute it in small sums, secretly."
+   },
+   {
+    "type": "para",
+    "text": "This was not merely scruple on my part, it was also the desire to redeem my crime by virtuous deeds; and it seemed the only way to recover my peace of mind and feel that accounts were straight."
+   },
+   {
+    "type": "para",
+    "text": "I made hurried preparations and left. As I neared the little village the sad event returned obstinately to my memory. Everything about the place, as I looked at it once again, suggested tragic deeds. At every turn in the road I seemed to see the ghost of the colonel loom. And despite myself, I evoked in my imagination his cries, his struggles, his looks on that horrible night of the crime...."
+   },
+   {
+    "type": "para",
+    "text": "Crime or struggle? Really, it was rather a struggle; I had been attacked, I had defended myself; and in self-defence.... It had been an unfortunate struggle, a genuine tragedy. This idea gripped me. And I reviewed all the abuse he had heaped upon me; I counted the blows, the names ... It was not the colonel's fault, that I knew well; it was his affliction that made him so peevish and even wicked. But I pardoned all, everything!... The worst of it was the end of that fatal night ... I also considered that in any case the colonel had not long to live. His days were numbered; did not he himself feel that? Didn't he say every now and then, \"How much longer have I to live? Two weeks, or one, perhaps less?\""
+   },
+   {
+    "type": "para",
+    "text": "This was not life, it was slow agony, if one may so name the continual martyrdom of that poor man.... And who knows, who can say that the struggle and his death were not simply a coincidence? That was after all quite possible, it was even most probable; careful weighing of the matter showed that it couldn't have been otherwise. At length this idea, too, engraved itself upon my mind...."
+   },
+   {
+    "type": "para",
+    "text": "Something tugged at my heart as I entered the village; I wanted to run back; but I dominated my emotions and I pressed forward. I was received with a shower of congratulations. The vicar communicated to me the particulars of the will, enumerated the pious gifts, and, as he spoke, praised the Christian forbearance and the faithfulness which I had shown in my care of the deceased, who, despite his temper and brutality, had so well demonstrated his gratitude."
+   },
+   {
+    "type": "para",
+    "text": "\"Certainly,\" I said, looking nervously around."
+   },
+   {
+    "type": "para",
+    "text": "I was astounded. Everybody praised my conduct. Such patience, such devotion. The first formalities of the inventory detained me for a while; I chose a solicitor; things followed their course in regular fashion. During this time there was much talk of the colonel. People came and told me tales about him, but without observing the priest's moderation. I defended the memory of the colonel. I recalled his good qualities, his virtues; had he not been austere?..."
+   },
+   {
+    "type": "para",
+    "text": "\"Austere!\" they would interrupt. \"Nonsense! He is dead, and it's all over now. But he was a regular demon!\""
+   },
+   {
+    "type": "para",
+    "text": "And they would cite incidents and relate the colonel's perversities, some of which were nothing less than extraordinary."
+   },
+   {
+    "type": "para",
+    "text": "Need I confess it? At first I listened to all this talk with great curiosity; then, a queer pleasure penetrated my heart, a pleasure from which, sincerely, I tried to escape. And I continued to defend the colonel; I explained him, I attributed much of the fault-finding to local animosity; I admitted, yes, I admitted that he had been a trifle exacting, somewhat violent...."
+   },
+   {
+    "type": "para",
+    "text": "\"Somewhat! Why he was as furious as a snake!\" exclaimed the barber."
+   },
+   {
+    "type": "para",
+    "text": "And all--the collector, the apothecary, the clerk--all were of the same opinion. And they would start to relate other anecdotes. They reviewed the entire life of the deceased. The old folks took particular delight in recalling the cruelties of his youth. And that queer pleasure, intimate, mute, insidious, grew within me--a sort of moral tape-worm whose coils I tore out in vain, for they would immediately form again and take firmer hold than ever."
+   },
+   {
+    "type": "para",
+    "text": "The formalities of the inventory afforded me a little relief; moreover, public opinion was so unanimously unfavorable to the colonel that little by little the place lost the lugubrious aspect that had at first struck me. At last I entered into possession of the legacy, which I converted into land-titles and cash."
+   },
+   {
+    "type": "para",
+    "text": "Several months had elapsed, and the idea of distributing the inheritance in charity and pious donations was by no means so strong as it had at first been; it even seemed to me that this would be sheer affectation. I revised my initial plan; I gave away several insignificant sums to the poor; I presented the village church with a few new ornaments; I gave several thousand francs to the Sacred House of Mercy, etc. I did not forget to erect a monument upon the colonel's grave--a very simple monument, all marble, the work of a Neapolitan sculptor who remained at Rio until 1866, and who has since died, I believe, in Paraguay."
+   },
+   {
+    "type": "para",
+    "text": "Years have gone by. My memory has become vague and unreliable. Sometimes I think of the colonel, but without feeling again the terrors of those early days. All the doctors to whom I have described his afflictions have been unanimous as regards the inevitable end in store for the invalid, and were indeed surprised that he should so long have resisted. It is just possible that I may have involuntarily exaggerated the description of his various symptoms; but the truth is that he was sure of sudden death, even had this fatality not occurred...."
+   },
+   {
+    "type": "para",
+    "text": "Good-bye, my dear sir. If you deem these notes not totally devoid of value reward me for them with a marble tomb, and place there for my epitaph this variant which I have made of the divine sermon on the mount:"
+   },
+   {
+    "type": "para",
+    "text": "\"Blessed are they who possess, for they shall be consoled.\""
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 21040,
+   "path": "pg21040.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "0899e410fa00a7c8b8b0536cdf858601fba0dbcca6873933b290d22f24879285",
+   "url": "https://www.gutenberg.org/cache/epub/21040/pg21040.txt",
+   "headingLine": 797,
+   "startLine": 798,
+   "endLine": 1213,
+   "heading": "THE ATTENDANT'S CONFESSION",
+   "bodySha256": "31305209cb5eb6129a839be1cbd3d4ed0ba6fb3cee9813518b25b19d66f8e979"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "olive-schreiner-three-dreams-in-a-desert",
+  "kind": "story",
+  "title": "Three Dreams in a Desert",
+  "author": "Olive Schreiner",
+  "year": "1890",
+  "place": "South Africa",
+  "source": "https://www.gutenberg.org/ebooks/1439",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Under a Mimosa-Tree."
+   },
+   {
+    "type": "para",
+    "text": "As I travelled across an African plain the sun shone down hotly. Then I drew my horse up under a mimosa-tree, and I took the saddle from him and left him to feed among the parched bushes. And all to right and to left stretched the brown earth. And I sat down under the tree, because the heat beat fiercely, and all along the horizon the air throbbed. And after a while a heavy drowsiness came over me, and I laid my head down against my saddle, and I fell asleep there. And, in my sleep, I had a curious dream."
+   },
+   {
+    "type": "para",
+    "text": "I thought I stood on the border of a great desert, and the sand blew about everywhere. And I thought I saw two great figures like beasts of burden of the desert, and one lay upon the sand with its neck stretched out, and one stood by it. And I looked curiously at the one that lay upon the ground, for it had a great burden on its back, and the sand was thick about it, so that it seemed to have piled over it for centuries."
+   },
+   {
+    "type": "para",
+    "text": "And I looked very curiously at it. And there stood one beside me watching. And I said to him, “What is this huge creature who lies here on the sand?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “This is woman; she that bears men in her body.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Why does she lie here motionless with the sand piled round her?”"
+   },
+   {
+    "type": "para",
+    "text": "And he answered, “Listen, I will tell you! Ages and ages long she has lain here, and the wind has blown over her. The oldest, oldest, oldest man living has never seen her move: the oldest, oldest book records that she lay here then, as she lies here now, with the sand about her. But listen! Older than the oldest book, older than the oldest recorded memory of man, on the Rocks of Language, on the hard-baked clay of Ancient Customs, now crumbling to decay, are found the marks of her footsteps! Side by side with his who stands beside her you may trace them; and you know that she who now lies there once wandered free over the rocks with him.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Why does she lie there now?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “I take it, ages ago the Age-of-dominion-of-muscular-force found her, and when she stooped low to give suck to her young, and her back was broad, he put his burden of subjection on to it, and tied it on with the broad band of Inevitable Necessity. Then she looked at the earth and the sky, and knew there was no hope for her; and she lay down on the sand with the burden she could not loosen. Ever since she has lain here. And the ages have come, and the ages have gone, but the band of Inevitable Necessity has not been cut.”"
+   },
+   {
+    "type": "para",
+    "text": "And I looked and saw in her eyes the terrible patience of the centuries; the ground was wet with her tears, and her nostrils blew up the sand."
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Has she ever tried to move?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “Sometimes a limb has quivered. But she is wise; she knows she cannot rise with the burden on her.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Why does not he who stands by her leave her and go on?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “He cannot. Look--”"
+   },
+   {
+    "type": "para",
+    "text": "And I saw a broad band passing along the ground from one to the other, and it bound them together."
+   },
+   {
+    "type": "para",
+    "text": "He said, “While she lies there he must stand and look across the desert.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Does he know why he cannot move?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “No.”"
+   },
+   {
+    "type": "para",
+    "text": "And I heard a sound of something cracking, and I looked, and I saw the band that bound the burden on to her back broken asunder; and the burden rolled on to the ground."
+   },
+   {
+    "type": "para",
+    "text": "And I said, “What is this?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “The Age-of-muscular-force is dead. The Age-of-nervous-force has killed him with the knife he holds in his hand; and silently and invisibly he has crept up to the woman, and with that knife of Mechanical Invention he has cut the band that bound the burden to her back. The Inevitable Necessity is broken. She might rise now.”"
+   },
+   {
+    "type": "para",
+    "text": "And I saw that she still lay motionless on the sand, with her eyes open and her neck stretched out. And she seemed to look for something on the far-off border of the desert that never came. And I wondered if she were awake or asleep. And as I looked her body quivered, and a light came into her eyes, like when a sunbeam breaks into a dark room."
+   },
+   {
+    "type": "para",
+    "text": "I said, “What is it?”"
+   },
+   {
+    "type": "para",
+    "text": "He whispered “Hush! the thought has come to her, ‘Might I not rise?’”"
+   },
+   {
+    "type": "para",
+    "text": "And I looked. And she raised her head from the sand, and I saw the dent where her neck had lain so long. And she looked at the earth, and she looked at the sky, and she looked at him who stood by her: but he looked out across the desert."
+   },
+   {
+    "type": "para",
+    "text": "And I saw her body quiver; and she pressed her front knees to the earth, and veins stood out; and I cried; “She is going to rise!”"
+   },
+   {
+    "type": "para",
+    "text": "But only her sides heaved, and she lay still where she was."
+   },
+   {
+    "type": "para",
+    "text": "But her head she held up; she did not lay it down again. And he beside me said, “She is very weak. See, her legs have been crushed under her so long.”"
+   },
+   {
+    "type": "para",
+    "text": "And I saw the creature struggle: and the drops stood out on her."
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Surely he who stands beside her will help her?”"
+   },
+   {
+    "type": "para",
+    "text": "And he beside me answered, “He cannot help her: she must help herself. Let her struggle till she is strong.”"
+   },
+   {
+    "type": "para",
+    "text": "And I cried, “At least he will not hinder her! See, he moves farther from her, and tightens the cord between them, and he drags her down.”"
+   },
+   {
+    "type": "para",
+    "text": "And he answered, “He does not understand. When she moves she draws the band that binds them, and hurts him, and he moves farther from her. The day will come when he will understand, and will know what she is doing. Let her once stagger on to her knees. In that day he will stand close to her, and look into her eyes with sympathy.”"
+   },
+   {
+    "type": "para",
+    "text": "And she stretched her neck, and the drops fell from her. And the creature rose an inch from the earth and sank back."
+   },
+   {
+    "type": "para",
+    "text": "And I cried, “Oh, she is too weak! she cannot walk! The long years have taken all her strength from her. Can she never move?”"
+   },
+   {
+    "type": "para",
+    "text": "And he answered me, “See the light in her eyes!”"
+   },
+   {
+    "type": "para",
+    "text": "And slowly the creature staggered on to its knees."
+   },
+   {
+    "type": "para",
+    "text": "And I awoke: and all to the east and to the west stretched the barren earth, with the dry bushes on it. The ants ran up and down in the red sand, and the heat beat fiercely. I looked up through the thin branches of the tree at the blue sky overhead. I stretched myself, and I mused over the dream I had had. And I fell asleep again, with my head on my saddle. And in the fierce heat I had another dream."
+   },
+   {
+    "type": "para",
+    "text": "I saw a desert and I saw a woman coming out of it. And she came to the bank of a dark river; and the bank was steep and high. (The banks of an African river are sometimes a hundred feet high, and consist of deep shifting sands, through which in the course of ages the river has worn its gigantic bed.) And on it an old man met her, who had a long white beard; and a stick that curled was in his hand, and on it was written Reason. And he asked her what she wanted; and she said “I am woman; and I am seeking for the land of Freedom.”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “It is before you.”"
+   },
+   {
+    "type": "para",
+    "text": "And she said, “I see nothing before me but a dark flowing river, and a bank steep and high, and cuttings here and there with heavy sand in them.”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “And beyond that?”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “I see nothing, but sometimes, when I shade my eyes with my hand, I think I see on the further bank trees and hills, and the sun shining on them!”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “That is the Land of Freedom.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “How am I to get there?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “There is one way, and one only. Down the banks of Labour, through the water of Suffering. There is no other.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “Is there no bridge?”"
+   },
+   {
+    "type": "para",
+    "text": "He answered. “None.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “Is the water deep?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “Deep.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “Is the floor worn?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “It is. Your foot may slip at any time, and you may be lost.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “Have any crossed already?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “Some have tried!”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “Is there a track to show where the best fording is?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “It has to be made.”"
+   },
+   {
+    "type": "para",
+    "text": "She shaded her eyes with her hand; and she said, “I will go.”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “You must take off the clothes you wore in the desert: they are dragged down by them who go into the water so clothed.”"
+   },
+   {
+    "type": "para",
+    "text": "And she threw from her gladly the mantle of Ancient-received-opinions she wore, for it was worn full of holes. And she took the girdle from her waist that she had treasured so long, and the moths flew out of it in a cloud. And he said, “Take the shoes of dependence off your feet.”"
+   },
+   {
+    "type": "para",
+    "text": "And she stood there naked, but for one white garment that clung close to her."
+   },
+   {
+    "type": "para",
+    "text": "And he said, “That you may keep. So they wear clothes in the Land of Freedom. In the water it buoys; it always swims.”"
+   },
+   {
+    "type": "para",
+    "text": "And I saw on its breast was written Truth; and it was white; the sun had not often shone on it; the other clothes had covered it up. And he said, “Take this stick; hold it fast. In that day when it slips from your hand you are lost. Put it down before you; feel your way: where it cannot find a bottom do not set your foot.”"
+   },
+   {
+    "type": "para",
+    "text": "And she said, “I am ready; let me go.”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “No--but stay; what is that--in your breast?”"
+   },
+   {
+    "type": "para",
+    "text": "She was silent."
+   },
+   {
+    "type": "para",
+    "text": "He said, “Open it, and let me see.”"
+   },
+   {
+    "type": "para",
+    "text": "And she opened it. And against her breast was a tiny thing, who drank from it, and the yellow curls above his forehead pressed against it; and his knees were drawn up to her, and he held her breast fast with his hands."
+   },
+   {
+    "type": "para",
+    "text": "And Reason said, “Who is he, and what is he doing here?”"
+   },
+   {
+    "type": "para",
+    "text": "And she said, “See his little wings--”"
+   },
+   {
+    "type": "para",
+    "text": "And Reason said, “Put him down.”"
+   },
+   {
+    "type": "para",
+    "text": "And she said, “He is asleep, and he is drinking! I will carry him to the Land of Freedom. He has been a child so long, so long, I have carried him. In the Land of Freedom he will be a man. We will walk together there, and his great white wings will overshadow me. He has lisped one word only to me in the desert--‘Passion!’ I have dreamed he might learn to say ‘Friendship’ in that land.”"
+   },
+   {
+    "type": "para",
+    "text": "And Reason said, “Put him down!”"
+   },
+   {
+    "type": "para",
+    "text": "And she said, “I will carry him so--with one arm, and with the other I will fight the water.”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “Lay him down on the ground. When you are in the water you will forget to fight, you will think only of him. Lay him down.” He said, “He will not die. When he finds you have left him alone he will open his wings and fly. He will be in the Land of Freedom before you. Those who reach the Land of Freedom, the first hand they see stretching down the bank to help them shall be Love’s. He will be a man then, not a child. In your breast he cannot thrive; put him down that he may grow.”"
+   },
+   {
+    "type": "para",
+    "text": "And she took her bosom from his mouth, and he bit her, so that the blood ran down on to the ground. And she laid him down on the earth; and she covered her wound. And she bent and stroked his wings. And I saw the hair on her forehead turned white as snow, and she had changed from youth to age."
+   },
+   {
+    "type": "para",
+    "text": "And she stood far off on the bank of the river. And she said, “For what do I go to this far land which no one has ever reached? Oh, I am alone! I am utterly alone!”"
+   },
+   {
+    "type": "para",
+    "text": "And Reason, that old man, said to her, “Silence! What do you hear?”"
+   },
+   {
+    "type": "para",
+    "text": "And she listened intently, and she said, “I hear a sound of feet, a thousand times ten thousand and thousands of thousands, and they beat this way!”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “They are the feet of those that shall follow you. Lead on! make a track to the water’s edge! Where you stand now, the ground will be beaten flat by ten thousand times ten thousand feet.” And he said, “Have you seen the locusts how they cross a stream? First one comes down to the water-edge, and it is swept away, and then another comes and then another, and then another, and at last with their bodies piled up a bridge is built and the rest pass over.”"
+   },
+   {
+    "type": "para",
+    "text": "She said, “And, of those that come first, some are swept away, and are heard of no more; their bodies do not even build the bridge?”"
+   },
+   {
+    "type": "para",
+    "text": "“And are swept away, and are heard of no more--and what of that?” he said."
+   },
+   {
+    "type": "para",
+    "text": "“And what of that--” she said."
+   },
+   {
+    "type": "para",
+    "text": "“They make a track to the water’s edge.”"
+   },
+   {
+    "type": "para",
+    "text": "“They make a track to the water’s edge--.” And she said, “Over that bridge which shall be built with our bodies, who will pass?”"
+   },
+   {
+    "type": "para",
+    "text": "He said, “The entire human race.”"
+   },
+   {
+    "type": "para",
+    "text": "And the woman grasped her staff."
+   },
+   {
+    "type": "para",
+    "text": "And I saw her turn down that dark path to the river."
+   },
+   {
+    "type": "para",
+    "text": "And I awoke; and all about me was the yellow afternoon light: the sinking sun lit up the fingers of the milk bushes; and my horse stood by me quietly feeding. And I turned on my side, and I watched the ants run by thousands in the red sand. I thought I would go on my way now--the afternoon was cooler. Then a drowsiness crept over me again, and I laid back my head and fell asleep."
+   },
+   {
+    "type": "para",
+    "text": "And I dreamed a dream."
+   },
+   {
+    "type": "para",
+    "text": "I dreamed I saw a land. And on the hills walked brave women and brave men, hand in hand. And they looked into each other’s eyes, and they were not afraid."
+   },
+   {
+    "type": "para",
+    "text": "And I saw the women also hold each other’s hands."
+   },
+   {
+    "type": "para",
+    "text": "And I said to him beside me, “What place is this?”"
+   },
+   {
+    "type": "para",
+    "text": "And he said, “This is heaven.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “Where is it?”"
+   },
+   {
+    "type": "para",
+    "text": "And he answered, “On earth.”"
+   },
+   {
+    "type": "para",
+    "text": "And I said, “When shall these things be?”"
+   },
+   {
+    "type": "para",
+    "text": "And he answered, “IN THE FUTURE.”"
+   },
+   {
+    "type": "para",
+    "text": "And I awoke, and all about me was the sunset light; and on the low hills the sun lay, and a delicious coolness had crept over everything; and the ants were going slowly home. And I walked towards my horse, who stood quietly feeding. Then the sun passed down behind the hills; but I knew that the next day he would arise again."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1439,
+   "path": "pg1439.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "d862a1c9d78f4a14313b4ca3e92e2a9d1e55d71b3abad2b03110a93d2d39c924",
+   "url": "https://www.gutenberg.org/cache/epub/1439/pg1439.txt",
+   "headingLine": 754,
+   "startLine": 755,
+   "endLine": 1079,
+   "heading": "V. THREE DREAMS IN A DESERT.",
+   "bodySha256": "683e57d7c5547f95360dbb95014434c86e2e6969ddc9e4a4f2f8be86b1af69b0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "h-g-wells-the-star",
+  "kind": "story",
+  "title": "The Star",
+  "author": "H. G. Wells",
+  "year": "1897",
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/27365",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "It was on the first day of the new year that the announcement was made, almost simultaneously from three observatories, that the motion of the planet Neptune, the outermost of all the planets that wheel about the sun, had become very erratic. Ogilvy had already called attention to a suspected retardation in its velocity in December. Such a piece of news was scarcely calculated to interest a world the greater portion of whose inhabitants were unaware of the existence of the planet Neptune, nor outside the astronomical profession did the subsequent discovery of a faint remote speck of light in the region of the perturbed planet cause any very great excitement. Scientific people, however, found the intelligence remarkable enough, even before it became known that the new body was rapidly growing larger and brighter, that its motion was quite different from the orderly progress of the planets, and that the deflection of Neptune and its satellite was becoming now of an unprecedented kind."
+   },
+   {
+    "type": "para",
+    "text": "Few people without a training in science can realise the huge isolation of the solar system. The sun with its specks of planets, its dust of planetoids, and its impalpable comets, swims in a vacant immensity that almost defeats the imagination. Beyond the orbit of Neptune there is space, vacant so far as human observation has penetrated, without warmth or light or sound, blank emptiness, for twenty million times a million miles. That is the smallest estimate of the distance to be traversed before the very nearest of the stars is attained. And, saving a few comets more unsubstantial than the thinnest flame, no matter had ever to human knowledge crossed this gulf of space, until early in the twentieth century this strange wanderer appeared. A vast mass of matter it was, bulky, heavy, rushing without warning out of the black mystery of the sky into the radiance of the sun. By the second day it was clearly visible to any decent instrument, as a speck with a barely sensible diameter, in the constellation Leo near Regulus. In a little while an opera glass could attain it."
+   },
+   {
+    "type": "para",
+    "text": "On the third day of the new year the newspaper readers of two hemispheres were made aware for the first time of the real importance of this unusual apparition in the heavens. \"A Planetary Collision,\" one London paper headed the news, and proclaimed Duchaine's opinion that this strange new planet would probably collide with Neptune. The leader writers enlarged upon the topic. So that in most of the capitals of the world, on January 3rd, there was an expectation, however vague of some imminent phenomenon in the sky; and as the night followed the sunset round the globe, thousands of men turned their eyes skyward to see--the old familiar stars just as they had always been."
+   },
+   {
+    "type": "para",
+    "text": "Until it was dawn in London and Pollux setting and the stars overhead grown pale. The Winter's dawn it was, a sickly filtering accumulation of daylight, and the light of gas and candles shone yellow in the windows to show where people were astir. But the yawning policeman saw the thing, the busy crowds in the markets stopped agape, workmen going to their work betimes, milkmen, the drivers of news-carts, dissipation going home jaded and pale, homeless wanderers, sentinels on their beats, and in the country, labourers trudging afield, poachers slinking home, all over the dusky quickening country it could be seen--and out at sea by seamen watching for the day--a great white star, come suddenly into the westward sky!"
+   },
+   {
+    "type": "para",
+    "text": "Brighter it was than any star in our skies; brighter than the evening star at its brightest. It still glowed out white and large, no mere twinkling spot of light, but a small round clear shining disc, an hour after the day had come. And where science has not reached, men stared and feared, telling one another of the wars and pestilences that are foreshadowed by these fiery signs in the Heavens. Sturdy Boers, dusky Hottentots, Gold Coast negroes, Frenchmen, Spaniards, Portuguese, stood in the warmth of the sunrise watching the setting of this strange new star."
+   },
+   {
+    "type": "para",
+    "text": "And in a hundred observatories there had been suppressed excitement, rising almost to shouting pitch, as the two remote bodies had rushed together, and a hurrying to and fro, to gather photographic apparatus and spectroscope, and this appliance and that, to record this novel astonishing sight, the destruction of a world. For it was a world, a sister planet of our earth, far greater than our earth indeed, that had so suddenly flashed into flaming death. Neptune it was, had been struck, fairly and squarely, by the strange planet from outer space and the heat of the concussion had incontinently turned two solid globes into one vast mass of incandescence. Round the world that day, two hours before the dawn, went the pallid great white star, fading only as it sank westward and the sun mounted above it. Everywhere men marvelled at it, but of all those who saw it none could have marvelled more than those sailors, habitual watchers of the stars, who far away at sea had heard nothing of its advent and saw it now rise like a pigmy moon and climb zenithward and hang overhead and sink westward with the passing of the night."
+   },
+   {
+    "type": "para",
+    "text": "And when next it rose over Europe everywhere were crowds of watchers on hilly slopes, on house-roofs, in open spaces, staring eastward for the rising of the great new star. It rose with a white glow in front of it, like the glare of a white fire, and those who had seen it come into existence the night before cried out at the sight of it. \"It is larger,\" they cried. \"It is brighter!\" And, indeed the moon a quarter full and sinking in the west was in its apparent size beyond comparison, but scarcely in all its breadth had it as much brightness now as the little circle of the strange new star."
+   },
+   {
+    "type": "para",
+    "text": "\"It is brighter!\" cried the people clustering in the streets. But in the dim observatories the watchers held their breath and peered at one another. \"It is nearer,\" they said. \"Nearer!\""
+   },
+   {
+    "type": "para",
+    "text": "And voice after voice repeated, \"It is nearer,\" and the clicking telegraph took that up, and it trembled along telephone wires, and in a thousand cities grimy compositors fingered the type. \"It is nearer.\" Men writing in offices, struck with a strange realisation, flung down their pens, men talking in a thousand places suddenly came upon a grotesque possibility in those words, \"It is nearer.\" It hurried along awakening streets, it was shouted down the frost-stilled ways of quiet villages, men who had read these things from the throbbing tape stood in yellow-lit doorways shouting the news to the passers-by. \"It is nearer.\" Pretty women, flushed and glittering, heard the news told jestingly between the dances, and feigned an intelligent interest they did not feel. \"Nearer! Indeed. How curious! How very, very clever people must be to find out things like that!\""
+   },
+   {
+    "type": "para",
+    "text": "Lonely tramps faring through the wintry night murmured those words to comfort themselves--looking skyward. \"It has need to be nearer, for the night's as cold as charity. Don't seem much warmth from it if it is nearer, all the same.\""
+   },
+   {
+    "type": "para",
+    "text": "\"What is a new star to me?\" cried the weeping woman kneeling beside her dead."
+   },
+   {
+    "type": "para",
+    "text": "The schoolboy, rising early for his examination work, puzzled it out for himself--with the great white star, shining broad and bright through the frost-flowers of his window. \"Centrifugal, centripetal,\" he said, with his chin on his fist. \"Stop a planet in its flight, rob it of its centrifugal force, what then? Centripetal has it, and down it falls into the sun! And this--!\""
+   },
+   {
+    "type": "para",
+    "text": "\"Do we come in the way? I wonder--\""
+   },
+   {
+    "type": "para",
+    "text": "The light of that day went the way of its brethren, and with the later watches of the frosty darkness rose the strange star again. And it was now so bright that the waxing moon seemed but a pale yellow ghost of itself, hanging huge in the sunset. In a South African city a great man had married, and the streets were alight to welcome his return with his bride. \"Even the skies have illuminated,\" said the flatterer. Under Capricorn, two negro lovers, daring the wild beasts and evil spirits, for love of one another, crouched together in a cane brake where the fire-flies hovered. \"That is our star,\" they whispered, and felt strangely comforted by the sweet brilliance of its light."
+   },
+   {
+    "type": "para",
+    "text": "The master mathematician sat in his private room and pushed the papers from him. His calculations were already finished. In a small white phial there still remained a little of the drug that had kept him awake and active for four long nights. Each day, serene, explicit, patient as ever, he had given his lecture to his students, and then had come back at once to this momentous calculation. His face was grave, a little drawn and hectic from his drugged activity. For some time he seemed lost in thought. Then he went to the window, and the blind went up with a click. Half way up the sky, over the clustering roofs, chimneys and steeples of the city, hung the star."
+   },
+   {
+    "type": "para",
+    "text": "He looked at it as one might look into the eyes of a brave enemy. \"You may kill me,\" he said after a silence. \"But I can hold you--and all the universe for that matter--in the grip of this little brain. I would not change. Even now.\""
+   },
+   {
+    "type": "para",
+    "text": "He looked at the little phial. \"There will be no need of sleep again,\" he said. The next day at noon, punctual to the minute, he entered his lecture theatre, put his hat on the end of the table as his habit was, and carefully selected a large piece of chalk. It was a joke among his students that he could not lecture without that piece of chalk to fumble in his fingers, and once he had been stricken to impotence by their hiding his supply. He came and looked under his grey eyebrows at the rising tiers of young fresh faces, and spoke with his accustomed studied commonness of phrasing. \"Circumstances have arisen--circumstances beyond my control,\" he said and paused, \"which will debar me from completing the course I had designed. It would seem, gentlemen, if I may put the thing clearly and briefly, that--Man has lived in vain.\""
+   },
+   {
+    "type": "para",
+    "text": "The students glanced at one another. Had they heard aright? Mad? Raised eyebrows and grinning lips there were, but one or two faces remained intent upon his calm grey-fringed face. \"It will be interesting,\" he was saying, \"to devote this morning to an exposition, so far as I can make it clear to you, of the calculations that have led me to this conclusion. Let us assume--\""
+   },
+   {
+    "type": "para",
+    "text": "He turned towards the blackboard, meditating a diagram in the way that was usual to him. \"What was that about 'lived in vain?'\" whispered one student to another. \"Listen,\" said the other, nodding towards the lecturer."
+   },
+   {
+    "type": "para",
+    "text": "And presently they began to understand."
+   },
+   {
+    "type": "para",
+    "text": "That night the star rose later, for its proper eastward motion had carried it some way across Leo towards Virgo, and its brightness was so great that the sky became a luminous blue as it rose, and every star was hidden in its turn, save only Jupiter near the zenith, Capella, Aldebaran, Sirius and the pointers of the Bear. It was very white and beautiful. In many parts of the world that night a pallid halo encircled it about. It was perceptibly larger; in the clear refractive sky of the tropics it seemed as if it were nearly a quarter the size of the moon. The frost was still on the ground in England, but the world was as brightly lit as if it were midsummer moonlight. One could see to read quite ordinary print by that cold clear light, and in the cities the lamps burnt yellow and wan."
+   },
+   {
+    "type": "para",
+    "text": "And everywhere the world was awake that night, and throughout Christendom a sombre murmur hung in the keen air over the countryside like the belling of bees in the heather, and this murmurous tumult grew to a clangour in the cities. It was the tolling of the bells in a million belfry towers and steeples, summoning the people to sleep no more, to sin no more, but to gather in their churches and pray. And overhead, growing larger and brighter, as the earth rolled on its way and the night passed, rose the dazzling star."
+   },
+   {
+    "type": "para",
+    "text": "And the streets and houses were alight in all the cities, the shipyards glared, and whatever roads led to high country were lit and crowded all night long. And in all the seas about the civilised lands, ships with throbbing engines, and ships with bellying sails, crowded with men and living creatures, were standing out to ocean and the north. For already the warning of the master mathematician had been telegraphed all over the world, and translated into a hundred tongues. The new planet and Neptune, locked in a fiery embrace, were whirling headlong, ever faster and faster towards the sun. Already every second this blazing mass flew a hundred miles, and every second its terrific velocity increased. As it flew now, indeed, it must pass a hundred million of miles wide of the earth and scarcely affect it. But near its destined path, as yet only slightly perturbed, spun the mighty planet Jupiter and his moons sweeping splendid round the sun. Every moment now the attraction between the fiery star and the greatest of the planets grew stronger. And the result of that attraction? Inevitably Jupiter would be deflected from its orbit into an elliptical path, and the burning star, swung by his attraction wide of its sunward rush, would \"describe a curved path\" and perhaps collide with, and certainly pass very close to, our earth. \"Earthquakes, volcanic outbreaks, cyclones, sea waves, floods, and a steady rise in temperature to I know not what limit\"--so prophesied the master mathematician."
+   },
+   {
+    "type": "para",
+    "text": "And overhead, to carry out his words, lonely and cold and livid, blazed the star of the coming doom."
+   },
+   {
+    "type": "para",
+    "text": "To many who stared at it that night until their eyes ached, it seemed that it was visibly approaching. And that night, too, the weather changed, and the frost that had gripped all Central Europe and France and England softened towards a thaw."
+   },
+   {
+    "type": "para",
+    "text": "But you must not imagine because I have spoken of people praying through the night and people going aboard ships and people fleeing towards mountainous country that the whole world was already in a terror because of the star. As a matter of fact, use and wont still ruled the world, and save for the talk of idle moments and the splendour of the night, nine human beings out of ten were still busy at their common occupations. In all the cities the shops, save one here and there, opened and closed at their proper hours, the doctor and the undertaker plied their trades, the workers gathered in the factories, soldiers drilled, scholars studied, lovers sought one another, thieves lurked and fled, politicians planned their schemes. The presses of the newspapers roared through the nights, and many a priest of this church and that would not open his holy building to further what he considered a foolish panic. The newspapers insisted on the lesson of the year 1000--for then, too, people had anticipated the end. The star was no star--mere gas--a comet; and were it a star it could not possibly strike the earth. There was no precedent for such a thing. Common sense was sturdy everywhere, scornful, jesting, a little inclined to persecute the obdurate fearful. That night, at seven-fifteen by Greenwich time, the star would be at its nearest to Jupiter. Then the world would see the turn things would take. The master mathematician's grim warnings were treated by many as so much mere elaborate self-advertisement. Common sense at last, a little heated by argument, signified its unalterable convictions by going to bed. So, too, barbarism and savagery, already tired of the novelty, went about their nightly business, and save for a howling dog here and there, the beast world left the star unheeded."
+   },
+   {
+    "type": "para",
+    "text": "And yet, when at last the watchers in the European States saw the star rise, an hour later it is true, but no larger than it had been the night before, there were still plenty awake to laugh at the master mathematician--to take the danger as if it had passed."
+   },
+   {
+    "type": "para",
+    "text": "But hereafter the laughter ceased. The star grew--it grew with a terrible steadiness hour after hour, a little larger each hour, a little nearer the midnight zenith, and brighter and brighter, until it had turned night into a second day. Had it come straight to the earth instead of in a curved path, had it lost no velocity to Jupiter, it must have leapt the intervening gulf in a day, but as it was it took five days altogether to come by our planet. The next night it had become a third the size of the moon before it set to English eyes, and the thaw was assured. It rose over America near the size of the moon, but blinding white to look at, and hot; and a breath of hot wind blew now with its rising and gathering strength, and in Virginia, and Brazil, and down the St. Lawrence valley, it shone intermittently through a driving reek of thunder-clouds, flickering violet lightning, and hail unprecedented. In Manitoba was a thaw and devastating floods. And upon all the mountains of the earth the snow and ice began to melt that night, and all the rivers coming out of high country flowed thick and turbid, and soon--in their upper reaches--with swirling trees and the bodies of beasts and men. They rose steadily, steadily in the ghostly brilliance, and came trickling over their banks at last, behind the flying population of their valleys."
+   },
+   {
+    "type": "para",
+    "text": "And along the coast of Argentina and up the South Atlantic the tides were higher than had ever been in the memory of man, and the storms drove the waters in many cases scores of miles inland, drowning whole cities. And so great grew the heat during the night that the rising of the sun was like the coming of a shadow. The earthquakes began and grew until all down America from the Arctic Circle to Cape Horn, hillsides were sliding, fissures were opening, and houses and walls crumbling to destruction. The whole side of Cotopaxi slipped out in one vast convulsion, and a tumult of lava poured out so high and broad and swift and liquid that in one day it reached the sea."
+   },
+   {
+    "type": "para",
+    "text": "So the star, with the wan moon in its wake, marched across the Pacific, trailed the thunderstorms like the hem of a robe, and the growing tidal wave that toiled behind it, frothing and eager, poured over island and island and swept them clear of men. Until that wave came at last--in a blinding light and with the breath of a furnace, swift and terrible it came--a wall of water, fifty feet high, roaring hungrily, upon the long coasts of Asia, and swept inland across the plains of China. For a space the star, hotter now and larger and brighter than the sun in its strength, showed with pitiless brilliance the wide and populous country; towns and villages with their pagodas and trees, roads, wide cultivated fields, millions of sleepless people staring in helpless terror at the incandescent sky; and then, low and growing, came the murmur of the flood. And thus it was with millions of men that night--a flight nowhither, with limbs heavy with heat and breath fierce and scant, and the flood like a wall swift and white behind. And then death."
+   },
+   {
+    "type": "para",
+    "text": "China was lit glowing white, but over Japan and Java and all the islands of Eastern Asia the great star was a ball of dull red fire because of the steam and smoke and ashes the volcanoes were spouting forth to salute its coming. Above was the lava, hot gases and ash, and below the seething floods, and the whole earth swayed and rumbled with the earthquake shocks. Soon the immemorial snows of Thibet and the Himalaya were melting and pouring down by ten million deepening converging channels upon the plains of Burmah and Hindostan. The tangled summits of the Indian jungles were aflame in a thousand places, and below the hurrying waters around the stems were dark objects that still struggled feebly and reflected the blood-red tongues of fire. And in a rudderless confusion a multitude of men and women fled down the broad river-ways to that one last hope of men--the open sea."
+   },
+   {
+    "type": "para",
+    "text": "Larger grew the star, and larger, hotter, and brighter with a terrible swiftness now. The tropical ocean had lost its phosphorescence, and the whirling steam rose in ghostly wreaths from the black waves that plunged incessantly, speckled with storm-tossed ships."
+   },
+   {
+    "type": "para",
+    "text": "And then came a wonder. It seemed to those who in Europe watched for the rising of the star that the world must have ceased its rotation. In a thousand open spaces of down and upland the people who had fled thither from the floods and the falling houses and sliding slopes of hill watched for that rising in vain. Hour followed hour through a terrible suspense, and the star rose not. Once again men set their eyes upon the old constellations they had counted lost to them forever. In England it was hot and clear overhead, though the ground quivered perpetually, but in the tropics, Sirius and Capella and Aldebaran showed through a veil of steam. And when at last the great star rose near ten hours late, the sun rose close upon it, and in the centre of its white heart was a disc of black."
+   },
+   {
+    "type": "para",
+    "text": "Over Asia it was the star had begun to fall behind the movement of the sky, and then suddenly, as it hung over India, its light had been veiled. All the plain of India from the mouth of the Indus to the mouths of the Ganges was a shallow waste of shining water that night, out of which rose temples and palaces, mounds and hills, black with people. Every minaret was a clustering mass of people, who fell one by one into the turbid waters, as heat and terror overcame them. The whole land seemed a-wailing, and suddenly there swept a shadow across that furnace of despair, and a breath of cold wind, and a gathering of clouds, out of the cooling air. Men looking up, near blinded, at the star, saw that a black disc was creeping across the light. It was the moon, coming between the star and the earth. And even as men cried to God at this respite, out of the East with a strange inexplicable swiftness sprang the sun. And then star, sun and moon rushed together across the heavens."
+   },
+   {
+    "type": "para",
+    "text": "So it was that presently, to the European watchers, star and sun rose close upon each other, drove headlong for a space and then slower, and at last came to rest, star and sun merged into one glare of flame at the zenith of the sky. The moon no longer eclipsed the star but was lost to sight in the brilliance of the sky. And though those who were still alive regarded it for the most part with that dull stupidity that hunger, fatigue, heat and despair engender, there were still men who could perceive the meaning of these signs. Star and earth had been at their nearest, had swung about one another, and the star had passed. Already it was receding, swifter and swifter, in the last stage of its headlong journey downward into the sun."
+   },
+   {
+    "type": "para",
+    "text": "And then the clouds gathered, blotting out the vision of the sky, the thunder and lightning wove a garment round the world; all over the earth was such a downpour of rain as men had never before seen, and where the volcanoes flared red against the cloud canopy there descended torrents of mud. Everywhere the waters were pouring off the land, leaving mud-silted ruins, and the earth littered like a storm-worn beach with all that had floated, and the dead bodies of the men and brutes, its children. For days the water streamed off the land, sweeping away soil and trees and houses in the way, and piling huge dykes and scooping out Titanic gullies over the country side. Those were the days of darkness that followed the star and the heat. All through them, and for many weeks and months, the earthquakes continued."
+   },
+   {
+    "type": "para",
+    "text": "But the star had passed, and men, hunger-driven and gathering courage only slowly, might creep back to their ruined cities, buried granaries, and sodden fields. Such few ships as had escaped the storms of that time came stunned and shattered and sounding their way cautiously through the new marks and shoals of once familiar ports. And as the storms subsided men perceived that everywhere the days were hotter than of yore, and the sun larger, and the moon, shrunk to a third of its former size, took now fourscore days between its new and new."
+   },
+   {
+    "type": "para",
+    "text": "But of the new brotherhood that grew presently among men, of the saving of laws and books and machines, of the strange change that had come over Iceland and Greenland and the shores of Baffin's Bay, so that the sailors coming there presently found them green and gracious, and could scarce believe their eyes, this story does not tell. Nor of the movement of mankind now that the earth was hotter, northward and southward towards the poles of the earth. It concerns itself only with the coming and the passing of the Star."
+   },
+   {
+    "type": "para",
+    "text": "The Martian astronomers--for there are astronomers on Mars, although they are very different beings from men--were naturally profoundly interested by these things. They saw them from their own standpoint of course. \"Considering the mass and temperature of the missile that was flung through our solar system into the sun,\" one wrote, \"it is astonishing what a little damage the earth, which it missed so narrowly, has sustained. All the familiar continental markings and the masses of the seas remain intact, and indeed the only difference seems to be a shrinkage of the white discolouration (supposed to be frozen water) round either pole.\" Which only shows how small the vastest of human catastrophes may seem, at a distance of a few million miles."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 27365,
+   "path": "pg27365.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "489f971a42deec182b75d53610d5aa1c23a7d4f531df433ae71e4b99075b1eb8",
+   "url": "https://www.gutenberg.org/cache/epub/27365/pg27365.txt",
+   "headingLine": 752,
+   "startLine": 753,
+   "endLine": 1172,
+   "heading": "THE STAR",
+   "bodySha256": "6aeeea566ff2fc8731c49559bfc89ca2cd64567dfd05b016a25a9d9199597495"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "selma-lagerlof-our-lord-and-saint-peter",
+  "kind": "story",
+  "title": "Our Lord and Saint Peter",
+  "author": "Selma Lagerlöf",
+  "year": "1904; Velma Swanston Howard translation 1908",
+  "place": "Sweden",
+  "source": "https://www.gutenberg.org/ebooks/44818",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "It happened at the time when our Lord and Saint Peter were newly arrived in Paradise, after having wandered on earth and suffered hardships during many sorrowful years."
+   },
+   {
+    "type": "para",
+    "text": "One can imagine that the change was a joy to Saint Peter! One can picture to oneself that it was quite another matter to sit upon Paradise Mountain and look out over the world, instead of wandering from door to door, like a beggar. It was another matter to walk about in the beautiful gardens of Paradise, instead of roaming around on earth, not knowing if one would be given house-room on a stormy night, or if one would be forced to tramp the highway in the chill and darkness."
+   },
+   {
+    "type": "para",
+    "text": "One can imagine what a joy it must have been to get to the right place at last after such a journey. Saint Peter, to be sure, had not always been certain that all would end well. He couldn’t very well help feeling doubtful and troubled at times, for it had been almost impossible for poor Saint Peter to understand why there was any earthly need for them to have such a hard time of it, if our Lord was lord of all the world."
+   },
+   {
+    "type": "para",
+    "text": "Now, no yearning could come to torment him any more. That he was glad of this one can well believe."
+   },
+   {
+    "type": "para",
+    "text": "Now, he could actually laugh at all the misery which he and our Lord had been forced to endure, and at the little that they had been obliged to content themselves with."
+   },
+   {
+    "type": "para",
+    "text": "Once, when things had turned out so badly for them that Saint Peter thought he couldn’t stand it any longer, our Lord had taken him to a high mountain, and had begun the ascent without telling him what they were there for."
+   },
+   {
+    "type": "para",
+    "text": "They had wandered past the cities at the foot of the mountain, and the castles higher up. They had gone past the farms and cabins, and had left behind them the last wood-chopper’s cave."
+   },
+   {
+    "type": "para",
+    "text": "They had come at last to the part where the mountain stood naked, without verdure and trees, and where a hermit had built him a hut, wherein he might shelter needy travelers."
+   },
+   {
+    "type": "para",
+    "text": "Afterward, they had walked over the snowfields, where the mountain-rats sleep, and come to the piled-up ice masses, which stood on edge and a-tilt, and where scarcely a chamois could pass."
+   },
+   {
+    "type": "para",
+    "text": "Up there our Lord had found a little red-breasted bird, that lay frozen to death on the ice, and He had picked up the bullfinch and tucked it in His bosom. And Saint Peter remembered he had wondered if this was to be their dinner."
+   },
+   {
+    "type": "para",
+    "text": "They had wandered a long while on the slippery ice-blocks, and it had seemed to Saint Peter that he had never been so near perdition; for a deadly cold wind and a deadly dark mist enveloped them, and as far as he could discover, there wasn’t a living thing to be found. And, still, they were only half-way up the mountain."
+   },
+   {
+    "type": "para",
+    "text": "Then he begged our Lord to let him turn back."
+   },
+   {
+    "type": "para",
+    "text": "“Not yet,” said our Lord, “for I want to show you something which will give you courage to meet all sorrows.”"
+   },
+   {
+    "type": "para",
+    "text": "For this they had gone on through mist and cold until they had reached an interminably high wall, which prevented them from going farther."
+   },
+   {
+    "type": "para",
+    "text": "“This wall extends all around the mountain,” said our Lord, “and you can’t step over it at any point. Nor can any living creature see anything of that which lies behind it, for it is here that Paradise begins; and all the way up to the mountain’s summit live the blessed dead.”"
+   },
+   {
+    "type": "para",
+    "text": "But Saint Peter couldn’t help looking doubtful. “In there is neither darkness nor cold,” said our Lord, “but there it is always summer, with the bright light of suns and stars.”"
+   },
+   {
+    "type": "para",
+    "text": "But Saint Peter was not able to persuade himself to believe this."
+   },
+   {
+    "type": "para",
+    "text": "Then our Lord took the little bird which He had just found on the ice, and, bending backwards, threw it over the wall, so that it fell down into Paradise."
+   },
+   {
+    "type": "para",
+    "text": "And immediately thereafter Saint Peter heard a loud, joyous trill, and recognized a bullfinch’s song, and was greatly astonished."
+   },
+   {
+    "type": "para",
+    "text": "He turned toward our Lord and said: “Let us return to the earth and suffer all that must be suffered, for now I see that you speak the truth, and that there is a place where Life overcomes death.”"
+   },
+   {
+    "type": "para",
+    "text": "And they descended from the mountain and began their wanderings again."
+   },
+   {
+    "type": "para",
+    "text": "And it was years before Saint Peter saw any more than this one glimpse of Paradise; but he had always longed for the land beyond the wall. And now at last he was there, and did not have to strive and yearn any more. Now he could drink bliss in full measure all day long from never-dying streams."
+   },
+   {
+    "type": "para",
+    "text": "But Saint Peter had not been in Paradise a fortnight before it happened that an angel came to our Lord where He sat upon His throne, bowed seven times before Him, and told Him that a great sorrow must have come upon Saint Peter. He would neither eat nor drink, and his eyelids were red, as though he had not slept for several nights."
+   },
+   {
+    "type": "para",
+    "text": "As soon as our Lord heard this, He rose and went to seek Saint Peter."
+   },
+   {
+    "type": "para",
+    "text": "He found him far away, on one of the outskirts of Paradise, where he lay upon the ground, as if he were too exhausted to stand, and he had rent his garments and strewn his hair with ashes."
+   },
+   {
+    "type": "para",
+    "text": "When our Lord saw him so distressed, He sat down on the ground beside him, and talked to him, just as He would have done had they still been wandering around in this world of trouble."
+   },
+   {
+    "type": "para",
+    "text": "“What is it that makes you so sad, Saint Peter?” said our Lord."
+   },
+   {
+    "type": "para",
+    "text": "But grief had overpowered Saint Peter, so that he could not answer."
+   },
+   {
+    "type": "para",
+    "text": "“What is it that makes you so sad?” asked our Lord once again."
+   },
+   {
+    "type": "para",
+    "text": "When our Lord repeated the question, Saint Peter took the gold crown from his head and threw it at our Lord’s feet, as much as to say he wanted no further share in His honor and glory."
+   },
+   {
+    "type": "para",
+    "text": "But our Lord understood, of course, that Saint Peter was so disconsolate that he knew not what he did. He showed no anger at him."
+   },
+   {
+    "type": "para",
+    "text": "“You must tell me what troubles you,” said He, just as gently as before, and with an even greater love in His voice."
+   },
+   {
+    "type": "para",
+    "text": "But now Saint Peter jumped up; and then our Lord knew that he was not only disconsolate, but downright angry. He came toward our Lord with clenched fists and snapping eyes."
+   },
+   {
+    "type": "para",
+    "text": "“Now I want a dismissal from your service!” said Saint Peter. “I can not remain another day in Paradise.”"
+   },
+   {
+    "type": "para",
+    "text": "Our Lord tried to calm him, just as He had been obliged to do many times before, when Saint Peter had flared up."
+   },
+   {
+    "type": "para",
+    "text": "“Oh, certainly you can go,” said He, “but you must first tell me what it is that displeases you.”"
+   },
+   {
+    "type": "para",
+    "text": "“I can tell you that I awaited a better reward than this when we two endured all sorts of misery down on earth,” said Saint Peter."
+   },
+   {
+    "type": "para",
+    "text": "Our Lord saw that Saint Peter’s soul was filled with bitterness, and He felt no anger at him."
+   },
+   {
+    "type": "para",
+    "text": "“I tell you that you are free to go whither you will,” said He, “if you will only let me know what is troubling you.”"
+   },
+   {
+    "type": "para",
+    "text": "Then, at last, Saint Peter told our Lord why he was so unhappy. “I had an old mother,” said he, “and she died a few days ago.”"
+   },
+   {
+    "type": "para",
+    "text": "“Now I know what distresses you,” said our Lord. “You suffer because your mother has not come into Paradise.”"
+   },
+   {
+    "type": "para",
+    "text": "“That is true,” said Saint Peter, and at the same time his grief became so overwhelming that he began to sob and moan."
+   },
+   {
+    "type": "para",
+    "text": "“I think I deserved at least that she should be permitted to come here,” said he."
+   },
+   {
+    "type": "para",
+    "text": "But when our Lord learned what it was that Saint Peter was grieving over, He, in turn, became distressed. Saint Peter’s mother had not been such that she could enter the Heavenly Kingdom. She had never thought of anything except to hoard money, and to the poor who had knocked at her door she had never given so much as a copper or a crust of bread. But our Lord understood that it was impossible for Saint Peter to grasp the fact that his mother had been so greedy that she was not entitled to bliss."
+   },
+   {
+    "type": "para",
+    "text": "“Saint Peter,” said He, “how can you be so sure that your mother would feel at home here with us?”"
+   },
+   {
+    "type": "para",
+    "text": "“You say such things only that you may not have to listen to my prayers,” said Saint Peter. “Who wouldn’t be happy in Paradise?”"
+   },
+   {
+    "type": "para",
+    "text": "“One who does not feel joy over the happiness of others can not rest content here,” said our Lord."
+   },
+   {
+    "type": "para",
+    "text": "“Then there are others than my mother who do not belong here,” said Saint Peter, and our Lord observed that he was thinking of Him."
+   },
+   {
+    "type": "para",
+    "text": "And He felt deeply grieved because Saint Peter had been stricken with such a heavy sorrow that he no longer knew what he said. He stood a moment and expected that Saint Peter would repent, and understand that his mother was not fit for Paradise. But the Saint would not give in."
+   },
+   {
+    "type": "para",
+    "text": "Then our Lord called an angel and commanded that he should fly down into hell and bring Saint Peter’s mother to Paradise."
+   },
+   {
+    "type": "para",
+    "text": "“Let me see how he carries her,” said Saint Peter."
+   },
+   {
+    "type": "para",
+    "text": "Our Lord took Saint Peter by the hand and led him out to a steep precipice which leaned slantingly to one side. And He showed him that he only had to lean over the precipice very, very little to be able to look down into hell."
+   },
+   {
+    "type": "para",
+    "text": "When Saint Peter glanced down, he could not at first see anything more than if he had looked into a deep well. It was as though an endless chasm opened under him."
+   },
+   {
+    "type": "para",
+    "text": "The first thing which he could faintly distinguish was the angel, who had already started on his way to the nether regions. Saint Peter saw how the angel dived down into the great darkness, without the least fear, and spread his wings just a little, so as not to descend too rapidly."
+   },
+   {
+    "type": "para",
+    "text": "But when Saint Peter’s eyes had become a little more used to the darkness he began to see more and more. In the first place, he saw that Paradise lay on a ring-mountain, which encircled a wide chasm, and it was at the bottom of this chasm that the souls of the sinful had their abode. He saw how the angel sank and sank a long while without reaching the depths. He became absolutely terrified because it was such a long distance down there."
+   },
+   {
+    "type": "para",
+    "text": "“May he only come up again with my mother!” said he."
+   },
+   {
+    "type": "para",
+    "text": "Our Lord only looked at Saint Peter with great sorrowful eyes. “There is no weight too heavy for my angel to carry,” said He."
+   },
+   {
+    "type": "para",
+    "text": "It was so far down to the nether regions that no ray of sunlight could penetrate thither: there darkness reigned. But it was as if the angel in his flight must have brought with him a little clearness and light, so that it was possible for Saint Peter to see how it looked down there."
+   },
+   {
+    "type": "para",
+    "text": "It was an endless, black rock-desert. Sharp, pointed rocks covered the entire foundation. There was not a green blade, not a tree, not a sign of life."
+   },
+   {
+    "type": "para",
+    "text": "But all over, on the sharp rocks, were condemned souls. They hung over the edges, whither they had clambered that they might swing themselves up from the ravine; and when they saw that they could get nowhere, they remained up there, petrified with anguish."
+   },
+   {
+    "type": "para",
+    "text": "Saint Peter saw some of them sit or lie with arms extended in ceaseless longing, and with eyes fixedly turned upwards. Others had covered their faces with their hands, as if they would shut out the hopeless horror around them. They were all rigid; there was not one among them who had the power to move. Some lay in the water-pools, perfectly still, without trying to rise from them."
+   },
+   {
+    "type": "para",
+    "text": "But the most dreadful thing of all was—there was such a great throng of the lost. It was as though the bottom of the ravine were made up of nothing but bodies and heads."
+   },
+   {
+    "type": "para",
+    "text": "And Saint Peter was struck with a new fear. “You shall see that he will not find her,” said he to our Lord."
+   },
+   {
+    "type": "para",
+    "text": "Once more our Lord looked at him with the same grieved expression. He knew of course that Saint Peter did not need to be uneasy about the angel."
+   },
+   {
+    "type": "para",
+    "text": "But to Saint Peter it looked all the while as if the angel could not find his mother in that great company of lost souls. He spread his wings and flew back and forth over the nether regions, while he sought her."
+   },
+   {
+    "type": "para",
+    "text": "Suddenly one of the poor lost creatures caught a glimpse of the angel, and he sprang up and stretched his arms towards him and cried: “Take me with you! Take me with you!”"
+   },
+   {
+    "type": "para",
+    "text": "Then, all at once, the whole throng was alive. All the millions upon millions who languished in hell, roused themselves that instant, and raised their arms and cried to the angel that he should take them with him to the blessed Paradise."
+   },
+   {
+    "type": "para",
+    "text": "Their shrieks were heard all the way up to our Lord and Saint Peter, whose hearts throbbed with anguish as they heard."
+   },
+   {
+    "type": "para",
+    "text": "The angel swayed high above the condemned; but as he traveled back and forth, to find the one whom he sought, they all rushed after him, so that it looked as though they had been swept on by a whirlwind."
+   },
+   {
+    "type": "para",
+    "text": "At last the angel caught sight of the one he was to take with him. He folded his wings over his back and shot down like a streak of lightning, and the astonished Saint Peter gave a cry of joy when he saw the angel place an arm around his mother and lift her up."
+   },
+   {
+    "type": "para",
+    "text": "“Blessed be thou that bringest my mother to me!” said he."
+   },
+   {
+    "type": "para",
+    "text": "Our Lord laid His hand gently on Saint Peter’s shoulder, as if He would warn him not to abandon himself to joy too soon."
+   },
+   {
+    "type": "para",
+    "text": "But Saint Peter was ready to weep for joy, because his mother was saved. He could not understand that anything further would have the power to part them. And his joy increased when he saw that, quick as the angel had been when he had lifted her up, still several of the lost souls had succeeded in attaching themselves to her who was to be saved, in order that they, too, might be borne to Paradise with her."
+   },
+   {
+    "type": "para",
+    "text": "There must have been a dozen who clung to the old woman, and Saint Peter thought it was a great honor for his mother to help so many poor unfortunate beings out of perdition."
+   },
+   {
+    "type": "para",
+    "text": "Nor did the angel do aught to hinder them. He seemed not at all troubled with his burden, but rose and rose, and moved his wings with no more effort than if he were carrying a little dead birdling to heaven."
+   },
+   {
+    "type": "para",
+    "text": "But then Saint Peter saw that his mother began to free herself from the lost souls that had clung to her. She gripped their hands and loosened their hold, so that one after another tumbled down into hell."
+   },
+   {
+    "type": "para",
+    "text": "Saint Peter could hear how they begged and implored her; but the old woman did not desire that any one but herself should be saved. She freed herself from more and more of them, and let them fall down into misery. And as they fell, all space was filled with their lamentations and curses."
+   },
+   {
+    "type": "para",
+    "text": "Then Saint Peter begged and implored his mother to show some compassion, but she would not listen, and kept right on as before."
+   },
+   {
+    "type": "para",
+    "text": "And Saint Peter saw how the angel flew slower and slower, the lighter his burden became. Such fear took hold of Saint Peter that his legs shook, and he was forced to drop on his knees."
+   },
+   {
+    "type": "para",
+    "text": "Finally, there was only one condemned soul who still clung to St. Peter’s mother. This was a young woman who hung on her neck and begged and cried in her ear that she would let her go along with her to the blessed Paradise."
+   },
+   {
+    "type": "para",
+    "text": "The angel with his burden had already come so far that Saint Peter stretched out his arms to receive his mother. He thought that the angel had to make only two or three wing-strokes more to reach the mountain."
+   },
+   {
+    "type": "para",
+    "text": "Then, all of a sudden, the angel held his wings perfectly still, and his countenance became dark as night."
+   },
+   {
+    "type": "para",
+    "text": "For now the old woman had stretched her hands back of her and gripped the arms of the young woman who hung about her neck, and she clutched and tore until she succeeded in separating the clasped hands, so that she was free from this last one also."
+   },
+   {
+    "type": "para",
+    "text": "When the condemned one fell the angel sank several fathoms lower, and it appeared as though he had not the strength to lift his wings again."
+   },
+   {
+    "type": "para",
+    "text": "He looked down upon the old woman with a deep, sorrowful glance; his hold around her waist loosened, and he let her fall, as if she were too heavy a burden for him, now that she was alone."
+   },
+   {
+    "type": "para",
+    "text": "Thereupon he swung himself with a single stroke up into Paradise."
+   },
+   {
+    "type": "para",
+    "text": "But Saint Peter lay for a long while in the same place, and sobbed, and our Lord stood silent beside him."
+   },
+   {
+    "type": "para",
+    "text": "“Saint Peter,” said our Lord at last, “I never thought that you would weep like this after you had reached Paradise.”"
+   },
+   {
+    "type": "para",
+    "text": "Then God’s old servant raised his head and answered: “What kind of a Paradise is this, where I can hear the moans of my dearest ones, and see the sufferings of my fellow men!”"
+   },
+   {
+    "type": "para",
+    "text": "The face of our Lord became o’ercast by the deepest sorrow. “What did I desire more than to prepare a Paradise for all, of nothing but light and happiness?” He said. “Do you not understand that it was because of this I went down among men and taught them to love their neighbors as themselves? For as long as they do this not, there will be no refuge in heaven or on earth where pain and sorrow cannot reach them.”"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 44818,
+   "path": "pg44818.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "e4e2eeeca101dd265c84e0be6094a7529c29452f1709b329c5a2090998d7354d",
+   "url": "https://www.gutenberg.org/cache/epub/44818/pg44818.txt",
+   "headingLine": 4360,
+   "startLine": 4361,
+   "endLine": 4716,
+   "heading": "                        OUR LORD AND SAINT PETER",
+   "bodySha256": "32c74e13b65e89e5eef1e78840f519e2a021585422b66c4ec073eee0da6a9b04"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "katherine-mansfield-life-of-ma-parker",
+  "kind": "story",
+  "title": "Life of Ma Parker",
+  "author": "Katherine Mansfield",
+  "year": "1921",
+  "place": "New Zealand",
+  "source": "https://www.gutenberg.org/ebooks/1429",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "When the literary gentleman, whose flat old Ma Parker cleaned every Tuesday, opened the door to her that morning, he asked after her grandson. Ma Parker stood on the doormat inside the dark little hall, and she stretched out her hand to help her gentleman shut the door before she replied. “We buried ’im yesterday, sir,” she said quietly."
+   },
+   {
+    "type": "para",
+    "text": "“Oh, dear me! I’m sorry to hear that,” said the literary gentleman in a shocked tone. He was in the middle of his breakfast. He wore a very shabby dressing-gown and carried a crumpled newspaper in one hand. But he felt awkward. He could hardly go back to the warm sitting-room without saying something—something more. Then because these people set such store by funerals he said kindly, “I hope the funeral went off all right.”"
+   },
+   {
+    "type": "para",
+    "text": "“Beg parding, sir?” said old Ma Parker huskily."
+   },
+   {
+    "type": "para",
+    "text": "Poor old bird! She did look dashed. “I hope the funeral was a—a—success,” said he. Ma Parker gave no answer. She bent her head and hobbled off to the kitchen, clasping the old fish bag that held her cleaning things and an apron and a pair of felt shoes. The literary gentleman raised his eyebrows and went back to his breakfast."
+   },
+   {
+    "type": "para",
+    "text": "“Overcome, I suppose,” he said aloud, helping himself to the marmalade."
+   },
+   {
+    "type": "para",
+    "text": "Ma Parker drew the two jetty spears out of her toque and hung it behind the door. She unhooked her worn jacket and hung that up too. Then she tied her apron and sat down to take off her boots. To take off her boots or to put them on was an agony to her, but it had been an agony for years. In fact, she was so accustomed to the pain that her face was drawn and screwed up ready for the twinge before she’d so much as untied the laces. That over, she sat back with a sigh and softly rubbed her knees...."
+   },
+   {
+    "type": "para",
+    "text": "“Gran! Gran!” Her little grandson stood on her lap in his button boots. He’d just come in from playing in the street."
+   },
+   {
+    "type": "para",
+    "text": "“Look what a state you’ve made your gran’s skirt into—you wicked boy!”"
+   },
+   {
+    "type": "para",
+    "text": "But he put his arms round her neck and rubbed his cheek against hers."
+   },
+   {
+    "type": "para",
+    "text": "“Gran, gi’ us a penny!” he coaxed."
+   },
+   {
+    "type": "para",
+    "text": "“Be off with you; Gran ain’t got no pennies.”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, you ’ave.”"
+   },
+   {
+    "type": "para",
+    "text": "“No, I ain’t.”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, you ’ave. Gi’ us one!”"
+   },
+   {
+    "type": "para",
+    "text": "Already she was feeling for the old, squashed, black leather purse."
+   },
+   {
+    "type": "para",
+    "text": "“Well, what’ll you give your gran?”"
+   },
+   {
+    "type": "para",
+    "text": "He gave a shy little laugh and pressed closer. She felt his eyelid quivering against her cheek. “I ain’t got nothing,” he murmured...."
+   },
+   {
+    "type": "para",
+    "text": "The old woman sprang up, seized the iron kettle off the gas stove and took it over to the sink. The noise of the water drumming in the kettle deadened her pain, it seemed. She filled the pail, too, and the washing-up bowl."
+   },
+   {
+    "type": "para",
+    "text": "It would take a whole book to describe the state of that kitchen. During the week the literary gentleman “did” for himself. That is to say, he emptied the tea leaves now and again into a jam jar set aside for that purpose, and if he ran out of clean forks he wiped over one or two on the roller towel. Otherwise, as he explained to his friends, his “system” was quite simple, and he couldn’t understand why people made all this fuss about housekeeping."
+   },
+   {
+    "type": "para",
+    "text": "“You simply dirty everything you’ve got, get a hag in once a week to clean up, and the thing’s done.”"
+   },
+   {
+    "type": "para",
+    "text": "The result looked like a gigantic dustbin. Even the floor was littered with toast crusts, envelopes, cigarette ends. But Ma Parker bore him no grudge. She pitied the poor young gentleman for having no one to look after him. Out of the smudgy little window you could see an immense expanse of sad-looking sky, and whenever there were clouds they looked very worn, old clouds, frayed at the edges, with holes in them, or dark stains like tea."
+   },
+   {
+    "type": "para",
+    "text": "While the water was heating, Ma Parker began sweeping the floor. “Yes,” she thought, as the broom knocked, “what with one thing and another I’ve had my share. I’ve had a hard life.”"
+   },
+   {
+    "type": "para",
+    "text": "Even the neighbours said that of her. Many a time, hobbling home with her fish bag she heard them, waiting at the corner, or leaning over the area railings, say among themselves, “She’s had a hard life, has Ma Parker.” And it was so true she wasn’t in the least proud of it. It was just as if you were to say she lived in the basement-back at Number 27. A hard life!..."
+   },
+   {
+    "type": "para",
+    "text": "At sixteen she’d left Stratford and come up to London as kitching-maid. Yes, she was born in Stratford-on-Avon. Shakespeare, sir? No, people were always arsking her about him. But she’d never heard his name until she saw it on the theatres."
+   },
+   {
+    "type": "para",
+    "text": "Nothing remained of Stratford except that “sitting in the fire-place of a evening you could see the stars through the chimley,” and “Mother always ’ad ’er side of bacon, ’anging from the ceiling.” And there was something—a bush, there was—at the front door, that smelt ever so nice. But the bush was very vague. She’d only remembered it once or twice in the hospital, when she’d been taken bad."
+   },
+   {
+    "type": "para",
+    "text": "That was a dreadful place—her first place. She was never allowed out. She never went upstairs except for prayers morning and evening. It was a fair cellar. And the cook was a cruel woman. She used to snatch away her letters from home before she’d read them, and throw them in the range because they made her dreamy.... And the beedles! Would you believe it?—until she came to London she’d never seen a black beedle. Here Ma always gave a little laugh, as though—not to have seen a black beedle! Well! It was as if to say you’d never seen your own feet."
+   },
+   {
+    "type": "para",
+    "text": "When that family was sold up she went as “help” to a doctor’s house, and after two years there, on the run from morning till night, she married her husband. He was a baker."
+   },
+   {
+    "type": "para",
+    "text": "“A baker, Mrs. Parker!” the literary gentleman would say. For occasionally he laid aside his tomes and lent an ear, at least, to this product called Life. “It must be rather nice to be married to a baker!”"
+   },
+   {
+    "type": "para",
+    "text": "Mrs. Parker didn’t look so sure."
+   },
+   {
+    "type": "para",
+    "text": "“Such a clean trade,” said the gentleman."
+   },
+   {
+    "type": "para",
+    "text": "Mrs. Parker didn’t look convinced."
+   },
+   {
+    "type": "para",
+    "text": "“And didn’t you like handing the new loaves to the customers?”"
+   },
+   {
+    "type": "para",
+    "text": "“Well, sir,” said Mrs. Parker, “I wasn’t in the shop above a great deal. We had thirteen little ones and buried seven of them. If it wasn’t the ’ospital it was the infirmary, you might say!”"
+   },
+   {
+    "type": "para",
+    "text": "“You might, indeed, Mrs. Parker!” said the gentleman, shuddering, and taking up his pen again."
+   },
+   {
+    "type": "para",
+    "text": "Yes, seven had gone, and while the six were still small her husband was taken ill with consumption. It was flour on the lungs, the doctor told her at the time.... Her husband sat up in bed with his shirt pulled over his head, and the doctor’s finger drew a circle on his back."
+   },
+   {
+    "type": "para",
+    "text": "“Now, if we were to cut him open here, Mrs. Parker,” said the doctor, “you’d find his lungs chock-a-block with white powder. Breathe, my good fellow!” And Mrs. Parker never knew for certain whether she saw or whether she fancied she saw a great fan of white dust come out of her poor dead husband’s lips...."
+   },
+   {
+    "type": "para",
+    "text": "But the struggle she’d had to bring up those six little children and keep herself to herself. Terrible it had been! Then, just when they were old enough to go to school her husband’s sister came to stop with them to help things along, and she hadn’t been there more than two months when she fell down a flight of steps and hurt her spine. And for five years Ma Parker had another baby—and such a one for crying!—to look after. Then young Maudie went wrong and took her sister Alice with her; the two boys emigrated, and young Jim went to India with the army, and Ethel, the youngest, married a good-for-nothing little waiter who died of ulcers the year little Lennie was born. And now little Lennie—my grandson...."
+   },
+   {
+    "type": "para",
+    "text": "The piles of dirty cups, dirty dishes, were washed and dried. The ink-black knives were cleaned with a piece of potato and finished off with a piece of cork. The table was scrubbed, and the dresser and the sink that had sardine tails swimming in it...."
+   },
+   {
+    "type": "para",
+    "text": "He’d never been a strong child—never from the first. He’d been one of those fair babies that everybody took for a girl. Silvery fair curls he had, blue eyes, and a little freckle like a diamond on one side of his nose. The trouble she and Ethel had had to rear that child! The things out of the newspapers they tried him with! Every Sunday morning Ethel would read aloud while Ma Parker did her washing."
+   },
+   {
+    "type": "para",
+    "text": "“Dear Sir,—Just a line to let you know my little Myrtil was laid out for dead.... After four bottils... gained 8 lbs. in 9 weeks, and is still putting it on.”"
+   },
+   {
+    "type": "para",
+    "text": "And then the egg-cup of ink would come off the dresser and the letter would be written, and Ma would buy a postal order on her way to work next morning. But it was no use. Nothing made little Lennie put it on. Taking him to the cemetery, even, never gave him a colour; a nice shake-up in the bus never improved his appetite."
+   },
+   {
+    "type": "para",
+    "text": "But he was gran’s boy from the first...."
+   },
+   {
+    "type": "para",
+    "text": "“Whose boy are you?” said old Ma Parker, straightening up from the stove and going over to the smudgy window. And a little voice, so warm, so close, it half stifled her—it seemed to be in her breast under her heart—laughed out, and said, “I’m gran’s boy!”"
+   },
+   {
+    "type": "para",
+    "text": "At that moment there was a sound of steps, and the literary gentleman appeared, dressed for walking."
+   },
+   {
+    "type": "para",
+    "text": "“Oh, Mrs. Parker, I’m going out.”"
+   },
+   {
+    "type": "para",
+    "text": "“Very good, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "“And you’ll find your half-crown in the tray of the inkstand.”"
+   },
+   {
+    "type": "para",
+    "text": "“Thank you, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "“Oh, by the way, Mrs. Parker,” said the literary gentleman quickly, “you didn’t throw away any cocoa last time you were here—did you?”"
+   },
+   {
+    "type": "para",
+    "text": "“No, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "“Very strange. I could have sworn I left a teaspoonful of cocoa in the tin.” He broke off. He said softly and firmly, “You’ll always tell me when you throw things away—won’t you, Mrs. Parker?” And he walked off very well pleased with himself, convinced, in fact, he’d shown Mrs. Parker that under his apparent carelessness he was as vigilant as a woman."
+   },
+   {
+    "type": "para",
+    "text": "The door banged. She took her brushes and cloths into the bedroom. But when she began to make the bed, smoothing, tucking, patting, the thought of little Lennie was unbearable. Why did he have to suffer so? That’s what she couldn’t understand. Why should a little angel child have to arsk for his breath and fight for it? There was no sense in making a child suffer like that."
+   },
+   {
+    "type": "para",
+    "text": "... From Lennie’s little box of a chest there came a sound as though something was boiling. There was a great lump of something bubbling in his chest that he couldn’t get rid of. When he coughed the sweat sprang out on his head; his eyes bulged, his hands waved, and the great lump bubbled as a potato knocks in a saucepan. But what was more awful than all was when he didn’t cough he sat against the pillow and never spoke or answered, or even made as if he heard. Only he looked offended."
+   },
+   {
+    "type": "para",
+    "text": "“It’s not your poor old gran’s doing it, my lovey,” said old Ma Parker, patting back the damp hair from his little scarlet ears. But Lennie moved his head and edged away. Dreadfully offended with her he looked—and solemn. He bent his head and looked at her sideways as though he couldn’t have believed it of his gran."
+   },
+   {
+    "type": "para",
+    "text": "But at the last... Ma Parker threw the counterpane over the bed. No, she simply couldn’t think about it. It was too much—she’d had too much in her life to bear. She’d borne it up till now, she’d kept herself to herself, and never once had she been seen to cry. Never by a living soul. Not even her own children had seen Ma break down. She’d kept a proud face always. But now! Lennie gone—what had she? She had nothing. He was all she’d got from life, and now he was took too. Why must it all have happened to me? she wondered. “What have I done?” said old Ma Parker. “What have I done?”"
+   },
+   {
+    "type": "para",
+    "text": "As she said those words she suddenly let fall her brush. She found herself in the kitchen. Her misery was so terrible that she pinned on her hat, put on her jacket and walked out of the flat like a person in a dream. She did not know what she was doing. She was like a person so dazed by the horror of what has happened that he walks away—anywhere, as though by walking away he could escape...."
+   },
+   {
+    "type": "para",
+    "text": "It was cold in the street. There was a wind like ice. People went flitting by, very fast; the men walked like scissors; the women trod like cats. And nobody knew—nobody cared. Even if she broke down, if at last, after all these years, she were to cry, she’d find herself in the lock-up as like as not."
+   },
+   {
+    "type": "para",
+    "text": "But at the thought of crying it was as though little Lennie leapt in his gran’s arms. Ah, that’s what she wants to do, my dove. Gran wants to cry. If she could only cry now, cry for a long time, over everything, beginning with her first place and the cruel cook, going on to the doctor’s, and then the seven little ones, death of her husband, the children’s leaving her, and all the years of misery that led up to Lennie. But to have a proper cry over all these things would take a long time. All the same, the time for it had come. She must do it. She couldn’t put it off any longer; she couldn’t wait any more.... Where could she go?"
+   },
+   {
+    "type": "para",
+    "text": "“She’s had a hard life, has Ma Parker.” Yes, a hard life, indeed! Her chin began to tremble; there was no time to lose. But where? Where?"
+   },
+   {
+    "type": "para",
+    "text": "She couldn’t go home; Ethel was there. It would frighten Ethel out of her life. She couldn’t sit on a bench anywhere; people would come arsking her questions. She couldn’t possibly go back to the gentleman’s flat; she had no right to cry in strangers’ houses. If she sat on some steps a policeman would speak to her."
+   },
+   {
+    "type": "para",
+    "text": "Oh, wasn’t there anywhere where she could hide and keep herself to herself and stay as long as she liked, not disturbing anybody, and nobody worrying her? Wasn’t there anywhere in the world where she could have her cry out—at last?"
+   },
+   {
+    "type": "para",
+    "text": "Ma Parker stood, looking up and down. The icy wind blew out her apron into a balloon. And now it began to rain. There was nowhere."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1429,
+   "path": "pg1429.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "ca75eaf21b4448f4e59b0703eaf433e6726db4aca083ea49accf40dd024b9d79",
+   "url": "https://www.gutenberg.org/cache/epub/1429/pg1429.txt",
+   "headingLine": 3964,
+   "startLine": 3965,
+   "endLine": 4253,
+   "heading": "Life of Ma Parker",
+   "bodySha256": "2944386dae9bbd2f41b69848e4f8517e7c552289bfdeae816528786e90ccf93a"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "james-joyce-counterparts",
+  "kind": "story",
+  "title": "Counterparts",
+  "author": "James Joyce",
+  "year": "1914",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/2814",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The bell rang furiously and, when Miss Parker went to the tube, a furious voice called out in a piercing North of Ireland accent:"
+   },
+   {
+    "type": "para",
+    "text": "“Send Farrington here!”"
+   },
+   {
+    "type": "para",
+    "text": "Miss Parker returned to her machine, saying to a man who was writing at a desk:"
+   },
+   {
+    "type": "para",
+    "text": "“Mr Alleyne wants you upstairs.”"
+   },
+   {
+    "type": "para",
+    "text": "The man muttered “Blast him!” under his breath and pushed back his chair to stand up. When he stood up he was tall and of great bulk. He had a hanging face, dark wine-coloured, with fair eyebrows and moustache: his eyes bulged forward slightly and the whites of them were dirty. He lifted up the counter and, passing by the clients, went out of the office with a heavy step."
+   },
+   {
+    "type": "para",
+    "text": "He went heavily upstairs until he came to the second landing, where a door bore a brass plate with the inscription Mr Alleyne. Here he halted, puffing with labour and vexation, and knocked. The shrill voice cried:"
+   },
+   {
+    "type": "para",
+    "text": "“Come in!”"
+   },
+   {
+    "type": "para",
+    "text": "The man entered Mr Alleyne’s room. Simultaneously Mr Alleyne, a little man wearing gold-rimmed glasses on a clean-shaven face, shot his head up over a pile of documents. The head itself was so pink and hairless it seemed like a large egg reposing on the papers. Mr Alleyne did not lose a moment:"
+   },
+   {
+    "type": "para",
+    "text": "“Farrington? What is the meaning of this? Why have I always to complain of you? May I ask you why you haven’t made a copy of that contract between Bodley and Kirwan? I told you it must be ready by four o’clock.”"
+   },
+   {
+    "type": "para",
+    "text": "“But Mr Shelley said, sir——”"
+   },
+   {
+    "type": "para",
+    "text": "“Mr Shelley said, sir.... Kindly attend to what I say and not to what Mr Shelley says, sir. You have always some excuse or another for shirking work. Let me tell you that if the contract is not copied before this evening I’ll lay the matter before Mr Crosbie.... Do you hear me now?”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "“Do you hear me now?... Ay and another little matter! I might as well be talking to the wall as talking to you. Understand once for all that you get a half an hour for your lunch and not an hour and a half. How many courses do you want, I’d like to know.... Do you mind me, now?”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, sir.”"
+   },
+   {
+    "type": "para",
+    "text": "Mr Alleyne bent his head again upon his pile of papers. The man stared fixedly at the polished skull which directed the affairs of Crosbie & Alleyne, gauging its fragility. A spasm of rage gripped his throat for a few moments and then passed, leaving after it a sharp sensation of thirst. The man recognised the sensation and felt that he must have a good night’s drinking. The middle of the month was passed and, if he could get the copy done in time, Mr Alleyne might give him an order on the cashier. He stood still, gazing fixedly at the head upon the pile of papers. Suddenly Mr Alleyne began to upset all the papers, searching for something. Then, as if he had been unaware of the man’s presence till that moment, he shot up his head again, saying:"
+   },
+   {
+    "type": "para",
+    "text": "“Eh? Are you going to stand there all day? Upon my word, Farrington, you take things easy!”"
+   },
+   {
+    "type": "para",
+    "text": "“I was waiting to see....”"
+   },
+   {
+    "type": "para",
+    "text": "“Very good, you needn’t wait to see. Go downstairs and do your work.”"
+   },
+   {
+    "type": "para",
+    "text": "The man walked heavily towards the door and, as he went out of the room, he heard Mr Alleyne cry after him that if the contract was not copied by evening Mr Crosbie would hear of the matter."
+   },
+   {
+    "type": "para",
+    "text": "He returned to his desk in the lower office and counted the sheets which remained to be copied. He took up his pen and dipped it in the ink but he continued to stare stupidly at the last words he had written: In no case shall the said Bernard Bodley be.... The evening was falling and in a few minutes they would be lighting the gas: then he could write. He felt that he must slake the thirst in his throat. He stood up from his desk and, lifting the counter as before, passed out of the office. As he was passing out the chief clerk looked at him inquiringly."
+   },
+   {
+    "type": "para",
+    "text": "“It’s all right, Mr Shelley,” said the man, pointing with his finger to indicate the objective of his journey."
+   },
+   {
+    "type": "para",
+    "text": "The chief clerk glanced at the hat-rack but, seeing the row complete, offered no remark. As soon as he was on the landing the man pulled a shepherd’s plaid cap out of his pocket, put it on his head and ran quickly down the rickety stairs. From the street door he walked on furtively on the inner side of the path towards the corner and all at once dived into a doorway. He was now safe in the dark snug of O’Neill’s shop, and filling up the little window that looked into the bar with his inflamed face, the colour of dark wine or dark meat, he called out:"
+   },
+   {
+    "type": "para",
+    "text": "“Here, Pat, give us a g.p., like a good fellow.”"
+   },
+   {
+    "type": "para",
+    "text": "The curate brought him a glass of plain porter. The man drank it at a gulp and asked for a caraway seed. He put his penny on the counter and, leaving the curate to grope for it in the gloom, retreated out of the snug as furtively as he had entered it."
+   },
+   {
+    "type": "para",
+    "text": "Darkness, accompanied by a thick fog, was gaining upon the dusk of February and the lamps in Eustace Street had been lit. The man went up by the houses until he reached the door of the office, wondering whether he could finish his copy in time. On the stairs a moist pungent odour of perfumes saluted his nose: evidently Miss Delacour had come while he was out in O’Neill’s. He crammed his cap back again into his pocket and re-entered the office, assuming an air of absent-mindedness."
+   },
+   {
+    "type": "para",
+    "text": "“Mr Alleyne has been calling for you,” said the chief clerk severely. “Where were you?”"
+   },
+   {
+    "type": "para",
+    "text": "The man glanced at the two clients who were standing at the counter as if to intimate that their presence prevented him from answering. As the clients were both male the chief clerk allowed himself a laugh."
+   },
+   {
+    "type": "para",
+    "text": "“I know that game,” he said. “Five times in one day is a little bit.... Well, you better look sharp and get a copy of our correspondence in the Delacour case for Mr Alleyne.”"
+   },
+   {
+    "type": "para",
+    "text": "This address in the presence of the public, his run upstairs and the porter he had gulped down so hastily confused the man and, as he sat down at his desk to get what was required, he realised how hopeless was the task of finishing his copy of the contract before half past five. The dark damp night was coming and he longed to spend it in the bars, drinking with his friends amid the glare of gas and the clatter of glasses. He got out the Delacour correspondence and passed out of the office. He hoped Mr Alleyne would not discover that the last two letters were missing."
+   },
+   {
+    "type": "para",
+    "text": "The moist pungent perfume lay all the way up to Mr Alleyne’s room. Miss Delacour was a middle-aged woman of Jewish appearance. Mr Alleyne was said to be sweet on her or on her money. She came to the office often and stayed a long time when she came. She was sitting beside his desk now in an aroma of perfumes, smoothing the handle of her umbrella and nodding the great black feather in her hat. Mr Alleyne had swivelled his chair round to face her and thrown his right foot jauntily upon his left knee. The man put the correspondence on the desk and bowed respectfully but neither Mr Alleyne nor Miss Delacour took any notice of his bow. Mr Alleyne tapped a finger on the correspondence and then flicked it towards him as if to say: “That’s all right: you can go.”"
+   },
+   {
+    "type": "para",
+    "text": "The man returned to the lower office and sat down again at his desk. He stared intently at the incomplete phrase: In no case shall the said Bernard Bodley be ... and thought how strange it was that the last three words began with the same letter. The chief clerk began to hurry Miss Parker, saying she would never have the letters typed in time for post. The man listened to the clicking of the machine for a few minutes and then set to work to finish his copy. But his head was not clear and his mind wandered away to the glare and rattle of the public-house. It was a night for hot punches. He struggled on with his copy, but when the clock struck five he had still fourteen pages to write. Blast it! He couldn’t finish it in time. He longed to execrate aloud, to bring his fist down on something violently. He was so enraged that he wrote Bernard Bernard instead of Bernard Bodley and had to begin again on a clean sheet."
+   },
+   {
+    "type": "para",
+    "text": "He felt strong enough to clear out the whole office singlehanded. His body ached to do something, to rush out and revel in violence. All the indignities of his life enraged him.... Could he ask the cashier privately for an advance? No, the cashier was no good, no damn good: he wouldn’t give an advance.... He knew where he would meet the boys: Leonard and O’Halloran and Nosey Flynn. The barometer of his emotional nature was set for a spell of riot."
+   },
+   {
+    "type": "para",
+    "text": "His imagination had so abstracted him that his name was called twice before he answered. Mr Alleyne and Miss Delacour were standing outside the counter and all the clerks had turned round in anticipation of something. The man got up from his desk. Mr Alleyne began a tirade of abuse, saying that two letters were missing. The man answered that he knew nothing about them, that he had made a faithful copy. The tirade continued: it was so bitter and violent that the man could hardly restrain his fist from descending upon the head of the manikin before him:"
+   },
+   {
+    "type": "para",
+    "text": "“I know nothing about any other two letters,” he said stupidly."
+   },
+   {
+    "type": "para",
+    "text": "“You—know—nothing. Of course you know nothing,” said Mr Alleyne. “Tell me,” he added, glancing first for approval to the lady beside him, “do you take me for a fool? Do you think me an utter fool?”"
+   },
+   {
+    "type": "para",
+    "text": "The man glanced from the lady’s face to the little egg-shaped head and back again; and, almost before he was aware of it, his tongue had found a felicitous moment:"
+   },
+   {
+    "type": "para",
+    "text": "“I don’t think, sir,” he said, “that that’s a fair question to put to me.”"
+   },
+   {
+    "type": "para",
+    "text": "There was a pause in the very breathing of the clerks. Everyone was astounded (the author of the witticism no less than his neighbours) and Miss Delacour, who was a stout amiable person, began to smile broadly. Mr Alleyne flushed to the hue of a wild rose and his mouth twitched with a dwarf’s passion. He shook his fist in the man’s face till it seemed to vibrate like the knob of some electric machine:"
+   },
+   {
+    "type": "para",
+    "text": "“You impertinent ruffian! You impertinent ruffian! I’ll make short work of you! Wait till you see! You’ll apologise to me for your impertinence or you’ll quit the office instanter! You’ll quit this, I’m telling you, or you’ll apologise to me!”"
+   },
+   {
+    "type": "para",
+    "text": "He stood in a doorway opposite the office watching to see if the cashier would come out alone. All the clerks passed out and finally the cashier came out with the chief clerk. It was no use trying to say a word to him when he was with the chief clerk. The man felt that his position was bad enough. He had been obliged to offer an abject apology to Mr Alleyne for his impertinence but he knew what a hornet’s nest the office would be for him. He could remember the way in which Mr Alleyne had hounded little Peake out of the office in order to make room for his own nephew. He felt savage and thirsty and revengeful, annoyed with himself and with everyone else. Mr Alleyne would never give him an hour’s rest; his life would be a hell to him. He had made a proper fool of himself this time. Could he not keep his tongue in his cheek? But they had never pulled together from the first, he and Mr Alleyne, ever since the day Mr Alleyne had overheard him mimicking his North of Ireland accent to amuse Higgins and Miss Parker: that had been the beginning of it. He might have tried Higgins for the money, but sure Higgins never had anything for himself. A man with two establishments to keep up, of course he couldn’t...."
+   },
+   {
+    "type": "para",
+    "text": "He felt his great body again aching for the comfort of the public-house. The fog had begun to chill him and he wondered could he touch Pat in O’Neill’s. He could not touch him for more than a bob—and a bob was no use. Yet he must get money somewhere or other: he had spent his last penny for the g.p. and soon it would be too late for getting money anywhere. Suddenly, as he was fingering his watch-chain, he thought of Terry Kelly’s pawn-office in Fleet Street. That was the dart! Why didn’t he think of it sooner?"
+   },
+   {
+    "type": "para",
+    "text": "He went through the narrow alley of Temple Bar quickly, muttering to himself that they could all go to hell because he was going to have a good night of it. The clerk in Terry Kelly’s said A crown! but the consignor held out for six shillings; and in the end the six shillings was allowed him literally. He came out of the pawn-office joyfully, making a little cylinder, of the coins between his thumb and fingers. In Westmoreland Street the footpaths were crowded with young men and women returning from business and ragged urchins ran here and there yelling out the names of the evening editions. The man passed through the crowd, looking on the spectacle generally with proud satisfaction and staring masterfully at the office-girls. His head was full of the noises of tram-gongs and swishing trolleys and his nose already sniffed the curling fumes of punch. As he walked on he preconsidered the terms in which he would narrate the incident to the boys:"
+   },
+   {
+    "type": "para",
+    "text": "“So, I just looked at him—coolly, you know, and looked at her. Then I looked back at him again—taking my time, you know. ‘I don’t think that that’s a fair question to put to me,’ says I.”"
+   },
+   {
+    "type": "para",
+    "text": "Nosey Flynn was sitting up in his usual corner of Davy Byrne’s and, when he heard the story, he stood Farrington a half-one, saying it was as smart a thing as ever he heard. Farrington stood a drink in his turn. After a while O’Halloran and Paddy Leonard came in and the story was repeated to them. O’Halloran stood tailors of malt, hot, all round and told the story of the retort he had made to the chief clerk when he was in Callan’s of Fownes’s Street; but, as the retort was after the manner of the liberal shepherds in the eclogues, he had to admit that it was not as clever as Farrington’s retort. At this Farrington told the boys to polish off that and have another."
+   },
+   {
+    "type": "para",
+    "text": "Just as they were naming their poisons who should come in but Higgins! Of course he had to join in with the others. The men asked him to give his version of it, and he did so with great vivacity for the sight of five small hot whiskies was very exhilarating. Everyone roared laughing when he showed the way in which Mr Alleyne shook his fist in Farrington’s face. Then he imitated Farrington, saying, “And here was my nabs, as cool as you please,” while Farrington looked at the company out of his heavy dirty eyes, smiling and at times drawing forth stray drops of liquor from his moustache with the aid of his lower lip."
+   },
+   {
+    "type": "para",
+    "text": "When that round was over there was a pause. O’Halloran had money but neither of the other two seemed to have any; so the whole party left the shop somewhat regretfully. At the corner of Duke Street Higgins and Nosey Flynn bevelled off to the left while the other three turned back towards the city. Rain was drizzling down on the cold streets and, when they reached the Ballast Office, Farrington suggested the Scotch House. The bar was full of men and loud with the noise of tongues and glasses. The three men pushed past the whining match-sellers at the door and formed a little party at the corner of the counter. They began to exchange stories. Leonard introduced them to a young fellow named Weathers who was performing at the Tivoli as an acrobat and knockabout artiste. Farrington stood a drink all round. Weathers said he would take a small Irish and Apollinaris. Farrington, who had definite notions of what was what, asked the boys would they have an Apollinaris too; but the boys told Tim to make theirs hot. The talk became theatrical. O’Halloran stood a round and then Farrington stood another round, Weathers protesting that the hospitality was too Irish. He promised to get them in behind the scenes and introduce them to some nice girls. O’Halloran said that he and Leonard would go, but that Farrington wouldn’t go because he was a married man; and Farrington’s heavy dirty eyes leered at the company in token that he understood he was being chaffed. Weathers made them all have just one little tincture at his expense and promised to meet them later on at Mulligan’s in Poolbeg Street."
+   },
+   {
+    "type": "para",
+    "text": "When the Scotch House closed they went round to Mulligan’s. They went into the parlour at the back and O’Halloran ordered small hot specials all round. They were all beginning to feel mellow. Farrington was just standing another round when Weathers came back. Much to Farrington’s relief he drank a glass of bitter this time. Funds were getting low but they had enough to keep them going. Presently two young women with big hats and a young man in a check suit came in and sat at a table close by. Weathers saluted them and told the company that they were out of the Tivoli. Farrington’s eyes wandered at every moment in the direction of one of the young women. There was something striking in her appearance. An immense scarf of peacock-blue muslin was wound round her hat and knotted in a great bow under her chin; and she wore bright yellow gloves, reaching to the elbow. Farrington gazed admiringly at the plump arm which she moved very often and with much grace; and when, after a little time, she answered his gaze he admired still more her large dark brown eyes. The oblique staring expression in them fascinated him. She glanced at him once or twice and, when the party was leaving the room, she brushed against his chair and said “O, pardon!” in a London accent. He watched her leave the room in the hope that she would look back at him, but he was disappointed. He cursed his want of money and cursed all the rounds he had stood, particularly all the whiskies and Apollinaris which he had stood to Weathers. If there was one thing that he hated it was a sponge. He was so angry that he lost count of the conversation of his friends."
+   },
+   {
+    "type": "para",
+    "text": "When Paddy Leonard called him he found that they were talking about feats of strength. Weathers was showing his biceps muscle to the company and boasting so much that the other two had called on Farrington to uphold the national honour. Farrington pulled up his sleeve accordingly and showed his biceps muscle to the company. The two arms were examined and compared and finally it was agreed to have a trial of strength. The table was cleared and the two men rested their elbows on it, clasping hands. When Paddy Leonard said “Go!” each was to try to bring down the other’s hand on to the table. Farrington looked very serious and determined."
+   },
+   {
+    "type": "para",
+    "text": "The trial began. After about thirty seconds Weathers brought his opponent’s hand slowly down on to the table. Farrington’s dark wine-coloured face flushed darker still with anger and humiliation at having been defeated by such a stripling."
+   },
+   {
+    "type": "para",
+    "text": "“You’re not to put the weight of your body behind it. Play fair,” he said."
+   },
+   {
+    "type": "para",
+    "text": "“Who’s not playing fair?” said the other."
+   },
+   {
+    "type": "para",
+    "text": "“Come on again. The two best out of three.”"
+   },
+   {
+    "type": "para",
+    "text": "The trial began again. The veins stood out on Farrington’s forehead, and the pallor of Weathers’ complexion changed to peony. Their hands and arms trembled under the stress. After a long struggle Weathers again brought his opponent’s hand slowly on to the table. There was a murmur of applause from the spectators. The curate, who was standing beside the table, nodded his red head towards the victor and said with stupid familiarity:"
+   },
+   {
+    "type": "para",
+    "text": "“Ah! that’s the knack!”"
+   },
+   {
+    "type": "para",
+    "text": "“What the hell do you know about it?” said Farrington fiercely, turning on the man. “What do you put in your gab for?”"
+   },
+   {
+    "type": "para",
+    "text": "“Sh, sh!” said O’Halloran, observing the violent expression of Farrington’s face. “Pony up, boys. We’ll have just one little smahan more and then we’ll be off.”"
+   },
+   {
+    "type": "para",
+    "text": "A very sullen-faced man stood at the corner of O’Connell Bridge waiting for the little Sandymount tram to take him home. He was full of smouldering anger and revengefulness. He felt humiliated and discontented; he did not even feel drunk; and he had only twopence in his pocket. He cursed everything. He had done for himself in the office, pawned his watch, spent all his money; and he had not even got drunk. He began to feel thirsty again and he longed to be back again in the hot reeking public-house. He had lost his reputation as a strong man, having been defeated twice by a mere boy. His heart swelled with fury and, when he thought of the woman in the big hat who had brushed against him and said Pardon! his fury nearly choked him."
+   },
+   {
+    "type": "para",
+    "text": "His tram let him down at Shelbourne Road and he steered his great body along in the shadow of the wall of the barracks. He loathed returning to his home. When he went in by the side-door he found the kitchen empty and the kitchen fire nearly out. He bawled upstairs:"
+   },
+   {
+    "type": "para",
+    "text": "“Ada! Ada!”"
+   },
+   {
+    "type": "para",
+    "text": "His wife was a little sharp-faced woman who bullied her husband when he was sober and was bullied by him when he was drunk. They had five children. A little boy came running down the stairs."
+   },
+   {
+    "type": "para",
+    "text": "“Who is that?” said the man, peering through the darkness."
+   },
+   {
+    "type": "para",
+    "text": "“Me, pa.”"
+   },
+   {
+    "type": "para",
+    "text": "“Who are you? Charlie?”"
+   },
+   {
+    "type": "para",
+    "text": "“No, pa. Tom.”"
+   },
+   {
+    "type": "para",
+    "text": "“Where’s your mother?”"
+   },
+   {
+    "type": "para",
+    "text": "“She’s out at the chapel.”"
+   },
+   {
+    "type": "para",
+    "text": "“That’s right.... Did she think of leaving any dinner for me?”"
+   },
+   {
+    "type": "para",
+    "text": "“Yes, pa. I——”"
+   },
+   {
+    "type": "para",
+    "text": "“Light the lamp. What do you mean by having the place in darkness? Are the other children in bed?”"
+   },
+   {
+    "type": "para",
+    "text": "The man sat down heavily on one of the chairs while the little boy lit the lamp. He began to mimic his son’s flat accent, saying half to himself: “At the chapel. At the chapel, if you please!” When the lamp was lit he banged his fist on the table and shouted:"
+   },
+   {
+    "type": "para",
+    "text": "“What’s for my dinner?”"
+   },
+   {
+    "type": "para",
+    "text": "“I’m going ... to cook it, pa,” said the little boy."
+   },
+   {
+    "type": "para",
+    "text": "The man jumped up furiously and pointed to the fire."
+   },
+   {
+    "type": "para",
+    "text": "“On that fire! You let the fire out! By God, I’ll teach you to do that again!”"
+   },
+   {
+    "type": "para",
+    "text": "He took a step to the door and seized the walking-stick which was standing behind it."
+   },
+   {
+    "type": "para",
+    "text": "“I’ll teach you to let the fire out!” he said, rolling up his sleeve in order to give his arm free play."
+   },
+   {
+    "type": "para",
+    "text": "The little boy cried “O, pa!” and ran whimpering round the table, but the man followed him and caught him by the coat. The little boy looked about him wildly but, seeing no way of escape, fell upon his knees."
+   },
+   {
+    "type": "para",
+    "text": "“Now, you’ll let the fire out the next time!” said the man striking at him vigorously with the stick. “Take that, you little whelp!”"
+   },
+   {
+    "type": "para",
+    "text": "The boy uttered a squeal of pain as the stick cut his thigh. He clasped his hands together in the air and his voice shook with fright."
+   },
+   {
+    "type": "para",
+    "text": "“O, pa!” he cried. “Don’t beat me, pa! And I’ll ... I’ll say a Hail Mary for you.... I’ll say a Hail Mary for you, pa, if you don’t beat me.... I’ll say a Hail Mary....”"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2814,
+   "path": "pg2814.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "6be7d8400ac2549459307d1c1a20a25c86a736984269d3e9d989c817814be60c",
+   "url": "https://www.gutenberg.org/cache/epub/2814/pg2814.txt",
+   "headingLine": 2677,
+   "startLine": 2678,
+   "endLine": 3118,
+   "heading": "COUNTERPARTS",
+   "bodySha256": "65921edc34c14df86ddbe7577c716ba73cb70ff981ba2d1430fa3d5c9e1bb1ba"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "marie-de-france-the-lay-of-the-were-wolf",
+  "kind": "story",
+  "title": "The Lay of the Were-Wolf",
+  "author": "Marie de France",
+  "year": "12th century; Eugene Mason translation 1911",
+  "place": "France",
+  "source": "https://www.gutenberg.org/ebooks/11417",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Amongst the tales I tell you once again, I would not forget the Lay of the Were-Wolf. Such beasts as he are known in every land. Bisclavaret he is named in Brittany; whilst the Norman calls him Garwal."
+   },
+   {
+    "type": "para",
+    "text": "It is a certain thing, and within the knowledge of all, that many a christened man has suffered this change, and ran wild in woods, as a Were-Wolf. The Were-Wolf is a fearsome beast. He lurks within the thick forest, mad and horrible to see. All the evil that he may, he does. He goeth to and fro, about the solitary place, seeking man, in order to devour him. Hearken, now, to the adventure of the Were-Wolf, that I have to tell."
+   },
+   {
+    "type": "para",
+    "text": "In Brittany there dwelt a baron who was marvellously esteemed of all his fellows. He was a stout knight, and a comely, and a man of office and repute. Right private was he to the mind of his lord, and dear to the counsel of his neighbours. This baron was wedded to a very worthy dame, right fair to see, and sweet of semblance. All his love was set on her, and all her love was given again to him. One only grief had this lady. For three whole days in every week her lord was absent from her side. She knew not where he went, nor on what errand. Neither did any of his house know the business which called him forth."
+   },
+   {
+    "type": "para",
+    "text": "On a day when this lord was come again to his house, altogether joyous and content, the lady took him to task, right sweetly, in this fashion, \"Husband,\" said she, \"and fair, sweet friend, I have a certain thing to pray of you. Right willingly would I receive this gift, but I fear to anger you in the asking. It is better for me to have an empty hand, than to gain hard words.\""
+   },
+   {
+    "type": "para",
+    "text": "When the lord heard this matter, he took the lady in his arms, very tenderly, and kissed her."
+   },
+   {
+    "type": "para",
+    "text": "\"Wife,\" he answered, \"ask what you will. What would you have, for it is yours already?\""
+   },
+   {
+    "type": "para",
+    "text": "\"By my faith,\" said the lady, \"soon shall I be whole. Husband, right long and wearisome are the days that you spend away from your home. I rise from my bed in the morning, sick at heart, I know not why. So fearful am I, lest you do aught to your loss, that I may not find any comfort. Very quickly shall I die for reason of my dread. Tell me now, where you go, and on what business! How may the knowledge of one who loves so closely, bring you to harm?\""
+   },
+   {
+    "type": "para",
+    "text": "\"Wife,\" made answer the lord, \"nothing but evil can come if I tell you this secret. For the mercy of God do not require it of me. If you but knew, you would withdraw yourself from my love, and I should be lost indeed.\""
+   },
+   {
+    "type": "para",
+    "text": "When the lady heard this, she was persuaded that her baron sought to put her by with jesting words. Therefore she prayed and required him the more urgently, with tender looks and speech, till he was overborne, and told her all the story, hiding naught."
+   },
+   {
+    "type": "para",
+    "text": "\"Wife, I become Bisclavaret. I enter in the forest, and live on prey and roots, within the thickest of the wood.\""
+   },
+   {
+    "type": "para",
+    "text": "After she had learned his secret, she prayed and entreated the more as to whether he ran in his raiment, or went spoiled of vesture."
+   },
+   {
+    "type": "para",
+    "text": "\"Wife,\" said he, \"I go naked as a beast.\""
+   },
+   {
+    "type": "para",
+    "text": "\"Tell me, for hope of grace, what you do with your clothing?\""
+   },
+   {
+    "type": "para",
+    "text": "\"Fair wife, that will I never. If I should lose my raiment, or even be marked as I quit my vesture, then a Were-Wolf I must go for all the days of my life. Never again should I become man, save in that hour my clothing were given back to me. For this reason never will I show my lair.\""
+   },
+   {
+    "type": "para",
+    "text": "\"Husband,\" replied the lady to him, \"I love you better than all the world. The less cause have you for doubting my faith, or hiding any tittle from me. What savour is here of friendship? How have I made forfeit of your love; for what sin do you mistrust my honour? Open now your heart, and tell what is good to be known.\""
+   },
+   {
+    "type": "para",
+    "text": "So at the end, outwearied and overborne by her importunity, he could no longer refrain, but told her all."
+   },
+   {
+    "type": "para",
+    "text": "\"Wife,\" said he, \"within this wood, a little from the path, there is a hidden way, and at the end thereof an ancient chapel, where oftentimes I have bewailed my lot. Near by is a great hollow stone, concealed by a bush, and there is the secret place where I hide my raiment, till I would return to my own home.\""
+   },
+   {
+    "type": "para",
+    "text": "On hearing this marvel the lady became sanguine of visage, because of her exceeding fear. She dared no longer to lie at his side, and turned over in her mind, this way and that, how best she could get her from him. Now there was a certain knight of those parts, who, for a great while, had sought and required this lady for her love. This knight had spent long years in her service, but little enough had he got thereby, not even fair words, or a promise. To him the dame wrote a letter, and meeting, made her purpose plain."
+   },
+   {
+    "type": "para",
+    "text": "\"Fair friend,\" said she, \"be happy. That which you have coveted so long a time, I will grant without delay. Never again will I deny your suit. My heart, and all I have to give, are yours, so take me now as love and dame.\""
+   },
+   {
+    "type": "para",
+    "text": "Right sweetly the knight thanked her for her grace, and pledged her faith and fealty. When she had confirmed him by an oath, then she told him all this business of her lord--why he went, and what he became, and of his ravening within the wood. So she showed him of the chapel, and of the hollow stone, and of how to spoil the Were-Wolf of his vesture. Thus, by the kiss of his wife, was Bisclavaret betrayed. Often enough had he ravished his prey in desolate places, but from this journey he never returned. His kinsfolk and acquaintance came together to ask of his tidings, when this absence was noised abroad. Many a man, on many a day, searched the woodland, but none might find him, nor learn where Bisclavaret was gone."
+   },
+   {
+    "type": "para",
+    "text": "The lady was wedded to the knight who had cherished her for so long a space. More than a year had passed since Bisclavaret disappeared. Then it chanced that the King would hunt in that self-same wood where the Were-Wolf lurked. When the hounds were unleashed they ran this way and that, and swiftly came upon his scent. At the view the huntsman winded on his horn, and the whole pack were at his heels. They followed him from morn to eve, till he was torn and bleeding, and was all adread lest they should pull him down. Now the King was very close to the quarry, and when Bisclavaret looked upon his master, he ran to him for pity and for grace. He took the stirrup within his paws, and fawned upon the prince's foot. The King was very fearful at this sight, but presently he called his courtiers to his aid."
+   },
+   {
+    "type": "para",
+    "text": "\"Lords,\" cried he, \"hasten hither, and see this marvellous thing. Here is a beast who has the sense of man. He abases himself before his foe, and cries for mercy, although he cannot speak. Beat off the hounds, and let no man do him harm. We will hunt no more to-day, but return to our own place, with the wonderful quarry we have taken.\""
+   },
+   {
+    "type": "para",
+    "text": "The King turned him about, and rode to his hall, Bisclavaret following at his side. Very near to his master the Were-Wolf went, like any dog, and had no care to seek again the wood. When the King had brought him safely to his own castle, he rejoiced greatly, for the beast was fair and strong, no mightier had any man seen. Much pride had the King in his marvellous beast. He held him so dear, that he bade all those who wished for his love, to cross the Wolf in naught, neither to strike him with a rod, but ever to see that he was richly fed and kennelled warm. This commandment the Court observed willingly. So all the day the Wolf sported with the lords, and at night he lay within the chamber of the King. There was not a man who did not make much of the beast, so frank was he and debonair. None had reason to do him wrong, for ever was he about his master, and for his part did evil to none. Every day were these two companions together, and all perceived that the King loved him as his friend."
+   },
+   {
+    "type": "para",
+    "text": "Hearken now to that which chanced."
+   },
+   {
+    "type": "para",
+    "text": "The King held a high Court, and bade his great vassals and barons, and all the lords of his venery to the feast. Never was there a goodlier feast, nor one set forth with sweeter show and pomp. Amongst those who were bidden, came that same knight who had the wife of Bisclavaret for dame. He came to the castle, richly gowned, with a fair company, but little he deemed whom he would find so near. Bisclavaret marked his foe the moment he stood within the hall. He ran towards him, and seized him with his fangs, in the King's very presence, and to the view of all. Doubtless he would have done him much mischief, had not the King called and chidden him, and threatened him with a rod. Once, and twice, again, the Wolf set upon the knight in the very light of day. All men marvelled at his malice, for sweet and serviceable was the beast, and to that hour had shown hatred of none. With one consent the household deemed that this deed was done with full reason, and that the Wolf had suffered at the knight's hand some bitter wrong. Right wary of his foe was the knight until the feast had ended, and all the barons had taken farewell of their lord, and departed, each to his own house. With these, amongst the very first, went that lord whom Bisclavaret so fiercely had assailed. Small was the wonder that he was glad to go."
+   },
+   {
+    "type": "para",
+    "text": "No long while after this adventure it came to pass that the courteous King would hunt in that forest where Bisclavaret was found. With the prince came his wolf, and a fair company. Now at nightfall the King abode within a certain lodge of that country, and this was known of that dame who before was the wife of Bisclavaret. In the morning the lady clothed her in her most dainty apparel, and hastened to the lodge, since she desired to speak with the King, and to offer him a rich present. When the lady entered in the chamber, neither man nor leash might restrain the fury of the Wolf. He became as a mad dog in his hatred and malice. Breaking from his bonds he sprang at the lady's face, and bit the nose from her visage. From every side men ran to the succour of the dame. They beat off the wolf from his prey, and for a little would have cut him in pieces with their swords. But a certain wise counsellor said to the King,"
+   },
+   {
+    "type": "para",
+    "text": "\"Sire, hearken now to me. This beast is always with you, and there is not one of us all who has not known him for long. He goes in and out amongst us, nor has molested any man, neither done wrong or felony to any, save only to this dame, one only time as we have seen. He has done evil to this lady, and to that knight, who is now the husband of the dame. Sire, she was once the wife of that lord who was so close and private to your heart, but who went, and none might find where he had gone. Now, therefore, put the dame in a sure place, and question her straitly, so that she may tell--if perchance she knows thereof--for what reason this Beast holds her in such mortal hate. For many a strange deed has chanced, as well we know, in this marvellous land of Brittany.\""
+   },
+   {
+    "type": "para",
+    "text": "The King listened to these words, and deemed the counsel good. He laid hands upon the knight, and put the dame in surety in another place. He caused them to be questioned right straitly, so that their torment was very grievous. At the end, partly because of her distress, and partly by reason of her exceeding fear, the lady's lips were loosed, and she told her tale. She showed them of the betrayal of her lord, and how his raiment was stolen from the hollow stone. Since then she knew not where he went, nor what had befallen him, for he had never come again to his own land. Only, in her heart, well she deemed and was persuaded, that Bisclavaret was he."
+   },
+   {
+    "type": "para",
+    "text": "Straightway the King demanded the vesture of his baron, whether this were to the wish of the lady, or whether it were against her wish. When the raiment was brought him, he caused it to be spread before Bisclavaret, but the Wolf made as though he had not seen. Then that cunning and crafty counsellor took the King apart, that he might give him a fresh rede."
+   },
+   {
+    "type": "para",
+    "text": "\"Sire,\" said he, \"you do not wisely, nor well, to set this raiment before Bisclavaret, in the sight of all. In shame and much tribulation must he lay aside the beast, and again become man. Carry your wolf within your most secret chamber, and put his vestment therein. Then close the door upon him, and leave him alone for a space. So we shall see presently whether the ravening beast may indeed return to human shape.\""
+   },
+   {
+    "type": "para",
+    "text": "The King carried the Wolf to his chamber, and shut the doors upon him fast. He delayed for a brief while, and taking two lords of his fellowship with him, came again to the room. Entering therein, all three, softly together, they found the knight sleeping in the King's bed, like a little child. The King ran swiftly to the bed and taking his friend in his arms, embraced and kissed him fondly, above a hundred times. When man's speech returned once more, he told him of his adventure. Then the King restored to his friend the fief that was stolen from him, and gave such rich gifts, moreover, as I cannot tell. As for the wife who had betrayed Bisclavaret, he bade her avoid his country, and chased her from the realm. So she went forth, she and her second lord together, to seek a more abiding city, and were no more seen."
+   },
+   {
+    "type": "para",
+    "text": "The adventure that you have heard is no vain fable. Verily and indeed it chanced as I have said. The Lay of the Were-Wolf, truly, was written that it should ever be borne in mind."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 11417,
+   "path": "pg11417.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "76a3618ca0ec472e87d45ef557c52acee5db386cc022683538adb20a5c7018f8",
+   "url": "https://www.gutenberg.org/cache/epub/11417/pg11417.txt",
+   "headingLine": 2899,
+   "startLine": 2900,
+   "endLine": 3139,
+   "heading": "THE LAY OF THE WERE-WOLF",
+   "bodySha256": "cd9787f46852f083aac1bf6c692efb0cffc31a89bcee0565ef890fdf659d8a13",
+   "headingStartLine": 2896
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "sherwood-anderson-hands",
+  "kind": "story",
+  "title": "Hands",
+  "author": "Sherwood Anderson",
+  "year": "1916; book 1919",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/416",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Upon the half decayed veranda of a small frame house that stood near the edge of a ravine near the town of Winesburg, Ohio, a fat little old man walked nervously up and down. Across a long field that had been seeded for clover but that had produced only a dense crop of yellow mustard weeds, he could see the public highway along which went a wagon filled with berry pickers returning from the fields. The berry pickers, youths and maidens, laughed and shouted boisterously. A boy clad in a blue shirt leaped from the wagon and attempted to drag after him one of the maidens, who screamed and protested shrilly. The feet of the boy in the road kicked up a cloud of dust that floated across the face of the departing sun. Over the long field came a thin girlish voice. “Oh, you Wing Biddlebaum, comb your hair, it’s falling into your eyes,” commanded the voice to the man, who was bald and whose nervous little hands fiddled about the bare white forehead as though arranging a mass of tangled locks."
+   },
+   {
+    "type": "para",
+    "text": "Wing Biddlebaum, forever frightened and beset by a ghostly band of doubts, did not think of himself as in any way a part of the life of the town where he had lived for twenty years. Among all the people of Winesburg but one had come close to him. With George Willard, son of Tom Willard, the proprietor of the New Willard House, he had formed something like a friendship. George Willard was the reporter on the Winesburg Eagle and sometimes in the evenings he walked out along the highway to Wing Biddlebaum’s house. Now as the old man walked up and down on the veranda, his hands moving nervously about, he was hoping that George Willard would come and spend the evening with him. After the wagon containing the berry pickers had passed, he went across the field through the tall mustard weeds and climbing a rail fence peered anxiously along the road to the town. For a moment he stood thus, rubbing his hands together and looking up and down the road, and then, fear overcoming him, ran back to walk again upon the porch on his own house."
+   },
+   {
+    "type": "para",
+    "text": "In the presence of George Willard, Wing Biddlebaum, who for twenty years had been the town mystery, lost something of his timidity, and his shadowy personality, submerged in a sea of doubts, came forth to look at the world. With the young reporter at his side, he ventured in the light of day into Main Street or strode up and down on the rickety front porch of his own house, talking excitedly. The voice that had been low and trembling became shrill and loud. The bent figure straightened. With a kind of wriggle, like a fish returned to the brook by the fisherman, Biddlebaum the silent began to talk, striving to put into words the ideas that had been accumulated by his mind during long years of silence."
+   },
+   {
+    "type": "para",
+    "text": "Wing Biddlebaum talked much with his hands. The slender expressive fingers, forever active, forever striving to conceal themselves in his pockets or behind his back, came forth and became the piston rods of his machinery of expression."
+   },
+   {
+    "type": "para",
+    "text": "The story of Wing Biddlebaum is a story of hands. Their restless activity, like unto the beating of the wings of an imprisoned bird, had given him his name. Some obscure poet of the town had thought of it. The hands alarmed their owner. He wanted to keep them hidden away and looked with amazement at the quiet inexpressive hands of other men who worked beside him in the fields, or passed, driving sleepy teams on country roads."
+   },
+   {
+    "type": "para",
+    "text": "When he talked to George Willard, Wing Biddlebaum closed his fists and beat with them upon a table or on the walls of his house. The action made him more comfortable. If the desire to talk came to him when the two were walking in the fields, he sought out a stump or the top board of a fence and with his hands pounding busily talked with renewed ease."
+   },
+   {
+    "type": "para",
+    "text": "The story of Wing Biddlebaum’s hands is worth a book in itself. Sympathetically set forth it would tap many strange, beautiful qualities in obscure men. It is a job for a poet. In Winesburg the hands had attracted attention merely because of their activity. With them Wing Biddlebaum had picked as high as a hundred and forty quarts of strawberries in a day. They became his distinguishing feature, the source of his fame. Also they made more grotesque an already grotesque and elusive individuality. Winesburg was proud of the hands of Wing Biddlebaum in the same spirit in which it was proud of Banker White’s new stone house and Wesley Moyer’s bay stallion, Tony Tip, that had won the two-fifteen trot at the fall races in Cleveland."
+   },
+   {
+    "type": "para",
+    "text": "As for George Willard, he had many times wanted to ask about the hands. At times an almost overwhelming curiosity had taken hold of him. He felt that there must be a reason for their strange activity and their inclination to keep hidden away and only a growing respect for Wing Biddlebaum kept him from blurting out the questions that were often in his mind."
+   },
+   {
+    "type": "para",
+    "text": "Once he had been on the point of asking. The two were walking in the fields on a summer afternoon and had stopped to sit upon a grassy bank. All afternoon Wing Biddlebaum had talked as one inspired. By a fence he had stopped and beating like a giant woodpecker upon the top board had shouted at George Willard, condemning his tendency to be too much influenced by the people about him, “You are destroying yourself,” he cried. “You have the inclination to be alone and to dream and you are afraid of dreams. You want to be like others in town here. You hear them talk and you try to imitate them.”"
+   },
+   {
+    "type": "para",
+    "text": "On the grassy bank Wing Biddlebaum had tried again to drive his point home. His voice became soft and reminiscent, and with a sigh of contentment he launched into a long rambling talk, speaking as one lost in a dream."
+   },
+   {
+    "type": "para",
+    "text": "Out of the dream Wing Biddlebaum made a picture for George Willard. In the picture men lived again in a kind of pastoral golden age. Across a green open country came clean-limbed young men, some afoot, some mounted upon horses. In crowds the young men came to gather about the feet of an old man who sat beneath a tree in a tiny garden and who talked to them."
+   },
+   {
+    "type": "para",
+    "text": "Wing Biddlebaum became wholly inspired. For once he forgot the hands. Slowly they stole forth and lay upon George Willard’s shoulders. Something new and bold came into the voice that talked. “You must try to forget all you have learned,” said the old man. “You must begin to dream. From this time on you must shut your ears to the roaring of the voices.”"
+   },
+   {
+    "type": "para",
+    "text": "Pausing in his speech, Wing Biddlebaum looked long and earnestly at George Willard. His eyes glowed. Again he raised the hands to caress the boy and then a look of horror swept over his face."
+   },
+   {
+    "type": "para",
+    "text": "With a convulsive movement of his body, Wing Biddlebaum sprang to his feet and thrust his hands deep into his trousers pockets. Tears came to his eyes. “I must be getting along home. I can talk no more with you,” he said nervously."
+   },
+   {
+    "type": "para",
+    "text": "Without looking back, the old man had hurried down the hillside and across a meadow, leaving George Willard perplexed and frightened upon the grassy slope. With a shiver of dread the boy arose and went along the road toward town. “I’ll not ask him about his hands,” he thought, touched by the memory of the terror he had seen in the man’s eyes. “There’s something wrong, but I don’t want to know what it is. His hands have something to do with his fear of me and of everyone.”"
+   },
+   {
+    "type": "para",
+    "text": "And George Willard was right. Let us look briefly into the story of the hands. Perhaps our talking of them will arouse the poet who will tell the hidden wonder story of the influence for which the hands were but fluttering pennants of promise."
+   },
+   {
+    "type": "para",
+    "text": "In his youth Wing Biddlebaum had been a school teacher in a town in Pennsylvania. He was not then known as Wing Biddlebaum, but went by the less euphonic name of Adolph Myers. As Adolph Myers he was much loved by the boys of his school."
+   },
+   {
+    "type": "para",
+    "text": "Adolph Myers was meant by nature to be a teacher of youth. He was one of those rare, little-understood men who rule by a power so gentle that it passes as a lovable weakness. In their feeling for the boys under their charge such men are not unlike the finer sort of women in their love of men."
+   },
+   {
+    "type": "para",
+    "text": "And yet that is but crudely stated. It needs the poet there. With the boys of his school, Adolph Myers had walked in the evening or had sat talking until dusk upon the schoolhouse steps lost in a kind of dream. Here and there went his hands, caressing the shoulders of the boys, playing about the tousled heads. As he talked his voice became soft and musical. There was a caress in that also. In a way the voice and the hands, the stroking of the shoulders and the touching of the hair were a part of the schoolmaster’s effort to carry a dream into the young minds. By the caress that was in his fingers he expressed himself. He was one of those men in whom the force that creates life is diffused, not centralized. Under the caress of his hands doubt and disbelief went out of the minds of the boys and they began also to dream."
+   },
+   {
+    "type": "para",
+    "text": "And then the tragedy. A half-witted boy of the school became enamored of the young master. In his bed at night he imagined unspeakable things and in the morning went forth to tell his dreams as facts. Strange, hideous accusations fell from his loosehung lips. Through the Pennsylvania town went a shiver. Hidden, shadowy doubts that had been in men’s minds concerning Adolph Myers were galvanized into beliefs."
+   },
+   {
+    "type": "para",
+    "text": "The tragedy did not linger. Trembling lads were jerked out of bed and questioned. “He put his arms about me,” said one. “His fingers were always playing in my hair,” said another."
+   },
+   {
+    "type": "para",
+    "text": "One afternoon a man of the town, Henry Bradford, who kept a saloon, came to the schoolhouse door. Calling Adolph Myers into the school yard he began to beat him with his fists. As his hard knuckles beat down into the frightened face of the school-master, his wrath became more and more terrible. Screaming with dismay, the children ran here and there like disturbed insects. “I’ll teach you to put your hands on my boy, you beast,” roared the saloon keeper, who, tired of beating the master, had begun to kick him about the yard."
+   },
+   {
+    "type": "para",
+    "text": "Adolph Myers was driven from the Pennsylvania town in the night. With lanterns in their hands a dozen men came to the door of the house where he lived alone and commanded that he dress and come forth. It was raining and one of the men had a rope in his hands. They had intended to hang the school-master, but something in his figure, so small, white, and pitiful, touched their hearts and they let him escape. As he ran away into the darkness they repented of their weakness and ran after him, swearing and throwing sticks and great balls of soft mud at the figure that screamed and ran faster and faster into the darkness."
+   },
+   {
+    "type": "para",
+    "text": "For twenty years Adolph Myers had lived alone in Winesburg. He was but forty but looked sixty-five. The name of Biddlebaum he got from a box of goods seen at a freight station as he hurried through an eastern Ohio town. He had an aunt in Winesburg, a black-toothed old woman who raised chickens, and with her he lived until she died. He had been ill for a year after the experience in Pennsylvania, and after his recovery worked as a day laborer in the fields, going timidly about and striving to conceal his hands. Although he did not understand what had happened he felt that the hands must be to blame. Again and again the fathers of the boys had talked of the hands. “Keep your hands to yourself,” the saloon keeper had roared, dancing, with fury in the schoolhouse yard."
+   },
+   {
+    "type": "para",
+    "text": "Upon the veranda of his house by the ravine, Wing Biddlebaum continued to walk up and down until the sun had disappeared and the road beyond the field was lost in the grey shadows. Going into his house he cut slices of bread and spread honey upon them. When the rumble of the evening train that took away the express cars loaded with the day’s harvest of berries had passed and restored the silence of the summer night, he went again to walk upon the veranda. In the darkness he could not see the hands and they became quiet. Although he still hungered for the presence of the boy, who was the medium through which he expressed his love of man, the hunger became again a part of his loneliness and his waiting. Lighting a lamp, Wing Biddlebaum washed the few dishes soiled by his simple meal and, setting up a folding cot by the screen door that led to the porch, prepared to undress for the night. A few stray white bread crumbs lay on the cleanly washed floor by the table; putting the lamp upon a low stool he began to pick up the crumbs, carrying them to his mouth one by one with unbelievable rapidity. In the dense blotch of light beneath the table, the kneeling figure looked like a priest engaged in some service of his church. The nervous expressive fingers, flashing in and out of the light, might well have been mistaken for the fingers of the devotee going swiftly through decade after decade of his rosary."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 416,
+   "path": "pg416.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "f73183936f6599750f0da9384a84fc20959491bddf259f9be0105881e60d67bc",
+   "url": "https://www.gutenberg.org/cache/epub/416/pg416.txt",
+   "headingLine": 514,
+   "startLine": 515,
+   "endLine": 737,
+   "heading": "HANDS",
+   "bodySha256": "47a5763ee282af0c058b24aea564ae6d38c26e17b596b87f390cc51792cfd9c0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "mark-twain-the-war-prayer",
+  "kind": "story",
+  "title": "The War Prayer",
+  "author": "Mark Twain",
+  "year": "written 1904–05; first published 1923",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/68604",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "(Dictated 1904-05)"
+   },
+   {
+    "type": "para",
+    "text": "It was a time of great and exalting excitement. The country was up in arms, the war was on, in every breast burned the holy fire of patriotism; the drums were beating, the bands playing, the toy pistols popping, the bunched firecrackers hissing and spluttering; on every hand and far down the receding and fading spread of roofs and balconies a fluttering wilderness of flags flashed in the sun; daily the young volunteers marched down the wide avenue gay and fine in their new uniforms, the proud fathers and mothers and sisters and sweethearts cheering them with voices choked with happy emotion as they swung by; nightly the packed mass meetings listened, panting, to patriot oratory which stirred the deepest deeps of their hearts, and which they interrupted at briefest intervals with cyclones of applause, the tears running down their cheeks the while; in the churches the pastors preached devotion to flag and country, and invoked the God of Battles, beseeching His aid in our good cause in outpouring of fervid eloquence which moved every listener. It was indeed a glad and gracious time, and the half dozen rash spirits that ventured to disapprove of the war and cast a doubt upon its righteousness straightway got such a stern and angry warning that for their personal safety’s sake they quickly shrank out of sight and offended no more in that way."
+   },
+   {
+    "type": "para",
+    "text": "Sunday morning came--next day the battalions would leave for the front; the church was filled; the volunteers were there, their young faces alight with martial dreams--visions of the stern advance, the gathering momentum, the rushing charge, the flashing sabers, the flight of the foe, the tumult, the enveloping smoke, the fierce pursuit, the surrender!--them home from the war, bronzed heroes, welcomed, adored, submerged in golden seas of glory! With the volunteers sat their dear ones, proud, happy, and envied by the neighbors and friends who had no sons and brothers to send forth to the field of honor, there to win for the flag, or, failing, die the noblest of noble deaths. The service proceeded; a war chapter from the Old Testament was read; the first prayer was said; it was followed by an organ burst that shook the building, and with one impulse the house rose, with glowing eyes and beating hearts, and poured out that tremendous invocation--"
+   },
+   {
+    "type": "para",
+    "text": "“God the all-terrible! Thou who ordainest, Thunder thy clarion and lightning thy sword!”"
+   },
+   {
+    "type": "para",
+    "text": "Then came the “long” prayer. None could remember the like of it for passionate pleading and moving and beautiful language. The burden of its supplication was, that an ever-merciful and benignant Father of us all would watch over our noble young soldiers, and aid, comfort, and encourage them in their patriotic work; bless them, shield them in the day of battle and the hour of peril, bear them in His mighty hand, make them strong and confident, invincible in the bloody onset; help them to crush the foe, grant to them and to their flag and country imperishable honor and glory--"
+   },
+   {
+    "type": "para",
+    "text": "An aged stranger entered and moved with slow and noiseless step up the main aisle, his eyes fixed upon the minister, his long body clothed in a robe that reached to his feet, his head bare, his white hair descending in a frothy cataract to his shoulders, his seamy face unnaturally pale, pale even to ghastliness. With all eyes following him and wondering, he made his silent way; without pausing, he ascended to the preacher’s side and stood there, waiting. With shut lids the preacher, unconscious of his presence, continued his moving prayer, and at last finished it with the words, uttered in fervent appeal, “Bless our arms, grant us the victory, O Lord our God, Father and Protector of our land and flag!”"
+   },
+   {
+    "type": "para",
+    "text": "The stranger touched his arm, motioned him to step aside--which the startled minister did--and took his place. During some moments he surveyed the spellbound audience with solemn eyes, in which burned an uncanny light; then in a deep voice he said:"
+   },
+   {
+    "type": "para",
+    "text": "“I come from the Throne--bearing a message from Almighty God!” The words smote the house with a shock; if the stranger perceived it he gave no attention. “He has heard the prayer of His servant your shepherd, and will grant it if such shall be your desire after I, His messenger, shall have explained to you its import--that is to say, its full import. For it is like unto many of the prayers of men, in that it asks for more than he who utters it is aware of--except he pause and think."
+   },
+   {
+    "type": "para",
+    "text": "“God’s servant and yours has prayed his prayer. Has he paused and taken thought? Is it one prayer? No, it is two--one uttered, the other not. Both have reached the ear of Him Who heareth all supplications, the spoken and the unspoken. Ponder this--keep it in mind. If you would beseech a blessing upon yourself, beware! lest without intent you invoke a curse upon a neighbor at the same time. If you pray for the blessing of rain upon your crop which needs it, by that act you are possibly praying for a curse upon some neighbor’s crop which may not need rain and can be injured by it."
+   },
+   {
+    "type": "para",
+    "text": "“You have heard your servant’s prayer--the uttered part of it. I am commissioned of God to put into words the other part of it--that part which the pastor--and also you in your hearts--fervently prayed silently. And ignorantly and unthinkingly? God grant that it was so! You heard these words: ‘Grant us the victory, O Lord our God!’ That is sufficient. The whole of the uttered prayer is compact into those pregnant words. Elaborations were not necessary. When you have prayed for victory you have prayed for many unmentioned results which follow victory--must follow it, cannot help but follow it. Upon the listening spirit of God the Father fell also the unspoken part of the prayer. He commandeth me to put it into words. Listen!"
+   },
+   {
+    "type": "para",
+    "text": "“O Lord our Father, our young patriots, idols of our hearts, go forth to battle--be Thou near them! With them--in spirit--we also go forth from the sweet peace of our beloved firesides to smite the foe. O Lord our God, help us to tear their soldiers to bloody shreds with our shells; help us to cover their smiling fields with the pale forms of their patriot dead; help us to drown the thunder of the guns with the shrieks of their wounded, writhing in pain; help us to lay waste their humble homes with a hurricane of fire; help us to wring the hearts of their unoffending widows with unavailing grief; help us to turn them out roofless with their little children to wander unfriended the wastes of their desolated land in rags and hunger and thirst, sports of the sun flames of summer and the icy winds of winter, broken in spirit, worn with travail, imploring Thee for the refuge of the grave and denied it--for our sakes who adore Thee, Lord, blast their hopes, blight their lives, protract their bitter pilgrimage, make heavy their steps, water their way with their tears, stain the white snow with the blood of their wounded feet! We ask it, in the spirit of love, of Him Who is the Source of Love, and Who is the ever-faithful refuge and friend of all that are sore beset and seek His aid with humble and contrite hearts. Amen.”"
+   },
+   {
+    "type": "para",
+    "text": "(After a pause.) “Ye have prayed it; if ye still desire it, speak! The messenger of the Most High waits.”"
+   },
+   {
+    "type": "para",
+    "text": "It was believed afterward that the man was a lunatic, because there was no sense in what he said."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 68604,
+   "path": "pg68604.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "2d8db582e92f1cd06b2341dbde059727b4de9099dcc0779fd4325efb9464f6ea",
+   "url": "https://www.gutenberg.org/cache/epub/68604/pg68604.txt",
+   "headingLine": 11397,
+   "startLine": 11398,
+   "endLine": 11525,
+   "heading": "                             THE WAR PRAYER",
+   "bodySha256": "1acd813c58cdb27c5571eeafe57fe1e722d21c2fcd7bf20a15cb2ead41cba3b0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "qoheleth-ecclesiastes",
+  "kind": "essay",
+  "title": "Ecclesiastes",
+  "author": "Qoheleth",
+  "year": "c. 3rd century BC; King James Version 1611",
+  "place": "Ancient Israel",
+  "source": "https://www.gutenberg.org/ebooks/8021",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "21:001:001 The words of the Preacher, the son of David, king in Jerusalem."
+   },
+   {
+    "type": "para",
+    "text": "21:001:002 Vanity of vanities, saith the Preacher, vanity of vanities; all is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:001:003 What profit hath a man of all his labour which he taketh under the sun?"
+   },
+   {
+    "type": "para",
+    "text": "21:001:004 One generation passeth away, and another generation cometh: but the earth abideth for ever."
+   },
+   {
+    "type": "para",
+    "text": "21:001:005 The sun also ariseth, and the sun goeth down, and hasteth to his place where he arose."
+   },
+   {
+    "type": "para",
+    "text": "21:001:006 The wind goeth toward the south, and turneth about unto the north; it whirleth about continually, and the wind returneth again according to his circuits."
+   },
+   {
+    "type": "para",
+    "text": "21:001:007 All the rivers run into the sea; yet the sea is not full; unto the place from whence the rivers come, thither they return again."
+   },
+   {
+    "type": "para",
+    "text": "21:001:008 All things are full of labour; man cannot utter it: the eye is not satisfied with seeing, nor the ear filled with hearing."
+   },
+   {
+    "type": "para",
+    "text": "21:001:009 The thing that hath been, it is that which shall be; and that which is done is that which shall be done: and there is no new thing under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:001:010 Is there any thing whereof it may be said, See, this is new? it hath been already of old time, which was before us."
+   },
+   {
+    "type": "para",
+    "text": "21:001:011 There is no remembrance of former things; neither shall there be any remembrance of things that are to come with those that shall come after."
+   },
+   {
+    "type": "para",
+    "text": "21:001:012 I the Preacher was king over Israel in Jerusalem."
+   },
+   {
+    "type": "para",
+    "text": "21:001:013 And I gave my heart to seek and search out by wisdom concerning all things that are done under heaven: this sore travail hath God given to the sons of man to be exercised therewith."
+   },
+   {
+    "type": "para",
+    "text": "21:001:014 I have seen all the works that are done under the sun; and, behold, all is vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:001:015 That which is crooked cannot be made straight: and that which is wanting cannot be numbered."
+   },
+   {
+    "type": "para",
+    "text": "21:001:016 I communed with mine own heart, saying, Lo, I am come to great estate, and have gotten more wisdom than all they that have been before me in Jerusalem: yea, my heart had great experience of wisdom and knowledge."
+   },
+   {
+    "type": "para",
+    "text": "21:001:017 And I gave my heart to know wisdom, and to know madness and folly: I perceived that this also is vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:001:018 For in much wisdom is much grief: and he that increaseth knowledge increaseth sorrow."
+   },
+   {
+    "type": "para",
+    "text": "21:002:001 I said in mine heart, Go to now, I will prove thee with mirth, therefore enjoy pleasure: and, behold, this also is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:002:002 I said of laughter, It is mad: and of mirth, What doeth it?"
+   },
+   {
+    "type": "para",
+    "text": "21:002:003 I sought in mine heart to give myself unto wine, yet acquainting mine heart with wisdom; and to lay hold on folly, till I might see what was that good for the sons of men, which they should do under the heaven all the days of their life."
+   },
+   {
+    "type": "para",
+    "text": "21:002:004 I made me great works; I builded me houses; I planted me vineyards:"
+   },
+   {
+    "type": "para",
+    "text": "21:002:005 I made me gardens and orchards, and I planted trees in them of all kind of fruits:"
+   },
+   {
+    "type": "para",
+    "text": "21:002:006 I made me pools of water, to water therewith the wood that bringeth forth trees:"
+   },
+   {
+    "type": "para",
+    "text": "21:002:007 I got me servants and maidens, and had servants born in my house; also I had great possessions of great and small cattle above all that were in Jerusalem before me:"
+   },
+   {
+    "type": "para",
+    "text": "21:002:008 I gathered me also silver and gold, and the peculiar treasure of kings and of the provinces: I gat me men singers and women singers, and the delights of the sons of men, as musical instruments, and that of all sorts."
+   },
+   {
+    "type": "para",
+    "text": "21:002:009 So I was great, and increased more than all that were before me in Jerusalem: also my wisdom remained with me."
+   },
+   {
+    "type": "para",
+    "text": "21:002:010 And whatsoever mine eyes desired I kept not from them, I withheld not my heart from any joy; for my heart rejoiced in all my labour: and this was my portion of all my labour."
+   },
+   {
+    "type": "para",
+    "text": "21:002:011 Then I looked on all the works that my hands had wrought, and on the labour that I had laboured to do: and, behold, all was vanity and vexation of spirit, and there was no profit under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:002:012 And I turned myself to behold wisdom, and madness, and folly: for what can the man do that cometh after the king? even that which hath been already done."
+   },
+   {
+    "type": "para",
+    "text": "21:002:013 Then I saw that wisdom excelleth folly, as far as light excelleth darkness."
+   },
+   {
+    "type": "para",
+    "text": "21:002:014 The wise man's eyes are in his head; but the fool walketh in darkness: and I myself perceived also that one event happeneth to them all."
+   },
+   {
+    "type": "para",
+    "text": "21:002:015 Then said I in my heart, As it happeneth to the fool, so it happeneth even to me; and why was I then more wise? Then I said in my heart, that this also is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:002:016 For there is no remembrance of the wise more than of the fool for ever; seeing that which now is in the days to come shall all be forgotten. And how dieth the wise man? as the fool."
+   },
+   {
+    "type": "para",
+    "text": "21:002:017 Therefore I hated life; because the work that is wrought under the sun is grievous unto me: for all is vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:002:018 Yea, I hated all my labour which I had taken under the sun: because I should leave it unto the man that shall be after me."
+   },
+   {
+    "type": "para",
+    "text": "21:002:019 And who knoweth whether he shall be a wise man or a fool? yet shall he have rule over all my labour wherein I have laboured, and wherein I have shewed myself wise under the sun. This is also vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:002:020 Therefore I went about to cause my heart to despair of all the labour which I took under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:002:021 For there is a man whose labour is in wisdom, and in knowledge, and in equity; yet to a man that hath not laboured therein shall he leave it for his portion. This also is vanity and a great evil."
+   },
+   {
+    "type": "para",
+    "text": "21:002:022 For what hath man of all his labour, and of the vexation of his heart, wherein he hath laboured under the sun?"
+   },
+   {
+    "type": "para",
+    "text": "21:002:023 For all his days are sorrows, and his travail grief; yea, his heart taketh not rest in the night. This is also vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:002:024 There is nothing better for a man, than that he should eat and drink, and that he should make his soul enjoy good in his labour. This also I saw, that it was from the hand of God."
+   },
+   {
+    "type": "para",
+    "text": "21:002:025 For who can eat, or who else can hasten hereunto, more than I?"
+   },
+   {
+    "type": "para",
+    "text": "21:002:026 For God giveth to a man that is good in his sight wisdom, and knowledge, and joy: but to the sinner he giveth travail, to gather and to heap up, that he may give to him that is good before God. This also is vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:003:001 To every thing there is a season, and a time to every purpose under the heaven:"
+   },
+   {
+    "type": "para",
+    "text": "21:003:002 A time to be born, and a time to die; a time to plant, and a time to pluck up that which is planted;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:003 A time to kill, and a time to heal; a time to break down, and a time to build up;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:004 A time to weep, and a time to laugh; a time to mourn, and a time to dance;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:005 A time to cast away stones, and a time to gather stones together; a time to embrace, and a time to refrain from embracing;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:006 A time to get, and a time to lose; a time to keep, and a time to cast away;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:007 A time to rend, and a time to sew; a time to keep silence, and a time to speak;"
+   },
+   {
+    "type": "para",
+    "text": "21:003:008 A time to love, and a time to hate; a time of war, and a time of peace."
+   },
+   {
+    "type": "para",
+    "text": "21:003:009 What profit hath he that worketh in that wherein he laboureth?"
+   },
+   {
+    "type": "para",
+    "text": "21:003:010 I have seen the travail, which God hath given to the sons of men to be exercised in it."
+   },
+   {
+    "type": "para",
+    "text": "21:003:011 He hath made every thing beautiful in his time: also he hath set the world in their heart, so that no man can find out the work that God maketh from the beginning to the end."
+   },
+   {
+    "type": "para",
+    "text": "21:003:012 I know that there is no good in them, but for a man to rejoice, and to do good in his life."
+   },
+   {
+    "type": "para",
+    "text": "21:003:013 And also that every man should eat and drink, and enjoy the good of all his labour, it is the gift of God."
+   },
+   {
+    "type": "para",
+    "text": "21:003:014 I know that, whatsoever God doeth, it shall be for ever: nothing can be put to it, nor any thing taken from it: and God doeth it, that men should fear before him."
+   },
+   {
+    "type": "para",
+    "text": "21:003:015 That which hath been is now; and that which is to be hath already been; and God requireth that which is past."
+   },
+   {
+    "type": "para",
+    "text": "21:003:016 And moreover I saw under the sun the place of judgment, that wickedness was there; and the place of righteousness, that iniquity was there."
+   },
+   {
+    "type": "para",
+    "text": "21:003:017 I said in mine heart, God shall judge the righteous and the wicked: for there is a time there for every purpose and for every work."
+   },
+   {
+    "type": "para",
+    "text": "21:003:018 I said in mine heart concerning the estate of the sons of men, that God might manifest them, and that they might see that they themselves are beasts."
+   },
+   {
+    "type": "para",
+    "text": "21:003:019 For that which befalleth the sons of men befalleth beasts; even one thing befalleth them: as the one dieth, so dieth the other; yea, they have all one breath; so that a man hath no preeminence above a beast: for all is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:003:020 All go unto one place; all are of the dust, and all turn to dust again."
+   },
+   {
+    "type": "para",
+    "text": "21:003:021 Who knoweth the spirit of man that goeth upward, and the spirit of the beast that goeth downward to the earth?"
+   },
+   {
+    "type": "para",
+    "text": "21:003:022 Wherefore I perceive that there is nothing better, than that a man should rejoice in his own works; for that is his portion: for who shall bring him to see what shall be after him?"
+   },
+   {
+    "type": "para",
+    "text": "21:004:001 So I returned, and considered all the oppressions that are done under the sun: and behold the tears of such as were oppressed, and they had no comforter; and on the side of their oppressors there was power; but they had no comforter."
+   },
+   {
+    "type": "para",
+    "text": "21:004:002 Wherefore I praised the dead which are already dead more than the living which are yet alive."
+   },
+   {
+    "type": "para",
+    "text": "21:004:003 Yea, better is he than both they, which hath not yet been, who hath not seen the evil work that is done under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:004:004 Again, I considered all travail, and every right work, that for this a man is envied of his neighbour. This is also vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:004:005 The fool foldeth his hands together, and eateth his own flesh."
+   },
+   {
+    "type": "para",
+    "text": "21:004:006 Better is an handful with quietness, than both the hands full with travail and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:004:007 Then I returned, and I saw vanity under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:004:008 There is one alone, and there is not a second; yea, he hath neither child nor brother: yet is there no end of all his labour; neither is his eye satisfied with riches; neither saith he, For whom do I labour, and bereave my soul of good? This is also vanity, yea, it is a sore travail."
+   },
+   {
+    "type": "para",
+    "text": "21:004:009 Two are better than one; because they have a good reward for their labour."
+   },
+   {
+    "type": "para",
+    "text": "21:004:010 For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up."
+   },
+   {
+    "type": "para",
+    "text": "21:004:011 Again, if two lie together, then they have heat: but how can one be warm alone?"
+   },
+   {
+    "type": "para",
+    "text": "21:004:012 And if one prevail against him, two shall withstand him; and a threefold cord is not quickly broken."
+   },
+   {
+    "type": "para",
+    "text": "21:004:013 Better is a poor and a wise child than an old and foolish king, who will no more be admonished."
+   },
+   {
+    "type": "para",
+    "text": "21:004:014 For out of prison he cometh to reign; whereas also he that is born in his kingdom becometh poor."
+   },
+   {
+    "type": "para",
+    "text": "21:004:015 I considered all the living which walk under the sun, with the second child that shall stand up in his stead."
+   },
+   {
+    "type": "para",
+    "text": "21:004:016 There is no end of all the people, even of all that have been before them: they also that come after shall not rejoice in him. Surely this also is vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:005:001 Keep thy foot when thou goest to the house of God, and be more ready to hear, than to give the sacrifice of fools: for they consider not that they do evil."
+   },
+   {
+    "type": "para",
+    "text": "21:005:002 Be not rash with thy mouth, and let not thine heart be hasty to utter any thing before God: for God is in heaven, and thou upon earth: therefore let thy words be few."
+   },
+   {
+    "type": "para",
+    "text": "21:005:003 For a dream cometh through the multitude of business; and a fool's voice is known by multitude of words."
+   },
+   {
+    "type": "para",
+    "text": "21:005:004 When thou vowest a vow unto God, defer not to pay it; for he hath no pleasure in fools: pay that which thou hast vowed."
+   },
+   {
+    "type": "para",
+    "text": "21:005:005 Better is it that thou shouldest not vow, than that thou shouldest vow and not pay."
+   },
+   {
+    "type": "para",
+    "text": "21:005:006 Suffer not thy mouth to cause thy flesh to sin; neither say thou before the angel, that it was an error: wherefore should God be angry at thy voice, and destroy the work of thine hands?"
+   },
+   {
+    "type": "para",
+    "text": "21:005:007 For in the multitude of dreams and many words there are also divers vanities: but fear thou God."
+   },
+   {
+    "type": "para",
+    "text": "21:005:008 If thou seest the oppression of the poor, and violent perverting of judgment and justice in a province, marvel not at the matter: for he that is higher than the highest regardeth; and there be higher than they."
+   },
+   {
+    "type": "para",
+    "text": "21:005:009 Moreover the profit of the earth is for all: the king himself is served by the field."
+   },
+   {
+    "type": "para",
+    "text": "21:005:010 He that loveth silver shall not be satisfied with silver; nor he that loveth abundance with increase: this is also vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:005:011 When goods increase, they are increased that eat them: and what good is there to the owners thereof, saving the beholding of them with their eyes?"
+   },
+   {
+    "type": "para",
+    "text": "21:005:012 The sleep of a labouring man is sweet, whether he eat little or much: but the abundance of the rich will not suffer him to sleep."
+   },
+   {
+    "type": "para",
+    "text": "21:005:013 There is a sore evil which I have seen under the sun, namely, riches kept for the owners thereof to their hurt."
+   },
+   {
+    "type": "para",
+    "text": "21:005:014 But those riches perish by evil travail: and he begetteth a son, and there is nothing in his hand."
+   },
+   {
+    "type": "para",
+    "text": "21:005:015 As he came forth of his mother's womb, naked shall he return to go as he came, and shall take nothing of his labour, which he may carry away in his hand."
+   },
+   {
+    "type": "para",
+    "text": "21:005:016 And this also is a sore evil, that in all points as he came, so shall he go: and what profit hath he that hath laboured for the wind?"
+   },
+   {
+    "type": "para",
+    "text": "21:005:017 All his days also he eateth in darkness, and he hath much sorrow and wrath with his sickness."
+   },
+   {
+    "type": "para",
+    "text": "21:005:018 Behold that which I have seen: it is good and comely for one to eat and to drink, and to enjoy the good of all his labour that he taketh under the sun all the days of his life, which God giveth him: for it is his portion."
+   },
+   {
+    "type": "para",
+    "text": "21:005:019 Every man also to whom God hath given riches and wealth, and hath given him power to eat thereof, and to take his portion, and to rejoice in his labour; this is the gift of God."
+   },
+   {
+    "type": "para",
+    "text": "21:005:020 For he shall not much remember the days of his life; because God answereth him in the joy of his heart."
+   },
+   {
+    "type": "para",
+    "text": "21:006:001 There is an evil which I have seen under the sun, and it is common among men:"
+   },
+   {
+    "type": "para",
+    "text": "21:006:002 A man to whom God hath given riches, wealth, and honour, so that he wanteth nothing for his soul of all that he desireth, yet God giveth him not power to eat thereof, but a stranger eateth it: this is vanity, and it is an evil disease."
+   },
+   {
+    "type": "para",
+    "text": "21:006:003 If a man beget an hundred children, and live many years, so that the days of his years be many, and his soul be not filled with good, and also that he have no burial; I say, that an untimely birth is better than he."
+   },
+   {
+    "type": "para",
+    "text": "21:006:004 For he cometh in with vanity, and departeth in darkness, and his name shall be covered with darkness."
+   },
+   {
+    "type": "para",
+    "text": "21:006:005 Moreover he hath not seen the sun, nor known any thing: this hath more rest than the other."
+   },
+   {
+    "type": "para",
+    "text": "21:006:006 Yea, though he live a thousand years twice told, yet hath he seen no good: do not all go to one place?"
+   },
+   {
+    "type": "para",
+    "text": "21:006:007 All the labour of man is for his mouth, and yet the appetite is not filled."
+   },
+   {
+    "type": "para",
+    "text": "21:006:008 For what hath the wise more than the fool? what hath the poor, that knoweth to walk before the living?"
+   },
+   {
+    "type": "para",
+    "text": "21:006:009 Better is the sight of the eyes than the wandering of the desire: this is also vanity and vexation of spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:006:010 That which hath been is named already, and it is known that it is man: neither may he contend with him that is mightier than he."
+   },
+   {
+    "type": "para",
+    "text": "21:006:011 Seeing there be many things that increase vanity, what is man the better?"
+   },
+   {
+    "type": "para",
+    "text": "21:006:012 For who knoweth what is good for man in this life, all the days of his vain life which he spendeth as a shadow? for who can tell a man what shall be after him under the sun?"
+   },
+   {
+    "type": "para",
+    "text": "21:007:001 A good name is better than precious ointment; and the day of death than the day of one's birth."
+   },
+   {
+    "type": "para",
+    "text": "21:007:002 It is better to go to the house of mourning, than to go to the house of feasting: for that is the end of all men; and the living will lay it to his heart."
+   },
+   {
+    "type": "para",
+    "text": "21:007:003 Sorrow is better than laughter: for by the sadness of the countenance the heart is made better."
+   },
+   {
+    "type": "para",
+    "text": "21:007:004 The heart of the wise is in the house of mourning; but the heart of fools is in the house of mirth."
+   },
+   {
+    "type": "para",
+    "text": "21:007:005 It is better to hear the rebuke of the wise, than for a man to hear the song of fools."
+   },
+   {
+    "type": "para",
+    "text": "21:007:006 For as the crackling of thorns under a pot, so is the laughter of the fool: this also is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:007:007 Surely oppression maketh a wise man mad; and a gift destroyeth the heart."
+   },
+   {
+    "type": "para",
+    "text": "21:007:008 Better is the end of a thing than the beginning thereof: and the patient in spirit is better than the proud in spirit."
+   },
+   {
+    "type": "para",
+    "text": "21:007:009 Be not hasty in thy spirit to be angry: for anger resteth in the bosom of fools."
+   },
+   {
+    "type": "para",
+    "text": "21:007:010 Say not thou, What is the cause that the former days were better than these? for thou dost not enquire wisely concerning this."
+   },
+   {
+    "type": "para",
+    "text": "21:007:011 Wisdom is good with an inheritance: and by it there is profit to them that see the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:007:012 For wisdom is a defence, and money is a defence: but the excellency of knowledge is, that wisdom giveth life to them that have it."
+   },
+   {
+    "type": "para",
+    "text": "21:007:013 Consider the work of God: for who can make that straight, which he hath made crooked?"
+   },
+   {
+    "type": "para",
+    "text": "21:007:014 In the day of prosperity be joyful, but in the day of adversity consider: God also hath set the one over against the other, to the end that man should find nothing after him."
+   },
+   {
+    "type": "para",
+    "text": "21:007:015 All things have I seen in the days of my vanity: there is a just man that perisheth in his righteousness, and there is a wicked man that prolongeth his life in his wickedness."
+   },
+   {
+    "type": "para",
+    "text": "21:007:016 Be not righteous over much; neither make thyself over wise: why shouldest thou destroy thyself?"
+   },
+   {
+    "type": "para",
+    "text": "21:007:017 Be not over much wicked, neither be thou foolish: why shouldest thou die before thy time?"
+   },
+   {
+    "type": "para",
+    "text": "21:007:018 It is good that thou shouldest take hold of this; yea, also from this withdraw not thine hand: for he that feareth God shall come forth of them all."
+   },
+   {
+    "type": "para",
+    "text": "21:007:019 Wisdom strengtheneth the wise more than ten mighty men which are in the city."
+   },
+   {
+    "type": "para",
+    "text": "21:007:020 For there is not a just man upon earth, that doeth good, and sinneth not."
+   },
+   {
+    "type": "para",
+    "text": "21:007:021 Also take no heed unto all words that are spoken; lest thou hear thy servant curse thee:"
+   },
+   {
+    "type": "para",
+    "text": "21:007:022 For oftentimes also thine own heart knoweth that thou thyself likewise hast cursed others."
+   },
+   {
+    "type": "para",
+    "text": "21:007:023 All this have I proved by wisdom: I said, I will be wise; but it was far from me."
+   },
+   {
+    "type": "para",
+    "text": "21:007:024 That which is far off, and exceeding deep, who can find it out?"
+   },
+   {
+    "type": "para",
+    "text": "21:007:025 I applied mine heart to know, and to search, and to seek out wisdom, and the reason of things, and to know the wickedness of folly, even of foolishness and madness:"
+   },
+   {
+    "type": "para",
+    "text": "21:007:026 And I find more bitter than death the woman, whose heart is snares and nets, and her hands as bands: whoso pleaseth God shall escape from her; but the sinner shall be taken by her."
+   },
+   {
+    "type": "para",
+    "text": "21:007:027 Behold, this have I found, saith the preacher, counting one by one, to find out the account:"
+   },
+   {
+    "type": "para",
+    "text": "21:007:028 Which yet my soul seeketh, but I find not: one man among a thousand have I found; but a woman among all those have I not found."
+   },
+   {
+    "type": "para",
+    "text": "21:007:029 Lo, this only have I found, that God hath made man upright; but they have sought out many inventions."
+   },
+   {
+    "type": "para",
+    "text": "21:008:001 Who is as the wise man? and who knoweth the interpretation of a thing? a man's wisdom maketh his face to shine, and the boldness of his face shall be changed."
+   },
+   {
+    "type": "para",
+    "text": "21:008:002 I counsel thee to keep the king's commandment, and that in regard of the oath of God."
+   },
+   {
+    "type": "para",
+    "text": "21:008:003 Be not hasty to go out of his sight: stand not in an evil thing; for he doeth whatsoever pleaseth him."
+   },
+   {
+    "type": "para",
+    "text": "21:008:004 Where the word of a king is, there is power: and who may say unto him, What doest thou?"
+   },
+   {
+    "type": "para",
+    "text": "21:008:005 Whoso keepeth the commandment shall feel no evil thing: and a wise man's heart discerneth both time and judgment."
+   },
+   {
+    "type": "para",
+    "text": "21:008:006 Because to every purpose there is time and judgment, therefore the misery of man is great upon him."
+   },
+   {
+    "type": "para",
+    "text": "21:008:007 For he knoweth not that which shall be: for who can tell him when it shall be?"
+   },
+   {
+    "type": "para",
+    "text": "21:008:008 There is no man that hath power over the spirit to retain the spirit; neither hath he power in the day of death: and there is no discharge in that war; neither shall wickedness deliver those that are given to it."
+   },
+   {
+    "type": "para",
+    "text": "21:008:009 All this have I seen, and applied my heart unto every work that is done under the sun: there is a time wherein one man ruleth over another to his own hurt."
+   },
+   {
+    "type": "para",
+    "text": "21:008:010 And so I saw the wicked buried, who had come and gone from the place of the holy, and they were forgotten in the city where they had so done: this is also vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:008:011 Because sentence against an evil work is not executed speedily, therefore the heart of the sons of men is fully set in them to do evil."
+   },
+   {
+    "type": "para",
+    "text": "21:008:012 Though a sinner do evil an hundred times, and his days be prolonged, yet surely I know that it shall be well with them that fear God, which fear before him:"
+   },
+   {
+    "type": "para",
+    "text": "21:008:013 But it shall not be well with the wicked, neither shall he prolong his days, which are as a shadow; because he feareth not before God."
+   },
+   {
+    "type": "para",
+    "text": "21:008:014 There is a vanity which is done upon the earth; that there be just men, unto whom it happeneth according to the work of the wicked; again, there be wicked men, to whom it happeneth according to the work of the righteous: I said that this also is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:008:015 Then I commended mirth, because a man hath no better thing under the sun, than to eat, and to drink, and to be merry: for that shall abide with him of his labour the days of his life, which God giveth him under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:008:016 When I applied mine heart to know wisdom, and to see the business that is done upon the earth: (for also there is that neither day nor night seeth sleep with his eyes:)"
+   },
+   {
+    "type": "para",
+    "text": "21:008:017 Then I beheld all the work of God, that a man cannot find out the work that is done under the sun: because though a man labour to seek it out, yet he shall not find it; yea farther; though a wise man think to know it, yet shall he not be able to find it."
+   },
+   {
+    "type": "para",
+    "text": "21:009:001 For all this I considered in my heart even to declare all this, that the righteous, and the wise, and their works, are in the hand of God: no man knoweth either love or hatred by all that is before them."
+   },
+   {
+    "type": "para",
+    "text": "21:009:002 All things come alike to all: there is one event to the righteous, and to the wicked; to the good and to the clean, and to the unclean; to him that sacrificeth, and to him that sacrificeth not: as is the good, so is the sinner; and he that sweareth, as he that feareth an oath."
+   },
+   {
+    "type": "para",
+    "text": "21:009:003 This is an evil among all things that are done under the sun, that there is one event unto all: yea, also the heart of the sons of men is full of evil, and madness is in their heart while they live, and after that they go to the dead."
+   },
+   {
+    "type": "para",
+    "text": "21:009:004 For to him that is joined to all the living there is hope: for a living dog is better than a dead lion."
+   },
+   {
+    "type": "para",
+    "text": "21:009:005 For the living know that they shall die: but the dead know not any thing, neither have they any more a reward; for the memory of them is forgotten."
+   },
+   {
+    "type": "para",
+    "text": "21:009:006 Also their love, and their hatred, and their envy, is now perished; neither have they any more a portion for ever in any thing that is done under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:009:007 Go thy way, eat thy bread with joy, and drink thy wine with a merry heart; for God now accepteth thy works."
+   },
+   {
+    "type": "para",
+    "text": "21:009:008 Let thy garments be always white; and let thy head lack no ointment."
+   },
+   {
+    "type": "para",
+    "text": "21:009:009 Live joyfully with the wife whom thou lovest all the days of the life of thy vanity, which he hath given thee under the sun, all the days of thy vanity: for that is thy portion in this life, and in thy labour which thou takest under the sun."
+   },
+   {
+    "type": "para",
+    "text": "21:009:010 Whatsoever thy hand findeth to do, do it with thy might; for there is no work, nor device, nor knowledge, nor wisdom, in the grave, whither thou goest."
+   },
+   {
+    "type": "para",
+    "text": "21:009:011 I returned, and saw under the sun, that the race is not to the swift, nor the battle to the strong, neither yet bread to the wise, nor yet riches to men of understanding, nor yet favour to men of skill; but time and chance happeneth to them all."
+   },
+   {
+    "type": "para",
+    "text": "21:009:012 For man also knoweth not his time: as the fishes that are taken in an evil net, and as the birds that are caught in the snare; so are the sons of men snared in an evil time, when it falleth suddenly upon them."
+   },
+   {
+    "type": "para",
+    "text": "21:009:013 This wisdom have I seen also under the sun, and it seemed great unto me:"
+   },
+   {
+    "type": "para",
+    "text": "21:009:014 There was a little city, and few men within it; and there came a great king against it, and besieged it, and built great bulwarks against it:"
+   },
+   {
+    "type": "para",
+    "text": "21:009:015 Now there was found in it a poor wise man, and he by his wisdom delivered the city; yet no man remembered that same poor man."
+   },
+   {
+    "type": "para",
+    "text": "21:009:016 Then said I, Wisdom is better than strength: nevertheless the poor man's wisdom is despised, and his words are not heard."
+   },
+   {
+    "type": "para",
+    "text": "21:009:017 The words of wise men are heard in quiet more than the cry of him that ruleth among fools."
+   },
+   {
+    "type": "para",
+    "text": "21:009:018 Wisdom is better than weapons of war: but one sinner destroyeth much good."
+   },
+   {
+    "type": "para",
+    "text": "21:010:001 Dead flies cause the ointment of the apothecary to send forth a stinking savour: so doth a little folly him that is in reputation for wisdom and honour."
+   },
+   {
+    "type": "para",
+    "text": "21:010:002 A wise man's heart is at his right hand; but a fool's heart at his left."
+   },
+   {
+    "type": "para",
+    "text": "21:010:003 Yea also, when he that is a fool walketh by the way, his wisdom faileth him, and he saith to every one that he is a fool."
+   },
+   {
+    "type": "para",
+    "text": "21:010:004 If the spirit of the ruler rise up against thee, leave not thy place; for yielding pacifieth great offences."
+   },
+   {
+    "type": "para",
+    "text": "21:010:005 There is an evil which I have seen under the sun, as an error which proceedeth from the ruler:"
+   },
+   {
+    "type": "para",
+    "text": "21:010:006 Folly is set in great dignity, and the rich sit in low place."
+   },
+   {
+    "type": "para",
+    "text": "21:010:007 I have seen servants upon horses, and princes walking as servants upon the earth."
+   },
+   {
+    "type": "para",
+    "text": "21:010:008 He that diggeth a pit shall fall into it; and whoso breaketh an hedge, a serpent shall bite him."
+   },
+   {
+    "type": "para",
+    "text": "21:010:009 Whoso removeth stones shall be hurt therewith; and he that cleaveth wood shall be endangered thereby."
+   },
+   {
+    "type": "para",
+    "text": "21:010:010 If the iron be blunt, and he do not whet the edge, then must he put to more strength: but wisdom is profitable to direct."
+   },
+   {
+    "type": "para",
+    "text": "21:010:011 Surely the serpent will bite without enchantment; and a babbler is no better."
+   },
+   {
+    "type": "para",
+    "text": "21:010:012 The words of a wise man's mouth are gracious; but the lips of a fool will swallow up himself."
+   },
+   {
+    "type": "para",
+    "text": "21:010:013 The beginning of the words of his mouth is foolishness: and the end of his talk is mischievous madness."
+   },
+   {
+    "type": "para",
+    "text": "21:010:014 A fool also is full of words: a man cannot tell what shall be; and what shall be after him, who can tell him?"
+   },
+   {
+    "type": "para",
+    "text": "21:010:015 The labour of the foolish wearieth every one of them, because he knoweth not how to go to the city."
+   },
+   {
+    "type": "para",
+    "text": "21:010:016 Woe to thee, O land, when thy king is a child, and thy princes eat in the morning!"
+   },
+   {
+    "type": "para",
+    "text": "21:010:017 Blessed art thou, O land, when thy king is the son of nobles, and thy princes eat in due season, for strength, and not for drunkenness!"
+   },
+   {
+    "type": "para",
+    "text": "21:010:018 By much slothfulness the building decayeth; and through idleness of the hands the house droppeth through."
+   },
+   {
+    "type": "para",
+    "text": "21:010:019 A feast is made for laughter, and wine maketh merry: but money answereth all things."
+   },
+   {
+    "type": "para",
+    "text": "21:010:020 Curse not the king, no not in thy thought; and curse not the rich in thy bedchamber: for a bird of the air shall carry the voice, and that which hath wings shall tell the matter."
+   },
+   {
+    "type": "para",
+    "text": "21:011:001 Cast thy bread upon the waters: for thou shalt find it after many days."
+   },
+   {
+    "type": "para",
+    "text": "21:011:002 Give a portion to seven, and also to eight; for thou knowest not what evil shall be upon the earth."
+   },
+   {
+    "type": "para",
+    "text": "21:011:003 If the clouds be full of rain, they empty themselves upon the earth: and if the tree fall toward the south, or toward the north, in the place where the tree falleth, there it shall be."
+   },
+   {
+    "type": "para",
+    "text": "21:011:004 He that observeth the wind shall not sow; and he that regardeth the clouds shall not reap."
+   },
+   {
+    "type": "para",
+    "text": "21:011:005 As thou knowest not what is the way of the spirit, nor how the bones do grow in the womb of her that is with child: even so thou knowest not the works of God who maketh all."
+   },
+   {
+    "type": "para",
+    "text": "21:011:006 In the morning sow thy seed, and in the evening withhold not thine hand: for thou knowest not whether shall prosper, either this or that, or whether they both shall be alike good."
+   },
+   {
+    "type": "para",
+    "text": "21:011:007 Truly the light is sweet, and a pleasant thing it is for the eyes to behold the sun:"
+   },
+   {
+    "type": "para",
+    "text": "21:011:008 But if a man live many years, and rejoice in them all; yet let him remember the days of darkness; for they shall be many. All that cometh is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:011:009 Rejoice, O young man, in thy youth; and let thy heart cheer thee in the days of thy youth, and walk in the ways of thine heart, and in the sight of thine eyes: but know thou, that for all these things God will bring thee into judgment."
+   },
+   {
+    "type": "para",
+    "text": "21:011:010 Therefore remove sorrow from thy heart, and put away evil from thy flesh: for childhood and youth are vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:012:001 Remember now thy Creator in the days of thy youth, while the evil days come not, nor the years draw nigh, when thou shalt say, I have no pleasure in them;"
+   },
+   {
+    "type": "para",
+    "text": "21:012:002 While the sun, or the light, or the moon, or the stars, be not darkened, nor the clouds return after the rain:"
+   },
+   {
+    "type": "para",
+    "text": "21:012:003 In the day when the keepers of the house shall tremble, and the strong men shall bow themselves, and the grinders cease because they are few, and those that look out of the windows be darkened,"
+   },
+   {
+    "type": "para",
+    "text": "21:012:004 And the doors shall be shut in the streets, when the sound of the grinding is low, and he shall rise up at the voice of the bird, and all the daughters of musick shall be brought low;"
+   },
+   {
+    "type": "para",
+    "text": "21:012:005 Also when they shall be afraid of that which is high, and fears shall be in the way, and the almond tree shall flourish, and the grasshopper shall be a burden, and desire shall fail: because man goeth to his long home, and the mourners go about the streets:"
+   },
+   {
+    "type": "para",
+    "text": "21:012:006 Or ever the silver cord be loosed, or the golden bowl be broken, or the pitcher be broken at the fountain, or the wheel broken at the cistern."
+   },
+   {
+    "type": "para",
+    "text": "21:012:007 Then shall the dust return to the earth as it was: and the spirit shall return unto God who gave it."
+   },
+   {
+    "type": "para",
+    "text": "21:012:008 Vanity of vanities, saith the preacher; all is vanity."
+   },
+   {
+    "type": "para",
+    "text": "21:012:009 And moreover, because the preacher was wise, he still taught the people knowledge; yea, he gave good heed, and sought out, and set in order many proverbs."
+   },
+   {
+    "type": "para",
+    "text": "21:012:010 The preacher sought to find out acceptable words: and that which was written was upright, even words of truth."
+   },
+   {
+    "type": "para",
+    "text": "21:012:011 The words of the wise are as goads, and as nails fastened by the masters of assemblies, which are given from one shepherd."
+   },
+   {
+    "type": "para",
+    "text": "21:012:012 And further, by these, my son, be admonished: of making many books there is no end; and much study is a weariness of the flesh."
+   },
+   {
+    "type": "para",
+    "text": "21:012:013 Let us hear the conclusion of the whole matter: Fear God, and keep his commandments: for this is the whole duty of man."
+   },
+   {
+    "type": "para",
+    "text": "21:012:014 For God shall bring every work into judgment, with every secret thing, whether it be good, or whether it be evil."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 8021,
+   "path": "pg8021.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "f71e52156d372a678668320104d620f9b420a78b658c51708c734be6f877a6d2",
+   "url": "https://www.gutenberg.org/cache/epub/8021/pg8021.txt",
+   "headingLine": 40,
+   "startLine": 41,
+   "endLine": 826,
+   "heading": "Book 21        Ecclesiastes",
+   "bodySha256": "639a3c4b8c40fd044bf69060ca1e0da8a6aa025893fe513e40a8e26a903b7621"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "henri-poincare-mathematical-creation",
+  "kind": "essay",
+  "title": "Mathematical Creation",
+  "author": "Henri Poincaré",
+  "year": "1908; George Bruce Halsted translation 1913",
+  "place": "France",
+  "source": "https://www.gutenberg.org/ebooks/39713",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The genesis of mathematical creation is a problem which should intensely interest the psychologist. It is the activity in which the human mind seems to take least from the outside world, in which it acts or seems to act only of itself and on itself, so that in studying the procedure of geometric thought we may hope to reach what is most essential in man's mind."
+   },
+   {
+    "type": "para",
+    "text": "This has long been appreciated, and some time back the journal called L'enseignement mathématique, edited by Laisant and Fehr, began an investigation of the mental habits and methods of work of different mathematicians. I had finished the main outlines of this article when the results of that inquiry were published, so I have hardly been able to utilize them and shall confine myself to saying that the majority of witnesses confirm my conclusions; I do not say all, for when the appeal is to universal suffrage unanimity is not to be hoped."
+   },
+   {
+    "type": "para",
+    "text": "A first fact should surprise us, or rather would surprise us if we were not so used to it. How does it happen there are people who do not understand mathematics? If mathematics invokes only the rules of logic, such as are accepted by all normal minds; if its evidence is based on principles common to all men, and that none could deny without being mad, how does it come about that so many persons are here refractory?"
+   },
+   {
+    "type": "para",
+    "text": "That not every one can invent is nowise mysterious. That not every one can retain a demonstration once learned may also pass. But that not every one can understand mathematical reasoning when explained appears very surprising when we think of it. And yet those who can follow this reasoning only with difficulty are in the majority: that is undeniable, and will surely not be gainsaid by the experience of secondary-school teachers."
+   },
+   {
+    "type": "para",
+    "text": "And further: how is error possible in mathematics? A sane mind should not be guilty of a logical fallacy, and yet there are very fine minds who do not trip in brief reasoning such as occurs in the ordinary doings of life, and who are incapable of following or repeating without error the mathematical demonstrations which are longer, but which after all are only an accumulation of brief reasonings wholly analogous to those they make so easily. Need we add that mathematicians themselves are not infallible?"
+   },
+   {
+    "type": "para",
+    "text": "The answer seems to me evident. Imagine a long series of syllogisms, and that the conclusions of the first serve as premises of the following: we shall be able to catch each of these syllogisms, and it is not in passing from premises to conclusion that we are in danger of deceiving ourselves. But between the moment in which we first meet a proposition as conclusion of one syllogism, and that in which we reencounter it as premise of another syllogism occasionally some time will elapse, several links of the chain will have unrolled; so it may happen that we have forgotten it, or worse, that we have forgotten its meaning. So it may happen that we replace it by a slightly different proposition, or that, while retaining the same enunciation, we attribute to it a slightly different meaning, and thus it is that we are exposed to error."
+   },
+   {
+    "type": "para",
+    "text": "Often the mathematician uses a rule. Naturally he begins by demonstrating this rule; and at the time when this proof is fresh in his memory he understands perfectly its meaning and its bearing, and he is in no danger of changing it. But subsequently he trusts his memory and afterward only applies it in a mechanical way; and then if his memory fails him, he may apply it all wrong. Thus it is, to take a simple example, that we sometimes make slips in calculation because we have forgotten our multiplication table."
+   },
+   {
+    "type": "para",
+    "text": "According to this, the special aptitude for mathematics would be due only to a very sure memory or to a prodigious force of attention. It would be a power like that of the whist-player who remembers the cards played; or, to go up a step, like that of the chess-player who can visualize a great number of combinations and hold them in his memory. Every good mathematician ought to be a good chess-player, and inversely; likewise he should be a good computer. Of course that sometimes happens; thus Gauss was at the same time a geometer of genius and a very precocious and accurate computer."
+   },
+   {
+    "type": "para",
+    "text": "But there are exceptions; or rather I err; I can not call them exceptions without the exceptions being more than the rule. Gauss it is, on the contrary, who was an exception. As for myself, I must confess, I am absolutely incapable even of adding without mistakes. In the same way I should be but a poor chess-player; I would perceive that by a certain play I should expose myself to a certain danger; I would pass in review several other plays, rejecting them for other reasons, and then finally I should make the move first examined, having meantime forgotten the danger I had foreseen."
+   },
+   {
+    "type": "para",
+    "text": "In a word, my memory is not bad, but it would be insufficient to make me a good chess-player. Why then does it not fail me in a difficult piece of mathematical reasoning where most chess-players would lose themselves? Evidently because it is guided by the general march of the reasoning. A mathematical demonstration is not a simple juxtaposition of syllogisms, it is syllogisms placed in a certain order, and the order in which these elements are placed is much more important than the elements themselves. If I have the feeling, the intuition, so to speak, of this order, so as to perceive at a glance the reasoning as a whole, I need no longer fear lest I forget one of the elements, for each of them will take its allotted place in the array, and that without any effort of memory on my part."
+   },
+   {
+    "type": "para",
+    "text": "It seems to me then, in repeating a reasoning learned, that I could have invented it. This is often only an illusion; but even then, even if I am not so gifted as to create it by myself, I myself re-invent it in so far as I repeat it."
+   },
+   {
+    "type": "para",
+    "text": "We know that this feeling, this intuition of mathematical order, that makes us divine hidden harmonies and relations, can not be possessed by every one. Some will not have either this delicate feeling so difficult to define, or a strength of memory and attention beyond the ordinary, and then they will be absolutely incapable of understanding higher mathematics. Such are the majority. Others will have this feeling only in a slight degree, but they will be gifted with an uncommon memory and a great power of attention. They will learn by heart the details one after another; they can understand mathematics and sometimes make applications, but they cannot create. Others, finally, will possess in a less or greater degree the special intuition referred to, and then not only can they understand mathematics even if their memory is nothing extraordinary, but they may become creators and try to invent with more or less success according as this intuition is more or less developed in them."
+   },
+   {
+    "type": "para",
+    "text": "In fact, what is mathematical creation? It does not consist in making new combinations with mathematical entities already known. Any one could do that, but the combinations so made would be infinite in number and most of them absolutely without interest. To create consists precisely in not making useless combinations and in making those which are useful and which are only a small minority. Invention is discernment, choice."
+   },
+   {
+    "type": "para",
+    "text": "How to make this choice I have before explained; the mathematical facts worthy of being studied are those which, by their analogy with other facts, are capable of leading us to the knowledge of a mathematical law just as experimental facts lead us to the knowledge of a physical law. They are those which reveal to us unsuspected kinship between other facts, long known, but wrongly believed to be strangers to one another."
+   },
+   {
+    "type": "para",
+    "text": "Among chosen combinations the most fertile will often be those formed of elements drawn from domains which are far apart. Not that I mean as sufficing for invention the bringing together of objects as disparate as possible; most combinations so formed would be entirely sterile. But certain among them, very rare, are the most fruitful of all."
+   },
+   {
+    "type": "para",
+    "text": "To invent, I have said, is to choose; but the word is perhaps not wholly exact. It makes one think of a purchaser before whom are displayed a large number of samples, and who examines them, one after the other, to make a choice. Here the samples would be so numerous that a whole lifetime would not suffice to examine them. This is not the actual state of things. The sterile combinations do not even present themselves to the mind of the inventor. Never in the field of his consciousness do combinations appear that are not really useful, except some that he rejects but which have to some extent the characteristics of useful combinations. All goes on as if the inventor were an examiner for the second degree who would only have to question the candidates who had passed a previous examination."
+   },
+   {
+    "type": "para",
+    "text": "But what I have hitherto said is what may be observed or inferred in reading the writings of the geometers, reading reflectively."
+   },
+   {
+    "type": "para",
+    "text": "It is time to penetrate deeper and to see what goes on in the very soul of the mathematician. For this, I believe, I can do best by recalling memories of my own. But I shall limit myself to telling how I wrote my first memoir on Fuchsian functions. I beg the reader's pardon; I am about to use some technical expressions, but they need not frighten him, for he is not obliged to understand them. I shall say, for example, that I have found the demonstration of such a theorem under such circumstances. This theorem will have a barbarous name, unfamiliar to many, but that is unimportant; what is of interest for the psychologist is not the theorem but the circumstances."
+   },
+   {
+    "type": "para",
+    "text": "For fifteen days I strove to prove that there could not be any functions like those I have since called Fuchsian functions. I was then very ignorant; every day I seated myself at my work table, stayed an hour or two, tried a great number of combinations and reached no results. One evening, contrary to my custom, I drank black coffee and could not sleep. Ideas rose in crowds; I felt them collide until pairs interlocked, so to speak, making a stable combination. By the next morning I had established the existence of a class of Fuchsian functions, those which come from the hypergeometric series; I had only to write out the results, which took but a few hours."
+   },
+   {
+    "type": "para",
+    "text": "Then I wanted to represent these functions by the quotient of two series; this idea was perfectly conscious and deliberate, the analogy with elliptic functions guided me. I asked myself what properties these series must have if they existed, and I succeeded without difficulty in forming the series I have called theta-Fuchsian."
+   },
+   {
+    "type": "para",
+    "text": "Just at this time I left Caen, where I was then living, to go on a geologic excursion under the auspices of the school of mines. The changes of travel made me forget my mathematical work. Having reached Coutances, we entered an omnibus to go some place or other. At the moment when I put my foot on the step the idea came to me, without anything in my former thoughts seeming to have paved the way for it, that the transformations I had used to define the Fuchsian functions were identical with those of non-Euclidean geometry. I did not verify the idea; I should not have had time, as, upon taking my seat in the omnibus, I went on with a conversation already commenced, but I felt a perfect certainty. On my return to Caen, for conscience' sake I verified the result at my leisure."
+   },
+   {
+    "type": "para",
+    "text": "Then I turned my attention to the study of some arithmetical questions apparently without much success and without a suspicion of any connection with my preceding researches. Disgusted with my failure, I went to spend a few days at the seaside, and thought of something else. One morning, walking on the bluff, the idea came to me, with just the same characteristics of brevity, suddenness and immediate certainty, that the arithmetic transformations of indeterminate ternary quadratic forms were identical with those of non-Euclidean geometry."
+   },
+   {
+    "type": "para",
+    "text": "Returned to Caen, I meditated on this result and deduced the consequences. The example of quadratic forms showed me that there were Fuchsian groups other than those corresponding to the hypergeometric series; I saw that I could apply to them the theory of theta-Fuchsian series and that consequently there existed Fuchsian functions other than those from the hypergeometric series, the ones I then knew. Naturally I set myself to form all these functions. I made a systematic attack upon them and carried all the outworks, one after another. There was one however that still held out, whose fall would involve that of the whole place. But all my efforts only served at first the better to show me the difficulty, which indeed was something. All this work was perfectly conscious."
+   },
+   {
+    "type": "para",
+    "text": "Thereupon I left for Mont-Valérien, where I was to go through my military service; so I was very differently occupied. One day, going along the street, the solution of the difficulty which had stopped me suddenly appeared to me. I did not try to go deep into it immediately, and only after my service did I again take up the question. I had all the elements and had only to arrange them and put them together. So I wrote out my final memoir at a single stroke and without difficulty."
+   },
+   {
+    "type": "para",
+    "text": "I shall limit myself to this single example; it is useless to multiply them. In regard to my other researches I would have to say analogous things, and the observations of other mathematicians given in L'enseignement mathématique would only confirm them."
+   },
+   {
+    "type": "para",
+    "text": "Most striking at first is this appearance of sudden illumination, a manifest sign of long, unconscious prior work. The rôle of this unconscious work in mathematical invention appears to me incontestable, and traces of it would be found in other cases where it is less evident. Often when one works at a hard question, nothing good is accomplished at the first attack. Then one takes a rest, longer or shorter, and sits down anew to the work. During the first half-hour, as before, nothing is found, and then all of a sudden the decisive idea presents itself to the mind. It might be said that the conscious work has been more fruitful because it has been interrupted and the rest has given back to the mind its force and freshness. But it is more probable that this rest has been filled out with unconscious work and that the result of this work has afterward revealed itself to the geometer just as in the cases I have cited; only the revelation, instead of coming during a walk or a journey, has happened during a period of conscious work, but independently of this work which plays at most a rôle of excitant, as if it were the goad stimulating the results already reached during rest, but remaining unconscious, to assume the conscious form."
+   },
+   {
+    "type": "para",
+    "text": "There is another remark to be made about the conditions of this unconscious work: it is possible, and of a certainty it is only fruitful, if it is on the one hand preceded and on the other hand followed by a period of conscious work. These sudden inspirations (and the examples already cited sufficiently prove this) never happen except after some days of voluntary effort which has appeared absolutely fruitless and whence nothing good seems to have come, where the way taken seems totally astray. These efforts then have not been as sterile as one thinks; they have set agoing the unconscious machine and without them it would not have moved and would have produced nothing."
+   },
+   {
+    "type": "para",
+    "text": "The need for the second period of conscious work, after the inspiration, is still easier to understand. It is necessary to put in shape the results of this inspiration, to deduce from them the immediate consequences, to arrange them, to word the demonstrations, but above all is verification necessary. I have spoken of the feeling of absolute certitude accompanying the inspiration; in the cases cited this feeling was no deceiver, nor is it usually. But do not think this a rule without exception; often this feeling deceives us without being any the less vivid, and we only find it out when we seek to put on foot the demonstration. I have especially noticed this fact in regard to ideas coming to me in the morning or evening in bed while in a semi-hypnagogic state."
+   },
+   {
+    "type": "para",
+    "text": "Such are the realities; now for the thoughts they force upon us. The unconscious, or, as we say, the subliminal self plays an important rôle in mathematical creation; this follows from what we have said. But usually the subliminal self is considered as purely automatic. Now we have seen that mathematical work is not simply mechanical, that it could not be done by a machine, however perfect. It is not merely a question of applying rules, of making the most combinations possible according to certain fixed laws. The combinations so obtained would be exceedingly numerous, useless and cumbersome. The true work of the inventor consists in choosing among these combinations so as to eliminate the useless ones or rather to avoid the trouble of making them, and the rules which must guide this choice are extremely fine and delicate. It is almost impossible to state them precisely; they are felt rather than formulated. Under these conditions, how imagine a sieve capable of applying them mechanically?"
+   },
+   {
+    "type": "para",
+    "text": "A first hypothesis now presents itself: the subliminal self is in no way inferior to the conscious self; it is not purely automatic; it is capable of discernment; it has tact, delicacy; it knows how to choose, to divine. What do I say? It knows better how to divine than the conscious self, since it succeeds where that has failed. In a word, is not the subliminal self superior to the conscious self? You recognize the full importance of this question. Boutroux in a recent lecture has shown how it came up on a very different occasion, and what consequences would follow an affirmative answer. (See also, by the same author, Science et Religion, pp. 313 ff.)"
+   },
+   {
+    "type": "para",
+    "text": "Is this affirmative answer forced upon us by the facts I have just given? I confess that, for my part, I should hate to accept it. Reexamine the facts then and see if they are not compatible with another explanation."
+   },
+   {
+    "type": "para",
+    "text": "It is certain that the combinations which present themselves to the mind in a sort of sudden illumination, after an unconscious working somewhat prolonged, are generally useful and fertile combinations, which seem the result of a first impression. Does it follow that the subliminal self, having divined by a delicate intuition that these combinations would be useful, has formed only these, or has it rather formed many others which were lacking in interest and have remained unconscious?"
+   },
+   {
+    "type": "para",
+    "text": "In this second way of looking at it, all the combinations would be formed in consequence of the automatism of the subliminal self, but only the interesting ones would break into the domain of consciousness. And this is still very mysterious. What is the cause that, among the thousand products of our unconscious activity, some are called to pass the threshold, while others remain below? Is it a simple chance which confers this privilege? Evidently not; among all the stimuli of our senses, for example, only the most intense fix our attention, unless it has been drawn to them by other causes. More generally the privileged unconscious phenomena, those susceptible of becoming conscious, are those which, directly or indirectly, affect most profoundly our emotional sensibility."
+   },
+   {
+    "type": "para",
+    "text": "It may be surprising to see emotional sensibility invoked à propos of mathematical demonstrations which, it would seem, can interest only the intellect. This would be to forget the feeling of mathematical beauty, of the harmony of numbers and forms, of geometric elegance. This is a true esthetic feeling that all real mathematicians know, and surely it belongs to emotional sensibility."
+   },
+   {
+    "type": "para",
+    "text": "Now, what are the mathematic entities to which we attribute this character of beauty and elegance, and which are capable of developing in us a sort of esthetic emotion? They are those whose elements are harmoniously disposed so that the mind without effort can embrace their totality while realizing the details. This harmony is at once a satisfaction of our esthetic needs and an aid to the mind, sustaining and guiding; And at the same time, in putting under our eyes a well-ordered whole, it makes us foresee a mathematical law. Now, as we have said above, the only mathematical facts worthy of fixing our attention and capable of being useful are those which can teach us a mathematical law. So that we reach the following conclusion: The useful combinations are precisely the most beautiful, I mean those best able to charm this special sensibility that all mathematicians know, but of which the profane are so ignorant as often to be tempted to smile at it."
+   },
+   {
+    "type": "para",
+    "text": "What happens then? Among the great numbers of combinations blindly formed by the subliminal self, almost all are without interest and without utility; but just for that reason they are also without effect upon the esthetic sensibility. Consciousness will never know them; only certain ones are harmonious, and, consequently, at once useful and beautiful. They will be capable of touching this special sensibility of the geometer of which I have just spoken, and which, once aroused, will call our attention to them, and thus give them occasion to become conscious."
+   },
+   {
+    "type": "para",
+    "text": "This is only a hypothesis, and yet here is an observation which may confirm it: when a sudden illumination seizes upon the mind of the mathematician, it usually happens that it does not deceive him, but it also sometimes happens, as I have said, that it does not stand the test of verification; well, we almost always notice that this false idea, had it been true, would have gratified our natural feeling for mathematical elegance."
+   },
+   {
+    "type": "para",
+    "text": "Thus it is this special esthetic sensibility which plays the rôle of the delicate sieve of which I spoke, and that sufficiently explains why the one lacking it will never be a real creator."
+   },
+   {
+    "type": "para",
+    "text": "Yet all the difficulties have not disappeared. The conscious self is narrowly limited, and as for the subliminal self we know not its limitations, and this is why we are not too reluctant in supposing that it has been able in a short time to make more different combinations than the whole life of a conscious being could encompass. Yet these limitations exist. Is it likely that it is able to form all the possible combinations, whose number would frighten the imagination? Nevertheless that would seem necessary, because if it produces only a small part of these combinations, and if it makes them at random, there would be small chance that the good, the one we should choose, would be found among them."
+   },
+   {
+    "type": "para",
+    "text": "Perhaps we ought to seek the explanation in that preliminary period of conscious work which always precedes all fruitful unconscious labor. Permit me a rough comparison. Figure the future elements of our combinations as something like the hooked atoms of Epicurus. During the complete repose of the mind, these atoms are motionless, they are, so to speak, hooked to the wall; so this complete rest may be indefinitely prolonged without the atoms meeting, and consequently without any combination between them."
+   },
+   {
+    "type": "para",
+    "text": "On the other hand, during a period of apparent rest and unconscious work, certain of them are detached from the wall and put in motion. They flash in every direction through the space (I was about to say the room) where they are enclosed, as would, for example, a swarm of gnats or, if you prefer a more learned comparison, like the molecules of gas in the kinematic theory of gases. Then their mutual impacts may produce new combinations."
+   },
+   {
+    "type": "para",
+    "text": "What is the rôle of the preliminary conscious work? It is evidently to mobilize certain of these atoms, to unhook them from the wall and put them in swing. We think we have done no good, because we have moved these elements a thousand different ways in seeking to assemble them, and have found no satisfactory aggregate. But, after this shaking up imposed upon them by our will, these atoms do not return to their primitive rest. They freely continue their dance."
+   },
+   {
+    "type": "para",
+    "text": "Now, our will did not choose them at random; it pursued a perfectly determined aim. The mobilized atoms are therefore not any atoms whatsoever; they are those from which we might reasonably expect the desired solution. Then the mobilized atoms undergo impacts which make them enter into combinations among themselves or with other atoms at rest which they struck against in their course. Again I beg pardon, my comparison is very rough, but I scarcely know how otherwise to make my thought understood."
+   },
+   {
+    "type": "para",
+    "text": "However it may be, the only combinations that have a chance of forming are those where at least one of the elements is one of those atoms freely chosen by our will. Now, it is evidently among these that is found what I called the good combination. Perhaps this is a way of lessening the paradoxical in the original hypothesis."
+   },
+   {
+    "type": "para",
+    "text": "Another observation. It never happens that the unconscious work gives us the result of a somewhat long calculation all made, where we have only to apply fixed rules. We might think the wholly automatic subliminal self particularly apt for this sort of work, which is in a way exclusively mechanical. It seems that thinking in the evening upon the factors of a multiplication we might hope to find the product ready made upon our awakening, or again that an algebraic calculation, for example a verification, would be made unconsciously. Nothing of the sort, as observation proves. All one may hope from these inspirations, fruits of unconscious work, is a point of departure for such calculations. As for the calculations themselves, they must be made in the second period of conscious work, that which follows the inspiration, that in which one verifies the results of this inspiration and deduces their consequences. The rules of these calculations are strict and complicated. They require discipline, attention, will, and therefore consciousness. In the subliminal self, on the contrary, reigns what I should call liberty, if we might give this name to the simple absence of discipline and to the disorder born of chance. Only, this disorder itself permits unexpected combinations."
+   },
+   {
+    "type": "para",
+    "text": "I shall make a last remark: when above I made certain personal observations, I spoke of a night of excitement when I worked in spite of myself. Such cases are frequent, and it is not necessary that the abnormal cerebral activity be caused by a physical excitant as in that I mentioned. It seems, in such cases, that one is present at his own unconscious work, made partially perceptible to the over-excited consciousness, yet without having changed its nature. Then we vaguely comprehend what distinguishes the two mechanisms or, if you wish, the working methods of the two egos. And the psychologic observations I have been able thus to make seem to me to confirm in their general outlines the views I have given."
+   },
+   {
+    "type": "para",
+    "text": "Surely they have need of it, for they are and remain in spite of all very hypothetical: the interest of the questions is so great that I do not repent of having submitted them to the reader."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 39713,
+   "path": "pg39713.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "f78f2f17514aa5c61adac8d13c821daa9ff71b3acc089fd16d081e0735efe659",
+   "url": "https://www.gutenberg.org/cache/epub/39713/pg39713.txt",
+   "headingLine": 15225,
+   "startLine": 15226,
+   "endLine": 15682,
+   "heading": "MATHEMATICAL CREATION",
+   "bodySha256": "179081b2e14bf9cf75f54c1c03d69de6cd1d7e7e651f0225bca901de7af9c4c8",
+   "headingStartLine": 15223
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "john-donne-meditation-xvii",
+  "kind": "essay",
+  "title": "Meditation XVII",
+  "author": "John Donne",
+  "year": "1624",
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/23772",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Perchance he for whom this bell tolls may be so ill, as that he knows not it tolls for him; and perchance I may think myself so much better than I am, as that they who are about me, and see my state, may have caused it to toll for me, and I know not that. The church is Catholic, universal, so are all her actions; all that she does belongs to all. When she baptizes a child, that action concerns me; for that child is thereby connected to that body which is my head too, and ingrafted into that body whereof I am a member. And when she buries a man, that action concerns me: all mankind is of one author, and is one volume; when one man dies, one chapter is not torn out of the book, but translated into a better language; and every chapter must be so translated; God employs several translators; some pieces are translated by age, some by sickness, some by war, some by justice; but God's hand is in every translation, and his hand shall bind up all our scattered leaves again for that library where every book shall lie open to one another. As therefore the bell that rings to a sermon calls not upon the preacher only, but upon the congregation to come, so this bell calls us all; but how much more me, who am brought so near the door by this sickness. There was a contention as far as a suit (in which both piety and dignity, religion and estimation, were mingled), which of the religious orders should ring to prayers first in the morning; and it was determined, that they should ring first that rose earliest. If we understand aright the dignity of this bell that tolls for our evening prayer, we would be glad to make it ours by rising early, in that application, that it might be ours as well as his, whose indeed it is. The bell doth toll for him that thinks it doth; and though it intermit again, yet from that minute that that occasion wrought upon him, he is united to God. Who casts not up his eye to the sun when it rises? but who takes off his eye from a comet when that breaks out? Who bends not his ear to any bell which upon any occasion rings? but who can remove it from that bell which is passing a piece of himself out of this world? No man is an island, entire of itself; every man is a piece of the continent, a part of the main. If a clod be washed away by the sea, Europe is the less, as well as if a promontory were, as well as if a manor of thy friend's or of thine own were: any man's death diminishes me, because I am involved in mankind, and therefore never send to know for whom the bells tolls; it tolls for thee. Neither can we call this a begging of misery, or a borrowing of misery, as though we were not miserable enough of ourselves, but must fetch in more from the next house, in taking upon us the misery of our neighbours. Truly it were an excusable covetousness if we did, for affliction is a treasure, and scarce any man hath enough of it. No man hath affliction enough that is not matured and ripened by it, and made fit for God by that affliction. If a man carry treasure in bullion, or in a wedge of gold, and have none coined into current money, his treasure will not defray him as he travels. Tribulation is treasure in the nature of it, but it is not current money in the use of it, except we get nearer and nearer our home, heaven, by it. Another man may be sick too, and sick to death, and this affliction may lie in his bowels, as gold in a mine, and be of no use to him; but this bell, that tells me of his affliction, digs out and applies that gold to me: if by this consideration of another's danger I take mine own into contemplation, and so secure myself, by making my recourse to my God, who is our only security."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 23772,
+   "path": "pg23772.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "83d3436ae8defd7a3cb700643cdfec0bc6bf40a89fc5adb3d0ac0ac3547d2d54",
+   "url": "https://www.gutenberg.org/cache/epub/23772/pg23772.txt",
+   "headingLine": 4842,
+   "startLine": 4843,
+   "endLine": 4896,
+   "heading": "XVII. MEDITATION.",
+   "bodySha256": "c3f99486dc271902b4ec62cab1136d377526569155c45dda1ea0e55166d73a75"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "jonathan-swift-a-modest-proposal",
+  "kind": "essay",
+  "title": "A Modest Proposal",
+  "author": "Jonathan Swift",
+  "year": "1729",
+  "place": "Ireland",
+  "source": "https://www.gutenberg.org/ebooks/1080",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "For preventing the children of poor people in Ireland, from being a burden on their parents or country, and for making them beneficial to the publick."
+   },
+   {
+    "type": "para",
+    "text": "by Dr. Jonathan Swift"
+   },
+   {
+    "type": "para",
+    "text": "1729"
+   },
+   {
+    "type": "para",
+    "text": "It is a melancholy object to those, who walk through this great town, or travel in the country, when they see the streets, the roads, and cabbin-doors crowded with beggars of the female sex, followed by three, four, or six children, all in rags, and importuning every passenger for an alms. These mothers, instead of being able to work for their honest livelihood, are forced to employ all their time in stroling to beg sustenance for their helpless infants who, as they grow up, either turn thieves for want of work, or leave their dear native country, to fight for the Pretender in Spain, or sell themselves to the Barbadoes."
+   },
+   {
+    "type": "para",
+    "text": "I think it is agreed by all parties, that this prodigious number of children in the arms, or on the backs, or at the heels of their mothers, and frequently of their fathers, is in the present deplorable state of the kingdom, a very great additional grievance; and therefore whoever could find out a fair, cheap and easy method of making these children sound and useful members of the commonwealth, would deserve so well of the publick, as to have his statue set up for a preserver of the nation."
+   },
+   {
+    "type": "para",
+    "text": "But my intention is very far from being confined to provide only for the children of professed beggars: it is of a much greater extent, and shall take in the whole number of infants at a certain age, who are born of parents in effect as little able to support them, as those who demand our charity in the streets."
+   },
+   {
+    "type": "para",
+    "text": "As to my own part, having turned my thoughts for many years upon this important subject, and maturely weighed the several schemes of our projectors, I have always found them grossly mistaken in their computation. It is true, a child just dropt from its dam, may be supported by her milk, for a solar year, with little other nourishment: at most not above the value of two shillings, which the mother may certainly get, or the value in scraps, by her lawful occupation of begging; and it is exactly at one year old that I propose to provide for them in such a manner, as, instead of being a charge upon their parents, or the parish, or wanting food and raiment for the rest of their lives, they shall, on the contrary, contribute to the feeding, and partly to the clothing of many thousands."
+   },
+   {
+    "type": "para",
+    "text": "There is likewise another great advantage in my scheme, that it will prevent those voluntary abortions, and that horrid practice of women murdering their bastard children, alas! too frequent among us, sacrificing the poor innocent babes, I doubt, more to avoid the expence than the shame, which would move tears and pity in the most savage and inhuman breast."
+   },
+   {
+    "type": "para",
+    "text": "The number of souls in this kingdom being usually reckoned one million and a half, of these I calculate there may be about two hundred thousand couple, whose wives are breeders; from which number I subtract thirty thousand couple, who are able to maintain their own children, (although I apprehend there cannot be so many under the present distresses of the kingdom) but this being granted, there will remain a hundred and seventy thousand breeders. I again subtract fifty thousand, for those women who miscarry, or whose children die by accident or disease within the year. There only remain a hundred and twenty thousand children of poor parents annually born. The question therefore is, How this number shall be reared and provided for? which, as I have already said, under the present situation of affairs, is utterly impossible by all the methods hitherto proposed. For we can neither employ them in handicraft or agriculture; they neither build houses, (I mean in the country) nor cultivate land: they can very seldom pick up a livelihood by stealing till they arrive at six years old; except where they are of towardly parts, although I confess they learn the rudiments much earlier; during which time they can however be properly looked upon only as probationers; as I have been informed by a principal gentleman in the county of Cavan, who protested to me, that he never knew above one or two instances under the age of six, even in a part of the kingdom so renowned for the quickest proficiency in that art."
+   },
+   {
+    "type": "para",
+    "text": "I am assured by our merchants, that a boy or a girl, before twelve years old, is no saleable commodity, and even when they come to this age, they will not yield above three pounds, or three pounds and half a crown at most, on the exchange; which cannot turn to account either to the parents or kingdom, the charge of nutriments and rags having been at least four times that value."
+   },
+   {
+    "type": "para",
+    "text": "I shall now therefore humbly propose my own thoughts, which I hope will not be liable to the least objection."
+   },
+   {
+    "type": "para",
+    "text": "I have been assured by a very knowing American of my acquaintance in London, that a young healthy child well nursed, is, at a year old, a most delicious nourishing and wholesome food, whether stewed, roasted, baked, or boiled; and I make no doubt that it will equally serve in a fricasee, or a ragoust."
+   },
+   {
+    "type": "para",
+    "text": "I do therefore humbly offer it to publick consideration, that of the hundred and twenty thousand children, already computed, twenty thousand may be reserved for breed, whereof only one fourth part to be males; which is more than we allow to sheep, black cattle, or swine, and my reason is, that these children are seldom the fruits of marriage, a circumstance not much regarded by our savages, therefore, one male will be sufficient to serve four females. That the remaining hundred thousand may, at a year old, be offered in sale to the persons of quality and fortune, through the kingdom, always advising the mother to let them suck plentifully in the last month, so as to render them plump, and fat for a good table. A child will make two dishes at an entertainment for friends, and when the family dines alone, the fore or hind quarter will make a reasonable dish, and seasoned with a little pepper or salt, will be very good boiled on the fourth day, especially in winter."
+   },
+   {
+    "type": "para",
+    "text": "I have reckoned upon a medium, that a child just born will weigh 12 pounds, and in a solar year, if tolerably nursed, encreaseth to 28 pounds."
+   },
+   {
+    "type": "para",
+    "text": "I grant this food will be somewhat dear, and therefore very proper for landlords, who, as they have already devoured most of the parents, seem to have the best title to the children."
+   },
+   {
+    "type": "para",
+    "text": "Infant’s flesh will be in season throughout the year, but more plentiful in March, and a little before and after; for we are told by a grave author, an eminent French physician, that fish being a prolifick dyet, there are more children born in Roman Catholick countries about nine months after Lent, than at any other season; therefore, reckoning a year after Lent, the markets will be more glutted than usual, because the number of Popish infants, is at least three to one in this kingdom, and therefore it will have one other collateral advantage, by lessening the number of Papists among us."
+   },
+   {
+    "type": "para",
+    "text": "I have already computed the charge of nursing a beggar’s child (in which list I reckon all cottagers, labourers, and four-fifths of the farmers) to be about two shillings per annum, rags included; and I believe no gentleman would repine to give ten shillings for the carcass of a good fat child, which, as I have said, will make four dishes of excellent nutritive meat, when he hath only some particular friend, or his own family to dine with him. Thus the squire will learn to be a good landlord, and grow popular among his tenants, the mother will have eight shillings neat profit, and be fit for work till she produces another child."
+   },
+   {
+    "type": "para",
+    "text": "Those who are more thrifty (as I must confess the times require) may flay the carcass; the skin of which, artificially dressed, will make admirable gloves for ladies, and summer boots for fine gentlemen."
+   },
+   {
+    "type": "para",
+    "text": "As to our City of Dublin, shambles may be appointed for this purpose, in the most convenient parts of it, and butchers we may be assured will not be wanting; although I rather recommend buying the children alive, and dressing them hot from the knife, as we do roasting pigs."
+   },
+   {
+    "type": "para",
+    "text": "A very worthy person, a true lover of his country, and whose virtues I highly esteem, was lately pleased in discoursing on this matter, to offer a refinement upon my scheme. He said, that many gentlemen of this kingdom, having of late destroyed their deer, he conceived that the want of venison might be well supplied by the bodies of young lads and maidens, not exceeding fourteen years of age, nor under twelve; so great a number of both sexes in every county being now ready to starve for want of work and service: and these to be disposed of by their parents if alive, or otherwise by their nearest relations. But with due deference to so excellent a friend, and so deserving a patriot, I cannot be altogether in his sentiments; for as to the males, my American acquaintance assured me from frequent experience, that their flesh was generally tough and lean, like that of our schoolboys, by continual exercise, and their taste disagreeable, and to fatten them would not answer the charge. Then as to the females, it would, I think, with humble submission, be a loss to the publick, because they soon would become breeders themselves: and besides, it is not improbable that some scrupulous people might be apt to censure such a practice, (although indeed very unjustly) as a little bordering upon cruelty, which, I confess, hath always been with me the strongest objection against any project, how well soever intended."
+   },
+   {
+    "type": "para",
+    "text": "But in order to justify my friend, he confessed, that this expedient was put into his head by the famous Psalmanaazor, a native of the island Formosa, who came from thence to London, above twenty years ago, and in conversation told my friend, that in his country, when any young person happened to be put to death, the executioner sold the carcass to persons of quality, as a prime dainty; and that, in his time, the body of a plump girl of fifteen, who was crucified for an attempt to poison the Emperor, was sold to his imperial majesty’s prime minister of state, and other great mandarins of the court in joints from the gibbet, at four hundred crowns. Neither indeed can I deny, that if the same use were made of several plump young girls in this town, who without one single groat to their fortunes, cannot stir abroad without a chair, and appear at a playhouse and assemblies in foreign fineries which they never will pay for, the kingdom would not be the worse."
+   },
+   {
+    "type": "para",
+    "text": "Some persons of a desponding spirit are in great concern about that vast number of poor people, who are aged, diseased, or maimed; and I have been desired to employ my thoughts what course may be taken, to ease the nation of so grievous an incumbrance. But I am not in the least pain upon that matter, because it is very well known, that they are every day dying, and rotting, by cold and famine, and filth, and vermin, as fast as can be reasonably expected. And as to the young labourers, they are now in almost as hopeful a condition. They cannot get work, and consequently pine away from want of nourishment, to a degree, that if at any time they are accidentally hired to common labour, they have not strength to perform it, and thus the country and themselves are happily delivered from the evils to come."
+   },
+   {
+    "type": "para",
+    "text": "I have too long digressed, and therefore shall return to my subject. I think the advantages by the proposal which I have made are obvious and many, as well as of the highest importance."
+   },
+   {
+    "type": "para",
+    "text": "For first, as I have already observed, it would greatly lessen the number of Papists, with whom we are yearly overrun, being the principal breeders of the nation, as well as our most dangerous enemies, and who stay at home on purpose with a design to deliver the kingdom to the Pretender, hoping to take their advantage by the absence of so many good Protestants, who have chosen rather to leave their country, than stay at home and pay tithes against their conscience to an episcopal curate."
+   },
+   {
+    "type": "para",
+    "text": "Secondly, The poorer tenants will have something valuable of their own, which by law may be made liable to a distress, and help to pay their landlord’s rent, their corn and cattle being already seized, and money a thing unknown."
+   },
+   {
+    "type": "para",
+    "text": "Thirdly, Whereas the maintainance of a hundred thousand children, from two years old, and upwards, cannot be computed at less than ten shillings a piece per annum, the nation’s stock will be thereby encreased fifty thousand pounds per annum, besides the profit of a new dish, introduced to the tables of all gentlemen of fortune in the kingdom, who have any refinement in taste. And the money will circulate among our selves, the goods being entirely of our own growth and manufacture."
+   },
+   {
+    "type": "para",
+    "text": "Fourthly, The constant breeders, besides the gain of eight shillings sterling per annum by the sale of their children, will be rid of the charge of maintaining them after the first year."
+   },
+   {
+    "type": "para",
+    "text": "Fifthly, This food would likewise bring great custom to taverns, where the vintners will certainly be so prudent as to procure the best receipts for dressing it to perfection; and consequently have their houses frequented by all the fine gentlemen, who justly value themselves upon their knowledge in good eating; and a skilful cook, who understands how to oblige his guests, will contrive to make it as expensive as they please."
+   },
+   {
+    "type": "para",
+    "text": "Sixthly, This would be a great inducement to marriage, which all wise nations have either encouraged by rewards, or enforced by laws and penalties. It would encrease the care and tenderness of mothers towards their children, when they were sure of a settlement for life to the poor babes, provided in some sort by the publick, to their annual profit instead of expence. We should soon see an honest emulation among the married women, which of them could bring the fattest child to the market. Men would become as fond of their wives, during the time of their pregnancy, as they are now of their mares in foal, their cows in calf, or sows when they are ready to farrow; nor offer to beat or kick them (as is too frequent a practice) for fear of a miscarriage."
+   },
+   {
+    "type": "para",
+    "text": "Many other advantages might be enumerated. For instance, the addition of some thousand carcasses in our exportation of barrel’d beef: the propagation of swine’s flesh, and improvement in the art of making good bacon, so much wanted among us by the great destruction of pigs, too frequent at our tables; which are no way comparable in taste or magnificence to a well grown, fat yearling child, which roasted whole will make a considerable figure at a Lord Mayor’s feast, or any other publick entertainment. But this, and many others, I omit, being studious of brevity."
+   },
+   {
+    "type": "para",
+    "text": "Supposing that one thousand families in this city, would be constant customers for infants flesh, besides others who might have it at merry meetings, particularly at weddings and christenings, I compute that Dublin would take off annually about twenty thousand carcasses; and the rest of the kingdom (where probably they will be sold somewhat cheaper) the remaining eighty thousand."
+   },
+   {
+    "type": "para",
+    "text": "I can think of no one objection, that will possibly be raised against this proposal, unless it should be urged, that the number of people will be thereby much lessened in the kingdom. This I freely own, and was indeed one principal design in offering it to the world. I desire the reader will observe, that I calculate my remedy for this one individual Kingdom of Ireland, and for no other that ever was, is, or, I think, ever can be upon Earth. Therefore let no man talk to me of other expedients: Of taxing our absentees at five shillings a pound: Of using neither clothes, nor houshold furniture, except what is of our own growth and manufacture: Of utterly rejecting the materials and instruments that promote foreign luxury: Of curing the expensiveness of pride, vanity, idleness, and gaming in our women: Of introducing a vein of parsimony, prudence and temperance: Of learning to love our country, wherein we differ even from Laplanders, and the inhabitants of Topinamboo: Of quitting our animosities and factions, nor acting any longer like the Jews, who were murdering one another at the very moment their city was taken: Of being a little cautious not to sell our country and consciences for nothing: Of teaching landlords to have at least one degree of mercy towards their tenants. Lastly, of putting a spirit of honesty, industry, and skill into our shopkeepers, who, if a resolution could now be taken to buy only our native goods, would immediately unite to cheat and exact upon us in the price, the measure, and the goodness, nor could ever yet be brought to make one fair proposal of just dealing, though often and earnestly invited to it."
+   },
+   {
+    "type": "para",
+    "text": "Therefore I repeat, let no man talk to me of these and the like expedients, till he hath at least some glympse of hope, that there will ever be some hearty and sincere attempt to put them into practice."
+   },
+   {
+    "type": "para",
+    "text": "But, as to myself, having been wearied out for many years with offering vain, idle, visionary thoughts, and at length utterly despairing of success, I fortunately fell upon this proposal, which, as it is wholly new, so it hath something solid and real, of no expence and little trouble, full in our own power, and whereby we can incur no danger in disobliging England. For this kind of commodity will not bear exportation, and flesh being of too tender a consistence, to admit a long continuance in salt, although perhaps I could name a country, which would be glad to eat up our whole nation without it."
+   },
+   {
+    "type": "para",
+    "text": "After all, I am not so violently bent upon my own opinion, as to reject any offer, proposed by wise men, which shall be found equally innocent, cheap, easy, and effectual. But before something of that kind shall be advanced in contradiction to my scheme, and offering a better, I desire the author or authors will be pleased maturely to consider two points. First, As things now stand, how they will be able to find food and raiment for a hundred thousand useless mouths and backs. And secondly, There being a round million of creatures in humane figure throughout this kingdom, whose whole subsistence put into a common stock, would leave them in debt two million of pounds sterling, adding those who are beggars by profession, to the bulk of farmers, cottagers and labourers, with their wives and children, who are beggars in effect; I desire those politicians who dislike my overture, and may perhaps be so bold to attempt an answer, that they will first ask the parents of these mortals, whether they would not at this day think it a great happiness to have been sold for food at a year old, in the manner I prescribe, and thereby have avoided such a perpetual scene of misfortunes, as they have since gone through, by the oppression of landlords, the impossibility of paying rent without money or trade, the want of common sustenance, with neither house nor clothes to cover them from the inclemencies of the weather, and the most inevitable prospect of intailing the like, or greater miseries, upon their breed for ever."
+   },
+   {
+    "type": "para",
+    "text": "I profess in the sincerity of my heart, that I have not the least personal interest in endeavouring to promote this necessary work, having no other motive than the publick good of my country, by advancing our trade, providing for infants, relieving the poor, and giving some pleasure to the rich. I have no children, by which I can propose to get a single penny; the youngest being nine years old, and my wife past child-bearing."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 1080,
+   "path": "pg1080.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "331340f2ada84a7f79d756a344f6ce7d78026cd1d2359d33f79ca4a13d9f1519",
+   "url": "https://www.gutenberg.org/cache/epub/1080/pg1080.txt",
+   "headingLine": 29,
+   "startLine": 30,
+   "endLine": 366,
+   "heading": "A Modest Proposal",
+   "bodySha256": "309f056bb1d7f814171bf5a85e5bfe2d792adec868ba144e0fb8f6ac52e72d7d"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "charles-lamb-the-superannuated-man",
+  "kind": "essay",
+  "title": "The Superannuated Man",
+  "author": "Charles Lamb",
+  "year": "1825",
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/10343",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Sera tamen respexit Libertas."
+   },
+   {
+    "type": "para",
+    "text": "VIRGIL."
+   },
+   {
+    "type": "para",
+    "text": "A Clerk I was in London gay."
+   },
+   {
+    "type": "para",
+    "text": "O'KEEFE."
+   },
+   {
+    "type": "para",
+    "text": "If peradventure, Reader, it has been thy lot to waste the golden years of thy life--thy shining youth--in the irksome confinement of an office; to have thy prison days prolonged through middle age down to decrepitude and silver hairs, without hope of release or respite; to have lived to forget that there are such things as holidays, or to remember them but as the prerogatives of childhood; then, and then only, will you be able to appreciate my deliverance."
+   },
+   {
+    "type": "para",
+    "text": "It is now six and thirty years since I took my seat at the desk in Mincing-lane. Melancholy was the transition at fourteen from the abundant play-time, and the frequently-intervening vacations of school days, to the eight, nine, and sometimes ten hours' a-day attendance at a counting-house. But time partially reconciles us to anything. I gradually became content--doggedly contented, as wild animals in cages."
+   },
+   {
+    "type": "para",
+    "text": "It is true I had my Sundays to myself; but Sundays, admirable as the institution of them is for purposes of worship, are for that very reason the very worst adapted for days of unbending and recreation. In particular, there is a gloom for me attendant upon a city Sunday, a weight in the air. I miss the cheerful cries of London, the music, and the ballad-singers--the buzz and stirring murmur of the streets. Those eternal bells depress me. The closed shops repel me. Prints, pictures, all the glittering and endless succession of knacks and gewgaws, and ostentatiously displayed wares of tradesmen, which make a week-day saunter through the less busy parts of the metropolis so delightful--are shut out. No book-stalls deliciously to idle over--No busy faces to recreate the idle man who contemplates them ever passing by--the very face of business a charm by contrast to his temporary relaxation from it. Nothing to be seen but unhappy countenances--or half-happy at best--of emancipated 'prentices and little trades-folks, with here and there a servant maid that has got leave to go out, who, slaving all the week, with the habit has lost almost the capacity of enjoying a free hour; and livelily expressing the hollowness of a day's pleasuring. The very strollers in the fields on that day look anything but comfortable."
+   },
+   {
+    "type": "para",
+    "text": "But besides Sundays I had a day at Easter, and a day at Christmas, with a full week in the summer to go and air myself in my native fields of Hertfordshire. This last was a great indulgence; and the prospect of its recurrence, I believe, alone kept me up through the year, and made my durance tolerable. But when the week came round, did the glittering phantom of the distance keep touch with me? or rather was it not a series of seven uneasy days, spent in restless pursuit of pleasure, and a wearisome anxiety to find out how to make the most of them? Where was the quiet, where the promised rest? Before I had a taste of it, it was vanished. I was at the desk again, counting upon the fifty-one tedious weeks that must intervene before such another snatch would come. Still the prospect of its coming threw something of an illumination upon the darker side of my captivity. Without it, as I have said, I could scarcely have sustained my thraldom."
+   },
+   {
+    "type": "para",
+    "text": "Independently of the rigours of attendance, I have ever been haunted with a sense (perhaps a mere caprice) of incapacity for business. This, during my latter years, had increased to such a degree, that it was visible in all the lines of my countenance. My health and my good spirits flagged. I had perpetually a dread of some crisis, to which I should be found unequal. Besides my daylight servitude, I served over again all night in my sleep, and would awake with terrors of imaginary false entries, errors in my accounts, and the like. I was fifty years of age, and no prospect of emancipation presented itself. I had grown to my desk, as it were; and the wood had entered into my soul."
+   },
+   {
+    "type": "para",
+    "text": "My fellows in the office would sometimes rally me upon the trouble legible in my countenance; but I did not know that it had raised the suspicions of any of my employers, when, on the 5th of last month, a day ever to be remembered by me, L----, the junior partner in the firm, calling me on one side, directly taxed me with my bad looks, and frankly inquired the cause of them. So taxed, I honestly made confession of my infirmity, and added that I was afraid I should eventually be obliged to resign his service. He spoke some words of course to hearten me, and there the matter rested. A whole week I remained labouring under the impression that I had acted imprudently in my disclosure; that I had foolishly given a handle against myself, and had been anticipating my own dismissal. A week passed in this manner, the most anxious one, I verily believe, in my whole life, when on the evening of the 12th of April, just as I was about quitting my desk to go home (it might be about eight o'clock) I received an awful summons to attend the presence of the whole assembled firm in the formidable back parlour. I thought, now my time is surely come, I have done for myself, I am going to be told that they have no longer occasion for me. L----, I could see, smiled at the terror I was in, which was a little relief to me,--when to my utter astonishment B----, the eldest partner, began a formal harangue to me on the length of my services, my very meritorious conduct during the whole of the time (the deuce, thought I, how did he find out that? I protest I never had the confidence to think as much). He went on to descant on the expediency of retiring at a certain time of life (how my heart panted!) and asking me a few questions as to the amount of my own property, of which I have a little, ended with a proposal, to which his three partners nodded a grave assent, that I should accept from the house, which I had served so well, a pension for life to the amount of two-thirds of my accustomed salary--a magnificent offer! I do not know what I answered between surprise and gratitude, but it was understood that I accepted their proposal, and I was told that I was free from that hour to leave their service. I stammered out a bow, and at just ten minutes after eight I went home--for ever. This noble benefit--gratitude forbids me to conceal their names--I owe to the kindness of the most munificent firm in the world--the house of Boldero, Merryweather, Bosanquet, and Lacy."
+   },
+   {
+    "type": "para",
+    "text": "Esto perpetua!"
+   },
+   {
+    "type": "para",
+    "text": "For the first day or two I felt stunned, overwhelmed. I could only apprehend my felicity; I was too confused to taste it sincerely. I wandered about, thinking I was happy, and knowing that I was not. I was in the condition of a prisoner in the old Bastile, suddenly let loose after a forty years' confinement. I could scarce trust myself with myself. It was like passing out of Time into Eternity--for it is a sort of Eternity for a man to have his Time all to himself. It seemed to me that I had more time on my hands than I could ever manage. From a poor man, poor in Time, I was suddenly lifted up into a vast revenue; I could see no end of my possessions; I wanted some steward, or judicious bailiff, to manage my estates in Time for me. And here let me caution persons grown old in active business, not lightly, nor without weighing their own resources, to forego their customary employment all at once, for there may be danger in it. I feel it by myself, but I know that my resources are sufficient; and now that those first giddy raptures have subsided, I have a quiet home-feeling of the blessedness of my condition. I am in no hurry. Having all holidays, I am as though I had none. If Time hung heavy upon me, I could walk it away; but I do not walk all day long, as I used to do in those old transient holidays, thirty miles a day, to make the most of them. If Time were troublesome, I could read it away, but I do not read in that violent measure, with which, having no Time my own but candlelight Time, I used to weary out my head and eyesight in by-gone winters. I walk, read or scribble (as now) just when the fit seizes me. I no longer hunt after pleasure; I let it come to me. I am like the man"
+   },
+   {
+    "type": "para",
+    "text": "--That's born, and has his years come to him, In some green desart."
+   },
+   {
+    "type": "para",
+    "text": "\"Years,\" you will say! \"what is this superannuated simpleton calculating upon? He has already told us, he is past fifty.\""
+   },
+   {
+    "type": "para",
+    "text": "I have indeed lived nominally fifty years, but deduct out of them the hours which I have lived to other people, and not to myself, and you will find me still a young fellow. For that is the only true Time, which a man can properly call his own, that which he has all to himself; the rest, though in some sense he may be said to live it, is other people's time, not his. The remnant of my poor days, long or short, is at least multiplied for me three-fold. My ten next years, if I stretch so far, will be as long as any preceding thirty. 'Tis a fair rule-of-three sum."
+   },
+   {
+    "type": "para",
+    "text": "Among the strange fantasies which beset me at the commencement of my freedom, and of which all traces are not yet gone, one was, that a vast tract of time had intervened since I quitted the Counting House. I could not conceive of it as an affair of yesterday. The partners, and the clerks, with whom I had for so many years, and for so many hours in each day of the year, been closely associated--being suddenly removed from them--they seemed as dead to me. There is a fine passage, which may serve to illustrate this fancy, in a Tragedy by Sir Robert Howard, speaking of a friend's death:"
+   },
+   {
+    "type": "para",
+    "text": "--'Twas but just now he went away; I have not since had time to shed a tear; And yet the distance does the same appear As if he had been a thousand years from me. Time takes no measure in Eternity."
+   },
+   {
+    "type": "para",
+    "text": "To dissipate this awkward feeling, I have been fain to go among them once or twice since; to visit my old desk-fellows--my co-brethren of the quill--that I had left below in the state militant. Not all the kindness with which they received me could quite restore to me that pleasant familiarity, which I had heretofore enjoyed among them. We cracked some of our old jokes, but methought they went off but faintly. My old desk; the peg where I hung my hat, were appropriated to another. I knew it must be, but I could not take it kindly. D----l take me, if I did not feel some remorse--beast, if I had not,--at quitting my old compeers, the faithful partners of my toils for six and thirty years, that smoothed for me with their jokes and conundrums the ruggedness of my professional road. Had it been so rugged then after all? or was I a coward simply? Well, it is too late to repent; and I also know, that these suggestions are a common fallacy of the mind on such occasions. But my heart smote me. I had violently broken the bands betwixt us. It was at least not courteous. I shall be some time before I get quite reconciled to the separation. Farewell, old cronies, yet not for long, for again and again I will come among ye, if I shall have your leave. Farewell Ch----, dry, sarcastic, and friendly! Do----, mild, slow to move, and gentlemanly! Pl----, officious to do, and to volunteer, good services!--and thou, thou dreary pile, fit mansion for a Gresham or a Whittington of old, stately House of Merchants; with thy labyrinthine passages, and light-excluding, pent-up offices, where candles for one half the year supplied the place of the sun's light; unhealthy contributor to my weal, stern fosterer of my living, farewell! In thee remain, and not in the obscure collection of some wandering bookseller, my \"works!\" There let them rest, as I do from my labours, piled on thy massy shelves, more MSS. in folio than ever Aquinas left, and full as useful! My mantle I bequeath among ye."
+   },
+   {
+    "type": "para",
+    "text": "A fortnight has passed since the date of my first communication. At that period I was approaching to tranquillity, but had not reached it. I boasted of a calm indeed, but it was comparative only. Something of the first flutter was left; an unsettling sense of novelty; the dazzle to weak eyes of unaccustomed light. I missed my old chains, forsooth, as if they had been some necessary part of my apparel. I was a poor Carthusian, from strict cellular discipline suddenly by some revolution returned upon the world. I am now as if I had never been other than my own master. It is natural to me to go where I please, to do what I please. I find myself at eleven o'clock in the day in Bond-street, and it seems to me that I have been sauntering there at that very hour for years past. I digress into Soho, to explore a book-stall. Methinks I have been thirty years a collector. There is nothing strange nor new in it. I find myself before a fine picture in a morning. Was it ever otherwise? What is become of Fish-street Hill? Where is Fenchurch-street? Stones of old Mincing-lane, which I have worn with my daily pilgrimage for six and thirty years, to the footsteps of what toil-worn clerk are your everlasting flints now vocal? I indent the gayer flags of Pall Mall. It is Change time, and I am strangely among the Elgin marbles. It was no hyperbole when I ventured to compare the change in my condition to a passing into another world. Time stands still in a manner to me. I have lost all distinction of season. I do not know the day of the week, or of the month. Each day used to be individually felt by me in its reference to the foreign post days; in its distance from, or propinquity to, the next Sunday. I had my Wednesday feelings, my Saturday nights' sensations. The genius of each day was upon me distinctly during the whole of it, affecting my appetite, spirits, &c. The phantom of the next day, with the dreary five to follow, sate as a load upon my poor Sabbath recreations. What charm has washed that Ethiop white? What is gone of Black Monday? All days are the same. Sunday itself--that unfortunate failure of a holyday as it too often proved, what with my sense of its fugitiveness, and over-care to get the greatest quantity of pleasure out of it--is melted down into a week day. I can spare to go to church now, without grudging the huge cantle which it used to seem to cut out of the holyday. I have Time for everything. I can visit a sick friend. I can interrupt the man of much occupation when he is busiest. I can insult over him with an invitation to take a day's pleasure with me to Windsor this fine May-morning. It is Lucretian pleasure to behold the poor drudges, whom I have left behind in the world, carking and caring; like horses in a mill, drudging on in the same eternal round--and what is it all for? A man can never have too much Time to himself, nor too little to do. Had I a little son, I would christen him NOTHING-TO-DO; he should do nothing. Man, I verily believe, is out of his element as long as he is operative. I am altogether for the life contemplative. Will no kindly earthquake come and swallow up those accursed cotton mills? Take me that lumber of a desk there, and bowl it down"
+   },
+   {
+    "type": "para",
+    "text": "As low as to the fiends."
+   },
+   {
+    "type": "para",
+    "text": "I am no longer ******, clerk to the Firm of &c. I am Retired Leisure. I am to be met with in trim gardens. I am already come to be known by my vacant face and careless gesture, perambulating at no fixed pace, nor with any settled purpose. I walk about; not to and from. They tell me, a certain cum dignitate air, that has been buried so long with my other good parts, has begun to shoot forth in my person. I grow into gentility perceptibly. When I take up a newspaper, it is to read the state of the opera. Opus operatum est. I have done all that I came into this world to do. I have worked task work, and have the rest of the day to myself."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 10343,
+   "path": "pg10343.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "add9b3bc1ebd00a3d2bd66b179c4aa85945dd497f28da9c3e0086e26200c6c92",
+   "url": "https://www.gutenberg.org/cache/epub/10343/pg10343.txt",
+   "headingLine": 8986,
+   "startLine": 8987,
+   "endLine": 9254,
+   "heading": "THE SUPERANNUATED MAN",
+   "bodySha256": "8e1342e22ef38937b831ac2020c220c9f720316a2354f7399a25ae40431c9df9"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "thomas-henry-huxley-on-the-advisableness-of-improving-natural-knowledge",
+  "kind": "essay",
+  "title": "On the Advisableness of Improving Natural Knowledge",
+  "author": "Thomas Henry Huxley",
+  "year": "1866",
+  "place": "England",
+  "source": "https://www.gutenberg.org/ebooks/16729",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "This time two hundred years ago--in the beginning of January, 1666--those of our forefathers who inhabited this great and ancient city, took breath between the shocks of two fearful calamities, one not quite past, although its fury had abated; the other to come."
+   },
+   {
+    "type": "para",
+    "text": "Within a few yards of the very spot on which we are assembled, so the tradition runs, that painful and deadly malady, the plague, appeared in the latter months of 1664; and, though no new visitor, smote the people of England, and especially of her capital, with a violence unknown before, in the course of the following year. The hand of a master has pictured what happened in those dismal months; and in that truest of fictions, \"The History of the Plague Year,\" Defoe shows death, with every accompaniment of pain and terror, stalking through the narrow streets of old London, and changing their busy hum into a silence broken only by the wailing of the mourners of fifty thousand dead; by the woful denunciations and mad prayers of fanatics; and by the madder yells of despairing profligates."
+   },
+   {
+    "type": "para",
+    "text": "But, about this time in 1666, the death-rate had sunk to nearly its ordinary amount; a case of plague occurred only here and there, and the richer citizens who had flown from the pest had returned to their dwellings. The remnant of the people began to toil at the accustomed round of duty, or of pleasure; and the stream of city life bid fair to flow back along its old bed, with renewed and uninterrupted vigour."
+   },
+   {
+    "type": "para",
+    "text": "The newly kindled hope was deceitful. The great plague, indeed, returned no more; but what it had done for the Londoners, the great fire, which broke out in the autumn of 1666, did for London; and, in September of that year, a heap of ashes and the indestructible energy of the people were all that remained of the glory of five-sixths of the city within the walls."
+   },
+   {
+    "type": "para",
+    "text": "Our forefathers had their own ways of accounting for each of these calamities. They submitted to the plague in humility and in penitence, for they believed it to be the judgment of God. But, towards the fire they were furiously indignant, interpreting it as the effect of the malice of man,--as the work of the Republicans, or of the Papists, according as their prepossessions ran in favour of loyalty or of Puritanism."
+   },
+   {
+    "type": "para",
+    "text": "It would, I fancy, have fared but ill with one who, standing where I now stand, in what was then a thickly peopled and fashionable part of London, should have broached to our ancestors the doctrine which I now propound to you--that all their hypotheses were alike wrong; that the plague was no more, in their sense, Divine judgment, than the fire was the work of any political, or of any religious, sect; but that they were themselves the authors of both plague and fire, and that they must look to themselves to prevent the recurrence of calamities, to all appearance so peculiarly beyond the reach of human control--so evidently the result of the wrath of God, or of the craft and subtlety of an enemy."
+   },
+   {
+    "type": "para",
+    "text": "And one may picture to oneself how harmoniously the holy cursing of the Puritan of that day would have chimed in with the unholy cursing and the crackling wit of the Rochesters and Sedleys, and with the revilings of the political fanatics, if my imaginary plain dealer had gone on to say that, if the return of such misfortunes were ever rendered impossible, it would not be in virtue of the victory of the faith of Laud, or of that of Milton; and, as little, by the triumph of republicanism, as by that of monarchy. But that the one thing needful for compassing this end was, that the people of England should second the efforts of an insignificant corporation, the establishment of which, a few years before the epoch of the great plague and the great fire, had been as little noticed, as they were conspicuous."
+   },
+   {
+    "type": "para",
+    "text": "Some twenty years before the outbreak of the plague a few calm and thoughtful students banded themselves together for the purpose, as they phrased it, of \"improving natural knowledge.\" The ends they proposed to attain cannot be stated more clearly than in the words of one of the founders of the organization:--"
+   },
+   {
+    "type": "para",
+    "text": "\"Our business was (precluding matters of theology and state affairs) to discourse and consider of philosophical enquiries, and such as related thereunto:--as Physick, Anatomy, Geometry, Astronomy, Navigation, Staticks, Magneticks, Chymicks, Mechanicks, and Natural Experiments; with the state of these studies and their cultivation at home and abroad. We then discoursed of the circulation of the blood, the valves in the veins, the venæ lacteæ, the lymphatic vessels, the Copernican hypothesis, the nature of comets and new stars, the satellites of Jupiter, the oval shape (as it then appeared) of Saturn, the spots on the sun and its turning on its own axis, the inequalities and selenography of the moon, the several phases of Venus and Mercury, the improvement of telescopes and grinding of glasses for that purpose, the weight of air, the possibility or impossibility of vacuities and nature's abhorrence thereof, the Torricellian experiment in quicksilver, the descent of heavy bodies and the degree of acceleration therein, with divers other things of like nature, some of which were then but new discoveries, and others not so generally known and embraced as now they are; with other things appertaining to what hath been called the New Philosophy, which, from the times of Galileo at Florence, and Sir Francis Bacon (Lord Verulam) in England, hath been much cultivated in Italy, France, Germany, and other parts abroad, as well as with us in England.\""
+   },
+   {
+    "type": "para",
+    "text": "The learned Dr. Wallis, writing in 1696, narrates, in these words, what happened half a century before, or about 1645. The associates met at Oxford, in the rooms of Dr. Wilkins, who was destined to become a bishop; and subsequently coming together in London, they attracted the notice of the king. And it is a strange evidence of the taste for knowledge which the most obviously worthless of the Stuarts shared with his father and grandfather, that Charles the Second was not content with saying witty things about his philosophers, but did wise things with regard to them. For he not only bestowed upon them such attention as he could spare from his poodles and his mistresses, but, being in his usual state of impecuniosity, begged for them of the Duke of Ormond; and, that step being without effect, gave them Chelsea College, a charter, and a mace: crowning his favours in the best way they could be crowned, by burdening them no further with royal patronage or state interference."
+   },
+   {
+    "type": "para",
+    "text": "Thus it was that the half-dozen young men, studious of the \"New Philosophy,\" who met in one another's lodgings in Oxford or in London, in the middle of the seventeenth century, grew in numerical and in real strength, until, in its latter part, the \"Royal Society for the Improvement of Natural Knowledge\" had already become famous, and had acquired a claim upon the veneration of Englishmen, which it has ever since retained, as the principal focus of scientific activity in our islands, and the chief champion of the cause it was formed to support."
+   },
+   {
+    "type": "para",
+    "text": "It was by the aid of the Royal Society that Newton published his \"Principia.\" If all the books in the world, except the Philosophical Transactions, were destroyed, it is safe to say that the foundations of physical science would remain unshaken, and that the vast intellectual progress of the last two centuries would be largely, though incompletely, recorded. Nor have any signs of halting or of decrepitude manifested themselves in our own times. As in Dr. Wallis's days, so in these, \"our business is, precluding theology and state affairs, to discourse and consider of philosophical enquiries.\" But our \"Mathematick\" is one which Newton would have to go to school to learn; our \"Staticks, Mechanicks, Magneticks, Chymicks, and Natural Experiments\" constitute a mass of physical and chemical knowledge, a glimpse at which would compensate Galileo for the doings of a score of inquisitorial cardinals; our \"Physick\" and \"Anatomy\" have embraced such infinite varieties of being, have laid open such new worlds in time and space, have grappled, not unsuccessfully, with such complex problems, that the eyes of Vesalius and of Harvey might be dazzled by the sight of the tree that has grown out of their grain of mustard seed."
+   },
+   {
+    "type": "para",
+    "text": "The fact is perhaps rather too much, than too little, forced upon one's notice, nowadays, that all this marvellous intellectual growth has a no less wonderful expression in practical life; and that, in this respect, if in no other, the movement symbolized by the progress of the Royal Society stands without a parallel in the history of mankind."
+   },
+   {
+    "type": "para",
+    "text": "A series of volumes as bulky as the Transactions of the Royal Society might possibly be filled with the subtle speculations of the schoolmen; not improbably, the obtaining a mastery over the products of mediæval thought might necessitate an even greater expenditure of time and of energy than the acquirement of the \"New Philosophy;\" but though such work engrossed the best intellects of Europe for a longer time than has elapsed since the great fire, its effects were \"writ in water,\" so far as our social state is concerned."
+   },
+   {
+    "type": "para",
+    "text": "On the other hand, if the noble first President of the Royal Society could revisit the upper air and once more gladden his eyes with a sight of the familiar mace, he would find himself in the midst of a material civilization more different from that of his day, than that of the seventeenth, was from that of the first, century. And if Lord Brouncker's native sagacity had not deserted his ghost, he would need no long reflection to discover that all these great ships, these railways, these telegraphs, these factories, these printing presses, without which the whole fabric of modern English society would collapse into a mass of stagnant and starving pauperism,--that all these pillars of our State are but the ripples and the bubbles upon the surface of that great spiritual stream, the springs of which, only, he and his fellows were privileged to see; and seeing, to recognise as that which it behoved them above all things to keep pure and undefiled."
+   },
+   {
+    "type": "para",
+    "text": "It may not be too great a flight of imagination to conceive our noble revenant not forgetful of the great troubles of his own day, and anxious to know how often London had been burned down since his time, and how often the plague had carried off its thousands. He would have to learn that, although London contains tenfold the inflammable matter that it did in 1666; though, not content with filling our rooms with woodwork and light draperies, we must needs lead inflammable and explosive gases into every corner of our streets and houses, we never allow even a street to burn down. And if he asked how this had come about, we should have to explain that the improvement of natural knowledge has furnished us with dozens of machines for throwing water upon fires, anyone of which would have furnished the ingenious Mr. Hooke, the first \"curator and experimenter\" of the Royal Society, with ample materials for discourse before half a dozen meetings of that body; and that, to say truth, except for the progress of natural knowledge, we should not have been able to make even the tools by which these machines are constructed. And, further, it would be necessary to add, that although severe fires sometimes occur and inflict great damage, the loss is very generally compensated by societies, the operations of which have been rendered possible only by the progress of natural knowledge in the direction of mathematics, and the accumulation of wealth in virtue of other natural knowledge."
+   },
+   {
+    "type": "para",
+    "text": "But the plague? My Lord Brouncker's observation would not, I fear, lead him to think that Englishmen of the nineteenth century are purer in life, or more fervent in religious faith, than the generation which could produce a Boyle, an Evelyn, and a Milton. He might find the mud of society at the bottom, instead of at the top, but I fear that the sum total would be as deserving of swift judgment as at the time of the Restoration. And it would be our duty to explain once more, and this time not without shame, that we have no reason to believe that it is the improvement of our faith, nor that of our morals, which keeps the plague from our city; but, again, that it is the improvement of our natural knowledge."
+   },
+   {
+    "type": "para",
+    "text": "We have learned that pestilences will only take up their abode among those who have prepared unswept and ungarnished residences for them. Their cities must have narrow, unwatered streets, foul with accumulated garbage. Their houses must be ill-drained, ill-lighted, ill-ventilated. Their subjects must be ill-washed, ill-fed, ill-clothed. The London of 1665 was such a city. The cities of the East, where plague has an enduring dwelling, are such cities. We, in later times, have learned somewhat of Nature, and partly obey her. Because of this partial improvement of our natural knowledge and of that fractional obedience, we have no plague; because that knowledge is still very imperfect and that obedience yet incomplete, typhus is our companion and cholera our visitor. But it is not presumptuous to express the belief that, when our knowledge is more complete and our obedience the expression of our knowledge, London will count her centuries of freedom from typhus and cholera, as she now gratefully reckons her two hundred years of ignorance of that plague which swooped upon her thrice in the first half of the seventeenth century."
+   },
+   {
+    "type": "para",
+    "text": "Surely, there is nothing in these explanations which is not fully borne out by the facts? Surely, the principles involved in them are now admitted among the fixed beliefs of all thinking men? Surely, it is true that our countrymen are less subject to fire, famine, pestilence, and all the evils which result from a want of command over and due anticipation of the course of Nature, than were the countrymen of Milton; and health, wealth, and well-being are more abundant with us than with them? But no less certainly is the difference due to the improvement of our knowledge of Nature, and the extent to which that improved knowledge has been incorporated with the household words of men, and has supplied the springs of their daily actions."
+   },
+   {
+    "type": "para",
+    "text": "Granting for a moment, then, the truth of that which the depreciators of natural knowledge are so fond of urging, that its improvement can only add to the resources of our material civilization; admitting it to be possible that the founders of the Royal Society themselves looked for no other reward than this, I cannot confess that I was guilty of exaggeration when I hinted, that to him who had the gift of distinguishing between prominent events and important events, the origin of a combined effort on the part of mankind to improve natural knowledge might have loomed larger than the Plague and have outshone the glare of the Fire; as a something fraught with a wealth of beneficence to mankind, in comparison with which the damage done by those ghastly evils would shrink into insignificance."
+   },
+   {
+    "type": "para",
+    "text": "It is very certain that for every victim slain by the plague, hundreds of mankind exist and find a fair share of happiness in the world, by the aid of the spinning jenny. And the great fire, at its worst, could not have burned the supply of coal, the daily working of which, in the bowels of the earth, made possible by the steam pump, gives rise to an amount of wealth to which the millions lost in old London are but as an old song."
+   },
+   {
+    "type": "para",
+    "text": "But spinning jenny and steam pump are, after all, but toys, possessing an accidental value; and natural knowledge creates multitudes of more subtle contrivances, the praises of which do not happen to be sung because they are not directly convertible into instruments for creating wealth. When I contemplate natural knowledge squandering such gifts among men, the only appropriate comparison I can find for her is, to liken her to such a peasant woman as one sees in the Alps, striding ever upward, heavily burdened, and with mind bent only on her home; but yet, without effort and without thought, knitting for her children. Now stockings are good and comfortable things, and the children will undoubtedly be much the better for them; but surely it would be short-sighted, to say the least of it, to depreciate this toiling mother as a mere stocking-machine--a mere provider of physical comforts?"
+   },
+   {
+    "type": "para",
+    "text": "However, there are blind leaders of the blind, and not a few of them, who take this view of natural knowledge, and can see nothing in the bountiful mother of humanity but a sort of comfort-grinding machine. According to them, the improvement of natural knowledge always has been, and always must be, synonymous with no more than the improvement of the material resources and the increase of the gratifications of men."
+   },
+   {
+    "type": "para",
+    "text": "Natural knowledge is, in their eyes, no real mother of mankind, bringing them up with kindness, and, if need be, with sternness, in the way they should go, and instructing them in all things needful for their welfare; but a sort of fairy godmother, ready to furnish her pets with shoes of swiftness, swords of sharpness, and omnipotent Aladdin's lamps, so that they may have telegraphs to Saturn, and see the other side of the moon, and thank God they are better than their benighted ancestors."
+   },
+   {
+    "type": "para",
+    "text": "If this talk were true, I, for one, should not greatly care to toil in the service of natural knowledge. I think I would just as soon be quietly chipping my own flint axe, after the manner of my forefathers a few thousand years back, as be troubled with the endless malady of thought which now infests us all, for such reward. But I venture to say that such views are contrary alike to reason and to fact. Those who discourse in such fashion seem to me to be so intent upon trying to see what is above Nature, or what is behind her, that they are blind to what stares them in the face, in her."
+   },
+   {
+    "type": "para",
+    "text": "I should not venture to speak thus strongly if my justification were not to be found in the simplest and most obvious facts,--if it needed more than an appeal to the most notorious truths to justify my assertion, that the improvement of natural knowledge, whatever direction it has taken, and however low the aims of those who may have commenced it--has not only conferred practical benefits on men, but, in so doing, has effected a revolution in their conceptions of the universe and of themselves, and has profoundly altered their modes of thinking and their views of right and wrong. I say that natural knowledge, seeking to satisfy natural wants, has found the ideas which can alone still spiritual cravings. I say that natural knowledge, in desiring to ascertain the laws of comfort, has been driven to discover those of conduct; and to lay the foundations of a new morality."
+   },
+   {
+    "type": "para",
+    "text": "Let us take these points separately; and, first, what great ideas has natural knowledge introduced into men's minds?"
+   },
+   {
+    "type": "para",
+    "text": "I cannot but think that the foundations of all natural knowledge were laid when the reason of man first came face to face with the facts of Nature: when the savage first learned that the fingers of one hand are fewer than those of both; that it is shorter to cross a stream than to head it; that a stone stops where it is unless it be moved, and that it drops from the hand which lets it go; that light and heat come and go with the sun; that sticks burn away in a fire; that plants and animals grow and die; that if he struck his fellow-savage a blow he would make him angry, and perhaps get a blow in return, while if he offered him a fruit he would please him, and perhaps receive a fish in exchange. When men had acquired this much knowledge, the outlines, rude though they were, of mathematics, of physics, of chemistry, of biology, of moral, economical, and political science, were sketched. Nor did the germ of religion fail when science began to bud. Listen to words which, though new, are yet three thousand years old:--"
+   },
+   {
+    "type": "para",
+    "text": "\"...When in heaven the stars about the moon Look beautiful, when all the winds are laid, And every height comes out, and jutting peak And valley, and the immeasurable heavens Break open to their highest, and all the stars Shine, and the shepherd gladdens in his heart.\"[1]"
+   },
+   {
+    "type": "para",
+    "text": "If the half-savage Greek could share our feelings thus far, it is irrational to doubt that he went further, to find, as we do, that upon that brief gladness there follows a certain sorrow,--the little light of awakened human intelligence shines so mere a spark amidst the abyss of the unknown and unknowable; seems so insufficient to do more than illuminate the imperfections that cannot be remedied, the aspirations that cannot be realized, of man's own nature. But in this sadness, this consciousness of the limitation of man, this sense of an open secret which he cannot penetrate, lies the essence of all religion; and the attempt to embody it in the forms furnished by the intellect is the origin of the higher theologies."
+   },
+   {
+    "type": "para",
+    "text": "Thus it seems impossible to imagine but that the foundations of all knowledge--secular or sacred--were laid when intelligence dawned, though the superstructure remained for long ages so slight and feeble as to be compatible with the existence of almost any general view respecting the mode of governance of the universe. No doubt, from the first, there were certain phenomena which, to the rudest mind, presented a constancy of occurrence, and suggested that a fixed order ruled, at any rate, among them. I doubt if the grossest of Fetish worshippers ever imagined that a stone must have a god within it to make it fall, or that a fruit had a god within it to make it taste sweet. With regard to such matters as these, it is hardly questionable that mankind from the first took strictly positive and scientific views."
+   },
+   {
+    "type": "para",
+    "text": "But, with respect to all the less familiar occurrences which present themselves, uncultured man, no doubt, has always taken himself as the standard of comparison, as the centre and measure of the world; nor could he well avoid doing so. And finding that his apparently uncaused will has a powerful effect in giving rise to many occurrences, he naturally enough ascribed other and greater events to other and greater volitions, and came to look upon the world and all that therein is, as the product of the volitions of persons like himself, but stronger, and capable of being appeased or angered, as he himself might be soothed or irritated. Through such conceptions of the plan and working of the universe all mankind have passed, or are passing. And we may now consider, what has been the effect of the improvement of natural knowledge on the views of men who have reached this stage, and who have begun to cultivate natural knowledge with no desire but that of \"increasing God's honour and bettering man's estate.\""
+   },
+   {
+    "type": "para",
+    "text": "For example: what could seem wiser, from a mere material point of view, more innocent, from a theological one, to an ancient people, than that they should learn the exact succession of the seasons, as warnings for their husbandmen; or the position of the stars, as guides to their rude navigators? But what has grown out of this search for natural knowledge of so merely useful a character? You all know the reply. Astronomy,--which of all sciences has filled men's minds with general ideas of a character most foreign to their daily experience, and has, more than any other, rendered it impossible for them to accept the beliefs of their fathers. Astronomy,--which tells them that this so vast and seemingly solid earth is but an atom among atoms, whirling, no man knows whither, through illimitable space; which demonstrates that what we call the peaceful heaven above us, is but that space, filled by an infinitely subtle matter whose particles are seething and surging, like the waves of an angry sea; which opens up to us infinite regions where nothing is known, or ever seems to have been known, but matter and force, operating according to rigid rules; which leads us to contemplate phenomena the very nature of which demonstrates that they must have had a beginning, and that they must have an end, but the very nature of which also proves that the beginning was, to our conceptions of time, infinitely remote, and that the end is as immeasurably distant."
+   },
+   {
+    "type": "para",
+    "text": "But it is not alone those who pursue astronomy who ask for bread and receive ideas. What more harmless than the attempt to lift and distribute water by pumping it; what more absolutely and grossly utilitarian? But out of pumps grew the discussions about Nature's abhorrence of a vacuum; and then it was discovered that Nature does not abhor a vacuum, but that air has weight; and that notion paved the way for the doctrine that all matter has weight, and that the force which produces weight is co-extensive with the universe,--in short, to the theory of universal gravitation and endless force. While learning how to handle gases led to the discovery of oxygen, and to modern chemistry, and to the notion of the indestructibility of matter."
+   },
+   {
+    "type": "para",
+    "text": "Again, what simpler, or more absolutely practical, than the attempt to keep the axle of a wheel from heating when the wheel turns round very fast? How useful for carters and gig drivers to know something about this; and how good were it, if any ingenious person would find out the cause of such phenomena, and thence educe a general remedy for them. Such an ingenious person was Count Rumford; and he and his successors have landed us in the theory of the persistence, or indestructibility, of force. And in the infinitely minute, as in the infinitely great, the seekers after natural knowledge, of the kinds called physical and chemical, have everywhere found a definite order and succession of events which seem never to be infringed."
+   },
+   {
+    "type": "para",
+    "text": "And how has it fared with \"Physick\" and Anatomy? Have the anatomist, the physiologist, or the physician, whose business it has been to devote themselves assiduously to that eminently practical and direct end, the alleviation of the sufferings of mankind,--have they been able to confine their vision more absolutely to the strictly useful? I fear they are worst offenders of all. For if the astronomer has set before us the infinite magnitude of space, and the practical eternity of the duration of the universe; if the physical and chemical philosophers have demonstrated the infinite minuteness of its constituent parts, and the practical eternity of matter and of force; and if both have alike proclaimed the universality of a definite and predicable order and succession of events, the workers in biology have not only accepted all these, but have added more startling theses of their own. For, as the astronomers discover in the earth no centre of the universe, but an eccentric speck, so the naturalists find man to be no centre of the living world, but one amidst endless modifications of life; and as the astronomer observes the mark of practically endless time set upon the arrangements of the solar system, so the student of life finds the records of ancient forms of existence peopling the world for ages, which, in relation to human experience, are infinite."
+   },
+   {
+    "type": "para",
+    "text": "Furthermore, the physiologist finds life to be as dependent for its manifestation on particular molecular arrangements as any physical or chemical phenomenon; and, wherever he extends his researches, fixed order and unchanging causation reveal themselves, as plainly as in the rest of Nature."
+   },
+   {
+    "type": "para",
+    "text": "Nor can I find that any other fate has awaited the germ of Religion. Arising, like all other kinds of knowledge, out of the action and interaction of man's mind, with that which is not man's mind, it has taken the intellectual coverings of Fetishism or Polytheism; of Theism or Atheism; of Superstition or Rationalism. With these, and their relative merits and demerits, I have nothing to do; but this it is needful for my purpose to say, that if the religion of the present differs from that of the past, it is because the theology of the present has become more scientific than that of the past; because it has not only renounced idols of wood and idols of stone, but begins to see the necessity of breaking in pieces the idols built up of books and traditions and fine-spun ecclesiastical cobwebs: and of cherishing the noblest and most human of man's emotions, by worship \"for the most part of the silent sort\" at the altar of the Unknown and Unknowable."
+   },
+   {
+    "type": "para",
+    "text": "Such are a few of the new conceptions implanted in our minds by the improvement of natural knowledge. Men have acquired the ideas of the practically infinite extent of the universe and of its practical eternity; they are familiar with the conception that our earth is but an infinitesimal fragment of that part of the universe which can be seen; and that, nevertheless, its duration is, as compared with our standards of time, infinite. They have further acquired the idea that man is but one of innumerable forms of life now existing in the globe, and that the present existences are but the last of an immeasurable series of predecessors. Moreover, every step they have made in natural knowledge has tended to extend and rivet in their minds the conception of a definite order of the universe--which is embodied in what are called, by an unhappy metaphor, the laws of Nature--and to narrow the range and loosen the force of men's belief in spontaneity, or in changes other than such as arise out of that definite order itself."
+   },
+   {
+    "type": "para",
+    "text": "Whether these ideas are well or ill founded is not the question. No one can deny that they exist, and have been the inevitable outgrowth of the improvement of natural knowledge. And if so, it cannot be doubted that they are changing the form of men's most cherished and most important convictions."
+   },
+   {
+    "type": "para",
+    "text": "And as regards the second point--the extent to which the improvement of natural knowledge has remodelled and altered what may be termed the intellectual ethics of men,--what are among the moral convictions most fondly held by barbarous and semi-barbarous people?"
+   },
+   {
+    "type": "para",
+    "text": "They are the convictions that authority is the soundest basis of belief; that merit attaches to a readiness to believe; that the doubting disposition is a bad one, and scepticism a sin; that when good authority has pronounced what is to be believed, and faith has accepted it, reason has no further duty. There are many excellent persons who yet hold by these principles, and it is not my present business, or intention, to discuss their views. All I wish to bring clearly before your minds is the unquestionable fact, that the improvement of natural knowledge is effected by methods which directly give the lie to all these convictions, and assume the exact reverse of each to be true."
+   },
+   {
+    "type": "para",
+    "text": "The improver of natural knowledge absolutely refuses to acknowledge authority, as such. For him, scepticism is the highest of duties; blind faith the one unpardonable sin. And it cannot be otherwise, for every great advance in natural knowledge has involved the absolute rejection of authority, the cherishing of the keenest scepticism, the annihilation of the spirit of blind faith: and the most ardent votary of science holds his firmest convictions, not because the men he most venerates hold them; not because their verity is testified by portents and wonders; but because his experience teaches him that whenever he chooses to bring these convictions into contact with their primary source, Nature--whenever he thinks fit to test them by appealing to experiment and to observation--Nature will confirm them. The man of science has learned to believe in justification, not by faith, but by verification."
+   },
+   {
+    "type": "para",
+    "text": "Thus, without for a moment pretending to despise the practical results of the improvement of natural knowledge, and its beneficial influence on material civilization, it must, I think, be admitted that the great ideas, some of which I have indicated, and the ethical spirit which I have endeavoured to sketch, in the few moments which remained at my disposal, constitute the real and permanent significance of natural knowledge."
+   },
+   {
+    "type": "para",
+    "text": "If these ideas be destined, as I believe they are, to be more and more firmly established as the world grows older; if that spirit be fated, as I believe it is, to extend itself into all departments of human thought, and to become co-extensive with the range of knowledge; if, as our race approaches its maturity, it discovers, as I believe it will, that there is but one kind of knowledge and but one method of acquiring it; then we, who are still children, may justly feel it our highest duty to recognise the advisableness of improving natural knowledge, and so to aid ourselves and our successors in their course towards the noble goal which lies before mankind."
+   },
+   {
+    "type": "para",
+    "text": "FOOTNOTE:"
+   },
+   {
+    "type": "para",
+    "text": "[1] Need it be said that this is Tennyson's English for Homer's Greek?"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 16729,
+   "path": "pg16729.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "fb2a1f64493a07b46d9e49120f7b5ff96ca620620b52e4263b3d5a831874f3aa",
+   "url": "https://www.gutenberg.org/cache/epub/16729/pg16729.txt",
+   "headingLine": 248,
+   "startLine": 249,
+   "endLine": 792,
+   "heading": "ON THE ADVISABLENESS OF IMPROVING NATURAL KNOWLEDGE.",
+   "bodySha256": "f103ee48055169ff987f41899cd84690705d91e2bba9c2c34d28472505a74c37",
+   "headingStartLine": 246
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "marcus-clarke-preface-to-the-poems-of-adam-lindsay-gordon",
+  "kind": "essay",
+  "title": "Preface to the Poems of Adam Lindsay Gordon",
+  "author": "Marcus Clarke",
+  "year": "written 1876; published 1880",
+  "place": "Australia",
+  "source": "https://www.gutenberg.org/ebooks/258",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The poems of Gordon have an interest beyond the mere personal one which his friends attach to his name. Written, as they were, at odd times and leisure moments of a stirring and adventurous life, it is not to be wondered at if they are unequal or unfinished. The astonishment of those who knew the man, and can gauge the capacity of this city to foster poetic instinct, is that such work was ever produced here at all. Intensely nervous, and feeling much of that shame at the exercise of the higher intelligence which besets those who are known to be renowned in field sports, Gordon produced his poems shyly, scribbled them on scraps of paper, and sent them anonymously to magazines. It was not until he discovered one morning that everybody knew a couplet or two of \"How we Beat the Favourite\" that he consented to forego his anonymity and appear in the unsuspected character of a versemaker. The success of his republished \"collected\" poems gave him courage, and the unreserved praise which greeted \"Bush Ballads\" should have urged him to forget or to conquer those evil promptings which, unhappily, brought about his untimely death."
+   },
+   {
+    "type": "para",
+    "text": "Adam Lindsay Gordon was the son of an officer in the English army, and was educated at Woolwich, in order that he might follow the profession of his family. At the time when he was a cadet there was no sign of either of the two great wars which were about to call forth the strength of English arms, and, like many other men of his day, he quitted his prospects of service and emigrated. He went to South Australia and started as a sheep farmer. His efforts were attended with failure. He lost his capital, and, owning nothing but a love for horsemanship and a head full of Browning and Shelley, plunged into the varied life which gold-mining, \"overlanding\", and cattle-driving affords. From this experience he emerged to light in Melbourne as the best amateur steeplechase rider in the colonies. The victory he won for Major Baker in 1868, when he rode Babbler for the Cup Steeplechase, made him popular, and the almost simultaneous publication of his last volume of poems gave him welcome entrance to the houses of all who had pretensions to literary taste. The reputation of the book spread to England, and Major Whyte Melville did not disdain to place the lines of the dashing Australian author at the head of his own dashing descriptions of sporting scenery. Unhappily, the melancholy which Gordon's friends had with pain observed increased daily, and in the full flood of his success, with congratulations pouring upon him from every side, he was found dead in the heather near his home with a bullet from his own rifle in his brain."
+   },
+   {
+    "type": "para",
+    "text": "I do not propose to criticise the volumes which these few lines of preface introduce to the reader. The influence of Browning and of Swinburne upon the writer's taste is plain. There is plainly visible also, however, a keen sense for natural beauty and a manly admiration for healthy living. If in \"Ashtaroth\" and \"Bellona\" we recognise the swing of a familiar metre, in such poems as \"The Sick Stockrider\" we perceive the genuine poetic instinct united to a very clear perception of the loveliness of duty and of labour."
+   },
+   {
+    "type": "para",
+    "text": "\"'Twas merry in the glowing morn, among the gleaming grass, To wander as we've wandered many a mile, And blow the cool tobacco cloud, and watch the white wreaths pass, Sitting loosely in the saddle all the while; 'Twas merry 'mid the blackwoods, when we spied the station roofs, To wheel the wild scrub cattle at the yard, With a running fire of stockwhips and a fiery run of hoofs, Oh! the hardest day was never then too hard!"
+   },
+   {
+    "type": "para",
+    "text": "\"Aye! we had a glorious gallop after 'Starlight' and his gang, When they bolted from Sylvester's on the flat; How the sun-dried reed-beds crackled, how the flint-strewn ranges rang To the strokes of 'Mountaineer' and 'Acrobat'; Hard behind them in the timber, harder still across the heath, Close behind them through the tea-tree scrub we dashed; And the golden-tinted fern leaves, how they rustled underneath! And the honeysuckle osiers, how they crash'd!\""
+   },
+   {
+    "type": "para",
+    "text": "This is genuine. There is no \"poetic evolution from the depths of internal consciousness\" here. The writer has ridden his ride as well as written it."
+   },
+   {
+    "type": "para",
+    "text": "The student of these unpretending volumes will be repaid for his labour. He will find in them something very like the beginnings of a national school of Australian poetry. In historic Europe, where every rood of ground is hallowed in legend and in song, the least imaginative can find food for sad and sweet reflection. When strolling at noon down an English country lane, lounging at sunset by some ruined chapel on the margin of an Irish lake, or watching the mists of morning unveil Ben Lomond, we feel all the charm which springs from association with the past. Soothed, saddened, and cheered by turns, we partake of the varied moods which belong not so much to ourselves as to the dead men who, in old days, sung, suffered, or conquered in the scenes which we survey. But this our native or adopted land has no past, no story. No poet speaks to us. Do we need a poet to interpret Nature's teachings, we must look into our own hearts, if perchance we may find a poet there."
+   },
+   {
+    "type": "para",
+    "text": "What is the dominant note of Australian scenery? That which is the dominant note of Edgar Allan Poe's poetry--Weird Melancholy. A poem like \"L'Allegro\" could never be written by an Australian. It is too airy, too sweet, too freshly happy. The Australian mountain forests are funereal, secret, stern. Their solitude is desolation. They seem to stifle, in their black gorges, a story of sullen despair. No tender sentiment is nourished in their shade. In other lands the dying year is mourned, the falling leaves drop lightly on his bier. In the Australian forests no leaves fall. The savage winds shout among the rock clefts. From the melancholy gums strips of white bark hang and rustle. The very animal life of these frowning hills is either grotesque or ghostly. Great grey kangaroos hop noiselessly over the coarse grass. Flights of white cockatoos stream out, shrieking like evil souls. The sun suddenly sinks, and the mopokes burst out into horrible peals of semi-human laughter. The natives aver that, when night comes, from out the bottomless depth of some lagoon the Bunyip rises, and, in form like monstrous sea-calf, drags his loathsome length from out the ooze. From a corner of the silent forest rises a dismal chant, and around a fire dance natives painted like skeletons. All is fear-inspiring and gloomy. No bright fancies are linked with the memories of the mountains. Hopeless explorers have named them out of their sufferings--Mount Misery, Mount Dreadful, Mount Despair. As when among sylvan scenes in places"
+   },
+   {
+    "type": "para",
+    "text": "\"Made green with the running of rivers, And gracious with temperate air,\""
+   },
+   {
+    "type": "para",
+    "text": "the soul is soothed and satisfied, so, placed before the frightful grandeur of these barren hills, it drinks in their sentiment of defiant ferocity, and is steeped in bitterness."
+   },
+   {
+    "type": "para",
+    "text": "Australia has rightly been named the Land of the Dawning. Wrapped in the midst of early morning, her history looms vague and gigantic. The lonely horseman riding between the moonlight and the day sees vast shadows creeping across the shelterless and silent plains, hears strange noises in the primeval forest, where flourishes a vegetation long dead in other lands, and feels, despite his fortune, that the trim utilitarian civilisation which bred him shrinks into insignificance beside the contemptuous grandeur of forest and ranges coeval with an age in which European scientists have cradled his own race."
+   },
+   {
+    "type": "para",
+    "text": "There is a poem in every form of tree or flower, but the poetry which lives in the trees and flowers of Australia differs from those of other countries. Europe is the home of knightly song, of bright deeds and clear morning thought. Asia sinks beneath the weighty recollections of her past magnificence, as the Suttee sinks, jewel burdened, upon the corpse of dread grandeur, destructive even in its death. America swiftly hurries on her way, rapid, glittering, insatiable even as one of her own giant waterfalls. From the jungles of Africa, and the creeper-tangled groves of the Islands of the South, arise, from the glowing hearts of a thousand flowers, heavy and intoxicating odours--the Upas-poison which dwells in barbaric sensuality. In Australia alone is to be found the Grotesque, the Weird, the strange scribblings of Nature learning how to write. Some see no beauty in our trees without shade, our flowers without perfume, our birds who cannot fly, and our beasts who have not yet learned to walk on all fours. But the dweller in the wilderness acknowledges the subtle charm of this fantastic land of monstrosities. He becomes familiar with the beauty of loneliness. Whispered to by the myriad tongues of the wilderness, he learns the language of the barren and the uncouth, and can read the hieroglyphics of haggard gum-trees, blown into odd shapes, distorted with fierce hot winds, or cramped with cold nights, when the Southern Cross freezes in a cloudless sky of icy blue. The phantasmagoria of that wild dreamland termed the Bush interprets itself, and the Poet of our desolation begins to comprehend why free Esau loved his heritage of desert sand better than all the bountiful richness of Egypt."
+   },
+   {
+    "type": "para",
+    "text": "Marcus Clarke."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 258,
+   "path": "pg258.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "11e30057753b6d7ed77bdc935b81754947d6c331624da94eb5b6b2a42db331f3",
+   "url": "https://www.gutenberg.org/cache/epub/258/pg258.txt",
+   "headingLine": 128,
+   "startLine": 129,
+   "endLine": 286,
+   "heading": "PREFACE.",
+   "bodySha256": "b5b95ee450efba7a7d31d09b9d65ff996083ff5f7dff18a754aceb042d7f5f5d"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "w-h-hudson-cristiano-a-horse",
+  "kind": "essay",
+  "title": "Cristiano: A Horse",
+  "author": "W. H. Hudson",
+  "year": "1919",
+  "place": "Argentina",
+  "source": "https://www.gutenberg.org/ebooks/79577",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "A gaucho of my acquaintance, when I lived on the pampas and was a very young man, owned a favourite riding-horse which he had named Cristiano. To the gaucho “Christian” is simply another word for white man: he gave it that name because one of its eyes was a pale blue-grey, almost white--a colour sometimes seen in the eyes of a white man, but never in an Indian. The other eye was normal, though of a much lighter brown than usual. Cristiano, however, could see equally well out of both eyes, nor was the blue eye on one side correlated with deafness, as in a white cat. His sense of hearing was quite remarkable. His colour was a fine deep fawn, with black mane and tail, and altogether he was a handsome and a good, strong, sound animal; his owner was so much attached to him that he would seldom ride any other horse, and as a rule he had him saddled every day."
+   },
+   {
+    "type": "para",
+    "text": "Now if it had only been the blue eye I should probably have forgotten Cristiano, as I made no notes about him, but I remember him vividly to this day on account of something arresting in his psychology: he was an example of the powerful effect of the conditions he had been reared in and of the persistence of habits acquired at an early period after they have ceased to be of any significance in the creature’s life. Every time I was in my gaucho friend’s company, when his favourite Cristiano, along with other saddle horses, was standing at the palenque, or row of posts set up before the door of a native rancho for visitors to fasten their horses to, my attention would be attracted to his singular behaviour. His master always tied him to the palenque with a long cabresto, or lariat, to give him plenty of space to move his head and whole body about quite freely. And that was just what he was always doing. A more restless horse I had never seen. His head was always raised as high as he could raise it--like an ostrich, the gauchos would say--his gaze fixed excitedly on some far object; then presently he would wheel round and stare in another direction, pointing his ears forward to listen intently to some faint far sound, which had touched his sense. The sounds that excited him most were as a rule the alarm cries of lapwings, and the objects he gazed fixedly at with a great show of apprehension would usually turn out to be a horseman on the horizon; but the sounds and sights would for some time be inaudible and invisible to us on account of their distance. Occasionally, when the bird’s alarm cries grew loud and the distant rider was found to be approaching, his excitement would increase until it would discharge itself in a resounding snort--the warning or alarm note of the wild horse."
+   },
+   {
+    "type": "para",
+    "text": "One day I remarked to my gaucho friend that his blue-eyed Cristiano amused me more than any other horse I knew. He was just like a child, and when tired of the monotony of standing tethered to the palenque he would start playing sentinel. He would imagine it was war-time or that an invasion of Indians was expected, and every cry of a lapwing or other alarm-giving bird, or the sight of a horseman in the distance would cause him to give a warning. But the other horses would not join in the game; they let him keep watch and wheel about this way and that, spying or pretending to spy something, and blowing his loud trumpet, without taking any notice. They simply dozed with heads down, occasionally switching off the flies with their tails or stamping a hoof to get them off their legs, or rubbing their tongues over the bits to make a rattling sound with the little iron rollers on the bridle-bar."
+   },
+   {
+    "type": "para",
+    "text": "He laughed and said I was mistaken, that Cristiano was not amusing himself with a game he had invented. He was born wild and belonged to a district not many leagues away but where there was an extensive marshy area impracticable for hunting on horseback. Here a band of wild horses, a small remnant of an immense troop that had formerly existed in that part, had been able to keep their freedom down to recent years. As they were frequently hunted in dry seasons when the ground was not so bad, they had become exceedingly alert and cunning, and the sight of men on horseback would send them flying to the most inaccessible places in the marshes, where it was impossible to follow them. Eventually plans were laid and the troop driven from their stronghold out into the open country, where the ground was firm, and most of them were captured. Cristiano was one of them, a colt about four or five months old, and my friend took possession of him, attracted by his blue eye and fine fawn colour. In quite a short time the colt became perfectly tame, and when broken turned out an exceptionally good riding-horse. But though so young when captured the wild alert habit was never dropped. He could never be still: when out grazing with the other horses or when standing tied to the palenque he was perpetually on the watch, and the cry of a plover, the sound of galloping hoofs, the sight of a horseman, would startle him and cause him to trumpet his alarm."
+   },
+   {
+    "type": "para",
+    "text": "It strikes me as rather curious that in spite of Cristiano’s evident agitation at certain sounds and sights, it never went to the length of a panic; he never attempted to break loose and run away. He behaved just as if the plover’s cry or the sound of hoofs or the sight of mounted men had produced an illusion--that he was once more a wild hunted horse--yet he never acted as though it was an illusion. It was apparently nothing more than a memory and a habit."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 79577,
+   "path": "pg79577.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "25bf7e200e57888b8f6a35b26ba11fda5f30ce9fd0abf25be2985d279149a50d",
+   "url": "https://www.gutenberg.org/cache/epub/79577/pg79577.txt",
+   "headingLine": 2856,
+   "startLine": 2857,
+   "endLine": 2944,
+   "heading": "CRISTIANO: A HORSE",
+   "bodySha256": "d8da2db6004ed1eae6588d30b5e4292664c357c536e2deffad4e98bf54dd0cbb",
+   "headingStartLine": 2854
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "william-james-the-moral-equivalent-of-war",
+  "kind": "essay",
+  "title": "The Moral Equivalent of War",
+  "author": "William James",
+  "year": "1910",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/20768",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The war against war is going to be no holiday excursion or camping party.  The military feelings are too deeply grounded to abdicate their place among our ideals until better substitutes are offered than the glory and shame that come to nations as well as to individuals from the ups and downs of politics and the vicissitudes of trade.  There is something highly paradoxical in the modern man's relation to war.  Ask all our millions, north and south, whether they would vote now (were such a thing possible) to have our war for the Union expunged from history, and the record of a peaceful transition to the present time substituted for that of its marches and battles, and probably hardly a handful of eccentrics would say yes.  Those ancestors, those efforts, those memories and legends, are the most ideal part of what we now own together, a sacred spiritual possession worth more than all the blood poured out.  Yet ask those same people whether they would be willing in cold blood to start another civil war now to gain another similar possession, and not one man or women would vote for the proposition. In modern eyes, precious though wars may be, they must not be waged solely for the sake of the ideal harvest.  Only when forced upon one, only when an enemy's injustice leaves us no alternative, is a war now thought permissible."
+   },
+   {
+    "type": "para",
+    "text": "It was not thus in ancient times.  The earlier men were hunting men, and to hunt a neighboring tribe, kill the males, loot the village and possess the females, was the most profitable, as well as the most exciting, way of living.  Thus were the more martial tribes selected, and in chiefs and peoples a pure pugnacity and love of glory came to mingle with the more fundamental appetite for plunder."
+   },
+   {
+    "type": "para",
+    "text": "Modern war is so expensive that we feel trade to be a better avenue to plunder; but modern man inherits all the innate pugnacity and all the love of glory of his ancestors.  Showing war's irrationality and horror is of no effect upon him.  The horrors make the fascination.  War is the strong life; it is life in extremis; war-taxes are the only ones men never hesitate to pay, as the budgets of all nations show us."
+   },
+   {
+    "type": "para",
+    "text": "History is a bath of blood.  The Iliad is one long recital of how Diomedes and Ajax, Sarpedon and Hector killed.  No detail of the wounds they made is spared us, and the Greek mind fed upon the story. Greek history is a panorama of jingoism and imperialism--war for war's sake, all the citizens being warriors.  It is horrible reading, because of the irrationality of it all--save for the purpose of making \"history\"--and the history is that of the utter ruin of a civilization in intellectual respects perhaps the highest the earth has ever seen."
+   },
+   {
+    "type": "para",
+    "text": "Those wars were purely piratical.  Pride, gold, women, slaves, excitement, were their only motives.  In the Peloponnesian war for example, the Athenians ask the inhabitants of Melos (the island where the \"Venus of Milo\" was found), hitherto neutral, to own their lordship.  The envoys meet, and hold a debate which Thucydides gives in full, and which, for sweet reasonableness of form, would have satisfied Matthew Arnold.  \"The powerful exact what they can,\" said the Athenians, \"and the weak grant what they must.\"  When the Meleans say that sooner than be slaves they will appeal to the gods, the Athenians reply: \"Of the gods we believe and of men we know that, by a law of their nature, wherever they can rule they will.  This law was not made by us, and we are not the first to have acted upon it; we did but inherit it, and we know that you and all mankind, if you were as strong as we are, would do as we do.  So much for the gods; we have told you why we expect to stand as high in their good opinion as you.\"  Well, the Meleans still refused, and their town was taken.  \"The Athenians,\" Thucydides quietly says, \"thereupon put to death all who were of military age and made slaves of the women and children.  They then colonized the island, sending thither five hundred settlers of their own.\""
+   },
+   {
+    "type": "para",
+    "text": "Alexander's career was piracy pure and simple, nothing but an orgy of power and plunder, made romantic by the character of the hero.  There was no rational principle in it, and the moment he died his generals and governors attacked one another.  The cruelty of those times is incredible.  When Rome finally conquered Greece, Paulus Aemilius, was told by the Roman Senate to reward his soldiers for their toil by \"giving\" them the old kingdom of Epirus.  They sacked seventy cities and carried off a hundred and fifty thousand inhabitants as slaves. How many they killed I know not; but in Etolia they killed all the senators, five hundred and fifty in number.  Brutus was \"the noblest Roman of them all,\" but to reanimate his soldiers on the eve of Philippi he similarly promises to give them the cities of Sparta and Thessalonica to ravage, if they win the fight."
+   },
+   {
+    "type": "para",
+    "text": "Such was the gory nurse that trained societies to cohesiveness.  We inherit the warlike type; and for most of the capacities of heroism that the human race is full of we have to thank this cruel history. Dead men tell no tales, and if there were any tribes of other type than this they have left no survivors.  Our ancestors have bred pugnacity into our bone and marrow, and thousands of years of peace won't breed it out of us.  The popular imagination fairly fattens on the thought of wars.  Let public opinion once reach a certain fighting pitch, and no ruler can withstand it.  In the Boer war both governments began with bluff but could n't stay there, the military tension was too much for them.  In 1898 our people had read the word \"war\" in letters three inches high for three months in every newspaper.  The pliant politician McKinley was swept away by their eagerness, and our squalid war with Spain became a necessity."
+   },
+   {
+    "type": "para",
+    "text": "At the present day, civilized opinion is a curious mental mixture.  The military instincts and ideals are as strong as ever, but are confronted by reflective criticisms which sorely curb their ancient freedom. Innumerable writers are showing up the bestial side of military service.  Pure loot and mastery seem no longer morally avowable motives, and pretexts must be found for attributing them solely to the enemy.  England and we, our army and navy authorities repeat without ceasing, arm solely for \"peace,\" Germany and Japan it is who are bent on loot and glory.  \"Peace\" in military mouths to-day is a synonym for \"war expected.\"  The word has become a pure provocative, and no government wishing peace sincerely should allow it ever to be printed in a newspaper.  Every up-to-date dictionary should say that \"peace\" and \"war\" mean the same thing, now in posse, now in actu.  It may even reasonably be said that the intensely sharp competitive preparation for war by the nations is the real war, permanent, unceasing; and that the battles are only a sort of public verification of the mastery gained during the \"peace\"-interval."
+   },
+   {
+    "type": "para",
+    "text": "It is plain that on this subject civilized man has developed a sort of double personality.  If we take European nations, no legitimate interest of any one of them would seem to justify the tremendous destructions which a war to compass it would necessarily entail.  It would seem as though common sense and reason ought to find a way to reach agreement in every conflict of honest interests.  I myself think it our bounden duty to believe in such international rationality as possible.  But, as things stand, I see how desperately hard it is to bring the peace-party and the war-party together, and I believe that the difficulty is due to certain deficiencies in the program of pacificism which set the militarist imagination strongly, and to a certain extent justifiably, against it.  In the whole discussion both sides are on imaginative and sentimental ground.  It is but one utopia against another, and everything one says must be abstract and hypothetical.  Subject to this criticism and caution, I will try to characterize in abstract strokes the opposite imaginative forces, and point out what to my own very fallible mind seems the best Utopian hypothesis, the most promising line of conciliation."
+   },
+   {
+    "type": "para",
+    "text": "In my remarks, pacificist though I am, I will refuse to speak of the bestial side of the war-régime (already done justice to by many writers) and consider only the higher aspects of militaristic sentiment.  Patriotism no one thinks discreditable; nor does any one deny that war is the romance of history.  But inordinate ambitions are the soul of every patriotism, and the possibility of violent death the soul of all romance.  The militarily patriotic and romantic-minded everywhere, and especially the professional military class, refuse to admit for a moment that war may be a transitory phenomenon in social evolution.  The notion of a sheep's paradise like that revolts, they say, our higher imagination.  Where then would be the steeps of life? If war had ever stopped, we should have to re-invent it, on this view, to redeem life from flat degeneration."
+   },
+   {
+    "type": "para",
+    "text": "Reflective apologists for war at the present day all take it religiously.  It is a sort of sacrament.  Its profits are to the vanquished as well as to the victor; and quite apart from any question of profit, it is an absolute good, we are told, for it is human nature at its highest dynamic.  Its \"horrors\" are a cheap price to pay for rescue from the only alternative supposed, of a world of clerks and teachers, of co-education and zo-ophily, of \"consumer's leagues\" and \"associated charities,\" of industrialism unlimited, and feminism unabashed.  No scorn, no hardness, no valor any more!  Fie upon such a cattleyard of a planet!"
+   },
+   {
+    "type": "para",
+    "text": "So far as the central essence of this feeling goes, no healthy minded person, it seems to me, can help to some degree partaking of it. Militarism is the great preserver of our ideals of hardihood, and human life with no use for hardihood would be contemptible.  Without risks or prizes for the darer, history would be insipid indeed; and there is a type of military character which every one feels that the race should never cease to breed, for every one is sensitive to its superiority. The duty is incumbent on mankind, of keeping military characters in stock--of keeping them, if not for use, then as ends in themselves and as pure pieces of perfection,--so that Roosevelt's weaklings and mollycoddles may not end by making everything else disappear from the face of nature."
+   },
+   {
+    "type": "para",
+    "text": "This natural sort of feeling forms, I think, the innermost soul of army-writings.  Without any exception known to me, militarist authors take a highly mystical view of their subject, and regard war as a biological or sociological necessity, uncontrolled by ordinary psychological checks and motives.  When the time of development is ripe the war must come, reason or no reason, for the justifications pleaded are invariably fictitious.  War is, in short, a permanent human obligation.  General Homer Lea, in his recent book \"The Valor of Ignorance,\" plants himself squarely on this ground.  Readiness for war is for him the essence of nationality, and ability in it the supreme measure of the health of nations."
+   },
+   {
+    "type": "para",
+    "text": "Nations, General Lea says, are never stationary--they must necessarily expand or shrink, according to their vitality or decrepitude.  Japan now is culminating; and by the fatal law in question it is impossible that her statesmen should not long since have entered, with extraordinary foresight, upon a vast policy of conquest--the game in which the first moves were her wars with China and Russia and her treaty with England, and of which the final objective is the capture of the Philippines, the Hawaiian Islands, Alaska, and the whole of our Coast west of the Sierra Passes.  This will give Japan what her ineluctable vocation as a state absolutely forces her to claim, the possession of the entire Pacific Ocean; and to oppose these deep designs we Americans have, according to our author, nothing but our conceit, our ignorance, our commercialism, our corruption, and our feminism.  General Lea makes a minute technical comparison of the military strength which we at present could oppose to the strength of Japan, and concludes that the islands, Alaska, Oregon, and Southern California, would fall almost without resistance, that San Francisco must surrender in a fortnight to a Japanese investment, that in three or four months the war would be over, and our republic, unable to regain what it had heedlessly neglected to protect sufficiently, would then \"disintegrate,\" until perhaps some Caesar should arise to weld us again into a nation."
+   },
+   {
+    "type": "para",
+    "text": "A dismal forecast indeed!  Yet not implausible, if the mentality of Japan's statesmen be of the Caesarian type of which history shows so many examples, and which is all that General Lea seems able to imagine. But there is no reason to think that women can no longer be the mothers of Napoleonic or Alexandrian characters; and if these come in Japan and find their opportunity, just such surprises as \"The Valor of Ignorance\" paints may lurk in ambush for us.  Ignorant as we still are of the innermost recesses of Japanese mentality, we may be foolhardy to disregard such possibilities."
+   },
+   {
+    "type": "para",
+    "text": "Other militarists are more complex and more moral in their considerations.  The \"Philosophie des Krieges,\" by S. R. Steinmetz is a good example.  War, according to this author, is an ordeal instituted by God, who weighs the nations in its balance.  It is the essential form of the State, and the only function in which peoples can employ all their powers at once and convergently.  No victory is possible save as the resultant of a totality of virtues, no defeat for which some vice or weakness is not responsible.  Fidelity, cohesiveness, tenacity, heroism, conscience, education, inventiveness, economy, wealth, physical health and vigor--there is n't a moral or intellectual point of superiority that does n't tell, when God holds his assizes and hurls the peoples upon one another.  Die Weltgeschichte ist das Weltgericht; and Dr. Steinmetz does not believe that in the long run chance and luck play any part in apportioning the issues."
+   },
+   {
+    "type": "para",
+    "text": "The virtues that prevail, it must be noted, are virtues anyhow, superiorities that count in peaceful as well as in military competition; but the strain on them, being infinitely intenser in the latter case, makes war infinitely more searching as a trial.  No ordeal is comparable to its winnowings.  Its dread hammer is the welder of men into cohesive states, and nowhere but in such states can human nature adequately develop its capacity.  The only alternative is \"degeneration.\""
+   },
+   {
+    "type": "para",
+    "text": "Dr. Steinmetz is a conscientious thinker, and his book, short as it is, takes much into account.  Its upshot can, it seems to me, be summed up in Simon Patten's word, that mankind was nursed in pain and fear, and that the transition to a \"pleasure-economy\" may be fatal to a being wielding no powers of defence against its disintegrative influences. If we speak of the fear of emancipation from the fear-régime, we put the whole situation into a single phrase; fear regarding ourselves now taking the place of the ancient fear of the enemy."
+   },
+   {
+    "type": "para",
+    "text": "Turn the fear over as I will in my mind, it all seems to lead back to two unwillingnesses of the imagination, one aesthetic, and the other moral; unwillingness, first to envisage a future in which army-life, with its many elements of charm, shall be forever impossible, and in which the destinies of peoples shall nevermore be decided, quickly, thrillingly, and tragically, by force, but only gradually and insipidly by \"evolution\"; and, secondly, unwillingness to see the supreme theatre of human strenuousness closed, and the splendid military aptitudes of men doomed to keep always in a state of latency and never show themselves in action.  These insistent unwillingnesses, no less than other aesthetic and ethical insistencies, have, it seems to me, to be listened to and respected.  One cannot meet them effectively by mere counter-insistency on war's expensiveness and horror.  The horror makes the thrill; and when the question is of getting the extremest and supremest out of human nature, talk of expense sounds ignominious.  The weakness of so much merely negative criticism is evident--pacificism makes no converts from the military party.  The military party denies neither the bestiality nor the horror, nor the expense; it only says that these things tell but half the story.  It only says that war is worth them; that, taking human nature as a whole, its wars are its best protection against its weaker and more cowardly self, and that mankind cannot afford to adopt a peace-economy."
+   },
+   {
+    "type": "para",
+    "text": "Pacificists ought to enter more deeply into the aesthetical and ethical point of view of their opponents.  Do that first in any controversy, says J. J. Chapman, then move the point, and your opponent will follow.  So long as anti-militarists propose no substitute for war's disciplinary function, no moral equivalent of war, analogous, as one might say, to the mechanical equivalent of heat, so long they fail to realize the full inwardness of the situation.  And as a rule they do fail.  The duties, penalties, and sanctions pictured in the Utopias they paint are all too weak and tame to touch the military-minded. Tolstoi's pacificism is the only exception to this rule, for it is profoundly pessimistic as regards all this world's values, and makes the fear of the Lord furnish the moral spur provided elsewhere by the fear of the enemy.  But our socialistic peace-advocates all believe absolutely in this world's values; and instead of the fear of the Lord and the fear of the enemy, the only fear they reckon with is the fear of poverty if one be lazy.  This weakness pervades all the socialistic literature with which I am acquainted.  Even in Lowes Dickinson's exquisite dialogue,[2] high wages and short hours are the only forces invoked for overcoming man's distaste for repulsive kinds of labor. Meanwhile men at large still live as they always have lived, under a pain-and-fear economy--for those of us who live in an ease-economy are but an island in the stormy ocean--and the whole atmosphere of present-day Utopian literature tastes mawkish and dishwatery to people who still keep a sense for life's more bitter flavors.  It suggests, in truth, ubiquitous inferiority.  Inferiority is always with us, and merciless scorn of it is the keynote of the military temper.  \"Dogs, would you live forever?\" shouted Frederick the Great.  \"Yes,\" say our Utopians, \"let us live forever, and raise our level gradually.\"  The best thing about our \"inferiors\" to-day is that they are as tough as nails, and physically and morally almost as insensitive.  Utopianism would see them soft and squeamish, while militarism would keep their callousness, but transfigure it into a meritorious characteristic, needed by \"the service,\" and redeemed by that from the suspicion of inferiority.  All the qualities of a man acquire dignity when he knows that the service of the collectivity that owns him needs them.  If proud of the collectivity, his own pride rises in proportion.  No collectivity is like an army for nourishing such pride; but it has to be confessed that the only sentiment which the image of pacific cosmopolitan industrialism is capable of arousing in countless worthy breasts is shame at the idea of belonging to such a collectivity.  It is obvious that the United States of America as they exist to-day impress a mind like General Lea's as so much human blubber.  Where is the sharpness and precipitousness, the contempt for life, whether one's own, or another's?  Where is the savage \"yes\" and \"no,\" the unconditional duty?  Where is the conscription?  Where is the blood-tax?  Where is anything that one feels honored by belonging to?"
+   },
+   {
+    "type": "para",
+    "text": "Having said thus much in preparation, I will now confess my own Utopia. I devoutly believe in the reign of peace and in the gradual advent of some sort of a socialistic equilibrium.  The fatalistic view of the war-function is to me nonsense, for I know that war-making is due to definite motives and subject to prudential checks and reasonable criticisms, just like any other form of enterprise.  And when whole nations are the armies, and the science of destruction vies in intellectual refinement with the sciences of production, I see that war becomes absurd and impossible from its own monstrosity.  Extravagant ambitions will have to be replaced by reasonable claims, and nations must make common cause against them.  I see no reason why all this should not apply to yellow as well as to white countries, and I look forward to a future when acts of war shall be formally outlawed as between civilized peoples."
+   },
+   {
+    "type": "para",
+    "text": "All these beliefs of mine put me squarely into the anti-militarist party.  But I do not believe that peace either ought to be or will be permanent on this globe, unless the states pacifically organized preserve some of the old elements of army-discipline.  A permanently successful peace-economy cannot be a simple pleasure-economy.  In the more or less socialistic future towards which mankind seems drifting we must still subject ourselves collectively to those severities which answer to our real position upon this only partly hospitable globe.  We must make new energies and hardihoods continue the manliness to which the military mind so faithfully clings.  Martial virtues must be the enduring cement; intrepidity, contempt of softness, surrender of private interest, obedience to command, must still remain the rock upon which states are built--unless, indeed, we wish for dangerous reactions against commonwealths fit only for contempt, and liable to invite attack whenever a centre of crystallization for military-minded enterprise gets formed anywhere in their neighborhood."
+   },
+   {
+    "type": "para",
+    "text": "The war-party is assuredly right in affirming and reaffirming that the martial virtues, although originally gained by the race through war, are absolute and permanent human goods.  Patriotic pride and ambition in their military form are, after all, only specifications of a more general competitive passion.  They are its first form, but that is no reason for supposing them to be its last form.  Men now are proud of belonging to a conquering nation, and without a murmur they lay down their persons and their wealth, if by so doing they may fend off subjection.  But who can be sure that other aspects of one's country may not, with time and education and suggestion enough, come to be regarded with similarly effective feelings of pride and shame?  Why should men not some day feel that it is worth a blood-tax to belong to a collectivity superior in any ideal respect?  Why should they not blush with indignant shame if the community that owns them is vile in any way whatsoever?  Individuals, daily more numerous, now feel this civic passion.  It is only a question of blowing on the spark till the whole population gets incandescent, and on the ruins of the old morals of military honor, a stable system of morals of civic honor builds itself up.  What the whole community comes to believe in grasps the individual as in a vise.  The war-function has grasped us so far; but constructive interests may some day seem no less imperative, and impose on the individual a hardly lighter burden."
+   },
+   {
+    "type": "para",
+    "text": "Let me illustrate my idea more concretely.  There is nothing to make one indignant in the mere fact that life is hard, that men should toil and suffer pain.  The planetary conditions once for all are such, and we can stand it.  But that so many men, by mere accidents of birth and opportunity, should have a life of nothing else but toil and pain and hardness and inferiority imposed upon them, should have no vacation, while others natively no more deserving never get any taste of this campaigning life at all,--this is capable of arousing indignation in reflective minds.  It may end by seeming shameful to all of us that some of us have nothing but campaigning, and others nothing but unmanly ease.  If now--and this is my idea--there were, instead of military conscription a conscription of the whole youthful population to form for a certain number of years a part of the army enlisted against Nature, the injustice would tend to be evened out, and numerous other goods to the commonwealth would follow.  The military ideals of hardihood and discipline would be wrought into the growing fibre of the people; no one would remain blind as the luxurious classes now are blind, to man's relations to the globe he lives on, and to the permanently sour and hard foundations of his higher life.  To coal and iron mines, to freight trains, to fishing fleets in December, to dishwashing, clothes-washing, and window-washing, to road-building and tunnel-making, to foundries and stoke-holes, and to the frames of skyscrapers, would our gilded youths be drafted off, according to their choice, to get the childishness knocked out of them, and to come back into society with healthier sympathies and soberer ideas.  They would have paid  their blood-tax, done their own part in the immemorial human warfare against nature; they would tread the earth more proudly, the women would value them more highly, they would be better fathers and teachers of the following generation."
+   },
+   {
+    "type": "para",
+    "text": "Such a conscription, with the state of public opinion that would have required it, and the many moral fruits it would bear, would preserve in the midst of a pacific civilization the manly virtues which the military party is so afraid of seeing disappear in peace.  We should get toughness without callousness, authority with as little criminal cruelty as possible, and painful work done cheerily because the duty is temporary, and threatens not, as now, to degrade the whole remainder of one's life.  I spoke of the \"moral equivalent\" of war.  So far, war has been the only force that can discipline a whole community, and until an equivalent discipline is organized, I believe that war must have its way.  But I have no serious doubt that the ordinary prides and shames of social man, once developed to a certain intensity, are capable of organizing such a moral equivalent as I have sketched, or some other just as effective for preserving manliness of type.  It is but a question of time, of skilful propagandism, and of opinion-making men seizing historic opportunities."
+   },
+   {
+    "type": "para",
+    "text": "The martial type of character can be bred without war.  Strenuous honor and disinterestedness abound elsewhere.  Priests and medical men are in a fashion educated to it and we should all feel some degree of it imperative if we were conscious of our work as an obligatory service to the state.  We should be owned, as soldiers are by the army, and our pride would rise accordingly.  We could be poor, then, without humiliation, as army officers now are.  The only thing needed henceforward is to inflame the civic temper as past history has inflamed the military temper.  H. G. Wells, as usual, sees the centre of the situation.  \"In many ways,\" he says, \"military organization is the most peaceful of activities.  When the contemporary man steps from the street, of clamorous insincere advertisement, push, adulteration, underselling and intermittent employment into the barrack-yard, he steps on to a higher social plane, into an atmosphere of service and cooperation and of infinitely more honorable emulations.  Here at least men are not flung out of employment to degenerate because there is no immediate work for them to do.  They are fed and drilled and trained for better services.  Here at least a man is supposed to win promotion by self-forgetfulness and not by self-seeking.  And beside the feeble and irregular endowment of research by commercialism, its little short-sighted snatches at profit by innovation and scientific economy, see how remarkable is the steady and rapid development of method and appliances in naval and military affairs!  Nothing is more striking than to compare the progress of civil conveniences which has been left almost entirely to the trader, to the progress in military apparatus during the last few decades.  The house-appliances of to-day for example, are little better than they were fifty years ago.  A house of to-day is still almost as ill-ventilated, badly heated by wasteful fires, clumsily arranged and furnished as the house of 1858.  Houses a couple of hundred years old are still satisfactory places of residence, so little have our standards risen.  But the rifle or battleship of fifty years ago was beyond all comparison inferior to those we possess; in power, in speed, in convenience alike.  No one has a use now for such superannuated things.\" [3]"
+   },
+   {
+    "type": "para",
+    "text": "Wells adds[4] that he thinks that the conceptions of order and discipline, the tradition of service and devotion, of physical fitness, unstinted exertion, and universal responsibility, which universal military duty is now teaching European nations, will remain a permanent acquisition, when the last ammunition has been used in the fireworks that celebrate the final peace.  I believe as he does.  It would be simply preposterous if the only force that could work ideals of honor and standards of efficiency into English or American natures should be the fear of being killed by the Germans or the Japanese.  Great indeed is Fear; but it is not, as our military enthusiasts believe and try to make us believe, the only stimulus known for awakening the higher ranges of men's spiritual energy.  The amount of alteration in public opinion which my utopia postulates is vastly less than the difference between the mentality of those black warriors who pursued Stanley's party on the Congo with their cannibal war-cry of \"Meat!  Meat!\" and that of the \"general-staff\" of any civilized nation.  History has seen the latter interval bridged over: the former one can be bridged over much more easily."
+   },
+   {
+    "type": "para",
+    "text": "[1] Written for and first published by the Association for International Conciliation (Leaflet No. 27) and also published in McClure's Magazine, August, 1910, and The Popular Science Monthly, October, 1910."
+   },
+   {
+    "type": "para",
+    "text": "[2] \"Justice and Liberty,\" N. Y., 1909."
+   },
+   {
+    "type": "para",
+    "text": "[3] \"First and Last Things,\" 1908, p. 215."
+   },
+   {
+    "type": "para",
+    "text": "[4] \"First and Last Things,\" 1908, p. 226."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 20768,
+   "path": "pg20768.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "6b6da5bc377b2bdc7cf5291585f305fe021d9f7a4e62472fbbde0c3ce6425218",
+   "url": "https://www.gutenberg.org/cache/epub/20768/pg20768.txt",
+   "headingLine": 4240,
+   "startLine": 4241,
+   "endLine": 4726,
+   "heading": "THE MORAL EQUIVALENT OF WAR[1]",
+   "bodySha256": "4981e84cb3fd6d5b236c809e3e0b1813020468fd8d1f2ca13295ec8471c0708b",
+   "headingStartLine": 4238
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "leo-tolstoy-singing-in-the-village",
+  "kind": "essay",
+  "title": "Singing in the Village",
+  "author": "Leo Tolstoy",
+  "year": "1910; Louise and Aylmer Maude translation 1910",
+  "place": "Russia",
+  "source": "https://www.gutenberg.org/ebooks/51018",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "Voices and an accordion sounded as if close by, though through the mist nobody could be seen. It was a work-day morning, and I was surprised to hear music."
+   },
+   {
+    "type": "para",
+    "text": "\"Oh, it's the recruits' leave-taking,\" thought I, remembering that I had heard something a few days before about five men being drawn from our village. Involuntarily attracted by the merry song, I went in the direction whence it proceeded."
+   },
+   {
+    "type": "para",
+    "text": "As I approached the singers, the sound of song and accordion suddenly stopped. The singers, that is the lads who were leave-taking, entered the double-fronted brick cottage belonging to the father of one of them. Before the door stood a small group of women, girls, and children."
+   },
+   {
+    "type": "para",
+    "text": "While I was finding out whose sons were going, and why they had entered that cottage, the lads themselves, accompanied by their mothers and sisters, came out at the door. There were five of them: four bachelors and one married man. Our village is near the town where nearly all these conscripts had worked. They were dressed town-fashion, evidently wearing their best clothes: peajackets, new caps, and high, showy boots. Conspicuous among them was a young fellow, well built though not tall, with a sweet, merry, expressive face, a small beard and moustache just beginning to sprout, and bright hazel eyes. As he came out, he at once took a big, expensive-looking accordion that was hanging over his shoulders and, having bowed to me, started playing the merry tune of \"Bárynya,\" running his fingers nimbly over the keys and keeping exact time, as he moved with rhythmic step jauntily down the road."
+   },
+   {
+    "type": "para",
+    "text": "Beside him walked a thick-set, fair-haired lad, also of medium height. He looked gaily from side to side, and sang second with spirit, in harmony with the first singer. He was the married one. These two walked ahead of the other three, who were also well dressed, and not remarkable in any way except that one of them was tall."
+   },
+   {
+    "type": "para",
+    "text": "Together with the crowd I followed the lads. All their songs were merry, and no expression of grief was heard while the procession was going along; but as soon as we came to the next house at which the lads were to be treated, the lamentations of the women began. It was difficult to make out what they were saying; only a word here and there could be distinguished: \"death ... father and mother ... native land ...\"; and after every verse, the woman who led the chanting took a deep breath, and burst out into long-drawn moans, followed by hysterical laughter. The women were the mothers and sisters of the conscripts. Beside the lamentations of these relatives, one heard the admonitions of their friends."
+   },
+   {
+    "type": "para",
+    "text": "\"Now then, Matryóna, that's enough! You must be tired out,\" I heard one woman say, consoling another who was lamenting."
+   },
+   {
+    "type": "para",
+    "text": "The lads entered the cottage. I remained outside, talking with a peasant acquaintance, Vasíly Oréhof, a former pupil of mine. His son, one of the five, was the married man who had been singing second as he went along."
+   },
+   {
+    "type": "para",
+    "text": "\"Well,\" I said, \"it is a pity!\""
+   },
+   {
+    "type": "para",
+    "text": "\"What's to be done? Pity or not, one has to serve.\""
+   },
+   {
+    "type": "para",
+    "text": "And he told me of his domestic affairs. He had three sons: the eldest was living at home, the second was now being taken, and a third (who, like the second, had gone away to work) was contributing dutifully to the support of the home. The one who was leaving had evidently not sent home much."
+   },
+   {
+    "type": "para",
+    "text": "\"He has married a townswoman. His wife is not fit for our work. He is a lopped-off branch and thinks only of keeping himself. To be sure it's a pity, but it can't be helped!\""
+   },
+   {
+    "type": "para",
+    "text": "While we were talking, the lads came out into the street, and the lamentations, shrieks, laughter, and adjurations recommenced. After standing about for some five minutes, the procession moved on with songs and accordion accompaniment. One could not help marvelling at the energy and spirit of the player, as he beat time accurately, stamped his foot, stopped short, and then after a pause again took up the melody most merrily, exactly on the right beat, while he gazed around with his kind, hazel eyes. Evidently he had a real and great talent for music."
+   },
+   {
+    "type": "para",
+    "text": "I looked at him, and (so at least it seemed to me) he felt abashed when he met my eyes, and with a twitch of his brows he turned away, and again burst out with even more spirit than before. When we reached the fifth and last of the cottages, the lads entered, and I followed them. All five of them were made to sit round a table covered with a cloth, on which were bread and vódka. The host, the man I had been talking to, who was now to take leave of his married son, poured out the vódka and handed it round. The lads hardly drank at all (at most a quarter of a glass) or even handed it back after just raising it to their lips. The hostess cut some bread, and served slices round to eat with the vódka."
+   },
+   {
+    "type": "para",
+    "text": "While I was looking at the lads, a woman, dressed in clothes that seemed to me strange and incongruous, got down from the top of the oven, close to where I sat. She wore a light green dress (silk, I think) with fashionable trimmings, and high-heeled boots. Her fair hair was arranged in quite the modern style, like a large round cap, and she wore big, ring-shaped, gold earrings. Her face was neither sad nor cheerful, but looked as if she were offended."
+   },
+   {
+    "type": "para",
+    "text": "After getting down, she went out into the passage, clattering with the heels of her new boots and paying no heed to the lads. All about this woman--her clothing, the offended expression of her face, and above all her earrings--was so foreign to the surroundings that I could not understand how she had come to be on the top of Vasíly Oréhof's oven. I asked a woman sitting near me who she was."
+   },
+   {
+    "type": "para",
+    "text": "\"Vasíly's daughter-in-law; she has been a housemaid,\" was the answer."
+   },
+   {
+    "type": "para",
+    "text": "The host began offering vódka a third time, but the lads refused, rose, said grace, thanked the hosts, and went out."
+   },
+   {
+    "type": "para",
+    "text": "In the street, the lamentations recommenced at once. The first to raise her voice was a very old woman with a bent back. She lamented in such a peculiarly piteous voice, and wailed so, that the women kept soothing the sobbing, staggering old creature, and supported her by her elbows."
+   },
+   {
+    "type": "para",
+    "text": "\"Who is she?\" I inquired."
+   },
+   {
+    "type": "para",
+    "text": "\"Why, it's his granny; Vasíly's mother, that is.\""
+   },
+   {
+    "type": "para",
+    "text": "The old woman burst into hysterical laughter and fell into the arms of the women who supported her, and just then the procession started again, and again the accordion and the merry voices struck up their tune. At the end of the village the procession was overtaken by the carts which were to carry the conscripts to the District Office. The weeping and wailing stopped. The accordion-player, getting more and more elated, bending his head to one side and resting on one foot, turned out the toes of the other and stamped with it, while his fingers produced brilliant fioritures, and exactly at the right instant the bold, high, merry tones of his song, and the second of Vasíly's son, again chimed in. Old and young, and especially the children who surrounded the crowd, and I with them, fixed their eyes admiringly on the singer."
+   },
+   {
+    "type": "para",
+    "text": "\"He is clever, the rascal!\" said one of the peasants."
+   },
+   {
+    "type": "para",
+    "text": "\"'Sorrow weeps, and sorrow sings!'\" replied another."
+   },
+   {
+    "type": "para",
+    "text": "At that moment one of the young fellows whom we were seeing off--the tall one--came up with long, energetic strides, and stooped to speak to the one who played the accordion."
+   },
+   {
+    "type": "para",
+    "text": "\"What a fine fellow,\" I thought; \"they will put him in the Guards.\" I did not know who he was or what house he belonged to."
+   },
+   {
+    "type": "para",
+    "text": "\"Whose son is that one? That gallant fellow?\" I asked a little old man, pointing to the fine lad."
+   },
+   {
+    "type": "para",
+    "text": "The old man raised his cap and bowed to me, but did not hear my question."
+   },
+   {
+    "type": "para",
+    "text": "\"What did you say?\" asked he."
+   },
+   {
+    "type": "para",
+    "text": "I had not recognised him, but as soon as he spoke I knew him at once. He is a hard-working, good peasant who, as often happens, seems specially marked out for misfortune: first, two horses were stolen from him, then his house burnt down, and then his wife died. I had not seen Prokófey for a long time, and remembered him as a bright red-haired man of medium height; whereas he was now not red, but quite grey-haired, and small."
+   },
+   {
+    "type": "para",
+    "text": "\"Ah, Prokófey, it's you!\" I said. \"I was asking whose son that fine fellow is--that one who has just spoken to Alexander?\""
+   },
+   {
+    "type": "para",
+    "text": "\"That one?\" Prokófey replied, pointing with a motion of his head to the tall lad. He shook his head and mumbled something I did not understand."
+   },
+   {
+    "type": "para",
+    "text": "\"I'm asking whose son the lad is?\" I repeated, and turned to look at Prokófey."
+   },
+   {
+    "type": "para",
+    "text": "His face was puckered, and his jaw trembled."
+   },
+   {
+    "type": "para",
+    "text": "\"He's mine!\" he muttered, and, turning away and hiding his face in his hand, began to whimper like a child."
+   },
+   {
+    "type": "para",
+    "text": "And only then, after the two words, \"He's mine!\" spoken by Prokófey, did I realise, not only in my mind but in my whole being, the horror of what was taking place before my eyes that memorable misty morning. All the disjointed, incomprehensible, strange things I had seen suddenly acquired a simple, clear, and terrible significance. I became painfully ashamed of having looked on as at an interesting spectacle. I stopped, conscious of having acted ill, and I turned to go home."
+   },
+   {
+    "type": "para",
+    "text": "And to think that these things are at the present moment being done to tens of thousands of men all over Russia, and have been done, and will long continue to be done, to the meek, wise, and saintly Russian people, who are so cruelly and treacherously deceived!"
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 51018,
+   "path": "pg51018.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "f220936c64b47efbb83ed30701d2ef4513cac4ccfec945f494dc27b89099fc68",
+   "url": "https://www.gutenberg.org/cache/epub/51018/pg51018.txt",
+   "headingLine": 1398,
+   "startLine": 1399,
+   "endLine": 1585,
+   "heading": "                        SINGING IN THE VILLAGE",
+   "bodySha256": "d1ce210c1b6eea4906fcfa2e8af4519e6f7fa9b41eba2001974c7b49da3d5a51"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
+ },
+ {
+  "id": "emma-goldman-marriage-and-love",
+  "kind": "essay",
+  "title": "Marriage and Love",
+  "author": "Emma Goldman",
+  "year": "1910",
+  "place": "United States",
+  "source": "https://www.gutenberg.org/ebooks/2162",
+  "blocks": [
+   {
+    "type": "para",
+    "text": "The popular notion about marriage and love is that they are synonymous, that they spring from the same motives, and cover the same human needs.  Like most popular notions this also rests not on actual facts, but on superstition."
+   },
+   {
+    "type": "para",
+    "text": "Marriage and love have nothing in common; they are as far apart as the poles; are, in fact, antagonistic to each other.  No doubt some marriages have been the result of love.  Not, however, because love could assert itself only in marriage; much rather is it because few people can completely outgrow a convention.  There are today large numbers of men and women to whom marriage is naught but a farce, but who submit to it for the sake of public opinion.  At any rate, while it is true that some marriages are based on love, and while it is equally true that in some cases love continues in married life, I maintain that it does so regardless of marriage, and not because of it."
+   },
+   {
+    "type": "para",
+    "text": "On the other hand, it is utterly false that love results from marriage.  On rare occasions one does hear of a miraculous case of a married couple falling in love after marriage, but on close examination it will be found that it is a mere adjustment to the inevitable.  Certainly the growing-used to each other is far away from the spontaneity, the intensity, and beauty of love, without which the intimacy of marriage must prove degrading to both the woman and the man."
+   },
+   {
+    "type": "para",
+    "text": "Marriage is primarily an economic arrangement, an insurance pact.  It differs from the ordinary life insurance agreement only in that it is more binding, more exacting.  Its returns are insignificantly small compared with the investments.  In taking out an insurance policy one pays for it in dollars and cents, always at liberty to discontinue payments.  If, however, woman's premium is her husband, she pays for it with her name, her privacy, her self-respect, her very life, \"until death doth part.\"  Moreover, the marriage insurance condemns her to life-long dependency, to parasitism, to complete uselessness, individual as well as social.  Man, too, pays his toll, but as his sphere is wider, marriage does not limit him as much as woman.  He feels his chains more in an economic sense."
+   },
+   {
+    "type": "para",
+    "text": "Thus Dante's motto over Inferno applies with equal force to marriage. \"Ye who enter here leave all hope behind.\""
+   },
+   {
+    "type": "para",
+    "text": "That marriage is a failure none but the very stupid will deny.  One has but to glance over the statistics of divorce to realize how bitter a failure marriage really is.  Nor will the stereotyped Philistine argument that the laxity of divorce laws and the growing looseness of woman account for the fact that: first, every twelfth marriage ends in divorce; second, that since 1870 divorces have increased from 28 to 73 for every hundred thousand population; third, that adultery, since 1867, as ground for divorce, has increased 270.8 per cent.; fourth, that desertion increased 369.8 per cent."
+   },
+   {
+    "type": "para",
+    "text": "Added to these startling figures is a vast amount of material, dramatic and literary, further elucidating this subject.  Robert Herrick, in TOGETHER; Pinero, in MID-CHANNEL; Eugene Walter, in PAID IN FULL, and scores of other writers are discussing the barrenness, the monotony, the sordidness, the inadequacy of marriage as a factor for harmony and understanding."
+   },
+   {
+    "type": "para",
+    "text": "The thoughtful social student will not content himself with the popular superficial excuse for this phenomenon.  He will have to dig deeper into the very life of the sexes to know why marriage proves so disastrous."
+   },
+   {
+    "type": "para",
+    "text": "Edward Carpenter says that behind every marriage stands the life-long environment of the two sexes; an environment so different from each other that man and woman must remain strangers.  Separated by an insurmountable wall of superstition, custom, and habit, marriage has not the potentiality of developing knowledge of, and respect for, each other, without which every union is doomed to failure."
+   },
+   {
+    "type": "para",
+    "text": "Henrik Ibsen, the hater of all social shams, was probably the first to realize this great truth.  Nora leaves her husband, not--as the stupid critic would have it--because she is tired of her responsibilities or feels the need of woman's rights, but because she has come to know that for eight years she had lived with a stranger and borne him children.  Can there be anything more humiliating, more degrading than a life-long proximity between two strangers?  No need for the woman to know anything of the man, save his income.  As to the knowledge of the woman--what is there to know except that she has a pleasing appearance?  We have not yet outgrown the theologic myth that woman has no soul, that she is a mere appendix to man, made out of his rib just for the convenience of the gentleman who was so strong that he was afraid of his own shadow."
+   },
+   {
+    "type": "para",
+    "text": "Perchance the poor quality of the material whence woman comes is responsible for her inferiority.  At any rate, woman has no soul--what is there to know about her?  Besides, the less soul a woman has the greater her asset as a wife, the more readily will she absorb herself in her husband.  It is this slavish acquiescence to man's superiority that has kept the marriage institution seemingly intact for so long a period.  Now that woman is coming into her own, now that she is actually growing aware of herself as being outside of the master's grace, the sacred institution of marriage is gradually being undermined, and no amount of sentimental lamentation can stay it."
+   },
+   {
+    "type": "para",
+    "text": "From infancy, almost, the average girl is told that marriage is her ultimate goal; therefore her training and education must be directed towards that end.  Like the mute beast fattened for slaughter, she is prepared for that.  Yet, strange to say, she is allowed to know much less about her function as wife and mother than the ordinary artisan of his trade.  It is indecent and filthy for a respectable girl to know anything of the marital relation.  Oh, for the inconsistency of respectability, that needs the marriage vow to turn something which is filthy into the purest and most sacred arrangement that none dare question or criticize.  Yet that is exactly the attitude of the average upholder of marriage.  The prospective wife and mother is kept in complete ignorance of her only asset in the competitive field--sex.  Thus she enters into life-long relations with a man only to find herself shocked, repelled, outraged beyond measure by the most natural and healthy instinct, sex.  It is safe to say that a large percentage of the unhappiness, misery, distress, and physical suffering of matrimony is due to the criminal ignorance in sex matters that is being extolled as a great virtue.  Nor is it at all an exaggeration when I say that more than one home has been broken up because of this deplorable fact."
+   },
+   {
+    "type": "para",
+    "text": "If, however, woman is free and big enough to learn the mystery of sex without the sanction of State or Church, she will stand condemned as utterly unfit to become the wife of a \"good\" man, his goodness consisting of an empty brain and plenty of money.  Can there be anything more outrageous than the idea that a healthy, grown woman, full of life and passion, must deny nature's demand, must subdue her most intense craving, undermine her health and break her spirit, must stunt her vision, abstain from the depth and glory of sex experience until a \"good\" man comes along to take her unto himself as a wife? That is precisely what marriage means.  How can such an arrangement end except in failure?  This is one, though not the least important, factor of marriage, which differentiates it from love."
+   },
+   {
+    "type": "para",
+    "text": "Ours is a practical age.  The time when Romeo and Juliet risked the wrath of their fathers for love, when Gretchen exposed herself to the gossip of her neighbors for love, is no more.  If, on rare occasions, young people allow themselves the luxury of romance, they are taken in care by the elders, drilled and pounded until they become \"sensible.\""
+   },
+   {
+    "type": "para",
+    "text": "The moral lesson instilled in the girl is not whether the man has aroused her love, but rather is it, \"How much?\"  The important and only God of practical American life: Can the man make a living? can he support a wife?  That is the only thing that justifies marriage. Gradually this saturates every thought of the girl; her dreams are not of moonlight and kisses, of laughter and tears; she dreams of shopping tours and bargain counters.  This soul poverty and sordidness are the elements inherent in the marriage institution. The State and Church approve of no other ideal, simply because it is the one that necessitates the State and Church control of men and women."
+   },
+   {
+    "type": "para",
+    "text": "Doubtless there are people who continue to consider love above dollars and cents.  Particularly this is true of that class whom economic necessity has forced to become self-supporting.  The tremendous change in woman's position, wrought by that mighty factor, is indeed phenomenal when we reflect that it is but a short time since she has entered the industrial arena.  Six million women wage workers; six million women, who have equal right with men to be exploited, to be robbed, to go on strike; aye, to starve even. Anything more, my lord?  Yes, six million wage workers in every walk of life, from the highest brain work to the mines and railroad tracks; yes, even detectives and policemen.  Surely the emancipation is complete."
+   },
+   {
+    "type": "para",
+    "text": "Yet with all that, but a very small number of the vast army of women wage workers look upon work as a permanent issue, in the same light as does man.  No matter how decrepit the latter, he has been taught to be independent, self-supporting.  Oh, I know that no one is really independent in our economic treadmill; still, the poorest specimen of a man hates to be a parasite; to be known as such, at any rate."
+   },
+   {
+    "type": "para",
+    "text": "The woman considers her position as worker transitory, to be thrown aside for the first bidder.  That is why it is infinitely harder to organize women than men.  \"Why should I join a union?  I am going to get married, to have a home.\"  Has she not been taught from infancy to look upon that as her ultimate calling?  She learns soon enough that the home, though not so large a prison as the factory, has more solid doors and bars.  It has a keeper so faithful that naught can escape him.  The most tragic part, however, is that the home no longer frees her from wage slavery; it only increases her task."
+   },
+   {
+    "type": "para",
+    "text": "According to the latest statistics submitted before a Committee \"on labor and wages, and congestion of population,\" ten per cent. of the wage workers in New York City alone are married, yet they must continue to work at the most poorly paid labor in the world.  Add to this horrible aspect the drudgery of housework, and what remains of the protection and glory of the home?  As a matter of fact, even the middle-class girl in marriage can not speak of her home, since it is the man who creates her sphere.  It is not important whether the husband is a brute or a darling.  What I wish to prove is that marriage guarantees woman a home only by the grace of her husband. There she moves about in HIS home, year after year, until her aspect of life and human affairs becomes as flat, narrow, and drab as her surroundings.  Small wonder if she becomes a nag, petty, quarrelsome, gossipy, unbearable, thus driving the man from the house.  She could not go, if she wanted to; there is no place to go.  Besides, a short period of married life, of complete surrender of all faculties, absolutely incapacitates the average woman for the outside world. She becomes reckless in appearance, clumsy in her movements, dependent in her decisions, cowardly in her judgment, a weight and a bore, which most men grow to hate and despise.  Wonderfully inspiring atmosphere for the bearing of life, is it not?"
+   },
+   {
+    "type": "para",
+    "text": "But the child, how is it to be protected, if not for marriage?  After all, is not that the most important consideration?  The sham, the hypocrisy of it!  Marriage protecting the child, yet thousands of children destitute and homeless.  Marriage protecting the child, yet orphan asylums and reformatories overcrowded, the Society for the Prevention of Cruelty to Children keeping busy in rescuing the little victims from \"loving\" parents, to place them under more loving care, the Gerry Society.  Oh, the mockery of it!"
+   },
+   {
+    "type": "para",
+    "text": "Marriage may have the power to bring the horse to water, but has it ever made him drink?  The law will place the father under arrest, and put him in convict's clothes; but has that ever stilled the hunger of the child?  If the parent has no work, or if he hides his identity, what does marriage do then?  It invokes the law to bring the man to \"justice,\" to put him safely behind closed doors; his labor, however, goes not to the child, but to the State.  The child receives but a blighted memory of his father's stripes."
+   },
+   {
+    "type": "para",
+    "text": "As to the protection of the woman,--therein lies the curse of marriage.  Not that it really protects her, but the very idea is so revolting, such an outrage and insult on life, so degrading to human dignity, as to forever condemn this parasitic institution."
+   },
+   {
+    "type": "para",
+    "text": "It is like that other paternal arrangement--capitalism.  It robs man of his birthright, stunts his growth, poisons his body, keeps him in ignorance, in poverty, and dependence, and then institutes charities that thrive on the last vestige of man's self-respect."
+   },
+   {
+    "type": "para",
+    "text": "The institution of marriage makes a parasite of woman, an absolute dependent.  It incapacitates her for life's struggle, annihilates her social consciousness, paralyzes her imagination, and then imposes its gracious protection, which is in reality a snare, a travesty on human character."
+   },
+   {
+    "type": "para",
+    "text": "If motherhood is the highest fulfillment of woman's nature, what other protection does it need, save love and freedom?  Marriage but defiles, outrages, and corrupts her fulfillment.  Does it not say to woman, Only when you follow me shall you bring forth life?  Does it not condemn her to the block, does it not degrade and shame her if she refuses to buy her right to motherhood by selling herself?  Does not marriage only sanction motherhood, even though conceived in hatred, in compulsion?  Yet, if motherhood be of free choice, of love, of ecstasy, of defiant passion, does it not place a crown of thorns upon an innocent head and carve in letters of blood the hideous epithet, Bastard?  Were marriage to contain all the virtues claimed for it, its crimes against motherhood would exclude it forever from the realm of love."
+   },
+   {
+    "type": "para",
+    "text": "Love, the strongest and deepest element in all life, the harbinger of hope, of joy, of ecstasy; love, the defier of all laws, of all conventions; love, the freest, the most powerful moulder of human destiny; how can such an all-compelling force be synonymous with that poor little State and Church-begotten weed, marriage?"
+   },
+   {
+    "type": "para",
+    "text": "Free love?  As if love is anything but free!  Man has bought brains, but all the millions in the world have failed to buy love.  Man has subdued bodies, but all the power on earth has been unable to subdue love.  Man has conquered whole nations, but all his armies could not conquer love.  Man has chained and fettered the spirit, but he has been utterly helpless before love.  High on a throne, with all the splendor and pomp his gold can command, man is yet poor and desolate, if love passes him by.  And if it stays, the poorest hovel is radiant with warmth, with life and color.  Thus love has the magic power to make of a beggar a king.  Yes, love is free; it can dwell in no other atmosphere.  In freedom it gives itself unreservedly, abundantly, completely.  All the laws on the statutes, all the courts in the universe, cannot tear it from the soil, once love has taken root. If, however, the soil is sterile, how can marriage make it bear fruit?  It is like the last desperate struggle of fleeting life against death."
+   },
+   {
+    "type": "para",
+    "text": "Love needs no protection; it is its own protection.  So long as love begets life no child is deserted, or hungry, or famished for the want of affection.  I know this to be true.  I know women who became mothers in freedom by the men they loved.  Few children in wedlock enjoy the care, the protection, the devotion free motherhood is capable of bestowing."
+   },
+   {
+    "type": "para",
+    "text": "The defenders of authority dread the advent of a free motherhood, lest it will rob them of their prey.  Who would fight wars?  Who would create wealth?  Who would make the policeman, the jailer, if woman were to refuse the indiscriminate breeding of children?  The race, the race! shouts the king, the president, the capitalist, the priest.  The race must be preserved, though woman be degraded to a mere machine,--and the marriage institution is our only safety valve against the pernicious sex awakening of woman.  But in vain these frantic efforts to maintain a state of bondage.  In vain, too, the edicts of the Church, the mad attacks of rulers, in vain even the arm of the law.  Woman no longer wants to be a party to the production of a race of sickly, feeble, decrepit, wretched human beings, who have neither the strength nor moral courage to throw off the yoke of poverty and slavery.  Instead she desires fewer and better children, begotten and reared in love and through free choice; not by compulsion, as marriage imposes.  Our pseudo-moralists have yet to learn the deep sense of responsibility toward the child, that love in freedom has awakened in the breast of woman.  Rather would she forego forever the glory of motherhood than bring forth life in an atmosphere that breathes only destruction and death.  And if she does become a mother, it is to give to the child the deepest and best her being can yield.  To grow with the child is her motto; she knows that in that manner alone can she help build true manhood and womanhood."
+   },
+   {
+    "type": "para",
+    "text": "Ibsen must have had a vision of a free mother, when, with a master stroke, he portrayed Mrs. Alving.  She was the ideal mother because she had outgrown marriage and all its horrors, because she had broken her chains, and set her spirit free to soar until it returned a personality, regenerated and strong.  Alas, it was too late to rescue her life's joy, her Oswald; but not too late to realize that love in freedom is the only condition of a beautiful life.  Those who, like Mrs. Alving, have paid with blood and tears for their spiritual awakening, repudiate marriage as an imposition, a shallow, empty mockery.  They know, whether love last but one brief span of time or for eternity, it is the only creative, inspiring, elevating basis for a new race, a new world."
+   },
+   {
+    "type": "para",
+    "text": "In our present pygmy state love is indeed a stranger to most people. Misunderstood and shunned, it rarely takes root; or if it does, it soon withers and dies.  Its delicate fiber can not endure the stress and strain of the daily grind.  Its soul is too complex to adjust itself to the slimy woof of our social fabric.  It weeps and moans and suffers with those who have need of it, yet lack the capacity to rise to love's summit."
+   },
+   {
+    "type": "para",
+    "text": "Some day, some day men and women will rise, they will reach the mountain peak, they will meet big and strong and free, ready to receive, to partake, and to bask in the golden rays of love.  What fancy, what imagination, what poetic genius can foresee even approximately the potentialities of such a force in the life of men and women.  If the world is ever to give birth to true companionship and oneness, not marriage, but love will be the parent."
+   }
+  ],
+  "sourceEdition": {
+   "gutenbergId": 2162,
+   "path": "pg2162.txt",
+   "retrieved": "2026-11-04",
+   "sha256": "c61730f7d74215f1c111ad23fd41fd81c93cb73761e6500966e1b2a8c6749449",
+   "url": "https://www.gutenberg.org/cache/epub/2162/pg2162.txt",
+   "headingLine": 6076,
+   "startLine": 6077,
+   "endLine": 6411,
+   "heading": "MARRIAGE AND LOVE",
+   "bodySha256": "3ef6369380971f3aed79ff452234875d1a90b571a4807bce6c7d6591d26858b0"
+  },
+  "critic": "independent gutenberg.org extraction matched; tools/critic/verdicts.json"
  }
 ];

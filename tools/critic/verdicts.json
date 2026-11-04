@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "extractionSha256": "2f86730d78764cea14ec35a2bddbab7c7d5d9ced4481ff916b1c161efb056521",
+  "extractionSha256": "af9de10ba4708a05ba8da05f0982e4bcf185336ebe8dae1edf8008f6e19e8b99",
   "verdicts": {
     "bacon-truth": {
       "status": "accepted",
@@ -2267,6 +2267,624 @@
       "reasons": [],
       "warnings": [],
       "criticSourceSha256": "da417a1d401155402c6396283878291f99cdb869f8e0f61a1ad85cb366a12474"
+    },
+    "horace-odes-ii-14-eheu-fugaces": {
+      "status": "accepted",
+      "gutenbergId": 5432,
+      "title": "EHEU, FUGACES.",
+      "blocksSha256": "4acdb9ed9a4a5062ddc9245361082b8d9ca2c59fe6d1bd4b03107e2685253742",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c9caa084530dbc824789eac79c1fbd296903f753ab53ef3b8d244c3fce03fffe"
+    },
+    "the-archpoet-the-confession-of-golias": {
+      "status": "accepted",
+      "gutenbergId": 18044,
+      "title": "THE CONFESSION OF GOLIAS.  No. 5.",
+      "blocksSha256": "550ca1fd592f6341b03fb39db50c05cc8e7d94e97bc715588e5000252e2ad374",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "0a58914ad860eb87965a83b5668b07eb32b2f432f271b195f39a2058494b7868"
+    },
+    "maisun-bint-bahdal-the-song-of-maisuna": {
+      "status": "accepted",
+      "gutenbergId": 10121,
+      "title": "THE SONG OF MAISUNA[8]",
+      "blocksSha256": "79395759871748e621efcb753ab0947e6ea5d0c95b44db8ac6689e45ba1755a0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "daf813a996160fcfed8a69afc9775c1aa58529d6d2e194bb846fe59928e32c22"
+    },
+    "theocritus-idyll-xv-the-festival-of-adonis": {
+      "status": "rejected",
+      "gutenbergId": 11533,
+      "title": "IDYLL XV.   The Festival of Adonis.",
+      "blocksSha256": "78610ba207888549fcbed6453df4bcb5e8a916019ab8398b930e3a8878ea62fc",
+      "reasons": [
+        "indentation differs: producer levels [0, 1, 1, 1, 3, 1, 1, 1, 4, 1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 6, 1, 1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 9, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1], critic [0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 5, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "9b6939ebd239a09f10b45408585211e6894619ce174c7eaa4f1d0e329e46783c"
+    },
+    "du-fu-the-recruiting-sergeant": {
+      "status": "rejected",
+      "gutenbergId": 390,
+      "title": "The Recruiting Sergeant",
+      "blocksSha256": "12ee6b6192052ef091c0fe7360c5f6e601c9edc9110272c2e49d9d93d946ee82",
+      "reasons": [
+        "stanza/line structure differs: producer [27, 1, 6, 4], critic [27, 1, 6, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "ceeb24d293c44a75dfbacb227d0762e32f6b6bf7331da2ef33a36fa0021c82a5"
+    },
+    "bai-juyi-the-lute-girl": {
+      "status": "rejected",
+      "gutenbergId": 390,
+      "title": "The Lute Girl",
+      "blocksSha256": "0094c0ec140dfa496dcd01070090f807c8148df6cf4538c24bafb5d4edfe4d02",
+      "reasons": [
+        "stanza/line structure differs: producer [1, 10, 1, 2, 1, 4, 3, 76, 1, 25], critic [1, 1, 1, 1, 1, 1, 3, 76, 1, 25]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "ceeb24d293c44a75dfbacb227d0762e32f6b6bf7331da2ef33a36fa0021c82a5"
+    },
+    "omar-khayyam-rubaiyat-of-omar-khayyam-first-edition": {
+      "status": "rejected",
+      "gutenbergId": 246,
+      "title": "First Edition",
+      "blocksSha256": "0fe5fffe1a09d9154346dad98f3fc42c593675670a244e282039fd08384f4e97",
+      "reasons": [
+        "stanza/line structure differs: producer [1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1], critic [1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1]",
+        "text differs at position 1853: producer 'Forgiveness give--and take! KUZA--NAMA. (\"Book of Pots\")' / critic 'Forgiveness give--and take! LIX. KUZA--NAMA. (\"Book of'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "346f7d7ec9330393fe10ce74ccb1afcb7e6f423488223bf5da1f30f849cd63db"
+    },
+    "francois-villon-the-epitaph-in-form-of-a-ballad": {
+      "status": "rejected",
+      "gutenbergId": 27401,
+      "title": "THE EPITAPH IN FORM OF A BALLAD  WHICH VILLON MADE FOR HIMSELF AND HIS COMRADES, EXPECTING TO BE HANGED ALONG WITH THEM",
+      "blocksSha256": "22a0e1739579ae71fe8ba4cfab1ca1acc7d5602c135337334398605906b56d5b",
+      "reasons": [
+        "stanza 2 line 7: producer 'That his grace be not as a dry well-head' / critic 'That his grace be not as a dry well‑head'",
+        "stanza 3 line 8: producer 'More pecked of birds than fruits on garden-wall;' / critic 'More pecked of birds than fruits on garden‑wall;'",
+        "text differs at position 144: producer 'as a dry well-head For us, nor' / critic 'as a dry well‑head For us, nor'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c6485df3b380a9edfad051eb3c3f6387a8cc3954ec6326649c88e9f20e008d59"
+    },
+    "jorge-manrique-coplas-de-manrique": {
+      "status": "rejected",
+      "gutenbergId": 1365,
+      "title": "COPLAS DE MANRIQUE",
+      "blocksSha256": "952b6e6c403edea1b660cf81ae2e42904d7e2da34067b5c51d8f77c262904c3d",
+      "reasons": [
+        "stanza/line structure differs: producer [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6], critic [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "7ff0f82d3543f7d54c57c42094e1a0f19d22d37a3e8bf211f975c451a752fe1a"
+    },
+    "michelangelo-buonarroti-to-giovanni-da-pistoja-on-the-painting-of-the-sistine-chapel": {
+      "status": "accepted",
+      "gutenbergId": 10314,
+      "title": "TO GIOVANNI DA PISTOJA.",
+      "blocksSha256": "3500f920ccc0aa4a99c299c312e852ef21ac535a905f8c1f066377a2f8d94c0c",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "435c4f25b6f5f23af9f52c256569c2c931f79153aeec2ce3865196ef34cb4a9b"
+    },
+    "johann-wolfgang-von-goethe-prometheus": {
+      "status": "accepted",
+      "gutenbergId": 1287,
+      "title": "PROMETHEUS.",
+      "blocksSha256": "084b1ee6eb31615b5175c4f9c2ea4cd879d7811d8f8bb8a71181baf92730668d",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c10ae53f39c7b455be83ec708340a629c5eb29dddcc9deb48463ccb5dc23bce3"
+    },
+    "alexander-pushkin-the-prophet": {
+      "status": "accepted",
+      "gutenbergId": 54991,
+      "title": "THE PROPHET.",
+      "blocksSha256": "5a7a891f91602de91d8abb8582515717c9bf089c83210fcdbd11347c8b61fe66",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "7b35c88c2b542c63f01b6c147e23b2e6d3ad4a4c74942e2c0c0f83727d4a2e94"
+    },
+    "morris-rosenfeld-in-the-factory": {
+      "status": "rejected",
+      "gutenbergId": 6859,
+      "title": "In the Factory",
+      "blocksSha256": "fb6fa824523d3c11e23e6f6523168924f97810f568f6935ffc089413b2896248",
+      "reasons": [
+        "stanza 1 line 6: producer \"Create and create things from morning till e'en;\" / critic 'Create and create things from morning till e’en;'",
+        "stanza 2 line 7: producer \"I drive the wheel madly as tho' to o'ertake them,--\" / critic 'I drive the wheel madly as tho’ to o’ertake them,--'",
+        "stanza 4 line 8: producer 'It calls me \"Machine!\" and it cries to me \"Sew!\"' / critic 'It calls me “Machine!” and it cries to me “Sew!”'",
+        "stanza 6 line 1: producer \"The sweatshop at mid-day--I'll draw you the picture:\" / critic 'The sweatshop at mid-day--I’ll draw you the picture:'",
+        "stanza 6 line 4: producer \"The blood cries aloud from the earth's gory breast.\" / critic 'The blood cries aloud from the earth’s gory breast.'",
+        "stanza 7 line 4: producer '\"An end to this bondage! An end there must be!\"' / critic '“An end to this bondage! An end there must be!”'",
+        "stanza 8 line 7: producer \"There's tumult, they struggle, oh, lost is my ego;--\" / critic 'There’s tumult, they struggle, oh, lost is my ego;--'",
+        "text differs at position 55: producer \"from morning till e'en; For what?--and for\" / critic 'from morning till e’en; For what?--and for'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "e9f1616e28fdb95107e5fa524813530b35a8046e6ccd052ba8464eddbcf89e12"
+    },
+    "henry-lawson-faces-in-the-street": {
+      "status": "accepted",
+      "gutenbergId": 214,
+      "title": "Faces in the Street",
+      "blocksSha256": "c946dba57e277b4ba84b840d7dcd2a687f0b99f0dbc77f47d6c177b04c3286b2",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c6d4e290e8e6d7deb81b5fb044e98e8163c0ecee1f4a4c693ac3f25a8f745b45"
+    },
+    "archibald-lampman-the-city-of-the-end-of-things": {
+      "status": "accepted",
+      "gutenbergId": 22833,
+      "title": "THE CITY OF THE END OF THINGS",
+      "blocksSha256": "485d00ce6a6efff74b222e14ae512a82af61f427bcb681eac15b707a5d2d1ef8",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d02218905900b53469ba65c77c4677f473c516d5b89fa53d828f56d2cb1ac7b3"
+    },
+    "claude-mckay-harlem-shadows": {
+      "status": "accepted",
+      "gutenbergId": 64989,
+      "title": "HARLEM SHADOWS",
+      "blocksSha256": "5c304bddf8c156191807b2fd41c1f69b1dd8d19432a758a06b87d2fe0e3436ca",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "f72171de9ef786fbea2f2a66fc0fb671bfe3c6ab6ad39ca0d032307bd796114e"
+    },
+    "thomas-hardy-channel-firing": {
+      "status": "rejected",
+      "gutenbergId": 2863,
+      "title": "CHANNEL FIRING",
+      "blocksSha256": "cf2f1fbbd85571091dc43d1567096bec362aa48a245a88b71d2fa017ce21c92b",
+      "reasons": [
+        "stanza 1 line 1: producer 'THAT night your great guns, unawares,' / critic 'That night your great guns, unawares,'",
+        "indentation differs: producer levels [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], critic [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "text differs at position 0: producer 'THAT night your great' / critic 'That night your great'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c6177fae1db10ec92fa0e8a3e6625bfbdcd5a9a0ae2b2cd30b1240667c1137e0"
+    },
+    "edgar-lee-masters-lucinda-matlock": {
+      "status": "accepted",
+      "gutenbergId": 1280,
+      "title": "Lucinda Matlock",
+      "blocksSha256": "f33245e9658bc149e2d87b094459238fa3936cee21898666cc40735e55e34131",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "d17c60198f30becfe82fd20c083a1820a6b4facc44a98ef4ed629912097b86cd"
+    },
+    "gerard-manley-hopkins-felix-randal": {
+      "status": "accepted",
+      "gutenbergId": 22403,
+      "title": "_29 Felix Randal_",
+      "blocksSha256": "6c4782e200aea2b2b3601cc9b324ad307e21a417be829139fb34cf5857f4317b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "6527456a0d61ad6115e940685fe61602de0550e0a8dd07bad193937f024b5307"
+    },
+    "paul-laurence-dunbar-we-wear-the-mask": {
+      "status": "accepted",
+      "gutenbergId": 18338,
+      "title": "WE WEAR THE MASK",
+      "blocksSha256": "fc2feace45298ca4017ff1f97b63e12e2e9108e81c0ab41421b8bfe6c63c4e7f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "66bd7f5a53518e38115b6cfd49348824f357d4163d518dc039b3c1d0b98b9118"
+    },
+    "anonymous-egyptian-the-shipwrecked-sailor": {
+      "status": "rejected",
+      "gutenbergId": 7386,
+      "title": "THE SHIPWRECKED SAILOR",
+      "blocksSha256": "2d71066b8cf5468fda57a0c533fd7d4e2330e5187bbb2ab1b040e149612d3a22",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 120)",
+        "producer splits a paragraph where the edition has no break (after token 119)",
+        "text differs at position 0: producer 'The wise servant said,' / critic 'THE wise servant said,'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "54d8615a863481c51d081fbe76323d96a96d15605bc9a81c55af0030e1c5078c"
+    },
+    "joseph-addison-the-vision-of-mirza": {
+      "status": "rejected",
+      "gutenbergId": 2791,
+      "title": "THE VISION OF MIRZA.",
+      "blocksSha256": "5be66546dd84a505577ef341c3f9471c3868a523decd614d40f1aaf5ae74a17e",
+      "reasons": [
+        "text differs at position 1: producer '--Omnem, quae nunc obducta tuenti' / critic '--Omnem, quæ nunc obducta tuenti'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "d17da0ee43daf9c3f42ef2250b80f27ec3a7b750cafefa3b7b48012c79b8ac0e"
+    },
+    "anonymous-welsh-the-dream-of-maxen-wledig": {
+      "status": "accepted",
+      "gutenbergId": 5160,
+      "title": "THE DREAM OF MAXEN WLEDIG",
+      "blocksSha256": "af60af62f9f4902f1f4d9182186a188562faab95720b605bd77324d5015bad6f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "dbc8bfe181e79b7450d16a20e6adc09f1be26f1df9eaf58636a030832eb82e0b"
+    },
+    "giovanni-boccaccio-federigo-and-his-falcon": {
+      "status": "accepted",
+      "gutenbergId": 13102,
+      "title": "NOVEL IX.",
+      "blocksSha256": "f769dfacc2d9d6045a7610b852dd40237810e5fbb66f4ed7efa2dd1baf0138cd",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "823cedb6fc29eec4d887aa00952e442d5a3520a352a46a13a67d35ca6008a7d9"
+    },
+    "im-bang-charan": {
+      "status": "rejected",
+      "gutenbergId": 51002,
+      "title": "CHARAN",
+      "blocksSha256": "63d99261c01c1d4d4c6e03a441a0db42af065edc1931218549fc8442de7202f0",
+      "reasons": [
+        "text differs at position 64: producer \"King Sung-jong (A.D. 1488-1495) one of Korea's\" / critic 'King Sung-jong (A.D. 1488–1495) one of Korea’s'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "2c917421a6ac7e2688d4d11647840754fbb601b81acd83aa87b44f8c8f47594b"
+    },
+    "sui-sin-far-in-the-land-of-the-free": {
+      "status": "rejected",
+      "gutenbergId": 62940,
+      "title": "IN THE LAND OF THE FREE",
+      "blocksSha256": "b34ba922ddc2c865cba75ad3f89fe4e5c338e69c062b8594d54f9910fdf24f8b",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 1621)",
+        "producer splits a paragraph where the edition has no break (after token 1559)",
+        "text differs at position 1: producer 'I “See, Little One--the hills' / critic 'I See, Little One--the hills'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "6b7c2e4c938bdce785a73e645927a6917a5c6f37450d0912ae95a81cb93db158"
+    },
+    "hans-christian-andersen-she-was-good-for-nothing": {
+      "status": "rejected",
+      "gutenbergId": 27000,
+      "title": "SHE WAS GOOD FOR NOTHING.",
+      "blocksSha256": "002ae662213a6c41c7f66dbf56c9561affe3e01e44c0e3f3fd9c54c0e136ba4b",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 197)",
+        "producer splits a paragraph where the edition has no break (after token 150)",
+        "text differs at position 143: producer 'the king himself. [Illustration: THE MAYOR AND' / critic 'the king himself. \"You\\'re a good boy,\"'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "774340ec58f3cb808de8401de40442555c96174e654867ceeefb954d7eaa5633"
+    },
+    "anton-chekhov-misery": {
+      "status": "accepted",
+      "gutenbergId": 1732,
+      "title": "MISERY",
+      "blocksSha256": "5d8a7229485e5098919682e722a78437a5bca21a63c08409e9639bf3d1dc365d",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "f162b600036fdc0f753a7efaa38695919ecfcfe3fd067f55db47896cf3c15fc7"
+    },
+    "joaquim-maria-machado-de-assis-the-attendant-s-confession": {
+      "status": "accepted",
+      "gutenbergId": 21040,
+      "title": "THE ATTENDANT'S CONFESSION",
+      "blocksSha256": "f57fb78247cac162eaafcc3a1bc3d3f329e83297cc2d1da58a34ed1773c53a8f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c2670c1e53615d6b7cef1707ae02df322a5ac17c00c572eaf821219d7d20f7bb"
+    },
+    "isaac-loeb-peretz-if-not-higher": {
+      "status": "rejected",
+      "gutenbergId": 37242,
+      "title": "I  IF NOT HIGHER",
+      "blocksSha256": "63336d9e84ea9f9d1c73c1f605eec1ebaa4591150d9afe521a2aef7a667e234b",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 261)",
+        "producer splits a paragraph where the edition has no break (after token 265)",
+        "text differs at position 260: producer 'to find out. * * * *' / critic 'to find out. ------ The very same'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "22f38cf205fc0c554fe35fb7d2960d2b7d27b28936332ecde28744861f7cfaa3"
+    },
+    "olive-schreiner-three-dreams-in-a-desert": {
+      "status": "accepted",
+      "gutenbergId": 1439,
+      "title": "V. THREE DREAMS IN A DESERT.",
+      "blocksSha256": "894df089327301c42704f0f5bd63b14808c6e1be1d7aae60c8e1fee13b43570a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "67659dde5e06bf247c4c9246cd9eecd0a6607a7e73bc58a32fbc0e58f1c89e82"
+    },
+    "h-g-wells-the-star": {
+      "status": "accepted",
+      "gutenbergId": 27365,
+      "title": "THE STAR",
+      "blocksSha256": "67539bbe8f554c5d280fa1e0ebb8119dced09eb7e552eab7aa529cd1bf66bcb6",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "41baa28912363acb047898c4b1f79a15e41dbe078b58817e56ba85a09f714fbf"
+    },
+    "henry-lawson-the-drover-s-wife": {
+      "status": "rejected",
+      "gutenbergId": 7144,
+      "title": "THE DROVER'S WIFE",
+      "blocksSha256": "872db9d9d58c4588ad2223d3f18b9416693c6faff9328dce21243c23e90d5dae",
+      "reasons": [
+        "text differs at position 125: producer \"yells: “Snake! Mother, here's a snake!” The\" / critic 'yells: “Snake! Mother, here’s a snake!” The'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "b6d3a30e2fe7c054f301cf049b82b8059522bd76292547c01e3781c5ba6fa925"
+    },
+    "horacio-quiroga-the-alligator-war": {
+      "status": "rejected",
+      "gutenbergId": 46051,
+      "title": "THE ALLIGATOR WAR",
+      "blocksSha256": "0d0bd52048560979f98a3fd8914e479101712ebe58ef174e0eb193ab0e8f4771",
+      "reasons": [
+        "text differs at position 182: producer 'Chug! Chug! Chug! \"Hey!\" the alligator called' / critic 'Chug! Chug! Chug! “Hey!” the alligator called'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "b69d8fea106718a3bbdcaab2238520f63aa120ca66edb3fc809c350110ee5ad7"
+    },
+    "selma-lagerlof-our-lord-and-saint-peter": {
+      "status": "accepted",
+      "gutenbergId": 44818,
+      "title": "OUR LORD AND SAINT PETER",
+      "blocksSha256": "1d675c6a7382394dc94f348a9ad7518f3be6af987d8d6cb2970a1c7d7eb9a41d",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "4fdb371e80e0293de04619d5865f72d6a9cb111a59ed28c203e3c7060371cc07"
+    },
+    "katherine-mansfield-life-of-ma-parker": {
+      "status": "accepted",
+      "gutenbergId": 1429,
+      "title": "Life of Ma Parker",
+      "blocksSha256": "28c58da3011f95a033694ac0d26f5f6213953e937e1ee0d71a8eebc7d4c8c4fa",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8b3f1b0acd7b24a2e0d0fd83ca7c38ea869c6c7725e86924c3b03be6eba77d52"
+    },
+    "james-joyce-counterparts": {
+      "status": "accepted",
+      "gutenbergId": 2814,
+      "title": "COUNTERPARTS",
+      "blocksSha256": "1e9257f954d02060cf874178d544f6ce153d91481c31bc6eab99d05c28e96681",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "1b077fe1497d582f4bc215ef0585e87d43d53038a0a5e0697503679c17f1e744"
+    },
+    "marie-de-france-the-lay-of-the-were-wolf": {
+      "status": "accepted",
+      "gutenbergId": 11417,
+      "title": "VIII   THE LAY OF THE WERE-WOLF",
+      "blocksSha256": "5a634980ea63968a0d420e70a0f66a362907a00292d8037530aaaa00d4e9d308",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "ea2f9f28be03b5f24f4a7d2966ee3b4d287f50f36c2e15a6b9a98916a46ead41"
+    },
+    "sherwood-anderson-hands": {
+      "status": "accepted",
+      "gutenbergId": 416,
+      "title": "HANDS",
+      "blocksSha256": "f0863138809911fb632411390375838d7e91fbd15d6444365bb241e101d72885",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "5453f7f886862eae636e48d1a0f623519542b7cafc7115b4c6f4b0e9e319286d"
+    },
+    "mark-twain-the-war-prayer": {
+      "status": "accepted",
+      "gutenbergId": 68604,
+      "title": "THE WAR PRAYER",
+      "blocksSha256": "7ca2ffc646478fab208619d8084b198b9ecf0b5fa58da1628370d7b5d2cc430e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "6acdbe484f1c7e7d644de1e17bfda60c90908d3931d48631aabb5e7123174b2d"
+    },
+    "plato-crito": {
+      "status": "rejected",
+      "gutenbergId": 1657,
+      "title": "CRITO",
+      "blocksSha256": "296ed1f8ffdf9000b32d6b9e7e28d896f2fbf72915844d17f485a796c0fb6edc",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 11)",
+        "producer splits a paragraph where the edition has no break (after token 1)",
+        "text differs at position 0: producer 'by Plato Translated by' / critic 'PERSONS OF THE DIALOGUE:'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "922eecda5abbabb76f869cb815343a5e976abeb32b1835e5d73168d610f78951"
+    },
+    "qoheleth-ecclesiastes": {
+      "status": "accepted",
+      "gutenbergId": 8021,
+      "title": "Book 21        Ecclesiastes",
+      "blocksSha256": "bcf0ff998676ae0cd049ac8ae647575eb47873facc9ea1d7784b8ef45b967b6a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "78f52a2d73e001bb3193c3ce6e9619b8eb0a9f22302966a0124977d9aea66120"
+    },
+    "lafcadio-hearn-a-street-singer": {
+      "status": "rejected",
+      "gutenbergId": 8882,
+      "title": "III  A STREET SINGER",
+      "blocksSha256": "e5536057493a04d6d28f948c577b3ef2cbebd0507eac7e3f46a1c74ccc3596c1",
+      "reasons": [
+        "text differs at position 423: producer 'her coppers and food.... Such was her' / critic 'her coppers and food…. Such was her'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "d2a424d34ff9c3f251f2d5b034f1a8b0cbcbe6e696bbb0449eb396bf86a969df"
+    },
+    "henri-poincare-mathematical-creation": {
+      "status": "accepted",
+      "gutenbergId": 39713,
+      "title": "CHAPTER III  MATHEMATICAL CREATION",
+      "blocksSha256": "7e78e1263f915151c274e94693c02560ef6cbf026e5bbacdde48dbd9b631f70a",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "614e766e5a38a7a2fd4b9cce6bde3f3287d146f4fcaf6e07c2b8db2ee22e49f4"
+    },
+    "lucian-of-samosata-the-vision": {
+      "status": "rejected",
+      "gutenbergId": 6327,
+      "title": "THE VISION  A CHAPTER OF AUTOBIOGRAPHY",
+      "blocksSha256": "8acaf7be07797577f1b979a7c55bb1af784038cc4ae68a234587f65ae45c66e0",
+      "reasons": [
+        "text differs at position 43: producer \"life only for fortune's favourites; whereas our\" / critic 'life only for fortune’s favourites; whereas our'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "9447813f3ca3938ff6093ce26a576ad7e60a92d63fd822b72dfee8352bc37cf3"
+    },
+    "michel-de-montaigne-use-makes-perfect": {
+      "status": "rejected",
+      "gutenbergId": 3600,
+      "title": "CHAPTER VI  USE MAKES PERFECT",
+      "blocksSha256": "1e9533ba790104df10c4d8f1d6f0a18894c5c99473416e52c6eec01b4785cb57",
+      "reasons": [
+        "text differs at position 524: producer 'mind he had dying.”-Lucan, viii. 636.] And' / critic 'mind he had dying.\"-Lucan, viii. 636.] And'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "dcf5b65178c10f58fd6a1bbd68b75bfcdc112a06e8adb69a29c8a288f3954624"
+    },
+    "john-donne-meditation-xvii": {
+      "status": "accepted",
+      "gutenbergId": 23772,
+      "title": "XVII. MEDITATION.",
+      "blocksSha256": "f31ce66bf0fa04fd29f4287256fa3d71746e32c1f74cfe26448342ebc8107527",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "a8b5b0870a47e0b5ef38f4d0fb6a29e1447dae7a60b6d87998ad41fd46af4397"
+    },
+    "jonathan-swift-a-modest-proposal": {
+      "status": "accepted",
+      "gutenbergId": 1080,
+      "title": "A Modest Proposal",
+      "blocksSha256": "bb5b13a862b7ad5217d042710ac3ad99a0e71953ebd99e2a55deb91783cb431b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c33d7bdafd6b1a15099443bf9f83ea8b103903bb50e7361de4a3a0b0fa8c7d7f"
+    },
+    "arthur-schopenhauer-on-noise": {
+      "status": "rejected",
+      "gutenbergId": 10732,
+      "title": "ON NOISE.",
+      "blocksSha256": "9731d46ca106e5316c2a9cab7304e8f76f70dc8604a0fd16a80173a1efe111a8",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 1641)",
+        "producer splits a paragraph where the edition has no break (after token 1640)",
+        "text differs at position 1447: producer 'it and follow suit.[1] Meanwhile, I may' / critic 'it and follow suit.39 Meanwhile, I may'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "929bff92734f0974fc0578a3d24b57096004afb25aceb27a3c5bdc3b6f13a97d"
+    },
+    "charles-lamb-the-superannuated-man": {
+      "status": "accepted",
+      "gutenbergId": 10343,
+      "title": "THE SUPERANNUATED MAN",
+      "blocksSha256": "0aac9b573bf31690bc3fab8a968c707517cc243b5e03aeb7d6f701321eebac74",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "8699873851132b4118919a64ed47e802ca374e9d15f2464d7989e32f8259f666"
+    },
+    "charles-dickens-night-walks": {
+      "status": "rejected",
+      "gutenbergId": 914,
+      "title": "XIII NIGHT WALKS",
+      "blocksSha256": "364dc4cace5116f3a6cdc4f4dd035a90d1a61842933db770f47f098589e3ec1d",
+      "reasons": [
+        "text differs at position 0: producer 'SOME years ago, a' / critic 'Some years ago, a'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "9e75f8ba9562e3c873b69cf68acbbeb39ba842f16d538c1ba921d4e03cf16009"
+    },
+    "thomas-henry-huxley-on-the-advisableness-of-improving-natural-knowledge": {
+      "status": "accepted",
+      "gutenbergId": 16729,
+      "title": "I.  ON THE ADVISABLENESS OF IMPROVING NATURAL KNOWLEDGE.",
+      "blocksSha256": "542a1be27e711c5f2980ade2b06b58a06faff85735bd603056840765d40632be",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "61ee79b80374d32ace3eafa743a1c76925cfb196bf460a0a4738165d2fea33b0"
+    },
+    "maurice-maeterlinck-silence": {
+      "status": "rejected",
+      "gutenbergId": 48217,
+      "title": "SILENCE",
+      "blocksSha256": "9fa606bad5d425f74b99ce935fc5dcf418b73e3caadf3486c28d963066365734",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 356)",
+        "producer splits a paragraph where the edition has no break (after token 222)",
+        "text differs at position 217: producer 'except in secrecy.’ * * * *' / critic 'except in secrecy.’ It is idle to'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "87d041254b2a5ddab56f30f834faa4a639ccc454d562b912429438755f6dc962"
+    },
+    "marcus-clarke-preface-to-the-poems-of-adam-lindsay-gordon": {
+      "status": "accepted",
+      "gutenbergId": 258,
+      "title": "PREFACE.",
+      "blocksSha256": "dbc9867c0e5fd33e1fd3b13c42369fc1a84dc3d312e31ac45573f9b243524546",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "87e5d27c6c4bf7f736ff0a5f161ea17e02df795dc19fb375989c85ced90eeb5c"
+    },
+    "miguel-de-unamuno-solitude": {
+      "status": "rejected",
+      "gutenbergId": 71260,
+      "title": "SOLITUDE",
+      "blocksSha256": "318639c83873bec17d4178042396376e812d7adef4faf2d33a6d06a296609ca3",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 623)",
+        "producer splits a paragraph where the edition has no break (after token 509)",
+        "text differs at position 504: producer 'withdraw into yourself. * * * *' / critic 'withdraw into yourself. I am accused of'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "77219ad4b03bf37a21cadb275a6c18676ba7e8c737243bc011b684d9e0e43475"
+    },
+    "w-h-hudson-cristiano-a-horse": {
+      "status": "accepted",
+      "gutenbergId": 79577,
+      "title": "XII  CRISTIANO: A HORSE",
+      "blocksSha256": "eb186e1b659069a0b53ec98cd7771d2a3d9e21f66e44b703e0bc10fcf01f64ad",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "b94651e62fe29c89d1dce369df4adb686a11b90a911de914d1f62fd127c598b3"
+    },
+    "william-james-the-moral-equivalent-of-war": {
+      "status": "accepted",
+      "gutenbergId": 20768,
+      "title": "XI  THE MORAL EQUIVALENT OF WAR[1]",
+      "blocksSha256": "9af0bb8f9db508b05eba92f1997712c60e5f7acb38aedc1e3b18e6641e995951",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "a25ca9d49318f7bea3b6708e1032258fa0bba0b51bfaedf47783939485f54735"
+    },
+    "leo-tolstoy-singing-in-the-village": {
+      "status": "accepted",
+      "gutenbergId": 51018,
+      "title": "SINGING IN THE VILLAGE",
+      "blocksSha256": "8a2689ef9e800612cbc305e932407d118ea6add226afe4aa9e6ce478060b8ddd",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c7b4846deac7e756e1383cf12437cb24aa70ce150b367454d677c30e3e8322f2"
+    },
+    "jack-london-how-i-became-a-socialist": {
+      "status": "rejected",
+      "gutenbergId": 1187,
+      "title": "HOW I BECAME A SOCIALIST",
+      "blocksSha256": "a8e212e71a27e52fe5d1b02e6b0e1b3f912d5375231ca69058f7f127ecacc51b",
+      "reasons": [
+        "text differs at position 72: producer 'a school called \"Individualism,\" I sang the' / critic 'a school called “Individualism,” I sang the'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "46c303aa895008ce3d51bcf4b436474f33ac3a6c26b50cfbe91780053ec0d6ea"
+    },
+    "emma-goldman-marriage-and-love": {
+      "status": "accepted",
+      "gutenbergId": 2162,
+      "title": "MARRIAGE AND LOVE",
+      "blocksSha256": "890458e6cdce556a9a328afb34da7137f88c65340647585817e33578fb361330",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "f0fe5131be63932b2f90fcb9057dbffe6750f548b455067b947ee78fb9534d92"
     }
   },
   "criticWorksNotInCatalogue": [

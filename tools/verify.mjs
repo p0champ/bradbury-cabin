@@ -56,7 +56,7 @@ if (process.argv.includes('--receipt')) {
   await run('unit',process.execPath,['--test',...tests]);
   await run('offline',process.execPath,['tools/generate-offline.mjs','--check']);
   await run('picker',process.execPath,['tools/generate_picker_workflow.mjs','--check']);
-  for (const script of ['expand_catalogue_031','generate_source_catalogue','critic_compare','extract_library','test_critic_compare'])
+  for (const script of ['expand_catalogue_031','expand_catalogue_world','generate_source_catalogue','critic_compare','extract_library','test_critic_compare'])
     await run(script,process.env.CABIN_PYTHON || 'python',['-I',`tools/${script}.py`,...(script==='test_critic_compare'?[]:['--check'])]);
   const server = spawn(process.execPath,['serve.mjs'],{env:{...process.env,PORT:'0'},stdio:['ignore','pipe','pipe']});
   try {

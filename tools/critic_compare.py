@@ -214,6 +214,9 @@ def rerun_critic():
 
 
 def main():
+    # Rejection reasons quote source characters (e.g. U+2011) that a Windows
+    # console code page cannot print; escape them in the report only.
+    sys.stdout.reconfigure(errors="backslashreplace")
     extraction = json.loads(EXTRACTION.read_text(encoding="utf-8"))
     result = verdicts(extraction)
     text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
