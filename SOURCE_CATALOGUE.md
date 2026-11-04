@@ -1,7 +1,7 @@
 # Source catalogue (Build 031)
 
-`source-catalogue.js` holds the only literary texts Claude can select: 241
-complete works (129 poems, 46 stories, 66 essays). Claude's picks file names a
+`source-catalogue.js` holds the only literary texts Claude can select: 276
+complete works (141 poems, 58 stories, 77 essays). Claude's picks file names a
 catalogue ID and adds its own study notes; the app never displays text that
 Claude supplies.
 
@@ -86,7 +86,7 @@ producer's side). `npm test` runs all of this after the unit tests.
   every printed edition.
 - The critic checks literary text. It does not fact-check Claude's study notes.
   The app does reject notes whose quotations are not exact.
-- Nine authors from England, the United States, Ireland and India. Variety is broader, but this is still a finite catalogue; unsupported works require the same independent source process.
+- Before the world expansion: nine authors from England, the United States, Ireland and India (see World expansion below for the current spread). Variety is broader, but this is still a finite catalogue; unsupported works require the same independent source process.
 
 ## Build 031 independent expansion
 
@@ -97,3 +97,9 @@ Producer: tools/expand_catalogue_031.py, unchanged plain-text downloads and expl
 The paired underscore italic-marker remover preserves its enclosed whitespace, including a space immediately before the closing marker in The Black Cat; it also handles verse markup. Actual text still has to match independently extracted HTML. A genuinely unmatched marker in Tagore Soul Consciousness causes whole-work exclusion. De Quincey's source title spans lines75–79; the recorded headingStartLine allows matching the full source title rather than its last line, with the body unchanged.
 
 Edition dates remain explicit: Yeats collection first1899, this source1903; Tagore first1913, this source1916. Sadhana's English contributors are credited in CREDITS.md and tools/EXPANSION_031_NOTES.md. Agreement with these digital editions does not establish error-free first-edition or manuscript text. Existing185 published works remain unchanged.
+
+## World expansion
+
+Bastian started a new version with one scope: a wider catalogue (different writers, eras, subjects and parts of the world). Producer: tools/expand_catalogue_world.py, with unchanged plain-text downloads and explicit boundaries in tools/expansion-world.json. Independent critic: a fresh agent working in its own folder, with no producer access, its own unchanged HTML downloads and its own DOM extraction, tools/critic/extract_world.py. The comparator, tests and thresholds are unchanged.
+
+60 candidates by 59 new authors were compared, and 35 were accepted (12 poems, 12 stories, 11 essays). They come from 19 countries on all six inhabited continents and from 11 original languages besides English (Latin, Arabic, Italian, German, Russian, Middle Welsh, Portuguese, Swedish, Anglo-Norman French, French, Hebrew), and they range from Ecclesiastes and Horace to 1923. The 25 rejections are genuine differences between the plain-text and HTML files: straight vs curly quotes, special characters, small capitals, verse layout or paragraph breaks. None was hand-corrected or published; each work and reason is listed in tools/EXPANSION_WORLD_NOTES.md. A reviewer found four bugs in the critic's own HTML reading, which the critic fixed without seeing producer text. Two suggested boundary changes were not applied, because they would have tuned boundaries after seeing results. Existing 241 published works, IDs and texts are byte-for-byte unchanged. Translators and editors are credited in CREDITS.md.

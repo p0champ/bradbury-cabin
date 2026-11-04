@@ -353,6 +353,11 @@ assert not set(sources).intersection(extra['sources']), 'critic expansion overwr
 sources.update(extra['sources'])
 works.extend(extra['works'])
 notes.extend(extra['notes'])
+world = runpy.run_path(os.path.join(HERE, 'extract_world.py'), run_name='cabin_expansion')['extract'](SRC)
+assert not set(sources).intersection(world['sources']), 'critic world expansion overwrites an existing source'
+sources.update(world['sources'])
+works.extend(world['works'])
+notes.extend(world['notes'])
 out = {'critic': 'independent', 'sources': sources, 'works': works, 'notes': notes}
 # Match the existing pinned extraction bytes on every platform.
 with open(OUT, 'w', encoding='utf-8', newline='\r\n') as f:
