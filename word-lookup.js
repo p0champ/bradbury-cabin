@@ -22,9 +22,25 @@ async function json(url, signal) {
   if (!r.ok) throw Error('Lookup unavailable');
   return r.json();
 }
-export async function lookupWord(raw, { signal } = {}) {
+// French words: English-language Wiktionary definitions of the French entry.
+// A form such as a plural or conjugation points to its main word once.
+const plain = html => String(html || '').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'");
+async function frenchMeaning(word, signal) {
+  const entry = async w => (await json(`https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(w)}`, signal).catch(() => null))?.fr
+    ?.flatMap(p => p.definitions || []).map(d => plain(d.definition).trim()).filter(Boolean) || null;
+  let definitions = await entry(word);
+  if (!definitions?.length && word !== word.toLowerCase()) definitions = await entry(word.toLowerCase());
+  const lemma = definitions?.[0]?.match(/\bof ([\p{L}'’-]+)\s*$/u)?.[1];
+  if (lemma && lemma.toLowerCase() !== word.toLowerCase()) {
+    const main = await entry(lemma);
+    if (main?.length) return { definitions: [`${definitions[0]}: ${main[0]}`], page: lemma };
+  }
+  return { definitions: definitions || [], page: word, failed: definitions === null };
+}
+export async function lookupWord(raw, { signal, language } = {}) {
   const word = clean(raw), key = word.toLowerCase();
   if (!word) return { word, meaning: 'No word selected.' };
+  if (language === 'French') return lookupFrenchWord(word, signal);
   if (LOCAL[key]) return { word, source: 'Cabin glossary', ...LOCAL[key] };
   if (cache.has(key)) return { ...cache.get(key), word };
   const controller = new AbortController();
@@ -60,6 +76,26 @@ export async function lookupWord(raw, { signal } = {}) {
     if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
     if (!dictionary && !result.url) result = { word, meaning: 'Could not look this up. Check your connection. Pinch again to close, then retry.' };
     else { if (cache.size >= 160) cache.delete(cache.keys().next().value); cache.set(key, result); }
+    return result;
+  } finally { clearTimeout(timer); signal?.removeEventListener('abort', cancel); }
+}
+async function lookupFrenchWord(word, signal) {
+  const key = 'fr:' + word.toLowerCase();
+  if (cache.has(key)) return { ...cache.get(key), word };
+  const controller = new AbortController();
+  const cancel = () => controller.abort();
+  signal?.addEventListener('abort', cancel, { once: true });
+  if (signal?.aborted) controller.abort();
+  const timer = setTimeout(cancel, 6000);
+  try {
+    const { definitions, page, failed } = await frenchMeaning(word, controller.signal);
+    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
+    if (failed) return { word, meaning: 'Could not look this up. Check your connection. Pinch again to close, then retry.' };
+    const result = definitions.length
+      ? { word, meaning: short(definitions[0]), source: 'Wiktionary · French', url: `https://en.wiktionary.org/wiki/${encodeURIComponent(page)}#French` }
+      : { word, meaning: 'No clear dictionary meaning found.' };
+    if (cache.size >= 160) cache.delete(cache.keys().next().value);
+    cache.set(key, result);
     return result;
   } finally { clearTimeout(timer); signal?.removeEventListener('abort', cancel); }
 }

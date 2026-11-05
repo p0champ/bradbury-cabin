@@ -12,10 +12,10 @@ const json=async path=>JSON.parse(await readFile(join(root,path),'utf8'));
 
 test('a fresh checkout without platform newline conversion preserves every pinned original source byte',async()=>{
   const expected=new Map();
-  for(const manifest of ['tools/source-manifest.json','tools/expansion-031.json','tools/expansion-world.json']){
+  for(const manifest of ['tools/source-manifest.json','tools/expansion-031.json','tools/expansion-world.json','tools/expansion-french.json']){
     for(const [file,source] of Object.entries((await json(manifest)).sources))expected.set(`tools/sources/${file}`,source.sha256);
   }
-  for(const manifest of ['tools/critic/critic-extraction.json','tools/critic/extraction-031.json','tools/critic/extraction-world.json']){
+  for(const manifest of ['tools/critic/critic-extraction.json','tools/critic/extraction-031.json','tools/critic/extraction-world.json','tools/critic/extraction-french.json']){
     for(const [number,source] of Object.entries((await json(manifest)).sources))expected.set(`tools/critic/sources/pg${number}-images.html`,source.sha256);
   }
   expected.set('tools/critic/critic-extraction.json',(await json('tools/critic/verdicts.json')).extractionSha256);

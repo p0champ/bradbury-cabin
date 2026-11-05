@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "extractionSha256": "af9de10ba4708a05ba8da05f0982e4bcf185336ebe8dae1edf8008f6e19e8b99",
+  "extractionSha256": "5e1dff9be040623f39ad2712d22ab3d1642fcf0d72170a72885a1ee01544e56f",
   "verdicts": {
     "bacon-truth": {
       "status": "accepted",
@@ -2885,6 +2885,299 @@
       "reasons": [],
       "warnings": [],
       "criticSourceSha256": "f0fe5131be63932b2f90fcb9057dbffe6750f548b455067b947ee78fb9534d92"
+    },
+    "alphonse-daudet-les-etoiles": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LES ÉTOILES",
+      "blocksSha256": "0924fa789852c32aa2daa348a03f8658cde0daf25fa32e78c170948107febe06",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 1393)",
+        "producer splits a paragraph where the edition has no break (after token 1392)",
+        "text differs at position 1146: producer 'fille de mes maîtres,--comme une brebis plus' / critic 'fille de mes maîtres,-- comme une brebis'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-l-arlesienne": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "L'ARLÉSIENNE",
+      "blocksSha256": "6fbcae31f1226342c6b3e8d579c8b6ea20dbff67a1e0843277cc2771372eb334",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 441)",
+        "producer splits a paragraph where the edition has no break (after token 362)",
+        "text differs at position 357: producer 'cette navrante histoire... * * * *' / critic \"cette navrante histoire... Il s'appelait Jan. C'était\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-le-secret-de-maitre-cornille": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LE SECRET DE MAITRE CORNILLE",
+      "blocksSha256": "f2061433de10bafe1304f944d47165e54beaea69b04b2395058e8b28cccef903",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 261)",
+        "producer splits a paragraph where the edition has no break (after token 96)",
+        "text differs at position 91: producer 'qui vous parle. * * * *' / critic 'qui vous parle. Notre pays, mon bon'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-le-cure-de-cucugnan": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LE CURÉ DE CUCUGNAN.",
+      "blocksSha256": "6710c65098f494bd17cd23885a9a1c4445c9486dfe7f763a39d41a1365bbf439",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 74)",
+        "producer splits a paragraph where the edition has no break (after token 73)",
+        "text differs at position 68: producer 'servir cette fois... * * * *' / critic \"servir cette fois... L'abbé Martin était curé...\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-la-mort-du-dauphin": {
+      "status": "accepted",
+      "gutenbergId": 11770,
+      "title": "I  LA MORT DU DAUPHIN.",
+      "blocksSha256": "e3ceb1f67f68a473351e3649709f8ca5dd1ba70a50f8cc8424fb4a4523f3794b",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-le-sous-prefet-aux-champs": {
+      "status": "accepted",
+      "gutenbergId": 11770,
+      "title": "II  LE SOUS-PRÉFET AUX CHAMPS.",
+      "blocksSha256": "32cbbf702770dec779f3973dad3956914bef2b1881df14e76e32ec3778b8373e",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-les-vieux": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LES VIEUX.",
+      "blocksSha256": "8d45733b08c03cd9d828e91b7fc5eda55079978aca37b20d4ddabcb0c819132c",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 1468)",
+        "producer splits a paragraph where the edition has no break (after token 1463)",
+        "text differs at position 1458: producer 'dans un brouillard. * * * *' / critic 'dans un brouillard. Tout à coup le'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-les-deux-auberges": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LES DEUX AUBERGES",
+      "blocksSha256": "944f71f94df8e23d01da39454610e83aa34b68a07ec2ac16d761c96a8870389b",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 446)",
+        "producer splits a paragraph where the edition has no break (after token 349)",
+        "text differs at position 344: producer 'boire un coup. * * * *' / critic 'boire un coup. En entrant, je trouvai'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-les-trois-messes-basses": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LES TROIS MESSES BASSES.",
+      "blocksSha256": "16186c023c3ef544194c4c605fc0813f2c058de5f0fa748706d578e6b34145c7",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 1)",
+        "producer splits a paragraph where the edition has no break (after token 3)",
+        "text differs at position 0: producer 'CONTE DE NOËL. I' / critic 'I CONTE DE NOËL.'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-la-mule-du-pape": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LA MULE DU PAPE",
+      "blocksSha256": "f390f8dcd4748d641d120a635dcc166bbb46dd4a3b960e1188746b76674889ae",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 542)",
+        "producer splits a paragraph where the edition has no break (after token 296)",
+        "text differs at position 291: producer 'Vierge pour signets. * * * *' / critic \"Vierge pour signets. Qui n'a pas vu\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-l-elixir-du-reverend-pere-gaucher": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "L'ÉLIXIR DU REVEREND PÈRE GAUCHER",
+      "blocksSha256": "ebbc1171e318b46dc7200bb28626b3e8ca12aabb818b786c1cf10c271671f352",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 193)",
+        "producer splits a paragraph where the edition has no break (after token 161)",
+        "text differs at position 156: producer \"ou de d'Assoucy: * * * *\" / critic \"ou de d'Assoucy: --Il y a vingt\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-installation": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "INSTALLATION",
+      "blocksSha256": "5b22376d0284102369b1d53412a949e1ff7c393c41caa5226d178fea7c6649b0",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 304)",
+        "producer splits a paragraph where the edition has no break (after token 295)",
+        "text differs at position 290: producer 'réfectoire de couvent. * * * *' / critic \"réfectoire de couvent. C'est de là que\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-nostalgies-de-caserne": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "NOSTALGIES DE CASERNE.",
+      "blocksSha256": "8a1543731582bc7cebfc32f18ad9ac6fe97b0ac097d7f71681456c18b80562b2",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 251)",
+        "producer splits a paragraph where the edition has no break (after token 252)",
+        "text differs at position 247: producer 'réveiller mes cigales. * * * *' / critic \"réveiller mes cigales. Ce n'était pas Puck.\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "alphonse-daudet-le-poete-mistral": {
+      "status": "rejected",
+      "gutenbergId": 11770,
+      "title": "LE POÈTE MISTRAL.",
+      "blocksSha256": "509f027857b59022036d1a5918479afe61b068de69f80db9f4c71cc30b12a314",
+      "reasons": [
+        "producer merges paragraphs the edition separates (after token 492)",
+        "producer splits a paragraph where the edition has no break (after token 375)",
+        "text differs at position 370: producer 'tant pis, entrons. * * * *' / critic 'tant pis, entrons. Ah! Parisiens, lorsque le'"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "c858225c8cf283c68c26ed54faf42ad4d206036e9755c0650c2981352803de64"
+    },
+    "victor-hugo-demain-des-l-aube": {
+      "status": "rejected",
+      "gutenbergId": 29844,
+      "title": "XIV",
+      "blocksSha256": "45ac6a2543b41e40f16d9e5ef28eb7e8de970912add49ecd18920e3dbe811c28",
+      "reasons": [
+        "indentation differs: producer levels [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], critic [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "a3d7577fae88f49f2dd871dd74a0e3558373f18e092fbd24c63803434e1da6fe"
+    },
+    "victor-hugo-elle-etait-dechaussee": {
+      "status": "rejected",
+      "gutenbergId": 29843,
+      "title": "XXI",
+      "blocksSha256": "8a704f39a206876718d7fed94cc25d10d19387379f0b575e2a43b1f014307cb0",
+      "reasons": [
+        "indentation differs: producer levels [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], critic [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "69159440dc617b373d21063e7073e540676a1e0e1115309d2c68ae063d6ee344"
+    },
+    "victor-hugo-vieille-chanson-du-jeune-temps": {
+      "status": "rejected",
+      "gutenbergId": 29843,
+      "title": "XIX  VIEILLE CHANSON DU JEUNE TEMPS",
+      "blocksSha256": "9fce88a0a5aa98c5168b81e6eaa0393e764abde35d30fe44008d6ca06bdbb74a",
+      "reasons": [
+        "indentation differs: producer levels [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], critic [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "69159440dc617b373d21063e7073e540676a1e0e1115309d2c68ae063d6ee344"
+    },
+    "victor-hugo-mes-deux-filles": {
+      "status": "rejected",
+      "gutenbergId": 29843,
+      "title": "III  MES DEUX FILLES",
+      "blocksSha256": "3aeff49999717589ef5531cd2159dc7d43e4eb38f8585d8e4decb7c4688053a3",
+      "reasons": [
+        "indentation differs: producer levels [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], critic [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]"
+      ],
+      "warnings": [],
+      "criticSourceSha256": "69159440dc617b373d21063e7073e540676a1e0e1115309d2c68ae063d6ee344"
+    },
+    "victor-hugo-veni-vidi-vixi": {
+      "status": "accepted",
+      "gutenbergId": 29844,
+      "title": "XIII  VENI, VIDI, VIXI",
+      "blocksSha256": "e480eaa03e58ab18e63f9810caa515208adcb851da06eb83c7daffb54e31c720",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "a3d7577fae88f49f2dd871dd74a0e3558373f18e092fbd24c63803434e1da6fe"
+    },
+    "victor-hugo-mors": {
+      "status": "accepted",
+      "gutenbergId": 29844,
+      "title": "XVI  MORS",
+      "blocksSha256": "193056089baf405b66b9bdf1e98ee3d68a5b16ccb29c813fa60ab7ac64c9d5e2",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "a3d7577fae88f49f2dd871dd74a0e3558373f18e092fbd24c63803434e1da6fe"
+    },
+    "victor-hugo-paroles-sur-la-dune": {
+      "status": "accepted",
+      "gutenbergId": 29844,
+      "title": "XIII  PAROLES SUR LA DUNE",
+      "blocksSha256": "55b3d5ed7a8406ec78487abab40f2369a4d232bd22da448bbe49cad165caf63f",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "a3d7577fae88f49f2dd871dd74a0e3558373f18e092fbd24c63803434e1da6fe"
+    },
+    "arthur-rimbaud-sensation": {
+      "status": "accepted",
+      "gutenbergId": 56708,
+      "title": "SENSATION",
+      "blocksSha256": "37f220480ad7b97fa488d8e6953a0c50c1b79d3276119ce3346125f70f8e49f0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "98c583dc5d4a26e0c2c9a5554da8ecbf437d39a0f95b377f9f4368b2575d2f49"
+    },
+    "arthur-rimbaud-ma-boheme": {
+      "status": "accepted",
+      "gutenbergId": 56708,
+      "title": "MA BOHÊME",
+      "blocksSha256": "a4b024d62a1438d0c2f394a80c52b67aaf24fa0c628a61e9316fb34a03242da0",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "98c583dc5d4a26e0c2c9a5554da8ecbf437d39a0f95b377f9f4368b2575d2f49"
+    },
+    "arthur-rimbaud-le-dormeur-du-val": {
+      "status": "accepted",
+      "gutenbergId": 56708,
+      "title": "LE DORMEUR DU VAL",
+      "blocksSha256": "9912958fbab917bbd7e935f2ff10c2b92d4cf43c79a5397077fa48b2119f5baa",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "98c583dc5d4a26e0c2c9a5554da8ecbf437d39a0f95b377f9f4368b2575d2f49"
+    },
+    "arthur-rimbaud-le-buffet": {
+      "status": "accepted",
+      "gutenbergId": 56708,
+      "title": "LE BUFFET",
+      "blocksSha256": "443e94027752581c53269ee00e21e6ad6abf8460a81974e68ac39a3845abcdc8",
+      "reasons": [],
+      "warnings": [],
+      "criticSourceSha256": "98c583dc5d4a26e0c2c9a5554da8ecbf437d39a0f95b377f9f4368b2575d2f49"
+    },
+    "arthur-rimbaud-le-bateau-ivre": {
+      "status": "rejected",
+      "gutenbergId": 56708,
+      "title": "BATEAU IVRE",
+      "blocksSha256": "db78ce1d5d55dd1dad687ec22836d35d75b12f524ab0c1ec990325df6c938eea",
+      "reasons": [
+        "stanza 8 line 3: producer \"L'aube,exaltée ainsi qu'un peuple de colombes,\" / critic \"L'aube, exaltée ainsi qu'un peuple de colombes,\"",
+        "text differs at position 231: producer \"sais le soir, L'aube,exaltée ainsi qu'un peuple\" / critic \"sais le soir, L'aube, exaltée ainsi qu'un\""
+      ],
+      "warnings": [],
+      "criticSourceSha256": "98c583dc5d4a26e0c2c9a5554da8ecbf437d39a0f95b377f9f4368b2575d2f49"
     }
   },
   "criticWorksNotInCatalogue": [

@@ -182,6 +182,10 @@ def discover():
     assert not set(sources) & set(world["sources"]), "world expansion overwrites an existing source"
     sources.update(world["sources"])
     entries.extend(world["works"])
+    french = runpy.run_path(str(ROOT / "tools" / "expand_catalogue_french.py"), run_name="cabin_expansion")["discover"]()
+    assert not set(sources) & set(french["sources"]), "French expansion overwrites an existing source"
+    sources.update(french["sources"])
+    entries.extend(french["works"])
     assert len({e["id"] for e in entries}) == len(entries), "duplicate expansion ID"
     assert len({(e["author"], e["title"].casefold()) for e in entries}) == len(entries), "duplicate expansion title"
     return {"version": 2, "sources": sources, "works": entries}
@@ -247,6 +251,8 @@ def render_works(manifest):
         if "headingStartLine" in entry:
             edition["headingStartLine"] = entry["headingStartLine"]
         work = {k: entry[k] for k in ("id", "kind", "title", "author", "year", "place")}
+        # Works not in English name their language and a reading level (1-3).
+        work.update({k: entry[k] for k in ("language", "level") if k in entry})
         work.update(source=f"https://www.gutenberg.org/ebooks/{source['gutenbergId']}", blocks=blocks, sourceEdition=edition)
         works.append(work)
     return works

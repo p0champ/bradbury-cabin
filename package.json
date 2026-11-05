@@ -11,7 +11,7 @@
     "test": "node --test tests/*.test.mjs && npm run check:sources",
     "start": "node serve.mjs",
     "test:browser": "node tests/browser-check.cjs",
-    "check:sources": "node tools/generate_picker_workflow.mjs --check && python -I tools/expand_catalogue_031.py --check && python -I tools/expand_catalogue_world.py --check && python -I tools/generate_source_catalogue.py --check && python -I tools/critic_compare.py --check && python -I tools/extract_library.py --check && python -I tools/test_critic_compare.py",
+    "check:sources": "node tools/generate_picker_workflow.mjs --check && python -I tools/expand_catalogue_031.py --check && python -I tools/expand_catalogue_world.py --check && python -I tools/expand_catalogue_french.py --check && python -I tools/generate_source_catalogue.py --check && python -I tools/critic_compare.py --check && python -I tools/extract_library.py --check && python -I tools/test_critic_compare.py",
     "verify": "node tools/verify.mjs",
     "install:guard": "git config core.hooksPath .githooks"
   }
