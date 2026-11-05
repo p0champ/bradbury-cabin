@@ -152,6 +152,19 @@ module.exports = async function offlineChecks(browser, { out, passed }) {
     assert.equal(await appLabel(), 'A'); assert.deepEqual(await state(), saved);
     assert.deepEqual(errors, []);
     passed('offline: restoring the previous source edition preserves current progress, thoughts, drafts, places and settings');
+
+    assert.equal(await p.locator('#update-ready').isHidden(), true, 'no restart is offered without a complete waiting update');
+    label = 'B';
+    await p.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
+    await waitForWaiting();
+    await p.locator('#update-ready').waitFor({ state: 'visible', timeout: 10000 });
+    assert.equal(await appLabel(), 'A', 'a complete update still waits until the reader chooses to restart');
+    await Promise.all([p.waitForEvent('load'), p.locator('#update-ready').click()]);
+    await controlled(); await p.waitForFunction(() => document.querySelector('#place').textContent.includes('Page'));
+    assert.equal(await appLabel(), 'B'); assert.deepEqual(await state(), saved);
+    assert.equal(await p.locator('#update-ready').isHidden(), true, 'the offer disappears once the new edition is running');
+    assert.deepEqual(errors, []);
+    passed('offline: a complete update is offered as "New readings ready", and the reader\'s tap restarts into it with the same personal state');
   } catch (error) {
     if (p && !p.isClosed()) console.error('Offline diagnostic', await p.evaluate(async () => ({ url: location.href, controller: navigator.serviceWorker.controller?.scriptURL, registrations: await Promise.all((await navigator.serviceWorker.getRegistrations()).map(async r => ({ scope: r.scope, active: r.active?.state, waiting: r.waiting?.state, installing: r.installing?.state }))), caches: await caches.keys() })).catch(() => null), requests.slice(-12));
     throw error;

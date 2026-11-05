@@ -39,8 +39,12 @@ self.addEventListener('install', event => event.waitUntil((async () => {
     await caches.delete(cacheName);
     throw error;
   } finally { clearTimeout(deadline); }
-  // No skipWaiting: the current edition stays in place until its tabs close.
+  // No automatic skipWaiting: the current edition stays in place until its
+  // tabs close, or until the reader taps "New readings ready · Restart".
 })()));
+self.addEventListener('message', event => {
+  if (event.data === 'restart-into-new-edition') self.skipWaiting();
+});
 self.addEventListener('activate', event => event.waitUntil((async () => {
   const earlier = (await caches.keys()).filter(name => name.startsWith(prefix) && name !== cacheName);
   // Preserve the immediately previous complete edition as well.
