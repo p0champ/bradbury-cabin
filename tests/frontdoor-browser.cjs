@@ -21,7 +21,9 @@ module.exports = async function frontdoorChecks(browser, {mock, BASE_URL, out, p
   assert.equal(await p.locator('#page').isVisible(), false);
   assert.equal(await p.locator('#ambience-volume').isVisible(), false);
   assert.equal(await p.locator('.gestures').isVisible(), false);
-  assert.equal(await p.evaluate(() => [...document.querySelector('.start-row').children].map(el => el.id).join(',')), 'enter,drive-sync');
+  // The update offer exists but stays hidden unless a complete new edition waits.
+  assert.equal(await p.evaluate(() => [...document.querySelector('.start-row').children].map(el => el.id).join(',')), 'enter,drive-sync,update-ready');
+  assert.equal(await p.locator('#update-ready').isVisible(), false);
   const footer = await p.locator('footer').innerText();
   assert.match(footer, /when storage is available/);
   assert.match(footer, /Sync with Drive to share progress/);
